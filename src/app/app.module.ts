@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ToastrModule} from 'ngx-toastr';
-import { PaymentGuard } from './shared/guard/payment-guard';
 import { SharedModule } from './shared/shared.module';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -58,7 +57,7 @@ registerLocaleData(localeFr, 'fr');
 
     ],
     declarations: [AppComponent],
-    providers: [AuthGuard, PaymentGuard],
+    providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule {

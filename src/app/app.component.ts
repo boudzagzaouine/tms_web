@@ -1,4 +1,4 @@
-import { GlobalService } from './shared/services/global.service';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,11 +7,10 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    constructor(private globalService: GlobalService) {
+    constructor() {
         localStorage.removeItem('isLoggedIn');
     }
 
     ngOnInit() {
-        this.globalService.ngOnInit();
     }
 }

@@ -31,7 +31,6 @@ export class AuthenticationService {
                 if ( this.currentUser !== undefined && this.currentUser !== null ) {
                     this.currentUser.columns = '';
                     this.currentUser.agencies = null;
-                    this.currentUser.saleOrders = null;
                     this.currentUser.userGroup = null;
                     console.log('current user : ');
                     console.log(this.currentUser);

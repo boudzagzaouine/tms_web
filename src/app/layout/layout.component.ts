@@ -2,7 +2,6 @@ import { AuthenticationService } from './../shared/services/http/authentication.
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { Router } from '@angular/router';
-import { GlobalService } from '../shared';
 
 @Component({
     selector: 'app-layout',
@@ -14,7 +13,7 @@ export class LayoutComponent implements OnInit {
     isAdmin: boolean;
     constructor(private authService: AuthenticationService,
                 private router: Router,
-            private globalService: GlobalService) {}
+            ) {}
 
     ngOnInit() {
         this.isAdmin = this.authService.getCurrentUser().type === 1 ;
@@ -25,7 +24,6 @@ export class LayoutComponent implements OnInit {
             this.router.navigate(['/pos']);
          }
 
-         this.globalService.ngOnInit();
     }
     cropSidebar() {
         const main_container = document.querySelector('.main-container');

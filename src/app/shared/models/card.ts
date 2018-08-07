@@ -1,5 +1,5 @@
 import {Account} from './account';
-import { Currency } from '.';
+
 
 export class Card {
   id: number;
@@ -9,6 +9,5 @@ export class Card {
   creationDate: Date;
   updateDate: Date;
   isActive: boolean;
-  currency: Currency;
   account: Account;
 }

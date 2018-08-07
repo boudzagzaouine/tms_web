@@ -1,4 +1,3 @@
-import { SaleOrder } from './sale-order';
 import { Owner } from './owner';
 
 export class User {

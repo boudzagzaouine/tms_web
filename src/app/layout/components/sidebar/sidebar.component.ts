@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../shared/models';
-import { GlobalService } from '../../../shared/services/global.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -21,7 +20,7 @@ export class SidebarComponent implements OnInit {
     constructor(private translate: TranslateService,
          public router: Router,
         public authService: AuthenticationService,
-        private globalService: GlobalService) {
+) {
 
     }
     ngOnInit(): void {

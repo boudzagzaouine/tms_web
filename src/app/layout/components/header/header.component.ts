@@ -1,9 +1,9 @@
 import { AuthenticationService } from './../../../shared/services/http/authentication.service';
-import { PosService } from '../../../shared/services/pos.service';
+
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { GlobalService } from '../../../shared/services/global.service';
+
 
 @Component({
     selector: 'app-header',
@@ -18,8 +18,6 @@ export class HeaderComponent implements OnInit {
         private translate: TranslateService,
         public router: Router,
         public authService: AuthenticationService,
-        private posService: PosService,
-        private globalService: GlobalService
     ) {}
 
     ngOnInit() {
@@ -100,10 +98,10 @@ export class HeaderComponent implements OnInit {
     }
 
     onRegisterDetailsClick() {
-       this.todaySaleOrdersCount = this.posService.getTodaySaleOrders().length;
+
     }
 
     onClosePosClicked() {
-        this.posService.closePos();
+       
     }
 }

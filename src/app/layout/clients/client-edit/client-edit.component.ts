@@ -1,10 +1,9 @@
-import { GlobalService } from './../../../shared/services/global.service';
+
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Account, Contact, Address } from '../../../shared/models';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../shared/services/http/account.service';
-import { CardService } from '../../../shared';
 
 @Component({
     selector: 'app-client-edit',
@@ -21,9 +20,7 @@ export class ClientEditComponent implements OnInit {
 
     constructor(
         private accountService: AccountService,
-        private cardService: CardService,
         private modalService: NgbModal,
-        private globalService: GlobalService
     ) {}
 
     ngOnInit() {}
@@ -105,8 +102,6 @@ export class ClientEditComponent implements OnInit {
 
             this.selectedClient.deliveryAddress = new Address();
 
-            this.selectedClient.owner = this.globalService.getDefaultOwner();
-
         } else {
             if (this.selectedClient.deliveryAddress == null) {
 
@@ -136,22 +131,6 @@ export class ClientEditComponent implements OnInit {
             this.selectedClient.deliveryAddress.code =  this.selectedClient.deliveryAddress.city +  (new Date()).getMilliseconds();
         }
             this.accountService.add(this.selectedClient);
-    }
-
-    private checkCardValidity() {
-        const cardnumber = this.clientForm.value['cardnumber'];
-        this.cardService.findByCode(cardnumber).subscribe(data => {
-            console.log(data);
-            if (data !== null && data.account === null) {
-                this.cardValid = 'is-valid';
-                if ( this.selectedClient.cards == null || this.selectedClient.cards === undefined) {
-                    this.selectedClient.cards = [];
-                }
-                this.selectedClient.cards.push(data);
-            } else {
-                this.cardValid = 'is-invalid';
-            }
-        });
     }
 
     private open(content) {

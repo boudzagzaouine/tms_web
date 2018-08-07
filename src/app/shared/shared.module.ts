@@ -1,48 +1,14 @@
-import { RoomService } from './services/http/room.service';
-import { TableService } from './services/http/table.service';
+import { ProxyService } from './services/http/proxy.service';
+import { UserService } from './services/http/user.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
-import { LocalCurrencyPipe } from './pipes';
 import { NumberDirective } from './directives';
-import { AccountAssetService,
-    AccountInvoiceService,
-    AccountInvoiceLineService,
+import {
     AccountService,
     AuthenticationService,
-    CardService,
-    CashRegisterService,
-    CheckoutService,
-    CurrencyService,
-    DeliveryService,
-    DeliveryLineService,
-    DeliveryMethodService,
-    KitService,
-    OrderStatusService,
-    OwnerService,
-    PaymentMethodService,
-    ProductPackService,
-    ProductService,
-    ProductTypeService,
-    ProxyService,
-    SaleOrderLineService,
-    SaleOrderService,
-    UomService,
-    UserService,
-    WarehouseService,
     AdminService,
-    PosService,
-    PurchaseOrderService,
-    PurchaseOrderLineService,
-    SupplierService,
-    PaymentAccountService,
-    VatService,
-    GlobalService,
-    SaleOrderStockService,
-    StockService,
-    ContactService,
-    OrderTypeService} from './services';
-import { PaymentGuard } from './guard/payment-guard';
+   } from './services';
 
 
 @NgModule({
@@ -50,9 +16,9 @@ import { PaymentGuard } from './guard/payment-guard';
         CommonModule
     ],
 
-    declarations: [LocalCurrencyPipe, NumberDirective],
+    declarations: [ NumberDirective],
     exports: [
-        LocalCurrencyPipe, NumberDirective
+         NumberDirective
     ]
 
 })
@@ -61,46 +27,11 @@ export class SharedModule {
         return {
           ngModule: SharedModule,
           providers: [
-            AccountAssetService,
-            AccountInvoiceService,
-            AccountInvoiceLineService,
             AccountService,
             AuthenticationService,
-            CardService,
-            CashRegisterService,
-            CheckoutService,
-            CurrencyService,
-            DeliveryService,
-            DeliveryLineService,
-            DeliveryMethodService,
-            KitService,
-            OrderStatusService,
-            OwnerService,
-            PaymentMethodService,
-            ProductPackService,
-            ProductService,
-            ProductTypeService,
-            ProxyService,
-            SaleOrderLineService,
-            SaleOrderService,
-            UomService,
-            UserService,
-            WarehouseService,
             AdminService,
-            PosService,
-            PurchaseOrderService,
-            PurchaseOrderLineService,
-            SupplierService,
-            StockService,
-            ContactService,
-            PaymentAccountService,
-            VatService,
-            GlobalService,
-            SaleOrderStockService,
-            OrderTypeService,
-            TableService,
-            RoomService,
-            PaymentGuard,
+            UserService,
+            ProxyService
         ]};
       }
  }

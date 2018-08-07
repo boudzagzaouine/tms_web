@@ -1,0 +1,86 @@
+import { ContactService } from './http/contact.service';
+import { StockService } from './http/stock.service';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+    AccountAssetService,
+    AccountInvoiceService,
+    AccountInvoiceLineService,
+    AccountService,
+    AuthenticationService,
+    CardService,
+    CashRegisterService,
+    CheckoutService,
+    CurrencyService,
+    DeliveryService,
+    DeliveryLineService,
+    DeliveryMethodService,
+    KitService,
+    OrderStatusService,
+    OwnerService,
+    PaymentMethodService,
+    ProductPackService,
+    ProductService,
+    ProductTypeService,
+    ProxyService,
+    SaleOrderLineService,
+    SaleOrderService,
+    UomService,
+    UserService,
+    WarehouseService,
+    AdminService,
+    PosService,
+    PurchaseOrderService,
+    PurchaseOrderLineService,
+    SupplierService,
+    PaymentAccountService,
+    VatService,
+    GlobalService,
+    SaleOrderStockService
+} from '.';
+import { OrderTypeService } from './http';
+
+
+@NgModule({
+    imports: [CommonModule],
+    providers: [
+        AccountAssetService,
+        AccountInvoiceService,
+        AccountInvoiceLineService,
+        AccountService,
+        AuthenticationService,
+        CardService,
+        CashRegisterService,
+        CheckoutService,
+        CurrencyService,
+        DeliveryService,
+        DeliveryLineService,
+        DeliveryMethodService,
+        KitService,
+        OrderStatusService,
+        OwnerService,
+        PaymentMethodService,
+        ProductPackService,
+        ProductService,
+        ProductTypeService,
+        ProxyService,
+        SaleOrderLineService,
+        SaleOrderService,
+        UomService,
+        UserService,
+        WarehouseService,
+        AdminService,
+        PosService,
+        PurchaseOrderService,
+        PurchaseOrderLineService,
+        SupplierService,
+        StockService,
+        ContactService,
+        PaymentAccountService,
+        VatService,
+        GlobalService,
+        SaleOrderStockService,
+        OrderTypeService
+    ]
+})
+export class ServicesModule {}

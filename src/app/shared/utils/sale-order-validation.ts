@@ -1,0 +1,3 @@
+export enum SaleOrderValidation {
+    COMPLET, SIMPLE, DIFFERED_DELIVERY, INSTANT_DELIVERY
+}

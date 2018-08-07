@@ -18,6 +18,5 @@ export class User {
     type: number;
     agencies: any;
     columns: string;
-    saleOrders: SaleOrder[];
     userGroup: any;
 }

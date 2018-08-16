@@ -1,5 +1,8 @@
 import { Contact } from './contact';
 import { User } from './user';
+import { Badge } from './badge';
+import { Zone } from './zone';
+import { Vacation } from './vacation';
 
 export class Driver {
     id:number;

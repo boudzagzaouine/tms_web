@@ -1,5 +1,5 @@
-import { POS_INIT_AMOUNT_STORAGE } from './../shared/utils/constants';
-import { AuthenticationService } from './../shared/services/http/authentication.service';
+import { POS_INIT_AMOUNT_STORAGE } from '../shared/utils/constants';
+import { AuthenticationService } from '../shared/services/http/authentication.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';

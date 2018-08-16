@@ -1,4 +1,4 @@
-import { AuthenticationService } from './../../../shared/services/http/authentication.service';
+import { AuthenticationService } from '../../../shared/services/http/authentication.service';
 
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';

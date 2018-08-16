@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../shared/services/http/account.service';
 import { routerTransition } from '../../router.animations';
 import { Account } from '../../shared';
-import { NgxSpinnerService } from '../../../../node_modules/ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'app-clients',

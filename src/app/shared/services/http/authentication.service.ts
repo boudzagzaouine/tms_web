@@ -1,7 +1,7 @@
 import { REST_URL, POS_INIT_AMOUNT_STORAGE, POS_SELECTED_SALE_ORDER } from '../../utils/constants';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Md5} from 'ts-md5/dist/md5';
+import {Md5} from 'ts-md5';
 import 'rxjs/add/operator/map';
 import { User } from '../../models';
 import { Router } from '@angular/router';

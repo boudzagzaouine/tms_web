@@ -23,7 +23,7 @@ import { SharedModule } from '../shared/shared.module';
         LayoutComponent,
         SidebarComponent,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
     ]
 })
 export class LayoutModule {}

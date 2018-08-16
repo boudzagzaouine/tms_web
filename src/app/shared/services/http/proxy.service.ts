@@ -1,7 +1,7 @@
 import { AuthenticationService } from './authentication.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Md5 } from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { REST_URL } from '../../utils/constants';

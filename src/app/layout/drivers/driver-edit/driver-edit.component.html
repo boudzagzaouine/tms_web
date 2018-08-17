@@ -1,0 +1,91 @@
+<!-- Large modal -->
+<button class="btn btn-primary btn-sm" (click)="open(content)" type="button" [disabled]="selectedDriver?.id===1">
+    <i class="fa" [ngClass]="{'fa-pencil': editMode , 'fa-plus' : !editMode}"></i>
+</button>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header bg-info">
+        <h4 class="modal-title">{{'Edit Driver' | translate}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="driverForm" (ngSubmit)="onSubmit(); c('Close click')">
+        <div class="modal-body">
+
+            <div class="form-group">
+                <div class="row my-2">
+                    <div class="col-sm-12 col-md-6">
+                        <label>{{'Code' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="code">
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label>{{'Name' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="name">
+                    </div>
+                </div>
+                <fieldset formGroupName="contact">
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'Tel' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="contactTel">
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'Email' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="contactEmail">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset formGroupName="address">
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'Address Line 1' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="addressLine1">
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'Address Line 2' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="addressLine2">
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'City' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="addressCity">
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'ZipCode' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="addressZip">
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-sm-12 col-md-6">
+                            <label>{{'Country' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="addressCountry">
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="form-group form-check mt-3">
+                    <input type="checkbox" class="form-check-input" formControlName="active" >
+                    <label class="form-check-label">{{'Active' | translate}} ?</label>
+                </div>
+
+                <label>{{'Card number' | translate}}</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" [ngClass]="cardValid" formControlName="cardnumber">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-primary" id="btn-check-card-validity" >{{'Check' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>

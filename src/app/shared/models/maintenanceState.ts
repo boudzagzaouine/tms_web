@@ -1,6 +1,6 @@
 import { User } from "./user";
 import { TypeMaintenance } from "./typeMaintenance";
-
+import { Vehicle } from "./vehicle";
 export class MaintenanceState {
     id: number;
     vehicle: Vehicle;

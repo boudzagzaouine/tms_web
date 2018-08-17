@@ -1,5 +1,6 @@
 import { MaintenanceState } from "./maintenanceState";
 import { TypeMaintenance } from "./typeMaintenance";
+import { Vehicle } from "./vehicle";
 import { User } from "./user";
 
 export class MaintenancePlan {

@@ -1,11 +1,89 @@
-  {{ message }}
-  <div *ngFor="let abc of tableau">
-    {{abc}}
+<div [@routerTransition]>
+  <app-page-header [heading]="'Drivers'" [icon]="'fa-users'"></app-page-header>
+
+  <div class="card mb-3 ">
+      <div class="card-header">
+
+          <div class="form align-content-end float-left">
+              <form role="form" #f="ngForm">
+                  <div class="form-group">
+                      <div class="row">
+                          <div class="col-12">
+                              <div class="input-group">
+                                  <input type="text" class="form-control" name="searchQuary" ngModel required (keyup)="onSearchChanged(f)">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <span class="float-right">
+              <!--
+                  <button class="btn btn-danger btn-sm">
+                      <i class="fa fa-trash"></i>
+                  </button>
+              -->
+          </span>
+      </div>
+      <div class="card-body table-responsive border-top-info">
+          <table class="table table-hover table-sm table-striped text-center" *ngIf="driversList?.length; else noData">
+              <thead class="table-header">
+                  <tr>
+                      <th>{{'Code' | translate}}</th>
+                      <th>{{'CIN' | translate}}</th>
+                      <th>{{'Mail' | translate}}</th>
+                      <th>{{'Date' | translate}}</th>
+                      <th>{{'Last Medical Visit' | translate}}</th>
+                      <th>{{'Work area' | translate}}</th>
+                      <th>{{'Vacation' | translate}}</th>
+                      <th>{{'Zone' | translate}}</th>
+                      <th>{{'Commission' | translate}}</th>
+                      <th>{{'Active' | translate}}</th>
+                      <th style="width: 10%">{{'Actions' | translate}}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let driver of driversList; let i = index">
+                      <td>{{driver.code}}</td>
+                      <td>{{driver.cin}}</td>
+                      <td>{{driver?.contact?.email}}</td>
+                      <td>{{driver.date}}</td>
+                      <td>{{driver.lastMedicalVisit}}</td>
+                      <td>{{driver?.workArea?.name}}</td>
+                      <td>{{driver?.vacation?.type}}</td>
+                      <td>{{driver.commission}}</td>
+                      <td>
+                          <input type="checkbox" [checked]="driver.working" disabled="true" />
+                      </td>
+                      <td class="text-right">
+                          <!--
+                              <button [disabled]="driver?.id===1" class="btn btn-danger btn-sm" (click)="delete(driver)">
+                                  <i class="fa fa-trash"></i>
+                              </button>
+                          -->
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+
+          <ng-template #noData>
+              <div class="container text-center">
+                  <span class="display-2">{{'No Records' | translate}}</span>
+              </div>
+          </ng-template>
+
+      </div>
+
+      <div class="card-footer">
+          <span class="float-left">
+              <ngb-pagination [collectionSize]="collectionSize" [(page)]="pageNumber" [directionLinks]="false" (pageChange)="onPageChanged()"
+                  [pageSize]="pageSize" *ngIf="collectionSize > pageSize"></ngb-pagination>
+          </span>
+          <span class="float-right">
+              {{ 'Drivers' | translate }} ({{collectionSize}})
+          </span>
+
+      </div>
   </div>
-
-  <ul>
-    <li *ngFor="let abc of tableau">
-      {{abc}}
-    </li>
-  </ul>
-
+</div>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

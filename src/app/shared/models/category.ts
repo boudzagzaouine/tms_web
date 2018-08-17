@@ -1,3 +1,4 @@
+import { DoorType } from './doorType';
 export class Category{
     id:number;
     consumption:number;

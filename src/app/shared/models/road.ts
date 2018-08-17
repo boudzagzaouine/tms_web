@@ -3,6 +3,7 @@ import { User } from "./user";
 import { Address } from "./address";
 import { Driver } from "./driver";
 import { SaleOrder } from "./saleOrder";
+import { Vehicle } from "./vehicle";
 
 export class Road {
     id: number;

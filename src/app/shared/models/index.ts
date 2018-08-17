@@ -4,5 +4,6 @@ export * from './card';
 export * from './contact';
 export * from './owner';
 export * from './user';
+export * from './driver';
 
 

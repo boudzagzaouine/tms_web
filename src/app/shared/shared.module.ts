@@ -8,6 +8,7 @@ import {
     AccountService,
     AuthenticationService,
     AdminService,
+    DriverService,
    } from './services';
 
 
@@ -28,6 +29,7 @@ export class SharedModule {
           ngModule: SharedModule,
           providers: [
             AccountService,
+            DriverService,
             AuthenticationService,
             AdminService,
             UserService,

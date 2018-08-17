@@ -18,6 +18,7 @@
               </form>
           </div>
           <span class="float-right">
+                <app-driver-edit [selectedDriver]="null" [editMode]="false"></app-driver-edit>
               <!--
                   <button class="btn btn-danger btn-sm">
                       <i class="fa fa-trash"></i>
@@ -56,6 +57,7 @@
                           <input type="checkbox" [checked]="driver.working" disabled="true" />
                       </td>
                       <td class="text-right">
+                            <app-driver-edit [selectedDriver]="client" [editMode]="true"></app-driver-edit>
                           <!--
                               <button [disabled]="driver?.id===1" class="btn btn-danger btn-sm" (click)="delete(driver)">
                                   <i class="fa fa-trash"></i>

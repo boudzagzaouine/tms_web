@@ -1,5 +1,5 @@
 import { Badge } from './badge';
-import { Category } from './category';
+import { VehicleCategory } from './vehicleCategory';
 import { Traffic } from './traffic';
 import { User } from './user';
 export class Vehicle{
@@ -9,7 +9,7 @@ export class Vehicle{
     code:string;
     technicalVisit:Date;
 
-    category:Category;
+    category:VehicleCategory;
     drivingLicence:Traffic;
 
     creationDate:Date;

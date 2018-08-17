@@ -33,7 +33,7 @@
                       <th>{{'Code' | translate}}</th>
                       <th>{{'CIN' | translate}}</th>
                       <th>{{'Mail' | translate}}</th>
-                      <th>{{'Date' | translate}}</th>
+                      <th>{{'birth date' | translate}}</th>
                       <th>{{'Last Medical Visit' | translate}}</th>
                       <th>{{'Work area' | translate}}</th>
                       <th>{{'Vacation' | translate}}</th>
@@ -48,10 +48,11 @@
                       <td>{{driver.code}}</td>
                       <td>{{driver.cin}}</td>
                       <td>{{driver?.contact?.email}}</td>
-                      <td>{{driver.date}}</td>
+                      <td>{{driver.birthDate }}</td>
                       <td>{{driver.lastMedicalVisit}}</td>
                       <td>{{driver?.workArea?.name}}</td>
                       <td>{{driver?.vacation?.type}}</td>
+                      <td>{{driver?.zone?.name}}</td>
                       <td>{{driver.commission}}</td>
                       <td>
                           <input type="checkbox" [checked]="driver.working" disabled="true" />

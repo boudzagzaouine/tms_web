@@ -29,72 +29,45 @@ export class DriverEditComponent implements OnInit {
         if (!this.editMode) {
             this.selectedDriver = new Driver();
             // this.selectedDriver.deliveryAddress.country = 'Maroc';
-        /* } else {
-            console.log('Card number : ' );
+        } else {
+            /*console.log('Card number : ' );
             console.log(this.selectedDriver != null && this.selectedDriver.cards != null
              && this.selectedDriver.cards.length
             ? this.selectedDriver.cards[this.selectedDriver.cards.length - 1].code
-            : 'null');
-        }*/
+            : 'null');*/
+        }
 
         this.driverForm = new FormGroup({
             code: new FormControl(
-                this.selectedDriver != null ? this.selectedDriver.code : ''
+                !!this.selectedDriver ? this.selectedDriver.code : ''
             ),
-
-            name: new FormControl(
-                this.selectedDriver != null ? this.selectedDriver.contact.name : ''
+            cin: new FormControl(
+                !!this.selectedDriver ? this.selectedDriver.cin : ''
             ),
-
             contact: new FormGroup(
                 {
-                    contactEmail: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.contact != null ? this.selectedDriver.contact.email : ''
+                    contactName: new FormControl(
+                        !!this.selectedDriver && !!this.selectedDriver.contact ? this.selectedDriver.contact.name : ''
                     ),
 
-                    contactTel: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.contact != null ? this.selectedDriver.contact.tel1 : ''
+                    contactSurname: new FormControl(
+                        !!this.selectedDriver && !!this.selectedDriver.contact ? this.selectedDriver.contact.surName : ''
                     )
                 }
             ),
-
-          /*  address: new FormGroup(
-                {
-                    addressLine1: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.deliveryAddress != null
-                        ? this.selectedDriver.deliveryAddress.line1 : ''
-                    ),
-                    addressLine2: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.deliveryAddress != null
-                        ? this.selectedDriver.deliveryAddress.line2 : ''
-                    ),
-                    addressZip: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.deliveryAddress != null
-                        ? this.selectedDriver.deliveryAddress.zip : ''
-                    ),
-                    addressCity: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.deliveryAddress != null
-                        ? this.selectedDriver.deliveryAddress.city : ''
-                    ),
-                    addressCountry: new FormControl(
-                        this.selectedDriver != null && this.selectedDriver.deliveryAddress != null
-                        ? this.selectedDriver.deliveryAddress.country : ''
-                    ),
-                }
-            ),*/
-            active: new FormControl(
-                this.selectedDriver != null ? this.selectedDriver.working : 'true'
+            working: new FormControl(
+                !!this.selectedDriver ? this.selectedDriver.working : 'true'
             ),
-           /* cardnumber: new FormControl(
-                this.selectedDriver != null && this.selectedDriver.cards != null && this.selectedDriver.cards.length
-                    ? this.selectedDriver.cards[this.selectedDriver.cards.length - 1].code
-                    : ''
-            )*/
+            zone: new FormGroup({
+                zoneName: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.workArea ? this.selectedDriver.workArea.name : ''
+                )
+            })
         });
     }
 
-   /* private onSubmit() {
-        if (!this.editMode) {
+    private onSubmit() {
+        /*if (!this.editMode) {
 
             this.selectedDriver = new Driver();
 
@@ -130,7 +103,7 @@ export class DriverEditComponent implements OnInit {
             this.selectedDriver.contact.surName = this.selectedDriver.name;
             this.selectedDriver.deliveryAddress.code =  this.selectedDriver.deliveryAddress.city +  (new Date()).getMilliseconds();
         }
-            this.driverService.add(this.selectedDriver);
+            this.driverService.add(this.selectedDriver);*/
     }
 
     private open(content) {
@@ -157,7 +130,5 @@ export class DriverEditComponent implements OnInit {
         } else {
             return `with: ${reason}`;
         }
-    }*/
-
     }
 }

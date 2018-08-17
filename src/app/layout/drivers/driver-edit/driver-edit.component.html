@@ -19,66 +19,34 @@
                         <input type="text" class="form-control" formControlName="code">
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label>{{'Name' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="name">
+                        <label>{{'Cin' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="cin">
                     </div>
                 </div>
                 <fieldset formGroupName="contact">
                     <div class="row my-2">
                         <div class="col-sm-12 col-md-6">
-                            <label>{{'Tel' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="contactTel">
+                            <label>{{'Name' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="contactName">
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <label>{{'Email' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="contactEmail">
+                            <label>{{'Surname' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="contactSurname">
                         </div>
                     </div>
                 </fieldset>
-                <fieldset formGroupName="address">
+                <fieldset formGroupName="zone">
                     <div class="row my-2">
                         <div class="col-sm-12 col-md-6">
-                            <label>{{'Address Line 1' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="addressLine1">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'Address Line 2' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="addressLine2">
+                            <label>{{'WorkPlace' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="zoneName">
                         </div>
                     </div>
-                    <div class="row my-2">
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'City' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="addressCity">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'ZipCode' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="addressZip">
-                        </div>
-                    </div>
-
-                    <div class="row my-2">
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'Country' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="addressCountry">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                        </div>
-                    </div>
-
                 </fieldset>
 
                 <div class="form-group form-check mt-3">
-                    <input type="checkbox" class="form-check-input" formControlName="active" >
-                    <label class="form-check-label">{{'Active' | translate}} ?</label>
-                </div>
-
-                <label>{{'Card number' | translate}}</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" [ngClass]="cardValid" formControlName="cardnumber">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-primary" id="btn-check-card-validity" >{{'Check' | translate}}</button>
-                    </div>
+                    <input type="checkbox" class="form-check-input" formControlName="working" >
+                    <label class="form-check-label">{{'Working' | translate}} ?</label>
                 </div>
             </div>
 

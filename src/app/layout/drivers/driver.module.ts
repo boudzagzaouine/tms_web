@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeaderModule } from '../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DriverEditComponent } from './driver-edit/driver-edit.component';
 
 @NgModule({
     imports: [
@@ -19,6 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         NgxSpinnerModule
     ],
-    declarations: [DriverComponent]
+    declarations: [DriverComponent, DriverEditComponent]
 })
 export class DriverModule {}

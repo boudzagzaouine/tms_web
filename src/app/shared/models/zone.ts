@@ -1,4 +1,4 @@
-export class Zone{
-    id:number;
-    name:string;
+export class Zone {
+    id: number;
+    name: string;
 }

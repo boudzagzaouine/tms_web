@@ -15,12 +15,16 @@
             </a>
         </span>
 
-        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ 'Drivers' | translate }}">
-            <a [routerLink]="['/drivers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <div ngbDropdown class="d-inline-block">
+            <a ngbDropdownToggle id="driversDropDown" class="list-group-item" style="cursor: pointer;">
                 <i class="fa fa-fw fa-address-book"></i>
                 <span class="sidebar-label">{{ 'Drivers' | translate }}</span>
             </a>
-        </span>
+            <div ngbDropdownMenu aria-labelledby="driversDropDown">
+                <a class="dropdown-item" [routerLink]="['/drivers']" [routerLinkActive]="['router-link-active']">{{'List' | translate}}</a>
+                <button class="dropdown-item">{{'Add' | translate}}</button>
+            </div>
+        </div>
 
 
         <!-- Header Fields / for small screens -->

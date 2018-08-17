@@ -1,5 +1,5 @@
 import { DoorType } from './doorType';
-export class Category{
+export class VehicleCategory{
     id:number;
     consumption:number;
     weight:number;

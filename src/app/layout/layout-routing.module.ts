@@ -10,7 +10,9 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'clients', loadChildren: './clients/clients.module#ClientsModule'},
-            { path: 'drivers', loadChildren: './drivers/driver.module#DriverModule'}
+            { path: 'drivers', loadChildren: './drivers/driver.module#DriverModule'},
+            { path: 'drivers-edit', loadChildren: './drivers/driver-edit/driver-edit.module#DriverEditModule'},
+            { path: 'drivers-zones', loadChildren: './drivers/driver-zones/driver-zones.module#DriverZonesModule'}
         ]
     }
 ];

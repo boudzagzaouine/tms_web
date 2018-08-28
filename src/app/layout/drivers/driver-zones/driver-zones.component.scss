@@ -1,32 +1,23 @@
-.error {
-    color: red !important;
-}
-
-.badges-area {
-    display: flex;
-    flex-direction: column;
-}
-
-.badges-header {
+.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.badges-header > h4 {
+.header > h4 {
     margin-bottom: 0;
 }
 
-.badge-item {
+.item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: .5em;
+    margin: 0.5em;
     margin-left: 1em;
     margin-right: 1em;
 }
 
-.badge-icons {
+.icons {
     display: flex;
     flex-direction: row;
 }

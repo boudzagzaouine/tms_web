@@ -1,4 +1,4 @@
-export class BadgeType{
-    id:number;
-    code:string;
+export class BadgeType {
+    id: number;
+    code: string;
 }

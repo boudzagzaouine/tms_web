@@ -1,29 +1,56 @@
-
-import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
-import { Driver, Contact, Address } from '../../../shared/models';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DriverService } from '../../../shared/services/http/driver.service';
+import { Component, OnInit, Input } from "@angular/core";
+import { FormControl, FormGroup, NgForm } from "@angular/forms";
+import { Driver, Contact, Address, Zone } from "../../../shared/models";
+import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { DriverService } from "../../../shared/services/http/driver.service";
+import { ZoneService } from "../../../shared/services/http/zone.service";
+import { Badge } from "../../../shared/models/badge";
+import { BadgeEditComponent } from "../badge-edit/badge-edit.component";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-    selector: 'app-driver-edit',
-    templateUrl: './driver-edit.component.html',
-    styleUrls: ['./driver-edit.component.scss']
+    selector: "app-driver-edit",
+    templateUrl: "./driver-edit.component.html",
+    styleUrls: ["./driver-edit.component.scss"]
 })
 export class DriverEditComponent implements OnInit {
     closeResult: string;
     driverForm: FormGroup;
     isCollapsed = false;
     cardValid: string;
-    @Input() selectedDriver: Driver;
-    @Input() editMode: boolean;
+    @Input()
+    selectedDriver: Driver;
+    @Input()
+    editMode: boolean;
+
+    badges: Array<Badge> = [];
+    zones: Array<Zone> = [];
 
     constructor(
         private driverService: DriverService,
+        private zoneService: ZoneService,
         private modalService: NgbModal,
+        private spinner: NgxSpinnerService,
+        private toastr: ToastrService
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.spinner.show();
+        this.zoneService.findAll().subscribe(
+            data => {
+                console.log("Zones: ", data);
+                this.zones = data;
+                this.spinner.hide();
+                this.initForm();
+            },
+            error => {
+                this.spinner.hide();
+                this.toastr.error("Erreur de connexion", "Erreur");
+                this.initForm();
+            }
+        );
+    }
 
     initForm() {
         if (!this.editMode) {
@@ -39,28 +66,35 @@ export class DriverEditComponent implements OnInit {
 
         this.driverForm = new FormGroup({
             code: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.code : ''
+                !!this.selectedDriver ? this.selectedDriver.code : ""
             ),
             cin: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.cin : ''
+                !!this.selectedDriver ? this.selectedDriver.cin : ""
             ),
-            contact: new FormGroup(
-                {
-                    contactName: new FormControl(
-                        !!this.selectedDriver && !!this.selectedDriver.contact ? this.selectedDriver.contact.name : ''
-                    ),
+            birthdate: new FormControl(
+                !!this.selectedDriver ? this.selectedDriver.birthDate : ""
+            ),
+            contact: new FormGroup({
+                contactName: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.contact
+                        ? this.selectedDriver.contact.name
+                        : ""
+                ),
 
-                    contactSurname: new FormControl(
-                        !!this.selectedDriver && !!this.selectedDriver.contact ? this.selectedDriver.contact.surName : ''
-                    )
-                }
-            ),
+                contactSurname: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.contact
+                        ? this.selectedDriver.contact.surName
+                        : ""
+                )
+            }),
             working: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.working : 'true'
+                !!this.selectedDriver ? this.selectedDriver.working : "true"
             ),
             zone: new FormGroup({
                 zoneName: new FormControl(
-                    !!this.selectedDriver && !!this.selectedDriver.workArea ? this.selectedDriver.workArea.name : ''
+                    !!this.selectedDriver && !!this.selectedDriver.workArea
+                        ? this.selectedDriver.workArea.name
+                        : ""
                 )
             })
         });
@@ -106,27 +140,33 @@ export class DriverEditComponent implements OnInit {
             this.driverService.add(this.selectedDriver);*/
     }
 
-    private open(content) {
-        this.initForm();
-        this.modalService
-            .open(content, { centered: true, backdrop: true })
-            .result.then(
-                result => {
-                    this.closeResult = `Closed with: ${result}`;
-                },
-                reason => {
-                    this.closeResult = `Dismissed ${this.getDismissReason(
-                        reason
-                    )}`;
-                }
-            );
+    public addBadge() {
+        let badge = new Badge();
+        badge.code = "Nouveau";
+        this.badges.push(badge);
+        console.log("badges :", this.badges);
+    }
+
+    private openBadgeModal(badge) {
+        let modal = this.modalService.open(BadgeEditComponent, {
+            centered: true,
+            backdrop: true
+        });
+        modal.result.then(
+            result => {
+                this.closeResult = `Closed with: ${result}`;
+            },
+            reason => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
     }
 
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
+            return "by pressing ESC";
         } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
+            return "by clicking on a backdrop";
         } else {
             return `with: ${reason}`;
         }

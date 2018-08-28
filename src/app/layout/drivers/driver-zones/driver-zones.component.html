@@ -1,0 +1,27 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Zones'" [icon]="'fa-users'"></app-page-header>
+
+  <div style="margin: 1em;">
+
+    <div class="header">
+      <h4>{{'Zones' | translate}}</h4>
+      <div>
+        <button class="btn btn-primary btn-sm" type="button">
+          <i class="fa fa-save"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" type="button" (click)="addZone()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    <hr>
+    <div class="item" *ngFor="let zone of zones">
+      <input type="text" class="form-control" [value]="zone.name">
+      <div class="icons">
+        <button class="btn btn-danger btn-sm" type="button">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,9 @@
-import { DriverService} from './http/driver.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     AccountService,
+    DriverService,
+    ZoneService,
     AuthenticationService,
    /*DeliveryService,
     DeliveryLineService,
@@ -21,6 +22,7 @@ import {
     providers: [
         AccountService,
         DriverService,
+        ZoneService,
         AuthenticationService,
        /* CheckoutService,
         CurrencyService,

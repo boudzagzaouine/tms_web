@@ -17,14 +17,6 @@
                   </div>
               </form>
           </div>
-          <span class="float-right">
-                <app-driver-edit [selectedDriver]="null" [editMode]="false"></app-driver-edit>
-              <!--
-                  <button class="btn btn-danger btn-sm">
-                      <i class="fa fa-trash"></i>
-                  </button>
-              -->
-          </span>
       </div>
       <div class="card-body table-responsive border-top-info">
           <table class="table table-hover table-sm table-striped text-center" *ngIf="driversList?.length; else noData">
@@ -58,12 +50,9 @@
                           <input type="checkbox" [checked]="driver.working" disabled="true" />
                       </td>
                       <td class="text-right">
-                            <app-driver-edit [selectedDriver]="client" [editMode]="true"></app-driver-edit>
-                          <!--
-                              <button [disabled]="driver?.id===1" class="btn btn-danger btn-sm" (click)="delete(driver)">
-                                  <i class="fa fa-trash"></i>
-                              </button>
-                          -->
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fa fa-edit"></i>
+                        </button>
                       </td>
                   </tr>
               </tbody>

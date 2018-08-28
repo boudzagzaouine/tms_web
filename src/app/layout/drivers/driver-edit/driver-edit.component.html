@@ -1,8 +1,5 @@
 <!-- Large modal -->
-<button class="btn btn-primary btn-sm" (click)="open(content)" type="button" [disabled]="selectedDriver?.id===1">
-    <i class="fa" [ngClass]="{'fa-pencil': editMode , 'fa-plus' : !editMode}"></i>
-</button>
-<ng-template #content let-c="close" let-d="dismiss">
+
     <div class="modal-header bg-info">
         <h4 class="modal-title">{{'Edit Driver' | translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -21,6 +18,12 @@
                     <div class="col-sm-12 col-md-6">
                         <label>{{'Cin' | translate}}</label>
                         <input type="text" class="form-control" formControlName="cin">
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-12 col-md-6">
+                        <label>{{'Birthdate' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="birthdate">
                     </div>
                 </div>
                 <fieldset formGroupName="contact">
@@ -43,6 +46,26 @@
                         </div>
                     </div>
                 </fieldset>
+                <div class="row my-2">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="badges-header">
+                            <h4>{{'Badges' | translate}}</h4>
+                            <button class="btn btn-primary btn-sm" type="button" (click)="addBadge()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                        <hr>
+                        <div class="badge-item" *ngFor="let badge of badges">
+                            <label>{{badge.code}}</label>
+                            <div class="badge-icons">
+                                <app-badge-edit [selectedBadge]="badge" [editMode]="true"></app-badge-edit>
+                                <button class="btn btn-danger btn-sm" type="button">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group form-check mt-3">
                     <input type="checkbox" class="form-check-input" formControlName="working" >
@@ -56,4 +79,3 @@
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
         </div>
     </form>
-</ng-template>

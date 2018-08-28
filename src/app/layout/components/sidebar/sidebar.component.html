@@ -22,7 +22,8 @@
             </a>
             <div ngbDropdownMenu aria-labelledby="driversDropDown">
                 <a class="dropdown-item" [routerLink]="['/drivers']" [routerLinkActive]="['router-link-active']">{{'List' | translate}}</a>
-                <button class="dropdown-item">{{'Add' | translate}}</button>
+                <a class="dropdown-item" [routerLink]="['/drivers-edit']" [routerLinkActive]="['router-link-active']">{{'Add Driver' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/drivers-zones']" [routerLinkActive]="['router-link-active']">{{'Add Zone' | translate}}</a>
             </div>
         </div>
 

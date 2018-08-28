@@ -9,6 +9,7 @@ import {
     AuthenticationService,
     AdminService,
     DriverService,
+    ZoneService
    } from './services';
 
 
@@ -30,6 +31,7 @@ export class SharedModule {
           providers: [
             AccountService,
             DriverService,
+            ZoneService,
             AuthenticationService,
             AdminService,
             UserService,

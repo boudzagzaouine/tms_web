@@ -1,11 +1,11 @@
-import { DriverComponent } from "./driver.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { DriverEditComponent } from "./driver-edit.component";
 
 const routes: Routes = [
     {
         path: "",
-        component: DriverComponent
+        component: DriverEditComponent
     }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class DriverRoutingModule {}
+export class DriverEditRoutingModule {}

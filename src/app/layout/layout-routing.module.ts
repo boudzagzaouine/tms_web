@@ -12,7 +12,8 @@ const routes: Routes = [
             { path: 'clients', loadChildren: './clients/clients.module#ClientsModule'},
             { path: 'drivers', loadChildren: './drivers/driver.module#DriverModule'},
             { path: 'drivers-edit', loadChildren: './drivers/driver-edit/driver-edit.module#DriverEditModule'},
-            { path: 'drivers-zones', loadChildren: './drivers/driver-zones/driver-zones.module#DriverZonesModule'}
+            { path: 'drivers-zones', loadChildren: './drivers/driver-zones/driver-zones.module#DriverZonesModule'},
+            { path: 'vehicles', loadChildren: './vehicles/vehicle.module#VehicleModule'}
         ]
     }
 ];

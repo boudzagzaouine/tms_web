@@ -33,6 +33,11 @@
             <div class="row my-2">
                 <div class="col-sm-12 col-md-6">
                     <label>{{'WorkPlace' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select>
+                            <option *ngFor="let zone of zones" [value]="zone.name">{{zone.name}}</option>
+                        </select>
+                    </div>
                     <div ngbDropdown class="d-inline-block">
                         <button class="btn btn-outline-primary" id="zoneDropdown" ngbDropdownToggle>
                             {{currentZone ? currentZone.name : "(Aucune)"}}

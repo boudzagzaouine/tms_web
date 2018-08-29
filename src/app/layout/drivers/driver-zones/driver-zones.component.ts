@@ -21,7 +21,7 @@ export class DriverZonesComponent implements OnInit {
         private toastr: ToastrService
     ) {
         this.zones = [];
-        this.editMode = { 0: false };
+        this.editMode = [ 0, false ];
     }
 
     ngOnInit() {

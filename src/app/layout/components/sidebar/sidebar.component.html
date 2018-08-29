@@ -27,6 +27,17 @@
             </div>
         </div>
 
+        <div ngbDropdown class="d-inline-block">
+            <a ngbDropdownToggle id="vehiclesDropDown" class="list-group-item" style="cursor: pointer;">
+                <i class="fa fa-fw fa-address-book"></i>
+                <span class="sidebar-label">{{ 'Vehicles' | translate }}</span>
+            </a>
+            <!-- <div ngbDropdownMenu aria-labelledby="driversDropDown">
+                <a class="dropdown-item" [routerLink]="['/drivers']" [routerLinkActive]="['router-link-active']">{{'List' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/drivers-edit']" [routerLinkActive]="['router-link-active']">{{'Add Driver' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/drivers-zones']" [routerLinkActive]="['router-link-active']">{{'Add Zone' | translate}}</a>
+            </div> -->
+        </div>
 
         <!-- Header Fields / for small screens -->
 

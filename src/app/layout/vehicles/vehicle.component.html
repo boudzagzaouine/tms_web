@@ -1,0 +1,65 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'vehicles'" [icon]="'fa-users'"></app-page-header>
+  
+    <div class="card mb-3 ">
+        <div class="card-header">
+  
+            <div class="form align-content-end float-left">
+                <form role="form" #f="ngForm">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="searchQuary" ngModel required (keyup)="onSearchChanged(f)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-body table-responsive border-top-info">
+            <table class="table table-hover table-sm table-striped text-center" *ngIf="vehiclesList?.length; else noData">
+                <thead class="table-header">
+                    <tr>
+                        <th>{{'Immatriculation' | translate}}</th>
+                        <th>{{'Badge' | translate}}</th>
+                        <th>{{'Visite technique' | translate}}</th>
+                        <th>{{'permis de circulation' | translate}}</th>
+                        <th>{{'categorie' | translate}}</th>
+                        <th style="width: 10%">{{'Actions' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let vehicle of vehiclesList; let i = index">
+                        <td>{{vehicle.registrationNumber}}</td>
+                        <td>{{vehicle.badge}}</td>
+                        <td>{{vehicle.technicalVisit}}</td>
+                        <td>{{vehicle.traffic}}</td>
+                        <td>{{vehicle.category}}</td>
+                    </tr>
+                </tbody>
+            </table>
+  
+            <ng-template #noData>
+                <div class="container text-center">
+                    <span class="display-2">{{'No Records' | translate}}</span>
+                </div>
+            </ng-template>
+  
+        </div>
+  
+        <div class="card-footer">
+            <span class="float-left">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="pageNumber" [directionLinks]="false" (pageChange)="onPageChanged()"
+                    [pageSize]="pageSize" *ngIf="collectionSize > pageSize"></ngb-pagination>
+            </span>
+            <span class="float-right">
+                {{ 'Drivers' | translate }} ({{collectionSize}})
+            </span>
+  
+        </div>
+    </div>
+  </div>
+  <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+  

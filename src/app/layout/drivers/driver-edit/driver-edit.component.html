@@ -1,81 +1,79 @@
-<!-- Large modal -->
+<form [formGroup]="driverForm" (ngSubmit)="onSubmit();">
+    <div class="modal-body">
 
-    <div class="modal-header bg-info">
-        <h4 class="modal-title">{{'Edit Driver' | translate}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <form [formGroup]="driverForm" (ngSubmit)="onSubmit(); c('Close click')">
-        <div class="modal-body">
-
-            <div class="form-group">
+        <div class="form-group">
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Code' | translate}}</label>
+                    <input type="text" class="form-control" formControlName="code">
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Cin' | translate}}</label>
+                    <input type="text" class="form-control" formControlName="cin">
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Birthdate' | translate}}</label>
+                    <input type="text" class="form-control" formControlName="birthdate">
+                </div>
+            </div>
+            <fieldset formGroupName="contact">
                 <div class="row my-2">
                     <div class="col-sm-12 col-md-6">
-                        <label>{{'Code' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="code">
+                        <label>{{'Name' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="contactName">
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <label>{{'Cin' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="cin">
+                        <label>{{'Surname' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="contactSurname">
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col-sm-12 col-md-6">
-                        <label>{{'Birthdate' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="birthdate">
-                    </div>
-                </div>
-                <fieldset formGroupName="contact">
-                    <div class="row my-2">
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'Name' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="contactName">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'Surname' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="contactSurname">
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset formGroupName="zone">
-                    <div class="row my-2">
-                        <div class="col-sm-12 col-md-6">
-                            <label>{{'WorkPlace' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="zoneName">
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="row my-2">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="badges-header">
-                            <h4>{{'Badges' | translate}}</h4>
-                            <button class="btn btn-primary btn-sm" type="button" (click)="addBadge()">
-                                <i class="fa fa-plus"></i>
+            </fieldset>
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'WorkPlace' | translate}}</label>
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary" id="zoneDropdown" ngbDropdownToggle>
+                            {{currentZone ? currentZone.name : "(Aucune)"}}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="zoneDropdown">
+                            <button class="dropdown-item" *ngFor="let zone of zones" (click)="selectZone(zone)">
+                                {{zone.name}}
                             </button>
                         </div>
-                        <hr>
-                        <div class="badge-item" *ngFor="let badge of badges">
-                            <label>{{badge.code}}</label>
-                            <div class="badge-icons">
-                                <app-badge-edit [selectedBadge]="badge" [editMode]="true"></app-badge-edit>
-                                <button class="btn btn-danger btn-sm" type="button">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-                <div class="form-group form-check mt-3">
-                    <input type="checkbox" class="form-check-input" formControlName="working" >
-                    <label class="form-check-label">{{'Working' | translate}} ?</label>
+            </div>
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-12">
+                    <div class="badges-header">
+                        <h4>{{'Badges' | translate}}</h4>
+                        <button class="btn btn-primary btn-sm" type="button" (click)="addBadge()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="badge-item" *ngFor="let badge of badges">
+                        <label>{{badge.code}}</label>
+                        <div class="badge-icons">
+                            <app-badge-edit [selectedBadge]="badge" [editMode]="true"></app-badge-edit>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <div class="form-group form-check mt-3">
+                <input type="checkbox" class="form-check-input" formControlName="working">
+                <label class="form-check-label">{{'Working' | translate}} ?</label>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-        </div>
-    </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

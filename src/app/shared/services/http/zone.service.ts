@@ -51,7 +51,7 @@ export class ZoneService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    
+
     set(zone: Zone): Zone {
         this.proxy.set(this.controller, zone).subscribe(
             data => {

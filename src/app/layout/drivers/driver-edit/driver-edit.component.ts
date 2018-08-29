@@ -26,6 +26,7 @@ export class DriverEditComponent implements OnInit {
 
     badges: Array<Badge> = [];
     zones: Array<Zone> = [];
+    currentZone: Zone;
 
     constructor(
         private driverService: DriverService,
@@ -42,14 +43,13 @@ export class DriverEditComponent implements OnInit {
                 console.log("Zones: ", data);
                 this.zones = data;
                 this.spinner.hide();
-                this.initForm();
             },
             error => {
                 this.spinner.hide();
                 this.toastr.error("Erreur de connexion", "Erreur");
-                this.initForm();
             }
         );
+        this.initForm();
     }
 
     initForm() {
@@ -64,6 +64,9 @@ export class DriverEditComponent implements OnInit {
             : 'null');*/
         }
 
+        this.currentZone = !!this.selectedDriver
+            ? this.selectedDriver.workArea
+            : null;
         this.driverForm = new FormGroup({
             code: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.code : ""
@@ -89,14 +92,7 @@ export class DriverEditComponent implements OnInit {
             }),
             working: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.working : "true"
-            ),
-            zone: new FormGroup({
-                zoneName: new FormControl(
-                    !!this.selectedDriver && !!this.selectedDriver.workArea
-                        ? this.selectedDriver.workArea.name
-                        : ""
-                )
-            })
+            )
         });
     }
 
@@ -160,6 +156,12 @@ export class DriverEditComponent implements OnInit {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             }
         );
+    }
+
+    public selectZone(zone: Zone) {
+        if (zone) {
+            this.currentZone = zone;
+        }
     }
 
     private getDismissReason(reason: any): string {

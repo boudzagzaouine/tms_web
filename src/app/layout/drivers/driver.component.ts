@@ -28,7 +28,6 @@ export class DriverComponent implements OnInit {
         this.spinner.show();
 
         this.onPageChanged();
-        console.log("CHECK POINT");
         this.driverService.driverListChanged.subscribe(data => {
             console.log("Data: ", data);
             this.driversList = data;

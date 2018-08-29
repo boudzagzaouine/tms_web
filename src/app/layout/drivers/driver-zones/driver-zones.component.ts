@@ -13,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class DriverZonesComponent implements OnInit {
     zones: Array<Zone>;
+    editMode: [number, boolean];
 
     constructor(
         private zoneService: ZoneService,
@@ -20,6 +21,7 @@ export class DriverZonesComponent implements OnInit {
         private toastr: ToastrService
     ) {
         this.zones = [];
+        this.editMode = { 0: false };
     }
 
     ngOnInit() {
@@ -31,7 +33,7 @@ export class DriverZonesComponent implements OnInit {
                 this.spinner.hide();
             },
             error => {
-                console.log('error :', error);
+                console.log("error :", error);
                 this.spinner.hide();
                 this.toastr.error("Erreur de connexion", "Erreur");
             }
@@ -44,8 +46,22 @@ export class DriverZonesComponent implements OnInit {
 
     addZone() {
         const zone = new Zone();
-        zone.id = this.zones.length;
+        zone.id = 0;
         zone.name = "Nouvelle zone";
         this.zones.push(zone);
+        console.log("zone :", zone);
+    }
+
+    edit(zone) {
+        this.editMode[zone.id] = true;
+    }
+
+    save(zone) {
+        this.zoneService.set(zone);
+        this.editMode[zone.id] = false;
+    }
+
+    delete(zone) {
+        this.zoneService.delete(zone);
     }
 }

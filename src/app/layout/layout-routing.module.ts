@@ -18,7 +18,7 @@ const routes: Routes = [
             { path: 'vehicle-edit', loadChildren: './vehicles/vehicle-edit/vehicle-edit.module#VehicleEditModule'},
             { path: 'category-edit', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'}
             { path: 'mtnplans', loadChildren: './vehicles/mtnplans/mtnplan.module#MtnPlanModule'},
-            { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplan-edit/mtnplan-edit.module#MtnPlanEditModule'}
+            { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'}
         ]
     }
 ];

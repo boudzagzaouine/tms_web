@@ -5,13 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeaderModule } from '../../../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CategoryEditComponent } from './category-edit.component';
-import { CategoryEditRoutingModule } from './category-edit-routing.module';
+import { MtnPlanEditComponent } from './mtnplan-edit.component';
+import { MtnPlanEditRoutingModule } from './mtnplan-edit-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        CategoryEditRoutingModule,
+        MtnPlanEditRoutingModule,
         PageHeaderModule,
         TranslateModule,
         FormsModule,
@@ -19,6 +19,6 @@ import { CategoryEditRoutingModule } from './category-edit-routing.module';
         NgbModule,
         NgxSpinnerModule
     ],
-    declarations: [CategoryEditComponent]
+    declarations: [MtnPlanEditComponent]
 })
-export class VehicleCategoryEditModule {}
+export class MtnPlanEditModule {}

@@ -12,8 +12,8 @@
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Technical Visite' | translate}}</label>
                     <div style="display: flex;flex-direction: row">
-                        <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #d="ngbDatepicker" />
-                        <button class="btn btn-primary" (click)="d.toggle()">Calendrier</button>
+                        <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #da="ngbDatepicker" />
+                        <button class="btn btn-primary" (click)="da.toggle()">Calendrier</button>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,10 @@
                 <div class="row my-2">
                     <div class="col-sm-12 col-md-6">
                         <label>{{'Traffic Date' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="date">
+                        <div style="display: flex;flex-direction: row">
+                            <input type="text" ngbDatepicker class="form-control" formControlName="date" #db="ngbDatepicker" />
+                            <button class="btn btn-primary" (click)="db.toggle()">Calendrier</button>
+                        </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label class="form-check-label" style="display: block; margin-bottom: .8em;">

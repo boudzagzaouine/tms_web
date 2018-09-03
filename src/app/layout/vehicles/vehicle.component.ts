@@ -25,10 +25,7 @@ export class VehicleComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.spinner.show();
-
         this.onPageChanged();
-        //a voir
         this.vehicleService.driverListChanged.subscribe(data => {
             console.log("Data: ", data);
             this.vehiclesList = data;

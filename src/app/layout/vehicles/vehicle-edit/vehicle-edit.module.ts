@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeaderModule } from '../../../shared';
 import { NgbModule, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleEditComponent } from './vehicle-edit.component';
-import { CategoryComponent } from '../category/category.component';
 import { VehicleEditRoutingModule } from './vehicle-edit-routing.module';
 import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
 
@@ -22,8 +21,6 @@ import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
         NgxSpinnerModule,
         NgbModule.forRoot(),
         NgbModule,
-       
-        //NgModule
     ],
     declarations: [VehicleEditComponent, TrafficEditComponent],
     entryComponents: [TrafficEditComponent]

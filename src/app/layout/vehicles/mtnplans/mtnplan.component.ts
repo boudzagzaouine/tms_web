@@ -1,18 +1,18 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { MaintenancePlan } from "../../../shared/models";
-import { MaintenancePlanService} from "../../../shared/services/http/maintenancePlan.service";
+import { MaintenancePlanService } from "../../../shared/services";
 import { routerTransition } from "../../../router.animations";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
-    selector: "app-maintenancePlan",
-    templateUrl: "./maintenancePlan.component.html",
-    styleUrls: ["./maintenancePlan.component.scss"],
+    selector: "app-mtnplan",
+    templateUrl: "./mtnplan.component.html",
+    styleUrls: ["./mtnplan.component.scss"],
     animations: [routerTransition()]
 })
-export class MaintenancePlanComponent implements OnInit {
-    maintenanceplans: Array<MaintenancePlan>;
+export class MtnPlanComponent implements OnInit {
+    planList: Array<MaintenancePlan>;
     editMode: [number, boolean];
 
     constructor(
@@ -20,7 +20,7 @@ export class MaintenancePlanComponent implements OnInit {
         private spinner: NgxSpinnerService,
         private toastr: ToastrService
     ) {
-        this.maintenanceplans = [];
+        this.planList = [];
         this.editMode = [ 0, false ];
     }
 
@@ -28,8 +28,8 @@ export class MaintenancePlanComponent implements OnInit {
         this.spinner.show();
         this.maintenancePlanService.findAll().subscribe(
             data => {
-                console.log("Zones Data: ", data);
-                this.maintenanceplans = data;
+                console.log("MtnPlan Data: ", data);
+                this.planList = data;
                 this.spinner.hide();
             },
             error => {
@@ -40,27 +40,7 @@ export class MaintenancePlanComponent implements OnInit {
         );
         this.maintenancePlanService.maintenancePlanListChanged.subscribe(data => {
             console.log("Data: ", data);
-            this.maintenanceplans = data;
+            this.planList = data;
         });
-    }
-
-    addMaintenancePlan() {
-        const maintenancePlan = new MaintenancePlan();
-        maintenancePlan.id = 0;
-        this.maintenanceplans.push(maintenancePlan);
-        console.log("categorie :", maintenancePlan);
-    }
-
-    edit(maintenancePlan) {
-        this.editMode[maintenancePlan.id] = true;
-    }
-
-    save(maintenancePlan) {
-        this.maintenancePlanService.set(maintenancePlan);
-        this.editMode[maintenancePlan.id] = false;
-    }
-
-    delete(catgeory) {
-        this.maintenancePlanService.delete(catgeory);
     }
 }

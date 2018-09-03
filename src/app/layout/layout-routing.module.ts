@@ -14,9 +14,11 @@ const routes: Routes = [
             { path: 'drivers-edit', loadChildren: './drivers/driver-edit/driver-edit.module#DriverEditModule'},
             { path: 'drivers-zones', loadChildren: './drivers/driver-zones/driver-zones.module#DriverZonesModule'},
             { path: 'vehicles', loadChildren: './vehicles/vehicle.module#VehicleModule'},
-            { path: 'category', loadChildren:'./vehicles/category/category.module#VehicleCategoryModule'},
+            { path: 'category', loadChildren: './vehicles/category/category.module#VehicleCategoryModule'},
             { path: 'vehicle-edit', loadChildren: './vehicles/vehicle-edit/vehicle-edit.module#VehicleEditModule'},
             { path: 'category-edit', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'}
+            { path: 'mtnplans', loadChildren: './vehicles/mtnplans/mtnplan.module#MtnPlanModule'},
+            { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplan-edit/mtnplan-edit.module#MtnPlanEditModule'}
         ]
     }
 ];

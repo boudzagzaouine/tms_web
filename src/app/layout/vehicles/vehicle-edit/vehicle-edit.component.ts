@@ -1,21 +1,20 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup, NgForm } from "@angular/forms";
-import { Vehicle, VehicleCategory, DoorType, Traffic } from "../../../shared/models";
-import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { VehicleService } from "../../../shared/services/http/vehicle.service";
-import { CategoryService } from "../../../shared/services/http/category.service";
-import { TrafficService } from "../../../shared/services/http/traffic.service";
-import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
+import { Vehicle, VehicleCategory, Traffic } from "../../../shared/models";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import { DriverEditComponent } from "../../drivers/driver-edit/driver-edit.component";
 import { BadgeType } from "../../../shared/models/badgeType";
+import {
+    BadgeTypeService,
+    VehicleService,
+    CategoryService
+} from "../../../shared";
 
 @Component({
     selector: "app-vehicle-edit",
     templateUrl: "./vehicle-edit.component.html",
     styleUrls: ["./vehicle-edit.component.scss"],
-    providers: [CategoryService]
+    providers: [CategoryService, BadgeTypeService]
 })
 export class VehicleEditComponent implements OnInit {
     closeResult: string;
@@ -28,10 +27,9 @@ export class VehicleEditComponent implements OnInit {
     @Input()
     editMode: boolean;
 
-    category:VehicleCategory;
-    vehicles:Array<Vehicle>=[];
-    currentTraffic:Traffic = new Traffic();
-    currentBadgeType:BadgeType = new BadgeType();
+    currentCategory: VehicleCategory;
+    currentTraffic: Traffic = new Traffic();
+    currentBadgeType: BadgeType = new BadgeType();
 
     badgeTypes: Array<BadgeType> = [];
     categories: Array<VehicleCategory> = [];
@@ -39,25 +37,53 @@ export class VehicleEditComponent implements OnInit {
     constructor(
         private vehicleService: VehicleService,
         private categoryService: CategoryService,
-        private modalService: NgbModal,
+        private badgeTypeService: BadgeTypeService,
         private spinner: NgxSpinnerService,
         private toastr: ToastrService
     ) {}
 
-    ngOnInit() {
-        this.spinner.show();
-        this.vehicleService.findAll().subscribe(
-            data => {
-                console.log("Categorie: ", data);
-                this.vehicles = data;
-                this.spinner.hide();
-            },
-            error => {
-                this.spinner.hide();
-                this.toastr.error("Erreur de connexion", "Erreur");
-            }
-        );
+    async ngOnInit() {
         this.initForm();
+        this.spinner.show();
+        try {
+            await Promise.all([
+                this.loadCategories(),
+                this.loadBadgeTypes()
+            ]);
+        } catch (error) {
+            this.toastr.error("Erreur de connexion", "Erreur");
+        }
+        this.spinner.hide();
+    }
+
+    loadCategories() {
+        return new Promise((resolve, reject) => {
+            this.categoryService.findAll().subscribe(
+                data => {
+                    console.log("Categorie: ", data);
+                    this.categories = data;
+                    resolve();
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
+    loadBadgeTypes() {
+        return new Promise((resolve, reject) => {
+            this.badgeTypeService.findAll().subscribe(
+                data => {
+                    console.log("BadgeTypes: ", data);
+                    this.badgeTypes = data;
+                    resolve();
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        });
     }
 
     initForm() {
@@ -74,117 +100,21 @@ export class VehicleEditComponent implements OnInit {
 
         this.vehicleForm = new FormGroup({
             registrationNumber: new FormControl(
-                !!this.selectedVehicle ? this.selectedVehicle.registrationNumber : ""
+                !!this.selectedVehicle
+                    ? this.selectedVehicle.registrationNumber
+                    : ""
             ),
             technicalVisit: new FormControl(
-                !!this.selectedVehicle ? this.selectedVehicle.technicalVisit: ""
+                !!this.selectedVehicle
+                    ? this.selectedVehicle.technicalVisit
+                    : ""
             ),
             traffic: new FormGroup({
-                active: new FormControl(
-                    this.currentTraffic.active
-                ),
-                date: new FormControl(
-                    this.currentTraffic.date
-                )
+                active: new FormControl(this.currentTraffic.active),
+                date: new FormControl(this.currentTraffic.date)
             })
         });
-
     }
 
-    private onSubmit() {
-        /*if (!this.editMode) {
-
-            this.selectedDriver = new Driver();
-
-            this.selectedDriver.contact = new Contact();
-
-            this.selectedDriver.deliveryAddress = new Address();
-
-        } else {
-            if (this.selectedDriver.deliveryAddress == null) {
-
-                this.selectedDriver.deliveryAddress = new Address();
-            }
-            if (this.selectedDriver.contact == null) {
-
-                this.selectedDriver.contact = new Contact();
-            }
-        }
-
-        this.selectedDriver.code = this.driverForm.value['code'];
-        this.selectedDriver.name = this.driverForm.value['name'];
-       // this.selectedDriver.email = this.driverForm.value['mail'];
-        this.selectedDriver.active = this.driverForm.value['active'];
-        this.selectedDriver.contact.email = this.driverForm.value['contact']['contactEmail'];
-        this.selectedDriver.contact.tel1 = this.driverForm.value['contact']['contactTel'];
-        this.selectedDriver.deliveryAddress.line1 = this.driverForm.value['address']['addressLine1'];
-        this.selectedDriver.deliveryAddress.line2 = this.driverForm.value['address']['addressLine2'];
-        this.selectedDriver.deliveryAddress.zip = this.driverForm.value['address']['addressZip'];
-        this.selectedDriver.deliveryAddress.city = this.driverForm.value['address']['addressCity'];
-        this.selectedDriver.deliveryAddress.country = this.driverForm.value['address']['addressCountry'];
-        console.log(this.driverForm.value['contact']['contactEmail']);
-        if (!this.editMode) {
-            this.selectedDriver.contact.name = this.selectedDriver.name;
-            this.selectedDriver.contact.surName = this.selectedDriver.name;
-            this.selectedDriver.deliveryAddress.code =  this.selectedDriver.deliveryAddress.city +  (new Date()).getMilliseconds();
-        }
-            this.driverService.add(this.selectedDriver);*/
-    }
-
-    addVehicle() {
-        const vehicle = new Vehicle();
-        vehicle.id = 0;
-        vehicle.registrationNumber = "Nouveau vehicule";
-        this.vehicles.push(vehicle);
-        console.log("vehicule :", vehicle);
-    }
-
-    public addTraffic() {
-        let traffic = new Traffic();
-        traffic.active.valueOf.toString +"Nouveau";
-    }
-
-    private openBadgeModal(traffic) {
-        let modal = this.modalService.open(TrafficEditComponent, {
-            centered: true,
-            backdrop: true
-        });
-        modal.result.then(
-            result => {
-                this.closeResult = `Closed with: ${result}`;
-            },
-            reason => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            }
-        );
-    }
-
-    public selectTraffic(traffic:Traffic) {
-        if (traffic) {
-            this.currentTraffic =traffic;
-        }
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return "by pressing ESC";
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return "by clicking on a backdrop";
-        } else {
-            return `with: ${reason}`;
-        }
-    }
-
-    edit(vehicle) {
-        this.editMode[vehicle.id] = true;
-    }
-
-    save(vehicle) {
-        this.vehicleService.set(vehicle);
-        this.editMode[vehicle.id] = false;
-    }
-
-    delete(vehicle) {
-        this.vehicleService.delete(vehicle);
-    }
+    private onSubmit() {}
 }

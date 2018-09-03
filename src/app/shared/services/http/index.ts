@@ -6,5 +6,6 @@ export * from './authentication.service';
 export * from './zone.service';
 export * from './category.service';
 export * from './maintenancePlan.service';
+export * from "./badgeTypes.service";
 // end:ng42.barrel
 

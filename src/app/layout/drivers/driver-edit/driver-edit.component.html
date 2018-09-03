@@ -1,3 +1,5 @@
+
+<app-page-header [heading]="'Edit Driver'" [icon]="'fa-users'"></app-page-header>
 <form [formGroup]="driverForm" (ngSubmit)="onSubmit();">
     <div class="modal-body">
 
@@ -34,7 +36,7 @@
                 <div class="col-sm-12 col-md-6">
                     <label>{{'WorkPlace' | translate}}</label>
                     <div style="display: inline-block;">
-                        <select class="btn btn-outline-primary" [(ngModel)]="currentZone">
+                        <select class="btn btn-outline-primary" [(ngModel)]="currentZone" [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let zone of zones" [ngValue]="zone.name">{{zone.name}}</option>
                         </select>
                     </div>

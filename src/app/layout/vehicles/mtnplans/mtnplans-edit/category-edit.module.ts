@@ -3,15 +3,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageHeaderModule } from '../../../shared';
+import { PageHeaderModule } from '../../../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MaintenancePlanComponent } from './maintenancePlan-edit.component';
-import { MaintenancePlanRoutingModule } from './maintenancePlan-edit-routing.module';
+import { CategoryEditComponent } from './category-edit.component';
+import { CategoryEditRoutingModule } from './category-edit-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        MaintenancePlanRoutingModule,
+        CategoryEditRoutingModule,
         PageHeaderModule,
         TranslateModule,
         FormsModule,
@@ -19,6 +19,6 @@ import { MaintenancePlanRoutingModule } from './maintenancePlan-edit-routing.mod
         NgbModule,
         NgxSpinnerModule
     ],
-    declarations: [MaintenancePlanComponent]
+    declarations: [CategoryEditComponent]
 })
-export class VehicleMaintenancePlanModule {}
+export class VehicleCategoryEditModule {}

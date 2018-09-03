@@ -1,11 +1,20 @@
+<app-page-header [heading]="'Edit Vehicle'" [icon]="'fa-users'">
+</app-page-header>
 <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit();">
-    <div class="modal-body">
+    <div class="form-body">
 
         <div class="form-group">
             <div class="row my-2">
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Immatriculation' | translate}}</label>
                     <input type="text" class="form-control" formControlName="registrationNumber">
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Technical Visite' | translate}}</label>
+                    <div style="display: flex;flex-direction: row">
+                        <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #d="ngbDatepicker" />
+                        <button class="btn btn-primary" (click)="d.toggle()">Calendrier</button>
+                    </div>
                 </div>
             </div>
             <fieldset formGroupName="traffic">
@@ -35,27 +44,22 @@
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Badge Type' | translate}}</label>
                     <div style="display: inline-block;">
-                        <select>
-                            <option *ngFor="let type of badgeTypes" [value]="badge.code">{{badge.code}}</option>
+                        <select class="btn btn-outline-primary">
+                            <option *ngFor="let type of badgeTypes" [value]="type.code">{{type.code}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Category' | translate}}</label>
                     <div style="display: inline-block;">
-                        <select>
-                            <option *ngFor="let cat of categories" [value]="category.name">{{category.name}}</option>
+                        <select class="btn btn-outline-primary">
+                            <option *ngFor="let cat of categories" [value]="cat.name">{{cat.name}}</option>
                         </select>
                     </div>
                 </div>
             </div>
-            
+
             <div class="row my-2">
-                    <div class="col-sm-12 col-md-6">
-                        <label>{{'Technical Visite' | translate}}</label>
-                        <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #d="ngbDatepicker"/>
-                        <button (click)="d.toggle()">Calendrier</button>
-                    </div>
             </div>
         </div>
 

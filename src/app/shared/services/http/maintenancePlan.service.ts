@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class MaintenancePlanService {
-    controller = 'categories';
+    controller = 'maintenancePlans';
 
     private maintenancePlanList: MaintenancePlan[] = [];
 

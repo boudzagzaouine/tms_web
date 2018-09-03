@@ -7,7 +7,6 @@ import { PageHeaderModule } from '../../../shared';
 import { NgbModule, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleEditComponent } from './vehicle-edit.component';
 import { VehicleEditRoutingModule } from './vehicle-edit-routing.module';
-import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
 
 @NgModule({
     imports: [
@@ -22,7 +21,6 @@ import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
         NgbModule.forRoot(),
         NgbModule,
     ],
-    declarations: [VehicleEditComponent, TrafficEditComponent],
-    entryComponents: [TrafficEditComponent]
+    declarations: [VehicleEditComponent]
 })
 export class VehicleEditModule {}

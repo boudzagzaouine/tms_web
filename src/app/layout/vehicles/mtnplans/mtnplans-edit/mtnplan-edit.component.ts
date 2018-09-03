@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from "@angular/core";
 import {
     VehicleCategory,
     MaintenanceState,
-    TypeMaintenance
+    TypeMaintenance,
+    MaintenancePlan
 } from "../../../../shared/models";
 import { MaintenancePlanService } from "../../../../shared/services/http";
 import { routerTransition } from "../../../../router.animations";
@@ -18,7 +19,7 @@ import { FormControl, FormGroup, NgForm } from "@angular/forms";
 })
 export class MtnPlanEditComponent implements OnInit {
     editMode: boolean;
-    selectedPlan: VehicleCategory;
+    selectedPlan: MaintenancePlan;
     planForm: FormGroup;
 
     currentState: MaintenanceState;
@@ -38,7 +39,7 @@ export class MtnPlanEditComponent implements OnInit {
 
     initForm() {
         if (!this.editMode) {
-            this.selectedPlan = new VehicleCategory();
+            this.selectedPlan = new MaintenancePlan;
             // this.selectedDriver.deliveryAddress.country = 'Maroc';
         } else {
             /*console.log('Card number : ' );

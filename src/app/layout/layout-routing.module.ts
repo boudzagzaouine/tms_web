@@ -16,7 +16,7 @@ const routes: Routes = [
             { path: 'vehicles', loadChildren: './vehicles/vehicle.module#VehicleModule'},
             { path: 'category', loadChildren: './vehicles/category/category.module#VehicleCategoryModule'},
             { path: 'vehicle-edit', loadChildren: './vehicles/vehicle-edit/vehicle-edit.module#VehicleEditModule'},
-            { path: 'category-edit', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'}
+            { path: 'category-edit', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'},
             { path: 'mtnplans', loadChildren: './vehicles/mtnplans/mtnplan.module#MtnPlanModule'},
             { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'}
         ]

@@ -3,7 +3,6 @@ import { TypeMaintenance } from "./typeMaintenance";
 import { Vehicle } from "./vehicle";
 export class MaintenanceState {
     id: number;
-    vehicle: Vehicle;
     code: string;
     descriptif: string;
     date: Date;

@@ -36,7 +36,8 @@ import {
     PaymentAccountService,
     VatService,
     GlobalService,
-    SaleOrderStockService
+    SaleOrderStockService,
+    CategoryService
 } from '.';
 import { OrderTypeService } from './http';
 
@@ -80,7 +81,8 @@ import { OrderTypeService } from './http';
         VatService,
         GlobalService,
         SaleOrderStockService,
-        OrderTypeService
+        OrderTypeService,
+        CategoryService
     ]
 })
 export class ServicesModule {}

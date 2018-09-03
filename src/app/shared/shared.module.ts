@@ -10,7 +10,9 @@ import {
     AdminService,
     DriverService,
     VehicleService,
-    ZoneService
+    CategoryService,
+    ZoneService,
+    MaintenancePlanService
    } from './services';
 
 
@@ -33,6 +35,8 @@ export class SharedModule {
             AccountService,
             DriverService,
             ZoneService,
+            CategoryService,
+            MaintenancePlanService,
             AuthenticationService,
             VehicleService,
             AdminService,

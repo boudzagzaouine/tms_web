@@ -8,12 +8,6 @@
             </a>
         </span>
 
-        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ 'Clients' | translate }}">
-            <a [routerLink]="['/clients']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-                <i class="fa fa-fw fa-address-book"></i>
-                <span class="sidebar-label">{{ 'Clients' | translate }}</span>
-            </a>
-        </span>
 
         <div ngbDropdown class="d-inline-block">
             <a ngbDropdownToggle id="driversDropDown" class="list-group-item" style="cursor: pointer;">
@@ -29,15 +23,31 @@
 
         <div ngbDropdown class="d-inline-block">
             <a ngbDropdownToggle id="vehiclesDropDown" class="list-group-item" style="cursor: pointer;">
-                <i class="fa fa-fw fa-address-book"></i>
+                <i class="fa fa-fal fa-truck"></i>
                 <span class="sidebar-label">{{ 'Vehicles' | translate }}</span>
             </a>
-            <!-- <div ngbDropdownMenu aria-labelledby="driversDropDown">
-                <a class="dropdown-item" [routerLink]="['/drivers']" [routerLinkActive]="['router-link-active']">{{'List' | translate}}</a>
-                <a class="dropdown-item" [routerLink]="['/drivers-edit']" [routerLinkActive]="['router-link-active']">{{'Add Driver' | translate}}</a>
-                <a class="dropdown-item" [routerLink]="['/drivers-zones']" [routerLinkActive]="['router-link-active']">{{'Add Zone' | translate}}</a>
-            </div> -->
+            <div ngbDropdownMenu aria-labelledby="vehicleDropDown">
+                <a class="dropdown-item" [routerLink]="['/vehicles']" [routerLinkActive]="['router-link-active']">{{'Vehicles List' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/category']" [routerLinkActive]="['router-link-active']">{{'Categories List' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/vehicle-edit']" [routerLinkActive]="['router-link-active']">{{'Add Vehicle' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/category-edit']" [routerLinkActive]="['router-link-active']">{{'Add Category' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/vehicle-traffic']" [routerLinkActive]="['router-link-active']">{{'Add Traffic' | translate}}</a>
+                <a class="dropdown-item" [routerLink]="['/maintenancePlan-edit']" [routerLinkActive]="['router-link-active']">{{'Add Maintenance Plan' | translate}}</a>
+
+            </div>
         </div>
+
+        <div ngbDropdown class="d-inline-block">
+                <a ngbDropdownToggle id="roadDropDown" class="list-group-item" style="cursor: pointer;">
+                    <i class="fa fa-far fa-exchange"></i>
+                    <span class="sidebar-label">{{ 'Road' | translate }}</span>
+                </a>
+                <div ngbDropdownMenu aria-labelledby="roadDropDown">
+                    <a class="dropdown-item" [routerLink]="['/road']" [routerLinkActive]="['router-link-active']">{{'List' | translate}}</a>
+                    <a class="dropdown-item" [routerLink]="['/roadManual-edit']" [routerLinkActive]="['router-link-active']">{{'Add road manually' | translate}}</a>
+                    <a class="dropdown-item" [routerLink]="['/roadAutomatic-edit']" [routerLinkActive]="['router-link-active']">{{'Add road automatically' | translate}}</a>
+                </div>
+            </div>
 
         <!-- Header Fields / for small screens -->
 

@@ -5,6 +5,8 @@ import {
     DriverService,
     ZoneService,
     AuthenticationService,
+    CategoryService
+    //MaintenancePlanService,
    /*DeliveryService,
     DeliveryLineService,
     ProductService,
@@ -24,6 +26,7 @@ import {
         DriverService,
         ZoneService,
         AuthenticationService,
+        CategoryService
        /* CheckoutService,
         CurrencyService,
         DeliveryService,

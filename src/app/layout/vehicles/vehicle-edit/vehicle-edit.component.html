@@ -1,0 +1,66 @@
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit();">
+    <div class="modal-body">
+
+        <div class="form-group">
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Immatriculation' | translate}}</label>
+                    <input type="text" class="form-control" formControlName="registrationNumber">
+                </div>
+            </div>
+            <fieldset formGroupName="traffic">
+                <div class="row my-2">
+                    <div class="col-sm-12 col-md-6">
+                        <label>{{'Traffic Date' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="date">
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label class="form-check-label" style="display: block; margin-bottom: .8em;">
+                            {{'Traffic Active' | translate}} ?
+                        </label>
+                        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="active">
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" [value]="true"> Oui
+                            </label>
+                            <label ngbButtonLabel class="btn-primary">
+                                <input ngbButton type="radio" value="false"> Non
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                </div>
+            </fieldset>
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Badge Type' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select>
+                            <option *ngFor="let type of badgeTypes" [value]="badge.code">{{badge.code}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Category' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select>
+                            <option *ngFor="let cat of categories" [value]="category.name">{{category.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row my-2">
+                    <div class="col-sm-12 col-md-6">
+                        <label>{{'Technical Visite' | translate}}</label>
+                        <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #d="ngbDatepicker"/>
+                        <button (click)="d.toggle()">Calendrier</button>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

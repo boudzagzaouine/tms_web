@@ -1,11 +1,11 @@
-import { Badge } from './badge';
 import { VehicleCategory } from './vehicleCategory';
 import { Traffic } from './traffic';
 import { User } from './user';
+import { BadgeType } from './badgeType';
 export class Vehicle{
     id:number;
     registrationNumber:string;
-    badge:Badge;
+    badgeType:BadgeType;
     code:string;
     technicalVisit:Date;
 

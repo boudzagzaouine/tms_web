@@ -1,37 +1,44 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup, NgForm } from "@angular/forms";
-import { Driver, Contact, Address, Zone } from "../../../shared/models";
+import { Vehicle, VehicleCategory, DoorType, Traffic } from "../../../shared/models";
 import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { DriverService } from "../../../shared/services/http/driver.service";
-import { ZoneService } from "../../../shared/services/http/zone.service";
-import { Badge } from "../../../shared/models/badge";
-import { BadgeEditComponent } from "../badge-edit/badge-edit.component";
+import { VehicleService } from "../../../shared/services/http/vehicle.service";
+import { CategoryService } from "../../../shared/services/http/category.service";
+import { TrafficService } from "../../../shared/services/http/traffic.service";
+import { TrafficEditComponent } from "../traffic-edit/traffic-edit.component";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
+import { DriverEditComponent } from "../../drivers/driver-edit/driver-edit.component";
+import { BadgeType } from "../../../shared/models/badgeType";
 
 @Component({
-    selector: "app-driver-edit",
-    templateUrl: "./driver-edit.component.html",
-    styleUrls: ["./driver-edit.component.scss"]
+    selector: "app-vehicle-edit",
+    templateUrl: "./vehicle-edit.component.html",
+    styleUrls: ["./vehicle-edit.component.scss"],
+    providers: [CategoryService]
 })
-export class DriverEditComponent implements OnInit {
+export class VehicleEditComponent implements OnInit {
     closeResult: string;
-    driverForm: FormGroup;
+    vehicleForm: FormGroup;
+    trafficForm: FormGroup;
     isCollapsed = false;
     cardValid: string;
     @Input()
-    selectedDriver: Driver;
+    selectedVehicle: Vehicle;
     @Input()
     editMode: boolean;
 
-    badges: Array<Badge> = [];
-    zones: Array<Zone> = [];
-    drivers:Array<Driver>=[]
-    currentZone: Zone;
+    category:VehicleCategory;
+    vehicles:Array<Vehicle>=[];
+    currentTraffic:Traffic = new Traffic();
+    currentBadgeType:BadgeType = new BadgeType();
+
+    badgeTypes: Array<BadgeType> = [];
+    categories: Array<VehicleCategory> = [];
 
     constructor(
-        private driverService: DriverService,
-        private zoneService: ZoneService,
+        private vehicleService: VehicleService,
+        private categoryService: CategoryService,
         private modalService: NgbModal,
         private spinner: NgxSpinnerService,
         private toastr: ToastrService
@@ -39,10 +46,10 @@ export class DriverEditComponent implements OnInit {
 
     ngOnInit() {
         this.spinner.show();
-        this.zoneService.findAll().subscribe(
+        this.vehicleService.findAll().subscribe(
             data => {
-                console.log("Zones: ", data);
-                this.zones = data;
+                console.log("Categorie: ", data);
+                this.vehicles = data;
                 this.spinner.hide();
             },
             error => {
@@ -55,7 +62,7 @@ export class DriverEditComponent implements OnInit {
 
     initForm() {
         if (!this.editMode) {
-            this.selectedDriver = new Driver();
+            this.selectedVehicle = new Vehicle();
             // this.selectedDriver.deliveryAddress.country = 'Maroc';
         } else {
             /*console.log('Card number : ' );
@@ -65,36 +72,23 @@ export class DriverEditComponent implements OnInit {
             : 'null');*/
         }
 
-        this.currentZone = !!this.selectedDriver
-            ? this.selectedDriver.workArea
-            : null;
-        this.driverForm = new FormGroup({
-            code: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.code : ""
+        this.vehicleForm = new FormGroup({
+            registrationNumber: new FormControl(
+                !!this.selectedVehicle ? this.selectedVehicle.registrationNumber : ""
             ),
-            cin: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.cin : ""
+            technicalVisit: new FormControl(
+                !!this.selectedVehicle ? this.selectedVehicle.technicalVisit: ""
             ),
-            birthdate: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.birthDate : ""
-            ),
-            contact: new FormGroup({
-                contactName: new FormControl(
-                    !!this.selectedDriver && !!this.selectedDriver.contact
-                        ? this.selectedDriver.contact.name
-                        : ""
+            traffic: new FormGroup({
+                active: new FormControl(
+                    this.currentTraffic.active
                 ),
-
-                contactSurname: new FormControl(
-                    !!this.selectedDriver && !!this.selectedDriver.contact
-                        ? this.selectedDriver.contact.surName
-                        : ""
+                date: new FormControl(
+                    this.currentTraffic.date
                 )
-            }),
-            working: new FormControl(
-                !!this.selectedDriver ? this.selectedDriver.working : "true"
-            )
+            })
         });
+
     }
 
     private onSubmit() {
@@ -137,23 +131,21 @@ export class DriverEditComponent implements OnInit {
             this.driverService.add(this.selectedDriver);*/
     }
 
-    addDriver() {
-        const driver = new Driver();
-        driver.id = 0;
-        driver.contact.name = "Nouveau chaffeur";
-        this.drivers.push(driver);
-        console.log("chauffeur :", driver);
+    addVehicle() {
+        const vehicle = new Vehicle();
+        vehicle.id = 0;
+        vehicle.registrationNumber = "Nouveau vehicule";
+        this.vehicles.push(vehicle);
+        console.log("vehicule :", vehicle);
     }
 
-    public addBadge() {
-        let badge = new Badge();
-        badge.code = "Nouveau";
-        this.badges.push(badge);
-        console.log("badges :", this.badges);
+    public addTraffic() {
+        let traffic = new Traffic();
+        traffic.active.valueOf.toString +"Nouveau";
     }
 
-    private openBadgeModal(badge) {
-        let modal = this.modalService.open(BadgeEditComponent, {
+    private openBadgeModal(traffic) {
+        let modal = this.modalService.open(TrafficEditComponent, {
             centered: true,
             backdrop: true
         });
@@ -167,9 +159,9 @@ export class DriverEditComponent implements OnInit {
         );
     }
 
-    public selectZone(zone: Zone) {
-        if (zone) {
-            this.currentZone = zone;
+    public selectTraffic(traffic:Traffic) {
+        if (traffic) {
+            this.currentTraffic =traffic;
         }
     }
 
@@ -183,16 +175,16 @@ export class DriverEditComponent implements OnInit {
         }
     }
 
-    edit(driver) {
-        this.editMode[driver.id] = true;
+    edit(vehicle) {
+        this.editMode[vehicle.id] = true;
     }
 
-    save(driver) {
-        this.driverService.set(driver);
-        this.editMode[driver.id] = false;
+    save(vehicle) {
+        this.vehicleService.set(vehicle);
+        this.editMode[vehicle.id] = false;
     }
 
-    delete(driver) {
-        this.driverService.delete(driver);
+    delete(vehicle) {
+        this.vehicleService.delete(vehicle);
     }
 }

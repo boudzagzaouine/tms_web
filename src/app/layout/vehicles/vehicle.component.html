@@ -27,16 +27,15 @@
                         <th>{{'Visite technique' | translate}}</th>
                         <th>{{'permis de circulation' | translate}}</th>
                         <th>{{'categorie' | translate}}</th>
-                        <th style="width: 10%">{{'Actions' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let vehicle of vehiclesList; let i = index">
                         <td>{{vehicle.registrationNumber}}</td>
-                        <td>{{vehicle.badge}}</td>
+                        <td>{{vehicle.badgeType.id}}</td>
                         <td>{{vehicle.technicalVisit}}</td>
-                        <td>{{vehicle.traffic}}</td>
-                        <td>{{vehicle.category}}</td>
+                        <td>{{vehicle.drivingLicence.id}}</td>
+                        <td>{{vehicle.vehicleCategory.name}}</td>
                     </tr>
                 </tbody>
             </table>

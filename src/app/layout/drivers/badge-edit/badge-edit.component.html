@@ -1,6 +1,6 @@
 <!-- Large modal -->
-<button class="btn btn-primary btn-sm" (click)="open(content)" type="button" [disabled]="selectedBadge?.id===1">
-    <i class="fa" [ngClass]="{'fa-pencil': editMode , 'fa-plus' : !editMode}"></i>
+<button class="btn btn-primary btn-sm" (click)="open(content)" type="button">
+    <i class="fa fa-pencil"></i>
 </button>
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header bg-info">

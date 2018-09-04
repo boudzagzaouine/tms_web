@@ -1,6 +1,6 @@
-
-<app-page-header [heading]="'Edit Driver'" [icon]="'fa-users'"></app-page-header>
-<form [formGroup]="driverForm" (ngSubmit)="onSubmit();">
+<app-page-header [heading]="'Edit Driver'" [icon]="'fa-users'">
+</app-page-header>
+<form *ngIf="formReady" [formGroup]="driverForm">
     <div class="modal-body">
 
         <div class="form-group">
@@ -16,8 +16,18 @@
             </div>
             <div class="row my-2">
                 <div class="col-sm-12 col-md-6">
-                    <label>{{'Birthdate' | translate}}</label>
-                    <input type="text" class="form-control" formControlName="birthdate">
+                    <label>{{'Birth date' | translate}}</label>
+                    <div style="display: flex;flex-direction: row">
+                        <input type="text" ngbDatepicker class="form-control" formControlName="birthDate" #da="ngbDatepicker" />
+                        <button class="btn btn-primary" (click)="da.toggle()">Calendrier</button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Last Medical Visit' | translate}}</label>
+                    <div style="display: flex;flex-direction: row">
+                        <input type="text" ngbDatepicker class="form-control" formControlName="lastMedicalVisit" #db="ngbDatepicker" />
+                        <button class="btn btn-primary" (click)="db.toggle()">Calendrier</button>
+                    </div>
                 </div>
             </div>
             <fieldset formGroupName="contact">
@@ -54,8 +64,8 @@
                     <div class="badge-item" *ngFor="let badge of badges">
                         <label>{{badge.code}}</label>
                         <div class="badge-icons">
-                            <app-badge-edit [selectedBadge]="badge" [editMode]="true"></app-badge-edit>
-                            <button class="btn btn-danger btn-sm" type="button">
+                            <app-badge-edit [selectedBadge]="badge"></app-badge-edit>
+                            <button class="btn btn-danger btn-sm" type="button" (click)="removeBadge(badge)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -71,6 +81,9 @@
 
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">{{'Save' | translate}}</button>
+        <button *ngIf="!selectedDriver" type="submit" class="btn btn-danger" (click)="delete()">
+            {{'Delete' | translate}}
+        </button>
     </div>
 </form>

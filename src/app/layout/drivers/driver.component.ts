@@ -5,6 +5,7 @@ import { DriverService } from "../../shared/services/http/driver.service";
 import { routerTransition } from "../../router.animations";
 import { Driver } from "../../shared";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-driver",
@@ -21,18 +22,19 @@ export class DriverComponent implements OnInit {
     constructor(
         private driverService: DriverService,
         private spinner: NgxSpinnerService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private router: Router
     ) {}
 
     ngOnInit() {
         this.spinner.show();
-
         this.onPageChanged();
         this.driverService.driverListChanged.subscribe(data => {
-            console.log("Data: ", data);
+            console.log("Drivers: ", data);
             this.driversList = data;
         });
     }
+
     onPageChanged() {
         this.spinner.show();
         this.driverService
@@ -42,7 +44,7 @@ export class DriverComponent implements OnInit {
             .findAllPagination(this.pageNumber - 1, this.pageSize)
             .subscribe(
                 data => {
-                    console.log("Data: ", data);
+                    console.log("Drivers: ", data);
                     this.driversList = data;
                     this.spinner.hide();
                 },
@@ -53,16 +55,9 @@ export class DriverComponent implements OnInit {
             );
     }
 
-    delete(driver: Driver) {
-        console.log("Driver deleted : " + driver.code);
-        if (confirm("Êtes vous sûr de vouloir supprimer ?")) {
-            this.driverService.delete(driver);
-        }
-    }
-
     onSearchChanged(f: NgForm) {
         this.spinner.show();
-        const driverCode = f.value["searchQuary"] as string;
+        const driverCode = f.value["searchQuery"] as string;
         if (driverCode !== "") {
             this.search = "name~" + driverCode;
             this.onPageChanged();
@@ -70,5 +65,11 @@ export class DriverComponent implements OnInit {
             this.search = "";
             this.onPageChanged();
         }
+    }
+
+    editPage(driver: Driver) {
+        this.router.navigate(["/drivers-edit"], {
+            queryParams: { id: driver.id }
+        });
     }
 }

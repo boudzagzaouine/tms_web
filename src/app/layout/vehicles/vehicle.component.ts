@@ -60,7 +60,7 @@ export class VehicleComponent implements OnInit {
 
     onSearchChanged(f: NgForm) {
         this.spinner.show();
-        const driverCode = f.value["searchQuary"] as string;
+        const driverCode = f.value["searchQuery"] as string;
         if (driverCode !== "") {
             this.search = "name~" + driverCode;
             this.onPageChanged();

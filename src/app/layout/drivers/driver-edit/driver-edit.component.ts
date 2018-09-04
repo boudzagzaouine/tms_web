@@ -1,32 +1,27 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl, FormGroup, NgForm } from "@angular/forms";
 import { Driver, Contact, Address, Zone } from "../../../shared/models";
-import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { DriverService } from "../../../shared/services/http/driver.service";
-import { ZoneService } from "../../../shared/services/http/zone.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ZoneService, DriverService } from "../../../shared/services/http";
 import { Badge } from "../../../shared/models/badge";
-import { BadgeEditComponent } from "../badge-edit/badge-edit.component";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DateAdapterService } from "../../../shared/services/dateAdapter.service";
 
 @Component({
     selector: "app-driver-edit",
     templateUrl: "./driver-edit.component.html",
-    styleUrls: ["./driver-edit.component.scss"]
+    styleUrls: ["./driver-edit.component.scss"],
+    providers: [DateAdapterService]
 })
 export class DriverEditComponent implements OnInit {
-    closeResult: string;
     driverForm: FormGroup;
-    isCollapsed = false;
-    cardValid: string;
-    @Input()
+    formReady: boolean = false;
     selectedDriver: Driver;
-    @Input()
-    editMode: boolean;
-
     badges: Array<Badge> = [];
     zones: Array<Zone> = [];
-    drivers:Array<Driver>=[]
+    drivers: Array<Driver> = [];
     currentZone: Zone;
 
     constructor(
@@ -34,37 +29,43 @@ export class DriverEditComponent implements OnInit {
         private zoneService: ZoneService,
         private modalService: NgbModal,
         private spinner: NgxSpinnerService,
-        private toastr: ToastrService
-    ) {}
+        private toastr: ToastrService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private dateAdapter: DateAdapterService
+    ) {
+        this.driverForm = new FormGroup({});
+    }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.spinner.show();
-        this.zoneService.findAll().subscribe(
-            data => {
-                console.log("Zones: ", data);
-                this.zones = data;
-                this.spinner.hide();
-            },
-            error => {
-                this.spinner.hide();
-                this.toastr.error("Erreur de connexion", "Erreur");
-            }
-        );
+        await this.makeCurrentDriver();
+        await this.loadZones();
+        this.spinner.hide();
         this.initForm();
+        this.formReady = true;
+    }
+
+    async makeCurrentDriver() {
+        let id = this.route.params["id"];
+        if (isNaN(id)) {
+            this.selectedDriver = null;
+        } else {
+            let drivers = await this.driverService.findAll().toPromise();
+            this.selectedDriver = drivers.find(d => d.id === id);
+        }
+    }
+
+    async loadZones() {
+        try {
+            this.zones = await this.zoneService.findAll().toPromise();
+        } catch (error) {
+            this.toastr.error("Erreur de connexion", "Erreur");
+        }
+        console.log("Zones: ", this.zones);
     }
 
     initForm() {
-        if (!this.editMode) {
-            this.selectedDriver = new Driver();
-            // this.selectedDriver.deliveryAddress.country = 'Maroc';
-        } else {
-            /*console.log('Card number : ' );
-            console.log(this.selectedDriver != null && this.selectedDriver.cards != null
-             && this.selectedDriver.cards.length
-            ? this.selectedDriver.cards[this.selectedDriver.cards.length - 1].code
-            : 'null');*/
-        }
-
         this.currentZone = !!this.selectedDriver
             ? this.selectedDriver.workArea
             : null;
@@ -75,8 +76,13 @@ export class DriverEditComponent implements OnInit {
             cin: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.cin : ""
             ),
-            birthdate: new FormControl(
+            birthDate: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.birthDate : ""
+            ),
+            lastMedicalVisit: new FormControl(
+                !!this.selectedDriver
+                    ? this.selectedDriver.lastMedicalVisit
+                    : ""
             ),
             contact: new FormGroup({
                 contactName: new FormControl(
@@ -98,101 +104,71 @@ export class DriverEditComponent implements OnInit {
     }
 
     private onSubmit() {
-        /*if (!this.editMode) {
+        let form = this.driverForm.value;
+        console.log("form :", form);
 
+        if (!this.selectedDriver) {
             this.selectedDriver = new Driver();
-
-            this.selectedDriver.contact = new Contact();
-
-            this.selectedDriver.deliveryAddress = new Address();
-
-        } else {
-            if (this.selectedDriver.deliveryAddress == null) {
-
-                this.selectedDriver.deliveryAddress = new Address();
-            }
-            if (this.selectedDriver.contact == null) {
-
-                this.selectedDriver.contact = new Contact();
-            }
         }
 
-        this.selectedDriver.code = this.driverForm.value['code'];
-        this.selectedDriver.name = this.driverForm.value['name'];
-       // this.selectedDriver.email = this.driverForm.value['mail'];
-        this.selectedDriver.active = this.driverForm.value['active'];
-        this.selectedDriver.contact.email = this.driverForm.value['contact']['contactEmail'];
-        this.selectedDriver.contact.tel1 = this.driverForm.value['contact']['contactTel'];
-        this.selectedDriver.deliveryAddress.line1 = this.driverForm.value['address']['addressLine1'];
-        this.selectedDriver.deliveryAddress.line2 = this.driverForm.value['address']['addressLine2'];
-        this.selectedDriver.deliveryAddress.zip = this.driverForm.value['address']['addressZip'];
-        this.selectedDriver.deliveryAddress.city = this.driverForm.value['address']['addressCity'];
-        this.selectedDriver.deliveryAddress.country = this.driverForm.value['address']['addressCountry'];
-        console.log(this.driverForm.value['contact']['contactEmail']);
-        if (!this.editMode) {
-            this.selectedDriver.contact.name = this.selectedDriver.name;
-            this.selectedDriver.contact.surName = this.selectedDriver.name;
-            this.selectedDriver.deliveryAddress.code =  this.selectedDriver.deliveryAddress.city +  (new Date()).getMilliseconds();
-        }
-            this.driverService.add(this.selectedDriver);*/
-    }
+        let contact = new Contact();
+        contact.name = form["contact.contactName"];
+        contact.surName = form["contact.contactSurname"];
 
-    addDriver() {
-        const driver = new Driver();
-        driver.id = 0;
-        driver.contact.name = "Nouveau chaffeur";
-        this.drivers.push(driver);
-        console.log("chauffeur :", driver);
+        for (const property of ["code", "cin"]) {
+            this.selectedDriver[property] = form[property];
+        }
+        this.selectedDriver.workArea = this.currentZone;
+        this.selectedDriver.contact = contact;
+        this.selectedDriver.badges = this.badges;
+        this.selectedDriver.working = form["working"] === "true";
+        this.selectedDriver.upDateDate = new Date(Date.now());
+        this.selectedDriver.birthDate = this.dateAdapter.toDate(
+            form["birthDate"]
+        );
+        this.selectedDriver.lastMedicalVisit = this.dateAdapter.toDate(
+            form["lastMedicalVisit"]
+        );
+        console.log("this.selectedDriver :", this.selectedDriver);
+        this.save(this.selectedDriver);
     }
 
     public addBadge() {
         let badge = new Badge();
         badge.code = "Nouveau";
         this.badges.push(badge);
-        console.log("badges :", this.badges);
     }
 
-    private openBadgeModal(badge) {
-        let modal = this.modalService.open(BadgeEditComponent, {
-            centered: true,
-            backdrop: true
-        });
-        modal.result.then(
-            result => {
-                this.closeResult = `Closed with: ${result}`;
+    public removeBadge(badge: Badge) {
+        this.badges = this.badges.filter(b => b !== badge);
+    }
+
+    public selectZone(zone: Zone) {
+        this.currentZone = zone;
+    }
+
+    save(driver) {
+        this.spinner.show();
+        this.driverService.setManually(driver).subscribe(
+            data => {
+                this.toastr.success("Driver was saved successfully", "Save");
+                this.spinner.hide();
+                this.router.navigate(["/drivers"]);
             },
-            reason => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            error => {
+                this.toastr.error(
+                    "Driver could not be saved successfully",
+                    "Save"
+                );
+                console.log('error :', error);
+                this.spinner.hide();
             }
         );
     }
 
-    public selectZone(zone: Zone) {
-        if (zone) {
-            this.currentZone = zone;
+    delete() {
+        if (confirm("Êtes vous sûr de vouloir supprimer ?")) {
+            this.driverService.delete(this.selectedDriver);
         }
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return "by pressing ESC";
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return "by clicking on a backdrop";
-        } else {
-            return `with: ${reason}`;
-        }
-    }
-
-    edit(driver) {
-        this.editMode[driver.id] = true;
-    }
-
-    save(driver) {
-        this.driverService.set(driver);
-        this.editMode[driver.id] = false;
-    }
-
-    delete(driver) {
-        this.driverService.delete(driver);
     }
 }

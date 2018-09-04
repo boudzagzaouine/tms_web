@@ -14,34 +14,10 @@ export class BadgeEditComponent implements OnInit {
     isCollapsed = false;
     @Input()
     selectedBadge: Badge;
-    @Input()
-    editMode: boolean;
 
-    constructor(
-        private modalService: NgbModal
-    ) {}
+    constructor(private modalService: NgbModal) {}
 
     ngOnInit() {}
-
-    initForm() {
-        if (!this.editMode) {
-            this.selectedBadge = new Badge();
-        }
-
-        this.badgeForm = new FormGroup({
-            code: new FormControl(
-                !!this.selectedBadge ? this.selectedBadge.code : ""
-            ),
-            type: new FormControl(
-                !!this.selectedBadge ? this.selectedBadge.type : ""
-            ),
-            date: new FormControl(
-                !!this.selectedBadge ? this.selectedBadge.date : ""
-            )
-        });
-    }
-
-    private onSubmit() {}
 
     private open(content) {
         this.initForm();
@@ -57,6 +33,27 @@ export class BadgeEditComponent implements OnInit {
                     )}`;
                 }
             );
+    }
+
+    initForm() {
+        this.badgeForm = new FormGroup({
+            code: new FormControl(
+                !!this.selectedBadge ? this.selectedBadge.code : ""
+            ),
+            type: new FormControl(
+                !!this.selectedBadge ? this.selectedBadge.type : ""
+            ),
+            date: new FormControl(
+                !!this.selectedBadge ? this.selectedBadge.date : ""
+            )
+        });
+    }
+
+    private onSubmit() {
+        let form = this.badgeForm.value;
+        for (const property of ["code", "type", "date"]) {
+            this.selectedBadge[property] = form[property];
+        }
     }
 
     private getDismissReason(reason: any): string {

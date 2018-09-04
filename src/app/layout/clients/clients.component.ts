@@ -60,7 +60,7 @@ export class ClientsComponent implements OnInit {
 
     onSearchChanged(f: NgForm) {
         this.spinner.show();
-        const accountCode = f.value['searchQuary'] as string;
+        const accountCode = f.value['searchQuery'] as string;
         if (accountCode !== '') {
             this.search = 'name~' + accountCode;
             this.onPageChanged();

@@ -8,10 +8,11 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: "app-driver",
-    templateUrl: "./driver.component.html",
-    styleUrls: ["./driver.component.scss"],
-    animations: [routerTransition()]
+    selector: "app-roads",
+    templateUrl: "./roads.component.html",
+    styleUrls: ["./roads.component.scss"],
+    animations: [routerTransition()],
+    providers: [RoadService]
 })
 export class RoadsComponent implements OnInit {
     roadsList: Road[];

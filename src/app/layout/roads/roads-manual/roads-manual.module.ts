@@ -1,17 +1,17 @@
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { RoadsComponent } from './roads.component';
+import { RoadsManualComponent } from './roads-manual.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoadsRoutingModule } from './roads-routing.module';
+import { RoadsManualRoutingModule } from './roads-manual-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageHeaderModule } from '../../shared';
+import { PageHeaderModule } from '../../../shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
-        RoadsRoutingModule,
+        RoadsManualRoutingModule,
         PageHeaderModule,
         TranslateModule,
         FormsModule,
@@ -19,6 +19,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         NgxSpinnerModule
     ],
-    declarations: [RoadsComponent],
+    declarations: [RoadsManualComponent],
 })
-export class RoadsModule {}
+export class RoadsManualModule {}

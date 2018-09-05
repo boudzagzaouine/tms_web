@@ -1,0 +1,52 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Roads Manual'" [icon]="'fa-users'"></app-page-header>
+
+    <div class="main-div">
+        <div class="section edit">
+            <div>
+                <label>{{'Code' | translate}}</label>
+                <input type="text" class="form-control" [(ngModel)]="code">
+            </div>
+            <div>
+                <label>{{'Transport' | translate}}</label>
+                <input type="text" class="form-control" [(ngModel)]="vehicle">
+            </div>
+            <div>
+                <label>{{'Chauffeur' | translate}}</label>
+                <input type="text" class="form-control" [(ngModel)]="driver">
+            </div>
+            <div>
+                <label>{{'Date de départ' | translate}}</label>
+                <div style="display: flex;flex-direction: row">
+                    <input type="text" ngbDatepicker class="form-control" [(ngModel)]="startDate" #da="ngbDatepicker" />
+                    <button class="btn btn-primary" (click)="da.toggle()">Calendrier</button>
+                </div>
+            </div>
+        </div>
+        <div class="section orders">
+            <table class="table table-hover table-sm table-striped text-center">
+                <thead class="table-header">
+                    <tr>
+                        <th>{{'Order' | translate}}</th>
+                        <th>{{'Customer' | translate}}</th>
+                        <th>{{'Tonnage' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of orderList; let i = index">
+                        <td>(Rien)</td>
+                        <td class="text-right">
+                            <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="section details">
+            DETAILS
+        </div>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

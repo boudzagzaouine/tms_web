@@ -8,5 +8,17 @@
 .section {
     flex: 1;
     padding: .2em;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    /*border-right: 1px solid rgba(0, 0, 0, 0.1);*/
+}
+
+.pagination-wrapper {
+    margin: auto;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+a.page-link {
+    color: black!important;
 }

@@ -3,23 +3,38 @@
 
     <div class="main-div">
         <div class="section edit">
-            <div>
-                <label>{{'Code' | translate}}</label>
-                <input type="text" class="form-control" [(ngModel)]="code">
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Code' | translate}}</label>
+                    <input type="text" class="form-control" [(ngModel)]="code" disabled>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Date de départ' | translate}}</label>
+                    <div style="display: flex;flex-direction: row">
+                        <input type="text" ngbDatepicker class="form-control" [(ngModel)]="startDate" #da="ngbDatepicker" />
+                        <button class="btn btn-primary btn-sm" (click)="da.toggle()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div>
-                <label>{{'Transport' | translate}}</label>
-                <input type="text" class="form-control" [(ngModel)]="vehicle">
-            </div>
-            <div>
-                <label>{{'Chauffeur' | translate}}</label>
-                <input type="text" class="form-control" [(ngModel)]="driver">
-            </div>
-            <div>
-                <label>{{'Date de départ' | translate}}</label>
-                <div style="display: flex;flex-direction: row">
-                    <input type="text" ngbDatepicker class="form-control" [(ngModel)]="startDate" #da="ngbDatepicker" />
-                    <button class="btn btn-primary" (click)="da.toggle()">Calendrier</button>
+            <div class="row my-2">
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Chauffeur' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select class="btn btn-outline-primary" [(ngModel)]="driver">
+                            <option *ngFor="let _driver of drivers" [ngValue]="_driver">{{_driver.contact ? _driver.contact.name
+                                : '(Sans nom)'}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Transport' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select class="btn btn-outline-primary" [(ngModel)]="vehicle">
+                            <option *ngFor="let _vehicle of vehicles" [ngValue]="_vehicle">{{_vehicle.code}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,13 +48,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let order of orderList; let i = index">
+                    <tr *ngFor="let order of currentPageOrders; let i = index">
                         <td>{{order.code}}</td>
                         <td>{{order.account ? order.account.code : '---'}}</td>
                         <td>???</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="pagination-wrapper">
+                <ngb-pagination [(collectionSize)]="orderList.length" [(page)]="currentPage" [(maxSize)]="MAX_ITEM_PER_PAGE" [boundaryLinks]="true"></ngb-pagination>
+            </div>
         </div>
         <div class="section details">
             <div>

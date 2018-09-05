@@ -6,8 +6,15 @@ import { ZoneService, DriverService } from "../../../shared/services/http";
 import { Badge } from "../../../shared/models/badge";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+    ActivatedRoute,
+    Router,
+    ChildActivationEnd,
+    RoutesRecognized
+} from "@angular/router";
 import { DateAdapterService } from "../../../shared/services/dateAdapter.service";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/take";
 
 @Component({
     selector: "app-driver-edit",
@@ -44,16 +51,32 @@ export class DriverEditComponent implements OnInit {
         this.spinner.hide();
         this.initForm();
         this.formReady = true;
+        console.log("FORM READY");
     }
 
     async makeCurrentDriver() {
-        let id = this.route.params["id"];
+        let params = await this.getRouteQueries();
+        console.log("params :", params);
+        let id = Number(params["id"]);
+        console.log("id :", id);
         if (isNaN(id)) {
             this.selectedDriver = null;
         } else {
             let drivers = await this.driverService.findAll().toPromise();
+            console.log("drivers :", drivers);
             this.selectedDriver = drivers.find(d => d.id === id);
         }
+    }
+
+    getRouteQueries() {
+        return new Promise((resolve, reject) => {
+            this.route.queryParams.subscribe(
+                params => {
+                    resolve(params);
+                },
+                error => reject(error)
+            );
+        });
     }
 
     async loadZones() {
@@ -112,8 +135,8 @@ export class DriverEditComponent implements OnInit {
         }
 
         let contact = new Contact();
-        contact.name = form["contact.contactName"];
-        contact.surName = form["contact.contactSurname"];
+        contact.name = form["contact"]["contactName"];
+        contact.surName = form["contact"]["contactSurname"];
 
         for (const property of ["code", "cin"]) {
             this.selectedDriver[property] = form[property];
@@ -148,7 +171,8 @@ export class DriverEditComponent implements OnInit {
     }
 
     save(driver) {
-        this.spinner.show();
+        this.driverService.set(driver);
+        /*this.spinner.show();
         this.driverService.setManually(driver).subscribe(
             data => {
                 this.toastr.success("Driver was saved successfully", "Save");
@@ -160,10 +184,10 @@ export class DriverEditComponent implements OnInit {
                     "Driver could not be saved successfully",
                     "Save"
                 );
-                console.log('error :', error);
+                console.log("error :", error);
                 this.spinner.hide();
             }
-        );
+        );*/
     }
 
     delete() {

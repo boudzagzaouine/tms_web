@@ -4,6 +4,7 @@ import { CategoryService} from "../../../shared/services/http/category.service";
 import { routerTransition } from "../../../router.animations";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-category",
@@ -13,15 +14,14 @@ import { ToastrService } from "ngx-toastr";
 })
 export class CategoryComponent implements OnInit {
     categoryList: Array<VehicleCategory>;
-    editMode: [number, boolean];
 
     constructor(
         private categoryService: CategoryService,
         private spinner: NgxSpinnerService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private router: Router
     ) {
         this.categoryList = [];
-        this.editMode = [ 0, false ];
     }
 
     ngOnInit() {
@@ -44,24 +44,9 @@ export class CategoryComponent implements OnInit {
         });
     }
 
-    addCategory() {
-        const category = new VehicleCategory();
-        category.id = 0;
-        category.name = "Nouvelle categorie";
-        this.categoryList.push(category);
-        console.log("categorie :", category);
-    }
-
-    edit(category) {
-        this.editMode[category.id] = true;
-    }
-
-    save(category) {
-        this.categoryService.set(category);
-        this.editMode[category.id] = false;
-    }
-
-    delete(catgeory) {
-        this.categoryService.delete(catgeory);
+    editPage(vehicle: VehicleCategory) {
+        this.router.navigate(["/category-edit"], {
+            queryParams: { id: vehicle.id }
+        });
     }
 }

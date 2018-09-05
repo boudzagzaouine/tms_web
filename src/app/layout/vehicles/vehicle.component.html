@@ -27,6 +27,7 @@
                         <th>{{'Visite technique' | translate}}</th>
                         <th>{{'permis de circulation' | translate}}</th>
                         <th>{{'categorie' | translate}}</th>
+                        <th style="width: 10%">{{'Actions' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,11 @@
                         <td>{{vehicle.technicalVisit}}</td>
                         <td>{{vehicle.drivingLicence.id}}</td>
                         <td>{{vehicle.vehicleCategory.name}}</td>
+                        <td class="text-right">
+                          <button class="btn btn-primary btn-sm" (click)="editPage(vehicle)">
+                              <i class="fa fa-edit"></i>
+                          </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

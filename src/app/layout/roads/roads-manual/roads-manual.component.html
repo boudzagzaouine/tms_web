@@ -34,18 +34,35 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let order of orderList; let i = index">
-                        <td>(Rien)</td>
-                        <td class="text-right">
-                            <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                        </td>
+                        <td>{{order.code}}</td>
+                        <td>{{order.account ? order.account.code : '---'}}</td>
+                        <td>???</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="section details">
-            DETAILS
+            <div>
+                <label>{{'Tonnage Total' | translate}}</label>
+                <input type="text" class="form-control" [(ngModel)]="totalTonnage">
+            </div>
+            <label>{{'Products' | translate}}</label>
+            <div class="products">
+                <table class="table table-hover table-sm table-striped text-center">
+                    <thead class="table-header">
+                        <tr>
+                            <th>{{'Product' | translate}}</th>
+                            <th>{{'Tonnage' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of productList; let i = index">
+                            <td>(Rien)</td>
+                            <td>(Rien)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

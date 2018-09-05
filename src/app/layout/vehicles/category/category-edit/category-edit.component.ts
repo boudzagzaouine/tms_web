@@ -1,45 +1,60 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { VehicleCategory } from "../../../../shared/models";
-import { CategoryService} from "../../../../shared/services/http/category.service";
-import { routerTransition } from "../../../../router.animations";
+import { CategoryService } from "../../../../shared/services";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { FormControl, FormGroup, NgForm } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-category",
     templateUrl: "./category-edit.component.html",
-    styleUrls: ["./category-edit.component.scss"],
-    animations: [routerTransition()]
+    styleUrls: ["./category-edit.component.scss"]
 })
 export class CategoryEditComponent implements OnInit {
-    editMode: boolean;
     selectedCategory: VehicleCategory;
     categoryForm: FormGroup;
+    formReady: boolean = false;
 
     constructor(
         private categoryService: CategoryService,
         private spinner: NgxSpinnerService,
-        private toastr: ToastrService
-    ) {
+        private toastr: ToastrService,
+        private route: ActivatedRoute,
+        private router: Router,
+    ) {}
+
+    async ngOnInit() {
+        await this.makeCurrentCategory();
+        this.initForm();
+        this.formReady = true;
     }
 
-    ngOnInit() {
-        this.initForm();
+    async makeCurrentCategory() {
+        let params = await this.getRouteQueries();
+        console.log("params :", params);
+        let id = Number(params["id"]);
+        console.log("id :", id);
+        if (isNaN(id)) {
+            this.selectedCategory = null;
+        } else {
+            let categories = await this.categoryService.findAll().toPromise();
+            this.selectedCategory = categories.find(d => d.id === id);
+        }
+    }
+
+    getRouteQueries() {
+        return new Promise((resolve, reject) => {
+            this.route.queryParams.subscribe(
+                params => {
+                    resolve(params);
+                },
+                error => reject(error)
+            );
+        });
     }
 
     initForm() {
-        if (!this.editMode) {
-            this.selectedCategory = new VehicleCategory();
-            // this.selectedDriver.deliveryAddress.country = 'Maroc';
-        } else {
-            /*console.log('Card number : ' );
-            console.log(this.selectedDriver != null && this.selectedDriver.cards != null
-             && this.selectedDriver.cards.length
-            ? this.selectedDriver.cards[this.selectedDriver.cards.length - 1].code
-            : 'null');*/
-        }
-
         this.categoryForm = new FormGroup({
             name: new FormControl(
                 !!this.selectedCategory ? this.selectedCategory.name : ""
@@ -69,10 +84,19 @@ export class CategoryEditComponent implements OnInit {
                 !!this.selectedCategory ? this.selectedCategory.door : ""
             )
         });
-
     }
 
     private onSubmit() {
+        let form = this.categoryForm.value;
+        console.log("form :", form);
 
+        if (!this.selectedCategory) {
+            this.selectedCategory = new VehicleCategory();
+        }
+        for (const [key, value] of Object.entries(form)) {
+            this.selectedCategory[key] = value;
+        }
+        console.log("this.selectedCategory :", this.selectedCategory);
+        this.categoryService.set(this.selectedCategory);
     }
 }

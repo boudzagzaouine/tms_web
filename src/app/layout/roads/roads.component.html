@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Category'" [icon]="'fa-users'"></app-page-header>
+  <app-page-header [heading]="'Drivers'" [icon]="'fa-users'"></app-page-header>
 
   <div class="card mb-3 ">
       <div class="card-header">
@@ -19,34 +19,18 @@
           </div>
       </div>
       <div class="card-body table-responsive border-top-info">
-          <table class="table table-hover table-sm table-striped text-center" *ngIf="categoryList?.length; else noData">
+          <table class="table table-hover table-sm table-striped text-center" *ngIf="driversList?.length; else noData">
               <thead class="table-header">
                   <tr>
-                      <th>{{'name' | translate}}</th>
-                      <th>{{'Consumption' | translate}}</th>
-                      <th>{{'Weight' | translate}}</th>
-                      <th>{{'Width' | translate}}</th>
-                      <th>{{'Door' | translate}}</th>
-                      <th>{{'Depth' | translate}}</th>
-                      <th>{{'Tonnage' | translate}}</th>
-                      <th>{{'EmptyWeight' | translate}}</th>
-                      <th>{{'TotalWeight' | translate}}</th>
+                      <th>{{'Empty' | translate}}</th>
                       <th style="width: 10%">{{'Actions' | translate}}</th>
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let category of categoryList; let i = index">
-                      <td>{{category.name}}</td>
-                      <td>{{category.consumption}}</td>
-                      <td>{{category.weight}}</td>
-                      <td>{{category.width}}</td>
-                        <td>{{category.door}}</td>
-                      <td>{{category.depth}}</td>
-                      <td>{{category.tonnage}}</td>
-                      <td>{{category.emptyWeight}}</td>
-                      <td>{{category.totalWeight}}</td>
+                  <tr *ngFor="let road of roadsList; let i = index">
+                      <td>(Rien)</td>
                       <td class="text-right">
-                        <button class="btn btn-primary btn-sm" (click)="editPage(category)">
+                        <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
                             <i class="fa fa-edit"></i>
                         </button>
                       </td>
@@ -68,7 +52,7 @@
                   [pageSize]="pageSize" *ngIf="collectionSize > pageSize"></ngb-pagination>
           </span>
           <span class="float-right">
-              {{ 'Category' | translate }} ({{collectionSize}})
+              {{ 'Drivers' | translate }} ({{collectionSize}})
           </span>
 
       </div>

@@ -4,6 +4,6 @@ export class Badge {
     code: string;
     id: number;
     type: BadgeType;
-    driver: Driver;
+    //driver: Driver;
     date: Date;
 }

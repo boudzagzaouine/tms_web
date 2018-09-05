@@ -1,50 +1,52 @@
 import { NgForm } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
-import { VehicleService } from "../../shared/services/http/vehicle.service";
+import { RoadService } from "../../shared/services";
 import { routerTransition } from "../../router.animations";
-import { Vehicle } from "../../shared";
+import { Road } from "../../shared";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: "app-vehicle",
-    templateUrl: "./vehicle.component.html",
-    styleUrls: ["./vehicle.component.scss"],
-    animations: [routerTransition()]
+    selector: "app-roads",
+    templateUrl: "./roads.component.html",
+    styleUrls: ["./roads.component.scss"],
+    animations: [routerTransition()],
+    providers: [RoadService]
 })
-export class VehicleComponent implements OnInit {
-    vehiclesList: Vehicle[];
+export class RoadsComponent implements OnInit {
+    roadsList: Road[];
     pageNumber = 1;
     pageSize = 20;
     collectionSize: number;
     search = "";
     constructor(
-        private vehicleService: VehicleService,
+        private roadService: RoadService,
         private spinner: NgxSpinnerService,
         private toastr: ToastrService,
         private router: Router
     ) {}
 
     ngOnInit() {
+        this.spinner.show();
         this.onPageChanged();
-        this.vehicleService.driverListChanged.subscribe(data => {
-            console.log("Data: ", data);
-            this.vehiclesList = data;
+        this.roadService.roadListChanged.subscribe(data => {
+            console.log("Roads: ", data);
+            this.roadsList = data;
         });
     }
 
     onPageChanged() {
         this.spinner.show();
-        this.vehicleService
+        this.roadService
             .size()
             .subscribe(data => (this.collectionSize = data));
-        this.vehicleService
+        this.roadService
             .findAllPagination(this.pageNumber - 1, this.pageSize)
             .subscribe(
                 data => {
-                    console.log("Data: ", data);
-                    this.vehiclesList = data;
+                    console.log("Drivers: ", data);
+                    this.roadsList = data;
                     this.spinner.hide();
                 },
                 error => {
@@ -66,9 +68,9 @@ export class VehicleComponent implements OnInit {
         }
     }
 
-    editPage(vehicle: Vehicle) {
-        this.router.navigate(["/vehicle-edit"], {
-            queryParams: { id: vehicle.id }
+    editPage(driver: Road) {
+        this.router.navigate(["/drivers-edit"], {
+            queryParams: { id: driver.id }
         });
     }
 }

@@ -9,7 +9,7 @@ export class Vehicle {
     code: string;
     technicalVisit: Date;
 
-    vehicleVategory: VehicleCategory;
+    vehicleCategory: VehicleCategory;
     drivingLicence: Traffic;
 
     creationDate: Date;

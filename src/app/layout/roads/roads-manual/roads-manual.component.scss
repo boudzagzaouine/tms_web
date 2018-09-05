@@ -1,0 +1,11 @@
+.main-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1em;
+}
+
+.section {
+    flex: 1;
+    margin: .2em;
+}

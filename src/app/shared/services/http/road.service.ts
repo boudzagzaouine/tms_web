@@ -1,29 +1,29 @@
 import { Injectable } from "@angular/core";
 import "rxjs/add/operator/map";
 import { ProxyService } from "./proxy.service";
-import { Vehicle } from "../../models/vehicle";
+import { Road } from "../../models";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable()
-export class VehicleService {
-    controller = "vehicles";
+export class RoadService {
+    controller = "roads";
 
-    private vehicleList: Vehicle[] = [];
+    private roadList: Road[] = [];
 
-    driverListChanged = new Subject<Vehicle[]>();
+    roadListChanged = new Subject<Road[]>();
     constructor(private proxy: ProxyService, private toastr: ToastrService) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.vehicleList = data;
-            this.driverListChanged.next(this.vehicleList);
+            this.roadList = data;
+            this.roadListChanged.next(this.roadList);
         });
     }
 
-    findAll(): Observable<Vehicle[]> {
-        console.log("from vehicle service findAll");
+    findAll(): Observable<Road[]> {
+        console.log("from driver service findAll");
         return this.proxy.findAll(this.controller);
     }
 
@@ -31,7 +31,7 @@ export class VehicleService {
         return this.proxy.find(this.controller, search);
     }
 
-    findById(id: number): Observable<Vehicle> {
+    findById(id: number): Observable<Road> {
         // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
         return this.proxy.findById(this.controller, id);
     }
@@ -47,30 +47,13 @@ export class VehicleService {
     findPagination(page: number, size: number, search: string) {
         return this.proxy.findPagination(this.controller, search, page, size);
     }
+
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
 
-    set(vehicle: Vehicle): Vehicle {
-        this.proxy.set(this.controller, vehicle).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success("Item was saved successfully", "Save");
-                return data;
-            },
-            error => {
-                console.log("error :", error);
-                this.toastr.error(
-                    "Item could not be saved successfully",
-                    "Save"
-                );
-            }
-        );
-        return null;
-    }
-
-    add(vehicle: Vehicle): Vehicle {
-        this.proxy.add(this.controller, vehicle).subscribe(
+    set(driver: Road): Road {
+        this.proxy.set(this.controller, driver).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success("Item was saved successfully", "Save");
@@ -85,8 +68,28 @@ export class VehicleService {
         return null;
     }
 
-    delete(vehicle: Vehicle) {
-        this.proxy.delete(this.controller, vehicle.id).subscribe(
+    setManually(driver: Road) {
+        return this.proxy.set(this.controller, driver);
+    }
+
+    add(driver: Road): Road {
+        this.proxy.add(this.controller, driver).subscribe(
+            data => {
+                this.emitChanges();
+                this.toastr.success("Item was saved successfully", "Save");
+                return data;
+            },
+            error =>
+                this.toastr.error(
+                    "Item could not be saved successfully",
+                    "Save"
+                )
+        );
+        return null;
+    }
+
+    delete(driver: Road) {
+        this.proxy.delete(this.controller, driver.id).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success(

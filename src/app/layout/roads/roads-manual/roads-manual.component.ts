@@ -53,7 +53,7 @@ export class RoadsManualComponent implements OnInit {
         this.code = String(1).padStart(4,"0");
 
         for (const [i, item] of Object.entries(this.orderList)) {
-            if (i % this.MAX_ITEM_PER_PAGE === 0) {
+            if ((i as any) % this.MAX_ITEM_PER_PAGE === 0) {
                 console.log("PUSH");
                 this.pageOrders.push([]);
             }

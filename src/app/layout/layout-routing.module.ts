@@ -24,7 +24,7 @@ const routes: Routes = [
             { path: 'category-edit', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'},
             { path: 'category-edit/:id', loadChildren: './vehicles/category/category-edit/category-edit.module#VehicleCategoryEditModule'},
             { path: 'mtnplans', loadChildren: './vehicles/mtnplans/mtnplan.module#MtnPlanModule'},
-            { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'}
+            { path: 'mtnplans-edit', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'},
             { path: 'mtnplans-edit/:id', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'},
         
             { path: 'roads', loadChildren: './roads/roads.module#RoadsModule'},

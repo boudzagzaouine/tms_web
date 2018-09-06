@@ -11,14 +11,10 @@
     /*border-right: 1px solid rgba(0, 0, 0, 0.1);*/
 }
 
-.pagination-wrapper {
-    margin: auto;
-}
-
-.pagination {
+::ng-deep .pagination {
     justify-content: center;
 }
 
-a.page-link {
+::ng-deep a.page-link {
     color: black!important;
 }

@@ -31,7 +31,7 @@ export class RoadsManualComponent implements OnInit {
     vehicles: Array<Vehicle> = [];
     drivers: Array<Driver> = [];
 
-    MAX_ITEM_PER_PAGE: number = 7;
+    MAX_ITEM_PER_PAGE: number = 5;
     currentPage: number = 1;
     pageOrders: Array<Array<any>> = [];
     currentPageOrders: Array<any>;

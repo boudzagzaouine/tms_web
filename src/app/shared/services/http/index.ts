@@ -9,4 +9,6 @@ export * from "./maintenancePlan.service";
 export * from "./badgeTypes.service";
 export * from "./road.service";
 export * from "./saleOrder.service";
+export * from "./maintenanceStates.service";
+export * from "./typeMaintenance.service";
 // end:ng42.barrel

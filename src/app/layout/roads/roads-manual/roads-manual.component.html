@@ -39,47 +39,61 @@
             </div>
         </div>
         <div class="section orders">
-            <table class="table table-hover table-sm table-striped text-center">
-                <thead class="table-header">
-                    <tr>
-                        <th>{{'Order' | translate}}</th>
-                        <th>{{'Customer' | translate}}</th>
-                        <th>{{'Tonnage' | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let order of currentPageOrders; let i = index">
-                        <td>{{order.code}}</td>
-                        <td>{{order.account ? order.account.code : '---'}}</td>
-                        <td>???</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pagination-wrapper">
-                <ngb-pagination [(collectionSize)]="orderList.length" [(page)]="currentPage" [(maxSize)]="MAX_ITEM_PER_PAGE" [boundaryLinks]="true"></ngb-pagination>
+            <div class="table-wrapper-scroll-y">
+                <table class="table table-bordered table-sm text-center">
+                    <thead class="table-header">
+                        <tr>
+                            <th *ngFor="let header of headers">
+                                <div class="th-item">
+                                    <span class="th-item-text">{{header.text | translate}}</span>
+                                    <i *ngIf="header.showSort" class="fa th-item-tool" [ngClass]="headerSortIcon(header.text)" (click)="changeSortState(header.text)"></i>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orderList; let i = index">
+                            <td>
+                                <input type="checkbox" [(ngModel)]="selectedOrders[order.code]" (change)="updateProductList()">
+                            </td>
+                            <td>{{order.code}}</td>
+                            <td>{{order.account ? order.account.code : '---'}}</td>
+                            <td>{{getOrderTonnage(order)}}</td>
+                            <td>{{getOrderDate(order)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 
+                <div class="pagination-wrapper">
+                    <ngb-pagination [(collectionSize)]="orderList.length" [(page)]="currentPage" [(maxSize)]="MAX_ITEM_PER_PAGE" [boundaryLinks]="true"></ngb-pagination>
+                </div>
+                -->
             </div>
         </div>
         <div class="section details">
             <div>
-                <label>{{'Tonnage Total' | translate}}</label>
-                <input type="text" class="form-control" [(ngModel)]="totalTonnage">
+                <label>{{'Tonnage Total:' | translate}}</label>
+                <input type="number" class="form-control" style="width: auto; display: inline;"
+                [(ngModel)]="totalTonnage" disabled>
             </div>
             <label>{{'Products' | translate}}</label>
             <div class="products">
-                <table class="table table-hover table-sm table-striped text-center">
-                    <thead class="table-header">
-                        <tr>
-                            <th>{{'Product' | translate}}</th>
-                            <th>{{'Tonnage' | translate}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of productList; let i = index">
-                            <td>(Rien)</td>
-                            <td>(Rien)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper-scroll-y">
+                    <table class="table table-hover table-sm table-striped text-center">
+                        <thead class="table-header">
+                            <tr>
+                                <th>{{'Product' | translate}}</th>
+                                <th>{{'Tonnage' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let line of productList; let i = index">
+                                <td>{{line.product.code}}</td>
+                                <td>{{line.quantity}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

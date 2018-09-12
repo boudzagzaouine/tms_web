@@ -1,4 +1,4 @@
-<form [formGroup]="planForm" (ngSubmit)="onSubmit();">
+<form *ngIf="!!formReady" [formGroup]="planForm">
     <div class="modal-body">
 
         <div class="form-group">
@@ -9,13 +9,13 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Description' | translate}}</label>
-                    <input type="number" class="form-control" formControlName="descriptif">
+                    <input type="text" class="form-control" formControlName="descriptif">
                 </div>
             </div>
             <div class="row my-2">
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Title' | translate}}</label>
-                    <input type="number" class="form-control" formControlName="title">
+                    <input type="text" class="form-control" formControlName="title">
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <label>{{'Date' | translate}}</label>
@@ -26,19 +26,27 @@
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-sm-12 col-md-6">
-                    <label>{{'State' | translate}}</label>
+                <div class="col-sm-12 col-md-4">
+                    <label>{{'Vehicle' | translate}}</label>
                     <div style="display: inline-block;">
-                        <select class="btn btn-outline-primary" [(ngModel)]="currentState" [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let state of states" [ngValue]="state.code">{{state.code}}</option>
+                        <select class="btn btn-outline-primary" [(ngModel)]="currentVehicle" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle">{{vehicle.code}}</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
+                    <label>{{'State' | translate}}</label>
+                    <div style="display: inline-block;">
+                        <select class="btn btn-outline-primary" [(ngModel)]="currentState" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let state of states" [ngValue]="state">{{state.code}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
                     <label>{{'Type' | translate}}</label>
                     <div style="display: inline-block;">
                         <select class="btn btn-outline-primary" [(ngModel)]="currentType" [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let type of types" [ngValue]="type.code">{{type.code}}</option>
+                            <option *ngFor="let type of types" [ngValue]="type">{{type.type}}</option>
                         </select>
                     </div>
                 </div>
@@ -47,6 +55,6 @@
 
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Save</button>
     </div>
 </form>

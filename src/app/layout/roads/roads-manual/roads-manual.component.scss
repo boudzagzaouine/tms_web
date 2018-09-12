@@ -7,7 +7,7 @@
 
 .section {
     flex: 1;
-    padding: .2em;
+    padding: 0.2em;
     /*border-right: 1px solid rgba(0, 0, 0, 0.1);*/
 }
 
@@ -16,5 +16,34 @@
 }
 
 ::ng-deep a.page-link {
-    color: black!important;
+    color: black !important;
 }
+
+::ng-deep .table-wrapper-scroll-y {
+    display: block;
+    max-height: 150px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+table {
+    background-color: white;
+}
+
+.th-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.th-item-text {
+    display: flex;
+    flex: 2;
+}
+
+.th-item-tool {
+    display: flex;
+    align-self: center;
+    padding: .2em;
+    cursor: pointer;
+}
+

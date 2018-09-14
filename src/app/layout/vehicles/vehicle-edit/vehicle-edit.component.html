@@ -5,11 +5,15 @@
 
         <div class="form-group">
             <div class="row my-2">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-3">
+                    <label>{{'Code' | translate}}</label>
+                    <input type="text" class="form-control" formControlName="code">
+                </div>
+                <div class="col-sm-12 col-md-3">
                     <label>{{'Immatriculation' | translate}}</label>
                     <input type="text" class="form-control" formControlName="registrationNumber">
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-3">
                     <label>{{'Technical Visite' | translate}}</label>
                     <div style="display: flex;flex-direction: row">
                         <input type="text" ngbDatepicker class="form-control" formControlName="technicalVisit" #da="ngbDatepicker" />
@@ -32,7 +36,7 @@
                         </label>
                         <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="active">
                             <label ngbButtonLabel class="btn-primary">
-                                <input ngbButton type="radio" [value]="true"> Oui
+                                <input ngbButton type="radio" value="true"> Oui
                             </label>
                             <label ngbButtonLabel class="btn-primary">
                                 <input ngbButton type="radio" value="false"> Non

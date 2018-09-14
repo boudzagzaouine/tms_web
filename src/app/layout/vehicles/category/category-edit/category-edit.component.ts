@@ -16,6 +16,8 @@ export class CategoryEditComponent implements OnInit {
     categoryForm: FormGroup;
     formReady: boolean = false;
 
+    currentDoor: string;
+
     constructor(
         private categoryService: CategoryService,
         private spinner: NgxSpinnerService,
@@ -80,10 +82,8 @@ export class CategoryEditComponent implements OnInit {
             totalWeight: new FormControl(
                 !!this.selectedCategory ? this.selectedCategory.totalWeight : ""
             ),
-            door: new FormControl(
-                !!this.selectedCategory ? this.selectedCategory.door : ""
-            )
         });
+        this.currentDoor = this.selectedCategory ? this.selectedCategory.door : "";
     }
 
     private onSubmit() {
@@ -96,6 +96,7 @@ export class CategoryEditComponent implements OnInit {
         for (const [key, value] of Object.entries(form)) {
             this.selectedCategory[key] = value;
         }
+        this.selectedCategory.door = this.currentDoor;
         console.log("this.selectedCategory :", this.selectedCategory);
         this.categoryService.set(this.selectedCategory);
     }

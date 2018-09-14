@@ -21,4 +21,4 @@ export class Road {
     creationDate: Date;
     creationUser: User;
     upDateDate: Date;
-}
+};

@@ -15,6 +15,7 @@ import {
 import { DateAdapterService } from "../../../shared/services/dateAdapter.service";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/take";
+import { Vacation } from "../../../shared/models/vacation";
 
 @Component({
     selector: "app-driver-edit",
@@ -29,7 +30,9 @@ export class DriverEditComponent implements OnInit {
     badges: Array<Badge> = [];
     zones: Array<Zone> = [];
     drivers: Array<Driver> = [];
+
     currentZone: Zone;
+    currentVacation: Vacation;
 
     constructor(
         private driverService: DriverService,
@@ -92,6 +95,9 @@ export class DriverEditComponent implements OnInit {
         this.currentZone = !!this.selectedDriver
             ? this.selectedDriver.workArea
             : null;
+        this.currentVacation = !!this.selectedDriver
+            ? this.selectedDriver.vacation
+            : null;
         this.driverForm = new FormGroup({
             code: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.code : ""
@@ -120,8 +126,28 @@ export class DriverEditComponent implements OnInit {
                         : ""
                 )
             }),
+            vacation: new FormGroup({
+                type: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.vacation
+                        ? this.selectedDriver.vacation.type
+                        : ""
+                ),
+                begin: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.vacation
+                        ? this.selectedDriver.vacation.begin
+                        : ""
+                ),
+                end: new FormControl(
+                    !!this.selectedDriver && !!this.selectedDriver.vacation
+                        ? this.selectedDriver.vacation.end
+                        : ""
+                )
+            }),
             working: new FormControl(
                 !!this.selectedDriver ? this.selectedDriver.working : "true"
+            ),
+            commission: new FormControl(
+                !!this.selectedDriver ? this.selectedDriver.commission : 0
             )
         });
     }
@@ -138,7 +164,7 @@ export class DriverEditComponent implements OnInit {
         contact.name = form["contact"]["contactName"];
         contact.surName = form["contact"]["contactSurname"];
 
-        for (const property of ["code", "cin"]) {
+        for (const property of ["code", "cin", "commission"]) {
             this.selectedDriver[property] = form[property];
         }
         this.selectedDriver.workArea = this.currentZone;
@@ -152,6 +178,13 @@ export class DriverEditComponent implements OnInit {
         this.selectedDriver.lastMedicalVisit = this.dateAdapter.toDate(
             form["lastMedicalVisit"]
         );
+
+        let vacation = new Vacation();
+        vacation.type = form["vacation"]["type"];
+        vacation.begin = form["vacation"]["begin"];
+        vacation.end = form["vacation"]["end"];
+        this.selectedDriver.vacation = vacation;
+
         console.log("this.selectedDriver :", this.selectedDriver);
         this.save(this.selectedDriver);
     }

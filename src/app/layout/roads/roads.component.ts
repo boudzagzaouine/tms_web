@@ -45,7 +45,7 @@ export class RoadsComponent implements OnInit {
             .findAllPagination(this.pageNumber - 1, this.pageSize)
             .subscribe(
                 data => {
-                    console.log("Drivers: ", data);
+                    console.log("Roads: ", data);
                     this.roadsList = data;
                     this.spinner.hide();
                 },

@@ -45,11 +45,15 @@
             <div class="row my-2">
                 <div class="col-sm-12 col-md-6">
                     <label>{{'WorkPlace' | translate}}</label>
-                    <div style="display: inline-block;">
+                    <div>
                         <select class="btn btn-outline-primary" [(ngModel)]="currentZone" [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let zone of zones" [ngValue]="zone">{{zone.name}}</option>
                         </select>
                     </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>{{'Commission' | translate}}</label>
+                    <input type="number" class="form-control" formControlName="commission">
                 </div>
             </div>
             <div class="row my-2">

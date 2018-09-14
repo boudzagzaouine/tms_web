@@ -22,16 +22,18 @@
             <table class="table table-hover table-sm table-striped text-center" *ngIf="vehiclesList?.length; else noData">
                 <thead class="table-header">
                     <tr>
+                        <th>{{'Code' | translate}}</th>
                         <th>{{'Immatriculation' | translate}}</th>
                         <th>{{'Badge' | translate}}</th>
                         <th>{{'Visite technique' | translate}}</th>
-                        <th>{{'permis de circulation' | translate}}</th>
-                        <th>{{'categorie' | translate}}</th>
+                        <th>{{'Permis de circulation' | translate}}</th>
+                        <th>{{'Categorie' | translate}}</th>
                         <th style="width: 10%">{{'Actions' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let vehicle of vehiclesList; let i = index">
+                        <td>{{vehicle.code}}</td>
                         <td>{{vehicle.registrationNumber}}</td>
                         <td>{{vehicle.badgeType.id}}</td>
                         <td>{{vehicle.technicalVisit | date}}</td>

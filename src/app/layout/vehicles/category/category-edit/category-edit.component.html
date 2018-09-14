@@ -46,9 +46,10 @@
                 <label class="form-check-label" style="display: block; margin-bottom: .8em;">
                     {{'Door' | translate}}
                 </label>
-                <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="door">
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic"
+                [(ngModel)]="currentDoor" [ngModelOptions]="{standalone: true}">
                     <label ngbButtonLabel class="btn-primary">
-                        <input ngbButton type="radio" [value]="side"> {{'Side' | translate}}
+                        <input ngbButton type="radio" value="side"> {{'Side' | translate}}
                     </label>
                     <label ngbButtonLabel class="btn-primary">
                         <input ngbButton type="radio" value="back"> {{'Back' | translate}}

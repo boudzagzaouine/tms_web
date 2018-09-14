@@ -28,7 +28,8 @@ const routes: Routes = [
             { path: 'mtnplans-edit/:id', loadChildren: './vehicles/mtnplans/mtnplans-edit/mtnplan-edit.module#MtnPlanEditModule'},
         
             { path: 'roads', loadChildren: './roads/roads.module#RoadsModule'},
-            { path: 'roads-manual', loadChildren: './roads/roads-manual/roads-manual.module#RoadsManualModule'}
+            { path: 'roads-manual', loadChildren: './roads/roads-manual/roads-manual.module#RoadsManualModule'},
+            { path: 'roads-auto', loadChildren: './roads/roads-auto/roads-auto.module#RoadsAutoModule'}
         ]
     }
 ];

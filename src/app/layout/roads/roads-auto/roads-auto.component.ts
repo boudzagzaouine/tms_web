@@ -15,13 +15,13 @@ import { Router } from "@angular/router";
 import { SaleOrder } from "../../../shared/models/saleOrder";
 
 @Component({
-    selector: "app-roads-manual",
-    templateUrl: "./roads-manual.component.html",
-    styleUrls: ["./roads-manual.component.scss"],
+    selector: "app-roads-auto",
+    templateUrl: "./roads-auto.component.html",
+    styleUrls: ["./roads-auto.component.scss"],
     animations: [routerTransition()],
     providers: [RoadService, SaleOrderService]
 })
-export class RoadsManualComponent implements OnInit {
+export class RoadsAutoComponent implements OnInit {
     code: string;
     road: Road;
     driver: Driver;

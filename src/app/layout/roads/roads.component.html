@@ -19,16 +19,26 @@
           </div>
       </div>
       <div class="card-body table-responsive border-top-info">
-          <table class="table table-hover table-sm table-striped text-center" *ngIf="driversList?.length; else noData">
+          <table class="table table-hover table-sm table-striped text-center" *ngIf="roadsList?.length; else noData">
               <thead class="table-header">
                   <tr>
-                      <th>{{'Empty' | translate}}</th>
+                      <th>{{'Code' | translate}}</th>
+                      <th>{{'Duration' | translate}}</th>
+                      <th>{{'Cost' | translate}}</th>
+                      <th>{{'Distance' | translate}}</th>
+                      <th>{{'Driver Code' | translate}}</th>
+                      <th>{{'State' | translate}}</th>
                       <th style="width: 10%">{{'Actions' | translate}}</th>
                   </tr>
               </thead>
               <tbody>
                   <tr *ngFor="let road of roadsList; let i = index">
-                      <td>(Rien)</td>
+                      <td>{{road.code}}</td>
+                      <th>{{road.duration}}</th>
+                      <th>{{road.cost}}</th>
+                      <th>{{road.distance}}</th>
+                      <th>{{road.driver ? road.driver.code : "---"}}</th>
+                      <th>{{road.state ? road.state.state : "---"}}</th>
                       <td class="text-right">
                         <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
                             <i class="fa fa-edit"></i>

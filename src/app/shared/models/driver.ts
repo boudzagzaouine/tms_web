@@ -14,6 +14,7 @@ export class Driver {
     workArea: Zone;
     commission: number;
     contact: Contact;
+    vacation: Vacation;
     creationDate: Date;
     creationUser: User;
     upDateDate: Date;

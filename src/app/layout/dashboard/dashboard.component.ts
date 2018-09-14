@@ -1,17 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { VehicleService, RoadService, DriverService } from "../../shared/services";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    animations: [routerTransition()]
+    animations: [routerTransition()],
+    providers: [VehicleService, RoadService, DriverService]
 })
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
 
-    constructor() {
+    driversCount: number;
+    vehiclesCount: number;
+    roadsCount: number;
+
+    constructor(
+        private driverService: DriverService,
+        private vehicleService: VehicleService,
+        private roadService: RoadService
+    ) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
@@ -52,7 +62,15 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.loadCounts();
+    }
+
+    async loadCounts() {
+        this.driversCount = await this.driverService.size().toPromise();
+        this.vehiclesCount = await this.vehicleService.size().toPromise();
+        this.roadsCount = await this.roadService.size().toPromise();
+    }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);

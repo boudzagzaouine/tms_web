@@ -90,6 +90,9 @@ export class VehicleEditComponent implements OnInit {
 
     initForm() {
         this.vehicleForm = new FormGroup({
+            code: new FormControl(
+                !!this.selectedVehicle ? this.selectedVehicle.code : ""
+            ),
             registrationNumber: new FormControl(
                 !!this.selectedVehicle
                     ? this.selectedVehicle.registrationNumber
@@ -115,6 +118,7 @@ export class VehicleEditComponent implements OnInit {
         if (!this.selectedVehicle) {
             this.selectedVehicle = new Vehicle();
         }
+        this.selectedVehicle.code = form["code"];
         this.selectedVehicle.registrationNumber = form["registrationNumber"];
         this.selectedVehicle.technicalVisit = this.dateAdapter.toDate(
             form["technicalVisit"]

@@ -1,71 +1,108 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Roads'" [icon]="'fa-users'"></app-page-header>
+    <app-page-header [heading]="'Roads'" [icon]="'fa-users'"></app-page-header>
 
-  <div class="card mb-3 ">
-      <div class="card-header">
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{'Orders' | translate }}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="table-wrapper-scroll-y">
+                <table class="table table-bordered table-sm text-center">
+                    <thead class="table-header">
+                        <tr>
+                            <th>{{'Code' | translate}}</th>
+                            <th>{{'Customer' | translate}}</th>
+                            <th>{{'Tonnage' | translate}}</th>
+                            <th>{{'Date' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orderList; let i = index">
+                            <td>{{order.code}}</td>
+                            <td>{{order.account ? order.account.code : '---'}}</td>
+                            <td>{{getOrderTonnage(order)}}</td>
+                            <td>{{getOrderDate(order)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
 
-          <div class="form align-content-end float-left">
-              <form role="form" #f="ngForm">
-                  <div class="form-group">
-                      <div class="row">
-                          <div class="col-12">
-                              <div class="input-group">
-                                  <input type="text" class="form-control" name="searchQuery" ngModel required (keyup)="onSearchChanged(f)">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </form>
-          </div>
-      </div>
-      <div class="card-body table-responsive border-top-info">
-          <table class="table table-hover table-sm table-striped text-center" *ngIf="roadsList?.length; else noData">
-              <thead class="table-header">
-                  <tr>
-                      <th>{{'Code' | translate}}</th>
-                      <th>{{'Duration' | translate}}</th>
-                      <th>{{'Cost' | translate}}</th>
-                      <th>{{'Distance' | translate}}</th>
-                      <th>{{'Driver Code' | translate}}</th>
-                      <th>{{'State' | translate}}</th>
-                      <th style="width: 10%">{{'Actions' | translate}}</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let road of roadsList; let i = index">
-                      <td>{{road.code}}</td>
-                      <th>{{road.duration}}</th>
-                      <th>{{road.cost}}</th>
-                      <th>{{road.distance}}</th>
-                      <th>{{road.driver ? road.driver.code : "---"}}</th>
-                      <th>{{road.state ? road.state.state : "---"}}</th>
-                      <td class="text-right">
-                        <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+    <div class="card mb-3 ">
+        <div class="card-header">
 
-          <ng-template #noData>
-              <div class="container text-center">
-                  <span class="display-2">{{'No Records' | translate}}</span>
-              </div>
-          </ng-template>
+            <div class="form align-content-end float-left">
+                <form role="form" #f="ngForm">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="searchQuery" ngModel required (keyup)="onSearchChanged(f)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-body table-responsive border-top-info">
+            <table class="table table-hover table-sm table-striped text-center" *ngIf="roadsList?.length; else noData">
+                <thead class="table-header">
+                    <tr>
+                        <th>{{'Code' | translate}}</th>
+                        <th>{{'Duration' | translate}}</th>
+                        <th>{{'Cost' | translate}}</th>
+                        <th>{{'Distance' | translate}}</th>
+                        <th>{{'Driver Code' | translate}}</th>
+                        <th>{{'State' | translate}}</th>
+                        <th style="width: 10%">{{'Actions' | translate}}</th>
+                        <th style="width: 10%">{{'Details' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let road of roadsList; let i = index">
+                        <td>{{road.code}}</td>
+                        <th>{{road.duration}}</th>
+                        <th>{{road.cost}}</th>
+                        <th>{{road.distance}}</th>
+                        <th>{{road.driver ? road.driver.code : "---"}}</th>
+                        <th>{{road.state ? road.state.state : "---"}}</th>
+                        <td class="text-right">
+                            <button class="btn btn-primary btn-sm" (click)="editRoad(road)">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-primary btn-sm" (click)="seeDetails(content, road)">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-      </div>
+            <ng-template #noData>
+                <div class="container text-center">
+                    <span class="display-2">{{'No Records' | translate}}</span>
+                </div>
+            </ng-template>
 
-      <div class="card-footer">
-          <span class="float-left">
-              <ngb-pagination [collectionSize]="collectionSize" [(page)]="pageNumber" [directionLinks]="false" (pageChange)="onPageChanged()"
-                  [pageSize]="pageSize" *ngIf="collectionSize > pageSize"></ngb-pagination>
-          </span>
-          <span class="float-right">
-              {{ 'Roads' | translate }} ({{collectionSize}})
-          </span>
+        </div>
 
-      </div>
-  </div>
+        <div class="card-footer">
+            <span class="float-left">
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="pageNumber" [directionLinks]="false" (pageChange)="onPageChanged()"
+                    [pageSize]="pageSize" *ngIf="collectionSize > pageSize"></ngb-pagination>
+            </span>
+            <span class="float-right">
+                {{ 'Roads' | translate }} ({{collectionSize}})
+            </span>
+
+        </div>
+    </div>
 </div>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

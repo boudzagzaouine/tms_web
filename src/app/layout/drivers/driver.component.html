@@ -29,7 +29,6 @@
                       <th>{{'Last Medical Visit' | translate}}</th>
                       <th>{{'Work area' | translate}}</th>
                       <th>{{'Vacation' | translate}}</th>
-                      <th>{{'Zone' | translate}}</th>
                       <th>{{'Commission' | translate}}</th>
                       <th>{{'Active' | translate}}</th>
                       <th style="width: 10%">{{'Actions' | translate}}</th>
@@ -40,12 +39,11 @@
                       <td>{{driver.code}}</td>
                       <td>{{driver.cin}}</td>
                       <td>{{driver?.contact?.email}}</td>
-                      <td>{{driver.birthDate }}</td>
-                      <td>{{driver.lastMedicalVisit}}</td>
+                      <td>{{driver.birthDate | date}}</td>
+                      <td>{{driver.lastMedicalVisit | date}}</td>
                       <td>{{driver?.workArea?.name}}</td>
                       <td>{{driver?.vacation?.type}}</td>
-                      <td>{{driver?.zone?.name}}</td>
-                      <td>{{driver.commission}}</td>
+                      <td>{{driver?.commission}}</td>
                       <td>
                           <input type="checkbox" [checked]="driver.working" disabled="true" />
                       </td>

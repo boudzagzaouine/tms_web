@@ -34,7 +34,7 @@
                     <tr *ngFor="let vehicle of vehiclesList; let i = index">
                         <td>{{vehicle.registrationNumber}}</td>
                         <td>{{vehicle.badgeType.id}}</td>
-                        <td>{{vehicle.technicalVisit}}</td>
+                        <td>{{vehicle.technicalVisit | date}}</td>
                         <td>{{vehicle.drivingLicence.id}}</td>
                         <td>{{vehicle.vehicleCategory.name}}</td>
                         <td class="text-right">

@@ -1,47 +1,20 @@
-import { ProxyService } from './services/http/proxy.service';
-import { UserService } from './services/http/user.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
-import { NumberDirective } from './directives';
-import {
-    AccountService,
-    AuthenticationService,
-    AdminService,
-    DriverService,
-    VehicleService,
-    CategoryService,
-    ZoneService,
-    MaintenancePlanService
-   } from './services';
+
 
 
 @NgModule({
-    imports: [
-        CommonModule
-    ],
-
-    declarations: [ NumberDirective],
-    exports: [
-         NumberDirective
-    ]
-
+  declarations: [],
+  imports: [
+    CommonModule
+  ]
 })
 export class SharedModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-          ngModule: SharedModule,
-          providers: [
-            AccountService,
-            DriverService,
-            ZoneService,
-            CategoryService,
-            MaintenancePlanService,
-            AuthenticationService,
-            VehicleService,
-            AdminService,
-            UserService,
-            ProxyService
-        ]};
-      }
- }
+  static forRoot(): ModuleWithProviders {
+    return {
+        ngModule: SharedModule,
+        providers: []
+    };
+  }
+}

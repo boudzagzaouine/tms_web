@@ -1,4 +1,7 @@
+import { UserGroup } from './user-group';
+import { SaleOrder } from './sale-order';
 import { Owner } from './owner';
+import { Agency } from './agency';
 
 export class User {
     id: number;
@@ -15,7 +18,8 @@ export class User {
     isResponsible: boolean;
     owner: Owner;
     type: number;
-    agencies: any;
+    agency: Agency;
     columns: string;
-    userGroup: any;
+    saleOrders: SaleOrder[];
+    userGroup: UserGroup;
 }

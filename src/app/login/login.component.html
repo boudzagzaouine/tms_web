@@ -1,33 +1,29 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>Gestion de transport</h1>
-
-            <form role="form" (ngSubmit)="onLogin(f)"  #f="ngForm" >
-                <div class="form-content">
-                    <div class="form-group">
-                        <input type="email"  name="email" class="form-control input-underline input-lg"
-                        placeholder="Email" ngModel required autocomplete="email">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg"
-                         placeholder="Password" name="password" ngModel required autocomplete="current-password">
-                    </div>
-                </div>
-                <button class="btn btn-primary rounded-btn btn-lg"
-                [disabled]="f.invalid"> Log in </button>
-                &nbsp;
-                <!--
-                    <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
-                -->
-            </form>
-
-            <div class="m-3">
-                <span style="color: red">{{errorMessage}}</span>
-            </div>
-
-        </div>
+<div class="content" style="margin-top: 10%;">
+  <div class="brand" >
+    <a class="link" routerLink="/index">EMS-TMS</a>
+  </div>
+  <form id="login-form" (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <h2 class="login-title">Log in</h2>
+    <div class="form-group">
+      <div class="input-group-icon right">
+        <div class="input-icon"><i class="fa fa-envelope"></i></div>
+        <input  pInputText  class="form-control" type="email" name="email" placeholder="Email" autocomplete="off" ngModel>
+      </div>
     </div>
+    <div class="form-group">
+      <div class="input-group-icon right">
+        <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
+        <input pInputText  class="form-control" type="password" name="password" placeholder="Password" ngModel>
+      </div>
+    </div>
+    <div class="form-group d-flex justify-content-between">
+      <label class="ui-checkbox ui-checkbox-info">
+        <input type="checkbox">
+        <span class="input-span"></span>Remember me</label>
+      <a routerLink="/forgot_password">Forgot password?</a>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-info btn-block" type="submit">Login</button>
+    </div>
+  </form>
 </div>

@@ -43,6 +43,13 @@
     "Edit Product" : "Edit Product",
     "Edit Client" : "Edit Client",
     "Name" : "Name",
-    "active" : "Active"
+    "active" : "Active",
+    "Unit Price" : "U.P",
+    "saleOrder.report.title":"Sale Order",
+    "reception.report.title":"Reception",
+    "purchaseOrder.report.title":"Prchase Order",
+    "delivery.report.title":"Delivery",
+    "order date": "Order Date"
+
 
 }

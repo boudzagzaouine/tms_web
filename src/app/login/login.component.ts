@@ -1,37 +1,60 @@
-import { POS_INIT_AMOUNT_STORAGE } from '../shared/utils/constants';
-import { AuthenticationService } from '../shared/services/http/authentication.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { routerTransition } from '../router.animations';
-import { UserService } from '../shared/services/http/user.service';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+
+declare var $: any;
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    animations: [routerTransition()]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    @ViewChild('f') loginForm: NgForm;
-    errorMessage: string;
+  constructor(private router: Router) { }
 
-    constructor(private userService: UserService,
-                private authService: AuthenticationService,
-                public router: Router) {}
+  ngOnInit() {
+    $('body').addClass('empty-layout bg-silver-300');
+  }
 
-    ngOnInit() {
-        if (sessionStorage.getItem('currentUser')) {
-            this.router.navigate(['/']);
+  ngAfterViewInit() {
+    $('#login-form').validate({
+      errorClass: 'help-block',
+      rules: {
+        email: {
+          required: true,
+          email: true
+        },
+        password: {
+          required: true
         }
-    }
+      },
+      highlight: function (e) {
+        $(e).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-error');
+      },
+    });
+  }
 
-    onLogin() {
-        localStorage.removeItem(POS_INIT_AMOUNT_STORAGE);
-        const email = this.loginForm.value['email'];
-        const password = this.loginForm.value['password'];
+  ngOnDestroy() {
+    $('body').removeClass('empty-layout bg-silver-300');
+  }
 
-        this.authService.login(email, password);
-    }
+  onSubmit(f: NgForm) {
+    //sessionStorage.removeItem('currentUser');
+    sessionStorage.setItem('currentUser', 'coco');
+      console.log(f);
+      const email = f.controls['email'].value;
+      const password = f.controls['password'].value;
+      console.log(`email : ${email}, password: ${password}`);
+
+
+      this.router.navigate(['/']);
+
+
+
+  }
+
 }

@@ -221,4 +221,7 @@ export class ProxyService {
       console.log(fullurl);
       return this.http.get<string>(fullurl);
   }
+    getToken(): string {
+    return this.authService.computeToken();
+}
 }

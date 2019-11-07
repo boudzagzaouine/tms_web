@@ -5,14 +5,14 @@ import { Owner } from "./owner";
 import { OrderStatus } from "./order-status";
 import { Warehouse } from "./warehouse";
 import { SaleOrder } from "./sale-order";
-import { Address } from ".";
+//import { Address } from ".";
 
 export class Delivery {
     id: number;
     code: string;
     description: string;
-    deliveryAddress: Address;
-    invoiceAddress: Address;
+    //deliveryAddress: Address;
+   // invoiceAddress: Address;
     creationDate: Date;
     updateDate: Date;
     saleOrder: SaleOrder;

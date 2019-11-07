@@ -1,6 +1,6 @@
 import { Product } from './product';
 import { Owner } from './owner';
-import { Vat } from '.';
+//import { Vat } from '.';
 
 export class ProductType {
     id: number;
@@ -13,6 +13,6 @@ export class ProductType {
     owner: Owner;
     productType: ProductType;
     productsForProductSubType: ProductType[];
-    vat: Vat;
+   // vat: Vat;
     constructor() {}
 }

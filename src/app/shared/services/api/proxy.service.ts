@@ -1,3 +1,4 @@
+import { Md5 } from 'ts-md5';
 import { REST_URL } from './../../utils/constants';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';

@@ -1,3 +1,5 @@
+import { Owner } from './../../models/owner';
+import { User } from './../../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
@@ -62,7 +64,7 @@ export class AuthenticationService {
                         }
                         this.permissionService.loadPermissions(permissions);
                         this.currentUser.columns = '';
-                        this.currentUser.agency = null;
+                        //this.currentUser.agency = null;
                         this.currentUser.saleOrders = null;
                         // this.currentUser.userGroup = null;
                         localStorage.setItem('isLoggedin', 'true');

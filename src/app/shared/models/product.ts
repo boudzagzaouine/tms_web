@@ -2,7 +2,7 @@ import {Vat} from './vat';
 import {Owner} from './owner';
 import {Uom} from './uom';
 import {ProductType} from './product-type';
-import {Image} from './image';
+//import {Image} from './image';
 import {ProductPack} from './product-pack';
 import {BoundNodeCallbackObservable} from 'rxjs/observable/BoundNodeCallbackObservable';
 import {Currency} from './currency';
@@ -22,7 +22,7 @@ export class Product {
     isKit: boolean;
     creationDate: Date;
     updateDate: Date;
-    images: Image[] = [];
+   // images: Image[] = [];
     uomByProductUomBase: Uom;
     uomByProductUomSale: Uom;
     uomByProductUomPurshase: Uom;

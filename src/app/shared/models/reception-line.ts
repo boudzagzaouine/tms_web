@@ -1,7 +1,7 @@
-import {BlockType} from './block-type';
+//import {BlockType} from './block-type';
 import {ProductPack} from './product-pack';
 import {Vat} from './vat';
-import {Color} from './color';
+//import {Color} from './color';
 import {Uom} from './uom';
 import {PurchaseOrderLine} from './purchase-order-line';
 import {Reception} from './reception';
@@ -20,7 +20,7 @@ export class ReceptionLine {
     receptionDate: Date;
     warehouse: Warehouse;
     product: Product;
-    color: Color;
+    //color: Color;
     dlc: Date;
     dluo: Date;
     serialNo: string;
@@ -42,5 +42,5 @@ export class ReceptionLine {
     discount: number;
     purshasePrice: number;
     productPack: ProductPack;
-    blockType: BlockType;
+  //  blockType: BlockType;
 }

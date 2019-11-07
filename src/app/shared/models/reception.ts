@@ -1,4 +1,4 @@
-import {CashRegister} from './cash-register';
+//import {CashRegister} from './cash-register';
 import {Currency} from './currency';
 import {OrderStatus} from './order-status';
 import {OrderType} from './order-type';
@@ -36,6 +36,6 @@ export class Reception {
     accounted: boolean;
     receptionLines: ReceptionLine[] = [];
     receptionDate: Date;
-    box: CashRegister;
+   // box: CashRegister;
     supplierDeliveryDate: Date;
 }

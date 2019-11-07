@@ -1,12 +1,12 @@
 import { Address } from './address';
-import { Owner } from '.';
+//import { Owner } from '.';
 export class Company {
     id: number;
     code: string;
     name: string;
     siret: string;
     vatNumber: string;
-    owner: Owner;
+   // owner: Owner;
     address: Address;
     commonIdentifierOfCompany: string;
     fiscalIdentifier: string;

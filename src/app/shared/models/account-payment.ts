@@ -7,7 +7,7 @@ import { Account } from './account';
 import { SaleOrder } from './sale-order';
 import { PaymentAccountInvoice } from './payment-account-invoice';
 import { PaymentAccountSaleOrder } from './payment-account-sale-order';
-import { CashRegister } from './cash-register';
+//import { CashRegister } from './cash-register';
 
 export class PaymentAccount {
     id: number;
@@ -27,7 +27,7 @@ export class PaymentAccount {
     deadLine: Date;
     paymentAccountInvoices: PaymentAccountInvoice[] = [];
     paymentAccountSaleOrders: PaymentAccountSaleOrder[] = [];
-    box: CashRegister;
+  //  box: CashRegister;
     chequeBanK: string;
     chequeOwner: string;
     chequeAmount: number;

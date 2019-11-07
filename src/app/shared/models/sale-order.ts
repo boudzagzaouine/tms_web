@@ -1,5 +1,5 @@
 import { PaymentStatus } from './payment-status';
-import { CashRegister } from './cash-register';
+//import { CashRegister } from './cash-register';
 import { Address } from './address';
 import { Account } from './account';
 import { Owner } from './owner';
@@ -8,7 +8,7 @@ import { Warehouse } from './warehouse';
 import { Currency } from './currency';
 import { OrderStatus } from './order-status';
 import { OrderType } from './order-type';
-import {AddressInfo} from './address-Info';
+//import {AddressInfo} from './address-Info';
 
 export class SaleOrder {
     id = 0;
@@ -28,10 +28,10 @@ export class SaleOrder {
     orderStatus: OrderStatus;
     orderType: OrderType;
     accounted: boolean;
-    deliveryAddress: AddressInfo;
-    invoiceAddress: AddressInfo;
+   // deliveryAddress: AddressInfo;
+    //invoiceAddress: AddressInfo;
     payedAmount: number;
-    cashRegister: CashRegister;
+  //  cashRegister: CashRegister;
     paymentStatus: PaymentStatus;
     expectedDate: Date;
     loadDate: Date;

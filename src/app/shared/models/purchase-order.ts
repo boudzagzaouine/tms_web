@@ -1,13 +1,13 @@
-import { IOption } from 'ng-select';
+//import { IOption } from 'ng-select';
 import { Currency } from './currency';
-import { CashRegister } from './cash-register';
+//import { CashRegister } from './cash-register';
 import { OrderStatus } from './order-status';
-import { SupplierAsset } from './supplier-asset';
+//import { SupplierAsset } from './supplier-asset';
 import {PurchaseOrderLine } from './purchase-order-line';
-import { Owner, User, Warehouse, Supplier, DeliveryMethod, SupplierInvoice } from '.';
+//import { Owner, User, Warehouse, Supplier, DeliveryMethod, SupplierInvoice } from '.';
 import { OrderType } from './order-type';
-
-export class PurchaseOrder implements IOption {
+//implements IOption 
+export class PurchaseOrder {
 
     id: number;
     code: string;
@@ -19,18 +19,18 @@ export class PurchaseOrder implements IOption {
     creationDate: Date;
     updateDate: Date;
     account: Account;
-    owner: Owner;
-    user: User;
-    warehouse: Warehouse;
+   // owner: Owner;
+    //user: User;
+   // warehouse: Warehouse;
     notes: string;
-    supplier: Supplier;
-    supplierInvoice: SupplierInvoice;
-    supplierAssets: SupplierAsset[] = [];
-    deliveryMethod: DeliveryMethod;
+  //  supplier: Supplier;
+    //supplierInvoice: SupplierInvoice;
+  //  supplierAssets: SupplierAsset[] = [];
+    //deliveryMethod: DeliveryMethod;
     purshaseOrderLines: PurchaseOrderLine[] = [];
     orderType: OrderType;
     orderStatus: OrderStatus;
-    box: CashRegister;
+  //  box: CashRegister;
     currency: Currency;
     payedAmount: number;
     remarks: string;

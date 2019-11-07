@@ -7,7 +7,10 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'sample', loadChildren: () => import('./sample/sample.module').then(m => m.SampleModule) }
+      { path: 'sample', loadChildren: () => import('./sample/sample.module').then(m => m.SampleModule) },
+      { path: 'badge', loadChildren: () => import('./badge/badge.module').then(m => m.BadgeModule) },
+
+
 
     ]
   }];

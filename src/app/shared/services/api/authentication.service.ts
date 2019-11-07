@@ -1,18 +1,22 @@
+import { LOGGED_IN } from './../../utils/constants';
 import { Owner } from './../../models/owner';
 import { User } from './../../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { REST_URL, CURRENT_USER } from '../../utils/constants';
 import { Md5 } from 'ts-md5';
+import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthenticationService implements OnDestroy{
+  private subs: Subscription = new Subscription;
   private currentUser: User;
     token: string;
     cashRegisterID: number;
@@ -21,7 +25,8 @@ export class AuthenticationService {
         private router: Router,
         private toast: ToastrService,
         private permissionService: NgxPermissionsService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private spinner: NgxSpinnerService
     ) {
         //  set token if saved in local storage
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -29,13 +34,13 @@ export class AuthenticationService {
     }
 
 
-    login(email: string, password: string) {
+   login(email: string, password: string) {
         const pass = Md5.hashStr(password);
         // console.log(
         //     REST_URL + 'authentification?email=' + email + '&password=' + pass
         // );
 
-        return this.http
+       this.subs = this.http
             .get<User>(
                 REST_URL +
                     'authentification?email=' +
@@ -64,22 +69,25 @@ export class AuthenticationService {
                         }
                         this.permissionService.loadPermissions(permissions);
                         this.currentUser.columns = '';
-                        //this.currentUser.agency = null;
+                        // this.currentUser.agency = null;
                         this.currentUser.saleOrders = null;
-                        // this.currentUser.userGroup = null;
-                        localStorage.setItem('isLoggedin', 'true');
+                        this.currentUser.userGroup = null;
+                        localStorage.setItem(LOGGED_IN, 'true');
                         sessionStorage.setItem(
-                            'currentUser',
+                            CURRENT_USER,
                             JSON.stringify(user)
                         );
                         this.router.navigate(['/']);
                         this.toast.success('Successfully logged in', 'Welcome');
+                        this.spinner.hide();
                     } else {
                         this.toast.error('information érroné', 'Erreur');
+                        this.spinner.hide();
                     }
                 },
                 () => {
-                    this.toast.toastrConfig.timeOut = 1500;
+                  this.toast.toastrConfig.timeOut = 1500;
+                  this.spinner.hide();
                     this.toast.error(
                         'La connextion au serveur ne peut pas être établie !',
                         'Erreur de connextion'
@@ -137,7 +145,7 @@ export class AuthenticationService {
     logout(): void {
         //  clear token remove user from local storage to log user out
         this.token = null;
-        localStorage.removeItem('isLoggedin');
+        localStorage.removeItem(LOGGED_IN);
         sessionStorage.removeItem(CURRENT_USER);
         // this.permissionService.removePermission(permissions);
         this.router.navigate(['/login']);
@@ -165,5 +173,11 @@ export class AuthenticationService {
         } else {
             return '';
         }
+    }
+
+    ngOnDestroy(){
+      if (this.subs != null){
+        this.subs.unsubscribe();
+      }
     }
 }

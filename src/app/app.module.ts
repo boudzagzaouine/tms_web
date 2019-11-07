@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './/app.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastrModule } from 'ngx-toastr';
-import { NgxPermissionsModule } from 'ngx-permissions';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
 
 

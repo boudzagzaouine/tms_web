@@ -1,6 +1,8 @@
+import { AuthenticationService } from './../shared/services/api/authentication.service';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 
@@ -11,7 +13,9 @@ declare var $: any;
 })
 export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private authService: AuthenticationService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     $('body').addClass('empty-layout bg-silver-300');
@@ -43,15 +47,17 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit(f: NgForm) {
-    //sessionStorage.removeItem('currentUser');
+    this.spinner.show();
+    // sessionStorage.removeItem('currentUser');
     sessionStorage.setItem('currentUser', 'coco');
       console.log(f);
       const email = f.controls['email'].value;
       const password = f.controls['password'].value;
       console.log(`email : ${email}, password: ${password}`);
 
+      this.authService.login(email, password);
 
-      this.router.navigate(['/']);
+      // this.router.navigate(['/']);
 
 
 

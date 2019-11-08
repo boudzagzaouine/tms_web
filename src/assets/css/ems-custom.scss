@@ -1,0 +1,113 @@
+// Custom
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.bg-whiteblue {
+    background-color: #E2ECF2 !important;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
+}
+
+.bg-lightpink {
+    background-color: #ffbec9 !important;
+}
+
+.bg-yellow {
+    background-color: #e9e966;
+}
+
+.bg-greenyellow {
+    background-color: #ddf2bf !important;
+}
+
+.bg-lightblue {
+    background-color: #d9f1f7 !important;
+}
+
+.border-top-primary {
+    border-top: #005B96 2px solid !important;
+}
+
+.border-top-secondary {
+    border-top: #eee 2px solid !important;
+}
+
+.border-top-success {
+    border-top: #008744 2px solid !important;
+}
+
+.border-top-info {
+    border-top: #166983 2px solid !important;
+}
+
+.border-top-warning {
+    border-top: #e99002 2px solid !important;
+}
+
+.border-top-danger {
+    border-top: #980000 2px solid !important;
+}
+
+.border-top-light {
+    border-top: #eee 2px solid !important;
+}
+
+.border-top-dark {
+    border-top-color: #222 !important;
+}
+
+.border-top-white {
+    border-top: #fff 2px solid !important;
+}
+
+.table-lightpink,
+.table-lightpink>th,
+.table-lightpink>td {
+    background-color: #ffbec9;
+}
+
+.table-yellow,
+.table-yellow>th,
+.table-yellow>td {
+    background-color: #cccc4f;
+}
+
+.table-greenyellow,
+.table-greenyellow>th,
+.table-greenyellow>td {
+    background-color: #ddf2bf;
+}
+
+.table-lightblue,
+.table-lightblue>th,
+.table-lightblue>td {
+    background-color: #d9f1f7;
+}
+
+.btn-filter {
+    width: 150px;
+}
+
+.ui-calendar,
+.ui-dropdown,
+.ui-dropdown.ui-dropdown-label,
+.ui-autocomplete,
+.ui-dropdown-label,
+.ui-inputtext {
+    margin: 0px !important;
+    width: 100% !important;
+}
+
+p-autocomplete {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+
+.ui-state-disabled, .ui-widget:disabled {
+    opacity: 100 !important;
+}

@@ -3,7 +3,7 @@
     <a class="link" routerLink="/index">EMS-TMS</a>
   </div>
   <form id="login-form" (ngSubmit)="onSubmit(form)" #form="ngForm">
-    <h2 class="login-title">Log in</h2>
+    <h2 class="login-title">{{'Log in' | translate}}</h2>
     <div class="form-group">
       <div class="input-group-icon right">
         <div class="input-icon"><i class="fa fa-envelope"></i></div>
@@ -19,11 +19,11 @@
     <div class="form-group d-flex justify-content-between">
       <label class="ui-checkbox ui-checkbox-info">
         <input type="checkbox">
-        <span class="input-span"></span>Remember me</label>
-      <a routerLink="/forgot_password">Forgot password?</a>
+        <span class="input-span"></span>{{'Remember me' | translate}}</label>
+      <a routerLink="/forgot_password">{{'Forgot password' | translate}}?</a>
     </div>
     <div class="form-group">
-      <button class="btn btn-info btn-block" type="submit">Login</button>
+      <button class="btn btn-info btn-block" type="submit">{{'Login' | translate}}</button>
     </div>
   </form>
 </div>

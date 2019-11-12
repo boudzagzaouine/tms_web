@@ -1,14 +1,17 @@
-import { Injectable } from "@angular/core";
-import "rxjs/add/operator/map";
-import { ProxyService } from "./proxy.service";
-import { Vehicle } from "../../models/vehicle";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
-import { ToastrService } from "ngx-toastr";
+
+
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { ProxyService } from './proxy.service';
+import { ToastrService } from 'ngx-toastr';
+import 'rxjs/add/operator/map';
+
+import { Vehicle } from '../../models';
 
 @Injectable()
 export class VehicleService {
-    controller = "vehicles";
+    controller = 'vehicles';
 
     private vehicleList: Vehicle[] = [];
 
@@ -23,7 +26,7 @@ export class VehicleService {
     }
 
     findAll(): Observable<Vehicle[]> {
-        console.log("from vehicle service findAll");
+        console.log('from vehicle service findAll');
         return this.proxy.findAll(this.controller);
     }
 
@@ -55,14 +58,14 @@ export class VehicleService {
         this.proxy.set(this.controller, vehicle).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success("Item was saved successfully", "Save");
+                this.toastr.success('Item was saved successfully', 'Save');
                 return data;
             },
             error => {
-                console.log("error :", error);
+                console.log('error :', error);
                 this.toastr.error(
-                    "Item could not be saved successfully",
-                    "Save"
+                    'Item could not be saved successfully',
+                    'Save'
                 );
             }
         );
@@ -73,13 +76,13 @@ export class VehicleService {
         this.proxy.add(this.controller, vehicle).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success("Item was saved successfully", "Save");
+                this.toastr.success('Item was saved successfully', 'Save');
                 return data;
             },
             error =>
                 this.toastr.error(
-                    "Item could not be saved successfully",
-                    "Save"
+                    'Item could not be saved successfully',
+                    'Save'
                 )
         );
         return null;
@@ -90,14 +93,14 @@ export class VehicleService {
             data => {
                 this.emitChanges();
                 this.toastr.success(
-                    "Elément supprimé avec succès",
-                    "Suppression"
+                    'Elément supprimé avec succès',
+                    'Suppression'
                 );
             },
             error =>
                 this.toastr.error(
-                    "Erreur de suppression" + error,
-                    "Suppression"
+                    'Erreur de suppression' + error,
+                    'Suppression'
                 )
         );
     }

@@ -1,0 +1,47 @@
+<button class="btn btn-primary btn-sm float-right" (click)="open(content)">
+  <i class="fa fa-plus"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">Ajouter Badge</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body text-center">
+      <div class="form-group row ">
+        <label class="col-sm-4 col-from-label">Code Badge</label>
+        <div class="col-sm-5">
+          <input type="text" pInputText />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-4 col-from-label">Badge Type</label>
+        <div class="col-sm-5">
+          <input type="text" pInputText />
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-4 col-from-label">Chauffeur</label>
+        <div class="col-sm-5">
+          <input type="text" pInputText />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('Save click')"
+    >
+      Valider
+    </button>
+  </div>
+</ng-template>

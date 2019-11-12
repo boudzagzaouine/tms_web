@@ -1,0 +1,77 @@
+<br />
+<div class="card">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body  border-top-primary">
+    <div class="row">
+      <div class="col-md-3">
+        <label
+          class="font-weight-bold"
+          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
+          > Code</label
+        ><br />
+        <input type="text" pInputText />
+      </div>
+
+      <div class="col-md-3">
+        <label
+          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
+          >Matriculation</label
+        ><br />
+                <input type="text" pInputText />
+
+      </div>
+
+      <div class="col-md-3 ">
+        <label
+          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
+          >Catégorie</label
+        ><br />
+        <p-dropdown placeholder=".."></p-dropdown>
+
+      </div>
+      <div class="col-md-3 ">
+          <label
+            style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
+            >Type Badge</label
+          ><br />
+          <input type="text" pInputText />
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="text-center">
+      <button type="button" class="btn btn-primary" style="margin-right:20px;">
+        Rechercher
+      </button>
+      <button type="button" class="btn btn-success">Renitialiser</button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header " style=" background-color:#f7f7f7;">
+      <span>Liste Des Véhicules</span>
+
+    </div>
+    <div class="card-body  border-top-primary">
+      <p-table>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Matriculation</th>
+            <th>Categorie</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body">
+          <tr>
+            <td>uu</td>
+            <td>uu</td>
+            <td>uu</td>
+            <td>uu</td>
+          </tr>
+
+        </ng-template>
+      </p-table>
+    </div>
+  </div>

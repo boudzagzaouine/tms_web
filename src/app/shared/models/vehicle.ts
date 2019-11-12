@@ -1,7 +1,7 @@
-import { vehicleCategory } from './vehicle-category';
-import { badgeType } from './badge-Type';
+import { VehicleCategory } from './vehicle-category';
+import { BadgeType } from './badge-Type';
 
-export class vehicle {
+export class Vehicle {
 
 
     id:number;
@@ -9,8 +9,8 @@ export class vehicle {
     code:string="";
     technicalVisit:Date;
     creationDate:Date;
-    vehiculeCategorie:vehicleCategory;
-     badgeType:badgeType;
+    vehiculeCategorie:VehicleCategory;
+     badgeType:BadgeType;
 
 
 }

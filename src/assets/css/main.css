@@ -16,7 +16,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Lucida Sans", sans-serif;
   background-color: #f1f1f1;
   color: #333;
 }
@@ -4990,5 +4990,13 @@ table.dataTable {
     -webkit-justify-content: start !important;
     -ms-flex-pack: start !important;
     justify-content: start !important;
+  }
+
+  .img-chauffeur{
+
+    background-image:url(../img/Menu/Chauffeur.png);
+
+    width: 25px;
+    height: 25px;
   }
 }

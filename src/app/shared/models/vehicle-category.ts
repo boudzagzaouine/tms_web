@@ -1,6 +1,6 @@
 
-export class vehicleCategory{
- 
+export class VehicleCategory{
+
     id:number;
   code:string;
   consumption:string;

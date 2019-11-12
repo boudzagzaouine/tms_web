@@ -1,6 +1,6 @@
 
 
-export class badgeType{
+export class BadgeType{
 
  id:number;
  code:string;

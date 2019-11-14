@@ -7,7 +7,7 @@ import { ProxyService } from './proxy.service';
 import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/operator/map';
 
-import { Vehicle } from '../../models';
+import { Vehicle } from '../../models/vehicle';
 
 @Injectable()
 export class VehicleService {

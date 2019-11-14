@@ -1,3 +1,6 @@
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './../../shared/shared.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,10 +18,14 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
   imports: [
     CommonModule,
     VehicleRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
     TableModule,
-    DropdownModule
+    DropdownModule,
+    NgxSpinnerModule,
+    SharedModule
   ]
 })
 export class VehicleModule { }

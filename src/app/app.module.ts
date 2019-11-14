@@ -1,3 +1,4 @@
+import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -10,8 +11,6 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
-
-
 
 //  AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -31,6 +30,7 @@ registerLocaleData(localeFr, 'fr');
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SharedModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

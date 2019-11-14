@@ -1,9 +1,9 @@
-import { Md5 } from 'ts-md5';
-import { REST_URL } from './../../utils/constants';
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
-import { AuthenticationService } from './authentication.service';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Md5 } from 'ts-md5';
+import { AuthenticationService } from './authentication.service';
+import { REST_URL } from './../../utils/constants';
 
 @Injectable({
   providedIn: 'root'

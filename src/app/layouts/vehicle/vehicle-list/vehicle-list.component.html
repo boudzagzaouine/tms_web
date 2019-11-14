@@ -4,74 +4,67 @@
   <div class="card-body  border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label
-          class="font-weight-bold"
-          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
-          > Code</label
-        ><br />
-        <input type="text" pInputText />
+        <label class="font-weight-bold" style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">
+          Code</label><br />
+        <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3">
-        <label
-          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
-          >Matriculation</label
-        ><br />
-                <input type="text" pInputText />
+        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Matriculation</label><br />
+        <input type="text" pInputText [(ngModel)]="matSearch" />
 
       </div>
 
       <div class="col-md-3 ">
-        <label
-          style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
-          >Catégorie</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
+        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Catégorie</label><br />
+        <p-dropdown [(ngModel)]="categorySearch" [editable]="true"></p-dropdown>
 
       </div>
       <div class="col-md-3 ">
-          <label
-            style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold"
-            >Type Badge</label
-          ><br />
-          <input type="text" pInputText />
-        </div>
+        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Type Badge</label><br />
+        <input type="text" pInputText [(ngModel)]="badgeTypeSearch" />
+      </div>
     </div>
     <br />
     <br />
     <div class="text-center">
-      <button type="button" class="btn btn-primary" style="margin-right:20px;">
+      <button type="button" class="btn btn-primary" style="margin-right:20px;" (click)="onSearchClicked()">
         Rechercher
       </button>
-      <button type="button" class="btn btn-success">Renitialiser</button>
+      <button type="button" class="btn btn-success" (click)="reset()">Renitialiser</button>
     </div>
   </div>
 </div>
 
-<div class="card mt-3">
-    <div class="card-header " style=" background-color:#f7f7f7;">
-      <span>Liste Des Véhicules</span>
+<div class="card mt-5">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des Véhicules</span>
 
-    </div>
-    <div class="card-body  border-top-primary">
-      <p-table>
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Code</th>
-            <th>Matriculation</th>
-            <th>Categorie</th>
-            <th>Action</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body">
-          <tr>
-            <td>uu</td>
-            <td>uu</td>
-            <td>uu</td>
-            <td>uu</td>
-          </tr>
-
-        </ng-template>
-      </p-table>
-    </div>
   </div>
+  <div class="card-body border-top-primary">
+    <p-table [value]="vehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Matriculation</th>
+          <th>Categorie</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-veh>
+        <tr>
+          <td>{{veh?.code}}</td>
+          <td>{{veh?.registrationNumber}}</td>
+          <td>{{veh?.vehicleCategory?.code}}</td>
+          <td>
+            <a [routerLink]="['/core/vehicle/edit', veh.id]" routerLinkActive="active" class="btn btn-primary" >
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

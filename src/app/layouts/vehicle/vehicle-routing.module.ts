@@ -7,6 +7,7 @@ import { VehicleComponent } from './vehicle.component';
 
 const routes: Routes = [{ path: '', component: VehicleComponent, pathMatch: 'full' },
                          {path: 'edit', component: VehicleEditComponent},
+                         {path: 'edit/:id', component: VehicleEditComponent},
                          {path: 'List', component: VehicleListComponent}];
 
 @NgModule({

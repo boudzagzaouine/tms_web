@@ -1,3 +1,5 @@
+
+import { ProxyService, AuthenticationService, VehicleService } from './services';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
@@ -13,8 +15,8 @@ import { ModuleWithProviders } from '@angular/compiler/src/core';
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
-        ngModule: SharedModule,
-        providers: []
+      ngModule: SharedModule,
+      providers: [VehicleService, ProxyService, AuthenticationService]
     };
   }
 }

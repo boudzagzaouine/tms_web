@@ -1,3 +1,5 @@
+import { SharedModule } from './../shared/shared.module';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AppLayoutRoutingModule } from './layout-routing.module';
@@ -6,6 +8,7 @@ import { LayoutComponent } from './/layout.component';
 import { AppHeaderComponent } from './template/app-header/app-header.component';
 import { AppSidebarComponent as AppSidebarComponent } from './template/app-sidebar/app-sidebar.component';
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
+
 
 
 @NgModule({
@@ -22,7 +25,7 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
     AppFooterComponent,
   ],
   imports: [
-    CommonModule, AppLayoutRoutingModule, TranslateModule
+    CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule
   ]
 })
 export class LayoutModule {

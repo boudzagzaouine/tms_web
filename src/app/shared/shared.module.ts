@@ -1,3 +1,4 @@
+import { DriverService } from './services/api/driver.service';
 
 import { ProxyService, AuthenticationService, VehicleService } from './services';
 import { NgModule } from '@angular/core';
@@ -16,7 +17,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [VehicleService, ProxyService, AuthenticationService]
+      providers: [VehicleService, ProxyService, AuthenticationService,DriverService]
     };
   }
 }

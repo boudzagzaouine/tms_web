@@ -15,6 +15,7 @@ const routes: Routes = [
       { path: 'insurance', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
       { path: 'supplier', loadChildren: () => import('./supplier/supplier.module').then(m => m.SupplierModule) },
       { path: 'badgetype', loadChildren: () => import('./badge-type/badge-type.module').then(m => m.BadgeTypeModule) },
+      { path: 'insuranceterm', loadChildren: () => import('./insurance-term/insurance-term.module').then(m => m.InsuranceTermModule) },
 
 
     ]

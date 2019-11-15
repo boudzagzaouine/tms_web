@@ -1,21 +1,21 @@
-import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { InsuranceRoutingModule } from './insurance-routing.module';
-import { InsuranceComponent } from './insurance.component';
-import { InsuranceEditComponent } from './insurance-edit/insurance-edit.component';
+import { InsuranceTermRoutingModule } from './insurance-term-routing.module';
+import { InsuranceTermComponent } from './insurance-term.component';
+import { InsuranceTermEditComponent } from './insurance-term-edit/insurance-term-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [InsuranceComponent, InsuranceEditComponent],
+  declarations: [InsuranceTermComponent, InsuranceTermEditComponent],
   imports: [
     CommonModule,
-    InsuranceRoutingModule,
+    InsuranceTermRoutingModule,
     TableModule,
     InputTextModule,
     NgbModule,
@@ -23,4 +23,4 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DropdownModule
   ]
 })
-export class InsuranceModule { }
+export class InsuranceTermModule { }

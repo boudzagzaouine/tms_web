@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -10,6 +11,7 @@ import { ChauffeurComponent } from './chauffeur.component';
 import { ChauffeurListComponent } from './chauffeur-list/chauffeur-list.component';
 import { ChauffeurEditComponent } from './chauffeur-edit/chauffeur-edit.component';
 import {CalendarModule} from 'primeng/calendar';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,11 +19,14 @@ import {CalendarModule} from 'primeng/calendar';
   imports: [
     CommonModule,
     ChauffeurRoutingModule,
+    FormsModule,
     TranslateModule,
     InputTextModule,
     TableModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class ChauffeurModule { }

@@ -11,26 +11,7 @@
         <input type="text" pInputText />
       </div>
 
-      <div class="col-md-3">
-        <label
-          >Date Debut</label
-        ><br />
-        <p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-      </div>
 
-      <div class="col-md-3">
-          <label
-            >Date Fin</label
-          ><br />
-          <p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-        </div>
-
-      <div class="col-md-3 ">
-        <label
-          >Montant</label
-        ><br />
-        <input type="text" pInputText />
-      </div>
     </div>
     <br />
 
@@ -45,16 +26,14 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des Assurances</span>
-    <app-insurance-edit></app-insurance-edit>
+    <span>Liste Des Termes d' Assurances</span>
+    <app-insurance-term></app-insurance-term>
   </div>
   <div class="card-body">
     <p-table>
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>
-          <th>Type Contrat</th>
-          <th>Terme Assurance</th>
           <th>Action</th>
         </tr>
       </ng-template>

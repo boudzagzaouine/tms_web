@@ -1,18 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
-
-
 @Component({
-  selector: 'app-badge-edit',
-  templateUrl: './badge-edit.component.html',
-  styleUrls: ['./badge-edit.component.css']
+  selector: 'app-insurance-edit',
+  templateUrl: './insurance-edit.component.html',
+  styleUrls: ['./insurance-edit.component.css']
 })
-export class BadgeEditComponent implements OnInit {
-
-   closeResult: String;
-
-  constructor(private modalService: NgbModal) {}
+export class InsuranceEditComponent implements OnInit {
+  closeResult: String;
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
   }
@@ -34,7 +29,5 @@ export class BadgeEditComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-
-
 
 }

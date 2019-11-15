@@ -7,6 +7,7 @@ import { ChauffeurComponent } from './chauffeur.component';
 
 const routes: Routes = [{ path: '', component: ChauffeurComponent },
 { path: 'edit', component: ChauffeurEditComponent },
+{ path: 'edit/:id', component: ChauffeurEditComponent },
 { path: 'list', component: ChauffeurListComponent }];
 
 @NgModule({

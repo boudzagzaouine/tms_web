@@ -8,14 +8,14 @@
           class="font-weight-bold"
           > Cin</label
         ><br />
-        <input type="text" pInputText />
+        <input type="text" pInputText [(ngModel)] = "cinSearch" />
       </div>
 
       <div class="col-md-3">
         <label
-          >Nom</label
+          >Code</label
         ><br />
-                <input type="text" pInputText />
+                <input type="text" pInputText [(ngModel)]="codeSearch" />
 
       </div>
 
@@ -31,7 +31,7 @@
     <br />
     <br />
     <div class="text-center">
-      <button type="button" class="btn btn-primary" style="margin-right:20px;">
+      <button type="button" class="btn btn-primary" style="margin-right:20px;" (click)="onSearchClicked()">
         Rechercher
       </button>
       <button type="button" class="btn btn-success">Renitialiser</button>
@@ -45,22 +45,27 @@
 
     </div>
     <div class="card-body  border-top-primary">
-      <p-table>
-        <ng-template pTemplate="header">
+      <p-table [value]="drivers"  [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size">
+        <ng-template pTemplate="header" >
           <tr>
             <th>Cin</th>
-            <th>Nom</th>
-            <th>Type Contrat</th>
-            <th>N Tele </th>
+            <th>Code</th>
+            <th> Nom</th>
+            <th>fonctionnement </th>
             <th>Action</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body">
+        <ng-template pTemplate="body" let-drv >
           <tr>
-            <td>uu</td>
-            <td>uu</td>
-            <td>uu</td>
-            <td>uu</td>
+            <td>{{drv.cin}}</td>
+            <td>{{drv.code}}</td>
+            <td>{{drv.contact}}</td>
+            <td>{{drv.contact}}</td>
+            <td>
+             <a [routerLink]="['/core/driver/edit', drv.id]"
+              routerLinkActive="active" class="btn btn-primary">
+              <i class="fa fa-pencil"></i>
+            </a></td>
           </tr>
 
         </ng-template>

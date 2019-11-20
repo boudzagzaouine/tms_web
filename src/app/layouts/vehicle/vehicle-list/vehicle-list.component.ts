@@ -41,7 +41,7 @@ export class VehicleListComponent implements OnInit {
     );
   }
   loadDataLazy(event){
-    this.page = event.first * this.size;
+    this.page = event.first / this.size;
     this.loadData();
   }
 

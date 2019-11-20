@@ -1,115 +1,55 @@
 <div class="card mt-4">
-  <div class="card-header" >
-   <span class="h4">{{ "Editer Vehicule" | translate }}</span>
+  <div class="card-header">
+    <span class="h4">{{ "Editer Vehicule" | translate }}</span>
   </div>
   <div class="card-body border-top-primary">
-    <div class="row  justify-content-around">
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-          >Cin</label
-        ><br />
-        <input type="text" class="form-control" pInputText />
+    <form [formGroup]="vehicleForm">
+
+      <div class="row  justify-content-around">
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">Code</label><br />
+          <input type="text" class="form-control" pInputText formControlName="code" />
+        </div>
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">Matriculation</label><br />
+          <input type="text" class="form-control" pInputText formControlName="registrationNumber" />
+        </div>
+
+        <div class="col-md-3"></div>
+
+
       </div>
+      <div class="row justify-content-around">
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">Type Badge</label><br />
+          <p-dropdown formControlName="badgeType" field="code" optionLabel="code"></p-dropdown>
+        </div>
 
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">Vehicule Categorie</label><br />
+          <p-dropdown formControlName="vehicleCategory"></p-dropdown>
+        </div>
 
-          >Code</label
-        ><br />
-        <input type="text" class="form-control" pInputText  />
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">Visite Technique</label><br />
+          <input type="text" class="form-control" pInputText formControlName="technicalVisit" />
+        </div>
       </div>
-
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Matriculation</label
-        ><br />
-        <input type="text" class="form-control" pInputText />
+      <br />
+      <br />
+      <br />
+      <div class="text-center">
+        <button type="button" class="btn btn-lg btn-primary mr-1">
+          {{'Fermer' | translate}}
+        </button>
+        <button type="button" class="btn btn-lg btn-success">
+          {{ "Valider" | translate }}
+        </button>
       </div>
-    </div>
-    <div class="row justify-content-around">
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-          >Type Badge</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Vehicule Categorie</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Visite Technique</label
-        ><br />
-        <input type="text" class="form-control" pInputText />
-      </div>
-    </div>
-    <div class="row  justify-content-around">
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Type Contract</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Insurance</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Terme Insurance</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-    </div>
-    <div class="row justify-content-around">
-      <div class="form-group col-md-3 ">
-        <label
-          class="font-weight-bold "
-
-          >Fournisseur</label
-        ><br />
-        <p-dropdown placeholder=".."></p-dropdown>
-      </div>
-      <div class="form-group col-md-3 "></div>
-      <div class="form-group col-md-3 "></div>
-    </div>
-    <br />
-    <br />
-    <br />
-    <div class="text-center">
-      <button
-        type="button"
-        class="btn btn-lg btn-primary mr-1"
-      >
-        {{'Fermer' | translate}}
-      </button>
-      <button type="button" class="btn btn-lg btn-success">
-        {{ "Valider" | translate }}
-      </button>
-    </div>
+    </form>
   </div>
 </div>
+
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

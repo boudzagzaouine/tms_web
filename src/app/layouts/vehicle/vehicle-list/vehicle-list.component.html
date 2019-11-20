@@ -42,7 +42,7 @@
 
   </div>
   <div class="card-body border-top-primary">
-    <p-table [value]="vehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size">
+    <p-table [value]="vehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>

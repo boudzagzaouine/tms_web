@@ -6,6 +6,7 @@ import {
   BadgeTypeService,
   BadgeService,
   ContractTypeService,
+  DriverService,
   InsuranceTermService,
   InsuranceService,
   MaintenancePlanService,
@@ -15,7 +16,6 @@ import {
   VehicleCategoryService,
   VehicleService
  } from './services';
-import { DriverService } from 'selenium-webdriver/remote';
 
 
 @NgModule({

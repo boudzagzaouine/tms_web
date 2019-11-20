@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class BadgeService {
-    controller = 'badge';
+    controller = 'badges';
 
     private badgeList: Badge[] = [];
 

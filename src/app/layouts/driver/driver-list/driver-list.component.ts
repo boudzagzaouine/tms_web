@@ -24,11 +24,13 @@ export class DriverListComponent implements OnInit {
   cinSearch: string;
   codeSearch: string;
   contratSearch: string;
-
+  badgeSearch: Badge;
+  selectedBadge: Badge;
   loading: boolean;
 
   drivers: Array<Driver> = [];
   badges: Array<Badge> = [];
+  badgesList: Array<Badge> = [];
 
 
   constructor(private driverService: DriverService,
@@ -39,7 +41,7 @@ export class DriverListComponent implements OnInit {
   ngOnInit() {
 
     this.loadData();
-    this.loadDataBadge();
+    this.loadBadge();
 
     this.driverService.driverListChanged.subscribe(
       data => this.drivers = data
@@ -48,13 +50,13 @@ export class DriverListComponent implements OnInit {
 
     // this.loading = true;
   }
-  loadDataBadge() {
+  loadBadge() {
 
     this.badgeService.findAll().subscribe(
 
       data => {
 
-        this.badges = data;
+        this.badgesList = data;
         console.log('badge :');
         console.log(this.badges);
       }
@@ -115,11 +117,14 @@ export class DriverListComponent implements OnInit {
 
     const buffer = new EmsBuffer();
     if (this.cinSearch != null && this.cinSearch !== '') {
-      buffer.append(`cin ~${this.cinSearch}`);
+      buffer.append(`cin~${this.cinSearch}`);
     }
 
     if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code ~${this.codeSearch}`);
+      buffer.append(`code~${this.codeSearch}`);
+    }
+    if (this.badgeSearch != null && this.badgeSearch.code != null && this.badgeSearch.code !== '') {
+      buffer.append(`badge.code~${this.badgeSearch.code}`);
     }
 
 
@@ -152,6 +157,7 @@ export class DriverListComponent implements OnInit {
 
 
   }
+
 
 
 }

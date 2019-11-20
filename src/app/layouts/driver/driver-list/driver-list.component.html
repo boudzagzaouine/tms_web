@@ -23,7 +23,8 @@
         <label
           >Badge</label
         ><br />
-        <p-dropdown [options]="badges" optionLabel="code"></p-dropdown>
+        <p-dropdown [options]="badgesList" optionLabel="code" [autoDisplayFirst]="false"
+        [(ngModel)]="badgeSearch"></p-dropdown>
 
       </div>
 

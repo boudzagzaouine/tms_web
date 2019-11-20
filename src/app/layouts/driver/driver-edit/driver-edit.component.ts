@@ -27,7 +27,7 @@ export class DriverEditComponent implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    this.loadDataBadge();
+    this.loadBadge();
 
 
 
@@ -50,7 +50,7 @@ export class DriverEditComponent implements OnInit {
       }
     );
   }
-  loadDataBadge() {
+  loadBadge() {
 
     this.badgeService.findAll().subscribe(
 

@@ -1,5 +1,5 @@
 import { Supplier } from './supplier';
-import { TermInsurance } from './term-insurance';
+import { InsuranceTerm } from './term-insurance';
 import { ContractType } from './contract-type';
 
 
@@ -11,6 +11,6 @@ export class Insurance {
   endDate: Date;
   amout: number;
   contactType: ContractType;
-  termInsurance: TermInsurance;
+  termInsurance: InsuranceTerm;
   supplier: Supplier;
 }

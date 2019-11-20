@@ -1,3 +1,4 @@
+import { CalendarModule } from 'primeng/calendar';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './../../shared/shared.module';
@@ -25,7 +26,8 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     TableModule,
     DropdownModule,
     NgxSpinnerModule,
-    SharedModule
+    SharedModule,
+    CalendarModule
   ]
 })
 export class VehicleModule { }

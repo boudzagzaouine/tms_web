@@ -1,6 +1,6 @@
 
 
-export class TermInsurance {
+export class InsuranceTerm {
 
   id: number;
   code: string;

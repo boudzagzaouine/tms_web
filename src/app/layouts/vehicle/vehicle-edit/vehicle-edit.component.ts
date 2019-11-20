@@ -5,7 +5,7 @@ import { VehicleCategoryService } from './../../../shared/services/api/vehicle-c
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, NG_VALIDATORS } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 

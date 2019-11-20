@@ -1,4 +1,6 @@
-import { VehicleCategory } from './../../models/vehicle-category';
+import { InsuranceTerm } from '../../models/term-insurance';
+
+
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
@@ -8,24 +10,24 @@ import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class VehicleCategoryService {
-    controller = 'categories';
+export class InsuranceTermService {
+    controller = 'insuranceTerms';
 
-    private categoryList: VehicleCategory[] = [];
+    private TermInsuranceList: InsuranceTerm[] = [];
 
-    categoryListChanged = new Subject<VehicleCategory[]>();
+    TermInsuranceListChanged = new Subject<InsuranceTerm[]>();
     constructor(private proxy: ProxyService,
                 private toastr: ToastrService,
            ) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.categoryList = data;
-            this.categoryListChanged.next(this.categoryList);
+            this.TermInsuranceList = data;
+            this.TermInsuranceListChanged.next(this.TermInsuranceList);
         });
     }
 
-    findAll(): Observable<VehicleCategory[]> {
+    findAll(): Observable<InsuranceTerm[]> {
       console.log('from driver service findAll');
       return this.proxy.findAll(this.controller);
     }
@@ -34,7 +36,7 @@ export class VehicleCategoryService {
         return this.proxy.find(this.controller, search);
     }
 
-    findById(id: number): Observable<VehicleCategory> {
+    findById(id: number): Observable<InsuranceTerm> {
       // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
       return this.proxy.findById(this.controller, id);
   }
@@ -53,8 +55,8 @@ export class VehicleCategoryService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(category: VehicleCategory): VehicleCategory {
-        this.proxy.set(this.controller, category).subscribe(
+    set(insuranceTerm: InsuranceTerm): InsuranceTerm {
+        this.proxy.set(this.controller, insuranceTerm).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -70,8 +72,8 @@ export class VehicleCategoryService {
     }
 
 
-    add(category: VehicleCategory): VehicleCategory {
-        this.proxy.add(this.controller, category).subscribe(
+    add(insuranceTerm: InsuranceTerm): InsuranceTerm {
+        this.proxy.add(this.controller, insuranceTerm).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -87,8 +89,8 @@ export class VehicleCategoryService {
         return null;
     }
 
-    delete(category: VehicleCategory) {
-        this.proxy.delete(this.controller, category.id).subscribe(
+    delete(insuranceTerm: InsuranceTerm) {
+        this.proxy.delete(this.controller, insuranceTerm.id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

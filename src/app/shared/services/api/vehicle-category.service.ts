@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class VehicleCategoryService {
-  controller = 'vehicleCategorys';
+  controller = 'vehicleCategories';
 
   private vehicleCategoryList: VehicleCategory[] = [];
 

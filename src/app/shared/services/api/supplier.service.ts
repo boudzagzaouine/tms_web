@@ -11,8 +11,8 @@ import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class SupplierTermService {
-    controller = 'Suppliers';
+export class SupplierService {
+    controller = 'suppliers';
 
     private SupplierList: Supplier[] = [];
 

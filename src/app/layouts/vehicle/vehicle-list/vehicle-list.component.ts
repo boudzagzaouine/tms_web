@@ -1,6 +1,6 @@
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { VehicleService } from './../../../shared/services/api';
+import { VehicleService } from './../../../shared/services';
 import { Component, OnInit } from '@angular/core';
 import { Vehicle } from './../../../shared/models';
 

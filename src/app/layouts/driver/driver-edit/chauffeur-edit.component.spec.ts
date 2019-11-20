@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChauffeurEditComponent } from './chauffeur-edit.component';
+import { ChauffeurEditComponent } from './driver-edit.component';
 
 describe('ChauffeurEditComponent', () => {
   let component: ChauffeurEditComponent;

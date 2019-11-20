@@ -1,3 +1,4 @@
+
 import { SharedModule } from './../../shared/shared.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
@@ -6,19 +7,22 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChauffeurRoutingModule } from './chauffeur-routing.module';
-import { ChauffeurComponent } from './chauffeur.component';
-import { ChauffeurListComponent } from './chauffeur-list/chauffeur-list.component';
-import { ChauffeurEditComponent } from './chauffeur-edit/chauffeur-edit.component';
+import { DriverRoutingModule } from './driver-routing.module';
+import { DriverComponent } from './driver.component';
 import {CalendarModule} from 'primeng/calendar';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { DriverEditComponent } from './driver-edit/driver-edit.component';
+import { DriverListComponent } from './driver-list/driver-list.component';
+
 
 
 @NgModule({
-  declarations: [ChauffeurComponent , ChauffeurListComponent, ChauffeurEditComponent],
+  declarations: [DriverComponent , DriverListComponent, DriverEditComponent],
   imports: [
     CommonModule,
-    ChauffeurRoutingModule,
+    DriverRoutingModule,
     FormsModule,
     TranslateModule,
     InputTextModule,
@@ -26,7 +30,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CalendarModule,
     DropdownModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    AutoCompleteModule,
+    ConfirmDialogModule
+
   ]
 })
-export class ChauffeurModule { }
+export class DriverModule { }

@@ -8,14 +8,14 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'sample', loadChildren: () => import('./sample/sample.module').then(m => m.SampleModule) },
-      { path: 'badge', loadChildren: () => import('./badge/badge.module').then(m => m.BadgeModule) },
-      { path: 'vehicle', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
-      { path: 'chauffeur', loadChildren: () => import('./chauffeur/chauffeur.module').then(m => m.ChauffeurModule) },
-      { path: 'maintenanceplan', loadChildren: () => import('./maintenance-plan/maintenance-plan.module').then(m => m.MaintenancePlanModule) },
-      { path: 'insurance', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
-      { path: 'supplier', loadChildren: () => import('./supplier/supplier.module').then(m => m.SupplierModule) },
-      { path: 'badgetype', loadChildren: () => import('./badge-type/badge-type.module').then(m => m.BadgeTypeModule) },
-      { path: 'insuranceterm', loadChildren: () => import('./insurance-term/insurance-term.module').then(m => m.InsuranceTermModule) },
+      { path: 'badges', loadChildren: () => import('./badge/badge.module').then(m => m.BadgeModule) },
+      { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
+      { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
+      { path: 'maintenanceplans', loadChildren: () => import('./maintenance-plan/maintenance-plan.module').then(m => m.MaintenancePlanModule) },
+      { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
+      { path: 'suppliers', loadChildren: () => import('./supplier/supplier.module').then(m => m.SupplierModule) },
+      { path: 'badgetypes', loadChildren: () => import('./badge-type/badge-type.module').then(m => m.BadgeTypeModule) },
+      { path: 'insuranceterms', loadChildren: () => import('./insurance-term/insurance-term.module').then(m => m.InsuranceTermModule) },
 
 
     ]

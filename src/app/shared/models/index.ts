@@ -12,7 +12,9 @@ export * from './company';
 export * from './contact';
 export * from './currency';
 export * from './delivery-line';
+export * from './delivery-method';
 export * from './delivery';
+export * from './driver';
 export * from './group-habilitation';
 export * from './habilitation';
 export * from './kit';
@@ -25,9 +27,12 @@ export * from './payment-account-sale-order';
 export * from './payment-method';
 export * from './payment-status';
 export * from './product-pack';
+export * from './product-supplier';
+export * from './product-type';
 export * from './product';
 export * from './purchase-order-line';
 export * from './purchase-order';
+export * from './reception-line';
 export * from './reception-stock';
 export * from './reception';
 export * from './sale-order-line';
@@ -45,6 +50,5 @@ export * from './vat';
 export * from './vehicle-category';
 export * from './vehicle';
 export * from './warehouse';
-
 // end:ng42.barrel
 

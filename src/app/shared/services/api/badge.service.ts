@@ -1,29 +1,29 @@
+import { BadgeType } from './../../models/BadgeType';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
-import { Driver } from '../../models/driver';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class DriverService {
-    controller = 'drivers';
+export class BadgeService {
+    controller = "badgeType";
 
-    private driverList: Driver[] = [];
+    private badgeTypeList: BadgeType[] = [];
 
-    driverListChanged = new Subject<Driver[]>();
+    badgeTypeListChanged = new Subject<BadgeType[]>();
     constructor(private proxy: ProxyService, private toastr: ToastrService) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.driverList = data;
-            this.driverListChanged.next(this.driverList);
+            this.badgeTypeList = data;
+            this.badgeTypeListChanged.next(this.badgeTypeList);
         });
     }
 
-    findAll(): Observable<Driver[]> {
-        console.log('from driver service findAll');
+    findAll(): Observable<BadgeType[]> {
+        console.log("from driver service findAll");
         return this.proxy.findAll(this.controller);
     }
 
@@ -31,7 +31,7 @@ export class DriverService {
         return this.proxy.find(this.controller, search);
     }
 
-    findById(id: number): Observable<Driver> {
+    findById(id: number): Observable<BadgeType> {
         // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
         return this.proxy.findById(this.controller, id);
     }
@@ -52,55 +52,55 @@ export class DriverService {
         return this.proxy.sizeSearch(this.controller, search);
     }
 
-    set(driver: Driver): Driver {
-        this.proxy.set(this.controller, driver).subscribe(
+    set(BadgeType: BadgeType): BadgeType {
+        this.proxy.set(this.controller, BadgeType).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
+                this.toastr.success("Item was saved successfully", "Save");
                 return data;
             },
             error =>
                 this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
+                    "Item could not be saved successfully",
+                    "Save"
                 )
         );
         return null;
     }
 
-    setManually(driver: Driver) {
-        return this.proxy.set(this.controller, driver);
+    setManually(BadgeType: BadgeType) {
+        return this.proxy.set(this.controller, BadgeType);
     }
 
-    add(driver: Driver): Driver {
-        this.proxy.add(this.controller, driver).subscribe(
+    add(BadgeType: BadgeType): BadgeType {
+        this.proxy.add(this.controller, BadgeType).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
+                this.toastr.success("Item was saved successfully", "Save");
                 return data;
             },
             error =>
                 this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
+                    "Item could not be saved successfully",
+                    "Save"
                 )
         );
         return null;
     }
 
-    delete(id: number) {
-        this.proxy.delete(this.controller, id).subscribe(
+    delete(BadgeType: BadgeType) {
+        this.proxy.delete(this.controller,BadgeType.id).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success(
-                    'Elément supprimé avec succès',
-                    'Suppression'
+                    "Elément supprimé avec succès",
+                    "Suppression"
                 );
             },
             error =>
                 this.toastr.error(
-                    'Erreur de suppression' + error,
-                    'Suppression'
+                    "Erreur de suppression" + error,
+                    "Suppression"
                 )
         );
     }

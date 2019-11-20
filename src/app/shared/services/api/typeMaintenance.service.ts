@@ -1,29 +1,29 @@
-import { Injectable } from '@angular/core';
+import { MaintenanceType } from './../../models/maintenance-type';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
-import { Driver } from '../../models/driver';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class DriverService {
-    controller = 'drivers';
+export class MaintenanceTypeService {
+    controller = "maintenanceTypes";
 
-    private driverList: Driver[] = [];
+    private MaintenanceTypeList: MaintenanceType[] = [];
 
-    driverListChanged = new Subject<Driver[]>();
+    MaintenanceTypeListChanged = new Subject<MaintenanceType[]>();
     constructor(private proxy: ProxyService, private toastr: ToastrService) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.driverList = data;
-            this.driverListChanged.next(this.driverList);
+            this.MaintenanceTypeList = data;
+            this.MaintenanceTypeListChanged.next(this.MaintenanceTypeList);
         });
     }
 
-    findAll(): Observable<Driver[]> {
-        console.log('from driver service findAll');
+    findAll(): Observable<MaintenanceType[]> {
+        console.log("from driver service findAll");
         return this.proxy.findAll(this.controller);
     }
 
@@ -31,7 +31,7 @@ export class DriverService {
         return this.proxy.find(this.controller, search);
     }
 
-    findById(id: number): Observable<Driver> {
+    findById(id: number): Observable<MaintenanceType> {
         // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
         return this.proxy.findById(this.controller, id);
     }
@@ -47,60 +47,54 @@ export class DriverService {
     findPagination(page: number, size: number, search: string) {
         return this.proxy.findPagination(this.controller, search, page, size);
     }
-
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-
-    set(driver: Driver): Driver {
-        this.proxy.set(this.controller, driver).subscribe(
+    set(MaintenanceType: MaintenanceType): MaintenanceType {
+        this.proxy.set(this.controller, MaintenanceType).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
+                this.toastr.success("Item was saved successfully", "Save");
                 return data;
             },
             error =>
                 this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
+                    "Item could not be saved successfully",
+                    "Save"
                 )
         );
         return null;
     }
 
-    setManually(driver: Driver) {
-        return this.proxy.set(this.controller, driver);
-    }
-
-    add(driver: Driver): Driver {
-        this.proxy.add(this.controller, driver).subscribe(
+    add(MaintenanceType: MaintenanceType): MaintenanceType {
+        this.proxy.add(this.controller, MaintenanceType).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
+                this.toastr.success("Item was saved successfully", "Save");
                 return data;
             },
             error =>
                 this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
+                    "Item could not be saved successfully",
+                    "Save"
                 )
         );
         return null;
     }
 
-    delete(id: number) {
-        this.proxy.delete(this.controller, id).subscribe(
+    delete(MaintenanceType: MaintenanceType) {
+        this.proxy.delete(this.controller, MaintenanceType.id).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success(
-                    'Elément supprimé avec succès',
-                    'Suppression'
+                    "Elément supprimé avec succès",
+                    "Suppression"
                 );
             },
             error =>
                 this.toastr.error(
-                    'Erreur de suppression' + error,
-                    'Suppression'
+                    "Erreur de suppression" + error,
+                    "Suppression"
                 )
         );
     }

@@ -22,25 +22,33 @@
             ><br />
             <input type="text" class="form-control" pInputText formControlName="code" />
         </div>
-
         <div class="form-group col-md-3">
+          <label
+            class="font-weight-bold "
+            >{{ 'Nom'  | translate }}</label
+          ><br />
+          <input type="text" class="form-control" pInputText formControlName="nom" />
+      </div>
+
+        </div>
+
+
+
+        <div class="row justify-content-around">
+          <div class="form-group col-md-3">
             <label
               class="font-weight-bold "
               >{{ 'Date Naissance'  | translate }}</label
             ><br />
-            <p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+            <p-calendar  [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy"
                          formControlName="dateNaissance" ></p-calendar>
           </div>
-        </div>
-
-        <div class="row justify-content-around">
-
         <div class="form-group col-md-3">
             <label
               class="font-weight-bold "
               >{{'Visite Medicale'  | translate }}</label
             ><br />
-            <p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+            <p-calendar  [monthNavigator]="true" [yearNavigator]="true"  dateFormat="dd/mm/yy"
             formControlName="visiteMedicale" ></p-calendar>
 
         </div>
@@ -51,15 +59,6 @@
               >{{ 'Comission'  | translate }}</label
             ><br />
             <input type="text" class="form-control"  pInputText formControlName="comission" />
-        </div>
-
-        <div class="form-group col-md-3">
-            <label
-              class="font-weight-bold "
-              >{{ 'Contact '  | translate }}</label
-            ><br />
-            <p-dropdown placeholder=".." formControlName="contact"></p-dropdown>
-
         </div>
         </div>
         <div class="row justify-content-around">
@@ -88,6 +87,21 @@
         </div>
 
         </div>
+        <div class="row justify-content-around">
+
+          <div class="form-group col-md-3">
+              <label
+                class="font-weight-bold "
+                >{{ 'Badge'  | translate }}</label
+              ><br />
+              <p-dropdown [options]="badgesList" optionLabel="code" [autoDisplayFirst]="false"
+                            (onChange)="onSelectBadgeCode($event)"></p-dropdown>
+            </div>
+          <div class="form-group col-md-3">
+</div>
+<div class="form-group col-md-3">
+</div>
+</div>
         <br>
         <br>
         <br>
@@ -97,6 +111,8 @@
             </button>
             <button type="submit" class="btn btn-success col-md-2">{{'Valider'|translate}}</button>
           </div>
+
+
 
         </form>
     </div>

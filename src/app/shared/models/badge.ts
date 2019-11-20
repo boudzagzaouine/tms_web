@@ -1,6 +1,9 @@
+import { BadgeType } from './badge-Type';
 
-export class Badge{
+export class Badge {
 
-
+  id: number;
+  code: string;
+  badgeType: BadgeType;
 
 }

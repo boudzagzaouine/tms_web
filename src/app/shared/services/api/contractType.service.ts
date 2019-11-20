@@ -1,40 +1,46 @@
-import { Injectable } from '@angular/core';
+import { ContractType } from './../../models/contract-type';
+
+
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
-import { Driver } from '../../models/driver';
-import { Observable } from 'rxjs/Observable';
+
+import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class DriverService {
-    controller = 'drivers';
+export class InsuranceService {
+    controller = 'ContractType'
 
-    private driverList: Driver[] = [];
 
-    driverListChanged = new Subject<Driver[]>();
-    constructor(private proxy: ProxyService, private toastr: ToastrService) {}
+    private InsuranceList: ContractType[] = [];
+
+    InsuranceListChanged = new Subject<ContractType[]>();
+    constructor(private proxy: ProxyService,
+                private toastr: ToastrService,
+           ) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.driverList = data;
-            this.driverListChanged.next(this.driverList);
+            this.InsuranceList = data;
+            this.InsuranceListChanged.next(this.InsuranceList);
         });
     }
 
-    findAll(): Observable<Driver[]> {
-        console.log('from driver service findAll');
-        return this.proxy.findAll(this.controller);
+    findAll(): Observable<ContractType[]> {
+      console.log('from driver service findAll');
+      return this.proxy.findAll(this.controller);
     }
 
     find(search: string) {
         return this.proxy.find(this.controller, search);
     }
 
-    findById(id: number): Observable<Driver> {
-        // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
-        return this.proxy.findById(this.controller, id);
-    }
+    findById(id: number): Observable<ContractType> {
+      // let TOKEN = this.token.computeToken('ems@ems.com', 'EMS', '77d2896c3eb544541f9389fe42651b0d');
+      return this.proxy.findById(this.controller, id);
+  }
 
     size() {
         return this.proxy.size(this.controller);
@@ -47,13 +53,11 @@ export class DriverService {
     findPagination(page: number, size: number, search: string) {
         return this.proxy.findPagination(this.controller, search, page, size);
     }
-
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-
-    set(driver: Driver): Driver {
-        this.proxy.set(this.controller, driver).subscribe(
+    set(ContractType: ContractType): ContractType {
+        this.proxy.set(this.controller, ContractType).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -68,12 +72,9 @@ export class DriverService {
         return null;
     }
 
-    setManually(driver: Driver) {
-        return this.proxy.set(this.controller, driver);
-    }
 
-    add(driver: Driver): Driver {
-        this.proxy.add(this.controller, driver).subscribe(
+    add(ContractType: ContractType): ContractType {
+        this.proxy.add(this.controller, ContractType).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -83,25 +84,24 @@ export class DriverService {
                 this.toastr.error(
                     'Item could not be saved successfully',
                     'Save'
+
                 )
         );
         return null;
     }
 
-    delete(id: number) {
-        this.proxy.delete(this.controller, id).subscribe(
+    delete(ContractType: ContractType) {
+        this.proxy.delete(this.controller, ContractType.id).subscribe(
             data => {
                 this.emitChanges();
-                this.toastr.success(
+                  this.toastr.success(
                     'Elément supprimé avec succès',
                     'Suppression'
                 );
             },
-            error =>
-                this.toastr.error(
-                    'Erreur de suppression' + error,
-                    'Suppression'
-                )
+            error => this.toastr.error('Erreur de suppression' + error, 'Suppression')
         );
     }
+
+
 }

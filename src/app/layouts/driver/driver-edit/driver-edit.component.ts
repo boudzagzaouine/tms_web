@@ -1,4 +1,4 @@
-import { Driver } from './../../../shared/models/driver';
+
 import { ActivatedRoute } from '@angular/router';
 import { Badge, Driver, Contact } from './../../../shared/models';
 import { BadgeService } from '../../../shared/services/api/badge.service';

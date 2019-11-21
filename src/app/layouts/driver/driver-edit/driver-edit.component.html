@@ -94,8 +94,9 @@
                 class="font-weight-bold "
                 >{{ 'Badge'  | translate }}</label
               ><br />
-              <p-dropdown [options]="badgesList" optionLabel="code" [autoDisplayFirst]="false"
-                            (onChange)="onSelectBadgeCode($event)"></p-dropdown>
+                            <p-dropdown [autoDisplayFirst]="false" [options]="badgesList"
+                            optionLabel="code" [filter]="true" (onChange)="onSelectBadgeCode($event)"
+                            formControlName="badge"></p-dropdown>
             </div>
           <div class="form-group col-md-3">
 </div>
@@ -105,11 +106,14 @@
         <br>
         <br>
         <br>
+
         <div class="text-center">
-            <button type="button" class="btn btn-primary col-md-2" style="margin-right:20px;">
-              {{'Fermer' | translate }}
-            </button>
-            <button type="submit" class="btn btn-success col-md-2">{{'Valider'|translate}}</button>
+            <a [routerLink]="['/core/drivers/list']"
+            routerLinkActive="active" class="mr-5">
+            <i class="btn btn-primary col-md-2"> {{'Fermer' | translate }}</i>
+          </a>
+
+            <button type="submit" class="btn btn-success col-md-2 ">{{'Valider'|translate}}</button>
           </div>
 
 
@@ -118,4 +122,5 @@
     </div>
     </div>
 
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
 

@@ -12,10 +12,20 @@ export class Driver {
     lastMedicalVisit: Date;
   //  workArea: Zone;
     commission: number;
-    contact: Contact;
+    //contact: Contact;
    // vacation: Vacation;
     creationDate: Date;
     creationUser: User;
     upDateDate: Date;
     working: boolean;
+
+    name: string;
+    tele1: String;
+    tel2: String;
+    surName: String;
+    fax: String;
+    Type: number;
+    email: String;
+    comment: String;
+    active: boolean;
 }

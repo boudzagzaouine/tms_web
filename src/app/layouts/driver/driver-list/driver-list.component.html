@@ -64,10 +64,14 @@
             <td>{{drv?.badge?.code}}</td>
             <td>
              <a [routerLink]="['/core/drivers/edit', drv.id]"
-              routerLinkActive="active" class="btn btn-primary">
+              routerLinkActive="active" class="btn btn-primary mr-2">
               <i class="fa fa-pencil"></i>
             </a>
-            <button class="btn btn-danger fa fa-trash" type="button" (click)="onDeleteDriver(drv?.id)"></button>
+            <a routerLinkActive="active"  [routerLink]=""
+            class="btn btn-danger mr-2" (click)="onDeleteDriver(drv?.id)">
+            <i class="fa fa-trash"></i>
+          </a>
+
           </td>
           </tr>
         </ng-template>
@@ -75,3 +79,4 @@
     </div>
   </div>
   <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

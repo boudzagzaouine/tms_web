@@ -1,4 +1,6 @@
-import { Badge, Driver, Contact} from './../../../shared/models';
+import { Driver } from './../../../shared/models/driver';
+import { ActivatedRoute } from '@angular/router';
+import { Badge, Driver, Contact } from './../../../shared/models';
 import { BadgeService } from '../../../shared/services/api/badge.service';
 
 import { DriverService } from '../../../shared/services/api/driver.service';
@@ -17,39 +19,68 @@ export class DriverEditComponent implements OnInit {
 
   driverForm: FormGroup;
   selectedContact = new Contact();
-  selectedDriver = new Driver();
+  selectedDriver: Driver = new Driver();
   badgesList: Array<Badge> = [];
   selectedBadge: Badge;
+  idDriver: number;
+
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
-    private badgeService: BadgeService) { }
+    private badgeService: BadgeService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.initForm();
 
+
+    if (this.route.snapshot.params['id'] >= 1) {
+      this.idDriver = this.route.snapshot.params['id'];
+      this.driverService.findById(this.idDriver).subscribe(
+
+        data => {
+
+          this.selectedDriver = data;
+          console.log('driver :');
+          console.log(this.selectedDriver);
+          this.initForm();
+          console.log('id' + this.idDriver);
+          console.log('driver ');
+          console.log(this.selectedDriver.badge.code);
+        }
+      );
+
+
+    }
     this.loadBadge();
-
-
-
-
   }
+
+
+
   initForm() {
 
     this.driverForm = this.formBuilder.group(
       {
 
-        'cin': new FormControl(),
-        'code': new FormControl(),
-        'dateNaissance': new FormControl(),
-        'visiteMedicale': new FormControl(),
-        'comission': new FormControl(),
-        'nom': new FormControl(),
-        'tele': new FormControl(),
-        'fax': new FormControl(),
-        'email': new FormControl()
+        'cin': new FormControl(this.selectedDriver.cin),
+        'code': new FormControl(this.selectedDriver.code),
+        'dateNaissance': new FormControl(new Date),
+        'visiteMedicale': new FormControl(new Date),
+        'badge': new FormControl(this.selectedDriver.badge),
+        'comission': new FormControl(this.selectedDriver.commission),
+        'nom': new FormControl(this.selectedDriver.name),
+        'tele': new FormControl(this.selectedDriver.tele1),
+        'fax': new FormControl(this.selectedDriver.fax),
+        'email': new FormControl(this.selectedDriver.email),
       }
     );
+
+    console.log('badge');
+    console.log(this.selectedDriver.badge);
+
+
   }
+
+
   loadBadge() {
 
     this.badgeService.findAll().subscribe(
@@ -75,13 +106,12 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.lastMedicalVisit = formValue['visiteMedicale'];
     this.selectedDriver.commission = formValue['comission'];
 
-    this.selectedContact.name = formValue['nom'];
-    this.selectedContact.email = formValue['email'];
-    this.selectedContact.tel1 = formValue['tele'];
-    this.selectedContact.fax = formValue['fax'];
+    this.selectedDriver.name = formValue['nom'];
+    this.selectedDriver.email = formValue['email'];
+    this.selectedDriver.tele1 = formValue['tele'];
+    this.selectedDriver.fax = formValue['fax'];
 
 
-    this.selectedDriver.contact = this.selectedContact;
     this.driverService.add(this.selectedDriver);
     console.log('inserted');
     console.log(this.selectedDriver);

@@ -1,3 +1,4 @@
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { SharedModule } from './../../shared/shared.module';
 import { DropdownModule } from 'primeng/dropdown';
@@ -30,6 +31,7 @@ import { DriverListComponent } from './driver-list/driver-list.component';
     CalendarModule,
     DropdownModule,
     ReactiveFormsModule,
+    NgxSpinnerModule,
     SharedModule,
     AutoCompleteModule,
     ConfirmDialogModule

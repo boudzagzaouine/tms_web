@@ -24,14 +24,14 @@
           <label class="font-weight-bold ">{{'Type Badge' | translate}}</label><br />
           <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList"
            optionLabel="code" [filter]="true" (onChange)="onSelectBadgeType($event)"
-           formControlName="badgeType"></p-dropdown>
+           formControlName="badgeType" [showClear]="true" [dropdownIcon]="'caret'"></p-dropdown>
         </div>
 
         <div class="form-group col-md-3 ">
           <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}</label><br />
           <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList"
             optionLabel="code" formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)"
-            [filter]="true"
+            [filter]="true" [showClear]="true" [dropdownIcon]="'caret'"
             ></p-dropdown>
         </div>
 

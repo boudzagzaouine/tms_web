@@ -12,43 +12,48 @@
       <div class="col-md-3">
         <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Matriculation</label><br />
         <input type="text" pInputText [(ngModel)]="matSearch" />
-
       </div>
 
       <div class="col-md-3 ">
         <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Catégorie</label><br />
-        <p-dropdown [(ngModel)]="categorySearch" [editable]="true"></p-dropdown>
-
+        <p-autoComplete [(ngModel)]="categorySearch" [suggestions]="vehicleCategoryList"
+          (completeMethod)="onVehicleCategorySearch($event)"></p-autoComplete>
       </div>
+
       <div class="col-md-3 ">
         <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Type Badge</label><br />
-        <input type="text" pInputText [(ngModel)]="badgeTypeSearch" />
+        <p-autoComplete [(ngModel)]="badgeTypeSearch" [suggestions]="badgeTypeList"
+          (completeMethod)="onBadgeTypeSearch($event)"></p-autoComplete>
       </div>
+
     </div>
     <br />
     <br />
     <div class="text-center">
-      <button type="button" class="btn btn-primary" style="margin-right:20px;" (click)="onSearchClicked()">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
-      <button type="button" class="btn btn-success" (click)="reset()">Renitialiser</button>
     </div>
   </div>
 </div>
 
-<div class="card mt-5">
+<div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Des Véhicules</span>
 
   </div>
   <div class="card-body border-top-primary">
-    <p-table [value]="vehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [paginator]="true">
+    <p-table [value]="vehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
+      [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
+      [(selection)]="selectedVehicle" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>
           <th>Matriculation</th>
           <th>Categorie</th>
-          <th>Actions</th>
+          <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-veh>
@@ -57,9 +62,14 @@
           <td>{{veh?.registrationNumber}}</td>
           <td>{{veh?.vehicleCategory?.code}}</td>
           <td>
-            <a [routerLink]="['/core/vehicle/edit', veh.id]" routerLinkActive="active" class="btn btn-primary" >
+            <a [routerLink]="['/core/vehicles/edit', veh.id]" routerLinkActive="active"
+              class="btn btn-sm btn-primary mr-2">
               <i class="fa fa-pencil"></i>
             </a>
+
+            <button type="button" (click)="onDelete(veh.id)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash-o"></i>
+            </button>
           </td>
         </tr>
       </ng-template>
@@ -68,3 +78,5 @@
 </div>
 
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+</p-confirmDialog>

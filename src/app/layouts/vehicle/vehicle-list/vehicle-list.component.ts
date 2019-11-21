@@ -1,3 +1,7 @@
+import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
+import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
+import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleService } from './../../../shared/services';
@@ -8,41 +12,65 @@ import { Vehicle } from './../../../shared/models';
 @Component({
   selector: 'app-vehicle-list',
   templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css']
+  styleUrls: ['./vehicle-list.component.css'],
+  providers: [ConfirmationService]
 })
 export class VehicleListComponent implements OnInit {
 
-  page = 0; size = 10;
+  page = 0;
+  size = 10;
+  collectionSize: number;
+
+  selectedVehicle: Vehicle;
+  searchQuery: string;
   codeSearch: string;
   matSearch: string;
   categorySearch: string;
   badgeTypeSearch: string;
 
   vehicleList: Array<Vehicle> = [];
+  vehicleCategoryList: Array<string> = [];
+  badgeTypeList: Array<string> = [];
 
   constructor(private vehicleService: VehicleService,
-    private spinner: NgxSpinnerService) { }
+    private vehicleCategoryService: VehicleCategoryService,
+    private badgeTypeService: BadgeTypeService,
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.loadData();
+    this.vehicleService.driverListChanged.subscribe(
+      data => {
+        this.vehicleList = data;
+      }
+    );
   }
+
 
   loadData(search: string = '') {
 
-    this.spinner.show()
+    console.log(`search query : ${this.searchQuery}`);
+
+    this.spinner.show();
+    this.vehicleService.sizeSearch(search).subscribe(
+      data => {
+        this.collectionSize = data;
+      }
+    );
     this.vehicleService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.vehicleList = data;
         this.spinner.hide();
       },
-      error => {this.spinner.hide()},
+      error => { this.spinner.hide() },
       () => this.spinner.hide()
     );
   }
-  loadDataLazy(event){
+  loadDataLazy(event) {
     this.page = event.first / this.size;
-    this.loadData();
+    console.log('first : ' + event.first);
+    this.loadData(this.searchQuery);
   }
 
   onSearchClicked() {
@@ -66,9 +94,21 @@ export class VehicleListComponent implements OnInit {
 
 
     this.page = 0;
-    const searchQuery = buffer.getValue();
-    this.loadData(searchQuery);
+    this.searchQuery = buffer.getValue();
+    this.loadData(this.searchQuery);
 
+  }
+
+  onVehicleCategorySearch(event: any) {
+    this.vehicleCategoryService.find('code~' + event.query).subscribe(
+      data => this.vehicleCategoryList = data.map(f => f.code)
+    );
+  }
+
+  onBadgeTypeSearch(event: any) {
+    this.badgeTypeService.find('code~' + event.query).subscribe(
+      data => this.badgeTypeList = data.map(f => f.code)
+    );
   }
 
   reset() {
@@ -78,7 +118,21 @@ export class VehicleListComponent implements OnInit {
     this.badgeTypeSearch = null;
     this.page = 0;
 
-    this.loadData();
+    this.loadData(this.searchQuery);
+  }
+
+  onDelete(id: number) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+        this.vehicleService.delete(id);
+      }
+    });
+  }
+
+  onSelectVehcileCategory() {
+    console.log(this.categorySearch);
+
   }
 
 }

@@ -1,3 +1,5 @@
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,9 +27,11 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     InputTextModule,
     TableModule,
     DropdownModule,
+    AutoCompleteModule,
     NgxSpinnerModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    ConfirmDialogModule
   ]
 })
 export class VehicleModule { }

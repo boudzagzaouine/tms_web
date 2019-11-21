@@ -1,14 +1,10 @@
 import { Supplier } from './../../models/supplier';
-
-
-
 import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
-
 import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class SupplierService {
@@ -56,8 +52,8 @@ export class SupplierService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(Supplier: Supplier): Supplier {
-        this.proxy.set(this.controller, Supplier).subscribe(
+    set(supplier: Supplier): Supplier {
+        this.proxy.set(this.controller, supplier).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -73,8 +69,8 @@ export class SupplierService {
     }
 
 
-    add(Supplier: Supplier): Supplier {
-        this.proxy.add(this.controller, Supplier).subscribe(
+    add(supplier: Supplier): Supplier {
+        this.proxy.add(this.controller, supplier).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
@@ -90,8 +86,8 @@ export class SupplierService {
         return null;
     }
 
-    delete(Supplier: Supplier) {
-        this.proxy.delete(this.controller, Supplier.id).subscribe(
+    delete(supplier: Supplier) {
+        this.proxy.delete(this.controller, supplier.id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

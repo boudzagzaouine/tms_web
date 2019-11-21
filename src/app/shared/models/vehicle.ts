@@ -5,11 +5,11 @@ export class Vehicle {
 
 
   id: number;
-  registrationNumber: string = "";
-  code: string = "";
+  registrationNumber = '';
+  code = '';
   technicalVisit: Date;
   creationDate: Date;
-  vehiculeCategorie: VehicleCategory;
+  vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
 
 

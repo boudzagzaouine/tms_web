@@ -27,7 +27,7 @@ export class VehicleCategoryService {
     return this.proxy.findAll(this.controller);
   }
 
-  find(search: string) {
+  find(search: string): Observable<VehicleCategory[]> {
     return this.proxy.find(this.controller, search);
   }
 

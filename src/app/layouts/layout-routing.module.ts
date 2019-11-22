@@ -12,7 +12,7 @@ const routes: Routes = [
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
       {
-        path: 'maintenance-plans',
+        path: 'maintenances',
         loadChildren: () => import('./maintenance-plan/maintenance-plan.module')
           .then(m => m.MaintenancePlanModule)
       }

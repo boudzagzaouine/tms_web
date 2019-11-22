@@ -22,6 +22,7 @@ import { MaintenanceStatusComponent } from './maintenance-status/maintenance-sta
 import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.component';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { SupplierComponent } from './supplier/supplier.component';
     FormsModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
+    NgbModalModule,
     SharedModule,
     DropdownModule,
     TableModule,

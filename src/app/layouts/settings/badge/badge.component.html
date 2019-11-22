@@ -1,0 +1,66 @@
+<br />
+<div class="card">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="font-weight-bold" >Badge Code</label><br />
+        <input type="text" pInputText [(ngModel)]="codeSearch"/>
+      </div>
+
+      <div class="col-md-3">
+        <label>Badge Type</label><br />
+        <p-autoComplete [(ngModel)]="badgeTypeSearch" [suggestions]="badgeTypeList"
+          (completeMethod)="onBadgeTypeSearch($event)"></p-autoComplete>
+      </div>
+
+    </div>
+    <br />
+
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        Rechercher
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des Badges</span>
+    <app-badge-edit></app-badge-edit>
+  </div>
+  <div class="card-body">
+    <p-table [value]="badgeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
+      [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
+      [(selection)]="selectedBadge" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-badge>
+        <tr>
+          <td>{{badge?.code}}</td>
+          <td>{{badge?.description}}</td>
+          <td>{{badge?.badgeType?.code}}</td>
+          <td>
+            <a [routerLink]="['/core/badges/edit', badge.id]" routerLinkActive="active"
+              class="btn btn-sm btn-primary mr-2">
+              <i class="fa fa-pencil"></i>
+            </a>
+
+            <button type="button" (click)="onDelete(badge.id)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

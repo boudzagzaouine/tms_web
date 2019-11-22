@@ -1,47 +1,41 @@
-import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
-import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
-import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { ConfirmationService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { BadgeService,BadgeTypeService } from './../../..//shared/services';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { VehicleService } from './../../../shared/services';
+
+import { Badge } from './../../../shared/models';
 import { Component, OnInit } from '@angular/core';
-import { Vehicle } from './../../../shared/models';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationService } from 'primeng/api';
 
 
 @Component({
-  selector: 'app-vehicle-list',
-  templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css'],
+  selector: 'app-badge',
+  templateUrl: './badge.component.html',
+  styleUrls: ['./badge.component.css'],
   providers: [ConfirmationService]
 })
-export class VehicleListComponent implements OnInit {
+export class BadgeComponent implements OnInit {
 
   page = 0;
   size = 10;
   collectionSize: number;
 
-  selectedVehicle: Vehicle;
+  selectedBadge: Badge;
   searchQuery: string;
   codeSearch: string;
-  matSearch: string;
-  categorySearch: string;
   badgeTypeSearch: string;
 
-  vehicleList: Array<Vehicle> = [];
-  vehicleCategoryList: Array<string> = [];
+  badgeList: Array<Badge> = [];
   badgeTypeList: Array<string> = [];
 
-  constructor(private vehicleService: VehicleService,
-    private vehicleCategoryService: VehicleCategoryService,
+  constructor(private badgeService: BadgeService,
     private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.vehicleService.vehicleListChanged.subscribe(
+    this.badgeService.badgeListChanged.subscribe(
       data => {
-        this.vehicleList = data;
+        this.badgeList = data;
       }
     );
   }
@@ -52,15 +46,15 @@ export class VehicleListComponent implements OnInit {
     console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
-    this.vehicleService.sizeSearch(search).subscribe(
+    this.badgeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.vehicleService.findPagination(this.page, this.size, search).subscribe(
+    this.badgeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.vehicleList = data;
+        this.badgeList = data;
         this.spinner.hide();
       },
       error => { this.spinner.hide() },
@@ -80,29 +74,14 @@ export class VehicleListComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
 
-    if (this.matSearch != null && this.matSearch !== '') {
-      buffer.append(`registrationNumber~${this.matSearch}`);
-    }
-
-    if (this.categorySearch != null && this.categorySearch !== '') {
-      buffer.append(`vehicleCategory.code~${this.categorySearch}`);
-    }
-
     if (this.badgeTypeSearch != null && this.badgeTypeSearch !== '') {
       buffer.append(`badgeType.code~${this.badgeTypeSearch}`);
     }
-
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
-  }
-
-  onVehicleCategorySearch(event: any) {
-    this.vehicleCategoryService.find('code~' + event.query).subscribe(
-      data => this.vehicleCategoryList = data.map(f => f.code)
-    );
   }
 
   onBadgeTypeSearch(event: any) {
@@ -113,8 +92,6 @@ export class VehicleListComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
-    this.matSearch = null;
-    this.categorySearch = null;
     this.badgeTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
@@ -125,14 +102,8 @@ export class VehicleListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.vehicleService.delete(id);
+        this.badgeService.delete(id);
       }
     });
   }
-
-  onSelectVehcileCategory() {
-    console.log(this.categorySearch);
-
-  }
-
 }

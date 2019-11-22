@@ -22,29 +22,29 @@
       <div class="row justify-content-around">
         <div class="form-group col-md-3 ">
           <label class="font-weight-bold ">{{'Type Badge' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList"
-           optionLabel="code" [filter]="true" (onChange)="onSelectBadgeType($event)"
-           formControlName="badgeType" [showClear]="true" [dropdownIcon]="'caret'"></p-dropdown>
+          <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
+            (onChange)="onSelectBadgeType($event)" formControlName="badgeType" [showClear]="true"
+           ></p-dropdown>
         </div>
 
         <div class="form-group col-md-3 ">
           <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList"
-            optionLabel="code" formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)"
-            [filter]="true" [showClear]="true" [dropdownIcon]="'caret'"
-            ></p-dropdown>
+          <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
+            formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
+            [showClear]="true" ></p-dropdown>
         </div>
 
-        <div class="form-group col-md-3 ">
+        <div class="col-md-3 ui-g-12 ui-md-3 ">
           <label class="font-weight-bold ">{{'Visite Technique' | translate}}</label><br />
-          <p-calendar  formControlName="technicalVisit" dateFormat="dd-mm-yy" showButtonBar="true"></p-calendar>
+          <p-calendar formControlName="technicalVisit" dateFormat="dd-mm-yy" showButtonBar="true"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
         </div>
       </div>
       <br />
       <br />
       <br />
       <div class="text-center">
-        <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']" routerLinkActive="active" >
+        <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']" routerLinkActive="active">
           {{'Fermer' | translate}}
         </a>
         <button type="button" class="btn btn-success m-1" (click)="onSubmit(false)">

@@ -1,10 +1,11 @@
 import { Badge } from './../../models/badge';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BadgeService {
@@ -88,8 +89,8 @@ export class BadgeService {
         return null;
     }
 
-    delete(badge: Badge) {
-        this.proxy.delete(this.controller, badge.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success(

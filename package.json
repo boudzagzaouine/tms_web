@@ -54,6 +54,7 @@
     "ngx-toastr": "^11.2.0",
     "ngx-validators": "^5.0.0",
     "popper.js": "^1.16.0",
+    "primeicons": "^2.0.0",
     "primeng": "^8.1.1",
     "raphael": "^2.2.7",
     "rxjs": "^6.5.3",

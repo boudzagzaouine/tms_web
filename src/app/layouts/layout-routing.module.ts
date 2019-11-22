@@ -8,21 +8,15 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'sample', loadChildren: () => import('./sample/sample.module').then(m => m.SampleModule) },
-      { path: 'badges', loadChildren: () => import('./badge/badge.module').then(m => m.BadgeModule) },
+      { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
       {
         path: 'maintenance-plans',
         loadChildren: () => import('./maintenance-plan/maintenance-plan.module')
           .then(m => m.MaintenancePlanModule)
-      },
-      { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
-      { path: 'suppliers', loadChildren: () => import('./supplier/supplier.module').then(m => m.SupplierModule) },
-      { path: 'badgetypes', loadChildren: () => import('./badge-type/badge-type.module').then(m => m.BadgeTypeModule) },
-      { path: 'insuranceterms', loadChildren: () => import('./insurance-term/insurance-term.module').then(m => m.InsuranceTermModule) },
-
-
-    ]
+      }
+        ]
   }];
 
 @NgModule({

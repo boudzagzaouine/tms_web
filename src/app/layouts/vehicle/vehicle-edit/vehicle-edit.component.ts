@@ -67,11 +67,11 @@ export class VehicleEditComponent implements OnInit {
 
   initForm() {
     console.log(this.selectedVehicle);
-
+    const d = new Date(this.selectedVehicle.technicalVisit);
     this.vehicleForm = new FormGroup({
       'code': new FormControl(this.selectedVehicle.code),
       'registrationNumber': new FormControl(this.selectedVehicle.registrationNumber),
-      'technicalVisit': new FormControl(new Date()),
+      'technicalVisit': new FormControl(d),
       'vehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory),
       'badgeType': new FormControl(this.selectedVehicle.badgeType)
     });

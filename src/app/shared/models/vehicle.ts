@@ -7,8 +7,8 @@ export class Vehicle {
   id: number;
   registrationNumber = '';
   code = '';
-  technicalVisit: Date;
-  creationDate: Date;
+  technicalVisit: Date = new Date();
+  creationDate: Date = new Date();
   vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
 

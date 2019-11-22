@@ -16,7 +16,7 @@ export class VehicleService {
 
   private vehicleList: Vehicle[] = [];
 
-  driverListChanged = new Subject<Vehicle[]>();
+  vehicleListChanged = new Subject<Vehicle[]>();
   constructor(private proxy: ProxyService,
     private toastr: ToastrService,
     private router: Router) { }
@@ -24,7 +24,7 @@ export class VehicleService {
   private emitChanges() {
     this.findAll().subscribe(data => {
       this.vehicleList = data;
-      this.driverListChanged.next(this.vehicleList);
+      this.vehicleListChanged.next(this.vehicleList);
     });
   }
 

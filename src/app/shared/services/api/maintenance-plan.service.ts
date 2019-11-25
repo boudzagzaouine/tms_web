@@ -87,8 +87,8 @@ export class MaintenancePlanService {
         return null;
     }
 
-    delete(maintenancePlan: MaintenancePlan) {
-        this.proxy.delete(this.controller, maintenancePlan.id).subscribe(
+    delete(id : number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

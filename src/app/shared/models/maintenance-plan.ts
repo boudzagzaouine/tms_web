@@ -8,8 +8,8 @@ export class MaintenancePlan {
   id: number;
   code: string;
   description: string;
-  begin: Date;
-  end: Date;
+  begin: Date=new Date();
+  end: Date = new Date();
   maintenanceType: MaintenanceType;
   maintenanceState: MaintenanceState;
   vehicle: Vehicle;

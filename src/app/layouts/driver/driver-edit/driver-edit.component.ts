@@ -46,6 +46,7 @@ export class DriverEditComponent implements OnInit {
           console.log('id' + this.idDriver);
           console.log('driver ');
           console.log(this.selectedDriver.badge.code);
+
         }
       );
 
@@ -57,14 +58,16 @@ export class DriverEditComponent implements OnInit {
 
 
   initForm() {
-
+    const d=new Date(this.selectedDriver.birthDate);
+    const dd=new Date(this.selectedDriver.lastMedicalVisit);
     this.driverForm = this.formBuilder.group(
       {
 
+
         'cin': new FormControl(this.selectedDriver.cin),
         'code': new FormControl(this.selectedDriver.code),
-        'dateNaissance': new FormControl(new Date),
-        'visiteMedicale': new FormControl(new Date),
+        'dateNaissance': new FormControl(d),
+        'visiteMedicale': new FormControl(dd),
         'badge': new FormControl(this.selectedDriver.badge),
         'comission': new FormControl(this.selectedDriver.commission),
         'nom': new FormControl(this.selectedDriver.name),
@@ -74,8 +77,6 @@ export class DriverEditComponent implements OnInit {
       }
     );
 
-    console.log('badge');
-    console.log(this.selectedDriver.badge);
 
 
   }
@@ -112,7 +113,7 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.fax = formValue['fax'];
 
 
-    this.driverService.add(this.selectedDriver);
+    this.driverService.set(this.selectedDriver);
     console.log('inserted');
     console.log(this.selectedDriver);
 
@@ -120,8 +121,6 @@ export class DriverEditComponent implements OnInit {
   }
 
   onSelectBadgeCode(event) {
-
-
 
     this.selectedDriver.badge = event.value;
     console.log('select change');

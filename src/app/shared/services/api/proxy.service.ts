@@ -23,12 +23,6 @@ export class ProxyService {
       console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
-  findAllAccounted(controller: string, accounted: number): Observable<any[]> {
-      //  httpOptions.headers.append('token', this.getToken());
-      const fullurl = this.url + controller + '/listAccounted?token=' + this.getToken() + '&accounted=' + accounted;
-      console.log(fullurl);
-      return this.http.get<any[]>(fullurl);
-  }
 
   findById(controller: string, id: number): Observable<any> {
       const fullurl =
@@ -56,18 +50,6 @@ export class ProxyService {
           search +
           '&token=' +
           this.getToken();
-      console.log(fullurl);
-      return this.http.get<any[]>(fullurl);
-  }
-  findAccounted(controller: string, search: string, accounted): Observable<any[]> {
-      const fullurl =
-          this.url +
-          controller +
-          '/search?search=' +
-          search +
-          '&token=' +
-          this.getToken() +
-          'accounted=' + accounted;
       console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }

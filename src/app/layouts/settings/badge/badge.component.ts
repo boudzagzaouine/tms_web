@@ -1,10 +1,11 @@
+import { ToastrService } from 'ngx-toastr';
 import { BadgeService,BadgeTypeService } from './../../..//shared/services';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 
 import { Badge } from './../../../shared/models';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class BadgeComponent implements OnInit {
   searchQuery: string;
   codeSearch: string;
   badgeTypeSearch: string;
+  items: MenuItem[];
 
   badgeList: Array<Badge> = [];
   badgeTypeList: Array<string> = [];
@@ -30,6 +32,7 @@ export class BadgeComponent implements OnInit {
   constructor(private badgeService: BadgeService,
     private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -38,6 +41,11 @@ export class BadgeComponent implements OnInit {
         this.badgeList = data;
       }
     );
+
+    this.items = [
+      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedBadge.id) }
+  ];
   }
 
 
@@ -106,4 +114,9 @@ export class BadgeComponent implements OnInit {
       }
     });
   }
+
+  onEdit() {
+    this.toastr.info('selected ');
+}
+
 }

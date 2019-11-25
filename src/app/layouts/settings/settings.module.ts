@@ -1,3 +1,6 @@
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from './../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -23,6 +26,7 @@ import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.co
 import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {ContextMenuModule} from 'primeng/contextmenu';
 
 
 @NgModule({
@@ -48,7 +52,11 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     SettingsRoutingModule,
     NgbModalModule,
+    NgxSpinnerModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
     SharedModule,
+    TranslateModule,
     DropdownModule,
     TableModule,
     AutoCompleteModule,

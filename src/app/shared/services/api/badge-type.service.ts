@@ -88,8 +88,8 @@ export class BadgeTypeService {
         return null;
     }
 
-    delete(badgeType: BadgeType) {
-        this.proxy.delete(this.controller, badgeType.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success(

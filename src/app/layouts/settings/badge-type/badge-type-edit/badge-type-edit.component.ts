@@ -1,5 +1,8 @@
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BadgeType } from '../../../../shared/models';
+import { BadgeTypeService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-badge-type-edit',
@@ -7,15 +10,44 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./badge-type-edit.component.css']
 })
 export class BadgeTypeEditComponent implements OnInit {
-  closeResult : String;
 
-  constructor(private modalService: NgbModal) { }
+  @Input() selectedBadgeType = new BadgeType();
+  @Input() editMode: boolean;
+  closeResult: String;
+  badgeTypeForm: FormGroup;
+  badgeTypeTypeList: BadgeType[] = [];
+
+  modal: NgbModalRef;
+
+  constructor(
+    private badgeTypeService: BadgeTypeService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.initForm();
+
+  }
+
+  initForm() {
+    this.badgeTypeForm = new FormGroup({
+      'code': new FormControl(this.selectedBadgeType.code),
+      'description': new FormControl(this.selectedBadgeType.description)
+    });
+  }
+  onSubmit() {
+    this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
+    this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
+
+
+    console.log(this.selectedBadgeType);
+    const s = this.badgeTypeService.set(this.selectedBadgeType);
+
+    if (this.modal) { this.modal.close(); }
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static' }).result.then((result) => {
+    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
+    this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -28,8 +60,10 @@ export class BadgeTypeEditComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
+
+
 
 }

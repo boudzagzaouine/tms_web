@@ -1,6 +1,5 @@
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
-import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';

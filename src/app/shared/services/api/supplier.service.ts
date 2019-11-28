@@ -12,7 +12,7 @@ export class SupplierService {
 
     private SupplierList: Supplier[] = [];
 
-    SupplierListChanged = new Subject<Supplier[]>();
+    supplierListChanged = new Subject<Supplier[]>();
     constructor(private proxy: ProxyService,
                 private toastr: ToastrService,
            ) {}
@@ -20,7 +20,7 @@ export class SupplierService {
     private emitChanges() {
         this.findAll().subscribe(data => {
             this.SupplierList = data;
-            this.SupplierListChanged.next(this.SupplierList);
+            this.supplierListChanged.next(this.SupplierList);
         });
     }
 
@@ -86,8 +86,8 @@ export class SupplierService {
         return null;
     }
 
-    delete(supplier: Supplier) {
-        this.proxy.delete(this.controller, supplier.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

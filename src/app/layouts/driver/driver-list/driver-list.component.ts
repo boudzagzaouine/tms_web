@@ -139,7 +139,7 @@ export class DriverListComponent implements OnInit {
   reset() {
     this.codeSearch = null;
     this.cinSearch = null;
-
+    this.badgeSearch = null;
     this.page = 0;
 
     this.loadData();

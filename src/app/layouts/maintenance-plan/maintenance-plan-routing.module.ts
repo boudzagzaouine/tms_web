@@ -7,6 +7,7 @@ import { MaintenancePlanListComponent } from './maintenance-plan-list/maintenanc
 
 const routes: Routes = [{ path: '', component: MaintenancePlanComponent },
 { path: 'edit', component: MaintenancePlanEditComponent },
+{ path: 'edit/:id', component: MaintenancePlanEditComponent },
 { path: 'list', component: MaintenancePlanListComponent }];
 
 

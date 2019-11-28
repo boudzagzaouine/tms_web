@@ -1,4 +1,4 @@
-import { InsuranceTerm } from '../../models/term-insurance';
+import { InsuranceTerm } from '../../models/insurance-term';
 
 
 import {Injectable} from '@angular/core';
@@ -15,7 +15,7 @@ export class InsuranceTermService {
 
     private TermInsuranceList: InsuranceTerm[] = [];
 
-    TermInsuranceListChanged = new Subject<InsuranceTerm[]>();
+    termInsuranceListChanged = new Subject<InsuranceTerm[]>();
     constructor(private proxy: ProxyService,
                 private toastr: ToastrService,
            ) {}
@@ -23,7 +23,7 @@ export class InsuranceTermService {
     private emitChanges() {
         this.findAll().subscribe(data => {
             this.TermInsuranceList = data;
-            this.TermInsuranceListChanged.next(this.TermInsuranceList);
+            this.termInsuranceListChanged.next(this.TermInsuranceList);
         });
     }
 
@@ -89,8 +89,8 @@ export class InsuranceTermService {
         return null;
     }
 
-    delete(insuranceTerm: InsuranceTerm) {
-        this.proxy.delete(this.controller, insuranceTerm.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

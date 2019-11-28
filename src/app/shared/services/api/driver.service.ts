@@ -5,6 +5,7 @@ import { Driver } from '../../models/driver';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class DriverService {
@@ -13,7 +14,7 @@ export class DriverService {
     private driverList: Driver[] = [];
 
     driverListChanged = new Subject<Driver[]>();
-    constructor(private proxy: ProxyService, private toastr: ToastrService) {}
+    constructor(private proxy: ProxyService, private toastr: ToastrService, private router: Router) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
@@ -52,11 +53,14 @@ export class DriverService {
         return this.proxy.sizeSearch(this.controller, search);
     }
 
-    set(driver: Driver): Driver {
+    set(driver: Driver , navigate = false): Driver {
         this.proxy.set(this.controller, driver).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
+                if (navigate) {
+                  this.router.navigate(['/core/drivers/list']);
+                }
                 return data;
             },
             error =>

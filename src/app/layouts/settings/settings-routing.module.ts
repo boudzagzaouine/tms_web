@@ -1,3 +1,4 @@
+import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.component';
 import { InsuranceTermComponent } from './insurance-term/insurance-term.component';
@@ -16,7 +17,7 @@ const routes: Routes = [
       { path: 'badges', component: BadgeComponent },
       { path: 'badge-types', component: BadgeTypeComponent },
       { path: 'suppliers', component: SupplierComponent },
-      { path: 'contract-types', component: BadgeTypeComponent },
+      { path: 'contract-types', component: ContractTypeComponent },
       { path: 'insurances', component: InsuranceComponent },
       { path: 'insurance-terms', component: InsuranceTermComponent },
       { path: 'maintenance-statuses', component: MaintenanceStatusComponent },

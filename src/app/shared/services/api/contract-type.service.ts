@@ -11,20 +11,20 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ContractTypeService {
-    controller = 'ContractTypes';
+    controller = 'contractTypes';
 
 
-    private InsuranceList: ContractType[] = [];
+    private contractTypeList: ContractType[] = [];
 
-    InsuranceListChanged = new Subject<ContractType[]>();
+    contractTypeListChanged = new Subject<ContractType[]>();
     constructor(private proxy: ProxyService,
                 private toastr: ToastrService,
            ) {}
 
     private emitChanges() {
         this.findAll().subscribe(data => {
-            this.InsuranceList = data;
-            this.InsuranceListChanged.next(this.InsuranceList);
+            this.contractTypeList = data;
+            this.contractTypeListChanged.next(this.contractTypeList);
         });
     }
 
@@ -90,8 +90,8 @@ export class ContractTypeService {
         return null;
     }
 
-    delete(contractType: ContractType) {
-        this.proxy.delete(this.controller, contractType.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

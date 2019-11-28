@@ -28,8 +28,8 @@ import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {ContextMenuModule} from 'primeng/contextmenu';
-import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
-import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
+import { MaintenanceTypeEditComponent } from './maintenance-type/maintenance-type-edit/maintenance-type-edit.component';
+import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance-status-edit/maintenance-status-edit.component';
 
 
 @NgModule({
@@ -47,8 +47,8 @@ import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.co
     MaintenanceStatusComponent,
     MaintenanceTypeComponent,
     ContractTypeComponent,
-    ContractTypeEditComponent,
-    SupplierEditComponent
+    MaintenanceTypeEditComponent,
+    MaintenanceStatusEditComponent
 
   ],
   imports: [

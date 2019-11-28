@@ -1,20 +1,19 @@
-import { Insurance } from './../../models/insurance';
 
 import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
-
 import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
+import 'rxjs/add/operator/map';
+import { Insurance } from './../../models/insurance';
 
 @Injectable()
 export class InsuranceService {
-    controller = 'Insurances';
+    controller = 'insurances';
 
     private InsuranceList: Insurance[] = [];
 
-    InsuranceListChanged = new Subject<Insurance[]>();
+    insuranceListChanged = new Subject<Insurance[]>();
     constructor(private proxy: ProxyService,
                 private toastr: ToastrService,
            ) {}
@@ -22,13 +21,18 @@ export class InsuranceService {
     private emitChanges() {
         this.findAll().subscribe(data => {
             this.InsuranceList = data;
-            this.InsuranceListChanged.next(this.InsuranceList);
+            this.insuranceListChanged.next(this.InsuranceList);
         });
     }
 
     findAll(): Observable<Insurance[]> {
       console.log('from driver service findAll');
       return this.proxy.findAll(this.controller);
+    }
+
+    findAvailable(): Observable<Insurance[]> {
+      console.log('from driver service findAll');
+      return this.proxy.findAvailable(this.controller);
     }
 
     find(search: string) {
@@ -88,8 +92,8 @@ export class InsuranceService {
         return null;
     }
 
-    delete(Insurance: Insurance) {
-        this.proxy.delete(this.controller, Insurance.id).subscribe(
+    delete(id: number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

@@ -126,6 +126,12 @@ export class ProxyService {
       return this.http.get<any[]>(fullurl);
   }
 
+  findAvailable(controller: String): Observable<any[]>{
+    const fullurl = this.url + controller + '/findAvailable?token=' + this.getToken();
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+  }
+
   set(controller: string, object: any): Observable<any> {
       const fullurl = this.url + controller + '/save?token=' + this.getToken();
       console.log(fullurl);

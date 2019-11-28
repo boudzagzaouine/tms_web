@@ -7,9 +7,9 @@ export class Driver {
     id: number;
     code: string;
     cin: string;
-    birthDate: Date;
+    birthDate: Date = new Date();
     badge: Badge;
-    lastMedicalVisit: Date;
+    lastMedicalVisit: Date=new Date();
   //  workArea: Zone;
     commission: number;
     //contact: Contact;

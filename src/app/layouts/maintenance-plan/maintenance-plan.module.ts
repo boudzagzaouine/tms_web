@@ -1,3 +1,8 @@
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './../../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
@@ -21,7 +26,13 @@ import { MaintenancePlanListComponent } from './maintenance-plan-list/maintenanc
     InputTextModule,
     TableModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxSpinnerModule,
+    AutoCompleteModule,
+    ConfirmDialogModule,
 
   ]
 })

@@ -3,13 +3,14 @@ import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 
 import { Component, OnInit } from '@angular/core';
 import { Vehicle } from './../../../shared/models/Vehicle';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 
 @Component({
@@ -24,17 +25,29 @@ export class MaintenancePlanEditComponent implements OnInit {
   vehicleList: Array<Vehicle> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
-
+  fr: any;
   selectedMaintenance: MaintenancePlan = new MaintenancePlan();
- idMaintenance : number;
+  idMaintenance: number;
+  submitted = false;
+
   constructor(private vehicleService: VehicleService,
-    private maintenanceStatusService : MaintenanceStateService,
+    private maintenanceStatusService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
     private maintenancePlanService: MaintenancePlanService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.fr = {
+      firstDayOfWeek: 1,
+      dayNames: ["dimanche", "lundi", "mardi ", "mercredi", "mercredi ", "vendredi ", "samedi "],
+      dayNamesShort: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+      dayNamesMin: ["D", "L", "M", "M", "J", "V", "S"],
+      monthNames: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+      monthNamesShort: ["jan", "fév", "mar", "avr", "mai", "jun", "jui", "aoû", "sep", "oct", "nov", "dic"],
+      today: 'Aujourd hui',
+      clear: 'Supprimer'
+    }
     this.initForm();
 
     if (this.route.snapshot.params['id'] >= 1) {
@@ -52,7 +65,6 @@ export class MaintenancePlanEditComponent implements OnInit {
 
         }
       );
-
 
     }
 
@@ -109,9 +121,9 @@ export class MaintenancePlanEditComponent implements OnInit {
     this.maintenanceForm = this.formBuilder.group(
       {
 
-        'Fcode': new FormControl(this.selectedMaintenance.code),
-        'Fvehicule': new FormControl(this.selectedMaintenance.vehicle),
-        'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType),
+        'Fcode': new FormControl(this.selectedMaintenance.code, Validators.required),
+        'Fvehicule': new FormControl(this.selectedMaintenance.vehicle, Validators.required),
+        'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
         'FdateDebut': new FormControl(d),
         'FdateFin': new FormControl(dd),
         'FstatusMaintenance': new FormControl(this.selectedMaintenance.maintenanceState),
@@ -121,8 +133,13 @@ export class MaintenancePlanEditComponent implements OnInit {
     );
   }
 
-  OnSubmitForm() {
+  OnSubmitForm(close = false) {
+    this.submitted = true;
 
+    // stop here if form is invalid
+    if (this.maintenanceForm.invalid) {
+      return;
+  }
     const formValue = this.maintenanceForm.value;
 
 
@@ -132,9 +149,9 @@ export class MaintenancePlanEditComponent implements OnInit {
     //this.selectedMaintenance.maintenanceType = formValue['FmaintenanceType'];
     this.selectedMaintenance.begin = formValue['FdateDebut'];
     this.selectedMaintenance.end = formValue['FdateFin'];
-   // this.selectedMaintenance.maintenanceState = formValue['FstatusMaintenance'];
+    // this.selectedMaintenance.maintenanceState = formValue['FstatusMaintenance'];
     this.selectedMaintenance.description = formValue['Fdescription'];
-    this.maintenancePlanService.set(this.selectedMaintenance);
+    this.maintenancePlanService.set(this.selectedMaintenance, close);
 
     console.log('this maintenance Plan');
     console.log(this.selectedMaintenance);

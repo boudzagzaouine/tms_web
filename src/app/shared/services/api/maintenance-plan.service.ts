@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { MaintenancePlan } from '../../models/maintenance-plan';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
@@ -15,7 +16,7 @@ export class MaintenancePlanService {
 
     maintenancePlanListChanged = new Subject<MaintenancePlan[]>();
     constructor(private proxy: ProxyService,
-                private toastr: ToastrService,
+                private toastr: ToastrService, private router: Router
            ) {}
 
     private emitChanges() {
@@ -53,11 +54,14 @@ export class MaintenancePlanService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(maintenancePlan: MaintenancePlan): MaintenancePlan {
+    set(maintenancePlan: MaintenancePlan, navigate = false): MaintenancePlan {
         this.proxy.set(this.controller, maintenancePlan).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');
+                if (navigate) {
+                  this.router.navigate(['/core/maintenances/list']);
+                }
                 return data;
             },
             error =>
@@ -95,6 +99,7 @@ export class MaintenancePlanService {
                     'Elément supprimé avec succès',
                     'Suppression'
                 );
+
             },
             error => this.toastr.error('Erreur de suppression' + error, 'Suppression')
         );

@@ -87,8 +87,8 @@ export class MaintenanceStateService {
         return null;
     }
 
-    delete(maintenanceState: MaintenanceState) {
-        this.proxy.delete(this.controller, maintenanceState.id).subscribe(
+    delete(id : number) {
+        this.proxy.delete(this.controller, id).subscribe(
             data => {
                 this.emitChanges();
                   this.toastr.success(

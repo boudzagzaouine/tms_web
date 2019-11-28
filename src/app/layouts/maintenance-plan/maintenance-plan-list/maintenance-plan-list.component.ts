@@ -175,6 +175,16 @@ export class MaintenancePlanListComponent implements OnInit {
 
   }
 
+  reset() {
+    this.codeSearch = null;
+    this.vehicleSearch = null;
+    this.typeMaintenanceSearch = null;
+    this.statusMaintenanceSearch = null;
+
+    this.page = 0;
+
+    this.loadData();
+  }
 
   onDeleteMaintenance(id: number) {
     console.log('delete id : ' + id);

@@ -7,7 +7,6 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'sample', loadChildren: () => import('./sample/sample.module').then(m => m.SampleModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },

@@ -1,1 +1,86 @@
-<a [routerLink]="['/core/sample']" routerLinkActive="active">GO TO SIMPLE</a>
+
+<div
+class="container-fluid "
+style="background:url('../../assets/img/imgArrierePlan.jpg'); width: 100%;height: 100%;background-size:100%;position: fixed;"
+>
+<div class="m-5">
+  <button
+    type="button"
+    class="btn btn float-left btn-outline-primary m-5 "
+  >
+    <i class="fa fa-user"></i> Profil
+  </button>
+  <button
+    type="button"
+    class="btn btn float-right  btn-outline-primary m-5 "
+    (click)="logout()"
+  >
+    <i class="fa fa-sign-out"></i> Deconnexion
+  </button>
+</div>
+
+<div class="container">
+  <div class="row centered" style="margin: 20% 15% 15% 15%;">
+
+     <div class="col-md-4" >
+      <a routerLinkActive="active" routerLink="/core/drivers/list">
+      <div class="text-center p-3"  style="border-radius:5px ;background-color:#253544;">
+        <img src="../../assets/img/chauffeur.png" style="width: 67px;height:67px;" class="mb-2"><br>
+
+         <span>Chauffeur</span>
+
+      </div>
+    </a>
+ <a routerLinkActive="active" routerLink="/core/vehicles/list">
+      <div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
+        <img src="../../assets/img/truck.png" style="width: 70px;height:70px;" class="mb-2"><br>
+
+         <span>Véhicule</span>
+
+      </div> </a>
+
+     </div>
+
+
+     <div class="col-md-4" >
+       <a routerLinkActive="active" routerLink="/core/maintenances/list">
+        <div class="text-center p-4"  style="border-radius:5px ;background-color:#253544;">
+            <img src="../../assets/img/maintenance1.png" style="width: 65px;height:65;" class="mb-3"><br>
+
+             <span>Maintenance</span>
+
+          </div> </a>
+    <a routerLinkActive="active" routerLink="/core/settings/badges">
+          <div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
+            <img src="../../assets/img/1435085.png" style="width: 70px;height:70px;" class="mb-2"><br>
+
+            <span>Badge</span>
+
+          </div> </a>
+
+   </div>
+<div class="col-md-4" >
+<a routerLinkActive="active" routerLink="/core/settings/insurances">
+<div class="text-center p-3"  style="border-radius:5px ;background-color:#253544;">
+<img src="../../assets/img/assurance_auto.png" style="width: 70px;height:70px;" class="mb-2"><br>
+
+<span>Assurance</span>
+
+</div></a>
+<a routerLinkActive="active" routerLink="/core/settings/suppliers">
+<div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
+<img src="../../assets/img/supplier.png" style="width: 70px;height:70px;" class="mb-2"><br>
+
+<span>Fournisseur</span>
+
+</div></a>
+
+</div>
+
+
+
+
+  </div>
+</div>
+</div>
+

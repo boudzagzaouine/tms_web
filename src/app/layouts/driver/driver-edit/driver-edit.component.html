@@ -1,94 +1,208 @@
 <br />
 <div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Inserer Chauffeur</div>
+  <div class="card-header " style="background-color:#f7f7f7;">
+    Inserer Chauffeur
+  </div>
   <div class="card-body border-top-primary">
-    <form [formGroup]="driverForm" (ngSubmit)="onSubmitForm()">
+    <form [formGroup]="driverForm">
       <div class="row justify-content-around">
-
-
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Cin' | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="cin" />
+          <label class="font-weight-bold "
+            >{{ "Cin" | translate }}*
+            <span
+              *ngIf="submitted && driverForm.get('cin').errors && driverForm.get('cin').invalid"
+              class="text-danger"
+              style="font-size:xx-small"
+            >
+              Obligatoire</span
+            >
+          </label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="cin"
+          />
         </div>
 
-
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Code'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="code" />
+          <label class="font-weight-bold "
+            >{{ "Code" | translate }}*
+            <span
+            *ngIf="submitted && driverForm.get('code').errors && driverForm.get('code').invalid"
+                       class="text-danger"
+              style="font-size:xx-small"
+              >Obligatoire</span
+            ></label
+          >
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="code"
+          />
         </div>
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Nom'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="nom" />
+          <label class="font-weight-bold "
+            >{{ "Nom" | translate }}*
+            <span
+              *ngIf="submitted && driverForm.get('nom').errors"
+              class="text-danger"
+              style="font-size:xx-small"
+              >Obligatoire</span
+            ></label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="nom"
+          />
         </div>
-
       </div>
 
-
-
       <div class="row justify-content-around">
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Date Naissance'  | translate }}</label><br />
-          <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy"
-            formControlName="dateNaissance" yearRange="1970:2100"></p-calendar>
+          <label class="font-weight-bold ">{{
+            "Date Naissance" | translate
+          }}</label
+          ><br />
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            [locale]="fr"
+            formControlName="dateNaissance"
+            yearRange="1970:2100"
+          ></p-calendar>
         </div>
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{'Visite Medicale'  | translate }}</label><br />
-          <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy"
-            formControlName="visiteMedicale" yearRange="1970:2100"></p-calendar>
-
+          <label class="font-weight-bold ">{{
+            "Visite Medicale" | translate
+          }}</label
+          ><br />
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            [locale]="fr"
+            formControlName="visiteMedicale"
+            yearRange="1970:2100"
+          ></p-calendar>
         </div>
 
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Comission'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="comission" />
+          <label class="font-weight-bold ">{{ "Comission" | translate }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="comission"
+          />
         </div>
       </div>
       <div class="row justify-content-around">
-
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'N Telephone'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="tele" />
+          <label class="font-weight-bold ">{{
+            "N Telephone" | translate
+          }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="tele"
+          />
         </div>
 
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{'N Fax'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="fax" />
+          <label class="font-weight-bold ">{{ "N Fax" | translate }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="fax"
+          />
         </div>
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{'Email'  | translate }}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="email" />
+          <label class="font-weight-bold ">{{ "Email" | translate }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="email"
+          />
         </div>
-
       </div>
       <div class="row justify-content-around">
-
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ 'Badge'  | translate }}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="badgesList" optionLabel="code" [filter]="true"
-            (onChange)="onSelectBadgeCode($event)" formControlName="badge" [showClear]="true" [dropdownIcon]="'caret'">
+          <label class="font-weight-bold "
+            >{{ "Badge" | translate }}*
+            <span
+              *ngIf="
+                submitted &&
+                driverForm.get('badge').errors &&
+                driverForm.get('badge').invalid"
+              class="text-danger"
+              style="font-size:xx-small"
+              >Obligatoire</span
+            ></label
+          ><br />
+          <p-dropdown
+            [autoDisplayFirst]="false"
+            [options]="badgesList"
+            optionLabel="code"
+            [filter]="true"
+            [showClear]="true"
+            (onChange)="onSelectBadgeCode($event)"
+            formControlName="badge"
+          >
           </p-dropdown>
         </div>
-        <div class="form-group col-md-3">
-        </div>
-        <div class="form-group col-md-3">
-        </div>
+        <div class="form-group col-md-3"></div>
+        <div class="form-group col-md-3"></div>
       </div>
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
 
       <div class="text-center">
-        <a [routerLink]="['/core/drivers/list']" routerLinkActive="active" class="mr-5">
-          <i class="btn btn-primary col-md-2"> {{'Fermer' | translate }}</i>
+        <a
+          class="btn btn-primary m-1"
+          [routerLink]="['/core/drivers/list']"
+          routerLinkActive="active"
+        >
+          {{ "Fermer" | translate }}
         </a>
+        <button
+          type="button"
+          class="btn btn-success m-1"
+          (click)="onSubmitForm(false)"
+        >
+          {{ "Valider et continue" | translate }}
+        </button>
 
-        <button type="submit" class="btn btn-success col-md-2 ">{{'Valider'|translate}}</button>
+        <button
+          type="button"
+          class="btn btn-success m-1"
+          (click)="onSubmitForm(true)"
+        >
+          {{ "Valider" | translate }}
+        </button>
       </div>
-
-
-
     </form>
   </div>
 </div>
 
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

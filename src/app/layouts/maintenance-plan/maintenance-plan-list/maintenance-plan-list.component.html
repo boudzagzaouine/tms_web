@@ -58,10 +58,11 @@
     <br />
     <br />
     <div class="text-center">
-      <button type="button" class="btn btn-primary" style="margin-right:20px;" (click)="onSearchClicked()">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
-      <button type="button" class="btn btn-success">Renitialiser</button>
     </div>
   </div>
 </div>
@@ -81,7 +82,7 @@
             <th>Vehicule</th>
             <th>Type Maintenance</th>
             <th>Etat Maintenance </th>
-            <th>Action</th>
+            <th style="width:10%">Action</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-mnt>
@@ -92,13 +93,12 @@
     <td>{{mnt?.maintenanceState?.code}}</td>
     <td>
         <a  [routerLink]="['/core/maintenances/edit', mnt.id]"
-        routerLinkActive="active" class="btn btn-primary mr-2">
+        routerLinkActive="active" class="btn btn-sm btn-primary mr-2">
         <i class="fa fa-pencil"></i>
       </a>
-      <a routerLinkActive="active"
-      class="btn btn-danger mr-2" (click)="onDeleteMaintenance(mnt?.id)" >
-      <i class="fa fa-trash"></i>
-    </a>
+      <button type="button" (click)="onDeleteMaintenance(mnt?.id)" class="btn btn-sm btn-danger">
+        <i class="fa fa-trash-o"></i>
+      </button>
 
 
 

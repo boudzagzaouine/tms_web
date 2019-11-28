@@ -7,16 +7,37 @@
 
       <div class="row  justify-content-around">
         <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Code' | translate}}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="code" />
+          <label class="font-weight-bold ">{{'Code' | translate}}*</label>
+          <span *ngIf="(vehicleForm.get('code').touched && vehicleForm.get('code').invalid) ||
+            (isFormSubmitted && vehicleForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="code"
+          (keydown.space)="$event.preventDefault()"
+          />
         </div>
 
         <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Matriculation'| translate}}</label><br />
-          <input type="text" class="form-control" pInputText formControlName="registrationNumber" />
+          <label class="font-weight-bold ">{{'Matriculation'| translate}}*</label>
+          <span *ngIf="(vehicleForm.get('registrationNumber').touched && vehicleForm.get('registrationNumber').invalid) ||
+            (isFormSubmitted && vehicleForm.get('registrationNumber').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="registrationNumber"
+
+          />
         </div>
 
-        <div class="col-md-3"></div>
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}</label><br />
+          <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
+            formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
+            [showClear]="true" ></p-dropdown>
+        </div>
 
       </div>
       <div class="row justify-content-around">
@@ -28,10 +49,10 @@
         </div>
 
         <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
-            formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
-            [showClear]="true" ></p-dropdown>
+          <label class="font-weight-bold ">{{'Assurance' | translate}}</label><br />
+          <p-dropdown [autoDisplayFirst]="false"  [options]="insuranceList" optionLabel="code" [filter]="true" [showClear]="true"
+            (onChange)="onSelectInsurance($event)" formControlName="insurance"
+           ></p-dropdown>
         </div>
 
         <div class="col-md-3 ui-g-12 ui-md-3 ">

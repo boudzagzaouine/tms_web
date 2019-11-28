@@ -9,13 +9,21 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="card-body text-center">
+    <div class="card-body">
       <form [formGroup]="badgeTypeForm">
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label>{{'Code' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="code" />
+            <label>{{'Code' | translate}}*</label>
+            <span *ngIf="(badgeTypeForm.get('code').touched && badgeTypeForm.get('code').invalid) ||
+            (isFormSubmitted && badgeTypeForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
           </div>
 
           <div class="form-group col-sm-12">
@@ -33,7 +41,7 @@
     <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
       {{'Fermer' | translate}}
     </button>
-    <button type="button" class="btn btn-success" (click)="onSubmit()">
+    <button type="button" class="btn btn-success" (click)="onSubmit()" >
       {{'Valider' | translate}}
     </button>
   </div>

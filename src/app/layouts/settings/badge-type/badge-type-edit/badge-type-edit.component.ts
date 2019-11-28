@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BadgeType } from '../../../../shared/models';
 import { BadgeTypeService } from '../../../../shared/services';
@@ -18,6 +18,7 @@ export class BadgeTypeEditComponent implements OnInit {
   badgeTypeTypeList: BadgeType[] = [];
 
   modal: NgbModalRef;
+  isFormSubmitted = false;
 
   constructor(
     private badgeTypeService: BadgeTypeService,
@@ -30,11 +31,13 @@ export class BadgeTypeEditComponent implements OnInit {
 
   initForm() {
     this.badgeTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedBadgeType.code),
+      'code': new FormControl(this.selectedBadgeType.code, Validators.required),
       'description': new FormControl(this.selectedBadgeType.description)
     });
   }
   onSubmit() {
+    this.isFormSubmitted = true;
+    if (this.badgeTypeForm.invalid) {return; }
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
 
@@ -43,9 +46,14 @@ export class BadgeTypeEditComponent implements OnInit {
     const s = this.badgeTypeService.set(this.selectedBadgeType);
 
     if (this.modal) { this.modal.close(); }
+    this.isFormSubmitted = false;
   }
 
   open(content) {
+    if (!this.editMode) {
+      this.selectedBadgeType = new BadgeType();
+    }
+    this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

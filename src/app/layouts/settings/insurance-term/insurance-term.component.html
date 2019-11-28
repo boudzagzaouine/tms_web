@@ -1,0 +1,61 @@
+<br />
+<div class="card">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <label>Code</label><br />
+        <input type="text" pInputText [(ngModel)]="codeSearch" />
+      </div>
+    </div>
+    <br />
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        Rechercher
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des InsuranceTerms</span>
+    <span class="pull-right">
+      <app-insurance-term-edit [editMode]="false"></app-insurance-term-edit>
+    </span>
+  </div>
+  <div class="card-body">
+    <p-table [value]="insuranceTermList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
+      [contextMenu]="cm" [(contextMenuSelection)]="selectedInsuranceTerm" [totalRecords]="collectionSize"
+      [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsuranceTerm"
+      [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{'Code' | translate}}</th>
+          <th>{{'Description' | translate}}</th>
+          <th style="width:10%">{{'Actions' | translate}}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-insuranceTerm>
+        <tr>
+          <td>{{insuranceTerm?.code}}</td>
+          <td>{{insuranceTerm?.description}}</td>
+          <td>
+            <app-insurance-term-edit [editMode]="true" [selectedInsuranceTerm]="insuranceTerm">
+            </app-insurance-term-edit>
+            <button type="button" (click)="onDelete(insuranceTerm.id)" class="btn btn-sm btn-danger mx-1">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+</p-confirmDialog>

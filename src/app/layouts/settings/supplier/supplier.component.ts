@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem, ConfirmationService } from 'primeng/api';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { SupplierService } from '../../../shared/services';
+import { Supplier } from '../../../shared/models';
+import { EmsBuffer } from '../../../shared/utils';
 
 @Component({
   selector: 'app-supplier',
@@ -6,10 +12,97 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./supplier.component.css']
 })
 export class SupplierComponent implements OnInit {
+  page = 0;
+  size = 10;
+  collectionSize: number;
 
-  constructor() { }
+  selectedSupplier: Supplier;
+  searchQuery: string;
+  codeSearch: string;
+  items: MenuItem[];
+
+  supplierList: Array<Supplier> = [];
+
+  constructor(private supplierService: SupplierService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
+    this.supplierService.supplierListChanged.subscribe(
+      data => {
+        this.supplierList = data;
+      }
+    );
+
+    this.items = [
+      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedSupplier.id) }
+    ];
+  }
+
+
+  loadData(search: string = '') {
+    console.log(`search query : ${this.searchQuery}`);
+
+    this.spinner.show();
+    this.supplierService.sizeSearch(search).subscribe(
+      data => {
+        this.collectionSize = data;
+      }
+    );
+    this.supplierService.findPagination(this.page, this.size, search).subscribe(
+      data => {
+        console.log(data);
+        this.supplierList = data;
+        this.spinner.hide();
+      },
+      error => {
+        console.log(error);
+
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+  loadDataLazy(event) {
+    this.page = event.first / this.size;
+    console.log('first : ' + event.first);
+    this.loadData(this.searchQuery);
+  }
+
+  onSearchClicked() {
+    const buffer = new EmsBuffer();
+    if (this.codeSearch != null && this.codeSearch !== '') {
+      buffer.append(`code~${this.codeSearch}`);
+    }
+
+    this.page = 0;
+    this.searchQuery = buffer.getValue();
+    console.log(this.searchQuery);
+
+    this.loadData(this.searchQuery);
+
+  }
+
+  reset() {
+    this.codeSearch = null;
+    this.page = 0;
+    this.searchQuery = '';
+    this.loadData(this.searchQuery);
+  }
+
+  onDelete(id: number) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+        this.supplierService.delete(id);
+      }
+    });
+  }
+
+  onEdit() {
+    this.toastr.info('selected ');
   }
 
 }

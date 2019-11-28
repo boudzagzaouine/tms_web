@@ -1,0 +1,122 @@
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">{{'Editer Fournisseur'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="supplierForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Code' | translate}}*</label>
+            <span *ngIf="(supplierForm.get('code').touched && supplierForm.get('code').invalid) ||
+            (isFormSubmitted && supplierForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span> <br />
+            <input type="text"
+
+            class="form-control" pInputText formControlName="code" (keydown.space)="$event.preventDefault()"/>
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Nom' | translate}}*</label>
+            <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
+            (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="name"
+            [ngClass]="{'is-invalid': supplierForm.get('name').touched && supplierForm.get('name').invalid}" />
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'SurNom' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="surName" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'email' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="email" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'fax' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="fax" />
+          </div>
+        </div>
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Code Adresse' | translate}}*</label>
+            <span *ngIf="(supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid) ||
+            (isFormSubmitted && supplierForm.get('addrCode').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="addrCode"
+            [ngClass]="{'is-invalid': supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid}" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Ligne 1' | translate}}*</label>
+            <span *ngIf="(supplierForm.get('line1').touched && supplierForm.get('line1').invalid) ||
+            (isFormSubmitted && supplierForm.get('line1').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="line1"
+            [ngClass]="{'is-invalid': supplierForm.get('line1').touched && supplierForm.get('line1').invalid}" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Ligne 2' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="line2" />
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Ville' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="city" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Code zip' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="zipCode" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Pays' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="country" />
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer pull-right">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>

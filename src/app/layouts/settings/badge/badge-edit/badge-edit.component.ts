@@ -1,7 +1,7 @@
-import { BadgeTypeService, BadgeService } from './../../../../shared/services';
-import { BadgeType, Badge } from './../../../../shared/models';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
+import { BadgeTypeService, BadgeService } from './../../../../shared/services';
+import { BadgeType, Badge } from '../../../../shared/models';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -20,6 +20,7 @@ export class BadgeEditComponent implements OnInit {
   badgeTypeList: BadgeType[] = [];
 
   modal: NgbModalRef;
+  isFormSubmitted = false;
 
   constructor(
     private badgeService: BadgeService,
@@ -39,12 +40,14 @@ export class BadgeEditComponent implements OnInit {
 
   initForm() {
     this.badgeForm = new FormGroup({
-      'code': new FormControl(this.selectedBadge.code),
+      'code': new FormControl(this.selectedBadge.code, Validators.required),
       'badgeType': new FormControl(this.selectedBadge.badgeType),
       'description': new FormControl(this.selectedBadge.description)
     });
   }
   onSubmit() {
+    this.isFormSubmitted = true;
+    if (this.badgeForm.invalid){ return; }
     this.selectedBadge.code = this.badgeForm.value['code'];
     this.selectedBadge.description = this.badgeForm.value['description'];
 
@@ -52,7 +55,10 @@ export class BadgeEditComponent implements OnInit {
     console.log(this.selectedBadge);
     const s = this.badgeService.set(this.selectedBadge);
 
+
+    this.selectedBadge = new Badge();
     if (this.modal) { this.modal.close(); }
+    this.isFormSubmitted = false;
   }
 
   onSelectBadgeType(event: any) {
@@ -63,6 +69,10 @@ export class BadgeEditComponent implements OnInit {
 
 
   open(content) {
+    if (!this.editMode) {
+      this.selectedBadge = new Badge();
+    }
+    this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

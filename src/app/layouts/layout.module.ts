@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { SharedModule } from './../shared/shared.module';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,7 +27,8 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
   ],
   imports: [
     CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule
-  ]
+  ],
+  providers: [ ConfirmationService]
 })
 export class LayoutModule {
 }

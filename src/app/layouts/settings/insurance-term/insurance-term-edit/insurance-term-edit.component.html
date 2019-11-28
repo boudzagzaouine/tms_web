@@ -1,46 +1,46 @@
-<button class="btn btn-primary btn-sm float-right" (click)="open(content)">
-    <i class="fa fa-plus"></i>
-  </button>
-  <ng-template #content let-modal>
-    <div class="modal-header" style=" background-color:#f7f7f7">
-      <h4 class="modal-title" id="modal-basic-title">Ajouter Terme Assurance</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body border-top-primary">
-      <div class="card-body text-center">
-        <div class="form-group row ">
-          <label class="col-sm-4 col-from-label">Code </label>
-          <div class="col-sm-5">
-            <input type="text" pInputText />
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">Editer Badge</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body text-center">
+      <form [formGroup]="insuranceTermForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12">
+            <label>{{'Code' | translate}}</label>
+            <span *ngIf="(insuranceTermForm.get('code').touched && insuranceTermForm.get('code').invalid) ||
+            (isFormSubmitted && insuranceTermForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code" (keydown.space)="$event.preventDefault()"/>
           </div>
+
+          <div class="form-group col-sm-12">
+            <label>{{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
+          </div>
+          <div class="col-md-3"></div>
+
         </div>
-
-
-        <div class="form-group row ">
-            <label class="col-sm-4 col-from-label">Description </label>
-            <div class="col-sm-5">
-              <input type="text" pInputText />
-            </div>
-          </div>
-
-
-
-      </div>
+      </form>
     </div>
-    <div class="modal-footer border-top-primary">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="modal.close('Save click')"
-      >
-        Valider
-      </button>
-    </div>
-  </ng-template>
+  </div>
+  <div class="modal-footer pull-right">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>

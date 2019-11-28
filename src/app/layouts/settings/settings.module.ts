@@ -10,6 +10,7 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { BadgeTypeEditComponent } from './badge-type/badge-type-edit/badge-type-edit.component';
@@ -27,6 +28,8 @@ import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {ContextMenuModule} from 'primeng/contextmenu';
+import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
+import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
 
 
 @NgModule({
@@ -43,7 +46,9 @@ import {ContextMenuModule} from 'primeng/contextmenu';
     InsuranceTermEditComponent,
     MaintenanceStatusComponent,
     MaintenanceTypeComponent,
-    ContractTypeComponent
+    ContractTypeComponent,
+    ContractTypeEditComponent,
+    SupplierEditComponent
 
   ],
   imports: [
@@ -61,7 +66,8 @@ import {ContextMenuModule} from 'primeng/contextmenu';
     TableModule,
     AutoCompleteModule,
     CalendarModule,
-    InputTextModule
+    InputTextModule,
+    KeyFilterModule
   ]
 })
 export class SettingsModule { }

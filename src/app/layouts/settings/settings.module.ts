@@ -1,3 +1,4 @@
+import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,11 +31,13 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { MaintenanceTypeEditComponent } from './maintenance-type/maintenance-type-edit/maintenance-type-edit.component';
 import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance-status-edit/maintenance-status-edit.component';
+import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
 
 
 @NgModule({
   declarations: [
     SupplierComponent,
+    SupplierEditComponent,
     SettingsComponent,
     BadgeComponent,
     BadgeEditComponent,
@@ -45,10 +48,11 @@ import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance
     InsuranceTermComponent,
     InsuranceTermEditComponent,
     MaintenanceStatusComponent,
+    MaintenanceStatusEditComponent,
     MaintenanceTypeComponent,
-    ContractTypeComponent,
     MaintenanceTypeEditComponent,
-    MaintenanceStatusEditComponent
+    ContractTypeComponent,
+    ContractTypeEditComponent
 
   ],
   imports: [

@@ -1,7 +1,7 @@
 <br />
 <div class="card">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body">
+  <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
         <label>Code</label><br/>
@@ -26,7 +26,7 @@
       <app-supplier-edit [editMode]="false"></app-supplier-edit>
     </span>
   </div>
-  <div class="card-body">
+  <div class="card-body border-top-primary">
     <p-table [value]="supplierList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
       [(contextMenuSelection)]="selectedSupplier" [totalRecords]="collectionSize" [resizableColumns]="true"
       [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedSupplier" [paginator]="true">
@@ -35,6 +35,7 @@
           <th>Code</th>
           <th>Description</th>
           <th>Nom</th>
+          <th>Tel</th>
           <th>email</th>
           <th>Ligne1</th>
           <th>Ville</th>
@@ -46,10 +47,11 @@
           <td>{{supplier?.code}}</td>
           <td>{{supplier?.description}}</td>
           <td>{{supplier?.contact?.name}}</td>
+          <td>{{supplier?.contact?.tel1}}</td>
           <td>{{supplier?.contact?.email}}</td>
           <td>{{supplier?.address?.line1}}</td>
           <td>{{supplier?.address?.city}}</td>
-          <td>
+          <td class="text-center">
             <app-supplier-edit [editMode]="true" [selectedSupplier]="supplier"></app-supplier-edit>
             <button type="button" (click)="onDelete(supplier.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>

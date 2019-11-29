@@ -1,3 +1,5 @@
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { Address } from './../../../../shared/models/address';
 import { Contact } from './../../../../shared/models/contact';
 import { Component, OnInit, Input } from '@angular/core';
@@ -26,6 +28,8 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(
     private supplierService: SupplierService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
     private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -39,8 +43,9 @@ export class SupplierEditComponent implements OnInit {
       'code': new FormControl(this.selectedSupplier.code, Validators.required),
       'description': new FormControl(this.selectedSupplier.description),
       'name': new FormControl(this.selectedContact.name, Validators.required),
-      'surName': new FormControl(this.selectedContact.surName),
-      'tele1': new FormControl(this.selectedContact.tel1),
+      'surName': new FormControl(this.selectedContact.surname),
+      'tel1': new FormControl(this.selectedContact.tel1),
+      'tel2': new FormControl(this.selectedContact.tel2),
       'fax': new FormControl(this.selectedContact.fax),
       'email': new FormControl(this.selectedContact.email),
       'addrCode': new FormControl(this.selectedAddress.code, Validators.required),
@@ -54,12 +59,14 @@ export class SupplierEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.supplierForm.invalid) { return; }
+    this.spinner.show();
     this.selectedSupplier.code = this.supplierForm.value['code'];
     this.selectedSupplier.description = this.supplierForm.value['description'];
 
     this.selectedContact.name = this.supplierForm.value['name'];
-    this.selectedContact.surName = this.supplierForm.value['surName'];
+    this.selectedContact.surname = this.supplierForm.value['surName'];
     this.selectedContact.tel1 = this.supplierForm.value['tel1'];
+    this.selectedContact.tel2 = this.supplierForm.value['tel2'];
     this.selectedContact.fax = this.supplierForm.value['fax'];
     this.selectedContact.email = this.supplierForm.value['email'];
 
@@ -78,10 +85,25 @@ export class SupplierEditComponent implements OnInit {
     }
 
     console.log(this.selectedSupplier);
-    const s = this.supplierService.set(this.selectedSupplier);
+    const s = this.supplierService.set(this.selectedSupplier).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Success');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
 
-    if (this.modal) { this.modal.close(); }
-    this.isFormSubmitted = false;
+      () => this.spinner.hide()
+    );
+
   }
 
   open(content) {

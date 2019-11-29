@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 import { ActivatedRoute } from '@angular/router';
@@ -17,55 +18,50 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class DriverEditComponent implements OnInit {
 
-
   driverForm: FormGroup;
   selectedContact = new Contact();
   selectedDriver: Driver = new Driver();
   badgesList: Array<Badge> = [];
   selectedBadge: Badge;
   idDriver: number;
-  submitted = false;
+  isFormSubmitted = false;
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private badgeService: BadgeService,
+    private spinner: NgxSpinnerService,
     private route: ActivatedRoute) { }
- fr : any;
+  fr: any;
   ngOnInit() {
 
     this.fr = {
       firstDayOfWeek: 1,
-      dayNames: [ "dimanche","lundi","mardi ","mercredi","mercredi ","vendredi ","samedi " ],
-      dayNamesShort: [ "dim","lun","mar","mer","jeu","ven","sam" ],
-      dayNamesMin: [ "D","L","M","M","J","V","S" ],
-      monthNames: [ "janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre" ],
-      monthNamesShort: [ "jan","fév","mar","avr","mai","jun","jui","aoû","sep","oct","nov","dic" ],
+      dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],
+      dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
+      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+      monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+      monthNamesShort: ['jan', 'fév', 'mar', 'avr', 'mai', 'jun', 'jui', 'aoû', 'sep', 'oct', 'nov', 'dic'],
       today: 'Aujourd hui',
       clear: 'Supprimer'
-  }
+    };
 
     this.initForm();
 
+    this.badgeService.findAll().subscribe(
+      data => {
+        this.badgesList = data;
+      }
+    );
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
       this.driverService.findById(this.idDriver).subscribe(
-
         data => {
-
           this.selectedDriver = data;
-          console.log('driver :');
-          console.log(this.selectedDriver);
           this.initForm();
-          console.log('id' + this.idDriver);
-          console.log('driver ');
-          console.log(this.selectedDriver.badge.code);
-
         }
       );
-
-
     }
-    this.loadBadge();
+
   }
 
 
@@ -76,16 +72,16 @@ export class DriverEditComponent implements OnInit {
     this.driverForm = this.formBuilder.group(
       {
 
-        'cin': new FormControl(this.selectedDriver.cin,Validators.required),
-        'code': new FormControl(this.selectedDriver.code,Validators.required),
+        'cin': new FormControl(this.selectedDriver.cin, Validators.required),
+        'code': new FormControl(this.selectedDriver.code, Validators.required),
         'dateNaissance': new FormControl(d),
         'visiteMedicale': new FormControl(dd),
-        'badge': new FormControl(this.selectedDriver.badge,Validators.required),
         'comission': new FormControl(this.selectedDriver.commission),
-        'nom': new FormControl(this.selectedDriver.name,Validators.required),
+        'nom': new FormControl(this.selectedDriver.name, Validators.required),
         'tele': new FormControl(this.selectedDriver.tele1),
         'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
+        'badge': new FormControl(this.selectedDriver.badge, Validators.required),
       }
     );
 
@@ -96,30 +92,22 @@ export class DriverEditComponent implements OnInit {
 
   loadBadge() {
 
-    this.badgeService.findAll().subscribe(
 
-      data => {
-
-        this.badgesList = data;
-        console.log('badge :');
-        console.log(this.badgesList);
-      }
-    );
 
   }
 
 
   onSubmitForm(close = false) {
-    this.submitted = true;
+
+    this.isFormSubmitted = true;
 
     // stop here if form is invalid
     if (this.driverForm.invalid) {
-        return;
+      return;
     }
+    this.spinner.show();
 
     const formValue = this.driverForm.value;
-
-
 
     this.selectedDriver.cin = formValue['cin'];
     this.selectedDriver.code = formValue['code'];
@@ -133,14 +121,13 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.fax = formValue['fax'];
 
 
-    this.driverService.set(this.selectedDriver,close);
+    this.driverService.set(this.selectedDriver, close);
     console.log('inserted');
     console.log(this.selectedDriver);
 
-   /* this.selectedDriver = new Driver();
-    this.initForm();*/
-//this.driverForm.reset();
-
+    this.spinner.hide();
+    this.selectedDriver = new Driver();
+    this.driverForm.reset();
   }
 
   onSelectBadgeCode(event) {

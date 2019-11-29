@@ -5,7 +5,7 @@ export class Contact {
     tel1: String;
     tel2: String;
     creationDate: Date;
-    surName: String;
+    surname: String;
     fax: String;
     contactType: number;
     email: String;

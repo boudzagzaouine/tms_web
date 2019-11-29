@@ -52,24 +52,13 @@ export class SupplierService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(supplier: Supplier): Supplier {
-        this.proxy.set(this.controller, supplier).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(supplier: Supplier): Observable<Supplier> {
+       return this.proxy.set(this.controller, supplier);
+
     }
 
 
-    add(supplier: Supplier): Supplier {
+    add(supplier: Supplier): Observable<Supplier>{
         this.proxy.add(this.controller, supplier).subscribe(
             data => {
                 this.emitChanges();

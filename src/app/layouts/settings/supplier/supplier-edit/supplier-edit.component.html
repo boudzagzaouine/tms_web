@@ -8,7 +8,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body border-top-info">
     <div class="card-body">
       <form [formGroup]="supplierForm">
 
@@ -20,9 +20,8 @@
               style="color: red; font-size: xx-small;">
               Ce Champs est obligatoire
             </span> <br />
-            <input type="text"
-
-            class="form-control" pInputText formControlName="code" (keydown.space)="$event.preventDefault()"/>
+            <input type="text" class="form-control" pInputText formControlName="code"
+              (keydown.space)="$event.preventDefault()" />
           </div>
 
           <div class="form-group col-sm-12 col-md-4">
@@ -30,20 +29,21 @@
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
 
+          <div class="col-sm-12 col-md-4"></div>
+        </div>
+        <hr />
+        <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
             <label>{{'Nom' | translate}}*</label>
             <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
-            (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
+                (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               Ce Champs est obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="name"
-            [ngClass]="{'is-invalid': supplierForm.get('name').touched && supplierForm.get('name').invalid}" />
+              [ngClass]="{'is-invalid': supplierForm.get('name').touched && supplierForm.get('name').invalid}" />
           </div>
-        </div>
-
-        <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
             <label>{{'SurNom' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="surName" />
@@ -53,12 +53,26 @@
             <label>{{'email' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="email" />
           </div>
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Tel 1' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tel1" />
+          </div>
+          <div class="form-group col-sm-12 col-md-4">
+            <label>{{'Tel 2' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tel2" />
+          </div>
 
           <div class="form-group col-sm-12 col-md-4">
             <label>{{'fax' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="fax" />
           </div>
+
         </div>
+
+        <hr />
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
             <label>{{'Code Adresse' | translate}}*</label>
@@ -69,7 +83,7 @@
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="addrCode"
-            [ngClass]="{'is-invalid': supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid}" />
+              [ngClass]="{'is-invalid': supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid}" />
           </div>
 
           <div class="form-group col-sm-12 col-md-4">
@@ -81,7 +95,7 @@
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="line1"
-            [ngClass]="{'is-invalid': supplierForm.get('line1').touched && supplierForm.get('line1').invalid}" />
+              [ngClass]="{'is-invalid': supplierForm.get('line1').touched && supplierForm.get('line1').invalid}" />
           </div>
 
           <div class="form-group col-sm-12 col-md-4">

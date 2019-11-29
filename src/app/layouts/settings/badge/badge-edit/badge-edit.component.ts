@@ -48,6 +48,7 @@ export class BadgeEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.badgeForm.invalid){ return; }
+    
     this.selectedBadge.code = this.badgeForm.value['code'];
     this.selectedBadge.description = this.badgeForm.value['description'];
 

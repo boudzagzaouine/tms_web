@@ -1,7 +1,7 @@
 <br />
 <div class="card">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body">
+  <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
         <label>Code</label><br />
@@ -45,7 +45,7 @@
       <app-insurance-edit [editMode]="false"></app-insurance-edit>
     </span>
   </div>
-  <div class="card-body">
+  <div class="card-body border-top-primary">
     <p-table [value]="insuranceList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
       [(contextMenuSelection)]="selectedInsurance" [totalRecords]="collectionSize" [resizableColumns]="true"
       [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsurance" [paginator]="true">

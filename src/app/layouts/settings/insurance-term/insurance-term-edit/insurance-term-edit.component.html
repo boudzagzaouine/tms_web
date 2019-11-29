@@ -8,13 +8,13 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <div class="card-body text-center">
+  <div class="modal-body border-top-primary">
+    <div class="card-body ">
       <form [formGroup]="insuranceTermForm">
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label>{{'Code' | translate}}</label>
+            <label>{{'Code' | translate}}*</label>
             <span *ngIf="(insuranceTermForm.get('code').touched && insuranceTermForm.get('code').invalid) ||
             (isFormSubmitted && insuranceTermForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -34,7 +34,7 @@
       </form>
     </div>
   </div>
-  <div class="modal-footer pull-right">
+  <div class="modal-footer pull-right ">
 
     <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
       {{'Fermer' | translate}}

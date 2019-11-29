@@ -15,7 +15,7 @@ export class MaintenanceTypeService {
     MaintenanceTypeListChanged = new Subject<MaintenanceType[]>();
     constructor(private proxy: ProxyService, private toastr: ToastrService) {}
 
-    private emitChanges() {
+    public emitChanges() {
         this.findAll().subscribe(data => {
             this.MaintenanceTypeList = data;
             this.MaintenanceTypeListChanged.next(this.MaintenanceTypeList);

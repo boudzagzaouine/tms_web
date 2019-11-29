@@ -87,6 +87,7 @@ export class SupplierEditComponent implements OnInit {
     console.log(this.selectedSupplier);
     const s = this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
+        this.supplierService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

@@ -42,7 +42,7 @@ export class BadgeTypeEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.badgeTypeForm.invalid) {return; }
-
+    this.badgeTypeService.emitChanges();
     this.spinner.show();
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];

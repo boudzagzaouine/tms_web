@@ -25,19 +25,19 @@
           </div>
 
           <div class="form-group col-sm-6">
-            <label>{{'consumption' | translate}}</label><br />
+            <label>{{'consomation' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="Fconsumption" />
           </div>
 
         </div>
         <div class="row justify-content-around">
           <div class="form-group col-sm-6">
-            <label>{{'weight' | translate}}</label><br />
+            <label>{{'poids' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="Fweight" />
           </div>
 
           <div class="form-group col-sm-6">
-            <label>{{'width' | translate}} *</label>
+            <label>{{'largeur' | translate}} *</label>
             <span *ngIf="(vehicleCategoryForm.get('Fwidth').touched && vehicleCategoryForm.get('Fwidth').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Fwidth').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -51,7 +51,7 @@
         </div>
         <div class="row justify-content-around">
           <div class="form-group col-sm-6 ">
-            <label>{{'depth'| translate}} *</label>
+            <label>{{'profondeur'| translate}} *</label>
             <span *ngIf="(vehicleCategoryForm.get('Fdepth').touched && vehicleCategoryForm.get('Fdepth').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Fdepth').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -75,7 +75,7 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-6 ">
-            <label>{{'emptyWeight'| translate}} *</label>
+            <label>{{'poids à vide'| translate}} *</label>
             <span *ngIf="(vehicleCategoryForm.get('FemptyWeight').touched && vehicleCategoryForm.get('FemptyWeight').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('FemptyWeight').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -86,7 +86,7 @@
 
           </div>
           <div class="form-group col-sm-6 ">
-            <label>{{'totalWeight'| translate}}</label><br />
+            <label>{{'poids Total'| translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="FtotalWeight" pKeyFilter="num">
 
           </div>

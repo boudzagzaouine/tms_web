@@ -18,7 +18,7 @@ export class InsuranceService {
                 private toastr: ToastrService,
            ) {}
 
-    private emitChanges() {
+           public emitChanges() {
         this.findAll().subscribe(data => {
             this.InsuranceList = data;
             this.insuranceListChanged.next(this.InsuranceList);

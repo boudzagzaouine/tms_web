@@ -17,7 +17,7 @@ export class SupplierService {
                 private toastr: ToastrService,
            ) {}
 
-    private emitChanges() {
+           public emitChanges() {
         this.findAll().subscribe(data => {
             this.SupplierList = data;
             this.supplierListChanged.next(this.SupplierList);

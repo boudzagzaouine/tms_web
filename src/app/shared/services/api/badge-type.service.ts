@@ -15,7 +15,7 @@ export class BadgeTypeService {
     badgeTypeListChanged = new Subject<BadgeType[]>();
     constructor(private proxy: ProxyService, private toastr: ToastrService) {}
 
-    private emitChanges() {
+    public emitChanges() {
         this.findAll().subscribe(data => {
             this.badgeTypeList = data;
             this.badgeTypeListChanged.next(this.badgeTypeList);

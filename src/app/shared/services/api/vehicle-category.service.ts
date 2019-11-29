@@ -15,7 +15,7 @@ export class VehicleCategoryService {
   vehicleCategoryListChanged = new Subject<VehicleCategory[]>();
   constructor(private proxy: ProxyService, private toastr: ToastrService) { }
 
-  private emitChanges() {
+  public emitChanges() {
     this.findAll().subscribe(data => {
       this.vehicleCategoryList = data;
       this.vehicleCategoryListChanged.next(this.vehicleCategoryList);
@@ -52,20 +52,9 @@ export class VehicleCategoryService {
     return this.proxy.sizeSearch(this.controller, search);
   }
 
-  set(vehicleCategory: VehicleCategory): VehicleCategory {
-    this.proxy.set(this.controller, vehicleCategory).subscribe(
-      data => {
-        this.emitChanges();
-        this.toastr.success('Item was saved successfully', 'Save');
-        return data;
-      },
-      error =>
-        this.toastr.error(
-          'Item could not be saved successfully',
-          'Save'
-        )
-    );
-    return null;
+  set(vehicleCategory: VehicleCategory): Observable<VehicleCategory> {
+    return this.proxy.set(this.controller, vehicleCategory);
+
   }
 
   setManually(vehicleCategory: VehicleCategory) {

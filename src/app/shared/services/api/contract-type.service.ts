@@ -21,7 +21,7 @@ export class ContractTypeService {
                 private toastr: ToastrService,
            ) {}
 
-    private emitChanges() {
+           public emitChanges() {
         this.findAll().subscribe(data => {
             this.contractTypeList = data;
             this.contractTypeListChanged.next(this.contractTypeList);

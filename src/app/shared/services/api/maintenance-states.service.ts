@@ -18,7 +18,7 @@ export class MaintenanceStateService {
                 private toastr: ToastrService,
            ) {}
 
-    private emitChanges() {
+           public emitChanges() {
         this.findAll().subscribe(data => {
             this.maintenanceStateList = data;
             this.maintenanceStateListChanged.next(this.maintenanceStateList);

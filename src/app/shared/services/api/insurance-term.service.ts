@@ -20,7 +20,7 @@ export class InsuranceTermService {
                 private toastr: ToastrService,
            ) {}
 
-    private emitChanges() {
+           public emitChanges() {
         this.findAll().subscribe(data => {
             this.TermInsuranceList = data;
             this.termInsuranceListChanged.next(this.TermInsuranceList);

@@ -51,6 +51,7 @@ export class InsuranceTermEditComponent implements OnInit {
     console.log(this.selectedInsuranceTerm);
     const s = this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(
       data => {
+        this.insuranceTermService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Success');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

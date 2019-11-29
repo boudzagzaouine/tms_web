@@ -1,8 +1,11 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
+import {  ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-vehicle-categorie-edit',
@@ -22,7 +25,9 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
+    private toastr:ToastrService) { }
 
   ngOnInit() {
 
@@ -45,6 +50,9 @@ export class VehicleCategorieEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.vehicleCategoryForm.invalid) {return; }
+
+    this.spinner.show();
+
     this.selectedVehicleCategory.code = this.vehicleCategoryForm.value['Fcode'];
     this.selectedVehicleCategory.consumption = this.vehicleCategoryForm.value['Fconsumption'];
     this.selectedVehicleCategory.weight = +this.vehicleCategoryForm.value['Fweight'];
@@ -53,13 +61,32 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['Ftonnage'];
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['FemptyWeight'] ;
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['FtotalWeight'] ;
-    console.log(this.selectedVehicleCategory);
-    const s = this.vehicleCategoryService.set(this.selectedVehicleCategory);
 
-    if (this.modal) { this.modal.close(); }
+    console.log(this.selectedVehicleCategory);
+    const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
+      data => {
+        this.vehicleCategoryService.emitChanges();
+        this.toastr.success('Item was saved successfully', 'Save');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
+
+      () => this.spinner.hide()
+    );
+
+
   }
 
-  
+
 
 
   open(content) {

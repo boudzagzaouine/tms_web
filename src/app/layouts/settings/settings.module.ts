@@ -32,6 +32,8 @@ import {ContextMenuModule} from 'primeng/contextmenu';
 import { MaintenanceTypeEditComponent } from './maintenance-type/maintenance-type-edit/maintenance-type-edit.component';
 import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance-status-edit/maintenance-status-edit.component';
 import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
+import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
+import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categorie-edit/vehicle-categorie-edit.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { ContractTypeEditComponent } from './contract-type/contract-type-edit/co
     MaintenanceTypeComponent,
     MaintenanceTypeEditComponent,
     ContractTypeComponent,
-    ContractTypeEditComponent
+    ContractTypeEditComponent,
+    VehicleCategorieComponent,
+    VehicleCategorieEditComponent
 
   ],
   imports: [

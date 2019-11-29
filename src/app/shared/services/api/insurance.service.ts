@@ -58,25 +58,13 @@ export class InsuranceService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(Insurance: Insurance): Insurance {
-        this.proxy.set(this.controller, Insurance).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(insurance: Insurance): Observable<Insurance> {
+        return this.proxy.set(this.controller, Insurance);
     }
 
 
-    add(Insurance: Insurance): Insurance {
-        this.proxy.add(this.controller, Insurance).subscribe(
+    add(insurance: Insurance): Insurance {
+        this.proxy.add(this.controller, insurance).subscribe(
             data => {
                 this.emitChanges();
                 this.toastr.success('Item was saved successfully', 'Save');

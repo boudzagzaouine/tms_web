@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { MaintenanceTypeService } from './../../../../shared/services/api/maintenance-type.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -16,12 +18,14 @@ export class MaintenanceTypeEditComponent implements OnInit {
   closeResult: String;
   maintenanceTypeForm: FormGroup;
   maintenanceTypeList: MaintenanceType[] = [];
-submitted=false;
+  isFormSubmitted = false;
   modal: NgbModalRef;
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.maintenanceTypeService.findAll().subscribe(
@@ -34,31 +38,48 @@ submitted=false;
   }
 
   onSubmit() {
-    this.submitted=true;
+    this.isFormSubmitted = true;
     if (this.maintenanceTypeForm.invalid) {
       return;
-  }
+    }
+
+
     this.selectedMaintenanceType.code = this.maintenanceTypeForm.value['code'];
     this.selectedMaintenanceType.description = this.maintenanceTypeForm.value['description'];
 
 
     console.log(this.selectedMaintenanceType);
-    const s = this.maintenanceTypeService.set(this.selectedMaintenanceType);
+    const s = this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
 
-    if (this.modal) { this.modal.close(); }
+      () => this.spinner.hide()
+    );
   }
   initForm() {
     this.maintenanceTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedMaintenanceType.code,Validators.required),
+      'code': new FormControl(this.selectedMaintenanceType.code, Validators.required),
       'description': new FormControl(this.selectedMaintenanceType.description)
     });
   }
   open(content) {
-   if(!this.editMode){
+    if (!this.editMode) {
 
-       this.selectedMaintenanceType=new MaintenanceType();
-       this.initForm();
-   }
+      this.selectedMaintenanceType = new MaintenanceType();
+      this.initForm();
+    }
 
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
     this.modal.result.then((result) => {

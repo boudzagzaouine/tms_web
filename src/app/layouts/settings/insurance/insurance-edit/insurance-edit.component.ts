@@ -1,9 +1,11 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractTypeService } from '../../../../shared/services';
 import { Component, OnInit, Input } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
 import { Insurance, InsuranceTerm, ContractType, Supplier } from '../../../../shared/models';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-insurance-edit',
   templateUrl: './insurance-edit.component.html',
@@ -26,6 +28,8 @@ export class InsuranceEditComponent implements OnInit {
     private insuranceTypeService: InsuranceTermService,
     private contractTypeService: ContractTypeService,
     private supplierService: SupplierService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -60,6 +64,8 @@ export class InsuranceEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.insuranceForm.invalid) {return; }
+
+    this.spinner.show();
     this.selectedInsurance.code = this.insuranceForm.value['code'];
     this.selectedInsurance.description = this.insuranceForm.value['description'];
     this.selectedInsurance.amount = +this.insuranceForm.value['amount'];
@@ -67,9 +73,24 @@ export class InsuranceEditComponent implements OnInit {
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'] as Date;
 
     console.log(this.selectedInsurance);
-    const s = this.insuranceService.set(this.selectedInsurance);
+    const s = this.insuranceService.set(this.selectedInsurance).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
 
-    if (this.modal) { this.modal.close(); }
+      () => this.spinner.hide()
+    );
   }
 
   onSelectSupplier(event: any) {

@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Badge } from './../../../../shared/models/badge';
 import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -17,10 +19,14 @@ export class MaintenanceStatusEditComponent implements OnInit {
   closeResult: String;
   maintenanceStateForm: FormGroup;
   maintenanceStateList: MaintenanceState[] = [];
- submitted=false;
+  isFormSubmitted = false;
   modal: NgbModalRef;
-  constructor(private maintenanceStateService: MaintenanceStateService,
-    private modalService: NgbModal) { }
+
+  constructor(
+    private maintenanceStateService: MaintenanceStateService,
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -33,29 +39,47 @@ export class MaintenanceStatusEditComponent implements OnInit {
     this.initForm();
   }
   onSubmit() {
-    this.submitted=true;
+    this.isFormSubmitted = true;
     if (this.maintenanceStateForm.invalid) {
       return;
-  }
+    }
+this.spinner.show();
+
     this.selectedMaintenanceState.code = this.maintenanceStateForm.value['code'];
     this.selectedMaintenanceState.description = this.maintenanceStateForm.value['description'];
 
 
     console.log(this.selectedMaintenanceState);
-    const s = this.maintenanceStateService.set(this.selectedMaintenanceState);
+    const s = this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
 
-    if (this.modal) { this.modal.close();}
+      () => this.spinner.hide()
+    );
+
 
   }
   initForm() {
     this.maintenanceStateForm = new FormGroup({
-      'code': new FormControl(this.selectedMaintenanceState.code,Validators.required),
+      'code': new FormControl(this.selectedMaintenanceState.code, Validators.required),
       'description': new FormControl(this.selectedMaintenanceState.description)
     });
   }
   open(content) {
-this.submitted=false;
-    if(!this.editMode){
+    this.isFormSubmitted = false;
+    if (!this.editMode) {
       this.selectedMaintenanceState = new MaintenanceState();
     }
     this.initForm();

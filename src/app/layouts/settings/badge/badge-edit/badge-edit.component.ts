@@ -1,8 +1,10 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { BadgeTypeService, BadgeService } from './../../../../shared/services';
 import { BadgeType, Badge } from '../../../../shared/models';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -25,7 +27,9 @@ export class BadgeEditComponent implements OnInit {
   constructor(
     private badgeService: BadgeService,
     private badgeTypeService: BadgeTypeService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.badgeTypeService.findAll().subscribe(
@@ -48,13 +52,32 @@ export class BadgeEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.badgeForm.invalid){ return; }
-    
+
+    this.spinner.show();
+
     this.selectedBadge.code = this.badgeForm.value['code'];
     this.selectedBadge.description = this.badgeForm.value['description'];
 
-
     console.log(this.selectedBadge);
-    const s = this.badgeService.set(this.selectedBadge);
+    const s = this.badgeService.set(this.selectedBadge).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
+
+      () => this.spinner.hide()
+    );
+
 
 
     this.selectedBadge = new Badge();

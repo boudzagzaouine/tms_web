@@ -53,20 +53,8 @@ export class MaintenanceStateService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(maintenanceState: MaintenanceState): MaintenanceState {
-        this.proxy.set(this.controller, maintenanceState).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(maintenanceState: MaintenanceState): Observable<MaintenanceState> {
+        return this.proxy.set(this.controller, maintenanceState);
     }
 
 

@@ -53,20 +53,8 @@ export class BadgeService {
         return this.proxy.sizeSearch(this.controller, search);
     }
 
-    set(badge: Badge): Badge {
-        this.proxy.set(this.controller, badge).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(badge: Badge): Observable<Badge> {
+        return this.proxy.set(this.controller, badge);
     }
 
     setManually(badge: Badge) {
@@ -99,10 +87,13 @@ export class BadgeService {
                 );
             },
             error =>
-                this.toastr.error(
-                    'Erreur de suppression' + error,
+                {this.toastr.error(
+                    'Erreur de suppression => ' + error.error.localizedMessage,
                     'Suppression'
-                )
+                );
+              console.log(error);
+
+              }
         );
     }
 }

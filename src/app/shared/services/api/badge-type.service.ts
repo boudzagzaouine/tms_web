@@ -52,20 +52,8 @@ export class BadgeTypeService {
         return this.proxy.sizeSearch(this.controller, search);
     }
 
-    set(badgeType: BadgeType): BadgeType {
-        this.proxy.set(this.controller, badgeType).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(badgeType: BadgeType): Observable<BadgeType>{
+       return this.proxy.set(this.controller, badgeType);
     }
 
     setManually(badgeType: BadgeType) {

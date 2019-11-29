@@ -1,3 +1,5 @@
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +24,10 @@ export class ContractTypeEditComponent implements OnInit {
 
   constructor(
     private contractTypeService: ContractTypeService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+    ) { }
 
   ngOnInit() {
     this.initForm();
@@ -38,14 +43,31 @@ export class ContractTypeEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.contractTypeForm.invalid) { return; }
+
+    this.spinner.show();
     this.selectedContractType.code = this.contractTypeForm.value['code'];
     this.selectedContractType.description = this.contractTypeForm.value['description'];
 
     console.log(this.selectedContractType);
-    const s = this.contractTypeService.set(this.selectedContractType);
+    const s = this.contractTypeService.set(this.selectedContractType).subscribe(
+      data => {
+        this.toastr.success('Elément enregistré avec succès', 'Success');
+        if (this.modal) { this.modal.close(); }
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(
+          'Elément n\'est enregistré',
+          'Erreur'
+        );
+        console.log(error);
+        this.spinner.hide();
+      },
 
-    if (this.modal) { this.modal.close(); }
-    this.isFormSubmitted = false;
+      () => this.spinner.hide()
+    );
+
   }
 
   open(content) {

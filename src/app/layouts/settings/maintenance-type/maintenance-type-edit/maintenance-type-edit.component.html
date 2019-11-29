@@ -20,14 +20,13 @@
       <form [formGroup]="maintenanceTypeForm">
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label>{{ "Code" | translate }}*
-                <span  *ngIf="
-                submitted &&
-                maintenanceTypeForm.get('code').errors &&
-                maintenanceTypeForm.get('code').invalid"
-                style="font-size:xx-small"
-                class="text-danger">Obligatoire</span>
-            </label><br />
+            <label>{{ "Code" | translate }}*</label>
+            <span *ngIf="(maintenanceTypeForm.get('code').touched && maintenanceTypeForm.get('code').invalid) ||
+            (isFormSubmitted && maintenanceTypeForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
+            <br />
             <input
               type="text"
               class="form-control"

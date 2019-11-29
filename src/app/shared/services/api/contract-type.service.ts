@@ -56,20 +56,8 @@ export class ContractTypeService {
     sizeSearch(search: string) {
         return this.proxy.sizeSearch(this.controller, search);
     }
-    set(contractType: ContractType): ContractType {
-        this.proxy.set(this.controller, contractType).subscribe(
-            data => {
-                this.emitChanges();
-                this.toastr.success('Item was saved successfully', 'Save');
-                return data;
-            },
-            error =>
-                this.toastr.error(
-                    'Item could not be saved successfully',
-                    'Save'
-                )
-        );
-        return null;
+    set(contractType: ContractType): Observable<ContractType> {
+        return this.proxy.set(this.controller, contractType);
     }
 
 

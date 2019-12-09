@@ -70,7 +70,7 @@ export class VehicleEditComponent implements OnInit {
       }
     );
 
-     this.insuranceService.findAvailable().subscribe(
+     this.insuranceService.findAll().subscribe(
       data => {
         this.insuranceList = data;
         if (this.selectedVehicle.insurance != null) {
@@ -104,7 +104,12 @@ export class VehicleEditComponent implements OnInit {
     this.selectedVehicle.registrationNumber = this.vehicleForm.value['registrationNumber'];
     this.selectedVehicle.technicalVisit = this.vehicleForm.value['technicalVisit'];
 
-    this.vehicleService.set(this.selectedVehicle, close);
+    this.vehicleService.set(this.selectedVehicle).subscribe(
+      data => {
+        console.log('SET VEHICLE');
+
+      }
+    );
     this.isFormSubmitted = false;
 
     this.spinner.hide();
@@ -133,7 +138,7 @@ export class VehicleEditComponent implements OnInit {
   }
 
   onSearchInsurance(event) {
-    const s = this.insuranceService.findAvailable().subscribe(
+    const s = this.insuranceService.findAll().subscribe(
       data => {
         this.insuranceList = data;
       },

@@ -73,8 +73,10 @@ export class VehicleEditComponent implements OnInit {
      this.insuranceService.findAvailable().subscribe(
       data => {
         this.insuranceList = data;
-        if (this.selectedVehicle.insurance != null){
+        if (this.selectedVehicle.insurance != null) {
           this.insuranceList.push(this.selectedVehicle.insurance);
+          console.log(this.selectedVehicle.insurance);
+
         }
       });
   }

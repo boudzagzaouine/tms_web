@@ -1,59 +1,51 @@
 <nav class="page-sidebar">
   <div id="sidebar-collapse" style="background-color: #222d32 !important;">
     <ul class="side-menu metismenu fixed" style="background-color: #222d32 !important;">
-      <li>
-        <a routerLinkActive="active" routerLink="core/index"><i class="sidebar-item-icon fa ">
-            <img src="../../../../assets/img/Menu/home.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Sample' | translate}}</span>
-        </a>
-      </li>
-
-      <li>
+      <li  routerLinkActive="active">
 
         <a href="javascript:;"><i class="sidebar-item-icon "><img src="../../../../assets/img/Menu/Parametre.png"
               width="25px" height="25px"></i>
 
           <span class="nav-label"> {{'Parametrage' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
-            <li>
-                <a routerLinkActive="active" routerLink="/core/settings/vehicle-categorie"><i class="fa fa-circle-o"></i> {{'Vehicle-Categorie' | translate}}</a>
+            <li  routerLinkActive="active">
+                <a routerLink="/core/settings/vehicle-categorie"><i class="fa fa-circle-o"></i> {{'Vehicle-Categorie' | translate}}</a>
               </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/badges"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/badges"><i class="fa fa-circle-o"></i>
               {{'Badge' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/insurances"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/insurances"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/insurance-terms"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/insurance-terms"><i class="fa fa-circle-o"></i>
               {{'Terme Assurance' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/contract-types"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/contract-types"><i class="fa fa-circle-o"></i>
               {{'Type Contrat' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/suppliers"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/suppliers"><i class="fa fa-circle-o"></i>
               {{'Fournisseur' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/badge-types"><i class="fa fa-circle-o"></i>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/badge-types"><i class="fa fa-circle-o"></i>
               {{'Badge Type' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/maintenance-types"><i class="fa fa-circle-o"></i> {{'Maintenance Type' | translate}}</a>
+          <li routerLinkActive="active">
+            <a routerLink="/core/settings/maintenance-types"><i class="fa fa-circle-o"></i> {{'Maintenance Type' | translate}}</a>
           </li>
-          <li>
-            <a routerLinkActive="active" routerLink="/core/settings/maintenance-statuses"><i class="fa fa-circle-o"></i> {{'Maintenance Etat' | translate}}</a>
+          <li  routerLinkActive="active">
+            <a routerLink="/core/settings/maintenance-statuses"><i class="fa fa-circle-o"></i> {{'Maintenance Etat' | translate}}</a>
           </li>
         </ul>
       </li>
 
 
-      <li>
+      <li  routerLinkActive="active">
         <a href="javascript:;"><i class="sidebar-item-icon fa ">
             <img src="../../../../assets/img/Menu/vehicle.png" width="25px" height="25px">
           </i>
@@ -62,34 +54,34 @@
           <li>
 
 
-            <a routerLinkActive="active" routerLink="/core/vehicles/edit"><img
+            <a routerLink="/core/vehicles/edit"><img
                 src="../../../../assets/img/Menu/insert.png" width="15px" height="15px"> {{'Inserer' | translate}} </a>
           </li>
           <li>
-            <a routerLinkActive="active" routerLink="/core/vehicles/list"><img
+            <a routerLink="/core/vehicles/list"><img
                 src="../../../../assets/img/Menu/list.png" width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
       </li>
 
-      <li>
+      <li  routerLinkActive="active">
         <a href="javascript:;"><i class="sidebar-item-icon fa ">
             <img src="../../../../assets/img/Menu/Chauffeur.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Chauffeur' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
           <li>
-            <a routerLinkActive="active" routerLink="/core/drivers/edit"><img
+            <a routerLink="/core/drivers/edit"><img
                 src="../../../../assets/img/Menu/insert.png" width="15px" height="15px"> {{'Inserer' | translate}} </a>
           </li>
           <li>
-            <a routerLinkActive="active" routerLink="/core/drivers/list"><img src="../../../../assets/img/Menu/list.png"
+            <a routerLink="/core/drivers/list"><img src="../../../../assets/img/Menu/list.png"
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
       </li>
 
-      <li>
+      <li routerLinkActive="active">
         <a href="javascript:;"><i class="sidebar-item-icon fa">
             <img src="../../../../assets/img/Menu/maintenance.png" width="25px" height="25px">
 
@@ -97,38 +89,29 @@
           <span class="nav-label">{{'Maintenance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
           <li>
-            <a routerLinkActive="active" routerLink="/core/maintenances/edit"><img
+            <a routerLink="/core/maintenances/edit"><img
                 src="../../../../assets/img/Menu/insert.png" width="15px" height="15px"> {{'Inserer' | translate}} </a>
           </li>
           <li>
-            <a routerLinkActive="active" routerLink="/core/maintenances/list"><img
+            <a routerLink="/core/maintenances/list"><img
                 src="../../../../assets/img/Menu/list.png" width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
       </li>
 
-
-
-
-      <li>
-        <a href="javascript:;"><i class="sidebar-item-icon fa">
+      <li  routerLinkActive="active">
+        <a href="javascript:;"><i class="sidebar-item-icon fa ">
+            <img src="../../../../assets/img/Menu/Chauffeur.png" width="25px" height="25px">
           </i>
-          <span class="nav-label">Menu Levels</span><i class="fa fa-angle-left arrow"></i></a>
+          <span class="nav-label">{{'Assurance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
           <li>
-            <a href="javascript:;">Level 2</a>
+            <a routerLink="/core/drivers/edit"><img
+                src="../../../../assets/img/Menu/insert.png" width="15px" height="15px"> {{'Inserer' | translate}} </a>
           </li>
           <li>
-            <a href="javascript:;">
-              <span class="nav-label">Level 2</span><i class="fa fa-angle-left arrow"></i></a>
-            <ul class="nav-3-level collapse">
-              <li>
-                <a href="javascript:;">Level 3</a>
-              </li>
-              <li>
-                <a href="javascript:;">Level 3</a>
-              </li>
-            </ul>
+            <a routerLink="/core/insurances/list"><img src="../../../../assets/img/Menu/list.png"
+                width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
       </li>

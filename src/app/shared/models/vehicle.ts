@@ -1,3 +1,4 @@
+import { ContractType } from './contract-type';
 import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
@@ -13,6 +14,7 @@ export class Vehicle {
   vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
   insurance: Insurance;
+  contractType: ContractType;
 
 
 }

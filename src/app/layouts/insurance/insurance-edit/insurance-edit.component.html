@@ -1,0 +1,107 @@
+<div class="card mt-4">
+  <div class="card-header " style="background-color:#f7f7f7;">
+    Editer Chauffeur
+  </div>
+  <div class="card-body border-top-primary">
+    <form [formGroup]="insuranceForm">
+
+      <div class="row justify-content-around">
+        <div class="form-group col-sm-6">
+          <label>{{'Code' | translate}} *</label>
+          <span *ngIf="(insuranceForm.get('code').touched && insuranceForm.get('code').invalid) ||
+          (isFormSubmitted && insuranceForm.get('code').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()" />
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label>{{'Description' | translate}}</label><br />
+          <input type="text" class="form-control" pInputText formControlName="description" />
+        </div>
+
+      </div>
+      <div class="row justify-content-around">
+        <div class="form-group col-sm-6">
+          <label>{{'De' | translate}} *</label>
+          <span *ngIf="(insuranceForm.get('startDate').touched && insuranceForm.get('startDate').invalid) ||
+          (isFormSubmitted && insuranceForm.get('startDate').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <p-calendar formControlName="startDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label>{{'A' | translate}} *</label>
+          <span *ngIf="(insuranceForm.get('endDate').touched && insuranceForm.get('endDate').invalid) ||
+          (isFormSubmitted && insuranceForm.get('endDate').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <p-calendar formControlName="endDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+        </div>
+
+      </div>
+      <div class="row justify-content-around">
+        <div class="form-group col-sm-6 ">
+          <label>{{'Supplier'| translate}} *</label>
+          <span *ngIf="(insuranceForm.get('supplier').touched && insuranceForm.get('supplier').invalid) ||
+          (isFormSubmitted && insuranceForm.get('supplier').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <p-autoComplete (completeMethod)="OnSearchSupplier($event)" field="code" [suggestions]="supplierList"
+            (onSelect)="onSelectSupplier($event)" formControlName="supplier">
+          </p-autoComplete>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>{{'Montant' | translate}} *</label>
+          <span *ngIf="(insuranceForm.get('amount').touched && insuranceForm.get('amount').invalid) ||
+          (isFormSubmitted && insuranceForm.get('amount').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="amount" pKeyFilter="num">
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6 ">
+          <label>{{'Type de contrat'| translate}} *</label>
+          <span *ngIf="(insuranceForm.get('contractType').touched && insuranceForm.get('contractType').invalid) ||
+          (isFormSubmitted && insuranceForm.get('contractType').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            Ce Champs est obligatoire
+          </span>
+          <br />
+          <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
+            (onChange)="onSelectContractType($event)" formControlName="contractType"></p-dropdown>
+        </div>
+        <div class="form-group col-sm-6 ">
+          <label>{{'Terme'| translate}}</label><br />
+          <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
+            (onChange)="onSelectInsuranceTerm($event)" formControlName="insuranceTerm"></p-dropdown>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer pull-right ">
+
+  <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+    {{'Fermer' | translate}}
+  </button>
+  <button type="button" class="btn btn-success" (click)="onSubmit()">
+    {{'Valider' | translate}}
+  </button>
+</div>

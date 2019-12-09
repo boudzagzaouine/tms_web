@@ -37,13 +37,7 @@ export class VehicleListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService) { }
 
-  ngOnInit() {
-    this.vehicleService.vehicleListChanged.subscribe(
-      data => {
-        this.vehicleList = data;
-      }
-    );
-  }
+  ngOnInit() { }
 
 
   loadData(search: string = '') {

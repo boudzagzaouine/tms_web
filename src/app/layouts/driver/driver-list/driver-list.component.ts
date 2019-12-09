@@ -42,12 +42,6 @@ export class DriverListComponent implements OnInit {
 
     this.loadData();
     this.loadBadge();
-
-    this.driverService.driverListChanged.subscribe(
-      data => this.drivers = data
-    );
-
-
     // this.loading = true;
   }
   loadBadge() {

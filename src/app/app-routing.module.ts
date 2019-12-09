@@ -8,8 +8,6 @@ const routes: Routes = [
   { path: 'core', loadChildren: () => import('./layouts/layout.module').then(m => m.LayoutModule), canActivate: [AuthGuard] },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: '**', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
-  { path: 'layouts/settings', loadChildren: () => import('./layouts/settings/settings.module').then(m => m.SettingsModule) },
-
 ];
 
 @NgModule({

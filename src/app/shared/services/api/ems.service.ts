@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ProxyService } from '.';
+import { ProxyService } from './proxy.service';
 
 
 @Injectable()

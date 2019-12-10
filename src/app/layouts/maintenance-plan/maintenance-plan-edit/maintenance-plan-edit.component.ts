@@ -1,4 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
@@ -34,8 +35,10 @@ export class MaintenancePlanEditComponent implements OnInit {
     private maintenanceStatusService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
     private maintenancePlanService: MaintenancePlanService,
+    private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.fr = {
@@ -50,8 +53,8 @@ export class MaintenancePlanEditComponent implements OnInit {
     }
     this.initForm();
 
-    if (this.route.snapshot.params['id'] >= 1) {
-      this.idMaintenance = this.route.snapshot.params['id'];
+    if (this.activatedRoute.snapshot.params['id'] >= 1) {
+      this.idMaintenance = this.activatedRoute.snapshot.params['id'];
       this.maintenancePlanService.findById(this.idMaintenance).subscribe(
 
         data => {
@@ -120,7 +123,6 @@ export class MaintenancePlanEditComponent implements OnInit {
     const dd = new Date(this.selectedMaintenance.end);
     this.maintenanceForm = this.formBuilder.group(
       {
-
         'Fcode': new FormControl(this.selectedMaintenance.code, Validators.required),
         'Fvehicule': new FormControl(this.selectedMaintenance.vehicle, Validators.required),
         'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
@@ -128,7 +130,6 @@ export class MaintenancePlanEditComponent implements OnInit {
         'FdateFin': new FormControl(dd),
         'FstatusMaintenance': new FormControl(this.selectedMaintenance.maintenanceState),
         'Fdescription': new FormControl(this.selectedMaintenance.description),
-
       }
     );
   }
@@ -136,22 +137,22 @@ export class MaintenancePlanEditComponent implements OnInit {
   OnSubmitForm(close = false) {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.maintenanceForm.invalid) {
       return;
-  }
+    }
     const formValue = this.maintenanceForm.value;
-
-
-
     this.selectedMaintenance.code = formValue['Fcode'];
-    //this.selectedMaintenance.vehicle = formValue['Fvehicule'];
-    //this.selectedMaintenance.maintenanceType = formValue['FmaintenanceType'];
     this.selectedMaintenance.begin = formValue['FdateDebut'];
     this.selectedMaintenance.end = formValue['FdateFin'];
-    // this.selectedMaintenance.maintenanceState = formValue['FstatusMaintenance'];
     this.selectedMaintenance.description = formValue['Fdescription'];
-    this.maintenancePlanService.set(this.selectedMaintenance, close);
+    this.maintenancePlanService.set(this.selectedMaintenance).subscribe(
+      data => {
+        this.toastr.success('Saved successfully');
+        if (close) {
+          this.router.navigate(['/core/maintenances/list']);
+        }
+      }
+    );
 
     console.log('this maintenance Plan');
     console.log(this.selectedMaintenance);

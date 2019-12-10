@@ -9,6 +9,6 @@ import { ProxyService } from './proxy.service';
 export class MaintenancePlanService extends EmsService<MaintenancePlan> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'maintenacePlans');
+    super(proxy, 'maintenancePlans');
   }
 }

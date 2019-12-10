@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
 import { EmsService } from './ems.service';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
 import { MaintenanceState } from '../../models/maintenance-state';
@@ -8,7 +8,7 @@ import { MaintenanceState } from '../../models/maintenance-state';
 export class MaintenanceStateService extends EmsService<MaintenanceState> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'maintenaceStates');
+    super(proxy, 'maintenanceStates');
   }
 
 

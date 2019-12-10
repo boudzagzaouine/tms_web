@@ -5,12 +5,12 @@ import { Uom } from './uom';
 export class MaintenanceLine {
 
   id: number;
-  product:   Product;
+  product: Product;
   description: string;
-  quantity: number;
+  quantity = 1;
   unitPrice: number;
-  totalPriceHT : number;
-  totalPriceTTC :number;
-  maintenancePlan :MaintenancePlan;
+  totalPriceHT: number;
+  totalPriceTTC: number;
+  maintenancePlan: MaintenancePlan;
 
 }

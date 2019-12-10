@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BadgeType } from '../../../../shared/models';
@@ -15,6 +15,7 @@ export class BadgeTypeEditComponent implements OnInit {
 
   @Input() selectedBadgeType = new BadgeType();
   @Input() editMode: boolean;
+  @Output() badgeTypeAdded = new EventEmitter<BadgeType>();
   closeResult: String;
   badgeTypeForm: FormGroup;
   badgeTypeTypeList: BadgeType[] = [];
@@ -42,15 +43,17 @@ export class BadgeTypeEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.badgeTypeForm.invalid) {return; }
-    this.badgeTypeService.emitChanges();
+
     this.spinner.show();
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
 
 
     console.log(this.selectedBadgeType);
+
     const s = this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
+        this.badgeTypeAdded.emit(data);
         this.toastr.success('Elément enregistré avec succès', 'Success');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

@@ -102,11 +102,11 @@
         <a class="btn btn-primary m-1" [routerLink]="['/core/drivers/list']" routerLinkActive="active">
           {{ "Fermer" | translate }}
         </a>
-        <button type="button" class="btn btn-success m-1" (click)="onSubmitForm(false)">
+        <button type="button" class="btn btn-success m-1" (click)="onSubmitForm()">
           {{ "Valider et continue" | translate }}
         </button>
 
-        <button type="button" class="btn btn-success m-1" (click)="onSubmitForm(true)">
+        <button type="button" class="btn btn-success m-1" (click)="onSubmitForm()">
           {{ "Valider" | translate }}
         </button>
       </div>

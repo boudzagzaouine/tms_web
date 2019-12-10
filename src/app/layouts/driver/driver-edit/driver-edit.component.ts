@@ -97,7 +97,7 @@ export class DriverEditComponent implements OnInit {
   }
 
 
-  onSubmitForm(close = false) {
+  onSubmitForm() {
 
     this.isFormSubmitted = true;
 
@@ -121,9 +121,14 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.fax = formValue['fax'];
 
 
-    this.driverService.set(this.selectedDriver, close);
-    console.log('inserted');
-    console.log(this.selectedDriver);
+    this.driverService.set(this.selectedDriver).subscribe(
+      data=>{
+
+     console.log('inserted');
+     console.log(this.selectedDriver);
+      }
+    );
+
 
     this.spinner.hide();
     this.selectedDriver = new Driver();

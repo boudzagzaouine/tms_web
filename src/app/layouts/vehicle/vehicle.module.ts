@@ -15,7 +15,7 @@ import { VehicleComponent } from './vehicle.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { VehicleEditComponent } from './vehicle-edit/vehicle-edit.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
-
+import {TabViewModule} from 'primeng/tabview';
 @NgModule({
   declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent],
   imports: [
@@ -31,7 +31,8 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     NgxSpinnerModule,
     SharedModule,
     CalendarModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TabViewModule
   ]
 })
 export class VehicleModule { }

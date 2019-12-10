@@ -16,5 +16,19 @@ export class Vehicle {
   insurance: Insurance;
   contractType: ContractType;
 
+  engineOil :number;
+  rearDeck : number;
+  direction : number;
+  airFilter : number;
+  radiator : number;
+  gearBox : number;
+  desiccantFilter : number ;
+  grayCard : string;
+  numberCylinder : number;
+  fiscalPower : number;
+  body:string;
+  chassisNumber : string;
+  energy :string;
+
 
 }

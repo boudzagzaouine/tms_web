@@ -30,11 +30,6 @@ export class BadgeTypeComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.badgeTypeService.badgeTypeListChanged.subscribe(
-      data => {
-        this.badgeTypeList = data;
-      }
-    );
 
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
@@ -97,13 +92,22 @@ export class BadgeTypeComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.badgeTypeService.delete(id);
+        this.badgeTypeService.delete(id).subscribe(
+          data => {
+
+            this.loadData();
+          }
+        );
       }
     });
   }
 
   onEdit() {
     this.toastr.info('selected ');
+  }
+
+  onBqdgeTypeAdded(event) {
+    this.loadData();
   }
 
 }

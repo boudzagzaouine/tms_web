@@ -1,3 +1,6 @@
+
+
+
 <div class="card mt-4">
   <div class="card-header">
     <span class="h4">{{ "Editer Vehicule" | translate }}</span>
@@ -5,62 +8,330 @@
   <div class="card-body border-top-primary">
     <form [formGroup]="vehicleForm">
 
-      <div class="row  justify-content-around">
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Code' | translate}}*</label>
-          <span *ngIf="(vehicleForm.get('code').touched && vehicleForm.get('code').invalid) ||
-            (isFormSubmitted && vehicleForm.get('code').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
-            </span>
-          <br />
-          <input type="text" class="form-control" pInputText formControlName="code"
-          (keydown.space)="$event.preventDefault()"
-          />
-        </div>
+      <p-tabView>
+        <p-tabPanel header="vehicle">
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Code' | translate}}*</label>
+              <span *ngIf="(vehicleForm.get('Fcode').touched && vehicleForm.get('Fcode').invalid) ||
+                (isFormSubmitted && vehicleForm.get('Fcode').invalid)" class="text-lighter"
+                  style="color: red; font-size: xx-small;">
+                  Ce Champs est obligatoire
+                </span>
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="Fcode"
+              (keydown.space)="$event.preventDefault()"
+              />
+            </div>
 
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Matriculation'| translate}}*</label>
-          <span *ngIf="(vehicleForm.get('registrationNumber').touched && vehicleForm.get('registrationNumber').invalid) ||
-            (isFormSubmitted && vehicleForm.get('registrationNumber').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
-            </span>
-          <br />
-          <input type="text" class="form-control" pInputText formControlName="registrationNumber"
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'immatriculation'| translate}}*</label>
+              <span *ngIf="(vehicleForm.get('FregistrationNumber').touched && vehicleForm.get('FregistrationNumber').invalid) ||
+              (isFormSubmitted && vehicleForm.get('FregistrationNumber').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                Ce Champs est obligatoire
+              </span>
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="FregistrationNumber"
 
-          />
-        </div>
+              />
+            </div>
 
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
-            formControlName="vehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
-            [showClear]="true" ></p-dropdown>
-        </div>
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}*</label>
+              <span *ngIf="(vehicleForm.get('FvehicleCategory').touched && vehicleForm.get('FvehicleCategory').invalid) ||
+              (isFormSubmitted && vehicleForm.get('FvehicleCategory').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                Ce Champs est obligatoire
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
+                formControlName="FvehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
+                [showClear]="true" ></p-dropdown>
+            </div>
 
-      </div>
-      <div class="row justify-content-around">
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type Badge' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
-            (onChange)="onSelectBadgeType($event)" formControlName="badgeType" [showClear]="true"
-           ></p-dropdown>
-        </div>
+          </div>
 
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Assurance' | translate}}</label><br />
-          <p-dropdown [autoDisplayFirst]="false"  [options]="insuranceList" optionLabel="code" [filter]="true" [showClear]="true"
-            (onChange)="onSelectInsurance($event)" formControlName="insurance"
-           ></p-dropdown>
-        </div>
+          <div class="row justify-content-around">
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Type Badge' | translate}}*</label>
+              <span *ngIf="(vehicleForm.get('FbadgeType').touched && vehicleForm.get('FbadgeType').invalid) ||
+              (isFormSubmitted && vehicleForm.get('FbadgeType').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                Ce Champs est obligatoire
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
+                (onChange)="onSelectBadgeType($event)" formControlName="FbadgeType" [showClear]="true"
+               ></p-dropdown>
+            </div>
+            <div class="form-group col-md-3 ">
+                <label class="font-weight-bold ">{{'Visite Technique'| translate}}</label>
 
-        <div class="col-md-3 ui-g-12 ui-md-3 ">
-          <label class="font-weight-bold ">{{'Visite Technique' | translate}}</label><br />
-          <p-calendar formControlName="technicalVisit" dateFormat="dd-mm-yy" showButtonBar="true"
-            [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
-        </div>
-      </div>
+                <br />
+
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+                formControlName="FtechnicalVisit" yearRange="1970:2100"></p-calendar>
+
+              </div>
+
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold ">{{'Type contrat' | translate}}*</label>
+                <span *ngIf="(vehicleForm.get('FcontractType').touched && vehicleForm.get('FcontractType').invalid) ||
+                (isFormSubmitted && vehicleForm.get('FcontractType').invalid)" class="text-lighter"
+                  style="color: red; font-size: xx-small;">
+                  Ce Champs est obligatoire
+                </span><br />
+                <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
+                  (onChange)="onSelectContract($event)" formControlName="FcontractType" [showClear]="true"
+                 ></p-dropdown>
+              </div>
+
+          </div>
+
+
+
+        </p-tabPanel>
+        <p-tabPanel header="Caracteristique">
+
+
+            <div class="row  justify-content-around">
+                <div class="form-group col-md-3 ">
+                  <label class="font-weight-bold ">{{'Cart Grisse' | translate}}</label>
+
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="FgrayCard"
+                  (keydown.space)="$event.preventDefault()"
+                  />
+                </div>
+
+                <div class="form-group col-md-3 ">
+                  <label class="font-weight-bold ">{{'N Chassis'| translate}}</label>
+
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="FchassisNumber"
+
+                  />
+                </div>
+                <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'Nbr Cylindre'| translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="FnumberCylinder"
+
+                    />
+                  </div>
+
+
+              </div>
+
+              <div class="row  justify-content-around">
+                  <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'Puissance Fiscal' | translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="FfiscalPower"
+                    (keydown.space)="$event.preventDefault()"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'carrosserie'| translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="Fbody"
+
+                    />
+                  </div>
+                  <div class="form-group col-md-3 ">
+                      <label class="font-weight-bold ">{{'Energie'| translate}}</label>
+
+                      <br />
+                      <input type="text" class="form-control" pInputText formControlName="Fenergy"
+
+                      />
+                    </div>
+
+
+                </div>
+
+
+            <div class="row  justify-content-around">
+                <div class="form-group col-md-3 ">
+                  <label class="font-weight-bold ">{{'Huile Moteur' | translate}}</label>
+
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="FengineOil"
+                  (keydown.space)="$event.preventDefault()"
+                  />
+                </div>
+
+                <div class="form-group col-md-3 ">
+                  <label class="font-weight-bold ">{{'Pont Arriere'| translate}}</label>
+
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="FrearDeck"
+
+                  />
+                </div>
+                <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'Direction '| translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="Fdirection"
+
+                    />
+                  </div>
+
+
+              </div>
+
+
+              <div class="row  justify-content-around">
+                  <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'Radiateur' | translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="Fradiator"
+                    (keydown.space)="$event.preventDefault()"
+                    />
+                  </div>
+
+                  <div class="form-group col-md-3 ">
+                    <label class="font-weight-bold ">{{'Filtre à Air '| translate}}</label>
+
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="FareaFilter"
+
+                    />
+                  </div>
+                  <div class="form-group col-md-3 ">
+                      <label class="font-weight-bold ">{{'Boite a Vitesse '| translate}}</label>
+
+                      <br />
+                      <input type="text" class="form-control" pInputText formControlName="FgearBox"
+
+                      />
+                    </div>
+
+
+                </div>
+
+                <div class="row  justify-content-around">
+                    <div class="form-group col-md-3 ">
+                      <label class="font-weight-bold ">{{'Filtre Dissicateur' | translate}}</label>
+
+                      <br />
+                      <input type="text" class="form-control" pInputText formControlName="FdesiccantFilter"
+                      (keydown.space)="$event.preventDefault()"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-3 ">
+
+                    </div>
+                    <div class="form-group col-md-3 ">
+
+                      </div>
+
+
+                  </div>
+
+
+
+
+
+        </p-tabPanel>
+        <p-tabPanel header="Assurance">
+
+            <div class="row justify-content-around">
+                <div class="form-group col-sm-3">
+                  <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+                  <span *ngIf="(vehicleForm.get('FIcode').touched && vehicleForm.get('FIcode').invalid) ||
+                  (isFormSubmitted && vehicleForm.get('FIcode').invalid)" class="text-lighter"
+                    style="color: red; font-size: xx-small;">
+                    Ce Champs est obligatoire
+                  </span>
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="FIcode" (keydown.space)="$event.preventDefault()" />
+                </div>
+
+                <div class="form-group col-sm-3">
+                  <label class="font-weight-bold ">{{'Description' | translate}}</label>
+                  <span *ngIf="(vehicleForm.get('FIdescription').touched && vehicleForm.get('FIdescription').invalid) ||
+                  (isFormSubmitted && vehicleForm.get('FIdescription').invalid)" class="text-lighter"
+                    style="color: red; font-size: xx-small;">
+                    Ce Champs est obligatoire
+                  </span><br />
+                  <input type="text" class="form-control" pInputText formControlName="FIdescription" />
+                </div>
+                <div class="form-group col-sm-3"></div>
+              </div>
+              <div class="row justify-content-around">
+                  <div class="form-group col-sm-3">
+                    <label class="font-weight-bold ">{{'De' | translate}} *</label>
+                    <span *ngIf="(vehicleForm.get('FIstartDate').touched && vehicleForm.get('FIstartDate').invalid) ||
+                    (isFormSubmitted && vehicleForm.get('FIstartDate').invalid)" class="text-lighter"
+                      style="color: red; font-size: xx-small;">
+                      Ce Champs est obligatoire
+                    </span>
+                    <br />
+                    <p-calendar formControlName="FIstartDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+                      [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <label class="font-weight-bold ">{{'A' | translate}} *</label>
+                    <span *ngIf="(vehicleForm.get('FIendDate').touched && vehicleForm.get('FIendDate').invalid) ||
+                    (isFormSubmitted && vehicleForm.get('FIendDate').invalid)" class="text-lighter"
+                      style="color: red; font-size: xx-small;">
+                      Ce Champs est obligatoire
+                    </span>
+                    <br />
+                    <p-calendar formControlName="FIendDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+                      [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+                  </div>
+                  <div class="form-group col-sm-3"></div>
+                </div>
+
+                <div class="row justify-content-around">
+                    <div class="form-group col-sm-3 ">
+                      <label class="font-weight-bold ">{{'Supplier'| translate}} *</label>
+                      <span *ngIf="(vehicleForm.get('FIsupplier').touched && vehicleForm.get('FIsupplier').invalid) ||
+                      (isFormSubmitted && vehicleForm.get('FIsupplier').invalid)" class="text-lighter"
+                        style="color: red; font-size: xx-small;">
+                        Ce Champs est obligatoire
+                      </span>
+                      <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code"
+                formControlName="FIsupplier" (onChange)="onSelectsupplier($event)" [filter]="true"
+                [showClear]="true" ></p-dropdown>
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
+                      <span *ngIf="(vehicleForm.get('FIMontant').touched && vehicleForm.get('FIMontant').invalid) ||
+                      (isFormSubmitted && vehicleForm.get('FIMontant').invalid)" class="text-lighter"
+                        style="color: red; font-size: xx-small;">
+                        Ce Champs est obligatoire
+                      </span>
+                      <input type="text" class="form-control" pInputText formControlName="FIMontant" />
+
+                    </div>
+                    <div class="form-group col-sm-3 ">
+                      <label class="font-weight-bold ">{{'Terme Assurance'| translate}} *</label>
+                      <span *ngIf="(vehicleForm.get('FinsuranceTerm').touched && vehicleForm.get('FinsuranceTerm').invalid) ||
+                      (isFormSubmitted && vehicleForm.get('FinsuranceTerm').invalid)" class="text-lighter"
+                        style="color: red; font-size: xx-small;">
+                        Ce Champs est obligatoire
+                      </span>
+                      <p-dropdown [autoDisplayFirst]="false" [options]="inssuranceTermList" optionLabel="code"
+                formControlName="FinsuranceTerm" (onChange)="onSelectinssuranceTerm($event)" [filter]="true"
+                [showClear]="true" ></p-dropdown>
+                    </div>
+                  </div>
+        </p-tabPanel>
+      </p-tabView>
+
+
+
+
       <br />
       <br />
       <br />
@@ -68,11 +339,11 @@
         <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']" routerLinkActive="active">
           {{'Fermer' | translate}}
         </a>
-        <button type="button" class="btn btn-success m-1" (click)="onSubmit(false)">
+        <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
           {{'Valider et continuer' | translate }}
         </button>
 
-        <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+        <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
           {{ "Valider" | translate }}
         </button>
       </div>

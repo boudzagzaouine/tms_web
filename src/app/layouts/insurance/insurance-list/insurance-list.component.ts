@@ -22,7 +22,7 @@ export class InsuranceListComponent implements OnInit {
   collectionSize: number;
 
   selectedInsurance: Insurance;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   insuranceTermSearch: string;
   supplierSearch: string;

@@ -18,7 +18,7 @@ export class VehicleCategorieComponent implements OnInit {
   collectionSize: number;
 
   selectedVehicleCategorie: VehicleCategory;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   items: MenuItem[];
 
@@ -32,12 +32,6 @@ export class VehicleCategorieComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.vehicleCategoryService.vehicleCategoryListChanged.subscribe(
-      data => {
-        this.vehicleCategorieList = data;
-      }
-    );
-
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedVehicleCategorie.id) }
@@ -45,17 +39,17 @@ export class VehicleCategorieComponent implements OnInit {
   }
 
 
-  loadData(search: string = '') {
+  loadData() {
 
     console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
-    this.vehicleCategoryService.sizeSearch(search).subscribe(
+    this.vehicleCategoryService.sizeSearch(this.searchQuery).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.vehicleCategoryService.findPagination(this.page, this.size, search).subscribe(
+    this.vehicleCategoryService.findPagination(this.page, this.size, this.searchQuery).subscribe(
       data => {
         console.log(data);
         this.vehicleCategorieList = data;
@@ -68,7 +62,7 @@ export class VehicleCategorieComponent implements OnInit {
   loadDataLazy(event) {
     this.page = event.first / this.size;
     console.log('first : ' + event.first);
-    this.loadData(this.searchQuery);
+    this.loadData();
   }
 
   onSearchClicked() {
@@ -78,21 +72,18 @@ export class VehicleCategorieComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
 
-
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData(this.searchQuery);
+    this.loadData();
 
   }
-
 
   reset() {
     this.codeSearch = null;
 
     this.page = 0;
     this.searchQuery = '';
-    this.loadData(this.searchQuery);
+    this.loadData();
   }
 
   onDelete(id: number) {
@@ -100,6 +91,7 @@ export class VehicleCategorieComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.vehicleCategoryService.delete(id);
+        this.loadData();
       }
     });
   }

@@ -20,7 +20,7 @@ export class MaintenanceTypeComponent implements OnInit {
   collectionSize: number;
 
   selectedMaintenanceType: MaintenanceType;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   items: MenuItem[];
 
@@ -32,12 +32,6 @@ export class MaintenanceTypeComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-
-    this.maintenanceTypeService.MaintenanceTypeListChanged.subscribe(
-      data => {
-        this.maintenanceTypeList = data;
-      }
-    );
 
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },

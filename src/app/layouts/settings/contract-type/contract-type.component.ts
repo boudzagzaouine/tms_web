@@ -30,13 +30,7 @@ export class ContractTypeComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.contractTypeService.contractTypeListChanged.subscribe(
-      data => {
-        this.contractTypeList = data;
-      }
-    );
-
-    this.items = [
+      this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedContractType.id) }
     ];
@@ -98,6 +92,7 @@ export class ContractTypeComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.contractTypeService.delete(id);
+        this.loadData();
       }
     });
   }

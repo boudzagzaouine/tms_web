@@ -18,7 +18,7 @@ export class InsuranceTermComponent implements OnInit {
   collectionSize: number;
 
   selectedInsuranceTerm: InsuranceTerm;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   items: MenuItem[];
 
@@ -30,13 +30,7 @@ export class InsuranceTermComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.insuranceTermService.termInsuranceListChanged.subscribe(
-      data => {
-        this.insuranceTermList = data;
-      }
-    );
-
-    this.items = [
+      this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedInsuranceTerm.id) }
     ];

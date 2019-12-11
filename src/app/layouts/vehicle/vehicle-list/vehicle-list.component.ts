@@ -21,7 +21,7 @@ export class VehicleListComponent implements OnInit {
   collectionSize: number;
 
   selectedVehicle: Vehicle;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   matSearch: string;
   categorySearch: string;

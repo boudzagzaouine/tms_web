@@ -75,7 +75,6 @@ export class InsuranceEditComponent implements OnInit {
     console.log(this.selectedInsurance);
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
-        this.insuranceService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

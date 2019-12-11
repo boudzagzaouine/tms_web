@@ -52,7 +52,6 @@ this.spinner.show();
     console.log(this.selectedMaintenanceState);
     const s = this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
       data => {
-        this.maintenanceStateService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

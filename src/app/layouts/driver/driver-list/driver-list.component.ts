@@ -28,6 +28,7 @@ export class DriverListComponent implements OnInit {
   selectedBadge: Badge;
   loading: boolean;
 
+  searchQuery = '';
   drivers: Array<Driver> = [];
   badges: Array<Badge> = [];
   badgesList: Array<Badge> = [];
@@ -57,6 +58,8 @@ export class DriverListComponent implements OnInit {
     );
 
   }
+
+
   loadDataLazy(event) {
     //  this.loading = true;
 
@@ -68,12 +71,9 @@ export class DriverListComponent implements OnInit {
     this.page = event.first / this.size;
     console.log('lazy load data');
 
-    this.loadData();
+    this.loadData(this.searchQuery);
 
   }
-
-
-
 
 
   loadData(search: string = '') {
@@ -136,6 +136,7 @@ export class DriverListComponent implements OnInit {
     this.badgeSearch = null;
     this.page = 0;
 
+    this.searchQuery = '';
     this.loadData();
   }
 
@@ -146,6 +147,7 @@ export class DriverListComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.driverService.delete(id);
+        this.loadData();
       }
     });
 

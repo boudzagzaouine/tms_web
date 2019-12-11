@@ -65,7 +65,6 @@ export class VehicleCategorieEditComponent implements OnInit {
     console.log(this.selectedVehicleCategory);
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
-        this.vehicleCategoryService.emitChanges();
         this.toastr.success('Item was saved successfully', 'Save');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

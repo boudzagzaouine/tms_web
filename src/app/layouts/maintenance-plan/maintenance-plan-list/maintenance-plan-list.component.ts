@@ -27,6 +27,8 @@ export class MaintenancePlanListComponent implements OnInit {
   statusMaintenanceSearch: MaintenanceState;
   codeSearch: String;
 
+  searchQuery = '';
+
   maintenancePlans: Array<MaintenancePlan> = [];
 
 
@@ -46,14 +48,6 @@ export class MaintenancePlanListComponent implements OnInit {
     this.loadVechile();
     this.loadMaintenanceStatus();
     this.loadMaintenanceType();
-
-    this.maintenancePlanService.maintenancePlanListChanged.subscribe(
-
-      data => {
-
-        this.maintenancePlans = data;
-      }
-    );
 
   }
 
@@ -110,7 +104,7 @@ export class MaintenancePlanListComponent implements OnInit {
     this.page = event.first / this.size;
     console.log('lazy load data');
 
-    this.loadData();
+    this.loadData(this.searchQuery);
 
   }
 
@@ -183,6 +177,7 @@ export class MaintenancePlanListComponent implements OnInit {
 
     this.page = 0;
 
+    this.searchQuery = '';
     this.loadData();
   }
 
@@ -193,6 +188,7 @@ export class MaintenancePlanListComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.maintenancePlanService.delete(id);
+        this.loadData();
       }
     });
 

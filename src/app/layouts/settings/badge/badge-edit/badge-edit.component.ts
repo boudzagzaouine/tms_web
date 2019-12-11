@@ -61,7 +61,6 @@ export class BadgeEditComponent implements OnInit {
     console.log(this.selectedBadge);
     const s = this.badgeService.set(this.selectedBadge).subscribe(
       data => {
-        this.badgeService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

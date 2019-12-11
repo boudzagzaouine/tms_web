@@ -51,7 +51,6 @@ export class MaintenanceTypeEditComponent implements OnInit {
     console.log(this.selectedMaintenanceType);
     const s = this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
-        this.maintenanceTypeService.emitChanges();
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

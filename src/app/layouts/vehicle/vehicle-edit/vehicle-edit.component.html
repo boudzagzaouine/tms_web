@@ -5,11 +5,11 @@
   <div class="card-header">
     <span class="h4">{{ "Editer Vehicule" | translate }}</span>
   </div>
-  <div class="card-body border-top-primary">
+  <div class="card-body border-top-primary h-75">
     <form [formGroup]="vehicleForm">
 
       <p-tabView>
-        <p-tabPanel header="vehicle">
+        <p-tabPanel header="General">
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Code' | translate}}*</label>
@@ -232,18 +232,12 @@
 
                       </div>
 
-
                   </div>
-
-
-
-
-
         </p-tabPanel>
         <p-tabPanel header="Assurance">
 
             <div class="row justify-content-around">
-                <div class="form-group col-sm-3">
+                <div class="form-group col-md-3">
                   <label class="font-weight-bold ">{{'Code' | translate}} *</label>
                   <span *ngIf="(vehicleForm.get('FIcode').touched && vehicleForm.get('FIcode').invalid) ||
                   (isFormSubmitted && vehicleForm.get('FIcode').invalid)" class="text-lighter"
@@ -254,7 +248,7 @@
                   <input type="text" class="form-control" pInputText formControlName="FIcode" (keydown.space)="$event.preventDefault()" />
                 </div>
 
-                <div class="form-group col-sm-3">
+                <div class="form-group col-md-3">
                   <label class="font-weight-bold ">{{'Description' | translate}}</label>
                   <span *ngIf="(vehicleForm.get('FIdescription').touched && vehicleForm.get('FIdescription').invalid) ||
                   (isFormSubmitted && vehicleForm.get('FIdescription').invalid)" class="text-lighter"
@@ -263,10 +257,10 @@
                   </span><br />
                   <input type="text" class="form-control" pInputText formControlName="FIdescription" />
                 </div>
-                <div class="form-group col-sm-3"></div>
+                <div class="form-group col-md-3"></div>
               </div>
               <div class="row justify-content-around">
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-md-3">
                     <label class="font-weight-bold ">{{'De' | translate}} *</label>
                     <span *ngIf="(vehicleForm.get('FIstartDate').touched && vehicleForm.get('FIstartDate').invalid) ||
                     (isFormSubmitted && vehicleForm.get('FIstartDate').invalid)" class="text-lighter"
@@ -278,7 +272,7 @@
                       [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
                   </div>
 
-                  <div class="form-group col-sm-3">
+                  <div class="form-group col-md-3">
                     <label class="font-weight-bold ">{{'A' | translate}} *</label>
                     <span *ngIf="(vehicleForm.get('FIendDate').touched && vehicleForm.get('FIendDate').invalid) ||
                     (isFormSubmitted && vehicleForm.get('FIendDate').invalid)" class="text-lighter"
@@ -289,11 +283,11 @@
                     <p-calendar formControlName="FIendDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
                       [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
                   </div>
-                  <div class="form-group col-sm-3"></div>
+                  <div class="form-group col-md-3"></div>
                 </div>
 
                 <div class="row justify-content-around">
-                    <div class="form-group col-sm-3 ">
+                    <div class="form-group col-md-3 ">
                       <label class="font-weight-bold ">{{'Supplier'| translate}} *</label>
                       <span *ngIf="(vehicleForm.get('FIsupplier').touched && vehicleForm.get('FIsupplier').invalid) ||
                       (isFormSubmitted && vehicleForm.get('FIsupplier').invalid)" class="text-lighter"
@@ -304,7 +298,7 @@
                 formControlName="FIsupplier" (onChange)="onSelectsupplier($event)" [filter]="true"
                 [showClear]="true" ></p-dropdown>
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-md-3">
                       <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
                       <span *ngIf="(vehicleForm.get('FIMontant').touched && vehicleForm.get('FIMontant').invalid) ||
                       (isFormSubmitted && vehicleForm.get('FIMontant').invalid)" class="text-lighter"
@@ -314,7 +308,7 @@
                       <input type="text" class="form-control" pInputText formControlName="FIMontant" />
 
                     </div>
-                    <div class="form-group col-sm-3 ">
+                    <div class="form-group col-md-3 ">
                       <label class="font-weight-bold ">{{'Terme Assurance'| translate}} *</label>
                       <span *ngIf="(vehicleForm.get('FinsuranceTerm').touched && vehicleForm.get('FinsuranceTerm').invalid) ||
                       (isFormSubmitted && vehicleForm.get('FinsuranceTerm').invalid)" class="text-lighter"
@@ -328,15 +322,8 @@
                   </div>
         </p-tabPanel>
       </p-tabView>
-
-
-
-
-      <br />
-      <br />
-      <br />
-      <div class="text-center">
-        <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']" routerLinkActive="active">
+      <div class="text-center mt-3" style="bottom: 10vh !important;">
+        <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
           {{'Fermer' | translate}}
         </a>
         <button type="button" class="btn btn-success m-1" (click)="onSubmit()">

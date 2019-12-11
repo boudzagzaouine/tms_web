@@ -17,7 +17,7 @@ export class SupplierComponent implements OnInit {
   collectionSize: number;
 
   selectedSupplier: Supplier;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   items: MenuItem[];
 
@@ -29,12 +29,6 @@ export class SupplierComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.supplierService.supplierListChanged.subscribe(
-      data => {
-        this.supplierList = data;
-      }
-    );
-
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedSupplier.id) }

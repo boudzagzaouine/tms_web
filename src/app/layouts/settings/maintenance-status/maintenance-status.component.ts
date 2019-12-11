@@ -20,7 +20,7 @@ export class MaintenanceStatusComponent implements OnInit {
   collectionSize: number;
 
   selectedMaintenanceState: MaintenanceState;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
   items: MenuItem[];
 
@@ -31,11 +31,6 @@ export class MaintenanceStatusComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
   ngOnInit() {
-    this.maintenanceStateService.maintenanceStateListChanged.subscribe(
-      data => {
-        this.maintenanceStateList = data;
-      }
-    );
 
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },

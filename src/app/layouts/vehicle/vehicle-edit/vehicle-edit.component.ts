@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { InsuranceTermService } from './../../../shared/services/api/insurance-term.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
@@ -24,11 +25,11 @@ import { ContractType, Supplier, InsuranceTerm } from '../../../shared/models';
 export class VehicleEditComponent implements OnInit {
 
   selectedVehicle: Vehicle = new Vehicle();
-  selectedVehicleCategory =new  VehicleCategory();
-  selectedInsurance= new Insurance ();
+  selectedVehicleCategory = new VehicleCategory();
+  selectedInsurance = new Insurance();
 
   selectedBadgeType = new BadgeType();
-  selectedContractType = new  ContractType();
+  selectedContractType = new ContractType();
   vehicleForm: FormGroup;
   editMode = false;
   badgeTypeList: BadgeType[] = [];
@@ -47,9 +48,10 @@ export class VehicleEditComponent implements OnInit {
     private badgeTypeService: BadgeTypeService,
     private insuranceService: InsuranceService,
     private spinner: NgxSpinnerService,
-    private contractTypeService : ContractTypeService,
-    private supplierService : SupplierService,
-   private insuranceTermService : InsuranceTermService
+    private contractTypeService: ContractTypeService,
+    private supplierService: SupplierService,
+    private insuranceTermService: InsuranceTermService,
+    private toastr: ToastrService
   ) { }
   fr: any;
   ngOnInit() {
@@ -114,15 +116,15 @@ export class VehicleEditComponent implements OnInit {
 
       }
     );
-   /*  this.insuranceService.findAll().subscribe(
-      data => {
-        this.insuranceList = data;
-        if (this.selectedVehicle.insurance != null) {
-          this.insuranceList.push(this.selectedVehicle.insurance);
-          console.log(this.selectedVehicle.insurance);
+    /*  this.insuranceService.findAll().subscribe(
+       data => {
+         this.insuranceList = data;
+         if (this.selectedVehicle.insurance != null) {
+           this.insuranceList.push(this.selectedVehicle.insurance);
+           console.log(this.selectedVehicle.insurance);
 
-        }
-      });*/
+         }
+       });*/
   }
 
   initForm() {
@@ -178,7 +180,7 @@ export class VehicleEditComponent implements OnInit {
     this.selectedVehicle.technicalVisit = formValue['FtechnicalVisit'];
     //this.selectedVehicle.technicalVisit = formValue['FvehicleCategory'];
     //this.selectedVehicle.technicalVisit = formValue['FbadgeType'];
-     //this.selectedVehicle.insurance = formValue['Finsurance'];
+    //this.selectedVehicle.insurance = formValue['Finsurance'];
     //this.selectedVehicle.technicalVisit = formValue['FcontractType'];
     this.selectedVehicle.grayCard = formValue['FgrayCard'];
     this.selectedVehicle.chassisNumber = formValue['FchassisNumber'];
@@ -198,23 +200,26 @@ export class VehicleEditComponent implements OnInit {
 
     this.selectedInsurance.code = formValue['FIcode'];
     this.selectedInsurance.description = formValue['FIdescription'];
-    this.selectedInsurance.startDate= formValue['FIstartDate'];
+    this.selectedInsurance.startDate = formValue['FIstartDate'];
     this.selectedInsurance.endDate = formValue['FIendDate'];
     this.selectedInsurance.amount = formValue['FIMontant'];
 
 
-    if(this.selectedInsurance.code){
-    this.selectedVehicle.insurance=this.selectedInsurance;
+    if (this.selectedInsurance.code) {
+      this.selectedVehicle.insurance = this.selectedInsurance;
     }
     //this.selectedVehicle.technicalVisit = formValue['FIsupplier'];
-  //  this.selectedVehicle.technicalVisit = formValue['FinsuranceTerm'];
-  console.log(this.selectedVehicle);
+    //  this.selectedVehicle.technicalVisit = formValue['FinsuranceTerm'];
+    console.log(this.selectedVehicle);
 
 
     this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
-        console.log('SET VEHICLE');
+        this.toastr.success('Success');
 
+      },
+      err => {
+        this.toastr.error(err.error.message);
       }
     );
     this.isFormSubmitted = false;
@@ -238,11 +243,11 @@ export class VehicleEditComponent implements OnInit {
     console.log(this.selectedVehicle.vehicleCategory);
   }
 
- /* onSelectInsurance(event: any) {
-    console.log(event);
-    this.selectedVehicle.insurance = event.value;
-    console.log(this.selectedVehicle.insurance);
-  }*/
+  /* onSelectInsurance(event: any) {
+     console.log(event);
+     this.selectedVehicle.insurance = event.value;
+     console.log(this.selectedVehicle.insurance);
+   }*/
   onSelectContract(event: any) {
     console.log(event);
     this.selectedVehicle.contractType = event.value;
@@ -259,18 +264,18 @@ export class VehicleEditComponent implements OnInit {
     this.selectedInsurance.insuranceTerm = event.value;
     console.log(this.selectedInsurance.insuranceTerm);
   }
- /* onSearchInsurance(event) {
-    const s = this.insuranceService.findAll().subscribe(
-      data => {
-        this.insuranceList = data;
-      },
-      error => {
-        console.log(error);
+  /* onSearchInsurance(event) {
+     const s = this.insuranceService.findAll().subscribe(
+       data => {
+         this.insuranceList = data;
+       },
+       error => {
+         console.log(error);
 
-      },
-      () => s.unsubscribe()
-    );
-  }*/
+       },
+       () => s.unsubscribe()
+     );
+   }*/
 
 
 }

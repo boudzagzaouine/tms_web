@@ -13,7 +13,7 @@ import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractType, Supplier, InsuranceTerm } from '../../../shared/models';
 
@@ -40,7 +40,7 @@ export class VehicleEditComponent implements OnInit {
 
   insuranceList: Insurance[] = [];
   isFormSubmitted = false;
- fr: any;
+  fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private vehicleService: VehicleService,
@@ -51,6 +51,7 @@ export class VehicleEditComponent implements OnInit {
     private contractTypeService: ContractTypeService,
     private supplierService: SupplierService,
     private insuranceTermService: InsuranceTermService,
+    private router: Router,
     private toastr: ToastrService
   ) { }
 
@@ -167,15 +168,12 @@ export class VehicleEditComponent implements OnInit {
     this.spinner.hide();
   }
 
-  onSubmit() {
-
-
+  onSubmit(close = false) {
 
     this.isFormSubmitted = true;
     if (this.vehicleForm.invalid) { this.spinner.hide(); return; }
     this.spinner.show();
     const formValue = this.vehicleForm.value;
-
 
     this.selectedVehicle.code = formValue['Fcode'];
     this.selectedVehicle.registrationNumber = formValue['FregistrationNumber'];
@@ -218,18 +216,26 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         this.toastr.success('Success');
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+        this.selectedVehicle = new Vehicle();
+        this.vehicleForm.reset();
+        if (close) {
+          this.router.navigate(['/core/vehicles/list']);
+        } else {
+
+          this.router.navigate(['/core/vehicles/edit']);
+        }
 
       },
       err => {
-        this.toastr.error(err.error.message);
+        this.toastr.error('ERROR OCCURRED');
+        this.spinner.hide();
+
+        return;
       }
     );
 
-    this.isFormSubmitted = false;
-
-    this.spinner.hide();
-    this.selectedVehicle = new Vehicle();
-    this.vehicleForm.reset();
   }
 
   onSelectBadgeType(event: any) {

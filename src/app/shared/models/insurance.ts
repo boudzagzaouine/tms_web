@@ -9,7 +9,7 @@ export class Insurance {
   id: number;
   code: string;
   startDate: Date = new Date();
-  endDate: Date = new Date();
+  endDate: Date = new Date((new Date()).getFullYear() + 1, (new Date()).getMonth(), (new Date()).getDate());
   amount: number;
   vehicle: Vehicle;
   insuranceTerm: InsuranceTerm;

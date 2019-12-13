@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
@@ -41,7 +42,8 @@ export class MaintenancePlanListComponent implements OnInit {
     private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
-    private maintenancePlanService: MaintenancePlanService) { }
+    private maintenancePlanService: MaintenancePlanService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -56,7 +58,6 @@ export class MaintenancePlanListComponent implements OnInit {
     this.vehicleService.findAll().subscribe(
 
       data => {
-
         this.vehicleList = data;
         console.log('Vehicles ');
         console.log(this.vehicleList);
@@ -70,40 +71,29 @@ export class MaintenancePlanListComponent implements OnInit {
 
     this.maintenanceTypeService.findAll().subscribe(
       data => {
-
         this.maintenanceTypeList = data;
         console.log('Maintenance Types ');
         console.log(this.maintenanceTypeList);
-
-
       }
     );
   }
   loadMaintenanceStatus() {
-
     this.maintenanceStatusService.findAll().subscribe(
       data => {
-
         this.maintenanceStatusList = data;
         console.log('Maintenance Status ');
         console.log(this.maintenanceStatusList);
-
-
       }
     );
   }
 
   loadDataLazy(event) {
-    //  this.loading = true;
-
+    // this.loading = true;
     // this.page = this.drivers.slice(event.first, (event.first + event.rows));
     // this.loading = false;
-
     console.log('evnt' + event.first);
-
     this.page = event.first / this.size;
     console.log('lazy load data');
-
     this.loadData(this.searchQuery);
 
   }
@@ -115,9 +105,7 @@ export class MaintenancePlanListComponent implements OnInit {
   loadData(search: string = '') {
 
     console.log('loading data');
-
     this.spinner.show();
-
     this.maintenancePlanService.sizeSearch(search).subscribe(
       data => {
         console.log('data size : ' + data);
@@ -158,15 +146,11 @@ export class MaintenancePlanListComponent implements OnInit {
     if (this.statusMaintenanceSearch != null && this.statusMaintenanceSearch.code != null && this.statusMaintenanceSearch.code !== '') {
       buffer.append(`maintenanceState.code~${this.statusMaintenanceSearch.code}`);
     }
-
-
-
     this.page = 0;
     const searchQuery = buffer.getValue();
     console.log('search ' + searchQuery);
 
     this.loadData(searchQuery);
-
   }
 
   reset() {
@@ -174,9 +158,7 @@ export class MaintenancePlanListComponent implements OnInit {
     this.vehicleSearch = null;
     this.typeMaintenanceSearch = null;
     this.statusMaintenanceSearch = null;
-
     this.page = 0;
-
     this.searchQuery = '';
     this.loadData();
   }
@@ -187,12 +169,17 @@ export class MaintenancePlanListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.maintenancePlanService.delete(id);
+        this.maintenancePlanService.delete(id).subscribe(
+          data => {
+            this.toastr.success('deleted successfully');
+          },
+          (e) => {
+            this.toastr.error('element can not be deleted');
+          }
+        );
         this.loadData();
       }
     });
-
-
   }
 
 }

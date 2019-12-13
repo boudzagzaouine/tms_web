@@ -9,12 +9,13 @@ export class MaintenancePlan {
   id = 0;
   code: string;
   description: string;
-  begin: Date = new Date();
-  end: Date = new Date();
+  startDate: Date = new Date();
+  endDate: Date = new Date();
   maintenanceType: MaintenanceType;
   maintenanceState: MaintenanceState;
   maintenanceLineList: MaintenanceLine [] = [];
   vehicle: Vehicle;
-  price = 0;
+  mileage = 0.0;
+  totalPrice = 0;
 
 }

@@ -1,4 +1,3 @@
-
 <div class="card mt-2">
   <div class="card-header " style="background-color:#f7f7f7;">
     Editer Maintenance
@@ -46,6 +45,10 @@
       </div>
       <div class="row justify-content-around">
         <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{"kilométrage" | translate }}</label><br />
+          <input pInputText pKeyFilter="num" formControlName="mileage" class="form-control" />
+        </div>
+        <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{"Date Debut" | translate }}</label><br />
           <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
             yearRange="1970:2100" formControlName="FdateDebut"></p-calendar>
@@ -55,25 +58,25 @@
           <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
             [locale]="fr" formControlName="FdateFin"></p-calendar>
         </div>
-        <div class="form-group col-md-3">
-            <label class="font-weight-bold ">{{"Prix total" | translate }}</label><br />
-            <input type="text" class="form-control" formControlName="price" pInputText />
 
-        </div>
       </div>
       <div class="row justify-content-around">
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{"Prix total" | translate }}</label><br />
+          <input type="text" class="form-control" formControlName="price" pInputText />
+
+        </div>
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{"Status Maintenance" | translate }}</label><br />
           <p-dropdown [autoDisplayFirst]="false" [options]="maintenanceStatusList" optionLabel="code" [filter]="true"
             [showClear]="true" formControlName="FstatusMaintenance" (onChange)="onSelectMaintenanceStatus($event)">
           </p-dropdown>
         </div>
+
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{"Description" | translate }}</label><br />
-          <textarea autoResize="autoResize" pInputTextarea formControlName="Fdescription"></textarea>
+          <input pInputText formControlName="Fdescription" class="form-control" />
         </div>
-
-        <div class="form-group col-md-3"></div>
       </div>
     </form>
   </div>
@@ -83,7 +86,7 @@
     <span>Liste Des lignes de plan de maintenance</span>
 
     <span class="pull-right">
-      <app-maintenance-line-edit [editMode]="false"></app-maintenance-line-edit>
+      <app-maintenance-line-edit [editMode]="false" (lineEdited)="onLineEdited($event)"></app-maintenance-line-edit>
     </span>
   </div>
   <div class="card-body mt-2 border-top-primary">
@@ -113,7 +116,7 @@
           <td>
             <app-maintenance-line-edit [selectedMaintenanceLine]="line" [editMode]="true"
               (lineEdited)="onLineEdited($event)"></app-maintenance-line-edit>
-            <button type="button" (click)="onDeleteMaintenanceLine(line?.id)" class="btn btn-sm btn-danger">
+            <button type="button" (click)="onDeleteMaintenanceLine(line?.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>
           </td>

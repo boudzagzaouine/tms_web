@@ -36,6 +36,8 @@ export class MaintenancePlanEditComponent implements OnInit {
   idMaintenance: number;
   submitted = false;
 
+  editMode = false;
+
   constructor(private vehicleService: VehicleService,
     private maintenanceStatusService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
@@ -60,6 +62,10 @@ export class MaintenancePlanEditComponent implements OnInit {
 
     this.initForm();
 
+    this.loadVechile();
+    this.loadMaintenanceType();
+    this.loadMaintenanceStatus();
+
     if (this.activatedRoute.snapshot.params['id'] >= 1) {
       this.idMaintenance = this.activatedRoute.snapshot.params['id'];
       this.maintenancePlanService.findById(this.idMaintenance).subscribe(
@@ -67,15 +73,14 @@ export class MaintenancePlanEditComponent implements OnInit {
         data => {
 
           this.selectedMaintenance = data;
+          this.editMode = true;
           this.initForm();
         }
       );
 
     }
 
-    this.loadVechile();
-    this.loadMaintenanceType();
-    this.loadMaintenanceStatus();
+
   }
 
 
@@ -111,16 +116,20 @@ export class MaintenancePlanEditComponent implements OnInit {
   }
 
   initForm() {
-    const d = new Date(this.selectedMaintenance.begin);
-    const dd = new Date(this.selectedMaintenance.end);
+    const d = new Date(this.selectedMaintenance.startDate);
+    const dd = new Date(this.selectedMaintenance.endDate);
     this.maintenanceForm = this.formBuilder.group(
       {
-        'Fcode': new FormControl(this.selectedMaintenance.code, Validators.required),
-        'Fvehicule': new FormControl(this.selectedMaintenance.vehicle, Validators.required),
+        'Fcode': new FormControl({ value: this.selectedMaintenance.code, disabled: this.editMode }, Validators.required),
+        'Fvehicule': new FormControl({ value: this.selectedMaintenance.vehicle, disabled: this.editMode }, Validators.required),
         'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
         'FdateDebut': new FormControl(d),
         'FdateFin': new FormControl(dd),
-        'price': new FormControl({value: this.roundPipe.transform(this.selectedMaintenance.price, 2), disabled: true}),
+        'mileage': new FormControl(this.selectedMaintenance.mileage),
+        'price': new FormControl({
+          value: this.selectedMaintenance.totalPrice ?
+            this.roundPipe.transform(this.selectedMaintenance.totalPrice, 2) : 0, disabled: true
+        }),
         'FstatusMaintenance': new FormControl(this.selectedMaintenance.maintenanceState),
         'Fdescription': new FormControl(this.selectedMaintenance.description),
       }
@@ -134,10 +143,14 @@ export class MaintenancePlanEditComponent implements OnInit {
       return;
     }
     const formValue = this.maintenanceForm.value;
-    this.selectedMaintenance.code = formValue['Fcode'];
-    this.selectedMaintenance.begin = formValue['FdateDebut'];
-    this.selectedMaintenance.end = formValue['FdateFin'];
+    if (!this.editMode) {
+      this.selectedMaintenance.code = formValue['Fcode'];
+
+    }
+    this.selectedMaintenance.startDate = formValue['FdateDebut'];
+    this.selectedMaintenance.endDate = formValue['FdateFin'];
     this.selectedMaintenance.description = formValue['Fdescription'];
+    this.selectedMaintenance.mileage = +formValue['mileage'];
     this.maintenancePlanService.set(this.selectedMaintenance).subscribe(
       data => {
         this.toastr.success('Saved successfully');
@@ -161,14 +174,29 @@ export class MaintenancePlanEditComponent implements OnInit {
   }
 
   onLineEdited(line: MaintenanceLine) {
+
+    console.log('line added');
+    console.log(line);
+
+
     if (line.id > 0) {
       this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
     }
     this.selectedMaintenance.maintenanceLineList.push(line);
+
+    this.selectedMaintenance.totalPrice =
+      this.selectedMaintenance.maintenanceLineList.map(l => l.totalPriceTTC).reduce((acc, curr) => acc + curr);
+
+    this.maintenanceForm.patchValue({
+      'price': this.selectedMaintenance.totalPrice
+    });
+
   }
 
 
-  onDeleteMaintenanceLine(line: MaintenanceLine) {
-    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
+  onDeleteMaintenanceLine(id: number) {
+    console.log(id);
+
+    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== id);
   }
 }

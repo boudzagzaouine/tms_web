@@ -18,6 +18,8 @@ export class MaintenanceLineEditComponent implements OnInit {
   @Input() editMode = false;
   @Output() lineEdited = new EventEmitter<MaintenanceLine>();
 
+  selectedProduct: Product;
+
   isFormSubmitted = false;
 
   lineForm: FormGroup;
@@ -41,7 +43,6 @@ export class MaintenanceLineEditComponent implements OnInit {
           {
             value: this.selectedMaintenanceLine.product, disabled: this.editMode
           }, Validators.required
-
         ),
         'description': this.formBuilder.control(this.selectedMaintenanceLine.description),
         'unitPrice': this.formBuilder.control(this.roundPipe.transform(this.selectedMaintenanceLine.unitPrice, 2)),
@@ -59,18 +60,30 @@ export class MaintenanceLineEditComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.lineForm.invalid);
+    console.log(this.lineForm);
+
+    this.isFormSubmitted = true;
+
+    if (this.lineForm.invalid) {
+      return;
+    }
 
     this.selectedMaintenanceLine.description = this.lineForm.value['description'];
-    this.selectedMaintenanceLine.unitPrice = this.lineForm.value['unitPrice'];
-    this.selectedMaintenanceLine.quantity = this.lineForm.value['quantity'];
-    this.selectedMaintenanceLine.totalPriceHT = this.lineForm.value['priceHT'];
-    this.selectedMaintenanceLine.totalPriceTTC = this.lineForm.value['priceTTC'];
+    this.selectedMaintenanceLine.unitPrice = +this.lineForm.value['unitPrice'];
+    this.selectedMaintenanceLine.quantity = +this.lineForm.value['quantity'];
 
 
     this.lineEdited.emit(this.selectedMaintenanceLine);
+    console.log('Emitted');
+    console.log(this.selectedMaintenanceLine);
+
+if (this.modal){
+  this.modal.close();
+}
+
+    this.isFormSubmitted = false;
   }
-
-
   productSearch(evt) {
     this.productService.find(`code~${evt.query}`).subscribe(
       data => {
@@ -79,8 +92,23 @@ export class MaintenanceLineEditComponent implements OnInit {
     );
   }
 
+  onSelectProduct(event) {
+    console.log(event);
+
+      this.selectedProduct = event as Product;
+      this.selectedMaintenanceLine.product = event as Product;
+
+      this.lineForm.patchValue({
+        'description': this.selectedProduct.shortDesc,
+        'unitPrice': this.selectedProduct.purshasePriceUB ?  this.selectedProduct.purshasePriceUB : 0
+      });
+
+      this.onUnitPriceChange();
+  }
+
 
   open(content) {
+    this.isFormSubmitted = false;
     if (!this.editMode) {
       this.selectedMaintenanceLine = new MaintenanceLine();
     }
@@ -117,6 +145,8 @@ export class MaintenanceLineEditComponent implements OnInit {
 
     const priceHT = (unitPrice * quantity);
     const priceTTC = priceHT + (priceHT * vat / 100);
+    this.selectedMaintenanceLine.totalPriceHT = priceHT;
+    this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
     this.lineForm.patchValue({
       'priceHT': this.roundPipe.transform(priceHT, 2),
       'priceTTC': this.roundPipe.transform(priceTTC, 2)
@@ -139,6 +169,9 @@ export class MaintenanceLineEditComponent implements OnInit {
 
     const priceHT = (unitPrice * quantity);
     const priceTTC = priceHT + (priceHT * vat / 100);
+
+    this.selectedMaintenanceLine.totalPriceHT = priceHT;
+    this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
     this.lineForm.patchValue({
       'priceHT': this.roundPipe.transform(priceHT, 2),
       'priceTTC': this.roundPipe.transform(priceTTC, 2)

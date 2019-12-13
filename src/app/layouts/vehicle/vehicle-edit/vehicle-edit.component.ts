@@ -224,7 +224,7 @@ export class VehicleEditComponent implements OnInit {
         this.toastr.error(err.error.message);
       }
     );
-    
+
     this.isFormSubmitted = false;
 
     this.spinner.hide();

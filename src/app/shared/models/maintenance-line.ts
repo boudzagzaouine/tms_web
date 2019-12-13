@@ -4,13 +4,13 @@ import { Uom } from './uom';
 
 export class MaintenanceLine {
 
-  id: number;
+  id = 0;
   product: Product;
   description: string;
   quantity = 1;
-  unitPrice: number;
-  totalPriceHT: number;
-  totalPriceTTC: number;
+  unitPrice = 0;
+  totalPriceHT = 0;
+  totalPriceTTC = 0;
   maintenancePlan: MaintenancePlan;
 
 }

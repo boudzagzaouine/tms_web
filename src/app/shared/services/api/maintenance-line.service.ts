@@ -1,12 +1,14 @@
+import { MaintenanceLine } from './../../models/maintenance-line';
 import { EmsService } from './ems.service';
 import { Injectable } from '@angular/core';
 import { ProxyService } from './proxy.service';
-import { Insurance } from './../../models/insurance';
+
 
 @Injectable()
-export class InsuranceService extends EmsService<Insurance> {
+export class MaintenanceLineService  extends EmsService<MaintenanceLine> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'insurances');
+    super(proxy, 'maintenanceLines');
   }
+
 }

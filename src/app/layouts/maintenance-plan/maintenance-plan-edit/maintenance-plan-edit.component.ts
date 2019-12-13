@@ -1,31 +1,36 @@
-import { ToastrService } from 'ngx-toastr';
+import { RoundPipe } from 'ngx-pipes';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
+import { MaintenanceLine } from './../../../shared/models/maintenance-line';
 
-import { Component, OnInit } from '@angular/core';
 import { Vehicle } from './../../../shared/models/Vehicle';
-import { invalid } from '@angular/compiler/src/render3/view/util';
 
 
 @Component({
   selector: 'app-maintenance-plan-edit',
   templateUrl: './maintenance-plan-edit.component.html',
-  styleUrls: ['./maintenance-plan-edit.component.css']
+  styleUrls: ['./maintenance-plan-edit.component.css'],
+  providers: [RoundPipe]
 })
 export class MaintenancePlanEditComponent implements OnInit {
 
-
+  page = 0;
+  size = 8;
+  collectionSize: number;
   maintenanceForm: FormGroup;
   vehicleList: Array<Vehicle> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
+  maintenanceLineList: MaintenanceLine[] = [];
   fr: any;
   selectedMaintenance: MaintenancePlan = new MaintenancePlan();
   idMaintenance: number;
@@ -38,19 +43,21 @@ export class MaintenancePlanEditComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private roundPipe: RoundPipe) { }
 
   ngOnInit() {
     this.fr = {
       firstDayOfWeek: 1,
-      dayNames: ["dimanche", "lundi", "mardi ", "mercredi", "mercredi ", "vendredi ", "samedi "],
-      dayNamesShort: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
-      dayNamesMin: ["D", "L", "M", "M", "J", "V", "S"],
-      monthNames: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
-      monthNamesShort: ["jan", "fév", "mar", "avr", "mai", "jun", "jui", "aoû", "sep", "oct", "nov", "dic"],
-      today: 'Aujourd hui',
-      clear: 'Supprimer'
-    }
+      dayNames: ['Dimanche', 'Lundi', 'Mardi ', 'Mercredi', 'Mercredi ', 'Vendredi ', 'Samedi '],
+      dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+      monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+      monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jui', 'Aoû', 'Sep', 'Oct', 'Nov', 'Dec'],
+      today: 'Aujourd\'hui',
+      clear: 'Vider'
+    };
+
     this.initForm();
 
     if (this.activatedRoute.snapshot.params['id'] >= 1) {
@@ -60,12 +67,7 @@ export class MaintenancePlanEditComponent implements OnInit {
         data => {
 
           this.selectedMaintenance = data;
-          console.log('Maintenance :');
-          console.log(this.selectedMaintenance);
           this.initForm();
-          console.log('id' + this.idMaintenance);
-
-
         }
       );
 
@@ -95,12 +97,7 @@ export class MaintenancePlanEditComponent implements OnInit {
 
     this.maintenanceTypeService.findAll().subscribe(
       data => {
-
         this.maintenanceTypeList = data;
-        console.log('Maintenance Types ');
-        console.log(this.maintenanceTypeList);
-
-
       }
     );
   }
@@ -108,12 +105,7 @@ export class MaintenancePlanEditComponent implements OnInit {
 
     this.maintenanceStatusService.findAll().subscribe(
       data => {
-
         this.maintenanceStatusList = data;
-        console.log('Maintenance Status ');
-        console.log(this.maintenanceStatusList);
-
-
       }
     );
   }
@@ -128,6 +120,7 @@ export class MaintenancePlanEditComponent implements OnInit {
         'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
         'FdateDebut': new FormControl(d),
         'FdateFin': new FormControl(dd),
+        'price': new FormControl({value: this.roundPipe.transform(this.selectedMaintenance.price, 2), disabled: true}),
         'FstatusMaintenance': new FormControl(this.selectedMaintenance.maintenanceState),
         'Fdescription': new FormControl(this.selectedMaintenance.description),
       }
@@ -153,31 +146,29 @@ export class MaintenancePlanEditComponent implements OnInit {
         }
       }
     );
-
-    console.log('this maintenance Plan');
-    console.log(this.selectedMaintenance);
-
-
   }
 
   onSelectVehicle(event) {
 
     this.selectedMaintenance.vehicle = event.value;
-    console.log('select vehile');
-    console.log(event.value);
   }
   onSelectMaintenanceType(event) {
 
     this.selectedMaintenance.maintenanceType = event.value;
-    console.log('select maintenance Type');
-    console.log(event.value);
   }
   onSelectMaintenanceStatus(event) {
-
     this.selectedMaintenance.maintenanceState = event.value;
-    console.log('select maintenance State ');
-    console.log(event.value);
+  }
+
+  onLineEdited(line: MaintenanceLine) {
+    if (line.id > 0) {
+      this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
+    }
+    this.selectedMaintenance.maintenanceLineList.push(line);
   }
 
 
+  onDeleteMaintenanceLine(line: MaintenanceLine) {
+    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
+  }
 }

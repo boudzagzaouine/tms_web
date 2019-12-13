@@ -40,7 +40,7 @@ export class VehicleEditComponent implements OnInit {
 
   insuranceList: Insurance[] = [];
   isFormSubmitted = false;
-
+ fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private vehicleService: VehicleService,
@@ -53,7 +53,7 @@ export class VehicleEditComponent implements OnInit {
     private insuranceTermService: InsuranceTermService,
     private toastr: ToastrService
   ) { }
-  fr: any;
+
   ngOnInit() {
     this.fr = {
       firstDayOfWeek: 1,
@@ -61,7 +61,7 @@ export class VehicleEditComponent implements OnInit {
       dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
       dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
       monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-      monthNamesShort: ['jan', 'fév', 'mar', 'avr', 'mai', 'jun', 'jui', 'aoû', 'sep', 'oct', 'nov', 'dic'],
+      monthNamesShort: ['jan', 'fév', 'mar', 'avr', 'mai', 'jun', 'jui', 'aoû', 'sep', 'oct', 'nov', 'dec'],
       today: 'Aujourd hui',
       clear: 'Supprimer'
     };
@@ -75,7 +75,9 @@ export class VehicleEditComponent implements OnInit {
         id = params['id'];
         this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
-          this.selectedInsurance = this.selectedVehicle.insurance;
+          if (this.selectedVehicle.insurance) {
+            this.selectedInsurance = this.selectedVehicle.insurance;
+          }
           this.initForm();
           console.log(data);
         });
@@ -110,7 +112,7 @@ export class VehicleEditComponent implements OnInit {
     this.supplierService.findAll().subscribe(
       data => {
         this.supplierList = data;
-        console.log("supplier");
+        console.log('supplier');
 
         console.log(data);
 
@@ -178,10 +180,10 @@ export class VehicleEditComponent implements OnInit {
     this.selectedVehicle.code = formValue['Fcode'];
     this.selectedVehicle.registrationNumber = formValue['FregistrationNumber'];
     this.selectedVehicle.technicalVisit = formValue['FtechnicalVisit'];
-    //this.selectedVehicle.technicalVisit = formValue['FvehicleCategory'];
-    //this.selectedVehicle.technicalVisit = formValue['FbadgeType'];
-    //this.selectedVehicle.insurance = formValue['Finsurance'];
-    //this.selectedVehicle.technicalVisit = formValue['FcontractType'];
+    // this.selectedVehicle.technicalVisit = formValue['FvehicleCategory'];
+    // this.selectedVehicle.technicalVisit = formValue['FbadgeType'];
+    // this.selectedVehicle.insurance = formValue['Finsurance'];
+    // this.selectedVehicle.technicalVisit = formValue['FcontractType'];
     this.selectedVehicle.grayCard = formValue['FgrayCard'];
     this.selectedVehicle.chassisNumber = formValue['FchassisNumber'];
     this.selectedVehicle.numberCylinder = formValue['FnumberCylinder'];
@@ -208,7 +210,7 @@ export class VehicleEditComponent implements OnInit {
     if (this.selectedInsurance.code) {
       this.selectedVehicle.insurance = this.selectedInsurance;
     }
-    //this.selectedVehicle.technicalVisit = formValue['FIsupplier'];
+    // this.selectedVehicle.technicalVisit = formValue['FIsupplier'];
     //  this.selectedVehicle.technicalVisit = formValue['FinsuranceTerm'];
     console.log(this.selectedVehicle);
 
@@ -222,6 +224,7 @@ export class VehicleEditComponent implements OnInit {
         this.toastr.error(err.error.message);
       }
     );
+    
     this.isFormSubmitted = false;
 
     this.spinner.hide();
@@ -251,18 +254,15 @@ export class VehicleEditComponent implements OnInit {
   onSelectContract(event: any) {
     console.log(event);
     this.selectedVehicle.contractType = event.value;
-    console.log(this.selectedVehicle.contractType);
   }
 
   onSelectsupplier(event: any) {
     console.log(event);
-    this.selectedVehicle.insurance.supplier = event.value;
-    console.log(this.selectedVehicle.contractType);
+    this.selectedInsurance.supplier = event.value;
   }
   onSelectinssuranceTerm(event: any) {
     console.log(event);
     this.selectedInsurance.insuranceTerm = event.value;
-    console.log(this.selectedInsurance.insuranceTerm);
   }
   /* onSearchInsurance(event) {
      const s = this.insuranceService.findAll().subscribe(

@@ -4,25 +4,15 @@
   <div class="card-body  border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label
-
-          > Code</label
-        ><br />
+        <label> Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3">
 
         <label class="font-weight-bold ">Vehicle</label><br />
-        <p-dropdown
-          [autoDisplayFirst]="false"
-          [options]="vehicleList"
-          optionLabel="code"
-          [filter]="true"
-          [showClear]="true"
-       [(ngModel)]="vehicleSearch"
-
-        >
+        <p-dropdown [autoDisplayFirst]="false" [options]="vehicleList" optionLabel="code" [filter]="true"
+          [showClear]="true" [(ngModel)]="vehicleSearch">
         </p-dropdown>
       </div>
 
@@ -30,27 +20,16 @@
 
 
         <label class="font-weight-bold ">Type Maintenance</label><br />
-        <p-dropdown
-          [autoDisplayFirst]="false"
-          [filter]="true"
-          [options]="maintenanceTypeList"
-          optionLabel="code"
-          [showClear]="true"
-      [(ngModel)]="typeMaintenanceSearch"
-        >
+        <p-dropdown [autoDisplayFirst]="false" [filter]="true" [options]="maintenanceTypeList" optionLabel="code"
+          [showClear]="true" [(ngModel)]="typeMaintenanceSearch">
         </p-dropdown>
       </div>
       <div class="col-md-3 ">
 
 
         <label class="font-weight-bold ">Status Maintenance</label><br />
-        <p-dropdown
-          [autoDisplayFirst]="false"
-          [options]="maintenanceStatusList"
-          optionLabel="code"
-          [filter]="true"
-          [showClear]="true"
-[(ngModel)]="statusMaintenanceSearch"        >
+        <p-dropdown [autoDisplayFirst]="false" [options]="maintenanceStatusList" optionLabel="code" [filter]="true"
+          [showClear]="true" [(ngModel)]="statusMaintenanceSearch">
         </p-dropdown>
       </div>
 
@@ -68,46 +47,41 @@
 </div>
 
 <div class="card mt-3">
-    <div class="card-header " style=" background-color:#f7f7f7;">
-      <span>Liste Des Chauffeurs</span>
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des maintenances</span>
 
-    </div>
-    <div class="card-body  border-top-primary">
-      <p-table [value]="maintenancePlans"  [lazy]="true"
-      (onLazyLoad)="loadDataLazy($event)" [rows]="size" [paginator]="true"
-      [totalRecords]="collectionSize">
-        <ng-template pTemplate="header" >
-          <tr>
-            <th>Code</th>
-            <th>Vehicule</th>
-            <th>Type Maintenance</th>
-            <th>Etat Maintenance </th>
-            <th style="width:10%">Action</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-mnt>
-          <tr>
-    <td>{{mnt?.code}}</td>
-    <td>{{mnt?.vehicle?.code}}</td>
-    <td>{{mnt?.maintenanceType?.code}}</td>
-    <td>{{mnt?.maintenanceState?.code}}</td>
-    <td>
-        <a  [routerLink]="['/core/maintenances/edit', mnt.id]"
-        routerLinkActive="active" class="btn btn-sm btn-primary mr-2">
-        <i class="fa fa-pencil"></i>
-      </a>
-      <button type="button" (click)="onDeleteMaintenance(mnt?.id)" class="btn btn-sm btn-danger">
-        <i class="fa fa-trash-o"></i>
-      </button>
-
-
-
-    </td>
-          </tr>
-
-        </ng-template>
-      </p-table>
-    </div>
   </div>
-  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-  <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+  <div class="card-body  border-top-primary">
+    <p-table [value]="maintenancePlans" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
+      [paginator]="true" [totalRecords]="collectionSize">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Vehicule</th>
+          <th>Type Maintenance</th>
+          <th>Etat Maintenance </th>
+          <th style="width:10%">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-mnt>
+        <tr>
+          <td>{{mnt?.code}}</td>
+          <td>{{mnt?.vehicle?.code}}</td>
+          <td>{{mnt?.maintenanceType?.code}}</td>
+          <td>{{mnt?.maintenanceState?.code}}</td>
+          <td>
+            <a [routerLink]="['/core/maintenances/edit', mnt.id]" routerLinkActive="active"
+              class="btn btn-sm btn-primary mr-2">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <button type="button" (click)="onDeleteMaintenance(mnt?.id)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

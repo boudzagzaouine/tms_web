@@ -3,7 +3,7 @@ import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {  ToastrService } from 'ngx-toastr';
 
 
@@ -16,6 +16,8 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   @Input() selectedVehicleCategory = new VehicleCategory();
   @Input() editMode: boolean;
+  @Output() vehicleCategorieAdd = new EventEmitter<VehicleCategory>();
+
   closeResult: String;
   vehicleCategoryForm: FormGroup;
 
@@ -65,6 +67,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     console.log(this.selectedVehicleCategory);
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
+        this.vehicleCategorieAdd.emit(data);
         this.toastr.success('Item was saved successfully', 'Save');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

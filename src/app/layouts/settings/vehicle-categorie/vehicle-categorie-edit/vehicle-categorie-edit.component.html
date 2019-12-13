@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">{{'Editer Vehicule Categorie' | translate}}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{'Editer Véhicule Catégorie' | translate}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -26,14 +26,14 @@
 
           <div class="form-group col-sm-6">
             <label>{{'consomation' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="Fconsumption" />
+            <input type="text" class="form-control" pInputText formControlName="Fconsumption" pKeyFilter="num"/>
           </div>
 
         </div>
         <div class="row justify-content-around">
           <div class="form-group col-sm-6">
             <label>{{'poids' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="Fweight" />
+            <input type="text" class="form-control" pInputText formControlName="Fweight" pKeyFilter="num" />
           </div>
 
           <div class="form-group col-sm-6">
@@ -44,7 +44,7 @@
               Ce Champs est obligatoire
             </span>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="Fwidth" />
+            <input type="text" class="form-control" pInputText formControlName="Fwidth" pKeyFilter="num"/>
 
           </div>
 

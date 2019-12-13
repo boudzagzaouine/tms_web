@@ -5,7 +5,7 @@ import { MaintenanceStateService } from './../../../../shared/services/api/maint
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-maintenance-status-edit',
@@ -16,6 +16,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
   @Input() selectedMaintenanceState = new MaintenanceState();
   @Input() editMode: boolean;
+  @Output() maintenanceStateAdd = new EventEmitter<MaintenanceState>();
   closeResult: String;
   maintenanceStateForm: FormGroup;
   maintenanceStateList: MaintenanceState[] = [];
@@ -52,6 +53,8 @@ this.spinner.show();
     console.log(this.selectedMaintenanceState);
     const s = this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
       data => {
+        this.maintenanceStateAdd.emit(data);
+
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

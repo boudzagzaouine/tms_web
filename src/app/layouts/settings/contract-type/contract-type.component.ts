@@ -91,7 +91,16 @@ export class ContractTypeComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.contractTypeService.delete(id);
+        this.contractTypeService.delete(id).subscribe(
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
         this.loadData();
       }
     });
@@ -100,5 +109,7 @@ export class ContractTypeComponent implements OnInit {
   onEdit() {
     this.toastr.info('selected ');
   }
-
+onContactTypeAdd(event){
+ this.loadData();
+}
 }

@@ -2,7 +2,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Address } from './../../../../shared/models/address';
 import { Contact } from './../../../../shared/models/contact';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Supplier } from '../../../../shared/models';
@@ -17,6 +17,8 @@ export class SupplierEditComponent implements OnInit {
 
   @Input() selectedSupplier = new Supplier();
   @Input() editMode: boolean;
+  @Output() supplierAdd = new EventEmitter<Supplier>();
+
   selectedContact = new Contact();
   selectedAddress = new Address();
   closeResult: String;
@@ -87,6 +89,8 @@ export class SupplierEditComponent implements OnInit {
     console.log(this.selectedSupplier);
     const s = this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
+        this.supplierAdd.emit(data);
+
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

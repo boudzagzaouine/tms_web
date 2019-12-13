@@ -1,10 +1,10 @@
+import { ContractType } from './../../../../shared/models/contract-type';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ContractTypeService } from '../../../../shared/services';
-import { ContractType } from './../../../../shared/models';
 
 @Component({
   selector: 'app-contract-type-edit',
@@ -15,6 +15,7 @@ export class ContractTypeEditComponent implements OnInit {
 
   @Input() selectedContractType = new ContractType();
   @Input() editMode: boolean;
+  @Output() contractTypeAdd = new EventEmitter<ContractType>();
   closeResult: String;
   contractTypeForm: FormGroup;
   contractTypeTypeList: ContractType[] = [];
@@ -51,6 +52,7 @@ export class ContractTypeEditComponent implements OnInit {
     console.log(this.selectedContractType);
     const s = this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
+        this.contractTypeAdd.emit(data);
         this.toastr.success('Elément enregistré avec succès', 'Success');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

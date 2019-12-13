@@ -93,7 +93,17 @@ export class MaintenanceTypeComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.maintenanceTypeService.delete(id);
+        this.maintenanceTypeService.delete(id).subscribe(
+
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
       }
     });
   }
@@ -101,5 +111,7 @@ export class MaintenanceTypeComponent implements OnInit {
   onEdit() {
     this.toastr.info('selected ');
   }
-
+  onMaintenanceTypeAdd(event) {
+    this.loadData();
+  }
 }

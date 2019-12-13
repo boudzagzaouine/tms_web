@@ -1,6 +1,6 @@
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { BadgeTypeService, BadgeService } from './../../../../shared/services';
 import { BadgeType, Badge } from '../../../../shared/models';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,8 @@ export class BadgeEditComponent implements OnInit {
 
   @Input() selectedBadge = new Badge();
   @Input() editMode: boolean;
+  @Output() badgeAdd = new EventEmitter<Badge>();
+
   closeResult: String;
   badgeForm: FormGroup;
   badgeTypeList: BadgeType[] = [];
@@ -61,6 +63,7 @@ export class BadgeEditComponent implements OnInit {
     console.log(this.selectedBadge);
     const s = this.badgeService.set(this.selectedBadge).subscribe(
       data => {
+        this.badgeAdd.emit(data);
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

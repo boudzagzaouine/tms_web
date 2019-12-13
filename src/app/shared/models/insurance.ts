@@ -1,6 +1,7 @@
 import { Supplier } from './supplier';
 import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';
+import { Vehicle } from './vehicle';
 
 
 export class Insurance {
@@ -10,7 +11,7 @@ export class Insurance {
   startDate: Date = new Date();
   endDate: Date = new Date();
   amount: number;
-  contractType: ContractType;
+  vehicle: Vehicle;
   insuranceTerm: InsuranceTerm;
   supplier: Supplier;
   description: string;

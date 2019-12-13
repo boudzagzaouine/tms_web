@@ -31,7 +31,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Des Badges</span>
     <span class="pull-right">
-      <app-badge-edit [editMode]="false"></app-badge-edit>
+      <app-badge-edit [editMode]="false" (badgeAdd)="onBqdgeAdd($event)"></app-badge-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -53,7 +53,7 @@
           <td>{{badge?.description}}</td>
           <td>{{badge?.badgeType?.code}}</td>
           <td>
-            <app-badge-edit [editMode]="true" [selectedBadge]="badge"></app-badge-edit>
+            <app-badge-edit [editMode]="true" [selectedBadge]="badge" (badgeAdd)="onBqdgeAdd($event)"></app-badge-edit>
             <button type="button" (click)="onDelete(badge.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

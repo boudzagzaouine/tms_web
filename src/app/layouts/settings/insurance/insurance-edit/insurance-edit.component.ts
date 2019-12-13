@@ -1,10 +1,10 @@
+import { VehicleService } from './../../../../shared/services/api/vehicle.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ContractTypeService } from '../../../../shared/services';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
-import { Insurance, InsuranceTerm, ContractType, Supplier } from '../../../../shared/models';
+import { Insurance, InsuranceTerm, Supplier, Vehicle } from '../../../../shared/models';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-insurance-edit',
@@ -14,10 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 export class InsuranceEditComponent implements OnInit {
   @Input() selectedInsurance = new Insurance();
   @Input() editMode: boolean;
+  @Output() insuranceAdd = new EventEmitter<Insurance>();
   closeResult: String;
   insuranceForm: FormGroup;
   insuranceTermList: InsuranceTerm[] = [];
-  contractTypeList: ContractType[] = [];
+  vehicleList: Vehicle[] = [];
   supplierList: Supplier[] = [];
   isFormSubmitted = false;
 
@@ -26,7 +27,7 @@ export class InsuranceEditComponent implements OnInit {
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTypeService: InsuranceTermService,
-    private contractTypeService: ContractTypeService,
+    private vehicleService: VehicleService,
     private supplierService: SupplierService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -39,9 +40,15 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
 
-    this.contractTypeService.findAll().subscribe(
+    this.vehicleService.findAll().subscribe(
       data => {
-        this.contractTypeList = data;
+        this.vehicleList = data;
+      }
+    );
+
+    this.supplierService.findAll().subscribe(
+      data => {
+        this.supplierList = data;
       }
     );
 
@@ -57,8 +64,8 @@ export class InsuranceEditComponent implements OnInit {
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
       'supplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-      'contractType': new FormControl(this.selectedInsurance.contractType, Validators.required),
-      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm)
+      'vehicle': new FormControl(this.selectedInsurance.vehicle, Validators.required),
+      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm, Validators.required)
     });
   }
   onSubmit() {
@@ -71,10 +78,14 @@ export class InsuranceEditComponent implements OnInit {
     this.selectedInsurance.amount = +this.insuranceForm.value['amount'];
     this.selectedInsurance.startDate = this.insuranceForm.value['startDate'] as Date;
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'] as Date;
+    this.selectedInsurance.supplier = this.insuranceForm.value['supplier'];
 
     console.log(this.selectedInsurance);
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
+        console.log('submitted');
+
+        this.insuranceAdd.emit(data);
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
@@ -85,7 +96,10 @@ export class InsuranceEditComponent implements OnInit {
           'Elément n\'est enregistré',
           'Erreur'
         );
+        console.log('Error Occurrred');
+
         console.log(error);
+        console.log(error.error.message);
         this.spinner.hide();
       },
 
@@ -93,31 +107,34 @@ export class InsuranceEditComponent implements OnInit {
     );
   }
 
-  onSelectSupplier(event: any) {
-    console.log(event);
-    this.selectedInsurance.supplier = event;
-    console.log(this.selectedInsurance.supplier);
+ onSelectSupplier(event: any) {
+   console.log('supplier');
+   this.selectedInsurance.supplier = event.value;
+   console.log(this.selectedInsurance.supplier);
   }
 
 
-  onSelectContractType(event: any) {
+  onSelectVehicle(event: any) {
     console.log(event);
-    this.selectedInsurance.contractType = event.value;
-    console.log(this.selectedInsurance.contractType);
+    this.selectedInsurance.vehicle = event.value;
+    console.log("vehicle");
+
+    console.log(this.selectedInsurance.vehicle);
   }
 
 
   onSelectInsuranceTerm(event: any) {
-    console.log(event);
+    console.log("terme");
+
     this.selectedInsurance.insuranceTerm = event.value;
     console.log(this.selectedInsurance.insuranceTerm);
   }
 
-  OnSearchSupplier(event){
+ /* OnSearchSupplier(event){
     this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierList = data
     );
-  }
+  }*/
 
 
   open(content) {

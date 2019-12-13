@@ -106,8 +106,19 @@ export class BadgeComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.badgeService.delete(id);
-        this.loadData();
+        this.badgeService.delete(id).subscribe(
+          data =>{
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            console.log("delete Bdge");
+              console.log(id);
+                 this.loadData();
+       },
+       error=>{
+        this.toastr.error("Erreur De La Suppression","Suppression");
+
+      }
+        );
+
       }
     });
   }
@@ -115,5 +126,7 @@ export class BadgeComponent implements OnInit {
   onEdit() {
     this.toastr.info('selected ');
   }
-
+  onBqdgeAdd(event) {
+    this.loadData();
+  }
 }

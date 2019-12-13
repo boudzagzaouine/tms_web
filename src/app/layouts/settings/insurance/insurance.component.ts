@@ -1,3 +1,4 @@
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { InsuranceTermService } from '../../../shared/services';
@@ -26,29 +27,24 @@ export class InsuranceComponent implements OnInit {
   codeSearch: string;
   insuranceTermSearch: string;
   supplierSearch: string;
-  contractTypeSearch: string;
+  vehicleSearch: string;
   items: MenuItem[];
 
   insuranceList: Array<Insurance> = [];
   insuranceTermList: Array<string> = [];
   supplierList: Array<string> = [];
-  contractTypeList: Array<string> = [];
+  vehicleList: Array<string> = [];
 
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTermService: InsuranceTermService,
     private supplierService: SupplierService,
-    private contractTypeService: ContractTypeService,
+    private vehicleService: VehicleService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.insuranceService.insuranceListChanged.subscribe(
-      data => {
-        this.insuranceList = data;
-      }
-    );
 
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
@@ -98,8 +94,8 @@ export class InsuranceComponent implements OnInit {
       buffer.append(`supplier.code~${this.supplierSearch}`);
     }
 
-    if (this.contractTypeSearch != null && this.contractTypeSearch !== '') {
-      buffer.append(`contractType.code~${this.contractTypeSearch}`);
+    if (this.vehicleSearch != null && this.vehicleSearch !== '') {
+      buffer.append(`vehicle.code~${this.vehicleSearch}`);
     }
 
     this.page = 0;
@@ -120,15 +116,15 @@ export class InsuranceComponent implements OnInit {
     );
   }
 
-  onContractTypeSearch(event: any) {
-    this.contractTypeService.find('code~' + event.query).subscribe(
-      data => this.contractTypeList = data.map(f => f.code)
+  onVehicleSearch(event: any) {
+    this.vehicleService.find('code~' + event.query).subscribe(
+      data => this.vehicleList = data.map(f => f.code)
     );
   }
 
   reset() {
     this.codeSearch = null;
-    this.contractTypeSearch = null;
+    this.vehicleSearch = null;
     this.supplierSearch = null;
     this.insuranceTermSearch = null;
     this.page = 0;
@@ -140,12 +136,26 @@ export class InsuranceComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.insuranceService.delete(id);
+        this.insuranceService.delete(id).subscribe(
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
       }
     });
   }
 
   onEdit() {
     this.toastr.info('selected ');
+  }
+  onInsuranceAdd(event){
+    console.log(event);
+
+  this.loadData();
   }
 }

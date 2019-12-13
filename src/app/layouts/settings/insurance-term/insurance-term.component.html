@@ -22,7 +22,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Des InsuranceTerms</span>
     <span class="pull-right">
-      <app-insurance-term-edit [editMode]="false"></app-insurance-term-edit>
+      <app-insurance-term-edit [editMode]="false" (inssuranceTermAdd)="onInssuranceTermAdd($event)"></app-insurance-term-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -42,7 +42,7 @@
           <td>{{insuranceTerm?.code}}</td>
           <td>{{insuranceTerm?.description}}</td>
           <td>
-            <app-insurance-term-edit [editMode]="true" [selectedInsuranceTerm]="insuranceTerm">
+            <app-insurance-term-edit [editMode]="true" [selectedInsuranceTerm]="insuranceTerm" (inssuranceTermAdd)="onInssuranceTermAdd($event)">
             </app-insurance-term-edit>
             <button type="button" (click)="onDelete(insuranceTerm.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>

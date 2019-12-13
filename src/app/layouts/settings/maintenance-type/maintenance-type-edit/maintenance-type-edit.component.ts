@@ -4,7 +4,7 @@ import { MaintenanceTypeService } from './../../../../shared/services/api/mainte
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceType } from './../../../../shared/models/maintenance-type';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-maintenance-type-edit',
@@ -15,6 +15,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
 
   @Input() selectedMaintenanceType = new MaintenanceType();
   @Input() editMode: boolean;
+  @Output() maintenanceTypeAdd = new EventEmitter<MaintenanceType>();
   closeResult: String;
   maintenanceTypeForm: FormGroup;
   maintenanceTypeList: MaintenanceType[] = [];
@@ -51,6 +52,8 @@ export class MaintenanceTypeEditComponent implements OnInit {
     console.log(this.selectedMaintenanceType);
     const s = this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
+        this.maintenanceTypeAdd.emit(data);
+
         this.toastr.success('Elément enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;

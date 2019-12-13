@@ -23,7 +23,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>{{'Liste Des Suppliers' | translate}}</span>
     <span class="pull-right">
-      <app-supplier-edit [editMode]="false"></app-supplier-edit>
+    <!--  <app-supplier-edit [editMode]="false" (supplierAdd)="onSupplierAdd($event)"></app-supplier-edit>-->
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -52,7 +52,7 @@
           <td>{{supplier?.address?.line1}}</td>
           <td>{{supplier?.address?.city}}</td>
           <td class="text-center">
-            <app-supplier-edit [editMode]="true" [selectedSupplier]="supplier"></app-supplier-edit>
+            <app-supplier-edit [editMode]="true" [selectedSupplier]="supplier" (supplierAdd)="onSupplierAdd($event)"></app-supplier-edit>
             <button type="button" (click)="onDelete(supplier.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

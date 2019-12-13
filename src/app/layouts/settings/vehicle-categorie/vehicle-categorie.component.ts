@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-vehicle-categorie',
@@ -90,13 +91,29 @@ export class VehicleCategorieComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.vehicleCategoryService.delete(id);
+        this.vehicleCategoryService.delete(id).subscribe(
+          data =>{
+               this.toastr.success("Supprimer avec Succes","Suppression")
+               console.log("delete V-C");
+        console.log(id);
         this.loadData();
+          },
+          error=>{
+            this.toastr.error("Erreur De La Suppression","Suppression")
+
+          }
+
+        );
       }
+
     });
   }
 
   onEdit() {
     this.toastr.info('selected ');
+  }
+
+  onVehicleCategorieAdd(event) {
+    this.loadData();
   }
 }

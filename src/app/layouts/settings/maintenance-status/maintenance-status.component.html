@@ -23,7 +23,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste status Maintenance</span>
     <span class="pull-right">
-      <app-maintenance-status-edit [editMode]="false"></app-maintenance-status-edit>
+      <app-maintenance-status-edit [editMode]="false" (maintenanceStateAdd)="onMaintenanceStateAdd($event)"></app-maintenance-status-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -42,7 +42,7 @@
           <td>{{maintenancestate?.code}}</td>
           <td>{{maintenancestate?.description}}</td>
           <td>
-            <app-maintenance-status-edit [editMode]="true" [selectedMaintenanceState]="maintenancestate"></app-maintenance-status-edit>
+            <app-maintenance-status-edit [editMode]="true" [selectedMaintenanceState]="maintenancestate" (maintenanceStateAdd)="onMaintenanceStateAdd($event)"></app-maintenance-status-edit>
             <button type="button" (click)="onDelete(maintenancestate.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

@@ -94,9 +94,13 @@ export class BadgeTypeComponent implements OnInit {
       accept: () => {
         this.badgeTypeService.delete(id).subscribe(
           data => {
-
+            this.toastr.success("Supprimer avec Succes","Suppression");
             this.loadData();
-          }
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
         );
       }
     });

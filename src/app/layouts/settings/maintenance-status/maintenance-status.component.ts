@@ -90,12 +90,24 @@ export class MaintenanceStatusComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.maintenanceStateService.delete(id);
+        this.maintenanceStateService.delete(id).subscribe(
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
       }
     });
   }
 
   onEdit() {
     this.toastr.info('selected ');
+  }
+  onMaintenanceStateAdd(event) {
+    this.loadData();
   }
 }

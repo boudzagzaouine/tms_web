@@ -65,9 +65,14 @@
               Ce Champs est obligatoire
             </span>
             <br />
-            <p-autoComplete (completeMethod)="OnSearchSupplier($event)" field="code" [suggestions]="supplierList"
+             <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code" [filter]="true"
+             (onChange)="onSelectSupplier($event)" formControlName="supplier" ></p-dropdown>
+
+           <!-- <p-autoComplete (completeMethod)="OnSearchSupplier($event)" field="code" [suggestions]="supplierList"
               (onSelect)="onSelectSupplier($event)" formControlName="supplier">
-            </p-autoComplete>
+            </p-autoComplete>-->
+
+
           </div>
           <div class="form-group col-sm-6">
             <label>{{'Montant' | translate}} *</label>
@@ -83,18 +88,23 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-6 ">
-            <label>{{'Type de contrat'| translate}} *</label>
-            <span *ngIf="(insuranceForm.get('contractType').touched && insuranceForm.get('contractType').invalid) ||
-            (isFormSubmitted && insuranceForm.get('contractType').invalid)" class="text-lighter"
+            <label>{{'vehicle'| translate}} *</label>
+            <span *ngIf="(insuranceForm.get('vehicle').touched && insuranceForm.get('vehicle').invalid) ||
+            (isFormSubmitted && insuranceForm.get('vehicle').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               Ce Champs est obligatoire
             </span>
-            <br />
-            <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
-              (onChange)="onSelectContractType($event)" formControlName="contractType"></p-dropdown>
+            <br/>
+            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleList" optionLabel="code" [filter]="true"
+              (onChange)="onSelectVehicle($event)" formControlName="vehicle"></p-dropdown>
           </div>
           <div class="form-group col-sm-6 ">
-            <label>{{'Terme'| translate}}</label><br />
+            <label>{{'Terme'| translate}}</label>
+            <span *ngIf="(insuranceForm.get('insuranceTerm').touched && insuranceForm.get('insuranceTerm').invalid) ||
+            (isFormSubmitted && insuranceForm.get('insuranceTerm').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
             <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
               (onChange)="onSelectInsuranceTerm($event)" formControlName="insuranceTerm"></p-dropdown>
           </div>

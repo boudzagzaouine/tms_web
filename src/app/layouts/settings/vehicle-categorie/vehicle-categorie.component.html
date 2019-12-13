@@ -8,7 +8,7 @@
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
-     
+
     </div>
     <br />
 
@@ -26,7 +26,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Categorie Vehicules</span>
     <span class="pull-right">
-      <app-vehicle-categorie-edit [editMode]="false"></app-vehicle-categorie-edit>
+      <app-vehicle-categorie-edit [editMode]="false"  (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -53,7 +53,7 @@
           <td>{{categorie?.depth}}</td>
           <td>{{categorie?.tonnage}}</td>
           <td>
-            <app-vehicle-categorie-edit [editMode]="true" [selectedVehicleCategory]="categorie"></app-vehicle-categorie-edit>
+            <app-vehicle-categorie-edit [editMode]="true" [selectedVehicleCategory]="categorie" (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
             <button type="button" (click)="onDelete(categorie.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

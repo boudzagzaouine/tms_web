@@ -90,13 +90,26 @@ export class SupplierComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.supplierService.delete(id);
+        this.supplierService.delete(id).subscribe(
+
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
       }
     });
   }
 
   onEdit() {
     this.toastr.info('selected ');
+  }
+  onSupplierAdd(event) {
+    this.loadData();
   }
 
 }

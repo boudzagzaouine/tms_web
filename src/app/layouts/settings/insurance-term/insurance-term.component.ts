@@ -91,7 +91,16 @@ export class InsuranceTermComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.insuranceTermService.delete(id);
+        this.insuranceTermService.delete(id).subscribe(
+          data => {
+            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.loadData();
+          },
+          error=>{
+           this.toastr.error("Erreur De La Suppression","Suppression");
+
+         }
+        );
       }
     });
   }
@@ -100,5 +109,7 @@ export class InsuranceTermComponent implements OnInit {
     this.toastr.info('selected ');
   }
 
-
+ onInssuranceTermAdd(event){
+   this.loadData();
+ }
 }

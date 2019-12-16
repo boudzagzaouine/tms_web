@@ -139,6 +139,11 @@ export class MaintenancePlanEditComponent implements OnInit {
     if (this.maintenanceForm.invalid) {
       return;
     }
+
+    if (!this.selectedMaintenance.maintenanceLineList.length) {
+      this.toastr.warning('Veuillez ajouter des lignes de maintenance', 'Avertissement')
+      return;
+    }
     const formValue = this.maintenanceForm.value;
     if (!this.editMode) {
       this.selectedMaintenance.code = formValue['Fcode'];
@@ -150,14 +155,14 @@ export class MaintenancePlanEditComponent implements OnInit {
     this.selectedMaintenance.mileage = +formValue['mileage'];
     this.maintenancePlanService.set(this.selectedMaintenance).subscribe(
       data => {
-this.toastr.success('Elément est Enregistré Avec Succès');
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         if (close) {
           this.router.navigate(['/core/maintenances/list']);
         }
 
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.toastr.error(error.error.message, 'Erreur');
       }
     );
   }
@@ -176,22 +181,35 @@ this.toastr.success('Elément est Enregistré Avec Succès');
 
   onLineEdited(line: MaintenanceLine) {
 
-    if (line.id > 0) {
-      this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
-    }
+
+    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
+      .filter(l => l.product.id !== line.product.id);
     this.selectedMaintenance.maintenanceLineList.push(line);
-
-    this.selectedMaintenance.totalPrice =
-      this.selectedMaintenance.maintenanceLineList.map(l => l.totalPriceTTC).reduce((acc, curr) => acc + curr);
-
-    this.maintenanceForm.patchValue({
-      'price': this.selectedMaintenance.totalPrice
-    });
-
+    this.updateTotalPrice();
   }
   onDeleteMaintenanceLine(id: number) {
     console.log(id);
 
-    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== id);
+    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
+      .filter(l => l.product.id !== id);
+    this.updateTotalPrice();
+
+  }
+
+  updateTotalPrice() {
+    this.selectedMaintenance.totalPrice = 0;
+
+    if (this.selectedMaintenance.maintenanceLineList.length) {
+      this.selectedMaintenance.totalPrice =
+        this.selectedMaintenance.maintenanceLineList
+          .map(l => l.totalPriceTTC)
+          .reduce((acc = 0, curr) => acc + curr, 0);
+    }
+
+    console.log(this.selectedMaintenance.totalPrice);
+
+    this.maintenanceForm.patchValue({
+      'price': this.selectedMaintenance.totalPrice
+    });
   }
 }

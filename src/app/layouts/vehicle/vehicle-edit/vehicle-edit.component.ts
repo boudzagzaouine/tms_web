@@ -230,6 +230,8 @@ export class VehicleEditComponent implements OnInit {
       },
       err => {
         this.toastr.error('ERROR OCCURRED');
+        console.log(err);
+
         this.spinner.hide();
 
         return;

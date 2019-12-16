@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { DriverRoutingModule } from './driver-routing.module';
 import { DriverComponent } from './driver.component';
 import {CalendarModule} from 'primeng/calendar';
+import {KeyFilterModule} from 'primeng/keyfilter';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -34,8 +35,8 @@ import { DriverListComponent } from './driver-list/driver-list.component';
     NgxSpinnerModule,
     SharedModule,
     AutoCompleteModule,
-    ConfirmDialogModule
-
+    ConfirmDialogModule,
+     KeyFilterModule
   ]
 })
 export class DriverModule { }

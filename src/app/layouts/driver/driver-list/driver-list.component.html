@@ -9,24 +9,28 @@
       </div>
 
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
-
       </div>
 
       <div class="col-md-3 ">
-        <label>Badge</label><br />
-        <p-dropdown [options]="badgesList" optionLabel="code" [autoDisplayFirst]="false" [(ngModel)]="badgeSearch">
+        <label class="font-weight-bold ">Badge</label><br />
+        <p-dropdown
+          [options]="badgesList"
+          optionLabel="code"
+          [autoDisplayFirst]="false"
+          [(ngModel)]="badgeSearch"
+        >
         </p-dropdown>
-
       </div>
-
     </div>
     <br />
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+        Renitialiser
+      </button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
@@ -38,40 +42,58 @@
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Des Chauffeurs</span>
-
   </div>
   <div class="card-body  border-top-primary">
-    <p-table [value]="drivers" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [paginator]="true"
-      [totalRecords]="collectionSize">
+    <p-table
+      [value]="drivers"
+      [lazy]="true"
+      (onLazyLoad)="loadDataLazy($event)"
+      [rows]="size"
+      [paginator]="true"
+      [totalRecords]="collectionSize"
+    >
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>
           <th>Cin</th>
-          <th>Badge </th>
+          <th>Badge</th>
           <th style="width:10%">Action</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-drv>
         <tr>
-          <td>{{drv?.code}}</td>
-          <td>{{drv?.cin}}</td>
-          <td>{{drv?.badge?.code}}</td>
+          <td>{{ drv?.code }}</td>
+          <td>{{ drv?.cin }}</td>
+          <td>{{ drv?.badge?.code }}</td>
           <td>
-            <a [routerLink]="['/core/drivers/edit', drv.id]" routerLinkActive="active"
-              class="btn btn-sm btn-primary mr-2">
+            <a
+              [routerLink]="['/core/drivers/edit', drv.id]"
+              routerLinkActive="active"
+              class="btn btn-sm btn-primary mr-2"
+            >
               <i class="fa fa-pencil"></i>
             </a>
 
-            <button type="button" (click)="onDeleteDriver(drv?.id)" class="btn btn-sm btn-danger">
+            <button
+              type="button"
+              (click)="onDeleteDriver(drv?.id)"
+              class="btn btn-sm btn-danger"
+            >
               <i class="fa fa-trash-o"></i>
             </button>
-
-
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </div>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

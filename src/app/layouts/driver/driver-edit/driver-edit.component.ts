@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
@@ -25,12 +26,15 @@ export class DriverEditComponent implements OnInit {
   selectedBadge: Badge;
   idDriver: number;
   isFormSubmitted = false;
+  fr: any;
+
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private badgeService: BadgeService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute) { }
-  fr: any;
+    private route: ActivatedRoute,
+    private toastr: ToastrService) { }
+
   ngOnInit() {
 
     this.fr = {
@@ -63,9 +67,6 @@ export class DriverEditComponent implements OnInit {
     }
 
   }
-
-
-
   initForm() {
     const d = new Date(this.selectedDriver.birthDate);
     const dd = new Date(this.selectedDriver.lastMedicalVisit);
@@ -84,16 +85,8 @@ export class DriverEditComponent implements OnInit {
         'badge': new FormControl(this.selectedDriver.badge, Validators.required),
       }
     );
-
-
-
   }
-
-
   loadBadge() {
-
-
-
   }
 
 
@@ -106,42 +99,31 @@ export class DriverEditComponent implements OnInit {
       return;
     }
     this.spinner.show();
-
     const formValue = this.driverForm.value;
-
     this.selectedDriver.cin = formValue['cin'];
     this.selectedDriver.code = formValue['code'];
     this.selectedDriver.birthDate = formValue['dateNaissance'];
     this.selectedDriver.lastMedicalVisit = formValue['visiteMedicale'];
     this.selectedDriver.commission = formValue['comission'];
-
     this.selectedDriver.name = formValue['nom'];
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
 
-
     this.driverService.set(this.selectedDriver).subscribe(
-      data=>{
-
-     console.log('inserted');
-     console.log(this.selectedDriver);
+      data => {
+        this.toastr.success('Elément est Enregistré Avec Succès');
+      },
+      error => {
+        this.toastr.error(error.error.message);
       }
     );
-
-
     this.spinner.hide();
     this.selectedDriver = new Driver();
     this.driverForm.reset();
   }
-
   onSelectBadgeCode(event) {
-
     this.selectedDriver.badge = event.value;
-    console.log('select change');
-    console.log(event.value);
   }
-
-
 }
 

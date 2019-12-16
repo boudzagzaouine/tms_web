@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Badge } from './../../../shared/models/badge';
 import { Driver } from './../../../shared/models/driver';
 import { BadgeService } from './../../../shared/services/api/badge.service';
@@ -7,7 +8,6 @@ import { DriverService } from './../../../shared/services/api/driver.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 
-
 @Component({
   selector: 'app-driver-list',
   templateUrl: './driver-list.component.html',
@@ -15,7 +15,6 @@ import { ConfirmationService } from 'primeng/api';
   providers: [ConfirmationService]
 })
 export class DriverListComponent implements OnInit {
-
 
   page = 0;
   size = 8;
@@ -33,11 +32,11 @@ export class DriverListComponent implements OnInit {
   badges: Array<Badge> = [];
   badgesList: Array<Badge> = [];
 
-
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private badgeService: BadgeService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -52,29 +51,21 @@ export class DriverListComponent implements OnInit {
       data => {
 
         this.badgesList = data;
-        console.log('badge :');
-        console.log(this.badges);
       }
     );
 
   }
-
 
   loadDataLazy(event) {
     //  this.loading = true;
 
     // this.page = this.drivers.slice(event.first, (event.first + event.rows));
     // this.loading = false;
-
-    console.log('evnt' + event.first);
-
     this.page = event.first / this.size;
-    console.log('lazy load data');
 
     this.loadData(this.searchQuery);
 
   }
-
 
   loadData(search: string = '') {
 
@@ -90,22 +81,15 @@ export class DriverListComponent implements OnInit {
       }
     );
 
-
-
     this.driverService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.drivers = data;
-        console.log('data' + this.drivers);
-        console.log('size de drivers ' + data.length);
-
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
       () => this.spinner.hide()
     );
   }
-
 
   onSearchClicked() {
 
@@ -120,7 +104,6 @@ export class DriverListComponent implements OnInit {
     if (this.badgeSearch != null && this.badgeSearch.code != null && this.badgeSearch.code !== '') {
       buffer.append(`badge.code~${this.badgeSearch.code}`);
     }
-
 
     this.page = 0;
     const searchQuery = buffer.getValue();
@@ -146,8 +129,17 @@ export class DriverListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.driverService.delete(id);
-        this.loadData();
+        this.driverService.delete(id).subscribe(
+
+          data => {
+            this.toastr.success('Elément est Supprimé Avec Succès');
+            this.loadData();
+          },
+          error => {
+            this.toastr.error(error.error.message);
+          }
+        );
+
       }
     });
 

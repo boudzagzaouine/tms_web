@@ -27,12 +27,8 @@ export class MaintenancePlanListComponent implements OnInit {
   typeMaintenanceSearch: MaintenanceType;
   statusMaintenanceSearch: MaintenanceState;
   codeSearch: String;
-
   searchQuery = '';
-
   maintenancePlans: Array<MaintenancePlan> = [];
-
-
   vehicleList: Array<Vehicle> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
@@ -59,16 +55,12 @@ export class MaintenancePlanListComponent implements OnInit {
 
       data => {
         this.vehicleList = data;
-        console.log('Vehicles ');
-        console.log(this.vehicleList);
       }
     );
 
   }
 
-
   loadMaintenanceType() {
-
     this.maintenanceTypeService.findAll().subscribe(
       data => {
         this.maintenanceTypeList = data;
@@ -98,10 +90,6 @@ export class MaintenancePlanListComponent implements OnInit {
 
   }
 
-
-
-
-
   loadData(search: string = '') {
 
     console.log('loading data');
@@ -115,14 +103,10 @@ export class MaintenancePlanListComponent implements OnInit {
     );
 
 
-
     this.maintenancePlanService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
-        this.maintenancePlans = data;
-        console.log('data' + this.maintenancePlans);
-        console.log('size de maintenance ' + data.length);
 
+        this.maintenancePlans = data;
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
@@ -164,8 +148,6 @@ export class MaintenancePlanListComponent implements OnInit {
   }
 
   onDeleteMaintenance(id: number) {
-    console.log('delete id : ' + id);
-
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {

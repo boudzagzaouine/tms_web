@@ -35,7 +35,6 @@ export class MaintenancePlanEditComponent implements OnInit {
   selectedMaintenance: MaintenancePlan = new MaintenancePlan();
   idMaintenance: number;
   submitted = false;
-
   editMode = false;
 
   constructor(private vehicleService: VehicleService,
@@ -80,9 +79,7 @@ export class MaintenancePlanEditComponent implements OnInit {
 
     }
 
-
   }
-
 
   loadVechile() {
 
@@ -153,10 +150,14 @@ export class MaintenancePlanEditComponent implements OnInit {
     this.selectedMaintenance.mileage = +formValue['mileage'];
     this.maintenancePlanService.set(this.selectedMaintenance).subscribe(
       data => {
-        this.toastr.success('Saved successfully');
+this.toastr.success('Elément est Enregistré Avec Succès');
         if (close) {
           this.router.navigate(['/core/maintenances/list']);
         }
+
+      },
+      error => {
+        this.toastr.error(error.error.message);
       }
     );
   }
@@ -175,10 +176,6 @@ export class MaintenancePlanEditComponent implements OnInit {
 
   onLineEdited(line: MaintenanceLine) {
 
-    console.log('line added');
-    console.log(line);
-
-
     if (line.id > 0) {
       this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(l => l.id !== line.id);
     }
@@ -192,8 +189,6 @@ export class MaintenancePlanEditComponent implements OnInit {
     });
 
   }
-
-
   onDeleteMaintenanceLine(id: number) {
     console.log(id);
 

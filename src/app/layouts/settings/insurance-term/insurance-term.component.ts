@@ -30,7 +30,7 @@ export class InsuranceTermComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-      this.items = [
+    this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedInsuranceTerm.id) }
     ];
@@ -93,13 +93,13 @@ export class InsuranceTermComponent implements OnInit {
       accept: () => {
         this.insuranceTermService.delete(id).subscribe(
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément est Supprimé avec Succès", "Suppression");
             this.loadData();
           },
-          error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+          error => {
+            this.toastr.error(error.error.message);
 
-         }
+          }
         );
       }
     });
@@ -109,7 +109,7 @@ export class InsuranceTermComponent implements OnInit {
     this.toastr.info('selected ');
   }
 
- onInssuranceTermAdd(event){
-   this.loadData();
- }
+  onInssuranceTermAdd(event) {
+    this.loadData();
+  }
 }

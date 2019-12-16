@@ -63,11 +63,11 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
 
-    this.contractTypeService.findAll().subscribe(
+   /* this.contractTypeService.findAll().subscribe(
       data => {
         this.contractTypeList = data;
       }
-    );
+    );*/
   }
 
   initForm() {
@@ -78,7 +78,7 @@ export class InsuranceEditComponent implements OnInit {
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
       'supplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-      'contractType': new FormControl(this.selectedInsurance.contractType, Validators.required),
+    //  'contractType': new FormControl(this.selectedInsurance.contractType, Validators.required),
       'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm)
     });
   }
@@ -96,17 +96,14 @@ export class InsuranceEditComponent implements OnInit {
     console.log(this.selectedInsurance);
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
-        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        this.toastr.success('Elément Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
 
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
+        this.toastr.error(error.error.message);
         console.log(error);
         this.spinner.hide();
       },
@@ -120,11 +117,11 @@ export class InsuranceEditComponent implements OnInit {
     console.log(this.selectedInsurance.supplier);
   }
 
-  onSelectContractType(event: any) {
+/*  onSelectContractType(event: any) {
     console.log(event);
     this.selectedInsurance.contractType = event.value;
     console.log(this.selectedInsurance.contractType);
-  }
+  }*/
 
   onSelectInsuranceTerm(event: any) {
     console.log(event);

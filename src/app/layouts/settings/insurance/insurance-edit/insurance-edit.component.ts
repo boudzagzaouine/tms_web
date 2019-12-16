@@ -1,7 +1,7 @@
 import { VehicleService } from './../../../../shared/services/api/vehicle.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
 import { Insurance, InsuranceTerm, Supplier, Vehicle } from '../../../../shared/models';
@@ -70,7 +70,7 @@ export class InsuranceEditComponent implements OnInit {
   }
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.insuranceForm.invalid) {return; }
+    if (this.insuranceForm.invalid) { return; }
 
     this.spinner.show();
     this.selectedInsurance.code = this.insuranceForm.value['code'];
@@ -83,23 +83,15 @@ export class InsuranceEditComponent implements OnInit {
     console.log(this.selectedInsurance);
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
-        console.log('submitted');
 
         this.insuranceAdd.emit(data);
-        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
-        console.log('Error Occurrred');
-
-        console.log(error);
-        console.log(error.error.message);
+        this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 
@@ -107,34 +99,28 @@ export class InsuranceEditComponent implements OnInit {
     );
   }
 
- onSelectSupplier(event: any) {
-   console.log('supplier');
-   this.selectedInsurance.supplier = event.value;
-   console.log(this.selectedInsurance.supplier);
+  onSelectSupplier(event: any) {
+    console.log('supplier');
+    this.selectedInsurance.supplier = event.value;
+    console.log(this.selectedInsurance.supplier);
   }
 
 
   onSelectVehicle(event: any) {
-    console.log(event);
-    this.selectedInsurance.vehicle = event.value;
-    console.log("vehicle");
 
-    console.log(this.selectedInsurance.vehicle);
+    this.selectedInsurance.vehicle = event.value;
   }
 
 
   onSelectInsuranceTerm(event: any) {
-    console.log("terme");
-
     this.selectedInsurance.insuranceTerm = event.value;
-    console.log(this.selectedInsurance.insuranceTerm);
   }
 
- /* OnSearchSupplier(event){
-    this.supplierService.find('code~' + event.query).subscribe(
-      data => this.supplierList = data
-    );
-  }*/
+  /* OnSearchSupplier(event){
+     this.supplierService.find('code~' + event.query).subscribe(
+       data => this.supplierList = data
+     );
+   }*/
 
 
   open(content) {

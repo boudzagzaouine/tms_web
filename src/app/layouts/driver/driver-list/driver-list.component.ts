@@ -132,7 +132,7 @@ export class DriverListComponent implements OnInit {
         this.driverService.delete(id).subscribe(
 
           data => {
-            this.toastr.success('Elément est Supprimé Avec Succès');
+            this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
             this.loadData();
           },
           error => {

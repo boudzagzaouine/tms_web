@@ -53,16 +53,13 @@ export class ContractTypeEditComponent implements OnInit {
     const s = this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
         this.contractTypeAdd.emit(data);
-        this.toastr.success('Elément enregistré avec succès', 'Success');
+        this.toastr.success('Elément Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
+        this.toastr.error(error.error.message);
         console.log(error);
         this.spinner.hide();
       },

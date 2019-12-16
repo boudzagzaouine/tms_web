@@ -1,7 +1,7 @@
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { InsuranceTerm } from '../../../../shared/models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceTermService } from '../../../../shared/services';
@@ -14,7 +14,7 @@ import { InsuranceTermService } from '../../../../shared/services';
 export class InsuranceTermEditComponent implements OnInit {
   @Input() selectedInsuranceTerm = new InsuranceTerm();
   @Input() editMode: boolean;
-  @Output() inssuranceTermAdd=new EventEmitter<InsuranceTerm>();
+  @Output() inssuranceTermAdd = new EventEmitter<InsuranceTerm>();
   closeResult: String;
   insuranceTermForm: FormGroup;
   insuranceTermTypeList: InsuranceTerm[] = [];
@@ -53,17 +53,13 @@ export class InsuranceTermEditComponent implements OnInit {
     const s = this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(
       data => {
         this.inssuranceTermAdd.emit(data);
-        this.toastr.success('Elément enregistré avec succès', 'Success');
+        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
-        console.log(error);
+        this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 

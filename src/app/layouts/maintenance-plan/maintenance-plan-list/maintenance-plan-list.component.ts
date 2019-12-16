@@ -153,10 +153,10 @@ export class MaintenancePlanListComponent implements OnInit {
       accept: () => {
         this.maintenancePlanService.delete(id).subscribe(
           data => {
-            this.toastr.success('deleted successfully');
+            this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
           },
           (e) => {
-            this.toastr.error('element can not be deleted');
+            this.toastr.error(e.error.message);
           }
         );
         this.loadData();

@@ -96,11 +96,11 @@ export class MaintenanceTypeComponent implements OnInit {
         this.maintenanceTypeService.delete(id).subscribe(
 
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément est Supprimé avec Succès","Suppression");
             this.loadData();
           },
           error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+           this.toastr.error(error.error.message);
 
          }
         );

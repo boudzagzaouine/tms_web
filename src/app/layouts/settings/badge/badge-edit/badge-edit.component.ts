@@ -53,7 +53,7 @@ export class BadgeEditComponent implements OnInit {
   }
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.badgeForm.invalid){ return; }
+    if (this.badgeForm.invalid) { return; }
 
     this.spinner.show();
 
@@ -64,17 +64,14 @@ export class BadgeEditComponent implements OnInit {
     const s = this.badgeService.set(this.selectedBadge).subscribe(
       data => {
         this.badgeAdd.emit(data);
-        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
-        console.log(error);
+        this.toastr.error(error.error.message);
+
         this.spinner.hide();
       },
 

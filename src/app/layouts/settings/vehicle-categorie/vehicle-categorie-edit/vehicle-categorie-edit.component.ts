@@ -30,11 +30,9 @@ export class VehicleCategorieEditComponent implements OnInit {
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr:ToastrService) { }
-
   ngOnInit() {
 
     this.initForm();
-
   }
 
   initForm() {
@@ -68,17 +66,13 @@ export class VehicleCategorieEditComponent implements OnInit {
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
         this.vehicleCategorieAdd.emit(data);
-        this.toastr.success('Item was saved successfully', 'Save');
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
-        console.log(error);
+        this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 
@@ -87,9 +81,6 @@ export class VehicleCategorieEditComponent implements OnInit {
 
 
   }
-
-
-
 
   open(content) {
     if (!this.editMode) {

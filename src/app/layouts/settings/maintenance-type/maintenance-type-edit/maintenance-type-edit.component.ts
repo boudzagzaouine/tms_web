@@ -54,16 +54,13 @@ export class MaintenanceTypeEditComponent implements OnInit {
       data => {
         this.maintenanceTypeAdd.emit(data);
 
-        this.toastr.success('Elément enregistré avec succès', 'Edition');
+        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(
-          'Elément n\'est enregistré',
-          'Erreur'
-        );
+        this.toastr.error(error.error.message );
         console.log(error);
         this.spinner.hide();
       },

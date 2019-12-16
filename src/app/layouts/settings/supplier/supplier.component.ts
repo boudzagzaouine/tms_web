@@ -93,11 +93,11 @@ export class SupplierComponent implements OnInit {
         this.supplierService.delete(id).subscribe(
 
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément Est Supprimé Avec Succès","Suppression");
             this.loadData();
           },
           error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+           this.toastr.error(error.error.message);
 
          }
         );

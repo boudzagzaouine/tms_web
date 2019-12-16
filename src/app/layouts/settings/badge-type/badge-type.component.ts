@@ -39,7 +39,6 @@ export class BadgeTypeComponent implements OnInit {
 
 
   loadData(search: string = '') {
-    console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
     this.badgeTypeService.sizeSearch(search).subscribe(
@@ -49,12 +48,12 @@ export class BadgeTypeComponent implements OnInit {
     );
     this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+
         this.badgeTypeList = data;
         this.spinner.hide();
       },
       error => {
-        console.log(error);
+
 
         this.spinner.hide();
       },
@@ -94,11 +93,11 @@ export class BadgeTypeComponent implements OnInit {
       accept: () => {
         this.badgeTypeService.delete(id).subscribe(
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément Supprimer avec Succés","Suppression");
             this.loadData();
           },
           error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+           this.toastr.error(error.error.message);
 
          }
         );

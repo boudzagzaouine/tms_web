@@ -112,7 +112,7 @@ export class DriverEditComponent implements OnInit {
 
     this.driverService.set(this.selectedDriver).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré Avec Succès');
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
       },
       error => {
         this.toastr.error(error.error.message);

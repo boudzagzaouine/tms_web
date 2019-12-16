@@ -30,7 +30,7 @@ export class ContractTypeComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-      this.items = [
+    this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedContractType.id) }
     ];
@@ -93,13 +93,13 @@ export class ContractTypeComponent implements OnInit {
       accept: () => {
         this.contractTypeService.delete(id).subscribe(
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success('Elément est Supprimé avec Succès', 'Suppression');
             this.loadData();
           },
-          error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+          error => {
+            this.toastr.error(error.error.message);
 
-         }
+          }
         );
         this.loadData();
       }
@@ -109,7 +109,7 @@ export class ContractTypeComponent implements OnInit {
   onEdit() {
     this.toastr.info('selected ');
   }
-onContactTypeAdd(event){
- this.loadData();
-}
+  onContactTypeAdd(event) {
+    this.loadData();
+  }
 }

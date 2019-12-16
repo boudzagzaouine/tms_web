@@ -104,17 +104,16 @@ export class BadgeComponent implements OnInit {
 
   onDelete(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.badgeService.delete(id).subscribe(
           data =>{
-            this.toastr.success("Supprimer avec Succes","Suppression");
-            console.log("delete Bdge");
-              console.log(id);
+            this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
+
                  this.loadData();
        },
        error=>{
-        this.toastr.error("Erreur De La Suppression","Suppression");
+        this.toastr.error(error.error.message);
 
       }
         );

@@ -93,13 +93,11 @@ export class VehicleCategorieComponent implements OnInit {
       accept: () => {
         this.vehicleCategoryService.delete(id).subscribe(
           data =>{
-               this.toastr.success("Supprimer avec Succes","Suppression")
-               console.log("delete V-C");
-        console.log(id);
+               this.toastr.success("Elément est Supprimé Avec Succès","Suppression")
         this.loadData();
           },
           error=>{
-            this.toastr.error("Erreur De La Suppression","Suppression")
+            this.toastr.error(error.erroe.message)
 
           }
 

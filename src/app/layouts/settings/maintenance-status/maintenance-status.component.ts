@@ -38,7 +38,6 @@ export class MaintenanceStatusComponent implements OnInit {
     ];
   }
   loadData(search: string = '') {
-    console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
     this.maintenanceStateService.sizeSearch(search).subscribe(
@@ -92,11 +91,11 @@ export class MaintenanceStatusComponent implements OnInit {
       accept: () => {
         this.maintenanceStateService.delete(id).subscribe(
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément est Supprimé avec Succès","Suppression");
             this.loadData();
           },
           error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+           this.toastr.error(error.error.message);
 
          }
         );

@@ -138,11 +138,11 @@ export class InsuranceComponent implements OnInit {
       accept: () => {
         this.insuranceService.delete(id).subscribe(
           data => {
-            this.toastr.success("Supprimer avec Succes","Suppression");
+            this.toastr.success("Elément est  Supprimé Avec Succès","Suppression");
             this.loadData();
           },
           error=>{
-           this.toastr.error("Erreur De La Suppression","Suppression");
+           this.toastr.error(error.error.message);
 
          }
         );
@@ -154,8 +154,6 @@ export class InsuranceComponent implements OnInit {
     this.toastr.info('selected ');
   }
   onInsuranceAdd(event){
-    console.log(event);
-
   this.loadData();
   }
 }

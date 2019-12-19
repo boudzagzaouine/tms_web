@@ -4,7 +4,7 @@
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
@@ -24,7 +24,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Categorie Vehicules</span>
+    <span>Liste des Catégories de Véhicules</span>
     <span class="pull-right">
       <app-vehicle-categorie-edit [editMode]="false"  (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
     </span>
@@ -36,11 +36,11 @@
       <ng-template pTemplate="header">
         <tr>
           <th>{{'Code' | translate}}</th>
-          <th>{{'consumption' | translate}}</th>
-          <th>{{'weight' | translate}}</th>
-          <th>{{'width' | translate}}</th>
-          <th>{{'depth' | translate}}</th>
-          <th>{{'tonnage' | translate}}</th>
+          <th>{{'Consomation' | translate}}</th>
+          <th>{{'Poids' | translate}}</th>
+          <th>{{'Largeur' | translate}}</th>
+          <th>{{'Profondeur' | translate}}</th>
+          <th>{{'Tonnage' | translate}}</th>
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>

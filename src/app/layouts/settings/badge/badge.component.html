@@ -4,12 +4,12 @@
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3">
-        <label>Type</label><br />
+        <label class="font-weight-bold">Type</label><br />
         <p-autoComplete [(ngModel)]="badgeTypeSearch" [suggestions]="badgeTypeList"
           (completeMethod)="onBadgeTypeSearch($event)"></p-autoComplete>
       </div>

@@ -4,7 +4,7 @@
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
     </div>
@@ -21,7 +21,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Type Maintenance</span>
+    <span>Liste Types Maintenance</span>
     <span class="pull-right">
       <app-maintenance-type-edit [editMode]="false" (maintenanceTypeAdd)="onMaintenanceTypeAdd($event)"></app-maintenance-type-edit>
     </span>

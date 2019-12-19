@@ -4,24 +4,24 @@
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3">
-        <label>{{'Fournisseur' | translate}}</label><br />
+        <label class="font-weight-bold ">{{'Fournisseur' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="supplierSearch" [suggestions]="supplierList"
           (completeMethod)="onSupplierearch($event)"></p-autoComplete>
       </div>
 
       <div class="col-md-3">
-        <label>{{'Terme' | translate}}</label><br />
+        <label class="font-weight-bold ">{{'Terme' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="insuranceTermSearch" [suggestions]="insuranceTermList"
           (completeMethod)="onInsuranceTermSearch($event)"></p-autoComplete>
       </div>
 
       <div class="col-md-3">
-        <label>{{'Vehicle' | translate}}</label><br />
+        <label class="font-weight-bold ">{{'Vehicle' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleList"
           (completeMethod)="onVehicleSearch($event)"></p-autoComplete>
       </div>
@@ -40,7 +40,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des Insurances</span>
+    <span>Liste Des Assurances</span>
     <span class="pull-right">
      <!-- <app-insurance-edit [editMode]="false"></app-insurance-edit>-->
     </span>

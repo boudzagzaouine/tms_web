@@ -203,7 +203,7 @@ export class VehicleEditComponent implements OnInit {
     this.selectedInsurance.startDate = formValue['FIstartDate'];
     this.selectedInsurance.endDate = formValue['FIendDate'];
     this.selectedInsurance.amount = formValue['FIMontant'];
-
+   this.selectedInsurance.vehicleCode =formValue['FIcode'];
 
     if (this.selectedInsurance.code) {
       this.selectedVehicle.insurance = this.selectedInsurance;
@@ -215,7 +215,7 @@ export class VehicleEditComponent implements OnInit {
 
     this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
-        this.toastr.success('Success');
+        this.toastr.success('Elément est Enregistré Avec Succès','Edition');
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedVehicle = new Vehicle();
@@ -229,7 +229,7 @@ export class VehicleEditComponent implements OnInit {
 
       },
       err => {
-        this.toastr.error('ERROR OCCURRED');
+        this.toastr.error(err.error.message);
         console.log(err);
 
         this.spinner.hide();

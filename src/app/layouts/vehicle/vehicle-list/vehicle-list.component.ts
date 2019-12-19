@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { ConfirmationService } from 'primeng/api';
@@ -35,6 +36,7 @@ export class VehicleListComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() { }
@@ -118,7 +120,16 @@ export class VehicleListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.vehicleService.delete(id);
+        this.vehicleService.delete(id).subscribe(
+          data=>{
+            this.toastr.success('Elément est Supprimé Avec Succès', 'Supprssion');
+            this.loadData();
+          },
+         err=>{
+          this.toastr.error(err.arror.message);
+
+         }
+        );
       }
     });
   }

@@ -82,6 +82,7 @@ export class BadgeComponent implements OnInit {
       buffer.append(`badgeType.code~${this.badgeTypeSearch}`);
     }
 
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData();

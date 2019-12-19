@@ -100,6 +100,7 @@ export class InsuranceComponent implements OnInit {
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
+
     this.loadData(this.searchQuery);
 
   }
@@ -119,7 +120,9 @@ export class InsuranceComponent implements OnInit {
   onVehicleSearch(event: any) {
     this.vehicleService.find('code~' + event.query).subscribe(
       data => this.vehicleList = data.map(f => f.code)
+
     );
+
   }
 
   reset() {

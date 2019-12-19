@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Badge, Driver, Contact } from './../../../shared/models';
 import { BadgeService } from '../../../shared/services/api/badge.service';
 
@@ -33,6 +33,7 @@ export class DriverEditComponent implements OnInit {
     private badgeService: BadgeService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -61,13 +62,20 @@ export class DriverEditComponent implements OnInit {
       this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
+          console.log("badge");
+          console.log(this.selectedDriver.badge.code);
+          
+          
           this.initForm();
         }
       );
     }
+   
+    
+    
 
   }
-  initForm() {
+  initForm(close=false) {
     const d = new Date(this.selectedDriver.birthDate);
     const dd = new Date(this.selectedDriver.lastMedicalVisit);
     this.driverForm = this.formBuilder.group(
@@ -113,6 +121,13 @@ export class DriverEditComponent implements OnInit {
     this.driverService.set(this.selectedDriver).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+
+        if (close) {
+          this.router.navigate(['/core/drivers/list']);
+        } else {
+
+          this.router.navigate(['/core/drivers/edit']);
+        }
       },
       error => {
         this.toastr.error(error.error.message);

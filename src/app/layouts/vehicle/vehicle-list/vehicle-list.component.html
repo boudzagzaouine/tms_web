@@ -4,24 +4,24 @@
   <div class="card-body  border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label class="font-weight-bold" style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">
+        <label class="font-weight-bold">
           Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3">
-        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Matriculation</label><br />
+        <label class="font-weight-bold ">Matriculation</label><br />
         <input type="text" pInputText [(ngModel)]="matSearch" />
       </div>
 
       <div class="col-md-3 ">
-        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Catégorie</label><br />
+        <label class="font-weight-bold ">Catégorie</label><br />
         <p-autoComplete [(ngModel)]="categorySearch" [suggestions]="vehicleCategoryList"
           (completeMethod)="onVehicleCategorySearch($event)"></p-autoComplete>
       </div>
 
       <div class="col-md-3 ">
-        <label style="font-family: Arial Narrow; font-size: 12 pt; font-weight: bold">Type Badge</label><br />
+        <label class="font-weight-bold ">Type Badge</label><br />
         <p-autoComplete [(ngModel)]="badgeTypeSearch" [suggestions]="badgeTypeList"
           (completeMethod)="onBadgeTypeSearch($event)"></p-autoComplete>
       </div>

@@ -4,7 +4,7 @@
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
-        <label>Code</label><br />
+        <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
     </div>
@@ -20,7 +20,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des InsuranceTerms</span>
+    <span>Liste  Termes D'assurance</span>
     <span class="pull-right">
       <app-insurance-term-edit [editMode]="false" (inssuranceTermAdd)="onInssuranceTermAdd($event)"></app-insurance-term-edit>
     </span>

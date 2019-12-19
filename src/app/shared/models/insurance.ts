@@ -15,4 +15,5 @@ export class Insurance {
   insuranceTerm: InsuranceTerm;
   supplier: Supplier;
   description: string;
+  vehicleCode:string;
 }

@@ -97,11 +97,12 @@ export class InsuranceEditComponent implements OnInit {
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
+       
+
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
-
       error => {
         this.toastr.error(error.error.message);
         console.log(error);

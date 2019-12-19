@@ -54,6 +54,10 @@ export class InsuranceEditComponent implements OnInit {
 
     this.initForm();
 
+    console.log("vehiculeCode");
+
+    console.log(this.selectedInsurance.vehicleCode);
+
   }
 
   initForm() {
@@ -63,9 +67,9 @@ export class InsuranceEditComponent implements OnInit {
       'startDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
-      'supplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-      'vehicle': new FormControl(this.selectedInsurance.vehicle, Validators.required),
-      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm, Validators.required)
+      'supplier': new FormControl(this.selectedInsurance.supplier.code, Validators.required),
+      'vehiclecode': new FormControl(this.selectedInsurance.vehicle.code, Validators.required),
+      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm.code, Validators.required)
     });
   }
   onSubmit() {
@@ -86,6 +90,7 @@ export class InsuranceEditComponent implements OnInit {
 
         this.insuranceAdd.emit(data);
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
@@ -100,9 +105,9 @@ export class InsuranceEditComponent implements OnInit {
   }
 
   onSelectSupplier(event: any) {
-    console.log('supplier');
+
     this.selectedInsurance.supplier = event.value;
-    console.log(this.selectedInsurance.supplier);
+
   }
 
 

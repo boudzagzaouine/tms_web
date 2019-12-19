@@ -39,7 +39,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.vehicleCategoryForm = new FormGroup({
       'Fcode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
       'Fconsumption': new FormControl(this.selectedVehicleCategory.consumption),
-      'Fweight': new FormControl((this.selectedVehicleCategory.weight), Validators.required),
+      'Fweight': new FormControl((this.selectedVehicleCategory.weight)),
       'Fwidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'Fdepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
       'Ftonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),

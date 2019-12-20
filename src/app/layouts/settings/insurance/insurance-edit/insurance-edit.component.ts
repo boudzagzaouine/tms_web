@@ -67,9 +67,11 @@ export class InsuranceEditComponent implements OnInit {
       'startDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
-      'supplier': new FormControl(this.selectedInsurance.supplier.code, Validators.required),
-      'vehiclecode': new FormControl(this.selectedInsurance.vehicle.code, Validators.required),
-      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm.code, Validators.required)
+      'supplier': new FormControl(this.selectedInsurance.supplier != null ?
+        this.selectedInsurance.supplier.code : null, Validators.required),
+      'vehiclecode': new FormControl(this.selectedInsurance.vehicleCode, Validators.required),
+      'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm != null ?
+        this.selectedInsurance.insuranceTerm.code : null, Validators.required)
     });
   }
   onSubmit() {

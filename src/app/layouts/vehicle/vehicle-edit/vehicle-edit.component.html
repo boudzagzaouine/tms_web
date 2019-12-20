@@ -2,7 +2,7 @@
   <div class="card-header">
     <span class="h4">{{ "Editer Vehicule" | translate }}</span>
   </div>
-  <div class="card-body border-top-primary h-75">
+  <div class="card-body border-top-primary h-85">
     <form [formGroup]="vehicleForm">
 
       <p-tabView>
@@ -183,8 +183,12 @@
           </div>
         </p-tabPanel>
         <p-tabPanel header="Assurance">
+          <div  >
+          <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
+            {{'Nouveau Assurance' | translate }}
+          </button></div><br><br>
+             <div class="row mt-3 justify-content-around">
 
-          <div class="row mt-3 justify-content-around">
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Numero' | translate}} *</label>
               <span *ngIf="(vehicleForm.get('FIcode').touched && vehicleForm.get('FIcode').invalid) ||

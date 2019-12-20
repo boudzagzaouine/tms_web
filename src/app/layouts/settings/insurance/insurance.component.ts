@@ -95,7 +95,7 @@ export class InsuranceComponent implements OnInit {
     }
 
     if (this.vehicleSearch != null && this.vehicleSearch !== '') {
-      buffer.append(`vehicle.code~${this.vehicleSearch}`);
+      buffer.append(`vehicleCode~${this.vehicleSearch}`);
     }
 
     this.page = 0;

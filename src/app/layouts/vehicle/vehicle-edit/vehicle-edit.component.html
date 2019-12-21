@@ -183,7 +183,7 @@
           </div>
         </p-tabPanel>
         <p-tabPanel header="Assurance">
-          <div  >
+          <div [style.visibility]="editMode ? 'visible' : 'hidden'"  >
           <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
             {{'Nouveau Assurance' | translate }}
           </button></div><br><br>

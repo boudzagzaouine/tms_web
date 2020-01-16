@@ -10,6 +10,7 @@ export class Vehicle {
   registrationNumber = '';
   code = '';
   technicalVisit: Date = new Date();
+  valueTechnicalVisit:number;
   creationDate: Date = new Date();
   vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
@@ -29,6 +30,8 @@ export class Vehicle {
   body: string;
   chassisNumber: string;
   energy: string;
+  vignette :Date=new Date();
+   valueVignette :number;
 
 
 }

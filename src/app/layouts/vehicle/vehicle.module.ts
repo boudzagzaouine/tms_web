@@ -1,3 +1,5 @@
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
@@ -17,9 +19,10 @@ import { VehicleEditComponent } from './vehicle-edit/vehicle-edit.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import {TabViewModule} from 'primeng/tabview';
 import {KeyFilterModule} from 'primeng/keyfilter';
+import { VehiculeEditLineComponent } from './vehicle-edit/vehicule-edit-line/vehicule-edit-line.component';
 
 @NgModule({
-  declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent],
+  declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent, VehiculeEditLineComponent, ],
   imports: [
     CommonModule,
     VehicleRoutingModule,
@@ -35,7 +38,12 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     CalendarModule,
     ConfirmDialogModule,
     TabViewModule,
-    KeyFilterModule
+    KeyFilterModule,
+    NgbModalModule,
+    NgxSpinnerModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
+    
   ]
 })
 export class VehicleModule { }

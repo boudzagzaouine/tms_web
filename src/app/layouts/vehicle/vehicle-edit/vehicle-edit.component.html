@@ -2,11 +2,11 @@
   <div class="card-header">
     <span class="h4">{{ "Editer Vehicule" | translate }}</span>
   </div>
-  <div class="card-body border-top-primary h-85">
+  <div class="card-body border-top-primary h-90" >
     <form [formGroup]="vehicleForm">
 
       <p-tabView>
-        <p-tabPanel header="General" class="w-25">
+        <p-tabPanel header="General"  >
           <div class="row  mt-3 justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Code' | translate}}*</label>
@@ -56,14 +56,7 @@
                 (onChange)="onSelectBadgeType($event)" formControlName="FbadgeType" [showClear]="true"></p-dropdown>
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Visite Technique'| translate}}</label>
-              <br />
-              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-                formControlName="FtechnicalVisit" yearRange="1970:2100"></p-calendar>
-            </div>
-
-            <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type contrat' | translate}}*</label>
+               <label class="font-weight-bold ">{{'Type contrat' | translate}}*</label>
               <span *ngIf="(vehicleForm.get('FcontractType').touched && vehicleForm.get('FcontractType').invalid) ||
                 (isFormSubmitted && vehicleForm.get('FcontractType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -71,6 +64,10 @@
               </span><br />
               <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
                 (onChange)="onSelectContract($event)" formControlName="FcontractType" [showClear]="true"></p-dropdown>
+            </div>
+
+            <div class="form-group col-md-3 ">
+
             </div>
 
           </div>
@@ -94,6 +91,34 @@
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FnumberCylinder" />
             </div>
+          </div>
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Visite Technique'| translate}}</label>
+              <br />
+              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+                formControlName="FtechnicalVisit" yearRange="1970:2100"></p-calendar>
+            </div>
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Valeur'| translate}}</label>
+              <br />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FValeurVisiteTechnique" />
+            </div>
+            <div class="form-group col-md-3 "></div>
+          </div>
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Vignette'| translate}}</label>
+              <br />
+              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+                formControlName="Fvignette" yearRange="1970:2100"></p-calendar>
+            </div>
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Valeur'| translate}}</label>
+              <br />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FValeurVignette" />
+            </div>
+            <div class="form-group col-md-3 "></div>
           </div>
         </p-tabPanel>
         <p-tabPanel header="Caracteristiques">
@@ -182,7 +207,7 @@
 
           </div>
         </p-tabPanel>
-        <p-tabPanel header="Assurance">
+        <p-tabPanel header="Assurance" >
           <div [style.visibility]="editMode ? 'visible' : 'hidden'"  >
           <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
             {{'Nouveau Assurance' | translate }}
@@ -210,7 +235,17 @@
               </span><br />
               <input type="text" class="form-control" pInputText formControlName="FIdescription" />
             </div>
-            <div class="form-group col-md-3"></div>
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold ">{{'Fournisseur'| translate}} *</label>
+              <span *ngIf="(vehicleForm.get('FIsupplier').touched && vehicleForm.get('FIsupplier').invalid) ||
+                      (isFormSubmitted && vehicleForm.get('FIsupplier').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                Ce Champs est obligatoire
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code"
+                formControlName="FIsupplier" (onChange)="onSelectsupplier($event)" [filter]="true" [showClear]="true">
+              </p-dropdown>
+            </div>
           </div>
           <div class="row justify-content-around">
             <div class="form-group col-md-3">
@@ -236,21 +271,6 @@
               <p-calendar formControlName="FIendDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
-            <div class="form-group col-md-3"></div>
-          </div>
-
-          <div class="row justify-content-around">
-            <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Supplier'| translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIsupplier').touched && vehicleForm.get('FIsupplier').invalid) ||
-                      (isFormSubmitted && vehicleForm.get('FIsupplier').invalid)" class="text-lighter"
-                style="color: red; font-size: xx-small;">
-                Ce Champs est obligatoire
-              </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code"
-                formControlName="FIsupplier" (onChange)="onSelectsupplier($event)" [filter]="true" [showClear]="true">
-              </p-dropdown>
-            </div>
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
               <span *ngIf="(vehicleForm.get('FIMontant').touched && vehicleForm.get('FIMontant').invalid) ||
@@ -260,18 +280,53 @@
               </span>
               <input type="text" class="form-control" pInputText formControlName="FIMontant" />
             </div>
-            <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Terme Assurance'| translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FinsuranceTerm').touched && vehicleForm.get('FinsuranceTerm').invalid) ||
-                      (isFormSubmitted && vehicleForm.get('FinsuranceTerm').invalid)" class="text-lighter"
-                style="color: red; font-size: xx-small;">
-                Ce Champs est obligatoire
-              </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="inssuranceTermList" optionLabel="code"
-                formControlName="FinsuranceTerm" (onChange)="onSelectinssuranceTerm($event)" [filter]="true"
-                [showClear]="true"></p-dropdown>
-            </div>
           </div>
+
+
+
+
+          <div class="card mt-2">
+            <div class="card-header " style=" background-color:#f7f7f7;">
+              <span>Liste Des lignes de Term D'assurance</span>
+              <span class="pull-right">
+                <app-vehicule-edit-line [editMode]="false" (insuranceTermLineAdded)="onLineEdited($event)"></app-vehicule-edit-line>
+              </span>
+              <span class="pull-right">
+              </span>
+            </div>
+            <div class="card-body mt-2 border-top-primary">
+
+
+              <p-table [value]="selectedInsurance?.insuranceTermLignes" [lazy]="true" [rows]="size" [paginator]="true"
+                [totalRecords]="selectedInsurance?.insuranceTermLignes?.length" [scrollable]="true" scrollHeight="40px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>{{'Term Assurance' | translate}}</th>
+                    <th>Prix </th>
+
+                    <th style="width:10%">Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-line>
+                  <tr>
+                    <td>{{line?.insuranceTerm?.code}}</td>
+                   <td>{{line?.amount}}</td>
+                   <td>
+                    <app-vehicule-edit-line [selectedTermLigne]="line" [editMode]="true"
+                      (insuranceTermLineAdded)="onLineEdited($event)"></app-vehicule-edit-line>
+                    <button type="button" (click)="onDeleteLine(line)" class="btn btn-sm btn-danger mx-1">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+
+
+          </div>
+
         </p-tabPanel>
       </p-tabView>
       <div class="text-center mt-3" style="bottom: 10vh !important;">

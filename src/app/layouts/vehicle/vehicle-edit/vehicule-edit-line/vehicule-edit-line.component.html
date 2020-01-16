@@ -1,0 +1,52 @@
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">{{'Editer Term Assurance Ligne' | translate}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body border-top-primary">
+    <div class="card-body ">
+      <form [formGroup]="insuranceTermLineForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-md-9">
+            <label class="font-weight-bold ">{{'Terme Assurance' | translate}} *</label>
+            <span *ngIf="(insuranceTermLineForm.get('FTermInsurance').touched && insuranceTermLineForm.get('FTermInsurance').invalid) ||
+            (isFormSubmitted && insuranceTermLineForm.get('FTermInsurance').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        Ce Champs est obligatoire
+      </span>
+            <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code"
+                formControlName="FTermInsurance" (onChange)="onSelectChangeTermInsurance($event)"  [filter]="true" [showClear]="true">
+              </p-dropdown>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{'Prix' | translate}}</label><br />
+            <span *ngIf="(insuranceTermLineForm.get('Famount').touched && insuranceTermLineForm.get('Famount').invalid) ||
+            (isFormSubmitted && insuranceTermLineForm.get('Famount').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        Ce Champs est obligatoire
+      </span>
+      <div  >
+            <input type="text" class="form-control" formControlName="Famount" pInputText /></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer pull-right">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>

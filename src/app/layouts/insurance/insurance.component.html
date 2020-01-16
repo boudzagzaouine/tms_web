@@ -1,1 +1,87 @@
-<router-outlet></router-outlet>
+<br />
+<div class="card">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body border-top-primary">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="font-weight-bold ">Code</label><br />
+        <input type="text" pInputText [(ngModel)]="codeSearch" />
+      </div>
+
+      <div class="col-md-3">
+        <label class="font-weight-bold ">{{'Fournisseur' | translate}}</label><br />
+        <p-autoComplete [(ngModel)]="supplierSearch" [suggestions]="supplierList"
+          (completeMethod)="onSupplierearch($event)"></p-autoComplete>
+      </div>
+
+      <div class="col-md-3">
+        <label class="font-weight-bold ">{{'Terme' | translate}}</label><br />
+        <p-autoComplete [(ngModel)]="insuranceTermSearch" [suggestions]="insuranceTermList"
+          (completeMethod)="onInsuranceTermSearch($event)"></p-autoComplete>
+      </div>
+
+      <div class="col-md-3">
+        <label class="font-weight-bold ">{{'Vehicle' | translate}}</label><br />
+        <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleList"
+          (completeMethod)="onVehicleSearch($event)"></p-autoComplete>
+      </div>
+    </div>
+    <br />
+
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        Rechercher
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des Assurances</span>
+    <span class="pull-right">
+     <!-- <app-insurance-edit [editMode]="false"></app-insurance-edit>-->
+    </span>
+  </div>
+  <div class="card-body border-top-primary">
+    <p-table [value]="insuranceList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
+      [(contextMenuSelection)]="selectedInsurance" [totalRecords]="collectionSize" [resizableColumns]="true"
+      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsurance" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Description</th>
+          <th>{{'Montant' | translate}}</th>
+          <th>{{'Fournissuer' | translate}}</th>
+          <th>{{'Terme' | translate}}</th>
+          <th>{{'vehicle' | translate}}</th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-insurance>
+        <tr>
+          <td>{{insurance?.code}}</td>
+          <td>{{insurance?.description}}</td>
+          <td>{{insurance?.amount}}</td>
+          <td>{{insurance?.supplier?.code}}</td>
+          <td>{{insurance?.insuranceTerm?.code}}</td>
+          <td>{{insurance?.vehicleCode}}</td>
+          <td>
+            <app-insurance-edit [editMode]="true" [selectedInsurance]="insurance" (insuranceAdd)="onInsuranceAdd($event)"></app-insurance-edit>
+            <button type="button" (click)="onDelete(insurance.id)" class="btn btn-sm btn-danger mx-1">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+</p-confirmDialog>

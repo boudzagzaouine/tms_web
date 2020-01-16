@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'core', loadChildren: () => import('./layouts/layout.module').then(m => m.LayoutModule), canActivate: [AuthGuard] },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: '**', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
+  { path: 'CommissionDriver', loadChildren: () => import('./layouts/commission-driver/commission-driver.module').then(m => m.CommissionDriverModule) },
 ];
 
 @NgModule({

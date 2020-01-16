@@ -48,6 +48,7 @@ registerLocaleData(localeFr, 'fr');
       maxOpened: 2,
       newestOnTop: true,
     }),
+
   ],
   bootstrap: [AppComponent]
 })

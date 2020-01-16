@@ -19,6 +19,7 @@ export * from './driver';
 export * from './group-habilitation';
 export * from './habilitation';
 export * from './insurance-term';
+export * from './insurance-term-line';
 export * from './insurance';
 export * from './kit';
 export * from './maintenance-plan';
@@ -56,5 +57,6 @@ export * from './vat';
 export * from './vehicle-category';
 export * from './vehicle';
 export * from './warehouse';
+
 // end:ng42.barrel
 

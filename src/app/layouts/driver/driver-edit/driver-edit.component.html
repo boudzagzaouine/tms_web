@@ -104,15 +104,7 @@
         </div>
 
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ "Comission" | translate }}</label
-          ><br />
-          <input
-            type="text"
-            class="form-control"
-            pInputText
-            formControlName="comission"
-            pKeyFilter="num"
-          />
+
         </div>
       </div>
       <div class="row justify-content-around">
@@ -150,38 +142,57 @@
           />
         </div>
       </div>
-      <div class="row justify-content-around">
-        <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ "Badge" | translate }}* </label>
-          <span
-            *ngIf="
-              (driverForm.get('badge').touched &&
-                driverForm.get('badge').invalid) ||
-              (isFormSubmitted && driverForm.get('badge').invalid)
-            "
-            class="text-lighter"
-            style="color: red; font-size: xx-small;"
-          >
-            Ce Champs est obligatoire
+
+
+      <div class="card mt-3">
+        <div class="card-header " style=" background-color:#f7f7f7;">
+          <span>Liste Des badge </span>
+          <span class="pull-right">
+
+            <app-driver-badgetype-line-edit [editMode]="false" (badgeDriverAdd)="onLineEdited($event)"></app-driver-badgetype-line-edit>
           </span>
-          <br />
-          <p-dropdown
-            [autoDisplayFirst]="false"
-            [options]="badgesList"
-            optionLabel="code"
-            [filter]="true"
-            [showClear]="true"
-            (onChange)="onSelectBadgeCode($event)"
-            formControlName="badge"
-          >
-          </p-dropdown>
         </div>
-        <div class="form-group col-md-3"></div>
-        <div class="form-group col-md-3"></div>
+        <div class="card-body  border-top-primary">
+          <p-table
+            [value]="selectedDriver?.badgeTypeDrivers"
+            [lazy]="true"
+            (onLazyLoad)="loadDataLazy($event)"
+            [rows]="size"
+            [paginator]="true"
+            [totalRecords]="selectedDriver?.badgeTypeDrivers?.length"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Type Badge</th>
+                <th>Badge Number</th>
+                <th>Date Délivrance</th>
+                <th>Date Date de Fin De Validité</th>
+                <th style="width:10%">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-badgeL>
+              <tr>
+                <td>{{ badgeL?.badgeType?.code}}</td>
+                <td>{{ badgeL?.badgeNumber }}</td>
+                <td>{{ badgeL?.deliveranceDate | date: 'dd-MM-yyyy'}}</td>
+                <td>{{ badgeL?.validityEndDate | date: 'dd-MM-yyyy'}}</td>
+                <td>
+                  <app-driver-badgetype-line-edit [editMode]="true" [selectedBadgeDriver]="badgeL" (badgeAdd)="onLineEdited($event)"></app-driver-badgetype-line-edit>
+
+                  <button
+                    type="button"
+                    (click)="onDeleteLine(badgeL)"
+                    class="btn btn-sm btn-danger"
+                  >
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
       </div>
-      <br />
-      <br />
-      <br />
+
 
       <div class="text-center">
         <a
@@ -210,6 +221,9 @@
     </form>
   </div>
 </div>
+
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
 
 <ngx-spinner
   bdColor="rgba(255,255,255,0)"

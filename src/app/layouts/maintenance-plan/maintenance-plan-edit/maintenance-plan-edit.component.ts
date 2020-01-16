@@ -48,6 +48,9 @@ export class MaintenancePlanEditComponent implements OnInit {
     private roundPipe: RoundPipe) { }
 
   ngOnInit() {
+    this.loadVechile();
+    this.loadMaintenanceType();
+    this.loadMaintenanceStatus();
     this.fr = {
       firstDayOfWeek: 1,
       dayNames: ['Dimanche', 'Lundi', 'Mardi ', 'Mercredi', 'Mercredi ', 'Vendredi ', 'Samedi '],
@@ -61,15 +64,15 @@ export class MaintenancePlanEditComponent implements OnInit {
 
     this.initForm();
 
-    this.loadVechile();
-    this.loadMaintenanceType();
-    this.loadMaintenanceStatus();
+
 
     if (this.activatedRoute.snapshot.params['id'] >= 1) {
       this.idMaintenance = this.activatedRoute.snapshot.params['id'];
       this.maintenancePlanService.findById(this.idMaintenance).subscribe(
 
         data => {
+
+          console.log(data);
 
           this.selectedMaintenance = data;
           this.editMode = true;

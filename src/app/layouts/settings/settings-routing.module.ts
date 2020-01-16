@@ -1,3 +1,4 @@
+import { CommissionTypeComponent } from './commission-type/commission-type.component';
 import { VehicleCategory } from './../../shared/models/vehicle-category';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
@@ -24,7 +25,9 @@ const routes: Routes = [
       { path: 'insurance-terms', component: InsuranceTermComponent },
       { path: 'maintenance-statuses', component: MaintenanceStatusComponent },
       { path: 'maintenance-types', component: MaintenanceTypeComponent },
-      { path: 'vehicle-categorie', component: VehicleCategorieComponent }
+      { path: 'vehicle-categorie', component: VehicleCategorieComponent },
+      { path: 'commission-type', component: CommissionTypeComponent }
+
     ]
   }
 

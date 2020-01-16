@@ -75,6 +75,7 @@ export class MaintenanceLineEditComponent implements OnInit {
 
 
     this.lineEdited.emit(this.selectedMaintenanceLine);
+
     console.log('Emitted');
     console.log(this.selectedMaintenanceLine);
 

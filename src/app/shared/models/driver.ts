@@ -1,3 +1,4 @@
+import { BadgeTypeDriver } from './badge-Type-Driver';
 import { Badge } from './badge';
 import { Contact } from './contact';
 import { User } from './user';
@@ -28,4 +29,7 @@ export class Driver {
   email: String;
   comment: String;
   active: boolean;
+
+  badgeTypeDrivers : BadgeTypeDriver[]=[];
+
 }

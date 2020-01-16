@@ -36,7 +36,8 @@ export class InsuranceTermEditComponent implements OnInit {
   initForm() {
     this.insuranceTermForm = new FormGroup({
       'code': new FormControl(this.selectedInsuranceTerm.code, Validators.required),
-      'description': new FormControl(this.selectedInsuranceTerm.description)
+      'description': new FormControl(this.selectedInsuranceTerm.description),
+      'isvalue': new FormControl(this.selectedInsuranceTerm.roofed),
     });
   }
   onSubmit() {
@@ -48,6 +49,12 @@ export class InsuranceTermEditComponent implements OnInit {
 
     this.selectedInsuranceTerm.code = this.insuranceTermForm.value['code'];
     this.selectedInsuranceTerm.description = this.insuranceTermForm.value['description'];
+    if (this.insuranceTermForm.value['isvalue'] === true) {
+      this.selectedInsuranceTerm.roofed = true;
+    } else {
+      this.selectedInsuranceTerm.roofed = false;
+    }
+    console.log(this.insuranceTermForm.value['isvalue']);
 
     console.log(this.selectedInsuranceTerm);
     const s = this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(

@@ -34,6 +34,8 @@ export class InsuranceTermComponent implements OnInit {
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedInsuranceTerm.id) }
     ];
+
+    
   }
 
 

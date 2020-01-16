@@ -1,3 +1,4 @@
+import { CommissionTypeService } from './services/api/commisionType.service';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -40,7 +41,8 @@ export class SharedModule {
         MaintenanceTypeService,
         SupplierService,
         VehicleCategoryService,
-        VehicleService
+        VehicleService,
+        CommissionTypeService
         ]
     };
   }

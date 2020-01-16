@@ -1,3 +1,5 @@
+import { BadgeTypeDriver } from './../../../shared/models/badge-Type-Driver';
+import { MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -28,6 +30,12 @@ export class DriverEditComponent implements OnInit {
   isFormSubmitted = false;
   fr: any;
 
+  items: MenuItem[];
+  searchQuery = '';
+
+  page = 0;
+  size = 8;
+  collectionSize: number;
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private badgeService: BadgeService,
@@ -37,6 +45,11 @@ export class DriverEditComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+
+    this.items = [
+      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
+      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedBadge.id) }
+    ];
 
     this.fr = {
       firstDayOfWeek: 1,
@@ -51,28 +64,28 @@ export class DriverEditComponent implements OnInit {
 
     this.initForm();
 
-    this.badgeService.findAll().subscribe(
+    /*this.badgeService.findAll().subscribe(
       data => {
         this.badgesList = data;
       }
-    );
+    );*/
+console.log("avant snapshot");
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
       this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
-          console.log("badge");
-          console.log(this.selectedDriver.badge.code);
-          
-          
+
+
+
           this.initForm();
         }
       );
     }
-   
-    
-    
+
+
+
 
   }
   initForm(close=false) {
@@ -85,20 +98,33 @@ export class DriverEditComponent implements OnInit {
         'code': new FormControl(this.selectedDriver.code, Validators.required),
         'dateNaissance': new FormControl(d),
         'visiteMedicale': new FormControl(dd),
-        'comission': new FormControl(this.selectedDriver.commission),
+       // 'comission': new FormControl(this.selectedDriver.commission),
         'nom': new FormControl(this.selectedDriver.name, Validators.required),
         'tele': new FormControl(this.selectedDriver.tele1),
         'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
-        'badge': new FormControl(this.selectedDriver.badge, Validators.required),
+        //'badge': new FormControl(this.selectedDriver.badge, Validators.required),
       }
     );
   }
-  loadBadge() {
+  loadBadge(search: string = '') {
+
+  }
+  loadDataLazy(event) {
+    //  this.loading = true;
+
+    // this.page = this.drivers.slice(event.first, (event.first + event.rows));
+    // this.loading = false;
+    this.page = event.first / this.size;
+
+    this.loadBadge(this.searchQuery);
+
   }
 
-
   onSubmitForm() {
+console.log("debut");
+console.log(this.driverForm);
+
 
     this.isFormSubmitted = true;
 
@@ -106,13 +132,15 @@ export class DriverEditComponent implements OnInit {
     if (this.driverForm.invalid) {
       return;
     }
+    console.log("apres");
+
     this.spinner.show();
     const formValue = this.driverForm.value;
     this.selectedDriver.cin = formValue['cin'];
     this.selectedDriver.code = formValue['code'];
     this.selectedDriver.birthDate = formValue['dateNaissance'];
     this.selectedDriver.lastMedicalVisit = formValue['visiteMedicale'];
-    this.selectedDriver.commission = formValue['comission'];
+ //   this.selectedDriver.commission = formValue['comission'];
     this.selectedDriver.name = formValue['nom'];
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
@@ -133,12 +161,53 @@ export class DriverEditComponent implements OnInit {
         this.toastr.error(error.error.message);
       }
     );
+    console.log("insertion driver ");
+    console.log(this.selectedDriver);
+
+
     this.spinner.hide();
     this.selectedDriver = new Driver();
     this.driverForm.reset();
   }
-  onSelectBadgeCode(event) {
-    this.selectedDriver.badge = event.value;
+
+
+  onLineEdited(line: BadgeTypeDriver) {
+
+    console.log(line.id);
+
+    this.selectedDriver.badgeTypeDrivers = this.selectedDriver.badgeTypeDrivers.filter(
+      p => p.badgeType.id  !== line.badgeType.id );
+
+    this.selectedDriver.badgeTypeDrivers.push(line);
+
+    console.log('line edited');
+
+    console.log(this.selectedDriver.badgeTypeDrivers);
+  }
+
+  onDeleteLine(line: BadgeTypeDriver) {
+
+    this.selectedDriver.badgeTypeDrivers = this.selectedDriver.badgeTypeDrivers.filter(
+      p => p.badgeType.id  !== line.badgeType.id );
+  }
+
+
+
+
+
+  onDeleteBadge(){
+
+
+  }
+  onDelete(id: number) {
+
+  }
+
+  onEdit() {
+    this.toastr.info('selected ');
+  }
+  onBqdgeAdd(event) {
+
   }
 }
 

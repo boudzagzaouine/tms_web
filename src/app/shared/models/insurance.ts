@@ -1,3 +1,4 @@
+import { InsuranceTermLigne } from './insurance-term-line';
 import { Supplier } from './supplier';
 import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';
@@ -15,5 +16,7 @@ export class Insurance {
   insuranceTerm: InsuranceTerm;
   supplier: Supplier;
   description: string;
-  vehicleCode:string;
+  vehicleCode: string;
+  insuranceTermLignes: InsuranceTermLigne[] = [];
+
 }

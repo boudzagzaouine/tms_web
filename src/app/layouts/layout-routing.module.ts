@@ -10,8 +10,11 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
-      { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
-
+     // { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
+     { path: 'commissions',
+      loadChildren: () => import('./commission-driver/commission-driver.module')
+      .then(m => m.CommissionDriverModule)
+    },
       {
         path: 'maintenances',
         loadChildren: () => import('./maintenance-plan/maintenance-plan.module')

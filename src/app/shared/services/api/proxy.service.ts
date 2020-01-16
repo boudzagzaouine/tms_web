@@ -135,6 +135,8 @@ export class ProxyService {
   set(controller: string, object: any): Observable<any> {
       const fullurl = this.url + controller + '/save?token=' + this.getToken();
       console.log(fullurl);
+      console.log(object);
+
       return this.http.put(
           this.url + controller + '/save?token=' + this.getToken(),
           object

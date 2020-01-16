@@ -34,6 +34,9 @@ import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance
 import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
 import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
 import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categorie-edit/vehicle-categorie-edit.component';
+import { CommissionTypeComponent } from './commission-type/commission-type.component';
+import { CommissionTypeEditComponent } from './commission-type/commission-type-edit/commission-type-edit.component';
+import {CheckboxModule} from 'primeng/checkbox';
 
 
 @NgModule({
@@ -56,7 +59,9 @@ import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categ
     ContractTypeComponent,
     ContractTypeEditComponent,
     VehicleCategorieComponent,
-    VehicleCategorieEditComponent
+    VehicleCategorieEditComponent,
+    CommissionTypeComponent,
+    CommissionTypeEditComponent
 
   ],
   imports: [
@@ -75,7 +80,8 @@ import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categ
     AutoCompleteModule,
     CalendarModule,
     InputTextModule,
-    KeyFilterModule
+    KeyFilterModule,
+    CheckboxModule
   ]
 })
 export class SettingsModule { }

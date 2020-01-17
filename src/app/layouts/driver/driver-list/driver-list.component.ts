@@ -1,3 +1,6 @@
+import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
+import { BadgeTypeDriverService } from './../../../shared/services/api/badge-type-driver.service';
+import { BadgeType } from './../../../shared/models/badge-Type';
 import { ToastrService } from 'ngx-toastr';
 import { Badge } from './../../../shared/models/badge';
 import { Driver } from './../../../shared/models/driver';
@@ -23,18 +26,19 @@ export class DriverListComponent implements OnInit {
   cinSearch: string;
   codeSearch: string;
   contratSearch: string;
-  badgeSearch: Badge;
-  selectedBadge: Badge;
+  badgeTypeSearch: BadgeType;
+  selectedBadgeType: BadgeType;
   loading: boolean;
 
   searchQuery = '';
   drivers: Array<Driver> = [];
-  badges: Array<Badge> = [];
-  badgesList: Array<Badge> = [];
+  //badges: Array<Badge> = [];
+  badgesTypeList: Array<BadgeType> = [];
 
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
-    private badgeService: BadgeService,
+    private badgeTypeService: BadgeTypeService,
+    private badgetypedriverService:BadgeTypeDriverService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrService) { }
 
@@ -46,11 +50,11 @@ export class DriverListComponent implements OnInit {
   }
   loadBadge() {
 
-    this.badgeService.findAll().subscribe(
+    this.badgeTypeService.findAll().subscribe(
 
       data => {
 
-        this.badgesList = data;
+        this.badgesTypeList = data;
       }
     );
 
@@ -91,6 +95,30 @@ export class DriverListComponent implements OnInit {
     );
   }
 
+  loadDataOfBD(search: string = '') {
+
+    console.log('loading data');
+
+    this.spinner.show();
+
+    this.badgetypedriverService.sizeSearch(search).subscribe(
+      data => {
+        console.log('data size : ' + data);
+
+        this.collectionSize = data;
+      }
+    );
+
+    this.badgetypedriverService.findPagination(this.page, this.size, search).subscribe(
+      data => {
+        this.drivers = data.map(b => b.driver);
+        this.spinner.hide();
+      },
+      error => { this.spinner.hide(); },
+      () => this.spinner.hide()
+    );
+  }
+
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
@@ -101,8 +129,8 @@ export class DriverListComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-    if (this.badgeSearch != null && this.badgeSearch.code != null && this.badgeSearch.code !== '') {
-      buffer.append(`badge.code~${this.badgeSearch.code}`);
+    if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
+      buffer.append(`badgeTypeDrivers.badgeType.code~${this.badgeTypeSearch.code}`);
     }
 
     this.page = 0;
@@ -113,10 +141,34 @@ export class DriverListComponent implements OnInit {
 
   }
 
+  onSeachDriverBadge() {
+    const buffer = new EmsBuffer();
+    if (this.cinSearch != null && this.cinSearch !== '') {
+      buffer.append(`driver.cin~${this.cinSearch}`);
+    }
+
+    if (this.codeSearch != null && this.codeSearch !== '') {
+      buffer.append(`driver.code~${this.codeSearch}`);
+    }
+    if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
+      buffer.append(`badgeType.code~${this.badgeTypeSearch.code}`);
+    }
+
+
+    this.page = 0;
+    const searchQuery = buffer.getValue();
+    console.log('search ' + searchQuery);
+
+    this.loadDataOfBD(searchQuery);
+
+
+
+  }
+
   reset() {
     this.codeSearch = null;
     this.cinSearch = null;
-    this.badgeSearch = null;
+    this.badgeTypeSearch = null;
     this.page = 0;
 
     this.searchQuery = '';

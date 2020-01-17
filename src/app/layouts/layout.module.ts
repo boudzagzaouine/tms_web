@@ -18,6 +18,7 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
     AppHeaderComponent,
     AppSidebarComponent,
     AppFooterComponent,
+
   ],
   exports: [
     LayoutComponent,

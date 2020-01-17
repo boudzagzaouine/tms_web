@@ -1,3 +1,4 @@
+import { BadgeTypeDriverService } from './services/api/badge-type-driver.service';
 import { CommissionTypeService } from './services/api/commisionType.service';
 
 import { NgModule } from '@angular/core';
@@ -42,7 +43,8 @@ export class SharedModule {
         SupplierService,
         VehicleCategoryService,
         VehicleService,
-        CommissionTypeService
+        CommissionTypeService,
+        BadgeTypeDriverService
         ]
     };
   }

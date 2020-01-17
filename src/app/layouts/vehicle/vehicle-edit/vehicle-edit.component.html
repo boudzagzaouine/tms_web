@@ -2,7 +2,7 @@
   <div class="card-header">
     <span class="h4">{{ "Editer Vehicule" | translate }}</span>
   </div>
-  <div class="card-body border-top-primary h-90" >
+  <div class="card-body border-top-primary" >
     <form [formGroup]="vehicleForm">
 
       <p-tabView>
@@ -298,7 +298,7 @@
 
 
               <p-table [value]="selectedInsurance?.insuranceTermLignes" [lazy]="true" [rows]="size" [paginator]="true"
-                [totalRecords]="selectedInsurance?.insuranceTermLignes?.length" [scrollable]="true" scrollHeight="40px">
+                [totalRecords]="selectedInsurance?.insuranceTermLignes?.length" >
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{'Term Assurance' | translate}}</th>
@@ -329,7 +329,7 @@
 
         </p-tabPanel>
       </p-tabView>
-      <div class="text-center mt-3" style="bottom: 10vh !important;">
+      <div class="text-center mt-3" >
         <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
           {{'Fermer' | translate}}
         </a>

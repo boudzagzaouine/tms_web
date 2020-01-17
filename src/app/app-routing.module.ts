@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: '**', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
   { path: 'CommissionDriver', loadChildren: () => import('./layouts/commission-driver/commission-driver.module').then(m => m.CommissionDriverModule) },
+  { path: 'consomption-driver', loadChildren: () => import('./layouts/consomption-driver/consomption-driver.module').then(m => m.ConsomptionDriverModule) },
 ];
 
 @NgModule({

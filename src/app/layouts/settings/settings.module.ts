@@ -37,6 +37,8 @@ import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categ
 import { CommissionTypeComponent } from './commission-type/commission-type.component';
 import { CommissionTypeEditComponent } from './commission-type/commission-type-edit/commission-type-edit.component';
 import {CheckboxModule} from 'primeng/checkbox';
+import { ConsomtionTypeComponent } from './consomtion-type/consomtion-type.component';
+import { ConsomtionTypeEditComponent } from './consomtion-type/consomtion-type-edit/consomtion-type-edit.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import {CheckboxModule} from 'primeng/checkbox';
     VehicleCategorieComponent,
     VehicleCategorieEditComponent,
     CommissionTypeComponent,
-    CommissionTypeEditComponent
+    CommissionTypeEditComponent,
+    ConsomtionTypeComponent,
+    ConsomtionTypeEditComponent,
 
   ],
   imports: [

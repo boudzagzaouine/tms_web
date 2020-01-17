@@ -16,10 +16,10 @@
       <div class="col-md-3 ">
         <label class="font-weight-bold ">Badge</label><br />
         <p-dropdown
-          [options]="badgesList"
+          [options]="badgesTypeList"
           optionLabel="code"
           [autoDisplayFirst]="false"
-          [(ngModel)]="badgeSearch"
+          [(ngModel)]="badgeTypeSearch"
         >
         </p-dropdown>
       </div>
@@ -32,7 +32,7 @@
         Renitialiser
       </button>
 
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <button type="button" class="btn btn-success" (click)="onSeachDriverBadge()">
         Rechercher
       </button>
     </div>
@@ -56,7 +56,7 @@
         <tr>
           <th>Code</th>
           <th>Cin</th>
-          <th>Badge</th>
+          <th>nom</th>
           <th style="width:10%">Action</th>
         </tr>
       </ng-template>
@@ -64,7 +64,7 @@
         <tr>
           <td>{{ drv?.code }}</td>
           <td>{{ drv?.cin }}</td>
-          <td>{{ drv?.badge?.code }}</td>
+          <td>{{ drv?.name }}</td>
           <td>
             <a
               [routerLink]="['/core/drivers/edit', drv.id]"

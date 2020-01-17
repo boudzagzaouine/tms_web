@@ -21,6 +21,7 @@ export class CommissionTypeComponent implements OnInit {
   codeSearch: string;
   items: MenuItem[];
   commissionTypeList: Array<CommissionType> = [];
+
   constructor(private commissionTypeService:CommissionTypeService,
      private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -32,6 +33,7 @@ export class CommissionTypeComponent implements OnInit {
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
       { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedCommmissionType.id) }
     ];
+
   }
 
 
@@ -41,12 +43,16 @@ export class CommissionTypeComponent implements OnInit {
     this.commissionTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
+        console.log(this.collectionSize);
+
       }
     );
     this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
         this.commissionTypeList = data;
+        console.log(this.commissionTypeList);
+
         this.spinner.hide();
       },
       error => {

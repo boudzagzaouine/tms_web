@@ -74,7 +74,7 @@ export class CommissionTypeEditComponent implements OnInit {
     if (!this.editMode) {
       this.selectedCommissionType = new CommissionType();
     }
-    // this.initForm();
+     this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

@@ -15,7 +15,11 @@
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
             <label class="font-weight-bold ">{{'Code' | translate}} *</label>
-
+            <span *ngIf="(commissionTypeForm.get('fCode').touched && commissionTypeForm.get('fCode').invalid) ||
+            (isFormSubmitted && commissionTypeForm.get('fCode').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              Ce Champs est obligatoire
+            </span>
             <br />
             <input type="text" class="form-control" formControlName="fCode" pInputText
               (keydown.space)="$event.preventDefault()" />
@@ -25,11 +29,7 @@
 
           <div class="form-group col-sm-12 ">
             <label class="font-weight-bold ">{{'Description'| translate}}</label><br />
-            <span *ngIf="(commissionTypeForm.get('fCode').touched && commissionTypeForm.get('fCode').invalid) ||
-            (isFormSubmitted && commissionTypeForm.get('fCode').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
-            </span>
+
             <input type="text" class="form-control" formControlName="fDescription" pInputText  />
 
           </div>

@@ -160,14 +160,14 @@
 
     <p-tabPanel header="Badges" [disabled]="true" >
       <ng-template pTemplate="content">
-        <app-badge-driver-edit [badgedriverList]='badgeDriverList' (commissionDriverForm)='badgeForm' (badgeDriverAdd)='onLineEditedBadge($event)'></app-badge-driver-edit>
+        <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [idDriver]='idDriver'></app-badge-driver-edit>
       </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Commission" [disabled]="true" >
 
       <ng-template pTemplate="content">
 
-        <app-driver-commission-edit  [commissiondriverList]='CommmissionDriverList' (badgeTypeDriverForm)='commissionForm' (commissionDriverAdd)='onLineEditedCommission($event)' ></app-driver-commission-edit>
+        <app-driver-commission-edit (commissionTypedriverListEdited)='onLoadCommission($event)' [idDriver]='idDriver'></app-driver-commission-edit>
       <br>
 <div class="text-center">
       <a

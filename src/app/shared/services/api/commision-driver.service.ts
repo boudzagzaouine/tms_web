@@ -10,10 +10,16 @@ export class CommissionDriverService  extends EmsService<CommissionDriver> {
 
 
 
+
   constructor(proxy: ProxyService) {
     super(proxy, 'commissions');
   }
 
 
+  onLoadCommission(badge : CommissionDriver[]){
+
+
+
+  }
 
 }

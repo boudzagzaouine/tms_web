@@ -1,3 +1,4 @@
+import { CommissionDriverService } from './services/api/commision-driver.service';
 import { InsuranceTypeTermsService } from './services/api/insurance-type-term.service';
 import { InsuranceTypeService } from './services/api/insurance-type.service';
 import { BadgeTypeDriverService } from './services/api/badge-type-driver.service';
@@ -48,7 +49,8 @@ export class SharedModule {
         CommissionTypeService,
         BadgeTypeDriverService,
         InsuranceTypeService,
-        InsuranceTypeTermsService
+        InsuranceTypeTermsService,
+        CommissionDriverService
         ]
     };
   }

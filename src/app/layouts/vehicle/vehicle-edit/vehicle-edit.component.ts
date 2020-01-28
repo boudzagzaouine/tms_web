@@ -329,6 +329,10 @@ openPrev() {
     this.selectedVehicleCategory = event.value;
     this.selectedVehicle.vehicleCategory = event.value;
     console.log(this.selectedVehicle.vehicleCategory);
+
+   
+
+
   }
 
 

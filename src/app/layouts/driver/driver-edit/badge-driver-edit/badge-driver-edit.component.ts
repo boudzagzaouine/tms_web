@@ -1,3 +1,4 @@
+import { BadgeTypeDriverService } from './../../../../shared/services/api/badge-type-driver.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BadgeTypeService } from './../../../../shared/services/api/badge-type.service';
@@ -16,13 +17,15 @@ export class BadgeDriverEditComponent implements OnInit {
 
    selectedBadgeDriver = new BadgeTypeDriver();
 
-  @Output() badgeDriverAdd = new EventEmitter<BadgeTypeDriver>();
+  badgeDriverAdd = new BadgeTypeDriver();
   selectedBadgeType = new BadgeType();
   closeResult: String;
   badgeTypeDriverForm: FormGroup;
   badgeTypeList: BadgeType[] = [];
-  @Input()badgedriverList: BadgeTypeDriver[] = [];
-fr: any;
+  badgeTypeDriverList: BadgeTypeDriver[] = [];
+  @Output()badgeTypedriverListEdit = new EventEmitter<BadgeTypeDriver[]>();
+  fr: any;
+  @Input() idDriver:number;
 
   isFormSubmitted = false;
   page = 0;
@@ -30,6 +33,7 @@ fr: any;
   collectionSize: number;
   searchQuery:string;
   constructor(private badgeTypeService: BadgeTypeService,
+    private badgeTypeDriverService:BadgeTypeDriverService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
@@ -45,11 +49,21 @@ fr: any;
       today: 'Aujourd hui',
       clear: 'Supprimer'
     };
-    console.log('avant comission  tye');
 
-  this.loadBadgetype();
+    this.loadBadgetype();
+    this.badgeTypeDriverService.find('driver.id:' + this.idDriver).subscribe(
+      data => {
+        this.badgeTypeDriverList = data;
+        console.log(this.idDriver);
 
-   console.log(this.badgeTypeList);
+        console.log(this.badgeTypeDriverList);
+
+      }
+    );
+
+
+
+
 
 
   }
@@ -75,74 +89,38 @@ console.log('debut');
     this.selectedBadgeDriver.badgeNumber = this.badgeTypeDriverForm.value['fNumBadge'];
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
-     console.log('Form bdge');
-    console.log(this.selectedBadgeDriver);
 
+    this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
+      p => p.badgeType.id  !== this.selectedBadgeDriver.badgeType.id );
 
+    this.badgeTypeDriverList.push(this.selectedBadgeDriver);
 
-    this.badgedriverList = this.badgedriverList.filter(
-      p => p.badgeType.id  !== this.selectedBadgeDriver.badgeType.id);
+   this.badgeTypedriverListEdit.emit(this.badgeTypeDriverList);
 
-       this.badgedriverList.push(this.selectedBadgeDriver);
-     this.badgeDriverAdd.emit(this.selectedBadgeDriver)
-
-
-
+     console.log( this.badgeTypedriverListEdit);
 
         this.isFormSubmitted = false;
     this.selectedBadgeDriver= new BadgeTypeDriver();
 
   }
-  /*onLineEdited(line: BadgeTypeDriver) {
+  /*onLineEdited() {
 
-    console.log(line.id);
+
 
     this.badgedriverList = this.badgedriverList.filter(
-      p => p.badgeType.id  !== line.badgeType.id );
+      p => p.badgeType.id  !== badgeL.badgeType.id );
 
-    this.badgedriverList.push(line);
+    this.badgedriverList.push(badgeL);
 
-    console.log('line edited');
 
-   // console.log(this.selectedDriver.badgeTypeDrivers);
   }*/
 
-  onDeleteLine(line: BadgeTypeDriver) {
+  onDeleteLine(badgeL: BadgeTypeDriver) {
 
-    this.badgedriverList = this.badgedriverList.filter(
-      p => p.badgeType.id  !== line.badgeType.id );
+    this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
+      p => p.badgeType.id  !== badgeL.badgeType.id );
 
-
-  }
-  loadBadge(search: string = '') {
-    this.spinner.show();
-    this.badgeTypeService.sizeSearch(search).subscribe(
-      data => {
-        this.collectionSize = data;
-      }
-    );
-    this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
-      data => {
-
-        this.badgeTypeList = data;
-        this.spinner.hide();
-      },
-      error => {
-
-
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
-    );
-  }
-  loadDataLazy(event) {
-    //  this.loading = true;
-
-    // this.page = this.drivers.slice(event.first, (event.first + event.rows));
-    // this.loading = false;
-    this.page = event.first / this.size;
-
-    this.loadBadge(this.searchQuery);
+      this.badgeTypedriverListEdit.emit(this.badgeTypeDriverList);
 
   }
 

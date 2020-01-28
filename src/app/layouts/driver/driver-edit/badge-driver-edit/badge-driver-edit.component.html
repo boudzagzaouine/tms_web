@@ -90,12 +90,11 @@ formControlName="DateFin"
   </div>
   <div class="card-body  border-top-primary">
     <p-table
-     [value]="badgedriverList"
+     [value]="badgeTypeDriverList"
       [lazy]="true"
-      (onLazyLoad)="loadDataLazy($event)"
       [rows]="size"
       [paginator]="true"
-      [totalRecords]="badgedriverList?.length"
+      [totalRecords]="badgeTypeDriverList?.length"
     >
       <ng-template pTemplate="header">
         <tr>

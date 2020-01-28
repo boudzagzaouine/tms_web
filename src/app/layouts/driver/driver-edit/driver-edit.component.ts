@@ -9,8 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Badge, Driver, Contact } from './../../../shared/models';
 
 import { DriverService } from '../../../shared/services/api/driver.service';
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 
 
 
@@ -22,16 +23,14 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 export class DriverEditComponent implements OnInit {
 
   driverForm: FormGroup;
-  selectedContact = new Contact();
   selectedDriver: Driver = new Driver();
   badgesList: Array<Badge> = [];
-  selectedBadge: Badge;
-  idDriver: number;
   isFormSubmitted = false;
   fr: any;
-  @Input()commissiondriverList: CommissionDriver[] = [];
-  badgeDriverList: BadgeTypeDriver[] = [];
-  CommmissionDriverList: CommissionDriver[] = [];
+   idDriver :number;
+
+  badgeDriverListEdited: BadgeTypeDriver[] = [];
+  commissionDriverListEdited: CommissionDriver[] = [];
   items: MenuItem[];
   searchQuery = '';
   commissionForm : FormGroup;
@@ -76,8 +75,7 @@ console.log("avant snapshot");
       this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
-      this.badgeDriverList=this.selectedDriver.badgeTypeDrivers;
-   this.CommmissionDriverList=this.selectedDriver.commissions;
+
     console.log(this.selectedDriver);
 
           this.initForm();
@@ -104,7 +102,7 @@ console.log("avant snapshot");
         'tele': new FormControl(this.selectedDriver.tele1),
         'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
-        'carte': new FormControl(this.selectedDriver.email),
+        'carte': new FormControl(this.selectedDriver.carte),
 
         //'badge': new FormControl(this.selectedDriver.badge, Validators.required),
       }
@@ -137,6 +135,23 @@ console.log("avant snapshot");
 
 
    }
+
+}
+onLoadCommission(commission:CommissionDriver[]){
+console.log("commission");
+
+  console.log(commission.length);
+console.log(commission);
+this.commissionDriverListEdited=commission;
+this.selectedDriver.commissions=this.commissionDriverListEdited;
+
+}
+onLoadBadge(badge:BadgeTypeDriver[]){
+  console.log("badge");
+console.log(badge.length);
+console.log(badge);
+this.badgeDriverListEdited = badge;
+this.selectedDriver.badgeTypeDrivers=this.badgeDriverListEdited;
 
 }
 
@@ -193,48 +208,16 @@ console.log(this.driverForm);
         this.toastr.error(error.error.message);
       }
     );
-    console.log("insertion driver ");
-    console.log(this.selectedDriver);
+
 
 
     this.spinner.hide();
     this.selectedDriver = new Driver();
-   // this.driverForm.reset();
+    //this.driverForm.reset();
   }
 
 
-  onLineEditedBadge(badge: BadgeTypeDriver) {
 
-    console.log(badge.id);
-
-   /* this.selectedDriver.badgeTypeDrivers = this.selectedDriver.badgeTypeDrivers.filter(
-      p => p.badgeType.id  !== line.badgeType.id );*/
-
-    this.selectedDriver.badgeTypeDrivers.push(badge);
-    console.log(this.selectedDriver.badgeTypeDrivers);
-
-
-  }
-  onLineEditedCommission(commision: CommissionDriver) {
-
-    console.log(commision.id);
-
-
-
-    /*this.selectedDriver.commissionTypeDrivers = this.selectedDriver.commissionTypeDrivers.filter(
-      p => p.commissionType.id  !== line.commissionType.id );*/
-
-    this.selectedDriver.commissions.push(commision);
-   console.log(this.selectedDriver.commissions);
-
-
-  }
-
-  onDeleteLine(line: BadgeTypeDriver) {
-
-    this.selectedDriver.badgeTypeDrivers = this.selectedDriver.badgeTypeDrivers.filter(
-      p => p.badgeType.id  !== line.badgeType.id );
-  }
 
 
 

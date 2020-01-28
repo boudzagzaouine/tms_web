@@ -1,0 +1,81 @@
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">Editer Type d&acute;assurance</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body border-top-primary">
+    <div class="card-body ">
+      <form [formGroup]="insuranceTypeForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-md-6">
+            <label>{{'Code' | translate}}*</label>
+            <span *ngIf="(insuranceTypeForm.get('code').touched && insuranceTypeForm.get('code').invalid) ||
+            (isFormSubmitted && insuranceTypeForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>{{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
+          </div>
+          <div class="col-md-3"></div>
+
+        </div>
+      </form>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header " style=" background-color:#f7f7f7;">
+        <span>Liste  Termes d&acute;assurance</span>
+         <span class="pull-right">
+          <app-term-edit [editMode]="false"  (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
+        </span>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table  [value]="selectedinsuranceType?.insuranceTypeTermsSet" [lazy]="true" [rows]="size" [paginator]="true"
+        [totalRecords]="selectedinsuranceType?.insuranceTypeTermsSet?.length" >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Code</th>
+              <th>prix</th>
+              <th style="width:15%">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-insuranceTerms>
+            <tr>
+              <td>{{insuranceTerms?.insuranceTerm?.code}}</td>
+              <td>{{insuranceTerms?.amount}}</td>
+              <td>
+                <app-term-edit [editMode]="true" [selectedinsuranceTypeTerm]="insuranceTerms" [editMode]="true"
+                (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
+                <button type="button" (click)="onDeleteLine(insuranceTerms)" class="btn btn-sm btn-danger mx-1">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer pull-right ">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()" >
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>

@@ -24,7 +24,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste des Catégories de Véhicules</span>
+    <span>Liste  Catégories des Véhicules</span>
     <span class="pull-right">
       <app-vehicle-categorie-edit [editMode]="false"  (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
     </span>
@@ -36,7 +36,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th>{{'Code' | translate}}</th>
-          <th>{{'Consomation' | translate}}</th>
+          <th>{{'Type Assurance' | translate}}</th>
           <th>{{'Poids' | translate}}</th>
           <th>{{'Largeur' | translate}}</th>
           <th>{{'Profondeur' | translate}}</th>
@@ -47,7 +47,7 @@
       <ng-template pTemplate="body" let-categorie>
         <tr>
           <td>{{categorie?.code}}</td>
-          <td>{{categorie?.consumption}}</td>
+          <td>{{categorie?.insuranceType?.code}}</td>
           <td>{{categorie?.weight}}</td>
           <td>{{categorie?.width}}</td>
           <td>{{categorie?.depth}}</td>

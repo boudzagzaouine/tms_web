@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">Editer Term Assurance</h4>
+    <h5 class="modal-title" id="modal-basic-title">Editer Terme Assurance</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,7 +18,7 @@
             <span *ngIf="(insuranceTermForm.get('code').touched && insuranceTermForm.get('code').invalid) ||
             (isFormSubmitted && insuranceTermForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="code" (keydown.space)="$event.preventDefault()"/>

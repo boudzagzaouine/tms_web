@@ -1,31 +1,35 @@
-import { BadgeTypeService } from './../../../../shared/services/api/badge-type.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BadgeTypeService } from './../../../../shared/services/api/badge-type.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BadgeTypeDriver } from './../../../../shared/models/badge-Type-Driver';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { BadgeType } from './../../../../shared/models/badge-Type';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-driver-badgetype-line-edit',
-  templateUrl: './driver-badgetype-line-edit.component.html',
-  styleUrls: ['./driver-badgetype-line-edit.component.css']
+  selector: 'app-badge-driver-edit',
+  templateUrl: './badge-driver-edit.component.html',
+  styleUrls: ['./badge-driver-edit.component.css']
 })
-export class DriverBadgetypeLineEditComponent implements OnInit {
+export class BadgeDriverEditComponent implements OnInit {
 
-  @Input() selectedBadgeDriver = new BadgeTypeDriver();
-  @Input() editMode: boolean;
+
+   selectedBadgeDriver = new BadgeTypeDriver();
+
   @Output() badgeDriverAdd = new EventEmitter<BadgeTypeDriver>();
   selectedBadgeType = new BadgeType();
   closeResult: String;
   badgeTypeDriverForm: FormGroup;
   badgeTypeList: BadgeType[] = [];
+  @Input()badgedriverList: BadgeTypeDriver[] = [];
 fr: any;
-  modal: NgbModalRef;
+
   isFormSubmitted = false;
+  page = 0;
+  size = 8;
+  collectionSize: number;
+  searchQuery:string;
   constructor(private badgeTypeService: BadgeTypeService,
-    private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
@@ -41,9 +45,11 @@ fr: any;
       today: 'Aujourd hui',
       clear: 'Supprimer'
     };
-    console.log('avant badge tye');
+    console.log('avant comission  tye');
 
   this.loadBadgetype();
+
+   console.log(this.badgeTypeList);
 
 
   }
@@ -64,50 +70,82 @@ console.log('debut');
     this.isFormSubmitted = true;
     if (this.badgeTypeDriverForm.invalid) { return; }
 
-    this.spinner.show();
+
 
     this.selectedBadgeDriver.badgeNumber = this.badgeTypeDriverForm.value['fNumBadge'];
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
-     console.log('Form');
+     console.log('Form bdge');
     console.log(this.selectedBadgeDriver);
 
-    this.badgeDriverAdd.emit(this.selectedBadgeDriver);
 
-    if (this.modal) {
-      this.modal.close();
-    }
+
+    this.badgedriverList = this.badgedriverList.filter(
+      p => p.badgeType.id  !== this.selectedBadgeDriver.badgeType.id);
+
+       this.badgedriverList.push(this.selectedBadgeDriver);
+     this.badgeDriverAdd.emit(this.selectedBadgeDriver)
+
+
+
 
         this.isFormSubmitted = false;
+    this.selectedBadgeDriver= new BadgeTypeDriver();
+
+  }
+  /*onLineEdited(line: BadgeTypeDriver) {
+
+    console.log(line.id);
+
+    this.badgedriverList = this.badgedriverList.filter(
+      p => p.badgeType.id  !== line.badgeType.id );
+
+    this.badgedriverList.push(line);
+
+    console.log('line edited');
+
+   // console.log(this.selectedDriver.badgeTypeDrivers);
+  }*/
+
+  onDeleteLine(line: BadgeTypeDriver) {
+
+    this.badgedriverList = this.badgedriverList.filter(
+      p => p.badgeType.id  !== line.badgeType.id );
+
+
+  }
+  loadBadge(search: string = '') {
+    this.spinner.show();
+    this.badgeTypeService.sizeSearch(search).subscribe(
+      data => {
+        this.collectionSize = data;
+      }
+    );
+    this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
+      data => {
+
+        this.badgeTypeList = data;
         this.spinner.hide();
+      },
+      error => {
 
+
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+  loadDataLazy(event) {
+    //  this.loading = true;
+
+    // this.page = this.drivers.slice(event.first, (event.first + event.rows));
+    // this.loading = false;
+    this.page = event.first / this.size;
+
+    this.loadBadge(this.searchQuery);
 
   }
 
-
-
-  open(content) {
-    if (!this.editMode) {
-      this.selectedBadgeDriver = new BadgeTypeDriver();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true});
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
   loadBadgetype() {
     this.badgeTypeService.findAll().subscribe(
@@ -128,4 +166,5 @@ console.log('debut');
     console.log(this.selectedBadgeDriver.badgeType);
 
   }
+
 }

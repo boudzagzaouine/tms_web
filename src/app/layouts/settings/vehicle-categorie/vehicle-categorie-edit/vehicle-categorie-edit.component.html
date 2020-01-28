@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">{{'Editer  Catégorie de la Véhicule' | translate}}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{'Editer  Catégorie Véhicule' | translate}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,16 +18,29 @@
             <span *ngIf="(vehicleCategoryForm.get('Fcode').touched && vehicleCategoryForm.get('Fcode').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Fcode').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+              obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="Fcode"  />
           </div>
 
           <div class="form-group col-sm-6">
+            <label class="font-weight-bold ">{{'Type Assurance' | translate}}*</label>
+            <span *ngIf="(vehicleCategoryForm.get('FIType').touched && vehicleCategoryForm.get('FIType').invalid) ||
+                (isFormSubmitted && vehicleCategoryForm.get('FIType').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              obligatoire
+            </span><br />
+            <p-dropdown [autoDisplayFirst]="false"  [options]="insuranceTypeList" optionLabel="code"
+            formControlName="FIType" (onChange)="onSelectInsuranceType($event)" [filter]="true" [showClear]="true">
+          </p-dropdown>
+          </div>
+
+
+          <!-- <div class="form-group col-sm-6">
             <label class="font-weight-bold ">{{'consomation' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="Fconsumption" pKeyFilter="num"/>
-          </div>
+          </div> -->
 
         </div>
         <div class="row justify-content-around">
@@ -41,7 +54,7 @@
             <span *ngIf="(vehicleCategoryForm.get('Fwidth').touched && vehicleCategoryForm.get('Fwidth').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Fwidth').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="Fwidth" pKeyFilter="num"/>
@@ -55,7 +68,7 @@
             <span *ngIf="(vehicleCategoryForm.get('Fdepth').touched && vehicleCategoryForm.get('Fdepth').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Fdepth').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="Fdepth" pKeyFilter="num">
@@ -66,7 +79,7 @@
             <span *ngIf="(vehicleCategoryForm.get('Ftonnage').touched && vehicleCategoryForm.get('Ftonnage').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('Ftonnage').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+             obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="Ftonnage" pKeyFilter="num">
@@ -79,7 +92,7 @@
             <span *ngIf="(vehicleCategoryForm.get('FemptyWeight').touched && vehicleCategoryForm.get('FemptyWeight').invalid) ||
             (isFormSubmitted && vehicleCategoryForm.get('FemptyWeight').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+             obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="FemptyWeight" pKeyFilter="num">

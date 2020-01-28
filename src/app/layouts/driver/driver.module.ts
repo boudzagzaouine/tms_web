@@ -1,3 +1,4 @@
+import { TabViewModule } from 'primeng/tabview';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -19,13 +20,14 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { DriverEditComponent } from './driver-edit/driver-edit.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
-import { DriverBadgetypeLineEditComponent } from './driver-edit/driver-badgetype-line-edit/driver-badgetype-line-edit.component';
+import { BadgeDriverEditComponent } from './driver-edit/badge-driver-edit/badge-driver-edit.component';
+import { DriverCommissionEditComponent } from './driver-edit/driver-commission-edit/driver-commission-edit.component';
 
 
 
 
 @NgModule({
-  declarations: [DriverComponent , DriverListComponent, DriverEditComponent, DriverBadgetypeLineEditComponent],
+  declarations: [DriverComponent , DriverListComponent, DriverEditComponent, BadgeDriverEditComponent, DriverCommissionEditComponent],
   imports: [
     CommonModule,
     DriverRoutingModule,
@@ -42,7 +44,8 @@ import { DriverBadgetypeLineEditComponent } from './driver-edit/driver-badgetype
     ConfirmDialogModule,
      KeyFilterModule,
      ContextMenuModule,
-     NgbModalModule
+     NgbModalModule,
+     TabViewModule
 
   ]
 })

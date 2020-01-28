@@ -1,3 +1,6 @@
+import { MenuItem, MessageService } from 'primeng/api';
+import { InsuranceTypeService } from './../../../shared/services/api/insurance-type.service';
+import { InsuranceType } from './../../../shared/models/insurance-Type';
 import { InsuranceTermLigne } from './../../../shared/models/insurance-term-line';
 import { ToastrService } from 'ngx-toastr';
 import { InsuranceTermService } from './../../../shared/services/api/insurance-term.service';
@@ -21,6 +24,7 @@ import { ContractType, Supplier, InsuranceTerm } from '../../../shared/models';
 @Component({
   selector: 'app-vehicle-edit',
   templateUrl: './vehicle-edit.component.html',
+   providers: [MessageService],
   styleUrls: ['./vehicle-edit.component.css']
 })
 export class VehicleEditComponent implements OnInit {
@@ -40,7 +44,10 @@ export class VehicleEditComponent implements OnInit {
   contractTypeList: ContractType[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
   supplierList: Supplier[] = [];
+  insuranceTypeList: InsuranceType[] = [];
   inssuranceTermList: InsuranceTerm[] = [];
+
+  index: number = 0;
 
 
   myLinesList: Array<InsuranceTermLigne> = new Array<InsuranceTermLigne>();
@@ -59,10 +66,13 @@ export class VehicleEditComponent implements OnInit {
     private supplierService: SupplierService,
     private insuranceTermService: InsuranceTermService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private insuranceTypeService:InsuranceTypeService
   ) { }
 
   ngOnInit() {
+
+
     this.fr = {
       firstDayOfWeek: 1,
       dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],
@@ -140,6 +150,12 @@ export class VehicleEditComponent implements OnInit {
 
       }
     );
+    this.insuranceTypeService.findAll().subscribe(
+      data => {
+        this.insuranceTypeList = data;
+      }
+    );
+
     /*  this.insuranceService.findAll().subscribe(
        data => {
          this.insuranceList = data;
@@ -150,6 +166,14 @@ export class VehicleEditComponent implements OnInit {
          }
        });*/
   }
+
+  openNext() {
+    this.index = (this.index === 3) ? 0 : this.index + 1;
+}
+
+openPrev() {
+    this.index = (this.index === 0) ? 2 : this.index - 1;
+}
 
   onLineEdited(line: InsuranceTermLigne) {
 
@@ -202,7 +226,8 @@ export class VehicleEditComponent implements OnInit {
       'FdesiccantFilter': new FormControl(this.selectedVehicle.desiccantFilter),
 
       'FIcode': new FormControl(this.selectedInsurance.code, Validators.required),
-      'FIdescription': new FormControl(this.selectedInsurance.description),
+    //  'FIdescription': new FormControl(this.selectedInsurance.description),
+    'FIType': new FormControl(this.selectedInsurance.insuranceType),
       'FIstartDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
       'FIendDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'FIMontant': new FormControl(this.selectedInsurance.amount, Validators.required),
@@ -315,6 +340,10 @@ export class VehicleEditComponent implements OnInit {
   onSelectsupplier(event: any) {
     console.log(event);
     this.selectedInsurance.supplier = event.value;
+  }
+  onSelectInsuranceType(event: any) {
+    console.log(event);
+    this.selectedInsurance.insuranceType = event.value;
   }
   onSelectinssuranceTerm(event: any) {
     console.log(event);

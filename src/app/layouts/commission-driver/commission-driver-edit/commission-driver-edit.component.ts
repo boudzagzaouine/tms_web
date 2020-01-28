@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommissionType } from './../../../shared/models/commissionType';
 import { FormGroup } from '@angular/forms';
-import { Commission } from './../../../shared/models/commission';
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -14,9 +14,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CommissionDriverEditComponent implements OnInit {
 
 
-  @Input() selectedcommission = new Commission();
+  //@Input() selectedcommission = new Commission();
   @Input() editMode: boolean;
-  @Output() commissionAdd = new EventEmitter<Commission>();
+ // @Output() commissionAdd = new EventEmitter<Commission>();
 
   closeResult: String;
   commissionForm: FormGroup;
@@ -45,7 +45,7 @@ export class CommissionDriverEditComponent implements OnInit {
   }
   open(content) {
     if (!this.editMode) {
-      this.selectedcommission = new Commission();
+    //  this.selectedcommission = new Commission();
     }
      this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });

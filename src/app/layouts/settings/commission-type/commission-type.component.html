@@ -25,7 +25,7 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des Types Commission</span>
+    <span>Liste  Types Commissions</span>
     <span class="pull-right">
       <app-commission-type-edit [editMode]="false" (commissionTypeAdd)="onCommissionTypeAdded($event)"></app-commission-type-edit>
     </span>
@@ -38,6 +38,7 @@
         <tr>
           <th>Code</th>
           <th>Description</th>
+          <th>Montant</th>
 
           <th style="width:10%">Actions</th>
         </tr>
@@ -46,6 +47,8 @@
         <tr>
              <td>{{commissionT?.code}}</td>
              <td>{{commissionT?.description}}</td>
+             <td>{{commissionT?.percentage}}</td>
+
           <td>
       <app-commission-type-edit [editMode]="true" [selectedCommissionType]="commissionT" (commissionTypeAdd)="onCommissionTypeAdded($event)"  ></app-commission-type-edit>
 

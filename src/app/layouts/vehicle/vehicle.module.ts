@@ -20,7 +20,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import {TabViewModule} from 'primeng/tabview';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import { VehiculeEditLineComponent } from './vehicle-edit/vehicule-edit-line/vehicule-edit-line.component';
-
+import {StepsModule} from 'primeng/steps';
 @NgModule({
   declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent, VehiculeEditLineComponent, ],
   imports: [
@@ -43,7 +43,8 @@ import { VehiculeEditLineComponent } from './vehicle-edit/vehicule-edit-line/veh
     NgxSpinnerModule,
     ConfirmDialogModule,
     ContextMenuModule,
-    
+    StepsModule
+
   ]
 })
 export class VehicleModule { }

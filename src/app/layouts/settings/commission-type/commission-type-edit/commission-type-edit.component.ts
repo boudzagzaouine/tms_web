@@ -37,7 +37,9 @@ export class CommissionTypeEditComponent implements OnInit {
   initForm() {
     this.commissionTypeForm = new FormGroup({
       'fCode': new FormControl(this.selectedCommissionType.code, Validators.required),
-      'fDescription': new FormControl(this.selectedCommissionType.description)
+      'fDescription': new FormControl(this.selectedCommissionType.description),
+            'fAmount': new FormControl(this.selectedCommissionType.percentage,Validators.required)
+
     });
   }
 
@@ -50,7 +52,7 @@ export class CommissionTypeEditComponent implements OnInit {
 
     this.selectedCommissionType.code = this.commissionTypeForm.value['fCode'];
     this.selectedCommissionType.description = this.commissionTypeForm.value['fDescription'];
-    this.selectedCommissionType.percentage = 5;
+    this.selectedCommissionType.percentage = this.commissionTypeForm.value['fAmount'];
 
     this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {

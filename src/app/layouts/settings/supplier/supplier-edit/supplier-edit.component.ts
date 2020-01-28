@@ -42,20 +42,20 @@ export class SupplierEditComponent implements OnInit {
   initForm() {
 
     this.supplierForm = new FormGroup({
-      'code': new FormControl(this.selectedSupplier.code, Validators.required),
-      'description': new FormControl(this.selectedSupplier.description),
-      'name': new FormControl(this.selectedContact.name, Validators.required),
-      'surName': new FormControl(this.selectedContact.surname),
-      'tel1': new FormControl(this.selectedContact.tel1),
-      'tel2': new FormControl(this.selectedContact.tel2),
-      'fax': new FormControl(this.selectedContact.fax),
-      'email': new FormControl(this.selectedContact.email),
-      'addrCode': new FormControl(this.selectedAddress.code, Validators.required),
-      'line1': new FormControl(this.selectedAddress.line1, Validators.required),
-      'line2': new FormControl(this.selectedAddress.line2),
-      'zipCode': new FormControl(this.selectedAddress.zip),
-      'city': new FormControl(this.selectedAddress.city),
-      'country': new FormControl(this.selectedAddress.country)
+      'code': new FormControl({value:this.selectedSupplier.code, disabled: true}, Validators.required),
+      'description': new FormControl({value:this.selectedSupplier.description, disabled: true}),
+      'name': new FormControl({value:this.selectedContact.name, disabled: true}, Validators.required),
+      'surName': new FormControl({value:this.selectedContact.surname, disabled: true}),
+      'tel1': new FormControl({value:this.selectedContact.tel1, disabled: true}),
+      'tel2': new FormControl({value:this.selectedContact.tel2, disabled: true}),
+      'fax': new FormControl({value:this.selectedContact.fax, disabled: true}),
+      'email': new FormControl({value:this.selectedContact.email, disabled: true}),
+      'addrCode': new FormControl({value:this.selectedAddress.code, disabled: true}, Validators.required),
+      'line1': new FormControl({value:this.selectedAddress.line1, disabled: true}, Validators.required),
+      'line2': new FormControl({value:this.selectedAddress.line2, disabled: true}),
+      'zipCode': new FormControl({value:this.selectedAddress.zip, disabled: true}),
+      'city': new FormControl({value:this.selectedAddress.city, disabled: true}),
+      'country': new FormControl({value:this.selectedAddress.country, disabled: true})
     });
   }
   onSubmit() {

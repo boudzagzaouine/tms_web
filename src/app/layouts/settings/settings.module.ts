@@ -39,6 +39,9 @@ import { CommissionTypeEditComponent } from './commission-type/commission-type-e
 import {CheckboxModule} from 'primeng/checkbox';
 import { ConsomtionTypeComponent } from './consomtion-type/consomtion-type.component';
 import { ConsomtionTypeEditComponent } from './consomtion-type/consomtion-type-edit/consomtion-type-edit.component';
+import { InsuranceTypeComponent } from './insurance-type/insurance-type.component';
+import { InsuranceTypeEditComponent } from './insurance-type/insurance-type-edit/insurance-type-edit.component';
+import { TermEditComponent } from './insurance-type/insurance-type-edit/term-edit/term-edit.component';
 
 
 @NgModule({
@@ -66,6 +69,10 @@ import { ConsomtionTypeEditComponent } from './consomtion-type/consomtion-type-e
     CommissionTypeEditComponent,
     ConsomtionTypeComponent,
     ConsomtionTypeEditComponent,
+    InsuranceTypeComponent,
+    InsuranceTypeEditComponent,
+    TermEditComponent,
+
 
   ],
   imports: [

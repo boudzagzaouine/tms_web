@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">{{'Editer Contrat' | translate}}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{'Editer Type  Contrat' | translate}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,7 +18,7 @@
             <span *ngIf="(contractTypeForm.get('code').touched && contractTypeForm.get('code').invalid) ||
             (isFormSubmitted && contractTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="code" (keydown.space)="$event.preventDefault()"

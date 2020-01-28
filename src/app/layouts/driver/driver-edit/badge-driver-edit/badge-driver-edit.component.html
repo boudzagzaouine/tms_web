@@ -1,0 +1,132 @@
+<div >
+  <div class="card-body ">
+    <form [formGroup]="badgeTypeDriverForm">
+
+      <div class="row  justify-content-around">
+
+        <div class="form-group col-md-6 ">
+          <label class="font-weight-bold ">{{'Type Badge '| translate}} *</label>
+          <span *ngIf="(badgeTypeDriverForm.get('fBadgeType').touched && badgeTypeDriverForm.get('fBadgeType').invalid) ||
+          (isFormSubmitted && badgeTypeDriverForm.get('fBadgeType').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            obligatoire
+          </span>
+          <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
+            (onChange)="onSelectBadgeType($event)" formControlName="fBadgeType"></p-dropdown>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label class="font-weight-bold ">{{'Numero Badge' | translate}} *</label>
+          <span *ngIf="(badgeTypeDriverForm.get('fNumBadge').touched && badgeTypeDriverForm.get('fNumBadge').invalid) ||
+          (isFormSubmitted && badgeTypeDriverForm.get('fNumBadge').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+             obligatoire
+          </span>
+
+          <input type="text" class="form-control" pInputText
+            (keydown.space)="$event.preventDefault()"  formControlName="fNumBadge"/>
+        </div>
+
+      </div>
+
+      <div  class="row  justify-content-around">
+        <div class="form-group col-md-6">
+          <label class="font-weight-bold ">{{
+            "Date de délivrance" | translate
+          }}*</label>
+          <span *ngIf="(badgeTypeDriverForm.get('fDateDelivrance').touched && badgeTypeDriverForm.get('fDateDelivrance').invalid) ||
+          (isFormSubmitted && badgeTypeDriverForm.get('fDateDelivrance').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+           obligatoire
+          </span>
+
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            [locale]="fr"
+            formControlName="fDateDelivrance"
+            yearRange="1970:2100"
+          ></p-calendar>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label class="font-weight-bold ">{{
+            "Date de Fin de Validité" | translate
+          }}*</label>
+          <span *ngIf="(badgeTypeDriverForm.get('DateFin').touched && badgeTypeDriverForm.get('DateFin').invalid) ||
+          (isFormSubmitted && badgeTypeDriverForm.get('DateFin').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+           obligatoire
+          </span>
+          <br />
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            [locale]="fr"
+formControlName="DateFin"
+            yearRange="1970:2100"
+          ></p-calendar>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="text-center">
+
+    <button type="button" class="btn btn-primary mr-1" >
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success mr-1" (click)="OnSubmitForm()">
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des badges </span>
+
+  </div>
+  <div class="card-body  border-top-primary">
+    <p-table
+     [value]="badgedriverList"
+      [lazy]="true"
+      (onLazyLoad)="loadDataLazy($event)"
+      [rows]="size"
+      [paginator]="true"
+      [totalRecords]="badgedriverList?.length"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Type Badge</th>
+          <th>Badge Number</th>
+          <th>Date Délivrance</th>
+          <th>Date Date de Fin De Validité</th>
+          <th style="width:10%">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-badgeL>
+        <tr>
+          <td>{{ badgeL?.badgeType?.code}}</td>
+          <td>{{ badgeL?.badgeNumber }}</td>
+          <td>{{ badgeL?.deliveranceDate | date: 'dd-MM-yyyy'}}</td>
+          <td>{{ badgeL?.validityEndDate | date: 'dd-MM-yyyy'}}</td>
+          <td>
+
+            <button
+              type="button"
+              (click)="onDeleteLine(badgeL)"
+              class="btn btn-sm btn-danger"
+            >
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+
+</div>
+

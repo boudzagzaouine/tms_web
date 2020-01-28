@@ -1,13 +1,19 @@
+import { BadgeTypeDriver } from './../../models/badge-Type-Driver';
+import { CommissionDriver } from './../../models/commission-driver';
 import { EmsService } from './ems.service';
 import { Injectable } from '@angular/core';
 import { ProxyService } from './proxy.service';
-import { Commission } from '../../models/commission';
+
 
 @Injectable()
-export class CommissionService  extends EmsService<Commission> {
+export class CommissionDriverService  extends EmsService<CommissionDriver> {
+
+
 
   constructor(proxy: ProxyService) {
     super(proxy, 'commissions');
   }
+
+
 
 }

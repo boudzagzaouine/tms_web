@@ -1,3 +1,5 @@
+import { InsuranceTypeTermsService } from './services/api/insurance-type-term.service';
+import { InsuranceTypeService } from './services/api/insurance-type.service';
 import { BadgeTypeDriverService } from './services/api/badge-type-driver.service';
 import { CommissionTypeService } from './services/api/commisionType.service';
 
@@ -44,7 +46,9 @@ export class SharedModule {
         VehicleCategoryService,
         VehicleService,
         CommissionTypeService,
-        BadgeTypeDriverService
+        BadgeTypeDriverService,
+        InsuranceTypeService,
+        InsuranceTypeTermsService
         ]
     };
   }

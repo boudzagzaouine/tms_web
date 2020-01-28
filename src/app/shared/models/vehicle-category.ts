@@ -1,3 +1,4 @@
+import { InsuranceType } from './insurance-Type';
 
 export class VehicleCategory {
 
@@ -10,5 +11,6 @@ export class VehicleCategory {
   tonnage: number;
   emptyWeight: number;
   totalWeight: number;
+  insuranceType :InsuranceType;
 
 }

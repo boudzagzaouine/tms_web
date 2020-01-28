@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { VehicleService } from './../../../../shared/services/api/vehicle.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
@@ -11,7 +12,8 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './insurance-edit.component.html',
   styleUrls: ['./insurance-edit.component.css']
 })
-export class InsuranceEditComponent implements OnInit {
+export class InsuranceEditComponent implements OnInit ,OnDestroy {
+
   @Input() selectedInsurance = new Insurance();
   @Input() editMode: boolean;
   @Output() insuranceAdd = new EventEmitter<Insurance>();
@@ -23,7 +25,7 @@ export class InsuranceEditComponent implements OnInit {
   isFormSubmitted = false;
 
   modal: NgbModalRef;
-
+ vSsubscrition : Subscription;
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTypeService: InsuranceTermService,
@@ -40,7 +42,7 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
 
-    this.vehicleService.findAll().subscribe(
+  this.vSsubscrition=  this.vehicleService.findAll().subscribe(
       data => {
         this.vehicleList = data;
       }
@@ -153,4 +155,11 @@ export class InsuranceEditComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+
+    if(this.vSsubscrition != null)
+    {
+      this.vSsubscrition.unsubscribe();
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Commission } from './../../shared/models/commission';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommissionDriverComponent implements OnInit {
 
-  selectedCommission: Commission;
+  //selectedCommission: Commission;
   items: MenuItem[];
   constructor(private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -21,7 +20,7 @@ export class CommissionDriverComponent implements OnInit {
 
     this.items = [
       { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedCommission.id) }
+     // { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedCommission.id) }
     ];
   }
 

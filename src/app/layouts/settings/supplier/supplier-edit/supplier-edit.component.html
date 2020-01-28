@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">{{'Editer Fournisseur'}}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{' Fournisseur'}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,7 +18,7 @@
             <span *ngIf="(supplierForm.get('code').touched && supplierForm.get('code').invalid) ||
             (isFormSubmitted && supplierForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span> <br />
             <input type="text" class="form-control" pInputText formControlName="code"
               (keydown.space)="$event.preventDefault()" />
@@ -38,7 +38,7 @@
             <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
                 (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="name"
@@ -79,7 +79,7 @@
             <span *ngIf="(supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid) ||
             (isFormSubmitted && supplierForm.get('addrCode').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+            Ce Champs est obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="addrCode"
@@ -91,7 +91,7 @@
             <span *ngIf="(supplierForm.get('line1').touched && supplierForm.get('line1').invalid) ||
             (isFormSubmitted && supplierForm.get('line1').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="line1"

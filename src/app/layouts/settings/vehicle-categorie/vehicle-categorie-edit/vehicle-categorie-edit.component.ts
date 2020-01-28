@@ -1,3 +1,5 @@
+import { InsuranceType } from './../../../../shared/models/insurance-Type';
+import { InsuranceTypeService } from './../../../../shared/services/api/insurance-type.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
@@ -22,17 +24,20 @@ export class VehicleCategorieEditComponent implements OnInit {
   vehicleCategoryForm: FormGroup;
 
   isFormSubmitted = false;
-
+  insuranceTypeList: InsuranceType[] = [];
   modal: NgbModalRef;
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private toastr:ToastrService) { }
+    private toastr:ToastrService,
+    private insuranceTypeService:InsuranceTypeService
+    ) { }
   ngOnInit() {
-
+    this.loadInsuranceType();
     this.initForm();
+    this.loadInsuranceType();
   }
 
   initForm() {
@@ -44,7 +49,9 @@ export class VehicleCategorieEditComponent implements OnInit {
       'Fdepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
       'Ftonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
       'FemptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
-      'FtotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight)
+      'FtotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
+     'FIType': new FormControl(this.selectedVehicleCategory.insuranceType, Validators.required)
+
     });
   }
   onSubmit() {
@@ -61,6 +68,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['Ftonnage'];
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['FemptyWeight'] ;
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['FtotalWeight'] ;
+   // this.selectedVehicleCategory.insuranceType = this.vehicleCategoryForm.value['FIType'] ;
 
     console.log(this.selectedVehicleCategory);
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
@@ -70,6 +78,10 @@ export class VehicleCategorieEditComponent implements OnInit {
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
+   console.log("data");
+
+        console.log(this.selectedVehicleCategory);
+
       },
       error => {
         this.toastr.error(error.error.message);
@@ -82,10 +94,24 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   }
 
+  loadInsuranceType(){
+    this.insuranceTypeService.findAll().subscribe(
+      data => {
+        this.insuranceTypeList = data;
+      }
+    );
+  }
+  onSelectInsuranceType(event) {
+    console.log(event);
+   this.selectedVehicleCategory.insuranceType = event.value;
+  }
+
   open(content) {
     if (!this.editMode) {
       this.selectedVehicleCategory = new VehicleCategory();
     }
+    console.log(this.selectedVehicleCategory);
+
     this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
     this.modal.result.then((result) => {

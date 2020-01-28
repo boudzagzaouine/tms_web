@@ -1,0 +1,52 @@
+
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h5 class="modal-title" id="modal-basic-title">Editer Terme d&acute;assurance</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body border-top-primary">
+    <div class="card-body ">
+      <form [formGroup]="insuranceTypeTermForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12">
+            <label>{{'Terme' | translate}}*</label>
+            <span *ngIf="(insuranceTypeTermForm.get('fTerm').touched && insuranceTypeTermForm.get('fTerm').invalid) ||
+            (isFormSubmitted && insuranceTypeTermForm.get('fTerm').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               obligatoire
+            </span>
+            <br />
+            <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
+            (onChange)="onSelecInsuranceTerm($event)" formControlName="fTerm"></p-dropdown>
+
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label>{{'Montant' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText  formControlName="fAmount" />
+          </div>
+          <div class="col-md-3"></div>
+
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div class="modal-footer pull-right ">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()" >
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>
+
+

@@ -1,3 +1,4 @@
+import { CommissionDriver } from './commission-driver';
 import { BadgeTypeDriver } from './badge-Type-Driver';
 import { Badge } from './badge';
 import { Contact } from './contact';
@@ -19,7 +20,7 @@ export class Driver {
   creationUser: User;
   upDateDate: Date;
   working: boolean;
-
+ carte:String;
   name: string;
   tele1: String;
   tel2: String;
@@ -31,5 +32,6 @@ export class Driver {
   active: boolean;
 
   badgeTypeDrivers : BadgeTypeDriver[]=[];
+  commissions : CommissionDriver[]=[];
 
 }

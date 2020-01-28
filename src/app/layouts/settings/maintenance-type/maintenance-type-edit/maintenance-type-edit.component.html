@@ -3,9 +3,9 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">
-      Editer <br />Maintenance Type
-    </h4>
+    <h6 class="modal-title" id="modal-basic-title">
+      Editer Types de  Maintenance
+    </h6>
     <button
       type="button"
       class="close"
@@ -24,7 +24,7 @@
             <span *ngIf="(maintenanceTypeForm.get('code').touched && maintenanceTypeForm.get('code').invalid) ||
             (isFormSubmitted && maintenanceTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               obligatoire
             </span>
             <br />
             <input

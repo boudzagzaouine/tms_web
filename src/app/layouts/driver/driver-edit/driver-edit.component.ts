@@ -38,6 +38,8 @@ export class DriverEditComponent implements OnInit {
   index: number = 0;
   page = 0;
   size = 8;
+
+
   collectionSize: number;
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
@@ -137,7 +139,7 @@ console.log("avant snapshot");
    }
 
 }
-onLoadCommission(commission:CommissionDriver[]){
+/*onLoadCommission(commission:CommissionDriver[]){
 console.log("commission");
 
   console.log(commission.length);
@@ -145,12 +147,14 @@ console.log(commission);
 this.commissionDriverListEdited=commission;
 this.selectedDriver.commissions=this.commissionDriverListEdited;
 
-}
+
+}*/
 onLoadBadge(badge:BadgeTypeDriver[]){
   console.log("badge");
 console.log(badge.length);
 console.log(badge);
 this.badgeDriverListEdited = badge;
+
 this.selectedDriver.badgeTypeDrivers=this.badgeDriverListEdited;
 
 }
@@ -188,9 +192,6 @@ console.log(this.driverForm);
   console.log(this.selectedDriver);
 
 
-  this.driverService.set(this.selectedDriver).subscribe(
-    data => {
-    })
 
 
     this.driverService.set(this.selectedDriver).subscribe(

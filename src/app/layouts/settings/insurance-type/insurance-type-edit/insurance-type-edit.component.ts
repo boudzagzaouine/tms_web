@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { Driver } from './../../../../shared/models/driver';
 import { InsuranceTypeTerms } from './../../../../shared/models/insurance-type-terms';
 import { InsuranceTypeTermsService } from './../../../../shared/services/api/insurance-type-term.service';
 import { InsuranceTermService } from './../../../../shared/services/api/insurance-term.service';
@@ -22,7 +24,8 @@ export class InsuranceTypeEditComponent implements OnInit {
   @Input() selectedinsuranceType = new InsuranceType();
   @Input() editMode: boolean;
   @Output() insuranceTypeAdded = new EventEmitter<InsuranceType>();
-
+  insurannceTypeTerms: InsuranceTypeTerms[] = [];
+  insurancetypee: number;
   page = 0;
   size = 10;
   collectionSize: number;
@@ -31,21 +34,24 @@ export class InsuranceTypeEditComponent implements OnInit {
 
   closeResult: String;
   insuranceTypeForm: FormGroup;
-
+  selectInsurannceTypeTerms: any;
   insuranceTypeTermsList: Array<InsuranceTypeTerms> = [];
+  insuranceTypeTermsListC: Array<InsuranceTypeTerms> = [];
+
   modal: NgbModalRef;
   isFormSubmitted = false;
 
   constructor(
     private insuranceTypeService: InsuranceTypeService,
-    private insuranceTermService : InsuranceTermService,
-    private insuranceTypeTermsService:InsuranceTypeTermsService,
+    private insuranceTermService: InsuranceTermService,
+    private insuranceTypeTermsService: InsuranceTypeTermsService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
     this.initForm();
+
 
   }
 
@@ -58,55 +64,59 @@ export class InsuranceTypeEditComponent implements OnInit {
 
   onDeleteLine(insuranceTerms: InsuranceTypeTerms) {
 
-    this.selectedinsuranceType.insuranceTypeTermsSet = this.selectedinsuranceType.insuranceTypeTermsSet.filter(
-      p => p.insuranceTerm.id  !== insuranceTerms.insuranceTerm.id );
+
+    this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
+      p => p.insuranceTerm.id !== insuranceTerms.insuranceTerm.id);
+    console.log("delete");
+
+    console.log(this.insuranceTypeTermsList);
+
 
 
   }
-  loadData(search: string = '') {
+  /* loadData() {
 
-    this.spinner.show();
-    this.insuranceTypeTermsService.sizeSearch(search).subscribe(
-      data => {
-        this.collectionSize = data;
-      }
-    );
-    this.insuranceTypeTermsService.findPagination(this.page, this.size, search).subscribe(
-      data => {
+     this.spinner.show();
 
-        this.insuranceTypeTermsList = data;
-        this.spinner.hide();
-      },
-      error => {
+     this.insuranceTypeTermsService.findAllPagination().subscribe(
+       data => {
+         console.log("find with id insurance type");
+         this.insuranceTypeTermsList = data;
+         console.log(data);
+
+         this.spinner.hide();
+       },
+       error => {
 
 
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
-    );
-  }
-  loadDataLazy(event) {
-    this.page = event.first / this.size;
-    console.log('first : ' + event.first);
-    this.loadData(this.searchQuery);
-  }
+         this.spinner.hide();
+       },
+       () => this.spinner.hide()
+     );
+   }*/
+  /* loadDataLazy(event) {
+     this.page = event.first / this.size;
+     console.log('first : ' + event.first);
+     this.loadData(this.searchQuery);
+   }*/
   onLineEdited(insuranceTerms: InsuranceTypeTerms) {
 
     console.log(insuranceTerms.id);
 
-    this.selectedinsuranceType.insuranceTypeTermsSet = this.selectedinsuranceType.insuranceTypeTermsSet.filter(
-      p => p.insuranceTerm.id  !== insuranceTerms.insuranceTerm.id );
+    this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
+      p => p.insuranceTerm.id !== insuranceTerms.insuranceTerm.id);
 
-    this.selectedinsuranceType.insuranceTypeTermsSet.push(insuranceTerms);
+    this.insuranceTypeTermsList.push(insuranceTerms);
 
     console.log('line edited');
 
-    console.log(this.selectedinsuranceType.insuranceTypeTermsSet);
+    console.log(this.insuranceTypeTermsList);
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    if (this.insuranceTypeForm.invalid) {return; }
+    console.log(this.selectedinsuranceType.insuranceTypeTermsSet);
+
+    if (this.insuranceTypeForm.invalid) { return; }
 
     this.spinner.show();
     this.selectedinsuranceType.code = this.insuranceTypeForm.value['code'];
@@ -115,15 +125,46 @@ export class InsuranceTypeEditComponent implements OnInit {
 
     console.log(this.selectedinsuranceType);
 
-     this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
-      data => {
-       this.insuranceTypeAdded.emit(data);
+    this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
+      dataIt => {
+        this.insuranceTypeAdded.emit(dataIt);
+        console.log(dataIt);
+        if (this.editMode) {
+
+         this.insuranceTypeTermsListC.forEach(eleme=>{
+                 this.insuranceTypeTermsService.delete(eleme.id).subscribe(
+                       d=>{
+                        console.log(eleme.id);
+
+                       }
+                 );
+                });
+        }
+        if (this.insuranceTypeTermsList.length) {
+          console.log(this.insuranceTypeTermsList.length);
+
+          this.insuranceTypeTermsList.forEach(
+            element => {
+              console.log("element");
+
+              console.log(element.insuranceTerm.code + dataIt.id);
+              this.selectInsurannceTypeTerms = new InsuranceTypeTerms(dataIt, element.insuranceTerm, element.amount);
+              console.log(this.selectInsurannceTypeTerms);
+
+              this.insuranceTypeTermsService.set(this.selectInsurannceTypeTerms).subscribe(
+                data => {
+                  console.log(data);
+
+                });
+            });
+
+        }
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
         this.isFormSubmitted = false;
         this.spinner.hide();
- console.log("insertion Type");
- console.log(this.selectedinsuranceType);
+        console.log("insertion Type");
+        console.log(this.selectedinsuranceType);
 
 
 
@@ -142,6 +183,30 @@ export class InsuranceTypeEditComponent implements OnInit {
   open(content) {
     if (!this.editMode) {
       this.selectedinsuranceType = new InsuranceType();
+      this.insuranceTypeTermsList = [];
+    }
+    else {
+      this.insuranceTypeTermsList = [];
+      this.insurancetypee = this.selectedinsuranceType.id;
+      console.log(this.insurancetypee);
+
+      this.insuranceTypeTermsService.findAllPagination(this.page, this.size).subscribe(
+        data => {
+          console.log("find with id insurance type");
+          this.insuranceTypeTermsList = data;
+          this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
+            p =>
+              ((p.insuranceType.id === this.selectedinsuranceType.id))
+
+
+          );
+          this.insuranceTypeTermsListC = this.insuranceTypeTermsList;
+          console.log(data);
+
+          this.spinner.hide();
+        },
+      );
+
     }
     this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
@@ -162,8 +227,8 @@ export class InsuranceTypeEditComponent implements OnInit {
     }
   }
 
-  onInsuranceTermAdded(event) {
+  /*onInsuranceTermAdded(event) {
     this.loadData();
-  }
+  }*/
 
 }

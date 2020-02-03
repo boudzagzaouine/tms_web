@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { CommissionDriverService } from './../../../../shared/services/api/commision-driver.service';
 import { CommissionTypeService } from './../../../../shared/services/api/commisionType.service';
 import { CommissionDriver } from './../../../../shared/models/commission-driver';
@@ -11,7 +12,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-driver-commission-edit',
   templateUrl: './driver-commission-edit.component.html',
-  styleUrls: ['./driver-commission-edit.component.css']
+  styleUrls: ['./driver-commission-edit.component.css'],
+  providers: [ConfirmationService]
 })
 export class DriverCommissionEditComponent implements OnInit{
 
@@ -43,6 +45,7 @@ fr: any;
   constructor(private commmissionTypeService: CommissionTypeService,
      private commissiondriverService:CommissionDriverService,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -93,10 +96,11 @@ console.log('debut');
      console.log('Form commission');
      console.log(this.selectedCommissionDriver);
 
-     this.commissiondriverList = this.commissiondriverList.filter(
-      p => ((p.commissionType.id  !== this.selectedCommissionDriver.commissionType.id))
+    /* this.commissiondriverList = this.commissiondriverList.filter(
+      p => ((p  !== this.selectedCommissionDriver))
 
-       );
+
+       );*/
 
     this.commissiondriverList.push(this.selectedCommissionDriver);
     this.commissionTypedriverListEdited.emit(this.commissiondriverList);
@@ -111,11 +115,16 @@ console.log('debut');
 
   onDeleteLine(commissionD: CommissionDriver) {
 
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+
     this.commissiondriverList = this.commissiondriverList.filter(
-      p => p.commissionType.id  !== commissionD.commissionType.id );
+      p => p.id  !== commissionD.id );
 
       this.commissionTypedriverListEdited.emit(this.commissiondriverList);
-
+    }
+  });
   }
 
 

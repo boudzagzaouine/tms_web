@@ -1,9 +1,11 @@
+import { CommissionDriverEditComponent } from './commission-driver-edit/commission-driver-edit.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CommissionDriverComponent } from './commission-driver.component';
 
-const routes: Routes = [{ path: '', component: CommissionDriverComponent },
+const routes: Routes = [{ path: 'edit', component: CommissionDriverComponent },
+
         ]
 
 @NgModule({

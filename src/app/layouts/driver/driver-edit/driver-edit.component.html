@@ -6,7 +6,7 @@
   <div class="card-body border-top-primary">
     <form [formGroup]="driverForm">
        <p-tabView [activeIndex]="index" >
-        <p-tabPanel header="General" [disabled]="true" >
+        <p-tabPanel header="General"  >
       <div class="row justify-content-around">
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{ "Cin" | translate }}*</label>
@@ -158,54 +158,57 @@
 
     </p-tabPanel>
 
-    <p-tabPanel header="Badges" [disabled]="true" >
+    <p-tabPanel header="Badges"  >
       <ng-template pTemplate="content">
         <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [idDriver]='idDriver'></app-badge-driver-edit>
+
+        <div class="text-center">
+          <a
+            class="btn btn-primary m-1"
+            [routerLink]="['/core/drivers/list']"
+            routerLinkActive="active"
+          >
+            {{ "Fermer" | translate }}
+          </a>
+          <button
+            type="button"
+            class="btn btn-success m-1"
+            (click)="onSubmitForm()"
+          >
+            {{ "Valider et continue" | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success m-1"
+            (click)="onSubmitForm(true)"
+          >
+            {{ "Valider" | translate }}
+          </button>
+        </div>
+
       </ng-template>
+
     </p-tabPanel>
-    <p-tabPanel header="Commission" [disabled]="true" >
+    <!-- <p-tabPanel header="Commission"  >
 
       <ng-template pTemplate="content">
 
         <app-driver-commission-edit (commissionTypedriverListEdited)='onLoadCommission($event)' [idDriver]='idDriver'></app-driver-commission-edit>
       <br>
-<div class="text-center">
-      <a
-        class="btn btn-primary m-1"
-        [routerLink]="['/core/drivers/list']"
-        routerLinkActive="active"
-      >
-        {{ "Fermer" | translate }}
-      </a>
-      <button
-        type="button"
-        class="btn btn-success m-1"
-        (click)="onSubmitForm()"
-      >
-        {{ "Valider et continue" | translate }}
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-success m-1"
-        (click)="onSubmitForm(true)"
-      >
-        {{ "Valider" | translate }}
-      </button>
-    </div>
     </ng-template>
 
-    </p-tabPanel>
+    </p-tabPanel> -->
 
 
-      <div *ngIf="!(this.index==0)"   class="row pull-left ">
+      <!-- <div *ngIf="!(this.index==0)"   class="row pull-left ">
         <button type="button"  pButton icon="fa fa-chevron-left" (click)="openPrev()" ></button>
 </div>
 
 
 <div *ngIf="!(this.index==2)"  class="row pull-right">
         <button type="button"  pButton icon="fa fa-chevron-right" (click)="openNext()" ></button>
-</div>
+</div> -->
 <br><br>
 
     </p-tabView>

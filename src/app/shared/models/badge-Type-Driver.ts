@@ -1,5 +1,4 @@
 import { BadgeType } from './badge-Type';
-import { CommissionType } from './commissionType';
 import { Driver } from './driver';
 
 export class BadgeTypeDriver {

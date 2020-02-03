@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { BadgeTypeDriverService } from './../../../../shared/services/api/badge-type-driver.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,7 +11,8 @@ import { BadgeType } from './../../../../shared/models/badge-Type';
 @Component({
   selector: 'app-badge-driver-edit',
   templateUrl: './badge-driver-edit.component.html',
-  styleUrls: ['./badge-driver-edit.component.css']
+  styleUrls: ['./badge-driver-edit.component.css'],
+  providers: [ConfirmationService]
 })
 export class BadgeDriverEditComponent implements OnInit {
 
@@ -34,6 +36,7 @@ export class BadgeDriverEditComponent implements OnInit {
   searchQuery:string;
   constructor(private badgeTypeService: BadgeTypeService,
     private badgeTypeDriverService:BadgeTypeDriverService,
+    private confirmationService: ConfirmationService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
@@ -69,11 +72,13 @@ export class BadgeDriverEditComponent implements OnInit {
   }
 
   initForm() {
+    const d = new Date(this.selectedBadgeDriver.deliveranceDate);
+    const dd = new Date(this.selectedBadgeDriver.validityEndDate);
     this.badgeTypeDriverForm = new FormGroup({
       'fBadgeType': new FormControl(this.selectedBadgeDriver.badgeType, Validators.required),
       'fNumBadge': new FormControl(this.selectedBadgeDriver.badgeNumber, Validators.required),
-      'fDateDelivrance': new FormControl(this.selectedBadgeDriver.deliveranceDate, Validators.required),
-      'DateFin': new FormControl(this.selectedBadgeDriver.validityEndDate, Validators.required)
+      'fDateDelivrance': new FormControl(d, Validators.required),
+      'DateFin': new FormControl(dd, Validators.required)
 
     });
   }
@@ -89,6 +94,10 @@ console.log('debut');
     this.selectedBadgeDriver.badgeNumber = this.badgeTypeDriverForm.value['fNumBadge'];
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
+
+    console.log(this.selectedBadgeDriver);
+    console.log(this.badgeTypeDriverList);
+
 
     this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
       p => p.badgeType.id  !== this.selectedBadgeDriver.badgeType.id );
@@ -116,11 +125,15 @@ console.log('debut');
   }*/
 
   onDeleteLine(badgeL: BadgeTypeDriver) {
-
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
     this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
       p => p.badgeType.id  !== badgeL.badgeType.id );
 
       this.badgeTypedriverListEdit.emit(this.badgeTypeDriverList);
+    }
+  });
 
   }
 

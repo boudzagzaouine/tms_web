@@ -60,7 +60,7 @@
           <th>Vehicule</th>
           <th>Type Maintenance</th>
           <th>Etat Maintenance </th>
-          <th>Date </th>
+          <th>Date Fin</th>
           <th style="width:10%">Action</th>
         </tr>
       </ng-template>
@@ -70,7 +70,7 @@
           <td>{{mnt?.vehicle?.code}}</td>
           <td>{{mnt?.maintenanceType?.code}}</td>
           <td>{{mnt?.maintenanceState?.code}}</td>
-          <td>{{mnt?.startDate | date: "dd/MM/yyyy"}}</td>
+          <td>{{mnt?.endDate | date: "dd/MM/yyyy"}}</td>
           <td>
             <a [routerLink]="['/core/maintenances/edit', mnt.id]" routerLinkActive="active"
               class="btn btn-sm btn-primary mr-2">

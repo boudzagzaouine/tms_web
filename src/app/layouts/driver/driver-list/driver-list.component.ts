@@ -181,6 +181,7 @@ export class DriverListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
+        
         this.driverService.delete(id).subscribe(
 
           data => {

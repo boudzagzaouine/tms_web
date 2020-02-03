@@ -1,26 +1,18 @@
 <br />
-<div class="card ">
+<div class="card">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
         <label class="font-weight-bold ">Code</label><br />
-        <input type="text" pInputText  />
+        <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
-
-      <div class="col-md-3">
-        <label class="font-weight-bold">Type Commission</label><br />
-        <p-autoComplete ></p-autoComplete>
-      </div>
-
-
     </div>
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" >Renitialiser</button>
-
-      <button type="button" class="btn btn-success" >
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
     </div>
@@ -29,29 +21,34 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste </span>
+    <span>Liste  Commission Chauffeur</span>
     <span class="pull-right">
-      <app-commission-driver-edit [editMode]="false"></app-commission-driver-edit>
+      <app-commission-driver-edit [editMode]="false" (commissionDriverAdded)="onCommissionDriverAdded($event)"></app-commission-driver-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
-    <p-table [value]="" [lazy]="true"   [contextMenu]="cm"
-
-    >
+    <p-table [value]="commissionDriverList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
+      [(contextMenuSelection)]="selectedCommissionDriver" [totalRecords]="collectionSize" [resizableColumns]="true"
+      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedCommissionDriver" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th>Code</th>
-          <th>Nom Chauffeur</th>
-          <th>Type Commission</th>
-
+          <th>Chauffeur</th>
+          <th>CommissionType</th>
+          <th>Date</th>
+          <th>Montant</th>
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-badge>
+      <ng-template pTemplate="body" let-commissionDriver>
         <tr>
+          <td>{{commissionDriver?.driver?.code}}</td>
+          <td>{{commissionDriver?.commissionType?.code}}</td>
+          <td>{{commissionDriver?.datee | date: 'dd/MM/yy'}}</td>
+          <td>{{commissionDriver?.commissionType?.percentage}}</td>
 
           <td>
-            <button type="button"  class="btn btn-sm btn-danger mx-1">
+            <app-commission-driver-edit [editMode]="true" [selectedCommissionDriver]="commissionDriver" (commissionDriverAdded)="onCommissionDriverAdded($event)"></app-commission-driver-edit>
+            <button type="button" (click)="onDelete(commissionDriver.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>
           </td>
@@ -61,9 +58,8 @@
   </div>
 </div>
 
- <p-contextMenu #cm [model]="items"></p-contextMenu>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
 
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
 </p-confirmDialog>
-

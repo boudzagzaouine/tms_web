@@ -54,7 +54,9 @@ export class MaintenanceLineEditComponent implements OnInit {
         'priceTTC': this.formBuilder.control({
           value: this.roundPipe.transform(this.selectedMaintenanceLine.totalPriceTTC, 2)
           , disabled: true
-        })
+        }),
+
+
       }
     );
   }

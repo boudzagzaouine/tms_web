@@ -1,3 +1,5 @@
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationService } from 'primeng/api';
 import { RoundPipe } from 'ngx-pipes';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,6 +40,8 @@ export class MaintenancePlanEditComponent implements OnInit {
   editMode = false;
 
   constructor(private vehicleService: VehicleService,
+    private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService,
     private maintenanceStatusService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
     private maintenancePlanService: MaintenancePlanService,
@@ -191,13 +195,23 @@ export class MaintenancePlanEditComponent implements OnInit {
     this.updateTotalPrice();
   }
   onDeleteMaintenanceLine(id: number) {
-    console.log(id);
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+ this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
+    .filter(l => l.product.id !== id);
+      this.updateTotalPrice();
+      }
+    });
 
-    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
-      .filter(l => l.product.id !== id);
-    this.updateTotalPrice();
 
-  }
+
+
+
+
+
+      }
+
 
   updateTotalPrice() {
     this.selectedMaintenance.totalPrice = 0;

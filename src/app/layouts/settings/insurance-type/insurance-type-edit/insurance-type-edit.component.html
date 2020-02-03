@@ -43,8 +43,8 @@
         </span>
       </div>
       <div class="card-body border-top-primary">
-        <p-table  [value]="selectedinsuranceType?.insuranceTypeTermsSet" [lazy]="true" [rows]="size" [paginator]="true"
-        [totalRecords]="selectedinsuranceType?.insuranceTypeTermsSet?.length" >
+        <p-table  [value]="insuranceTypeTermsList" [lazy]="true" [rows]="size" [paginator]="true"
+        [totalRecords]="insuranceTypeTermsList?.length" >
           <ng-template pTemplate="header">
             <tr>
               <th>Code</th>
@@ -57,7 +57,7 @@
               <td>{{insuranceTerms?.insuranceTerm?.code}}</td>
               <td>{{insuranceTerms?.amount}}</td>
               <td>
-                <app-term-edit [editMode]="true" [selectedinsuranceTypeTerm]="insuranceTerms" [editMode]="true"
+                <app-term-edit [editMode]="true" [selectedinsuranceTypeTerm]="insuranceTerms"
                 (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
                 <button type="button" (click)="onDeleteLine(insuranceTerms)" class="btn btn-sm btn-danger mx-1">
                   <i class="fa fa-trash-o"></i>

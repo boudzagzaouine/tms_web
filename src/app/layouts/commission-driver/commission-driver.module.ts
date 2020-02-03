@@ -17,10 +17,11 @@ import { CommonModule } from '@angular/common';
 import { CommissionDriverRoutingModule } from './commission-driver-routing.module';
 import { CommissionDriverComponent } from './commission-driver.component';
 import { CommissionDriverEditComponent } from './commission-driver-edit/commission-driver-edit.component';
+import { CommissionDriverListComponent } from './commission-driver-list/commission-driver-list.component';
 
 
 @NgModule({
-  declarations: [CommissionDriverComponent, CommissionDriverEditComponent],
+  declarations: [CommissionDriverComponent, CommissionDriverEditComponent, CommissionDriverListComponent],
   imports: [
     CommonModule,
     CommissionDriverRoutingModule,

@@ -1,5 +1,5 @@
 import { InsuranceType } from './insurance-Type';
-import { InsuranceTermLigne } from './insurance-term-line';
+//import { InsuranceTermLigne } from './insurance-term-line';
 import { Supplier } from './supplier';
 import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';
@@ -19,6 +19,6 @@ export class Insurance {
   description: string;
   vehicleCode: string;
   insuranceType :InsuranceType;
-  insuranceTermLignes: InsuranceTermLigne[] = [];
+ // insuranceTermLignes: InsuranceTermLigne[] = [];
 
 }

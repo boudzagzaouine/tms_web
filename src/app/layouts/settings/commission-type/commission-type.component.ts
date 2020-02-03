@@ -72,7 +72,7 @@ export class CommissionTypeComponent implements OnInit {
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+      buffer.append(`z~${this.codeSearch}`);
     }
 
     this.page = 0;

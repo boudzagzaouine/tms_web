@@ -45,7 +45,8 @@ import { DriverCommissionEditComponent } from './driver-edit/driver-commission-e
      KeyFilterModule,
      ContextMenuModule,
      NgbModalModule,
-     TabViewModule
+     TabViewModule,
+
 
   ]
 })

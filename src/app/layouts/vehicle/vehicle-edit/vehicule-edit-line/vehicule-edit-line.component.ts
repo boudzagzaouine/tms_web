@@ -1,6 +1,6 @@
+import { InsuranceTermsVehicle } from './../../../../shared/models/insurance-terms-vehicle';
 import { InsuranceTermService } from './../../../../shared/services/api/insurance-term.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { InsuranceTermLigne } from './../../../../shared/models/insurance-term-line';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -18,13 +18,13 @@ export class VehiculeEditLineComponent implements OnInit {
 
   modal: NgbModalRef;
   @Input() editMode: boolean;
-  @Input() selectedTermLigne = new InsuranceTermLigne();
-  @Output() insuranceTermLineAdded = new EventEmitter<InsuranceTermLigne>();
+  @Input() selectedTermLigne = new InsuranceTermsVehicle();
+  @Output() insuranceTermLineAdded = new EventEmitter<InsuranceTermsVehicle>();
 
    valueamount: boolean;
   closeResult: String;
   insuranceTermLineForm: FormGroup;
-  insuranceTermLineList: InsuranceTermLigne[] = [];
+  insuranceTermLineList: InsuranceTermsVehicle[] = [];
   insuranceTermList: InsuranceTerm[] = [];
   isFormSubmitted = false;
   constructor( private modalService: NgbModal,
@@ -68,6 +68,8 @@ export class VehiculeEditLineComponent implements OnInit {
    console.log(this.selectedTermLigne.insuranceTerm.code);
 
 
+
+
     if (this.modal) {
       this.modal.close();
     }
@@ -80,7 +82,7 @@ export class VehiculeEditLineComponent implements OnInit {
   open(content) {
     this.isFormSubmitted = false;
     if (!this.editMode) {
-      this.selectedTermLigne = new InsuranceTermLigne();
+      this.selectedTermLigne = new InsuranceTermsVehicle();
     }
     this.initForm();
 

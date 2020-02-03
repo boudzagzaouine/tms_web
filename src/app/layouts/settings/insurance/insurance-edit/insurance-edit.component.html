@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h4 class="modal-title" id="modal-basic-title">{{'Editer Assurance' | translate}}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{' Assurance' | translate}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,7 +14,7 @@
 
         <div class="row justify-content-around">
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+            <label class="font-weight-bold ">{{'Code' | translate}}</label>
             <span *ngIf="(insuranceForm.get('code').touched && insuranceForm.get('code').invalid) ||
             (isFormSubmitted && insuranceForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -102,7 +102,7 @@
            <!-- <p-dropdown [autoDisplayFirst]="false" [options]="vehicleList" optionLabel="code" [filter]="true"
               (onChange)="onSelectVehicle($event)" formControlName="vehicle"></p-dropdown>-->
           </div>
-          <div class="form-group col-sm-6 ">
+          <!-- <div class="form-group col-sm-6 ">
             <label class="font-weight-bold ">{{'Terme'| translate}}</label>
             <span *ngIf="(insuranceForm.get('insuranceTerm').touched && insuranceForm.get('insuranceTerm').invalid) ||
             (isFormSubmitted && insuranceForm.get('insuranceTerm').invalid)" class="text-lighter"
@@ -111,9 +111,9 @@
             </span>
             <input type="text" disabled="true" class="form-control" pInputText formControlName="insuranceTerm"   />
 
-           <!-- <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
-              (onChange)="onSelectInsuranceTerm($event)" formControlName="insuranceTerm" [showClear]="true"></p-dropdown>-->
-          </div>
+         <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
+              (onChange)="onSelectInsuranceTerm($event)" formControlName="insuranceTerm" [showClear]="true"></p-dropdown>
+          </div> -->
         </div>
       </form>
     </div>

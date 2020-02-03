@@ -23,12 +23,17 @@
             </span>
             <br />
             <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="code" [filter]="true"
-            (onChange)="onSelecInsuranceTerm($event)" formControlName="fTerm"></p-dropdown>
+            (onChange)="onSelecInsuranceTerm($event)"  formControlName="fTerm" [showClear]="true"></p-dropdown>
 
           </div>
 
           <div class="form-group col-sm-12">
-            <label>{{'Montant' | translate}}</label><br />
+            <label>{{'Montant' | translate}}*</label>
+            <span *ngIf="(insuranceTypeTermForm.get('fAmount').touched && insuranceTypeTermForm.get('fAmount').invalid) ||
+            (isFormSubmitted && insuranceTypeTermForm.get('fAmount').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               obligatoire
+            </span>
             <input type="text" class="form-control" pInputText  formControlName="fAmount" />
           </div>
           <div class="col-md-3"></div>

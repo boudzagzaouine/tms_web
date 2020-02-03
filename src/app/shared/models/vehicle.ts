@@ -1,3 +1,5 @@
+import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
+import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';
 import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
@@ -32,6 +34,11 @@ export class Vehicle {
   energy: string;
   vignette :Date=new Date();
    valueVignette :number;
+   insuranceTerms:InsuranceTerm[]=[];
 
+   aquisitionDate:Date = new Date();
+    amount:number;
+
+    insuranceTermVehicles : InsuranceTermsVehicle[] = [];
 
 }

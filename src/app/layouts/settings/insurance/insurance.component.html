@@ -14,11 +14,7 @@
           (completeMethod)="onSupplierearch($event)"></p-autoComplete>
       </div>
 
-      <div class="col-md-3">
-        <label class="font-weight-bold ">{{'Terme' | translate}}</label><br />
-        <p-autoComplete [(ngModel)]="insuranceTermSearch" [suggestions]="insuranceTermList"
-          (completeMethod)="onInsuranceTermSearch($event)"></p-autoComplete>
-      </div>
+
 
       <div class="col-md-3">
         <label class="font-weight-bold ">{{'Vehicle' | translate}}</label><br />
@@ -55,7 +51,7 @@
           <th>Description</th>
           <th>{{'Montant' | translate}}</th>
           <th>{{'Fournissuer' | translate}}</th>
-          <th>{{'Terme' | translate}}</th>
+
           <th>{{'vehicle' | translate}}</th>
           <th style="width:10%">Actions</th>
         </tr>
@@ -66,13 +62,13 @@
           <td>{{insurance?.description}}</td>
           <td>{{insurance?.amount}}</td>
           <td>{{insurance?.supplier?.code}}</td>
-          <td>{{insurance?.insuranceTerm?.code}}</td>
+
           <td>{{insurance?.vehicleCode}}</td>
           <td>
             <app-insurance-edit [editMode]="true" [selectedInsurance]="insurance" (insuranceAdd)="onInsuranceAdd($event)"></app-insurance-edit>
-            <button type="button" (click)="onDelete(insurance.id)" class="btn btn-sm btn-danger mx-1">
+            <!-- <button type="button" (click)="onDelete(insurance.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
-            </button>
+            </button> -->
           </td>
         </tr>
       </ng-template>

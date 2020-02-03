@@ -56,6 +56,9 @@ export class MaintenanceLineEditComponent implements OnInit {
           , disabled: true
         }),
 
+        'tva': this.formBuilder.control(''),
+
+
 
       }
     );
@@ -81,9 +84,9 @@ export class MaintenanceLineEditComponent implements OnInit {
     console.log('Emitted');
     console.log(this.selectedMaintenanceLine);
 
-if (this.modal){
-  this.modal.close();
-}
+    if (this.modal) {
+      this.modal.close();
+    }
 
     this.isFormSubmitted = false;
   }
@@ -98,15 +101,18 @@ if (this.modal){
   onSelectProduct(event) {
     console.log(event);
 
-      this.selectedProduct = event as Product;
-      this.selectedMaintenanceLine.product = event as Product;
+    this.selectedProduct = event as Product;
+    this.selectedMaintenanceLine.product = event as Product;
 
-      this.lineForm.patchValue({
-        'description': this.selectedProduct.shortDesc,
-        'unitPrice': this.selectedProduct.purshasePriceUB ?  this.selectedProduct.purshasePriceUB : 0
-      });
+    this.lineForm.patchValue({
+      'description': this.selectedProduct.shortDesc,
+      'unitPrice': this.selectedProduct.purshasePriceUB ? this.selectedProduct.purshasePriceUB : 0,
+      'tva': this.selectedProduct.vat.value,
 
-      this.onUnitPriceChange();
+    });
+
+
+    this.onUnitPriceChange();
   }
 
 
@@ -147,7 +153,7 @@ if (this.modal){
     }
 
     const priceHT = (unitPrice * quantity);
-    const priceTTC = priceHT + (priceHT * vat / 100);
+    const priceTTC = priceHT * (1 + (20 / 100));
     this.selectedMaintenanceLine.totalPriceHT = priceHT;
     this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
     this.lineForm.patchValue({

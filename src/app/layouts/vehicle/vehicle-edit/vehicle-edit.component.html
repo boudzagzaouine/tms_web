@@ -206,10 +206,10 @@
           </div>
         </p-tabPanel>
         <p-tabPanel header="Assurance" [disabled]="true" >
-          <!-- <div [style.visibility]="editMode ? 'visible' : 'hidden'"  >
+           <div [style.visibility]="editModee ? 'visible' : 'hidden'"  >
           <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
             {{'Nouveau Assurance' | translate }}
-          </button></div><br><br> -->
+          </button></div><br><br>
              <div class="row mt-3 justify-content-around">
 
             <div class="form-group col-md-3">
@@ -240,10 +240,12 @@
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span><br />
-
-          <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
+               <input type="text" [(ngModel)]="codeTI" class="form-control" pInputText  formControlName="FIType" /> 
+                      <!--  <p-autoComplete [suggestions]="insuranceTypeList" field="code" (completeethod)="TypeSearch($event)"
+              formControlName="FIType" ></p-autoComplete>
+ <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
               formControlName="FIType" (onChange)="onSelectInsuranceType($event)" [filter]="true" [showClear]="true">
-            </p-dropdown>
+            </p-dropdown> -->
 
 
             </div>
@@ -379,33 +381,35 @@
 
           </div>
           </div>
+
+          <div class="text-center mt-3 mr-3 ml-3" >
+            <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
+              {{'Fermer' | translate}}
+            </a>
+            <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+              {{'Valider et continuer' | translate }}
+            </button>
+            <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+              {{ "Valider" | translate }}
+            </button>
+          </div>
         </p-tabPanel>
 
 
 
-  <div  class="row pull-left ">
+  <div *ngIf="!(this.index==0)"  class="row pull-left ">
         <button type="button"  pButton icon="fa fa-chevron-left" (click)="openPrev()"></button>
 </div>
 
 
-<div class="row pull-right">
+<div *ngIf="!(this.index==3)"  class="row pull-right">
         <button type="button"  pButton icon="fa fa-chevron-right" (click)="openNext()"></button>
 </div>
 <br><br>
 
 
       </p-tabView>
-      <div class="text-center mt-3 mr-3 ml-3" >
-        <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
-          {{'Fermer' | translate}}
-        </a>
-        <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-          {{'Valider et continuer' | translate }}
-        </button>
-        <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
-          {{ "Valider" | translate }}
-        </button>
-      </div>
+  
     </form>
   </div>
 </div>

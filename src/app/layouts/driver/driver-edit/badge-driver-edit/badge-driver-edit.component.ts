@@ -111,6 +111,7 @@ console.log('debut');
         this.isFormSubmitted = false;
     this.selectedBadgeDriver= new BadgeTypeDriver();
 
+    this.badgeTypeDriverForm.reset();
   }
   /*onLineEdited() {
 

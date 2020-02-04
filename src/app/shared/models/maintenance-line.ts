@@ -11,6 +11,7 @@ export class MaintenanceLine {
   unitPrice = 0;
   totalPriceHT = 0;
   totalPriceTTC = 0;
+  amountVat = 0;
   maintenancePlan: MaintenancePlan;
 
 }

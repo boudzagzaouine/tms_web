@@ -17,7 +17,7 @@ export class MaintenanceLineEditComponent implements OnInit {
   @Input() selectedMaintenanceLine: MaintenanceLine = new MaintenanceLine();
   @Input() editMode = false;
   @Output() lineEdited = new EventEmitter<MaintenanceLine>();
-
+  tv: number;
   selectedProduct: Product;
 
   isFormSubmitted = false;
@@ -37,6 +37,7 @@ export class MaintenanceLineEditComponent implements OnInit {
   }
 
   initForm() {
+
     this.lineForm = this.formBuilder.group(
       {
         'product': this.formBuilder.control(
@@ -56,8 +57,21 @@ export class MaintenanceLineEditComponent implements OnInit {
           , disabled: true
         }),
 
-        'tva': this.formBuilder.control(''),
+        'tva': this.formBuilder.control(
+          {
 
+            value: this.editMode ? this.selectedMaintenanceLine.product.vat.value : 0, disabled: true
+
+          }
+        ),
+        'amountTva': this.formBuilder.control(
+          {
+
+            value: this.roundPipe.transform(this.selectedMaintenanceLine.amountVat, 2)
+          , disabled: true
+
+          }
+        ),
 
 
       }
@@ -77,7 +91,6 @@ export class MaintenanceLineEditComponent implements OnInit {
     this.selectedMaintenanceLine.description = this.lineForm.value['description'];
     this.selectedMaintenanceLine.unitPrice = +this.lineForm.value['unitPrice'];
     this.selectedMaintenanceLine.quantity = +this.lineForm.value['quantity'];
-
 
     this.lineEdited.emit(this.selectedMaintenanceLine);
 
@@ -108,6 +121,7 @@ export class MaintenanceLineEditComponent implements OnInit {
       'description': this.selectedProduct.shortDesc,
       'unitPrice': this.selectedProduct.purshasePriceUB ? this.selectedProduct.purshasePriceUB : 0,
       'tva': this.selectedProduct.vat.value,
+
 
     });
 
@@ -143,6 +157,7 @@ export class MaintenanceLineEditComponent implements OnInit {
   onQuantityChange() {
     const quantity = this.lineForm.value['quantity'];
     let unitPrice = this.lineForm.value['unitPrice'];
+
     let vat = 0;
     if (this.selectedMaintenanceLine.product != null
       && this.selectedMaintenanceLine.product.vat != null) {
@@ -153,14 +168,17 @@ export class MaintenanceLineEditComponent implements OnInit {
     }
 
     const priceHT = (unitPrice * quantity);
-    const priceTTC = priceHT * (1 + (20 / 100));
+    const amountTva = (priceHT / 100) * vat;
+    const priceTTC = priceHT + amountTva;
     this.selectedMaintenanceLine.totalPriceHT = priceHT;
     this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
+    this.selectedMaintenanceLine.amountVat = amountTva;
     this.lineForm.patchValue({
       'priceHT': this.roundPipe.transform(priceHT, 2),
-      'priceTTC': this.roundPipe.transform(priceTTC, 2)
+      'priceTTC': this.roundPipe.transform(priceTTC, 2),
+      'amountTva': this.roundPipe.transform(amountTva, 2),
     });
-    console.log(this.lineForm.value['quantity']);
+    console.log(this.lineForm.value['amountTva']);
 
   }
 
@@ -177,15 +195,18 @@ export class MaintenanceLineEditComponent implements OnInit {
     }
 
     const priceHT = (unitPrice * quantity);
-    const priceTTC = priceHT + (priceHT * vat / 100);
+    const amountTva = (priceHT / 100) * vat;
+    const priceTTC = priceHT + amountTva;
 
     this.selectedMaintenanceLine.totalPriceHT = priceHT;
     this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
+    this.selectedMaintenanceLine.amountVat = amountTva;
     this.lineForm.patchValue({
       'priceHT': this.roundPipe.transform(priceHT, 2),
-      'priceTTC': this.roundPipe.transform(priceTTC, 2)
+      'priceTTC': this.roundPipe.transform(priceTTC, 2),
+      'amountTva': this.roundPipe.transform(amountTva, 2)
     });
-    console.log(this.lineForm.value['quantity']);
+    console.log(this.lineForm.value['amountTva']);
   }
 
 }

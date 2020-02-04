@@ -95,7 +95,7 @@ export class VehicleEditComponent implements OnInit {
       clear: 'Supprimer'
     };
 
-  
+
     this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     this.spinner.show();
@@ -107,7 +107,7 @@ export class VehicleEditComponent implements OnInit {
         this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
           console.log(this.selectedVehicle);
-         
+
          this.codeTI=this.selectedVehicle.vehicleCategory.insuranceType.code;
           this.idinsurancetype = this.selectedVehicle.vehicleCategory.insuranceType.id;
           console.log(this.idinsurancetype);
@@ -120,12 +120,12 @@ export class VehicleEditComponent implements OnInit {
             this.selectedInsurance = this.selectedVehicle.insurance;
             this.selectedModInsurance = this.selectedVehicle.insurance;
 
-            
+
             this.codeTI =this.selectedVehicle.vehicleCategory.insuranceType.code;
             console.log(this.codeTI);
-            
-           
-           
+
+
+
             // solution 1
             // if (this.selectedInsurance.insuranceTermLignes == null) {
             //   this.selectedInsurance.insuranceTermLignes = []; // size = 0
@@ -136,7 +136,7 @@ export class VehicleEditComponent implements OnInit {
                this.myLinesList = this.selectedInsurance.insuranceTermLigneLineList;
              }*/
           }
-          
+
           this.initForm();
           console.log('data');
 
@@ -149,7 +149,7 @@ export class VehicleEditComponent implements OnInit {
           });
       }
       );
-     
+
 
     } else {
       this.initForm();
@@ -157,7 +157,7 @@ export class VehicleEditComponent implements OnInit {
 
 
 
- 
+
     this.insuranceTermService.findAll().subscribe(
       data => {
         this.inssuranceTermList = data;
@@ -392,17 +392,10 @@ export class VehicleEditComponent implements OnInit {
     console.log(this.selectedVehicle.badgeType);
   }
   onSelectVehicleCategory(event: any) {
-    this.selectedVehicle = new Vehicle();
+  //  this.selectedVehicle = new Vehicle();
     console.log(event);
     this.selectedVehicleCategory = event.value;
     this.selectedVehicle.vehicleCategory = event.value;
-    console.log("categrier choisi");
-
-    console.log(this.selectedVehicle.vehicleCategory);
-
-   
-
-    console.log(this.selectedVehicle.vehicleCategory.insuranceType.id);
 
     this.idinsurancetype = this.selectedVehicle.vehicleCategory.insuranceType.id;
     this.onloadTypeTermInsurance(this.idinsurancetype);
@@ -412,9 +405,11 @@ export class VehicleEditComponent implements OnInit {
 
   onloadTypeTermInsurance(idinsurancetype: number) {
 
-    if (this.editModee) {
+   if (this.editModee) {
       this.selectedVehicle.insuranceTermVehicles = [];
+      
     }
+
 
     console.log(this.idinsurancetype);
 
@@ -441,7 +436,7 @@ export class VehicleEditComponent implements OnInit {
 
         console.log("vehicule insurance term ");
         console.log(this.selectedVehicle.insuranceTermVehicles);
-     
+
         this.codeTI=this.selectedVehicle.vehicleCategory.insuranceType.code;
         this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
         console.log(this.vehicleForm.controls['FIType'].value);

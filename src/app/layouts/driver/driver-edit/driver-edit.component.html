@@ -5,7 +5,7 @@
   </div>
   <div class="card-body border-top-primary">
     <form [formGroup]="driverForm">
-       <p-tabView [activeIndex]="index" >
+       <p-tabView [activeIndex]="index"  >
         <p-tabPanel header="General"  >
       <div class="row justify-content-around">
         <div class="form-group col-md-3">
@@ -201,14 +201,14 @@
     </p-tabPanel> -->
 
 
-      <!-- <div *ngIf="!(this.index==0)"   class="row pull-left ">
+      <div *ngIf="!(this.index==0)"   class="row pull-left ">
         <button type="button"  pButton icon="fa fa-chevron-left" (click)="openPrev()" ></button>
 </div>
 
 
-<div *ngIf="!(this.index==5)"  class="row pull-right">
+<div *ngIf="!(this.index==1)"  class="row pull-right">
         <button type="button"  pButton icon="fa fa-chevron-right" (click)="openNext()" ></button>
-</div> -->
+</div>
 <br><br>
 
     </p-tabView>

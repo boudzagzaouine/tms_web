@@ -25,20 +25,12 @@
               formControlName="product" (onSelect)="onSelectProduct($event)"></p-autoComplete>
           </div>
 
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-3">
             <label>{{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
 
-          <div class="form-group col-md-3">
-            <label>{{'Taux TVA' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="tva" />
-          </div>
-
-
-        </div>
-        <div class="row justify-content-around">
-          <div class="form-group col-md-3 ">
+  <div class="form-group col-md-3 ">
             <label>{{'Prix Unitaire'| translate}}</label><br />
             <input type="text" class="form-control" (ngModelChange)="onUnitPriceChange()" pInputText pKeyFilter="num"
               formControlName="unitPrice" />
@@ -48,9 +40,22 @@
             <input type="text" class="form-control" pInputText pKeyFilter="num" (ngModelChange)="onQuantityChange()"
               formControlName="quantity" />
           </div>
+
+
+        </div>
+        <div class="row justify-content-around">
+          <div class="form-group col-md-3">
+            <label>{{'Taux TVA' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tva" />
+          </div>
           <div class="form-group col-md-3 ">
             <label>{{'Prix Total HT'| translate}}</label><br />
             <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="priceHT" />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>{{'Montant Tva' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="amountTva" />
           </div>
           <div class="form-group col-md-3 ">
             <label>{{'Prix Total TTC'| translate}}</label><br />

@@ -38,7 +38,7 @@ export class DriverEditComponent implements OnInit {
   index: number = 0;
   page = 0;
   size = 8;
-
+ valid=false;
 
   collectionSize: number;
   constructor(private formBuilder: FormBuilder,
@@ -172,6 +172,7 @@ console.log(this.driverForm);
     // stop here if form is invalid
     if (this.driverForm.invalid) {
       return;
+this.valid=true;
     }
     console.log("apres");
 

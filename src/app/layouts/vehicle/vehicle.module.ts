@@ -43,8 +43,7 @@ import {StepsModule} from 'primeng/steps';
     NgxSpinnerModule,
     ConfirmDialogModule,
     ContextMenuModule,
-    StepsModule
-
+    StepsModule,
   ]
 })
 export class VehicleModule { }

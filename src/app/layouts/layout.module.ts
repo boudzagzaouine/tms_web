@@ -1,3 +1,4 @@
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ConfirmationService } from 'primeng/api';
 import { SharedModule } from './../shared/shared.module';
 

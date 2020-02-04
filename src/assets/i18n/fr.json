@@ -33,5 +33,16 @@
     "Inbox": "Boîte de réception",
     "Log Out": "Se déconnecter",
    "Sample":"Exemple",
-   "Sample2":"SALIM"
+   "Sample2":"SALIM",
+   "edit Insurance":"Editer Assurance",
+   "code":"Code",
+   "Description":"Description",
+   "De":"De",
+   "A":"A",
+   "Vehicle":"vechicule",
+   "Supplier":"Fournisseur",
+   "Amount":"Montant"
+
+
+
 }

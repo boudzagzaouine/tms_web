@@ -50,10 +50,10 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     this.spinner.show();
     // sessionStorage.removeItem('currentUser');
     sessionStorage.setItem('currentUser', 'coco');
-      console.log(f);
+      // console.log(f);
       const email = f.controls['email'].value;
       const password = f.controls['password'].value;
-      console.log(`email : ${email}, password: ${password}`);
+     // console.log(`email : ${email}, password: ${password}`);
 
       this.authService.login(email, password);
 

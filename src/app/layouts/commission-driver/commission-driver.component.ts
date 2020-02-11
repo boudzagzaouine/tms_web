@@ -60,7 +60,7 @@ export class CommissionDriverComponent implements OnInit {
          this.spinner.hide();
        },
        error => {
-   console.log(error);
+       console.log(error);
 
          this.spinner.hide();
        },

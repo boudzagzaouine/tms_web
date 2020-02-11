@@ -1,0 +1,72 @@
+<br />
+<div class="card ">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body border-top-primary">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="font-weight-bold">Transport</label><br />
+        <p-autoComplete [(ngModel)]="transportSearch" [suggestions]="transportList"
+          (completeMethod)="onTransportSearch($event)"></p-autoComplete>
+      </div>
+
+      <div class="col-md-3">
+        <label class="font-weight-bold">Catégorie Véhicule</label><br />
+        <p-autoComplete [(ngModel)]="vehicleCategorySearch" [suggestions]="categorieVehicleList"
+          (completeMethod)="onCategoryVehicleSearch($event)"></p-autoComplete>
+      </div>
+
+    </div>
+    <br />
+
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        Rechercher
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span> Transport Catégorie Véhicule</span>
+    <span class="pull-right">
+      <app-transport-category-vehicle-edit [editMode]="false" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-transport-category-vehicle-edit>
+    </span>
+  </div>
+  <div class="card-body border-top-primary">
+    <p-table [value]="transportCatVehicleList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
+    [(contextMenuSelection)]="selectTransportCatVehicle"
+      [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
+      [(selection)]="selectTransportCatVehicle" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Véhicule Catégorie</th>
+          <th>Transport</th>
+          <th>Quantité</th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-TransportCat>
+        <tr>
+          <td>{{TransportCat?.vehicleCategory?.code}}</td>
+          <td>{{TransportCat?.transport?.code}}</td>
+          <td>{{TransportCat?.quantity}}</td>
+          <td>
+            <app-transport-category-vehicle-edit [editMode]="true" [selectTransportCatVehicle]="TransportCat" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-transport-category-vehicle-edit>
+            <button type="button" (click)="onDelete(TransportCat.id)" class="btn btn-sm btn-danger mx-1">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+</p-confirmDialog>

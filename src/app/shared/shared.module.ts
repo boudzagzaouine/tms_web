@@ -1,3 +1,8 @@
+import { VatServcie } from './services/api/vat.service';
+import { CatalogTransportTypeServcie } from './services/api/Catalog-Transport-Type.service';
+import { ZoneServcie } from './services/api/zone.service';
+import { TransportServcie } from './services/api/transport.service';
+import { TransportCategoryVehicleService } from './services/api/transport-category-vehicle.service';
 import { CommissionDriverService } from './services/api/commision-driver.service';
 import { InsuranceTypeTermsService } from './services/api/insurance-type-term.service';
 import { InsuranceTypeService } from './services/api/insurance-type.service';
@@ -50,7 +55,13 @@ export class SharedModule {
         BadgeTypeDriverService,
         InsuranceTypeService,
         InsuranceTypeTermsService,
-        CommissionDriverService
+        CommissionDriverService,
+        TransportCategoryVehicleService,
+        TransportServcie,
+        ZoneServcie,
+        CatalogTransportTypeServcie,
+        VatServcie
+
         ]
     };
   }

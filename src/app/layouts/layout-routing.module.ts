@@ -21,6 +21,7 @@ const routes: Routes = [
           .then(m => m.MaintenancePlanModule)
       },
 
+      { path: 'turn', loadChildren: () => import('./turn/turn.module').then(m => m.TurnModule) },
 
 
     ]

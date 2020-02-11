@@ -40,5 +40,6 @@ export class Vehicle {
     amount:number;
 
     insuranceTermVehicles : InsuranceTermsVehicle[] = [];
+    transport : Transport;
 
 }

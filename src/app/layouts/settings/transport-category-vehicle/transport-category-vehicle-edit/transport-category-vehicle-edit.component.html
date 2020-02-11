@@ -1,0 +1,67 @@
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h5 class="modal-title" id="modal-basic-title">{{'Editer Transport Catégorie Véhicule' | translate}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body border-top-primary">
+    <div class="card-body ">
+      <form [formGroup]="transportCatVehicleForm">
+
+        <div class="row  justify-content-around">
+
+
+          <div class="form-group col-sm-12 ">
+            <label class="font-weight-bold ">{{'Vehicule Categorie'| translate}}*</label>
+              <span *ngIf="(transportCatVehicleForm.get('fVehicleCategory').touched && transportCatVehicleForm.get('fVehicleCategory').invalid) ||
+            (isFormSubmitted && transportCatVehicleForm.get('fVehicleCategory').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              obligatoire
+            </span>
+            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true" [showClear]="true"
+              (onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory"></p-dropdown>
+          </div>
+
+          <div class="form-group col-sm-12 ">
+            <label class="font-weight-bold ">{{'Transport'| translate}}*</label>
+            <span *ngIf="(transportCatVehicleForm.get('fTransport').touched && transportCatVehicleForm.get('fTransport').invalid) ||
+            (isFormSubmitted && transportCatVehicleForm.get('fTransport').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              obligatoire
+            </span>
+            <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true" [showClear]="true"
+              (onChange)="onSelectTransport($event)" formControlName="fTransport"></p-dropdown>
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold ">{{'Quantité' | translate}} *</label>
+            <span *ngIf="(transportCatVehicleForm.get('fQuantity').touched && transportCatVehicleForm.get('fQuantity').invalid) ||
+            (isFormSubmitted && transportCatVehicleForm.get('fQuantity').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              obligatoire
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fQuantity"
+              (keydown.space)="$event.preventDefault()" />
+          </div>
+
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer pull-right">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
+      {{'Valider' | translate}}
+    </button>
+  </div>
+</ng-template>

@@ -240,7 +240,7 @@
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span><br />
-               <input type="text" [(ngModel)]="codeTI" class="form-control" pInputText  formControlName="FIType" /> 
+               <input type="text" [(ngModel)]="codeTI" class="form-control" pInputText  formControlName="FIType" />
                       <!--  <p-autoComplete [suggestions]="insuranceTypeList" field="code" (completeethod)="TypeSearch($event)"
               formControlName="FIType" ></p-autoComplete>
  <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
@@ -380,6 +380,26 @@
             <br />
 
           </div>
+        </div>
+        <div class="row  mt-3 justify-content-around">
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{'Transport' | translate}} *</label>
+            <span *ngIf="(vehicleForm.get('Ftransport').touched && vehicleForm.get('Ftransport').invalid) ||
+                  (isFormSubmitted && vehicleForm.get('Ftransport').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+             obligatoire
+            </span>
+            <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true"
+            (onChange)="onSelectTransport($event)" formControlName="Ftransport" [showClear]="true"></p-dropdown>
+
+            <br />
+
+          </div>
+
+          <div class="form-group col-md-3"></div>
+          <div class="form-group col-md-3"></div>
+
           </div>
 
           <div class="text-center mt-3 mr-3 ml-3" >
@@ -409,7 +429,7 @@
 
 
       </p-tabView>
-  
+
     </form>
   </div>
 </div>

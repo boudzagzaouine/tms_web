@@ -92,6 +92,7 @@ export class DriverListComponent implements OnInit {
       },
       error => { this.spinner.hide(); },
       () => this.spinner.hide()
+
     );
   }
 
@@ -181,7 +182,7 @@ export class DriverListComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        
+
         this.driverService.delete(id).subscribe(
 
           data => {

@@ -93,7 +93,7 @@ export class CommissionDriverEditComponent implements OnInit {
         this.spinner.hide();
       },
 
-      () => this.spinner.hide()
+     () => this.spinner.hide()
     );
   }
 
@@ -148,6 +148,8 @@ export class CommissionDriverEditComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+
 
 
 }

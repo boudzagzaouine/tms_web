@@ -42,6 +42,10 @@ import { ConsomtionTypeEditComponent } from './consomtion-type/consomtion-type-e
 import { InsuranceTypeComponent } from './insurance-type/insurance-type.component';
 import { InsuranceTypeEditComponent } from './insurance-type/insurance-type-edit/insurance-type-edit.component';
 import { TermEditComponent } from './insurance-type/insurance-type-edit/term-edit/term-edit.component';
+import { TransportCategoryVehicleComponent } from './transport-category-vehicle/transport-category-vehicle.component';
+import { TransportCategoryVehicleEditComponent } from './transport-category-vehicle/transport-category-vehicle-edit/transport-category-vehicle-edit.component';
+import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-transport-type.component';
+import { CatalogTransportTypeEditComponent } from './catalog-transport-type/catalog-transport-type-edit/catalog-transport-type-edit.component';
 
 
 @NgModule({
@@ -72,6 +76,10 @@ import { TermEditComponent } from './insurance-type/insurance-type-edit/term-edi
     InsuranceTypeComponent,
     InsuranceTypeEditComponent,
     TermEditComponent,
+    TransportCategoryVehicleComponent,
+    TransportCategoryVehicleEditComponent,
+    CatalogTransportTypeComponent,
+    CatalogTransportTypeEditComponent,
 
 
   ],

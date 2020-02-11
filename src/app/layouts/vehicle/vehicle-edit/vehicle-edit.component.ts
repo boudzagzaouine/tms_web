@@ -1,5 +1,9 @@
 
+import { TransportServcie } from './../../../shared/services/api/transport.service';
+
 import { InsuranceTermsVehicle } from './../../../shared/models/insurance-terms-vehicle';
+import { Transport } from './../../../shared/models/transport';
+
 import { InsuranceTypeTermsService } from './../../../shared/services/api/insurance-type-term.service';
 import { InsuranceTypeTerms } from './../../../shared/models/insurance-type-terms';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -55,10 +59,11 @@ export class VehicleEditComponent implements OnInit {
   inssuranceTypeTermList: InsuranceTypeTerms[] = [];
   selectInusuranceTypeTerm = new InsuranceTypeTerms();
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
+  transportList: any[] = [];
   idinsurancetype: number;
 
   index: number = 0;
- codeTI:string;
+  codeTI: string;
 
   // myLinesList: Array<InsuranceTermLigne> = new Array<InsuranceTermLigne>();
 
@@ -78,7 +83,8 @@ export class VehicleEditComponent implements OnInit {
     private insuranceTermService: InsuranceTermService,
     private router: Router,
     private toastr: ToastrService,
-    private insuranceTypeService: InsuranceTypeService
+    private insuranceTypeService: InsuranceTypeService,
+    private transportService: TransportServcie
   ) { }
 
   ngOnInit() {
@@ -108,7 +114,7 @@ export class VehicleEditComponent implements OnInit {
           this.selectedVehicle = data;
           console.log(this.selectedVehicle);
 
-         this.codeTI=this.selectedVehicle.vehicleCategory.insuranceType.code;
+          this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
           this.idinsurancetype = this.selectedVehicle.vehicleCategory.insuranceType.id;
           console.log(this.idinsurancetype);
           //this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
@@ -121,7 +127,7 @@ export class VehicleEditComponent implements OnInit {
             this.selectedModInsurance = this.selectedVehicle.insurance;
 
 
-            this.codeTI =this.selectedVehicle.vehicleCategory.insuranceType.code;
+            this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
             console.log(this.codeTI);
 
 
@@ -176,6 +182,7 @@ export class VehicleEditComponent implements OnInit {
         this.badgeTypeList = data;
       }
     );
+
     this.contractTypeService.findAll().subscribe(
       data => {
         this.contractTypeList = data;
@@ -192,7 +199,13 @@ export class VehicleEditComponent implements OnInit {
     );
     this.insuranceTypeService.findAll().subscribe(
       data => {
-        this.insuranceTypeList = data;
+        this.insuranceTypeList=data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+      this.transportList=data;
       }
     );
 
@@ -287,6 +300,7 @@ export class VehicleEditComponent implements OnInit {
       'FIsupplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
       'Fvignette': new FormControl(dd),
       'FValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
+      'Ftransport': new FormControl(this.selectedVehicle.transport, Validators.required),
 
 
 
@@ -383,6 +397,10 @@ export class VehicleEditComponent implements OnInit {
       }
     );
 
+
+    console.log(this.selectedVehicle);
+    console.log(this.vehicleForm);
+
   }
 
   onSelectBadgeType(event: any) {
@@ -392,7 +410,7 @@ export class VehicleEditComponent implements OnInit {
     console.log(this.selectedVehicle.badgeType);
   }
   onSelectVehicleCategory(event: any) {
-  //  this.selectedVehicle = new Vehicle();
+    //  this.selectedVehicle = new Vehicle();
     console.log(event);
     this.selectedVehicleCategory = event.value;
     this.selectedVehicle.vehicleCategory = event.value;
@@ -405,9 +423,9 @@ export class VehicleEditComponent implements OnInit {
 
   onloadTypeTermInsurance(idinsurancetype: number) {
 
-   if (this.editModee) {
+    if (this.editModee) {
       this.selectedVehicle.insuranceTermVehicles = [];
-      
+
     }
 
 
@@ -437,7 +455,7 @@ export class VehicleEditComponent implements OnInit {
         console.log("vehicule insurance term ");
         console.log(this.selectedVehicle.insuranceTermVehicles);
 
-        this.codeTI=this.selectedVehicle.vehicleCategory.insuranceType.code;
+        this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
         this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
         console.log(this.vehicleForm.controls['FIType'].value);
 
@@ -575,7 +593,12 @@ export class VehicleEditComponent implements OnInit {
     console.log(event);
     this.selectedInsurance.insuranceTerm = event.value;
   }
+  onSelectTransport(event: any) {
+    console.log(event);
+    this.selectedVehicle.transport = event.value;
+    console.log(this.selectedVehicle.transport);
 
+  }
 
   onNvclick() {
 
@@ -585,7 +608,7 @@ export class VehicleEditComponent implements OnInit {
     //this.vehicleForm.controls['FinsuranceTerm'].setValue(null);
     this.vehicleForm.controls['FIMontant'].setValue(null);
     this.editInsuranceMode = true;
-     this.selectedInsurance = new Insurance();
+    this.selectedInsurance = new Insurance();
 
   }
 

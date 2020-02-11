@@ -4,7 +4,7 @@ var gulp = require('gulp')
     , clean = require('gulp-clean')
     , runSequence = require('run-sequence');
 const distWar='./distwar';
-const warFileName='POS-AKYMAT';
+const warFileName='TMS';
 // This will run in this order:
 // * build-clean
 // * build-scripts and build-styles in parallel

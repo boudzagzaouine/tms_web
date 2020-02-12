@@ -134,8 +134,9 @@ pre code {
 }
 
 .collapse.in {
-  display: block;
+  display: block !important;
 }
+
 
 .btn {
   -webkit-border-radius: 2px;

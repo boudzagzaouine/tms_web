@@ -1,3 +1,4 @@
+import { DeliveryService } from './services/api/Delivery.service';
 import { VatServcie } from './services/api/vat.service';
 import { CatalogTransportTypeServcie } from './services/api/Catalog-Transport-Type.service';
 import { ZoneServcie } from './services/api/zone.service';
@@ -60,7 +61,8 @@ export class SharedModule {
         TransportServcie,
         ZoneServcie,
         CatalogTransportTypeServcie,
-        VatServcie
+        VatServcie,
+        DeliveryService
 
         ]
     };

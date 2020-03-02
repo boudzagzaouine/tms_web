@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h5 class="modal-title" id="modal-basic-title">{{'Editer Transport Catégorie Véhicule' | translate}}</h5>
+    <h5 class="modal-title" id="modal-basic-title">{{'Editer Catégorie Transport  ' | translate}}</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -16,7 +16,7 @@
 
 
           <div class="form-group col-sm-12 ">
-            <label class="font-weight-bold ">{{'Vehicule Categorie'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Categorie Vehicule '| translate}}*</label>
               <span *ngIf="(transportCatVehicleForm.get('fVehicleCategory').touched && transportCatVehicleForm.get('fVehicleCategory').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fVehicleCategory').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

@@ -34,14 +34,14 @@ $(window).on('load resize scroll', function () {
 
 $(function () {
 
-    // TOGGLE THEME-CONFIG BOX    
+    // TOGGLE THEME-CONFIG BOX
     $('.theme-config-toggle').on('click', function() {
         $(this).parents('.theme-config').toggleClass('opened');
     });
 
     // LAYOUT SETTINGS
     // ======================
-    
+
     // fixed layout
     $('#_fixedlayout').change(function(){
         if( $(this).is(':checked') ) {
@@ -61,7 +61,7 @@ $(function () {
         if($(this).is(':checked')) $('body').addClass('fixed-navbar');
         else $('body').removeClass('fixed-navbar');
     });
-    
+
     // Boxed layout
     $("[name='layout-style']").change(function(){
         if(+$(this).val()) $('body').addClass('boxed-layout');
@@ -92,7 +92,7 @@ $(function () {
 
 
 
-    
+
     // Backdrop functional
 
     $.fn.backdrop = function() {
@@ -115,7 +115,7 @@ $(function () {
 //== VENDOR PLUGINS OPTIONS
 
 $(function () {
-    
+
     // Timepicker
     if($.fn.timepicker) {
         $.fn.timepicker.defaults = $.extend(!0, {}, $.fn.timepicker.defaults, {

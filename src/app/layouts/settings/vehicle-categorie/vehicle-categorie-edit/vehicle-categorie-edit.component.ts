@@ -26,7 +26,7 @@ export class VehicleCategorieEditComponent implements OnInit {
   isFormSubmitted = false;
   insuranceTypeList: InsuranceType[] = [];
   modal: NgbModalRef;
-
+  insuranceTypeCode:String;
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private modalService: NgbModal,
@@ -38,9 +38,12 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.loadInsuranceType();
     this.initForm();
     this.loadInsuranceType();
+
+
   }
 
   initForm() {
+
     this.vehicleCategoryForm = new FormGroup({
       'Fcode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
       'Fconsumption': new FormControl(this.selectedVehicleCategory.consumption),
@@ -53,6 +56,7 @@ export class VehicleCategorieEditComponent implements OnInit {
      'FIType': new FormControl(this.selectedVehicleCategory.insuranceType, Validators.required)
 
     });
+
   }
   onSubmit() {
     this.isFormSubmitted = true;
@@ -110,7 +114,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     if (!this.editMode) {
       this.selectedVehicleCategory = new VehicleCategory();
     }
-    console.log(this.selectedVehicleCategory);
+    console.log(this.selectedVehicleCategory.insuranceType.code);
 
     this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });

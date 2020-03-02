@@ -1,3 +1,5 @@
+import { AddressInfo } from './adress-info';
+import { Address } from './address';
 import { OrderType } from "./order-type";
 import { Account } from "./account";
 import { DeliveryLine } from "./delivery-line";
@@ -31,4 +33,5 @@ export class Delivery {
     comment: String;
     expectedDate: Date;
     loadDate: Date;
+    deliveryAddress:AddressInfo;
 }

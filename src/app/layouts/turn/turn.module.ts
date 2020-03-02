@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { TreeTableModule } from 'primeng/treetable';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
@@ -16,6 +17,7 @@ import { TurnEditComponent } from './turn-edit/turn-edit.component';
 import { InputTextModule } from 'primeng/inputtext';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PickListModule} from 'primeng/picklist';
+import {SliderModule} from 'primeng/slider';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import {PickListModule} from 'primeng/picklist';
     StepsModule,
     FormsModule,
     ButtonModule,
+    SharedModule,
     TranslateModule,
     InputTextModule,
     CalendarModule,
@@ -35,6 +38,9 @@ import {PickListModule} from 'primeng/picklist';
     AutoCompleteModule,
     PickListModule,
 TreeTableModule,
+SliderModule,
+CalendarModule
+
     ]
 })
 export class TurnModule { }

@@ -1,3 +1,5 @@
+import { MessageService } from 'primeng/api';
+import { DeliveryLineService } from './services/api/delivery-line.service';
 import { DeliveryService } from './services/api/Delivery.service';
 import { VatServcie } from './services/api/vat.service';
 import { CatalogTransportTypeServcie } from './services/api/Catalog-Transport-Type.service';
@@ -62,7 +64,9 @@ export class SharedModule {
         ZoneServcie,
         CatalogTransportTypeServcie,
         VatServcie,
-        DeliveryService
+        DeliveryService,
+        DeliveryLineService,
+        MessageService
 
         ]
     };

@@ -1,3 +1,5 @@
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SharedModule } from './../../shared/shared.module';
 import { TreeTableModule } from 'primeng/treetable';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -18,10 +20,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PickListModule} from 'primeng/picklist';
 import {SliderModule} from 'primeng/slider';
+import { DeliveryLineEditComponent } from './turn-edit/delivery-line-edit/delivery-line-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent],
+  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent],
   imports: [
     CommonModule,
     TurnRoutingModule,
@@ -39,7 +43,11 @@ import {SliderModule} from 'primeng/slider';
     PickListModule,
 TreeTableModule,
 SliderModule,
-CalendarModule
+CalendarModule,
+NgbModalModule,
+NgxSpinnerModule,
+ConfirmDialogModule,
+
 
     ]
 })

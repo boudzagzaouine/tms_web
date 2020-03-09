@@ -50,15 +50,21 @@
               <td>{{ del.code }}</td>
               <td>{{ del.account.code }}</td>
               <td>{{ TotalQnt(del) }}</td>
-              <td>{{ TotalTtc(del)}}</td>
-              <td></td>
+              <td>{{ TotalTtc(del) }}</td>
+              <td>
 
+                <app-delivery-line-edit
+                  [editMode]="true"
+                  [selectedDelivery]="del"
+                ></app-delivery-line-edit>
+                
+              </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
 
-      <div *ngIf="activeIndex == 5">
+      <div *ngIf="activeIndex == 2">
         <div class=" mt-3 row  justify-content-around">
           <div class="form-group col-md-3">
             <label class="font-weight-bold "
@@ -80,21 +86,21 @@
             <label class="font-weight-bold "
               >{{ "Type de Véhicule" | translate }} *</label
             >
-            <p-dropdown [autoDisplayFirst]="false" [filter]="true"></p-dropdown>
+            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCatList" optionLabel="code" [filter]="true" [filter]="true"></p-dropdown>
           </div>
 
           <div class="form-group col-md-3">
             <label class="font-weight-bold "
               >{{ "Transport" | translate }} *</label
             >
-            <p-dropdown [autoDisplayFirst]="false" [filter]="true"></p-dropdown>
+            <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true"></p-dropdown>
           </div>
 
           <div class="form-inline col-md-3 ">
             <label class="font-weight-bold "
               >{{ " Vehicule " | translate }} *</label
             ><br />
-            <p-dropdown [autoDisplayFirst]="false" [filter]="true"></p-dropdown>
+            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleList" optionLabel="code" [filter]="true"></p-dropdown>
 
             <!-- <p-multiSelect
       [options]="cars"
@@ -113,12 +119,11 @@
             ><br />
 
             <p-multiSelect
-              [options]=""
-              class="multiselectcss"
-              optionLabel="value"
+            [options]="driverList" optionLabel="code"
+
               defaultLabel="Choisir"
               [maxSelectedLabels]="5"
-              [panelStyle]="{ minWidth: '13em' }"
+              [panelStyle]="{ minWidth: '20em' }"
             ></p-multiSelect>
           </div>
 

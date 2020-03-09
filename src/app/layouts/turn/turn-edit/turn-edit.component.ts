@@ -1,16 +1,20 @@
-import { DeliveryLine } from './../../../shared/models/delivery-line';
+import { DriverService } from './../../../shared/services/api/driver.service';
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
+import { TransportServcie } from './../../../shared/services/api/transport.service';
+import { Transport } from './../../../shared/models/transport';
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
+import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
+
 
 import { DeliveryService } from './../../../shared/services/api/Delivery.service';
 import { Delivery } from './../../../shared/models/delivery';
-import { MenuItem, MessageService, SelectItem, TreeNode, FilterUtils } from 'primeng/api';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { flatMap } from 'rxjs/operators';
+import { MenuItem } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-turn-edit',
   templateUrl: './turn-edit.component.html',
   styleUrls: ['./turn-edit.component.css'],
-  providers: [MessageService],
-  encapsulation: ViewEncapsulation.None
+
 
 })
 export class TurnEditComponent implements OnInit {
@@ -19,28 +23,65 @@ export class TurnEditComponent implements OnInit {
   items: MenuItem[];
   deliveries: Delivery[] = [];
   delivriesLoading: Array<any> = [];
-  cols: any[];
-  chargement: TreeNode[] = [];
-
-  constructor(private deliveryService: DeliveryService) { }
+  vehicleCatList: VehicleCategory[] = [];
+  transportList: Array<any> = [];
+  vehicleList: Array<any> = [];
+  driverList: Array<any> = [];
+  constructor(private deliveryService: DeliveryService,
+    private vehicleCategoryService: VehicleCategoryService,
+    private transportService: TransportServcie,
+         private vehicleService:VehicleService,
+         private driverService : DriverService) { }
 
 
   ngOnInit() {
     this.items = [{
-      label: 'Commandes',
+      label: '.........',
     },
     {
-      label: '',
+      label: '...........',
     },
     {
-      label: 'Paiment',
+      label: '.........',
     },
     {
-      label: 'Confirmation',
+      label: '..............',
     }
     ];
 
-    this.deliveryService.findAll().subscribe(
+    this.loaddata();
+
+    this.vehicleCategoryService.findAll().subscribe(
+      data => {
+
+        this.vehicleCatList = data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+
+        this.transportList = data;
+      }
+    );
+
+    this.vehicleService.findAll().subscribe(
+      data => {
+
+        this.vehicleList = data;
+      }
+    );
+    this.driverService.findAll().subscribe(
+      data => {
+
+        this.driverList = data;
+      }
+    );
+  }
+
+  loaddata() {
+
+    this.deliveryService.find('orderStatus.code~' + 'En attente').subscribe(
       data => {
         this.deliveries = data;
         console.log(data);
@@ -49,21 +90,15 @@ export class TurnEditComponent implements OnInit {
 
     );
 
-
-
-  }
-
-  loaddata() {
-
-    console.log(this.delivriesLoading);
-
   }
 
   TotalQnt(d: Delivery) {
     let sum: number = 0;
     d.lines.forEach(function (value) {
-      sum += value.quantityServed;
+      sum += value.orderedQuantity;
     });
+    console.log("total quantite");
+
     console.log(sum);
 
     return sum;
@@ -89,6 +124,7 @@ export class TurnEditComponent implements OnInit {
 
     if (this.activeIndex == 1) {
       this.loaddata();
+
     }
 
   }

@@ -20,7 +20,6 @@
 
               <th>Produit</th>
               <th>Quantite</th>
-              <th>Prix</th>
               <th style="width:15%">Actions</th>
             </tr>
           </ng-template>
@@ -34,17 +33,14 @@
               <td>
                   <p-cellEditor>
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="deliveryLines.orderedQuantity" required>
+                          <input pInputText type="text" [(ngModel)]="deliveryLines.orderedQuantity - deliveryLines.quantityServed" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{deliveryLines?.orderedQuantity}}
+                          {{deliveryLines?.orderedQuantity - deliveryLines?.quantityServed}}
                       </ng-template>
                   </p-cellEditor>
               </td>
-              <td>
-                {{deliveryLines?.totalPriceTTC}}
 
-              </td>
 
               <td style="text-align:center">
                   <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(deliveryLines)"></button>
@@ -65,9 +61,7 @@
     <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
       {{'Fermer' | translate}}
     </button>
-    <button type="button" class="btn btn-success"  >
-      {{'Valider' | translate}}
-    </button>
+
   </div>
 </ng-template>
 

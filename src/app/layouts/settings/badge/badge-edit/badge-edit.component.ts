@@ -33,6 +33,7 @@ export class BadgeEditComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
+
   ngOnInit() {
     this.badgeTypeService.findAll().subscribe(
       data => {
@@ -51,6 +52,7 @@ export class BadgeEditComponent implements OnInit {
       'description': new FormControl(this.selectedBadge.description)
     });
   }
+  
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.badgeForm.invalid) { return; }

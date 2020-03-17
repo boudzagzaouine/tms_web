@@ -1,3 +1,4 @@
+import { TurnService } from './services/api/turn.service';
 import { MessageService } from 'primeng/api';
 import { DeliveryLineService } from './services/api/delivery-line.service';
 import { DeliveryService } from './services/api/Delivery.service';
@@ -29,6 +30,7 @@ import {
   VehicleCategoryService,
   VehicleService
  } from './services';
+import { SaleOrderStockService } from './services/api/sale-order-stock.service';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ export class SharedModule {
         VatServcie,
         DeliveryService,
         DeliveryLineService,
-        MessageService
+        MessageService,
+        TurnService,
+        SaleOrderStockService,
 
         ]
     };

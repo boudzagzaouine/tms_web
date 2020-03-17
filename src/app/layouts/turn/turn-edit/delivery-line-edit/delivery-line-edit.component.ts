@@ -17,7 +17,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class DeliveryLineEditComponent implements OnInit {
   @Input() selectedDelivery = new Delivery();
   @Input() editMode: boolean;
-
+  @Output() lineEdited =new EventEmitter<DeliveryLine>();
+  quantiteserver:number;
   delivery: number;
   page = 0;
   size = 10;
@@ -28,7 +29,6 @@ export class DeliveryLineEditComponent implements OnInit {
   closeResult: String;
   // selectInsurannceTypeTerms: any;
   deliveryLineList: Array<DeliveryLine> = [];
-  clonedD: { [s: string]: DeliveryLine; } = {};
 
 
   modal: NgbModalRef;
@@ -53,12 +53,12 @@ export class DeliveryLineEditComponent implements OnInit {
 
 
   onRowEditInit(deliveryLine: DeliveryLine) {
-    this.clonedD[deliveryLine.product.code] = { ...deliveryLine };
+    this.deliveryLineList[deliveryLine.product.code] = { ...deliveryLine };
   }
 
   onRowEditSave(deliveryLine: DeliveryLine) {
     if (deliveryLine.orderedQuantity > 0) {
-      delete this.clonedD[deliveryLine.product.code];
+      delete this.deliveryLineList[deliveryLine.product.code];
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Car is updated' });
     }
     else {
@@ -67,11 +67,11 @@ export class DeliveryLineEditComponent implements OnInit {
   }
 
   onRowEditCancel(deliveryLine: DeliveryLine, index: number) {
-    this.deliveryLineList[index] = this.clonedD[deliveryLine.product.code];
-    delete this.clonedD[deliveryLine.product.code];
+    this.deliveryLineList[index] = this.deliveryLineList[deliveryLine.product.code];
+    delete this.deliveryLineList[deliveryLine.product.code];
   }
 
-
+ 
   open(content) {
 
 

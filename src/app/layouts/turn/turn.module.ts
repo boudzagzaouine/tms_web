@@ -1,3 +1,5 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { DeliveryInformationsComponent } from './turn-edit/delivery-informations/delivery-informations.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SharedModule } from './../../shared/shared.module';
@@ -8,7 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { StepsModule } from 'primeng/steps';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,12 +27,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent],
+  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent],
   imports: [
     CommonModule,
     TurnRoutingModule,
     StepsModule,
-    FormsModule,
     ButtonModule,
     SharedModule,
     TranslateModule,
@@ -47,6 +48,10 @@ CalendarModule,
 NgbModalModule,
 NgxSpinnerModule,
 ConfirmDialogModule,
+FormsModule,
+ReactiveFormsModule,
+
+
 
 
     ]

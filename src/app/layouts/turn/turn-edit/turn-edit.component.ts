@@ -79,9 +79,6 @@ export class TurnEditComponent implements OnInit {
       },
       {
         label: '.........'
-      },
-      {
-        label: '..............'
       }
     ];
 

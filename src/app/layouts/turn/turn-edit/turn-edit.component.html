@@ -9,9 +9,9 @@
       </p-steps>
 
       <div *ngIf="activeIndex == 0">
-        <p-pickList [source]="deliveries" [target]="delivriesLoading" sourceHeader="Available" targetHeader="Selected"
-          [responsive]="true" filterBy="code" dragdrop="true" sourceFilterPlaceholder="Search by brand"
-          targetFilterPlaceholder="Search by brand" [sourceStyle]="{ height: '300px' }"
+        <p-pickList [source]="deliveries" [target]="delivriesLoading" sourceHeader="livraison" targetHeader="sélectionné"
+          [responsive]="true" filterBy="code" dragdrop="true" sourceFilterPlaceholder="recherche"
+          targetFilterPlaceholder="recherche " [sourceStyle]="{ height: '300px' }"
           [targetStyle]="{ height: '300px' }">
           <ng-template let-turn pTemplate="item">
             <div class="ui-helper-clearfix">
@@ -135,5 +135,5 @@
   </div>
 </div>
 <div class="alert alert-danger"  *ngIf="this.catVehiculeQnt" >
-  <strong>Error!</strong>{{this.totalQnt}} {{this.totalqntV}}
+  <strong>Error!</strong>Quantite {{this.totalQnt}} superieur {{this.totalqntV}}
 </div>

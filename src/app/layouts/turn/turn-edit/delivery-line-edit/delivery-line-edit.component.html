@@ -20,6 +20,7 @@
 
               <th>Produit</th>
               <th>Quantite</th>
+              
               <th style="width:15%">Actions</th>
             </tr>
           </ng-template>
@@ -33,7 +34,7 @@
               <td>
                   <p-cellEditor>
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="deliveryLines.orderedQuantity - deliveryLines.quantityServed" required>
+                          <input pInputText type="text" [(ngModel)]="deliveryLines.orderedQuantity" required>
                       </ng-template>
                       <ng-template pTemplate="output">
                           {{deliveryLines?.orderedQuantity - deliveryLines?.quantityServed}}

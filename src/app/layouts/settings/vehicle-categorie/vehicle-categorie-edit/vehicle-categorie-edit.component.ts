@@ -47,7 +47,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.vehicleCategoryForm = new FormGroup({
       'Fcode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
       'Fconsumption': new FormControl(this.selectedVehicleCategory.consumption),
-      'Fweight': new FormControl((this.selectedVehicleCategory.weight)),
+      'Fweight': new FormControl((this.selectedVehicleCategory.weight),Validators.required),
       'Fwidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'Fdepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
       'Ftonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
@@ -114,7 +114,6 @@ export class VehicleCategorieEditComponent implements OnInit {
     if (!this.editMode) {
       this.selectedVehicleCategory = new VehicleCategory();
     }
-    console.log(this.selectedVehicleCategory.insuranceType.code);
 
     this.initForm();
     this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });

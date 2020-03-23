@@ -1,0 +1,73 @@
+<p>turn-list works!</p>
+<br />
+<div class="card">
+  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
+  <div class="card-body  border-top-primary">
+    <div class="row">
+      <div class="col-md-3">
+        <label class="font-weight-bold">
+          Date Livraison</label><br />
+        <p-calendar [(ngModel)]="dateDelivery" dateFormat="dd.mm.yy"></p-calendar>
+
+      </div>
+
+      <div class="col-md-3">
+        <label class="font-weight-bold ">Vehicle</label><br />
+        <input type="text" pInputText [(ngModel)]="vehicleSearch" />
+      </div>
+
+
+
+    </div>
+    <br />
+    <br />
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        Rechercher
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-header " style=" background-color:#f7f7f7;">
+    <span>Liste Des Tours</span>
+
+  </div>
+  <div class="card-body border-top-primary">
+    <p-table [value]="turnList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
+      [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
+      [(selection)]="selectedTurn" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Date Livraison</th>
+          <th>Vehicule</th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-turn>
+        <tr>
+          <td>{{turn?.dateDelivery}}</td>
+          <td>{{turn?.vehicle}}</td>
+
+          <td>
+            <a [routerLink]="['/core/vehicles/edit', turn.id]" routerLinkActive="active"
+              class="btn btn-sm btn-primary mr-2">
+              <i class="fa fa-pencil"></i>
+            </a>
+
+            <button type="button" (click)="onDelete(turn.id)" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash-o fas-red"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+</p-confirmDialog>

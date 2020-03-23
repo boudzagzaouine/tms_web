@@ -23,14 +23,10 @@ export class DeliveryLineEditComponent implements OnInit {
   page = 0;
   size = 10;
   collectionSize: number;
-
   searchQuery: string;
-
   closeResult: String;
   // selectInsurannceTypeTerms: any;
   deliveryLineList: Array<DeliveryLine> = [];
-
-
   modal: NgbModalRef;
   isFormSubmitted = false;
 
@@ -71,7 +67,7 @@ export class DeliveryLineEditComponent implements OnInit {
     delete this.deliveryLineList[deliveryLine.product.code];
   }
 
- 
+
   open(content) {
 
 

@@ -29,5 +29,6 @@ export class DeliveryLine {
   totalPriceTTC: number;
     productPack: ProductPack;
     vat: Vat;
+  sumQnt:number ;
 
 }

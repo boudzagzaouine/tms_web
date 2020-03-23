@@ -31,7 +31,7 @@
             <tr>
               <th>Livraison</th>
               <th>Client</th>
-
+              <th>TotalQuantite</th>
               <th>Action</th>
             </tr>
           </ng-template>
@@ -39,7 +39,7 @@
             <tr>
               <td>{{ del.code }}</td>
               <td>{{ del.account.code }}</td>
-
+              <td>{{ TotalQnt(del) }}</td>
               <td>
 
                 <app-delivery-line-edit [editMode]="true" [selectedDelivery]="del"></app-delivery-line-edit>
@@ -100,7 +100,7 @@
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{ " Chauffeurs " | translate }} *</label><br />
 
-              <p-multiSelect [options]="driverList" optionLabel="code" defaultLabel="Choisir" [maxSelectedLabels]="5"
+              <p-multiSelect [options]="driverList" optionLabel="name" defaultLabel="- - - - - - Choisir - - - - - - " [maxSelectedLabels]="5"
                 [panelStyle]="{ minWidth: '20em' }"
                  [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                  formControlName="fDrivers">
@@ -133,4 +133,7 @@
       <button type="button" pButton icon="fa fa-chevron-right" (click)="next()"></button>
     </div>
   </div>
+</div>
+<div class="alert alert-danger"  *ngIf="this.catVehiculeQnt" >
+  <strong>Error!</strong>{{this.totalQnt}} {{this.totalqntV}}
 </div>

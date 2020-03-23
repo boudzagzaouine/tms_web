@@ -54,7 +54,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-insuranceTerms>
             <tr>
-              <td>{{insuranceTerms?.insuranceTerm?.code}}</td>
+              <td>{{insuranceTerms?.insuranceTerm?.description}}</td>
               <td>{{insuranceTerms?.amount}}</td>
               <td>
                 <app-term-edit [editMode]="true" [selectedinsuranceTypeTerm]="insuranceTerms"

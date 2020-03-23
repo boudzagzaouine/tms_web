@@ -37,7 +37,7 @@
         <tr>
           <th>{{'Code' | translate}}</th>
           <th>{{'Type Assurance' | translate}}</th>
-          <th>{{'Poids' | translate}}</th>
+          <th>{{'longeur' | translate}}</th>
           <th>{{'Largeur' | translate}}</th>
           <th>{{'Profondeur' | translate}}</th>
           <th>{{'Tonnage' | translate}}</th>
@@ -47,7 +47,7 @@
       <ng-template pTemplate="body" let-categorie>
         <tr>
           <td>{{categorie?.code}}</td>
-          <td>{{categorie?.insuranceType?.code}}</td>
+          <td>{{categorie?.insuranceType?.description}}</td>
           <td>{{categorie?.weight}}</td>
           <td>{{categorie?.width}}</td>
           <td>{{categorie?.depth}}</td>

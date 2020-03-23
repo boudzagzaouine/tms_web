@@ -1,3 +1,4 @@
+import { TurnListComponent } from './turn-list/turn-list.component';
 import { TurnEditComponent } from './turn-edit/turn-edit.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -5,7 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TurnComponent } from './turn.component';
 
 const routes: Routes = [{ path: '', component: TurnComponent },
-                        { path: 'edit', component: TurnEditComponent }];
+                        { path: 'edit', component: TurnEditComponent },
+                        { path: 'list', component: TurnListComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

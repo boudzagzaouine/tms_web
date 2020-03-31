@@ -1,3 +1,8 @@
+import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { SaleOrderLine } from './../../../shared/models/sale-order-line';
+import { SaleOrder } from './../../../shared/models/sale-order';
+import { SaleOrderService } from './../../../shared/services/api/sale-order.service';
+import { AccountService } from './../../../shared/services/api/account.service';
 import { TurnService } from './../../../shared/services/api/turn.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,22 +20,25 @@ import {
 } from '@angular/forms';
 import { Turn } from './../../../shared/models/turn';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { DeliveryLine } from './../../../shared/models/delivery-line';
-import { DeliveryService } from './../../../shared/services/api/Delivery.service';
-import { Delivery } from './../../../shared/models/delivery';
 import { MenuItem } from 'primeng/api';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnChanges, DoCheck } from '@angular/core';
 @Component({
   selector: 'app-turn-edit',
   templateUrl: './turn-edit.component.html',
   styleUrls: ['./turn-edit.component.css']
 })
-export class TurnEditComponent implements OnInit {
+export class TurnEditComponent implements OnInit, DoCheck {
   activeIndex: number = 0;
   items: MenuItem[];
-  deliveries: Delivery[] = [];
-  delivriesLoading: Delivery[] = [];
-  delivrieLines: DeliveryLine[] = [];
+
+  codeSearch: string;
+  accountSearch: Account;
+  accountList: Account[] = [];
+
+
+  saleOrders: Array<any> = [];
+  saleOrdersLoading: SaleOrder[] = [];
+  saleOrderLines: SaleOrderLine[] = [];
   saleOrdersStock: SaleOrderStock[] = [];
   saleOrdersStockcopy: SaleOrderStock[] = [];
 
@@ -40,12 +48,15 @@ export class TurnEditComponent implements OnInit {
   driverList: Array<any> = [];
   turnAdded: Turn = new Turn();
 
+  searchQuery = '';
+
+
   turnForm: FormGroup;
   catVehiculeQnt: boolean = false;
-  totalqntV : number = 0;
-  totalQnt:number = 0;
+  totalqntV: number = 0;
+  totalQnt: number = 0;
   constructor(
-    private deliveryService: DeliveryService,
+    private saleOrderService: SaleOrderService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private vehicleService: VehicleService,
@@ -53,7 +64,8 @@ export class TurnEditComponent implements OnInit {
     private saleOrderStockService: SaleOrderStockService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private tunrService: TurnService
+    private tunrService: TurnService,
+    private accountService: AccountService,
   ) { }
 
   ngOnInit() {
@@ -70,6 +82,10 @@ export class TurnEditComponent implements OnInit {
     this.driverService.findAll().subscribe(data => {
       this.driverList = data;
     });
+
+    // this.accountService.findAll().subscribe(data => {
+    //   this.accountList = data;
+    // });
     this.items = [
       {
         label: 'Livraison'
@@ -82,9 +98,27 @@ export class TurnEditComponent implements OnInit {
       }
     ];
 
-    this.loaddata();
+   // this.loaddata();
   }
 
+  ngDoCheck() {
+
+    this.totalQnt = 0;
+    if (this.saleOrdersLoading.length > 0) {
+      for (let i = 0; i < this.saleOrdersLoading.length; i++) {
+        for (let j = 0; j < this.saleOrdersLoading[i].lines.length; j++) {
+          if (this.saleOrdersLoading[i].orderStatus.code === 'préparer') {
+            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantityPrepare * this.saleOrdersLoading[i].lines[j].productPack.weight);
+          } else if (this.saleOrdersLoading[i].orderStatus.code === 'En attente') {
+            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantity * this.saleOrdersLoading[i].lines[j].productPack.weight);
+          } else if (this.saleOrdersLoading[i].orderStatus.code === 'En cours') {
+            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantityReserved * this.saleOrdersLoading[i].lines[j].productPack.weight);
+          }
+
+        }
+      }
+    }
+  }
   initForm() {
     this.turnForm = new FormGroup({
       fDateLivraison: new FormControl(
@@ -113,34 +147,78 @@ export class TurnEditComponent implements OnInit {
   }
 
 
+  loadData() {
+
+    console.log(`search query : ${this.searchQuery}`);
+
+    this.spinner.show();
+
+    this.saleOrderService.find(this.searchQuery).subscribe(
+      data => {
+        console.log(data);
+        this.saleOrders = data;
+        this.saleOrders=this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
+          || s.orderStatus.code === 'En attente' ||
+          s.orderStatus.code === 'En cours'));
+        this.spinner.hide();
+      },
+      error => { this.spinner.hide() },
+      () => this.spinner.hide()
+    );
+  }
+  loadDataLazy(event) {
+
+    this.loadData();
+  }
+
+  onSearchClicked() {
+
+    const buffer = new EmsBuffer();
+    if (this.codeSearch != null && this.codeSearch !== '') {
+      buffer.append(`code~${this.codeSearch}`);
+    }
+
+
+    this.searchQuery = buffer.getValue();
+    this.loadData();
+
+  }
+  reset() {
+    this.codeSearch = '';
+    this.searchQuery = '';
+    this.saleOrders=null;
+  }
+
+
+
   prepareSaleOrderStock() {
-    const formValue = this.turnForm.value;
+    // const formValue = this.turnForm.value;
 
-    this.turnAdded.vehicle = formValue['fVehicule'];
-    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
-    this.turnAdded.transport = formValue['fTransport'];
-    this.turnAdded.drivers = formValue['fDrivers'];
+    // this.turnAdded.vehicle = formValue['fVehicule'];
+    // this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    // this.turnAdded.transport = formValue['fTransport'];
+    // this.turnAdded.drivers = formValue['fDrivers'];
 
-    this.delivriesLoading.forEach(value => {
-      value.lines.forEach(valueLine => {
-        this.saleOrdersStock.push(
-          new SaleOrderStock(
-            valueLine.delivery,
-            valueLine.product,
-            valueLine.owner,
-            valueLine.dlc,
-            valueLine.productPack,
-            valueLine.uom,
-            valueLine.orderedQuantity,
-            valueLine,
-            valueLine.warehouse
+    // this.saleOrdersLoading.forEach(value => {
+    //   value.lines.forEach(valueLine => {
+    //     this.saleOrdersStock.push(
+    //       new SaleOrderStock(
+    //         valueLine.delivery,
+    //         valueLine.product,
+    //         valueLine.owner,
+    //         valueLine.dlc,
+    //         valueLine.productPack,
+    //         valueLine.uom,
+    //         valueLine.orderedQuantity,
+    //         valueLine,
+    //         valueLine.warehouse
 
-          )
-        );
-      });
-      console.log('chargement sale order stock');
-      console.log(this.saleOrdersStock);
-    });
+    //       )
+    //     );
+    //   });
+    //   console.log('chargement sale order stock');
+    //   console.log(this.saleOrdersStock);
+    // });
   }
   insertSaleOrderStock() {
 
@@ -190,39 +268,62 @@ export class TurnEditComponent implements OnInit {
       .subscribe(data => {
         this.vehicleList = data;
       });
-this.totalqntV=codeCat.tonnage;
-if(this.totalQnt>codeCat.tonnage){
+    this.totalqntV = codeCat.tonnage;
+    if (this.totalQnt > codeCat.tonnage) {
 
-  this.catVehiculeQnt=true;
-}
-else{
-this.catVehiculeQnt=false;
-}
+      this.catVehiculeQnt = true;
+    }
+    else {
+      this.catVehiculeQnt = false;
+    }
 
 
 
   }
 
   loaddata() {
-    this.deliveryService
-      .find('orderStatus.code~' + 'En attente')
-      .subscribe(data => {
-        this.deliveries = data;
-        console.log('chargement data delevry ');
-        console.log(data);
-      });
+    this.saleOrderService
+      //.find('orderStatus.code~' + 'En attente')
+      .findAll().subscribe(data => {
+
+        this.saleOrders = data;
+        this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
+          || s.orderStatus.code === 'En attente' ||
+          s.orderStatus.code === 'En cours'));
+        console.log('chargement data Commande ');
+        console.log(this.saleOrders);
+      },
+        error => {
+
+          this.toastr.error(error.error.message);
+          console.log(error);
+
+          this.spinner.hide();
+        },
+
+        () => this.spinner.hide()
+      );
   }
 
-  TotalQnt(d: Delivery) {
+  TotalQnt(d: SaleOrder) {
     let sum = 0;
-
+   // this.totalQnt = 0;
     for (let i = 0; i < d.lines.length; i++) {
-      sum += (d.lines[i].orderedQuantity - d.lines[i].quantityServed);
+      if (d.orderStatus.code === 'préparer') {
+        sum += (d.lines[i].quantityPrepare * d.lines[i].productPack.weight);
+      } else if (d.orderStatus.code === 'En attente') {
+        sum += (d.lines[i].quantity * d.lines[i].productPack.weight);
+      } else if (d.orderStatus.code === 'En cours') {
+        sum += (d.lines[i].quantityReserved * d.lines[i].productPack.weight);
+      }
+
 
     }
-  this.totalQnt =+sum;
+
     return sum;
   }
+
+
 
 
   previous() {

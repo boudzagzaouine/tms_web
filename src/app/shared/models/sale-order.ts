@@ -1,3 +1,4 @@
+import { AddressInfo } from './adress-info';
 import { PaymentStatus } from './payment-status';
 //import { CashRegister } from './cash-register';
 import { Address } from './address';
@@ -28,7 +29,7 @@ export class SaleOrder {
     orderStatus: OrderStatus;
     orderType: OrderType;
     accounted: boolean;
-   // deliveryAddress: AddressInfo;
+    deliveryAddress: AddressInfo;
     //invoiceAddress: AddressInfo;
     payedAmount: number;
   //  cashRegister: CashRegister;

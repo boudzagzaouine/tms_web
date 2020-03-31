@@ -13,40 +13,68 @@
     <div class="card mt-3">
 
       <div class="card-body border-top-primary">
-        <p-table  [value]="deliveryLineList" [lazy]="true" [rows]="size" [paginator]="true"
-        [totalRecords]="deliveryLineList?.length" editMode="row">
+        <p-table  [value]="saleOrderLineList" [lazy]="true" [rows]="size" [paginator]="true"
+        [totalRecords]="saleOrderLineList?.length" editMode="row">
           <ng-template pTemplate="header">
             <tr>
-
+              <th>line id</th>
               <th>Produit</th>
+              <th>Statut</th>
               <th>Quantite</th>
-              
+              <th>Poids</th>
+
               <th style="width:15%">Actions</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-deliveryLines let-editing="editing" let-ri="rowIndex">
+          <ng-template pTemplate="body" let-saleOrderLines let-editing="editing" let-ri="rowIndex">
 
 
-            <tr [pEditableRow]="deliveryLines">
+            <tr [pEditableRow]="saleOrderLines">
               <td>
-                  {{deliveryLines?.product?.code}}
+                {{saleOrderLines?.id}}
+            </td>
+              <td>
+                  {{saleOrderLines?.product?.code}}
               </td>
+              <td>
+                {{saleOrderLines?.orderStatus.code}}
+            </td>
               <td>
                   <p-cellEditor>
+                    <div *ngIf="saleOrderLines.orderStatus.code==='préparer'" >
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="deliveryLines.orderedQuantity" required>
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityPrepare" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{deliveryLines?.orderedQuantity - deliveryLines?.quantityServed}}
+                          {{saleOrderLines?.quantityPrepare }}
                       </ng-template>
+                    </div>
+                    <div *ngIf="saleOrderLines.orderStatus.code==='En attente'" >
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantity" required>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{saleOrderLines?.quantity }}
+                      </ng-template>
+                    </div>
+                    <div *ngIf="saleOrderLines.orderStatus.code==='En cours'" >
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityReserved" required>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{saleOrderLines?.quantityReserved }}
+                      </ng-template>
+                    </div>
                   </p-cellEditor>
               </td>
-
+              <td>
+                {{saleOrderLines?.productPack?.weight}}
+            </td>
 
               <td style="text-align:center">
-                  <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(deliveryLines)"></button>
-                  <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(deliveryLines)"></button>
-                  <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(deliveryLines, ri)"></button>
+                  <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(saleOrderLines)"></button>
+                  <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(saleOrderLines)"></button>
+                  <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(saleOrderLines, ri)"></button>
               </td>
           </tr>
 

@@ -10,6 +10,9 @@ export class SaleOrderLine {
     id: number;
     lineNumber: number;
     quantity: number;
+    quantityPrepare:number;
+    quantityReserved:number;
+    
     discount = 0;
     vat: Vat;
     salePrice: number;
@@ -21,6 +24,7 @@ export class SaleOrderLine {
     saleOrder: SaleOrder;
     product: Product;
     uom: Uom;
+    weight : number;
     orderStatus: OrderStatus;
     productPack: ProductPack;
     comment: string;

@@ -160,7 +160,7 @@ this.selectCatalogTransportType = new CatalogTransportType();
       this.selectCatalogTransportType = new CatalogTransportType();
     }
     this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'm' });
+    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

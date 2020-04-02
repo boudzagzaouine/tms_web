@@ -13,9 +13,20 @@
             <div class="row">
               <div class="col-md-3">
                 <label class="font-weight-bold ">Code</label><br />
-                <input type="text" pInputText [(ngModel)]="codeSearch" />
+                <input type="text" pInputText [(ngModel)]="codeSearch" [ngModelOptions]="{standalone: true}" />
               </div>
 
+              <div class="col-md-3">
+                <label class="font-weight-bold ">Client</label><br />
+                <p-dropdown
+          [options]="accountList"
+          optionLabel="code"
+          [autoDisplayFirst]="false"
+          [(ngModel)]="accountSearch"
+          [ngModelOptions]="{standalone: true}"
+        >
+        </p-dropdown>
+              </div>
 
             </div>
             <br />
@@ -32,8 +43,6 @@
 
 
         <p-pickList
-          (onLazyLoad)="loadDataLazy($event)"
-
           [source]="saleOrders"
           [target]="saleOrdersLoading"
           sourceHeader="Commande"
@@ -112,6 +121,17 @@
               <label class="font-weight-bold "
                 >{{ "Date De la tournée" | translate }} *</label
               >
+              <span
+              *ngIf="
+                (turnForm.get('fDateLivraison').touched &&
+                turnForm.get('fDateLivraison').invalid) ||
+                (isFormSubmitted && turnForm.get('fDateLivraison').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+               obligatoire
+            </span>
               <p-calendar
                 [monthNavigator]="true"
                 [yearNavigator]="true"
@@ -130,6 +150,17 @@
               <label class="font-weight-bold "
                 >{{ "Type de Véhicule" | translate }} *</label
               >
+              <span
+              *ngIf="
+                (turnForm.get('fTypeVehicule').touched &&
+                turnForm.get('fTypeVehicule').invalid) ||
+                (isFormSubmitted && turnForm.get('fTypeVehicule').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+               obligatoire
+            </span>
               <p-dropdown
                 [autoDisplayFirst]="false"
                 (onChange)="onSelectChangeCatVehicle($event)"
@@ -145,6 +176,17 @@
               <label class="font-weight-bold "
                 >{{ "Transport" | translate }} *</label
               >
+              <span
+              *ngIf="
+                (turnForm.get('fTransport').touched &&
+                turnForm.get('fTransport').invalid) ||
+                (isFormSubmitted && turnForm.get('fTransport').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+               obligatoire
+            </span>
               <p-dropdown
                 [autoDisplayFirst]="false"
                 [options]="transportList"
@@ -158,7 +200,18 @@
             <div class="form-inline col-md-3 ">
               <label class="font-weight-bold "
                 >{{ " Vehicule " | translate }} *</label
-              ><br />
+              >
+              <span
+              *ngIf="
+                (turnForm.get('fVehicule').touched &&
+                turnForm.get('fVehicule').invalid) ||
+                (isFormSubmitted && turnForm.get('fVehicule').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+               obligatoire
+            </span><br />
               <p-dropdown
                 [autoDisplayFirst]="false"
                 [options]="vehicleList"
@@ -182,7 +235,18 @@
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold "
                 >{{ " Chauffeurs " | translate }} *</label
-              ><br />
+              > <span
+              *ngIf="
+                (turnForm.get('fDrivers').touched &&
+                turnForm.get('fDrivers').invalid) ||
+                (isFormSubmitted && turnForm.get('fDrivers').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+               obligatoire
+            </span>
+              <br />
 
               <p-multiSelect
                 [options]="driverList"

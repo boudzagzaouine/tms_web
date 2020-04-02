@@ -43,26 +43,26 @@
                   <p-cellEditor>
                     <div *ngIf="saleOrderLines.orderStatus.code==='préparer'" >
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityPrepare" required>
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityDeliver" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{saleOrderLines?.quantityPrepare }}
+                          {{saleOrderLines?.quantityPrepare -saleOrderLines?.quantityServed }}
                       </ng-template>
                     </div>
                     <div *ngIf="saleOrderLines.orderStatus.code==='En attente'" >
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantity" required>
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityDeliver" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{saleOrderLines?.quantity }}
+                          {{saleOrderLines?.quantity -saleOrderLines?.quantityServed  }}
                       </ng-template>
                     </div>
                     <div *ngIf="saleOrderLines.orderStatus.code==='En cours'" >
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityReserved" required>
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityDeliver" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{saleOrderLines?.quantityReserved }}
+                          {{saleOrderLines?.quantityReserved -saleOrderLines?.quantityServed}}
                       </ng-template>
                     </div>
                   </p-cellEditor>

@@ -47,9 +47,15 @@ export class EmsService<T> {
   set(t: T): Observable<T> {
     return this.proxy.set(this.controller, t);
   }
+  setAll(t: T[]): Observable<T[]> {
+    return this.proxy.setAll(this.controller, t);
+  }
 
   add(t: T): Observable<T> {
     return this.proxy.add(this.controller, t);
+  }
+  saveAll(t: T[]): Observable<T[]> {
+    return this.proxy.addAll(this.controller, t);
   }
 
   delete(id: number) {

@@ -1,3 +1,6 @@
+import { SaleOrderLineService } from './../../../shared/services/api/sale-order-line.service';
+import { TurnLineService } from './../../../shared/services/api/turn-line.service';
+import { TurnLine } from './../../../shared/models/turn-line';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { SaleOrderLine } from './../../../shared/models/sale-order-line';
 import { SaleOrder } from './../../../shared/models/sale-order';
@@ -6,7 +9,6 @@ import { AccountService } from './../../../shared/services/api/account.service';
 import { TurnService } from './../../../shared/services/api/turn.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { SaleOrderStockService } from './../../../shared/services/api/sale-order-stock.service';
 import { SaleOrderStock } from './../../../shared/models/sale-order-stock';
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
@@ -32,15 +34,17 @@ export class TurnEditComponent implements OnInit, DoCheck {
   items: MenuItem[];
 
   codeSearch: string;
-  accountSearch: Account;
+  accountSearch: string;
   accountList: Account[] = [];
 
+  page = 0;
+  size = 10;
+  collectionSize: number;
 
   saleOrders: Array<any> = [];
   saleOrdersLoading: SaleOrder[] = [];
   saleOrderLines: SaleOrderLine[] = [];
-  saleOrdersStock: SaleOrderStock[] = [];
-  saleOrdersStockcopy: SaleOrderStock[] = [];
+  turnLines: TurnLine[] = [];
 
   vehicleCatList: VehicleCategory[] = [];
   transportList: Array<any> = [];
@@ -49,7 +53,7 @@ export class TurnEditComponent implements OnInit, DoCheck {
   turnAdded: Turn = new Turn();
 
   searchQuery = '';
-
+  isFormSubmitted=false;
 
   turnForm: FormGroup;
   catVehiculeQnt: boolean = false;
@@ -61,7 +65,8 @@ export class TurnEditComponent implements OnInit, DoCheck {
     private transportService: TransportServcie,
     private vehicleService: VehicleService,
     private driverService: DriverService,
-    private saleOrderStockService: SaleOrderStockService,
+    private turnLineService: TurnLineService,
+    private saleOrderLineService:SaleOrderLineService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private tunrService: TurnService,
@@ -83,22 +88,22 @@ export class TurnEditComponent implements OnInit, DoCheck {
       this.driverList = data;
     });
 
-    // this.accountService.findAll().subscribe(data => {
-    //   this.accountList = data;
-    // });
+     this.accountService.findAll().subscribe(data => {
+       this.accountList = data;
+     });
     this.items = [
       {
-        label: 'Livraison'
+        label: 'Commande'
       },
       {
         label: '...........'
       },
       {
-        label: '.........'
+        label: 'Information'
       }
     ];
 
-   // this.loaddata();
+    // this.loaddata();
   }
 
   ngDoCheck() {
@@ -137,100 +142,108 @@ export class TurnEditComponent implements OnInit, DoCheck {
 
   onSubmit() {
 
-    this.prepareSaleOrderStock();
+    //this.prepareSaleOrderStock();
 
-    this.insertSaleOrderStock();
+   // this.insertSaleOrderStock();
+
+
+  this.saveTurn()
     console.log('turn stock');
-    console.log(this.turnAdded.saleOrderStocks);
+    console.log(this.turnAdded.turnLine);
 
 
   }
 
 
-  loadData() {
+  loadData(search: string = '') {
 
     console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
 
-    this.saleOrderService.find(this.searchQuery).subscribe(
+    this.saleOrderService.find(search).subscribe(
       data => {
         console.log(data);
         this.saleOrders = data;
-        this.saleOrders=this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
-          || s.orderStatus.code === 'En attente' ||
-          s.orderStatus.code === 'En cours'));
+        this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
+        || s.orderStatus.code === 'En attente' ||
+        s.orderStatus.code === 'En cours'));
+      console.log('chargement data Commande ');
+        console.log("data sal order ");
+        console.log(this.saleOrders);
+
+
         this.spinner.hide();
       },
       error => { this.spinner.hide() },
       () => this.spinner.hide()
     );
   }
-  loadDataLazy(event) {
 
-    this.loadData();
-  }
 
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
+     // buffer.append(`code~${this.codeSearch},orderStatus.id^2;5;9`);
+    }
+    if (this.accountSearch != null && this.accountSearch !== '') {
+      buffer.append(`account.code~${this.accountSearch}`);
+     // buffer.append(`code~${this.codeSearch},orderStatus.id^2;5;9`);
     }
 
 
     this.searchQuery = buffer.getValue();
-    this.loadData();
+    console.log(this.searchQuery);
+
+    this.loadData(this.searchQuery);
 
   }
   reset() {
     this.codeSearch = '';
     this.searchQuery = '';
-    this.saleOrders=null;
+    this.saleOrders = null;
+    this.accountSearch=null;
   }
 
+  insertTurnLine() {
+    this.saleOrdersLoading.forEach(value => {
+      value.lines.forEach(valueLine => {
+         this.turnLines.push(
+           new TurnLine(
+           valueLine.product,
+             valueLine.quantity,
+          valueLine.salePrice,
+             valueLine.uom,
+             valueLine.totalPriceHT,
+             valueLine.totalPriceTTC,
+             valueLine.vat,
+             valueLine.productPack,
+             valueLine,
+             value,
+             this.turnAdded
+           )
+         );
+       });
+       console.log('chargement sale order stock');
+       console.log(this.turnLines);
+     });
 
 
-  prepareSaleOrderStock() {
-    // const formValue = this.turnForm.value;
-
-    // this.turnAdded.vehicle = formValue['fVehicule'];
-    // this.turnAdded.dateDelivery = formValue['fDateLivraison'];
-    // this.turnAdded.transport = formValue['fTransport'];
-    // this.turnAdded.drivers = formValue['fDrivers'];
-
-    // this.saleOrdersLoading.forEach(value => {
-    //   value.lines.forEach(valueLine => {
-    //     this.saleOrdersStock.push(
-    //       new SaleOrderStock(
-    //         valueLine.delivery,
-    //         valueLine.product,
-    //         valueLine.owner,
-    //         valueLine.dlc,
-    //         valueLine.productPack,
-    //         valueLine.uom,
-    //         valueLine.orderedQuantity,
-    //         valueLine,
-    //         valueLine.warehouse
-
-    //       )
-    //     );
-    //   });
-    //   console.log('chargement sale order stock');
-    //   console.log(this.saleOrdersStock);
-    // });
-  }
-  insertSaleOrderStock() {
-
-    this.saleOrderStockService.saveAll(this.saleOrdersStock).subscribe(
+    this.turnLineService.saveAll(this.turnLines).subscribe(
       data => {
-        this.turnAdded.saleOrderStocks = data;
-        this.toastr.success('Elément est Enregistré Avec Succès SOS', 'Edition');
-        this.saveTurn();
+       // this.turnAdded.turnLine = data;
+        this.toastr.success('Elément turnLine  est Enregistré Avec Succès ', 'Edition');
+        console.log("turnn line");
+        console.log(this.turnLines);
+
+
+       // this.saveTurn();
       },
       error => {
         this.toastr.error(error.error.message);
-        console.log('error sos');
+        console.log('error Line');
         console.log(error);
         this.spinner.hide();
       },
@@ -239,23 +252,67 @@ export class TurnEditComponent implements OnInit, DoCheck {
   }
 
   saveTurn() {
-    this.tunrService.set(this.turnAdded).subscribe(
-      data => {
-        this.toastr.success('Elément est Enregistré Avec Succès TURN', 'Edition');
-      },
-      error => {
-        this.toastr.error(error.error.message);
-        this.spinner.hide();
-      },
+
+    this.isFormSubmitted = true;
+    if (this.turnForm.invalid) {
+      return;
+    }
+
+    const formValue = this.turnForm.value;
+
+    this.turnAdded.vehicle = formValue['fVehicule'];
+    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    this.turnAdded.transport = formValue['fTransport'];
+    this.turnAdded.drivers = formValue['fDrivers'];
+
+     this.tunrService.set(this.turnAdded).subscribe(
+       data => {
+         this.turnAdded=data;
+         this.toastr.success('Elément Turn est Enregistré Avec Succès TURN', 'Edition');
+         this.insertTurnLine();
+         this.updateSaleOrderLine();
+         console.log("turnn");
+         console.log(this.turnAdded);
+       },
+       error => {
+       this.toastr.error(error.error.message);
+         this.spinner.hide();
+       },
 
       () => this.spinner.hide()
     );
-    console.log('final turn');
-    console.log(this.turnAdded);
+   console.log('final turn');
+     console.log(this.turnAdded);
   }
 
 
 
+
+
+updateSaleOrderLine(){
+
+
+  this.saleOrdersLoading.forEach(value => {
+    value.lines.forEach(valueLine => {
+       this.saleOrderLines.push(valueLine);
+     });
+    });
+
+this.saleOrderLineService.setAll(this.saleOrderLines).subscribe(
+  data => {
+
+    this.toastr.success('Elément orderline est Enregistré Avec Succès orderline', 'Edition');
+
+  },
+  error => {
+  this.toastr.error(error.error.message);
+    this.spinner.hide();
+  },
+
+ () => this.spinner.hide()
+);
+
+                     }
 
 
 
@@ -281,33 +338,33 @@ export class TurnEditComponent implements OnInit, DoCheck {
 
   }
 
-  loaddata() {
-    this.saleOrderService
-      //.find('orderStatus.code~' + 'En attente')
-      .findAll().subscribe(data => {
+  // loaddata() {
+  //   this.saleOrderService
+  //     //.find('orderStatus.code~' + 'En attente')
+  //     .findAll().subscribe(data => {
 
-        this.saleOrders = data;
-        this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
-          || s.orderStatus.code === 'En attente' ||
-          s.orderStatus.code === 'En cours'));
-        console.log('chargement data Commande ');
-        console.log(this.saleOrders);
-      },
-        error => {
+  //       this.saleOrders = data;
+  //       this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
+  //         || s.orderStatus.code === 'En attente' ||
+  //         s.orderStatus.code === 'En cours'));
+  //       console.log('chargement data Commande ');
+  //       console.log(this.saleOrders);
+  //     },
+  //       error => {
 
-          this.toastr.error(error.error.message);
-          console.log(error);
+  //         this.toastr.error(error.error.message);
+  //         console.log(error);
 
-          this.spinner.hide();
-        },
+  //         this.spinner.hide();
+  //       },
 
-        () => this.spinner.hide()
-      );
-  }
+  //       () => this.spinner.hide()
+  //     );
+ // }
 
   TotalQnt(d: SaleOrder) {
     let sum = 0;
-   // this.totalQnt = 0;
+    // this.totalQnt = 0;
     for (let i = 0; i < d.lines.length; i++) {
       if (d.orderStatus.code === 'préparer') {
         sum += (d.lines[i].quantityPrepare * d.lines[i].productPack.weight);
@@ -334,7 +391,7 @@ export class TurnEditComponent implements OnInit, DoCheck {
     this.activeIndex++;
 
     if (this.activeIndex == 1) {
-      this.loaddata();
+      //this.loaddata();
     }
   }
 }

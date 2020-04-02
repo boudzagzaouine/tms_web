@@ -1,3 +1,4 @@
+import { TurnLine } from './turn-line';
 import { SaleOrderStock } from './sale-order-stock';
 import { Vehicle } from './vehicle';
 import { Driver } from './driver';
@@ -8,5 +9,5 @@ export class Turn {
   vehicle: Vehicle;
   transport: Transport;
   dateDelivery: Date;
-  saleOrderStocks: SaleOrderStock[] = [];
+  turnLine: TurnLine[] = [];
 }

@@ -50,6 +50,8 @@ export class ProxyService {
           search +
           '&token=' +
           this.getToken();
+          console.log("fullurl");
+
       console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
@@ -149,20 +151,29 @@ export class ProxyService {
       return this.http.post(fullurl, object);
   }
 
-  addForPos(controller: string, object: any): Observable<any> {
-      const fullurl =
-          this.url + controller + '/posSave?token=' + this.getToken();
-      console.log(fullurl);
-      return this.http.post(fullurl, object);
-  }
 
+  setAll(controller: string, object: any): Observable<any> {
+    const fullurl = this.url + controller + '/saveALL?token=' + this.getToken();
+    console.log(fullurl);
+    console.log(object);
+
+    return this.http.put(
+        this.url + controller + '/saveALL?token=' + this.getToken(),
+        object
+    );
+}
   addAll(controller: string, object: any): Observable<any> {
       const fullurl =
           this.url + controller + '/saveALL?token=' + this.getToken();
       console.log(fullurl);
       return this.http.post(fullurl, object);
   }
-
+ addForPos(controller: string, object: any): Observable<any> {
+      const fullurl =
+          this.url + controller + '/posSave?token=' + this.getToken();
+      console.log(fullurl);
+      return this.http.post(fullurl, object);
+  }
   size(controller: string): Observable<number> {
       const fullurl = this.url + controller + '/size?token=' + this.getToken();
       console.log(fullurl);

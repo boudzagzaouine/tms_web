@@ -25,10 +25,12 @@ import {SliderModule} from 'primeng/slider';
 import { DeliveryLineEditComponent } from './turn-edit/delivery-line-edit/delivery-line-edit.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TurnListComponent } from './turn-list/turn-list.component';
+import { DeliveryComponent } from './turn-list/delivery/delivery.component';
+import { DeliveryLineComponent } from './turn-list/delivery/delivery-line/delivery-line.component';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent],
+  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent],
   imports: [
     CommonModule,
     TurnRoutingModule,

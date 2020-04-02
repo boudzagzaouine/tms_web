@@ -12,7 +12,7 @@ export class SaleOrderLine {
     quantity: number;
     quantityPrepare:number;
     quantityReserved:number;
-    
+    quantityDeliver:number;
     discount = 0;
     vat: Vat;
     salePrice: number;

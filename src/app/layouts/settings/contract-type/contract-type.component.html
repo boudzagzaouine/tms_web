@@ -11,7 +11,7 @@
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
@@ -23,7 +23,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste  Types de Contrats</span>
     <span class="pull-right">
-      <app-contract-type-edit [editMode]="false" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
+      <app-contract-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -42,7 +42,7 @@
           <td>{{contractType?.code}}</td>
           <td>{{contractType?.description}}</td>
           <td>
-            <app-contract-type-edit [editMode]="true" [selectedContractType]="contractType" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
+            <app-contract-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedContractType]="contractType" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
             <button type="button" (click)="onDelete(contractType.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

@@ -15,8 +15,9 @@ export class BadgeTypeEditComponent implements OnInit {
 
   @Input() selectedBadgeType = new BadgeType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
   @Output() badgeTypeAdded = new EventEmitter<BadgeType>();
-  
+
   closeResult: String;
   badgeTypeForm: FormGroup;
   badgeTypeTypeList: BadgeType[] = [];

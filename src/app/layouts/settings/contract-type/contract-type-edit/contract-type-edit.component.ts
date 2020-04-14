@@ -15,6 +15,8 @@ export class ContractTypeEditComponent implements OnInit {
 
   @Input() selectedContractType = new ContractType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() contractTypeAdd = new EventEmitter<ContractType>();
   closeResult: String;
   contractTypeForm: FormGroup;

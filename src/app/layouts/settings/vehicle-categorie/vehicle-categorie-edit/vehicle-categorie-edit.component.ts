@@ -18,6 +18,8 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   @Input() selectedVehicleCategory = new VehicleCategory();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() vehicleCategorieAdd = new EventEmitter<VehicleCategory>();
 
   closeResult: String;
@@ -35,9 +37,9 @@ export class VehicleCategorieEditComponent implements OnInit {
     private insuranceTypeService:InsuranceTypeService
     ) { }
   ngOnInit() {
-    this.loadInsuranceType();
+   // this.loadInsuranceType();
     this.initForm();
-    this.loadInsuranceType();
+    //this.loadInsuranceType();
 
 
   }
@@ -53,7 +55,7 @@ export class VehicleCategorieEditComponent implements OnInit {
       'Ftonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
       'FemptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
       'FtotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
-     'FIType': new FormControl(this.selectedVehicleCategory.insuranceType, Validators.required)
+    // 'FIType': new FormControl(this.selectedVehicleCategory.insuranceType, Validators.required)
 
     });
 
@@ -98,17 +100,17 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   }
 
-  loadInsuranceType(){
-    this.insuranceTypeService.findAll().subscribe(
-      data => {
-        this.insuranceTypeList = data;
-      }
-    );
-  }
-  onSelectInsuranceType(event) {
-    console.log(event);
-   this.selectedVehicleCategory.insuranceType = event.value;
-  }
+  // loadInsuranceType(){
+  //   this.insuranceTypeService.findAll().subscribe(
+  //     data => {
+  //       this.insuranceTypeList = data;
+  //     }
+  //   );
+  // }
+  // onSelectInsuranceType(event) {
+  //   console.log(event);
+  //  this.selectedVehicleCategory.insuranceType = event.value;
+  // }
 
   open(content) {
     if (!this.editMode) {

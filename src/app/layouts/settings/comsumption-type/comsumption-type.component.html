@@ -14,7 +14,7 @@
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
@@ -27,7 +27,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Des Types Consommation</span>
     <span class="pull-right">
-      <app-consumption-type-edit [editMode]="false" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
+      <app-consumption-type-edit [editMode]="false"[insertOrUpdate]="'Inserer'" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -47,7 +47,7 @@
           <td>{{consumption?.code}}</td>
           <td>{{consumption?.description}}</td>
           <td>
-            <app-consumption-type-edit [editMode]="true" [selectedConsumptionType]="consumption" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
+            <app-consumption-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedConsumptionType]="consumption" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
             <button type="button" (click)="onDelete(consumption.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

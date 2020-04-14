@@ -13,7 +13,7 @@
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
@@ -26,7 +26,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste  Catégories des Véhicules</span>
     <span class="pull-right">
-      <app-vehicle-categorie-edit [editMode]="false"  (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
+      <app-vehicle-categorie-edit [editMode]="false" [insertOrUpdate]="'Inserer'"  (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -36,7 +36,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th>{{'Code' | translate}}</th>
-          <th>{{'Type Assurance' | translate}}</th>
+          <!-- <th>{{'Type Assurance' | translate}}</th> -->
           <th>{{'longeur' | translate}}</th>
           <th>{{'Largeur' | translate}}</th>
           <th>{{'Profondeur' | translate}}</th>
@@ -47,13 +47,13 @@
       <ng-template pTemplate="body" let-categorie>
         <tr>
           <td>{{categorie?.code}}</td>
-          <td>{{categorie?.insuranceType?.description}}</td>
+          <!-- <td>{{categorie?.insuranceType?.description}}</td> -->
           <td>{{categorie?.weight}}</td>
           <td>{{categorie?.width}}</td>
           <td>{{categorie?.depth}}</td>
           <td>{{categorie?.tonnage}}</td>
           <td>
-            <app-vehicle-categorie-edit [editMode]="true" [selectedVehicleCategory]="categorie" (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
+            <app-vehicle-categorie-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedVehicleCategory]="categorie" (vehicleCategorieAdd)="onVehicleCategorieAdd($event)"></app-vehicle-categorie-edit>
             <button type="button" (click)="onDelete(categorie.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

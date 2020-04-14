@@ -11,7 +11,7 @@
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
@@ -23,7 +23,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste Types de Maintenance</span>
     <span class="pull-right">
-      <app-maintenance-type-edit [editMode]="false" (maintenanceTypeAdd)="onMaintenanceTypeAdd($event)"></app-maintenance-type-edit>
+      <app-maintenance-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (maintenanceTypeAdd)="onMaintenanceTypeAdd($event)"></app-maintenance-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -42,7 +42,7 @@
           <td>{{maintenanceType?.code}}</td>
           <td>{{maintenanceType?.description}}</td>
           <td>
-            <app-maintenance-type-edit [editMode]="true" [selectedMaintenanceType]="maintenanceType" (maintenanceTypeAdd)="onMaintenanceTypeAdd($event)"></app-maintenance-type-edit>
+            <app-maintenance-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedMaintenanceType]="maintenanceType" (maintenanceTypeAdd)="onMaintenanceTypeAdd($event)"></app-maintenance-type-edit>
             <button type="button" (click)="onDelete(maintenanceType.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

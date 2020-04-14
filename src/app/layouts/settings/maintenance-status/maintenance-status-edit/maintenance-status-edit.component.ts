@@ -16,6 +16,8 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
   @Input() selectedMaintenanceState = new MaintenanceState();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() maintenanceStateAdd = new EventEmitter<MaintenanceState>();
   closeResult: String;
   maintenanceStateForm: FormGroup;

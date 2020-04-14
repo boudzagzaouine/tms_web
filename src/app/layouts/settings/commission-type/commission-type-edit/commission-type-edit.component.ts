@@ -17,6 +17,8 @@ export class CommissionTypeEditComponent implements OnInit {
 
   @Input() selectedCommissionType = new CommissionType();
   @Input() editMode: boolean;
+  @Input() insertOrInsert: String;
+
   @Output() commissionTypeAdd = new EventEmitter<CommissionType>();
 
   closeResult: String;

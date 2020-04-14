@@ -15,6 +15,8 @@ export class ConsumptionTypeEditComponent implements OnInit {
 
   @Input() selectedConsumptionType = new ConsumptionType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() conumptionTypeAdd = new EventEmitter<ConsumptionType>();
 
   closeResult: String;

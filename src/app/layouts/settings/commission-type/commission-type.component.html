@@ -27,7 +27,7 @@
   <div class="card-header " style=" background-color:#f7f7f7;">
     <span>Liste  Types Commissions</span>
     <span class="pull-right">
-      <app-commission-type-edit [editMode]="false" (commissionTypeAdd)="onCommissionTypeAdded($event)"></app-commission-type-edit>
+      <app-commission-type-edit [editMode]="false" [insertOrInsert]="'Inserer'" (commissionTypeAdd)="onCommissionTypeAdded($event)"></app-commission-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -50,7 +50,7 @@
              <td>{{commissionT?.percentage}}</td>
 
           <td>
-      <app-commission-type-edit [editMode]="true" [selectedCommissionType]="commissionT" (commissionTypeAdd)="onCommissionTypeAdded($event)"  ></app-commission-type-edit>
+      <app-commission-type-edit [editMode]="true"[insertOrInsert]="'Modifier'" [selectedCommissionType]="commissionT" (commissionTypeAdd)="onCommissionTypeAdded($event)"  ></app-commission-type-edit>
 
             <button type="button" (click)="onDelete(commissionT.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>

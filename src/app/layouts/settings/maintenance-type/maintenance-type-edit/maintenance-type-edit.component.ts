@@ -15,6 +15,8 @@ export class MaintenanceTypeEditComponent implements OnInit {
 
   @Input() selectedMaintenanceType = new MaintenanceType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() maintenanceTypeAdd = new EventEmitter<MaintenanceType>();
   closeResult: String;
   maintenanceTypeForm: FormGroup;

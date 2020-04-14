@@ -19,6 +19,7 @@ export class TermEditComponent implements OnInit {
 
   @Input() selectedinsuranceTypeTerm = new InsuranceTypeTerms();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
   @Output() insuranceTypeTermAdded = new EventEmitter<InsuranceTypeTerms>();
 
   closeResult: String;

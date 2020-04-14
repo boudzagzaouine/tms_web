@@ -40,7 +40,7 @@ const routes: Routes = [
       { path: 'consomption-type', component: ConsomtionTypeComponent },
       { path: 'insurance-type', component: InsuranceTypeComponent },
       { path: 'transport-category-vehicle', component: TransportCategoryVehicleComponent },
-      { path: 'catalog-transport', component: CatalogTransportTypeComponent },
+      { path: 'path', component: CatalogTransportTypeComponent },
       { path: 'consumption-type', component: ComsumptionTypeComponent },
       { path: 'menu-insurance', component: MenuInsuranceComponent },
       { path: 'menu-vehicle', component: MenuVehicleComponent },

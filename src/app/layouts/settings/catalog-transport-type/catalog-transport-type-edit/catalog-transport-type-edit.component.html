@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h5 class="modal-title" id="modal-basic-title">{{'Editer Catalogue Transport' | translate}}</h5>
+    <h5 class="modal-title" id="modal-basic-title">{{insertOrUpdate}}{{' Trajet' | translate}}</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -16,7 +16,7 @@
 
 
           <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Vehicule Categorie'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Vehicule Categorie'| translate}} *</label>
               <span *ngIf="(transportCatVehicleForm.get('fVehicleCategory').touched && transportCatVehicleForm.get('fVehicleCategory').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fVehicleCategory').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -27,7 +27,7 @@
           </div>
 
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Transport'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Transport'| translate}} *</label>
             <span *ngIf="(transportCatVehicleForm.get('fTransport').touched && transportCatVehicleForm.get('fTransport').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fTransport').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -38,7 +38,7 @@
           </div>
 
           <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Zone Source '| translate}}*</label>
+            <label class="font-weight-bold ">{{'Zone Source '| translate}} *</label>
             <span *ngIf="(transportCatVehicleForm.get('fZoneSource').touched && transportCatVehicleForm.get('fZoneSource').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fZoneSource').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -49,7 +49,7 @@
           </div>
 
           <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Zone Destination'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Zone Destination'| translate}} *</label>
             <span *ngIf="(transportCatVehicleForm.get('fZoneDestination').touched && transportCatVehicleForm.get('fZoneDestination').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fZoneDestination').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -60,7 +60,7 @@
           </div>
 
           <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Taux Tva'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Taux Tva'| translate}} *</label>
             <span *ngIf="(transportCatVehicleForm.get('fVat').touched && transportCatVehicleForm.get('fVat').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fVat').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

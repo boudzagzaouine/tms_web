@@ -16,7 +16,7 @@
 
 
           <div class="form-group col-sm-12 ">
-            <label class="font-weight-bold ">{{'Categorie Vehicule '| translate}}*</label>
+            <label class="font-weight-bold ">{{'Categorie Vehicule '| translate}} *</label>
               <span *ngIf="(transportCatVehicleForm.get('fVehicleCategory').touched && transportCatVehicleForm.get('fVehicleCategory').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fVehicleCategory').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -27,7 +27,7 @@
           </div>
 
           <div class="form-group col-sm-12 ">
-            <label class="font-weight-bold ">{{'Transport'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Transport'| translate}} *</label>
             <span *ngIf="(transportCatVehicleForm.get('fTransport').touched && transportCatVehicleForm.get('fTransport').invalid) ||
             (isFormSubmitted && transportCatVehicleForm.get('fTransport').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

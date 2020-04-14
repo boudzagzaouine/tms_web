@@ -26,6 +26,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
   @Input() selectCatalogTransportType = new CatalogTransportType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
   @Output() transportCatVehicleAdd = new EventEmitter<CatalogTransportType>();
 
   closeResult: String;

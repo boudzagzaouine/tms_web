@@ -3,7 +3,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h5 class="modal-title" id="modal-basic-title">{{insertOrUpdate}} Type de Badge</h5>
+    <h5 class="modal-title" id="modal-basic-title">{{insertOrUpdate | translate}} {{'Type de Badge' |translate}}</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,7 +14,7 @@
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label>{{'Code' | translate}}*</label>
+            <label>{{'Code' | translate}} *</label>
             <span *ngIf="(badgeTypeForm.get('code').touched && badgeTypeForm.get('code').invalid) ||
             (isFormSubmitted && badgeTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

@@ -30,9 +30,9 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>List Catalogues de Transport</span>
+    <span>List Des Trajets</span>
     <span class="pull-right">
-      <app-catalog-transport-type-edit [editMode]="false" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-catalog-transport-type-edit>
+      <app-catalog-transport-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-catalog-transport-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
@@ -42,22 +42,22 @@
       [(selection)]="selectCatalogTransportType" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th>Véhicule Catégorie</th>
-          <th>Transport</th>
-          <th>Zone Source</th>
-          <th>Zone Destination</th>
+          <th>{{'Véhicule Catégorie' | translate}}</th>
+          <th>{{'Transport' | translate}}</th>
+          <th>{{'Zone Source' | translate}}</th>
+          <th>{{'Zone Destination' | translate}}</th>
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-TransportCat>
         <tr>
-          <td>{{TransportCat?.vehicleCategory?.code}}</td>
+          <td>{{TransportCat.vehicleCategory.code}}</td>
           <td>{{TransportCat?.transport?.code}}</td>
           <td>{{TransportCat?.zoneSource?.name}}</td>
           <td>{{TransportCat?.zoneDestination?.name}}</td>
 
           <td>
-            <app-catalog-transport-type-edit [editMode]="true" [selectCatalogTransportType]="TransportCat" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-catalog-transport-type-edit>
+            <app-catalog-transport-type-edit [editMode]="true" [insertOrUpdate]="'Modfier'" [selectCatalogTransportType]="TransportCat" (transportCatVehicleAdd)="onTanrsportAdd($event)"></app-catalog-transport-type-edit>
             <button type="button" (click)="onDelete(TransportCat.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>

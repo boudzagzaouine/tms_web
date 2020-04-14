@@ -14,7 +14,7 @@
 
         <div class="row  justify-content-around">
           <div class="form-group col-md-6">
-            <label>{{'Code' | translate}}*</label>
+            <label>{{'Code' | translate}} *</label>
             <span *ngIf="(insuranceTypeForm.get('code').touched && insuranceTypeForm.get('code').invalid) ||
             (isFormSubmitted && insuranceTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -39,7 +39,7 @@
       <div class="card-header " style=" background-color:#f7f7f7;">
         <span>Liste  Termes d&acute;assurance</span>
          <span class="pull-right">
-          <app-term-edit [editMode]="false"  (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
+          <app-term-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
         </span>
       </div>
       <div class="card-body border-top-primary">
@@ -57,7 +57,7 @@
               <td>{{insuranceTerms?.insuranceTerm?.description}}</td>
               <td>{{insuranceTerms?.amount}}</td>
               <td>
-                <app-term-edit [editMode]="true" [selectedinsuranceTypeTerm]="insuranceTerms"
+                <app-term-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedinsuranceTypeTerm]="insuranceTerms"
                 (insuranceTypeTermAdded)="onLineEdited($event)"></app-term-edit>
                 <button type="button" (click)="onDeleteLine(insuranceTerms)" class="btn btn-sm btn-danger mx-1">
                   <i class="fa fa-trash-o"></i>

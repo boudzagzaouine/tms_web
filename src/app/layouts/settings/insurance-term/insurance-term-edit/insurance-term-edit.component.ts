@@ -14,6 +14,8 @@ import { InsuranceTermService } from '../../../../shared/services';
 export class InsuranceTermEditComponent implements OnInit {
   @Input() selectedInsuranceTerm = new InsuranceTerm();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
+
   @Output() inssuranceTermAdd = new EventEmitter<InsuranceTerm>();
   closeResult: String;
   insuranceTermForm: FormGroup;

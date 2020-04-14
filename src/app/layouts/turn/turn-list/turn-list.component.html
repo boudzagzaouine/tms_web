@@ -1,33 +1,27 @@
-<p>turn-list works!</p>
 <br />
 <div class="card">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
   <div class="card-body  border-top-primary">
     <div class="row">
+
+
       <div class="col-md-3">
         <label class="font-weight-bold">
-          Date Livraison</label><br />
+          Date tournée</label><br />
         <p-calendar [(ngModel)]="dateDelivery" dateFormat="dd.mm.yy"></p-calendar>
 
       </div>
 
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Vehicle</label><br />
-        <input type="text" pInputText [(ngModel)]="vehicleSearch" />
-      </div>
-
-
-
     </div>
     <br />
     <br />
-    <div class="text-center">
+    <!-- <div class="text-center">
       <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -42,18 +36,21 @@
       [(selection)]="selectedTurn" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th>Date Livraison</th>
+          <th>Date Tournée</th>
           <th>Vehicule</th>
+          <th>Driver</th>
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-turn>
         <tr>
-          <td>{{turn?.dateDelivery}}</td>
-          <td>{{turn?.vehicle}}</td>
+
+          <td>{{turn?.dateDelivery | date:'dd-MM-yyyy'}}</td>
+          <td>{{turn?.vehicle?.code}}</td>
+          <td  ><span *ngFor="let item of turn?.drivers"> {{item?.name }} </span></td>
 
           <td>
-            <a [routerLink]="['/core/vehicles/edit', turn.id]" routerLinkActive="active"
+            <a [routerLink]="['/core/turn/turn', turn.id]" routerLinkActive="active"
               class="btn btn-sm btn-primary mr-2">
               <i class="fa fa-pencil"></i>
             </a>

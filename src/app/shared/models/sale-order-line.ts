@@ -30,7 +30,8 @@ export class SaleOrderLine {
     comment: string;
     description: string;
     qtyRectified = false;
-
+    remainingQuantity:number;
+    qantityToLoad:number;
     constructor() {
     }
 }

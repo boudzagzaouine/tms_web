@@ -46,7 +46,16 @@ import { TransportCategoryVehicleComponent } from './transport-category-vehicle/
 import { TransportCategoryVehicleEditComponent } from './transport-category-vehicle/transport-category-vehicle-edit/transport-category-vehicle-edit.component';
 import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-transport-type.component';
 import { CatalogTransportTypeEditComponent } from './catalog-transport-type/catalog-transport-type-edit/catalog-transport-type-edit.component';
+import { ComsumptionTypeComponent } from './comsumption-type/comsumption-type.component';
+import { ConsumptionTypeEditComponent } from './comsumption-type/consumption-type-edit/consumption-type-edit.component';
+import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
 
+import {TabMenuModule} from 'primeng/tabmenu';
+import {TabViewModule} from 'primeng/tabview';
+import {PanelModule} from 'primeng/panel';
+import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
+import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.component';
+import { MenuDriverComponent } from './menu-driver/menu-driver.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +89,13 @@ import { CatalogTransportTypeEditComponent } from './catalog-transport-type/cata
     TransportCategoryVehicleEditComponent,
     CatalogTransportTypeComponent,
     CatalogTransportTypeEditComponent,
+    ComsumptionTypeComponent,
+    ConsumptionTypeEditComponent,
+    MenuInsuranceComponent,
+    MenuVehicleComponent,
+    MenuMaintenanceComponent,
+    MenuDriverComponent,
+
 
 
   ],
@@ -100,7 +116,10 @@ import { CatalogTransportTypeEditComponent } from './catalog-transport-type/cata
     CalendarModule,
     InputTextModule,
     KeyFilterModule,
-    CheckboxModule
+    CheckboxModule,
+    TabMenuModule,
+    TabViewModule,
+    PanelModule,
   ]
 })
 export class SettingsModule { }

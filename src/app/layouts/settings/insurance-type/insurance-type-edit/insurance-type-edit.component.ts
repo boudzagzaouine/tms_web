@@ -23,6 +23,7 @@ export class InsuranceTypeEditComponent implements OnInit {
 
   @Input() selectedinsuranceType = new InsuranceType();
   @Input() editMode: boolean;
+  @Input() insertOrUpdate: String;
   @Output() insuranceTypeAdded = new EventEmitter<InsuranceType>();
   insurannceTypeTerms: InsuranceTypeTerms[] = [];
   insurancetypee: number;

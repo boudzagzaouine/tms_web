@@ -112,13 +112,9 @@ export class TurnEditComponent implements OnInit, DoCheck {
     if (this.saleOrdersLoading.length > 0) {
       for (let i = 0; i < this.saleOrdersLoading.length; i++) {
         for (let j = 0; j < this.saleOrdersLoading[i].lines.length; j++) {
-          if (this.saleOrdersLoading[i].orderStatus.code === 'préparer') {
-            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantityPrepare * this.saleOrdersLoading[i].lines[j].productPack.weight);
-          } else if (this.saleOrdersLoading[i].orderStatus.code === 'En attente') {
-            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantity * this.saleOrdersLoading[i].lines[j].productPack.weight);
-          } else if (this.saleOrdersLoading[i].orderStatus.code === 'En cours') {
-            this.totalQnt += (this.saleOrdersLoading[i].lines[j].quantityReserved * this.saleOrdersLoading[i].lines[j].productPack.weight);
-          }
+
+            this.totalQnt += (this.saleOrdersLoading[i].lines[j].qantityToLoad * this.saleOrdersLoading[i].lines[j].productPack.weight);
+
 
         }
       }
@@ -147,9 +143,9 @@ export class TurnEditComponent implements OnInit, DoCheck {
    // this.insertSaleOrderStock();
 
 
-  this.saveTurn()
+  this.saveTurn();
     console.log('turn stock');
-    console.log(this.turnAdded.turnLine);
+  //  console.log(this.turnAdded.turnLine);
 
 
   }
@@ -213,7 +209,7 @@ export class TurnEditComponent implements OnInit, DoCheck {
          this.turnLines.push(
            new TurnLine(
            valueLine.product,
-             valueLine.quantity,
+             valueLine.qantityToLoad,
           valueLine.salePrice,
              valueLine.uom,
              valueLine.totalPriceHT,
@@ -270,7 +266,7 @@ export class TurnEditComponent implements OnInit, DoCheck {
          this.turnAdded=data;
          this.toastr.success('Elément Turn est Enregistré Avec Succès TURN', 'Edition');
          this.insertTurnLine();
-         this.updateSaleOrderLine();
+      //   this.updateSaleOrderLine();
          console.log("turnn");
          console.log(this.turnAdded);
        },
@@ -362,25 +358,35 @@ this.saleOrderLineService.setAll(this.saleOrderLines).subscribe(
   //     );
  // }
 
-  TotalQnt(d: SaleOrder) {
-    let sum = 0;
-    // this.totalQnt = 0;
-    for (let i = 0; i < d.lines.length; i++) {
+   TotalQnt(d: SaleOrder) {
+     let sum = 0;
+     // this.totalQnt = 0;
+     for (let i = 0; i < d.lines.length; i++) {
       if (d.orderStatus.code === 'préparer') {
-        sum += (d.lines[i].quantityPrepare * d.lines[i].productPack.weight);
+         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
       } else if (d.orderStatus.code === 'En attente') {
-        sum += (d.lines[i].quantity * d.lines[i].productPack.weight);
-      } else if (d.orderStatus.code === 'En cours') {
-        sum += (d.lines[i].quantityReserved * d.lines[i].productPack.weight);
-      }
+         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
+       } else if (d.orderStatus.code === 'En cours') {
+         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
+     }
 
 
-    }
+     }
 
-    return sum;
-  }
+     return sum;
+   }
+
+  // TotalQnt(d: SaleOrder) {
+  //   let sum = 0;
+  //   // this.totalQnt = 0;
+  //   for (let i = 0; i < d.lines.length; i++) {
+
+  //       sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
 
 
+  //   return sum;
+  // }
+  // }
 
 
   previous() {

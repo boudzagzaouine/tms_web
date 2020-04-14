@@ -41,15 +41,15 @@
             </td>
               <td>
                   <p-cellEditor>
-                    <div *ngIf="saleOrderLines.orderStatus.code==='préparer'" >
+                   <div >
                       <ng-template pTemplate="input">
-                          <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityDeliver" required>
+                          <input pInputText type="text" [(ngModel)]="saleOrderLines.qantityToLoad" required>
                       </ng-template>
                       <ng-template pTemplate="output">
-                          {{saleOrderLines?.quantityPrepare -saleOrderLines?.quantityServed }}
+                          {{saleOrderLines?.qantityToLoad }}
                       </ng-template>
                     </div>
-                    <div *ngIf="saleOrderLines.orderStatus.code==='En attente'" >
+                    <!-- <div *ngIf="saleOrderLines.orderStatus.code==='En attente'" >
                       <ng-template pTemplate="input">
                           <input pInputText type="text" [(ngModel)]="saleOrderLines.quantityDeliver" required>
                       </ng-template>
@@ -64,7 +64,7 @@
                       <ng-template pTemplate="output">
                           {{saleOrderLines?.quantityReserved -saleOrderLines?.quantityServed}}
                       </ng-template>
-                    </div>
+                    </div> -->
                   </p-cellEditor>
               </td>
               <td>

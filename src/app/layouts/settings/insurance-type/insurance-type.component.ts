@@ -21,7 +21,7 @@ export class InsuranceTypeComponent implements OnInit {
   searchQuery: string;
   codeSearch: string;
   items: MenuItem[];
-
+  insertOrUpdate:String;
   insuranceTypeList: Array<InsuranceType> = [];
 
   constructor(private insuranceTypeService: InsuranceTypeService,

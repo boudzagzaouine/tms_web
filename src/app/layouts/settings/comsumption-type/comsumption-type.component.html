@@ -1,5 +1,5 @@
 <br />
-<div class="card">
+<div class="card ">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
   <div class="card-body border-top-primary">
     <div class="row">
@@ -7,11 +7,15 @@
         <label class="font-weight-bold ">Code</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
+
+
+
     </div>
     <br />
 
     <div class="text-center">
       <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
@@ -21,15 +25,16 @@
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste  Types d&acute;assurances</span>
-     <span class="pull-right">
-      <app-insurance-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (insuranceTypeAdded)="onInsuranceTypeAdded($event)"></app-insurance-type-edit>
+    <span>Liste Des Types Consommation</span>
+    <span class="pull-right">
+      <app-consumption-type-edit [editMode]="false" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
     </span>
   </div>
   <div class="card-body border-top-primary">
-    <p-table [value]="insuranceTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-      [(contextMenuSelection)]="selectedInsuranceType" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsuranceType" [paginator]="true">
+    <p-table [value]="consumptionTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
+    [(contextMenuSelection)]="selectedConsumptionType"
+      [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
+      [(selection)]="selectedConsumptionType" [paginator]="true">
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>
@@ -37,13 +42,13 @@
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-insuranceType>
+      <ng-template pTemplate="body" let-consumption>
         <tr>
-          <td>{{insuranceType?.code}}</td>
-          <td>{{insuranceType?.description}}</td>
+          <td>{{consumption?.code}}</td>
+          <td>{{consumption?.description}}</td>
           <td>
-            <app-insurance-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedinsuranceType]="insuranceType" (insuranceTypeAdded)="onInsuranceTypeAdded($event)"></app-insurance-type-edit>
-            <button type="button" (click)="onDelete(insuranceType.id)" class="btn btn-sm btn-danger mx-1">
+            <app-consumption-type-edit [editMode]="true" [selectedConsumptionType]="consumption" (conumptionTypeAdd)="onconsumptiontypeAdd($event)"></app-consumption-type-edit>
+            <button type="button" (click)="onDelete(consumption.id)" class="btn btn-sm btn-danger mx-1">
               <i class="fa fa-trash-o"></i>
             </button>
           </td>

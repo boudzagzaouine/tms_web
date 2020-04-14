@@ -1,0 +1,26 @@
+<p-tabView>
+
+  <p-tabPanel header="Véhicule Catégorie">
+      <ng-template pTemplate="content">
+                 <app-vehicle-categorie></app-vehicle-categorie>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Type Contrat">
+      <ng-template pTemplate="content">
+        <app-contract-type></app-contract-type>
+      </ng-template>
+  </p-tabPanel>
+
+  <p-tabPanel header="Type Consommation">
+    <ng-template pTemplate="content">
+      <app-comsumption-type></app-comsumption-type>
+    </ng-template>
+</p-tabPanel>
+
+<p-tabPanel header="Type Patrimoine">
+  <ng-template pTemplate="content">
+    <app-consomtion-type></app-consomtion-type>
+  </ng-template>
+</p-tabPanel>
+
+</p-tabView>

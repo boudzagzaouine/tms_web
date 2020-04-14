@@ -1,3 +1,6 @@
+import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
+import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
+import { ComsumptionTypeComponent } from './comsumption-type/comsumption-type.component';
 import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-transport-type.component';
 import { CatalogTransportType } from './../../shared/models/CatalogTransportType';
 import { TransportCategoryVehicleComponent } from './transport-category-vehicle/transport-category-vehicle.component';
@@ -18,6 +21,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { SettingsComponent } from './settings.component';
 import { MaintenanceStatusComponent } from './maintenance-status/maintenance-status.component';
 import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
+import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.component';
+import { MenuDriverComponent } from './menu-driver/menu-driver.component';
 
 const routes: Routes = [
   {
@@ -35,7 +40,13 @@ const routes: Routes = [
       { path: 'consomption-type', component: ConsomtionTypeComponent },
       { path: 'insurance-type', component: InsuranceTypeComponent },
       { path: 'transport-category-vehicle', component: TransportCategoryVehicleComponent },
-      { path: 'catalog-transport', component: CatalogTransportTypeComponent }
+      { path: 'catalog-transport', component: CatalogTransportTypeComponent },
+      { path: 'consumption-type', component: ComsumptionTypeComponent },
+      { path: 'menu-insurance', component: MenuInsuranceComponent },
+      { path: 'menu-vehicle', component: MenuVehicleComponent },
+      { path: 'menu-maintenance', component: MenuMaintenanceComponent },
+      { path: 'menu-driver', component: MenuDriverComponent }
+
 
 
 

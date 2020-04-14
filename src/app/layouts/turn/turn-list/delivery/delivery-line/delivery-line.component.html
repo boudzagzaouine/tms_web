@@ -1,1 +1,68 @@
-<p>delivery-line works!</p>
+<button class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
+</button>
+<ng-template #content let-modal>
+  <div class="modal-header" style=" background-color:#f7f7f7">
+    <h4 class="modal-title" id="modal-basic-title">Editer Ligne de Commande</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body border-top-primary">
+
+    <div class="card mt-3">
+
+      <div class="card-body border-top-primary">
+        <p-table  [value]="TurnLineList" [lazy]="true" [rows]="size" [paginator]="true"
+        [totalRecords]="TurnLineList?.length" editMode="row">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>line id</th>
+              <th>Produit</th>
+              <th>Statut</th>
+              <th>Quantite</th>
+              <th>Poids</th>
+
+              <th style="width:15%">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-saleOrderLines let-editing="editing" let-ri="rowIndex">
+
+
+            <tr [pEditableRow]="saleOrderLines">
+              <td>
+                {{saleOrderLines?.id}}
+            </td>
+              <td>
+                  {{saleOrderLines?.product?.code}}
+              </td>
+              <td>
+                {{saleOrderLines?.orderStatus.code}}
+            </td>
+            <td>
+              {{saleOrderLines?.qantityToLoad}}
+          </td>
+
+              <td>
+                {{saleOrderLines?.productPack?.weight}}
+            </td>
+
+
+          </tr>
+
+
+
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer pull-right ">
+
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
+      {{'Fermer' | translate}}
+    </button>
+
+  </div>
+</ng-template>
+

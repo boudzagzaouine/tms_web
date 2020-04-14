@@ -25,6 +25,7 @@ export class TurnListComponent implements OnInit {
 
   selectedTurn: Turn;
   searchQuery = '';
+  dateLivraisonSearch: Date;
   dateDelivery: Date;
   matSearch: string;
   categorySearch: string;
@@ -41,7 +42,10 @@ export class TurnListComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.loadData();
+   }
 
 
   loadData(search: string = '') {
@@ -73,12 +77,8 @@ export class TurnListComponent implements OnInit {
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.dateDelivery != null && this.dateDelivery !== undefined) {
-      buffer.append(`dateDelivery~${this.dateDelivery}`);
-    }
-
-    if (this.vehicleSearch != null && this.vehicleSearch !== '') {
-      buffer.append(`vehicle.code~${this.vehicleSearch}`);
+    if (this.dateLivraisonSearch != null && this.dateLivraisonSearch !== undefined) {
+      buffer.append(`dateDelivery~${this.dateLivraisonSearch}`);
     }
 
 
@@ -88,13 +88,6 @@ export class TurnListComponent implements OnInit {
 
   }
 
-  onVehicleCategorySearch(event: any) {
-    this.vehicleCategoryService.find('code~' + event.query).subscribe(
-      data => this.vehicleCategoryList = data.map(f => f.code)
-    );
-  }
-
- 
   reset() {
     this.dateDelivery = null;
     this.matSearch = null;

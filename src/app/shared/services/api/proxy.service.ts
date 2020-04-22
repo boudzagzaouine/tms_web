@@ -63,6 +63,8 @@ export class ProxyService {
       httpparams = httpparams.append('size', size.toString());
       httpparams = httpparams.append('token', this.getToken());
       const fullurl = this.url + controller + '/searchPage';
+      console.log(" find pagination");
+
       console.log(fullurl);
       return this.http.get<any[]>(fullurl, { params: httpparams });
   }
@@ -203,6 +205,12 @@ export class ProxyService {
       console.log('delete id : ' + id);
       return this.http.delete<number>(fullurl);
   }
+
+  deleteAllByIds(controller: string, ids: number[]) {
+    const fullurl = this.url + controller + '/deleteAll?ids=' + ids.join(',') + '&token=' + this.getToken();
+    console.log('delete list : ' + ids.join(','));
+    return this.http.delete(fullurl);
+}
 
 
   login(controller: string, code: string, password: string) {

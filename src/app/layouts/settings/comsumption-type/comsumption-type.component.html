@@ -34,7 +34,7 @@
     <p-table [value]="consumptionTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
     [(contextMenuSelection)]="selectedConsumptionType"
       [totalRecords]="collectionSize" [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single"
-      [(selection)]="selectedConsumptionType" [paginator]="true">
+      [(selection)]="selectedConsumptionType" >
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>

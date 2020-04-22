@@ -1,3 +1,4 @@
+import { InsuranceTermEditComponent } from './insurance-term/insurance-term-edit/insurance-term-edit.component';
 import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
 import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
 import { ComsumptionTypeComponent } from './comsumption-type/comsumption-type.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'contract-types', component: ContractTypeComponent },
       { path: 'insurances', component: InsuranceComponent },
       { path: 'insurance-terms', component: InsuranceTermComponent },
+      { path: 'insurance-terms-edit', component: InsuranceTermEditComponent },
       { path: 'maintenance-statuses', component: MaintenanceStatusComponent },
       { path: 'maintenance-types', component: MaintenanceTypeComponent },
       { path: 'vehicle-categorie', component: VehicleCategorieComponent },

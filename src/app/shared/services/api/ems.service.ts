@@ -61,4 +61,8 @@ export class EmsService<T> {
   delete(id: number) {
     return this.proxy.delete(this.controller, id);
   }
+
+  deleteAllByIds(ids: number[]) {
+    return this.proxy.deleteAllByIds(this.controller, ids);
+  }
 }

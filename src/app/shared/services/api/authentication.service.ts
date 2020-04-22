@@ -18,6 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class AuthenticationService implements OnDestroy{
   private subs: Subscription = new Subscription;
   private currentUser: User;
+  private  current : User;
     token: string;
     cashRegisterID: number;
     constructor(
@@ -49,8 +50,11 @@ export class AuthenticationService implements OnDestroy{
                     pass
             )
             .subscribe(
+
+
                 user => {
                     this.currentUser = user;
+
                     if (
                         this.currentUser !== undefined &&
                         this.currentUser !== null
@@ -68,10 +72,10 @@ export class AuthenticationService implements OnDestroy{
                             }
                         }
                         this.permissionService.loadPermissions(permissions);
-                        this.currentUser.columns = '';
+                       // this.currentUser.columns = '';
                         // this.currentUser.agency = null;
-                        this.currentUser.saleOrders = null;
-                        this.currentUser.userGroup = null;
+                      //  this.currentUser.saleOrders = null;
+                       // this.currentUser.userGroup = null;
                         localStorage.setItem(LOGGED_IN, 'true');
                         sessionStorage.setItem(
                             CURRENT_USER,
@@ -96,8 +100,22 @@ export class AuthenticationService implements OnDestroy{
             );
     }
 
+   setuser(user : User){
+    this.currentUser = user;
+    localStorage.setItem(LOGGED_IN, 'true');
+    sessionStorage.setItem(
+      CURRENT_USER,
+      JSON.stringify(user)
+  );
+
+
+
+   }
     getCurrentUser(loadPermissions = true) {
+
+
         const user: User = JSON.parse(sessionStorage.getItem('currentUser'));
+
         if (user !== undefined && user !== null) {
             //
             if (loadPermissions) {

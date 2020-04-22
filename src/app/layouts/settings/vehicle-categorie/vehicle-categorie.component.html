@@ -32,7 +32,7 @@
   <div class="card-body border-top-primary">
     <p-table [value]="vehicleCategorieList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
       [(contextMenuSelection)]="selectedVehicleCategorie" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedVehicleCategorie" [paginator]="true">
+      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedVehicleCategorie" >
       <ng-template pTemplate="header">
         <tr>
           <th>{{'Code' | translate}}</th>

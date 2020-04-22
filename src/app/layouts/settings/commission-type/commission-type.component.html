@@ -33,7 +33,7 @@
   <div class="card-body border-top-primary">
     <p-table [value]="commissionTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
     [(contextMenuSelection)]="selectedCommmissionType" [totalRecords]="collectionSize" [resizableColumns]="true"
-    [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedCommmissionType" [paginator]="true">
+    [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedCommmissionType" >
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>

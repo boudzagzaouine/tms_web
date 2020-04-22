@@ -1,3 +1,5 @@
+import { UserService } from './services/api/user.service';
+import { AuthenticationService } from './services/api/authentication.service';
 import { ConsumptionTypeService } from './services/api/consumption-type.service';
 import { TurnLineService } from './services/api/turn-line.service';
 import { SaleOrderService } from './services/api/sale-order.service';
@@ -80,7 +82,9 @@ export class SharedModule {
         SaleOrderService,
         TurnLineService,
         SaleOrderLineService,
-        ConsumptionTypeService
+        ConsumptionTypeService,
+        AuthenticationService,
+   UserService
 
         ]
     };

@@ -1,61 +1,161 @@
-<br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;" >Filters</div>
-  <div class="card-body border-top-primary">
-    <div class="row">
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
-      </div>
+<p-panel [toggleable]="true">
+  <p-header>
+    <div class="ui-helper-clearfix h-3">
+      <span class="" style="font-size: 16px; color: #5f5b5b;">Filters</span>
     </div>
-    <br />
-    <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        Rechercher
-      </button>
+  </p-header>
+
+  <div class="row">
+    <div class="col-md-3">
+      <label class="font-weight-bold">Code</label><br />
+      <input type="text" pInputText [(ngModel)]="codeSearch" />
     </div>
   </div>
-</div>
+  <br />
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      Réinitialiser
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      Rechercher
+    </button>
+  </div>
+</p-panel>
 
 <div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste  Termes D'assurance</span>
-    <span class="pull-right">
-      <app-insurance-term-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (inssuranceTermAdd)="onInssuranceTermAdd($event)"></app-insurance-term-edit>
-    </span>
-  </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="insuranceTermList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
-      [contextMenu]="cm" [(contextMenuSelection)]="selectedInsuranceTerm" [totalRecords]="collectionSize"
-      [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsuranceTerm"
-      [paginator]="true">
-      <ng-template pTemplate="header">
+  <div class="card-header" style="background-color: #f7f7f7;">
+    <div class="d-flex justify-content-between">
+      <div>
+        <button
+          type="button"
+          class="btn btn-sm btn-primary mx-1"
+          (click)="showDialogToEdit((editMode = false))"
+        >
+          <i class="fa fa-plus"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-success mx-1"
+          (click)="showDialogToEdit((editMode = true))"
+          [disabled]="visibilityBtnUpdate == false"
+        >
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-danger mx-1"
+          (click)="onDeleteAll()"
+          [disabled]="visibilityBtnDelete == false"
+        >
+          <i class="fa fa-trash-o"></i>
+        </button>
+      </div>
+      <div>
+        <p style="font-size: 16px; color: #5f5b5b;" class="text-center ml-5">
+          <b>Liste Termes D'assurance</b>
+        </p>
+      </div>
+      <div>
+        <div class="d-flex justify-content-end">
+          <p-button
+            label="Enregistrer la vue"
+            styleClass="ui-button-primary"
+            class="mr-3"
+            (click)="onSaveVue()"
+          ></p-button>
+          <p-splitButton
+            label="Export"
+            icon="pi pi-file"
+            class="mr-3"
+            [model]="itemsBtnExport"
+            styleClass="ui-button-warning"
+          ></p-splitButton>
+
+          <p-multiSelect
+            [options]="cols"
+            [(ngModel)]="selectedColumns"
+            optionLabel="header"
+            selectedItemsLabel="colonnes sélectionnées"
+            dropdownIcon="pi pi-table"
+            [style]="{ minWidth: '150px' }"
+            defaultLabel="Choisir"
+            maxSelectedLabels="0"
+          ></p-multiSelect>
+        </div>
+      </div>
+    </div>
+    <!-- (onRowReorder)='onSaveVue($event)' -->
+    <p-table
+      [value]="insuranceTermList"
+      #myTable
+      id="myTable"
+      [rows]="size"
+      [paginator]="true"
+      [rowsPerPageOptions]="[10, 20, 50, 100, 1000]"
+      [totalRecords]="collectionSize"
+      [columns]="selectedColumns"
+      [lazy]="true"
+      (onLazyLoad)="loadDataLazy($event)"
+      [resizableColumns]="true"
+      [reorderableColumns]="true"
+      [(selection)]="selectedInsuranceTerms"
+      selectionMode="multiple"
+      [reorderableColumns]="true"
+      (onRowSelect)="onRowSelect($event)"
+      (onRowUnselect)="onRowUnselect($event)"
+    >
+      <ng-template pTemplate="header" let-columns>
         <tr>
-          <th>{{'Code' | translate}}</th>
-          <th>{{'Description' | translate}}</th>
-          <th style="width:10%">{{'Actions' | translate}}</th>
+          <th style="width: 3em;">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+
+          <th *ngFor="let col of columns" pReorderableColumn>
+            {{ col.header }}
+          </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-insuranceTerm>
-        <tr>
-          <td>{{insuranceTerm?.code}}</td>
-          <td>{{insuranceTerm?.description}}</td>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+      >
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
           <td>
-            <app-insurance-term-edit [editMode]="true" [insertOrUpdate]="'Modifier'"  [selectedInsuranceTerm]="insuranceTerm" (inssuranceTermAdd)="onInssuranceTermAdd($event)">
-            </app-insurance-term-edit>
-            <button type="button" (click)="onDelete(insuranceTerm.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
           </td>
+       
+          <td *ngFor="let col of columns; let i = index">
+            {{rowData[col.field]}}
+          </td> 
+          
+
+          <!-- <p-checkbox binary="true"></p-checkbox> -->
         </tr>
       </ng-template>
     </p-table>
   </div>
+
+  <div *ngIf="showDialog == true">
+    <app-insurance-term-ediit
+      [editModeTitle]="editModeTitle"
+      [selectedInsuranceTerm]="selectedInsuranceTerm"
+      (showDialog)="onHideDialog($event)"
+    ></app-insurance-term-ediit>
+  </div>
+
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>
+  <p-confirmDialog
+    header="Confirmation"
+    icon="pi pi-exclamation-triangle"
+    [acceptLabel]="'Oui'"
+    [rejectLabel]="'Non'"
+  >
+  </p-confirmDialog>
 </div>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>
-
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
-</p-confirmDialog>

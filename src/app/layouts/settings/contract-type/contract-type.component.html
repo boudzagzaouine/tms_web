@@ -29,7 +29,7 @@
   <div class="card-body border-top-primary">
     <p-table [value]="contractTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
       [(contextMenuSelection)]="selectedContractType" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedContractType" [paginator]="true">
+      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedContractType" >
       <ng-template pTemplate="header">
         <tr>
           <th>Code</th>

@@ -37,8 +37,8 @@
           <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-insuranceType>
-        <tr>
+      <ng-template pTemplate="body" let-rowData let-insuranceType>
+        <tr [pContextMenuRow]="rowData">
           <td>{{insuranceType?.code}}</td>
           <td>{{insuranceType?.description}}</td>
           <td>

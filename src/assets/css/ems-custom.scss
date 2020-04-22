@@ -92,15 +92,15 @@
     width: 150px;
 }
 
-.ui-calendar,
-.ui-dropdown,
-.ui-dropdown.ui-dropdown-label,
-.ui-autocomplete,
-.ui-dropdown-label,
-.ui-inputtext {
-    margin: 0px !important;
-    width: 100% !important;
-}
+// .ui-calendar,
+// .ui-dropdown,
+// .ui-dropdown.ui-dropdown-label,
+// .ui-autocomplete,
+// .ui-dropdown-label,
+// .ui-inputtext {
+//     margin: 0px !important;
+//     width: 100% !important;
+// }
 
 p-autocomplete {
     padding: 0px !important;
@@ -112,7 +112,9 @@ p-autocomplete {
     opacity: 100 !important;
 }
 
-
+.h-3 {
+  height: 3vh !important;
+}
 .h-10 {
   height: 10vh !important;
 }
@@ -232,9 +234,26 @@ p-autocomplete {
   width: 100vw !important;
 }
 
-
-li.ui-state-default{
-  width: 24% !important;
+.m-a-p{
+  width: 49.8% !important;
+background-color: #222d32 !important;
 }
+
+.m-a-p ,li a,
+ body .ui-tabview.ui-tabview-left .ui-tabview-nav li a,
+  body .ui-tabview.ui-tabview-right .ui-tabview-nav li a{
+  color: white !important;
+  }
+
+
+
+   .ui-tabview-nav li.ui-state-active, body .ui-tabview.ui-tabview-left
+     .ui-tabview-nav li.ui-state-active, body .ui-tabview.ui-tabview-right
+     .ui-tabview-nav li.ui-state-active {
+    //  background-color: #007ad9;
+    background-color: #3c8dbc !important;
+  }
+
+
 
 

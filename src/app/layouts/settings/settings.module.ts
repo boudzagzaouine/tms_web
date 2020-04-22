@@ -1,3 +1,4 @@
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -7,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TableModule } from 'primeng/table';
+import { TableModule, TableHeaderCheckbox, TableCheckbox } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -56,6 +57,11 @@ import {PanelModule} from 'primeng/panel';
 import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
 import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.component';
 import { MenuDriverComponent } from './menu-driver/menu-driver.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {DialogModule} from 'primeng/dialog';
+import {PaginatorModule} from 'primeng/paginator';
+import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-ediit/insurance-term-ediit.component';
+
 
 @NgModule({
   declarations: [
@@ -95,6 +101,7 @@ import { MenuDriverComponent } from './menu-driver/menu-driver.component';
     MenuVehicleComponent,
     MenuMaintenanceComponent,
     MenuDriverComponent,
+    InsuranceTermEdiitComponent,
 
 
 
@@ -120,6 +127,11 @@ import { MenuDriverComponent } from './menu-driver/menu-driver.component';
     TabMenuModule,
     TabViewModule,
     PanelModule,
+    MultiSelectModule,
+    SplitButtonModule,
+    DialogModule,
+  PaginatorModule
+
   ]
 })
 export class SettingsModule { }

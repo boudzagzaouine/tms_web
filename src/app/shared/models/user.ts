@@ -22,4 +22,5 @@ export class User {
     columns: string;
     saleOrders: SaleOrder[];
     userGroup: UserGroup;
+
 }

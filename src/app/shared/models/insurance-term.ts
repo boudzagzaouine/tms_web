@@ -1,4 +1,5 @@
 import { InsuranceTypeTerms } from './insurance-type-terms';
+import { Input } from '@angular/core';
 
 
 export class InsuranceTerm {
@@ -8,6 +9,8 @@ export class InsuranceTerm {
   description: string;
   roofed: boolean = false;
 
-  insuranceTypeTermsSet: InsuranceTypeTerms[] = [];
+  //insuranceTypeTermsSet: InsuranceTypeTerms[] = [];
 
+ 
+   
 }

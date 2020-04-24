@@ -1,3 +1,4 @@
+import { Insurance } from './../../../../shared/models/insurance';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
@@ -13,7 +14,7 @@ import { InsuranceTermService } from '../../../../shared/services';
 })
 export class InsuranceTermEditComponent implements OnInit {
   @Input() selectedInsuranceTerm = new InsuranceTerm();
-  @Input() editMode: boolean;
+  @Input() editMode: number;
   @Input() insertOrUpdate: String;
 
   @Output() inssuranceTermAdd = new EventEmitter<InsuranceTerm>();
@@ -31,6 +32,8 @@ export class InsuranceTermEditComponent implements OnInit {
     private modalService: NgbModal) { }
 
   ngOnInit() {
+    
+
     this.initForm();
 
   }

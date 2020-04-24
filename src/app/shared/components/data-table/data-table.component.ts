@@ -1,3 +1,4 @@
+import { EmittedOBject } from './emitted-object';
 import { UserService } from './../../services/api/user.service';
 import { AuthenticationService } from './../../services/api/authentication.service';
 import { ToastrService } from 'ngx-toastr';
@@ -16,19 +17,20 @@ import * as XLSX from 'xlsx';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
+
+
 export class DataTableComponent implements OnInit {
 
-  @Output() selectedObjectsOutput = new EventEmitter<any[]>();
+
   @Input() page = 0;
   @Input() size;
   @Input() collectionSize: number;
-  @Output() lazySizePage = new EventEmitter<any>();
-  @Output() editBtn = new EventEmitter<boolean>();
-  @Output() deleteBtn=new EventEmitter<boolean>();
   @Input() objectList: Array<any> = [];
   @Input() _selectedColumns: any[];
   @Input() cols: any[];
   @Input() className: String;
+  @Output() lazySizePage = new EventEmitter<any>();
+  @Output() editModeBtn = new EventEmitter<EmittedOBject>();
   exportColumns: any[];
   columnsAdded: Array<Columns> = [];
   itemsBtnExport: MenuItem[];
@@ -36,12 +38,10 @@ export class DataTableComponent implements OnInit {
   user = new User();
   visibilityBtnUpdate = false;
   visibilityBtnDelete = false;
-  editMode: boolean;
-  editModeTitle: String;
 
-  constructor(private insuranceTermService: InsuranceTermService,
+  constructor(
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService,    private authUser: AuthenticationService,
+    private toastr: ToastrService, private authUser: AuthenticationService,
     private userservice: UserService
   ) { }
 
@@ -54,6 +54,13 @@ export class DataTableComponent implements OnInit {
         label: 'Excel', icon: 'pi pi-file-excel', command: () => { this.exportexcell(); }
       },
     ];
+
+    this.loadColumns();
+
+  }
+
+
+  loadColumns() {
     this.user = this.authUser.getCurrentUser();
     if (this.user.columns != null && this.user.columns !== '') {
       this.columnsAdded = JSON.parse(this.user.columns);
@@ -100,16 +107,12 @@ export class DataTableComponent implements OnInit {
     XLSX.writeFile(wb, 'Fichier.xlsx');
   }
 
-  showDialogToEdit() {
-    this.deleteAll();
-    this.editBtn.emit(this.editMode);
 
+  editModeSubmit(event) {
+    console.log(event);
+      this.editModeBtn.emit({ object: this.selectedObjects, editMOde: event });
   }
 
-  deleteAll(){
-    this.selectedObjectsOutput.emit(this.selectedObjects);
-    this.deleteBtn.emit(true);
-  }
 
   loadDataLazy(event) {
     this.size = event.rows;

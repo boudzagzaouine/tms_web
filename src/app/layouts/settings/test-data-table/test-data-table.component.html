@@ -1,20 +1,19 @@
 <app-data-table
+  [className]='className'
+  [cols]='cols'
   [objectList]="insuranceTermList"
   [collectionSize]="collectionSize"
   [size]="size"
+  (editModeBtn)='editModeSubmit($event)'
   (lazySizePage)='loadDataLazy($event)'
-  [cols]='cols'
-  (selectedObjectsOutput)='loadSelect($event)'
-  (editBtn)='showDialogToEdit($event)'
-  [className]='className'
-  (deleteBtn)='onDeleteAll($event)'
+
   ></app-data-table>
 
 
   <div *ngIf="showDialog == true">
     <app-insurance-term-ediit
-      [editModeTitle]="editModeTitle"
-      [selectedInsuranceTerm]="selectedInsuranceTerm[0]"
+      [editMode]="editMode"
+      [selectedInsuranceTerm]="selectedInsuranceTerms[0]"
       (showDialog)="onHideDialog($event)"
     ></app-insurance-term-ediit>
   </div>
@@ -25,3 +24,10 @@
     color="#00d2ff"
     type="ball-spin-fade-rotating"
   ></ngx-spinner>
+  <p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

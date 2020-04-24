@@ -199,7 +199,7 @@ export class InsuranceTermComponent implements OnInit {
 
       if (this.selectedInsuranceTerms.length === 1) {
         this.editModeTitle = 'Modifier';
-        this.selectedInsuranceTerm = this.selectedInsuranceTerms[0];
+       // this.selectedInsuranceTerm = this.selectedInsuranceTerms;
       } else if (this.selectedInsuranceTerms.length < 1) {
         this.toastr.warning('aucun ligne sélectionnée');
       }

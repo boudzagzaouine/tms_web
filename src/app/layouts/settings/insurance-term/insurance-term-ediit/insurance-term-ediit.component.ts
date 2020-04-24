@@ -14,7 +14,7 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, DoCheck } fr
 export class InsuranceTermEdiitComponent implements OnInit {
 
   @Input() selectedInsuranceTerm = new InsuranceTerm();
-  @Input() editModeTitle: String;
+  @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
    insuranceTermForm: FormGroup;
    isFormSubmitted = false;
@@ -26,10 +26,14 @@ export class InsuranceTermEdiitComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
+ 
+    if(this.editMode == 1){
+   this.selectedInsuranceTerm=new InsuranceTerm();
+    }
+
     this.displayDialog = true;
     this.initForm();
-    console.log("edit");
-    console.log(this.selectedInsuranceTerm);
+
 
   }
 

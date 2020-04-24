@@ -30,13 +30,12 @@ export class TestDataTableComponent implements OnInit {
   cols: any[];
   insuranceTermList: Array<InsuranceTerm> = [];
   selectedInsuranceTerms: Array<InsuranceTerm> = [];
-  selectedInsuranceTerm = new InsuranceTerm();
   insuranceTermForm: FormGroup;
   isFormSubmitted = false;
   showDialog: boolean;
   visibilityBtnUpdate = false;
   visibilityBtnDelete = false;
-  editMode: Boolean;
+  editMode: number;
   editModeTitle: String;
   className: String;
 
@@ -44,7 +43,7 @@ export class TestDataTableComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
-   ) { }
+  ) { }
 
   ngOnInit() {
 
@@ -104,43 +103,25 @@ export class TestDataTableComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  loadSelect(event) {
-    this.selectedInsuranceTerms.push(event);
-    console.log(this.selectedInsuranceTerms);
+  editModeSubmit(event) {
+    this.editMode = event.editMOde;
+    this.selectedInsuranceTerms = event.object;
+    if (this.editMode === 1 || this.editMode === 2) {
+      console.log("aj mod ");
 
-  }
-
-  showDialogToEdit(event) {
-
-    this.showDialog = true;
-    this.editMode = event;
-    if (!this.editMode) {
-      this.editModeTitle = 'Ajouter';
-      this.selectedInsuranceTerm = new InsuranceTerm();
-    } else if (this.editMode) {
-      console.log('leght');
-   console.log(this.selectedInsuranceTerms.length);
-
-      if (this.selectedInsuranceTerms.length === 1) {
-        this.editModeTitle = 'Modifier';
-        this.selectedInsuranceTerm = this.selectedInsuranceTerms[0];
-       console.log("modif");
-       console.log(this.selectedInsuranceTerm[0]);
-
-
-      } else if (this.selectedInsuranceTerms.length < 1) {
-        this.toastr.warning('aucun ligne sélectionnée');
-      }
-
+      this.showDialog = true;
+    } else {
+      this.onDeleteAll();
     }
 
-
   }
 
-  onDeleteAll(event) {
+  onDeleteAll() {
+    console.log("methode delete all");
+ console.log(this.selectedInsuranceTerms);
 
+    console.log(this.selectedInsuranceTerms.length);
 
-    if(event === true){
     if (this.selectedInsuranceTerms.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
@@ -161,7 +142,6 @@ export class TestDataTableComponent implements OnInit {
     } else if (this.selectedInsuranceTerms.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
-  }
 
 
   }

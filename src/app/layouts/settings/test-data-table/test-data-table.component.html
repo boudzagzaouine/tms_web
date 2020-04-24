@@ -1,0 +1,27 @@
+<app-data-table
+  [objectList]="insuranceTermList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (lazySizePage)='loadDataLazy($event)'
+  [cols]='cols'
+  (selectedObjectsOutput)='loadSelect($event)'
+  (editBtn)='showDialogToEdit($event)'
+  [className]='className'
+  (deleteBtn)='onDeleteAll($event)'
+  ></app-data-table>
+
+
+  <div *ngIf="showDialog == true">
+    <app-insurance-term-ediit
+      [editModeTitle]="editModeTitle"
+      [selectedInsuranceTerm]="selectedInsuranceTerm[0]"
+      (showDialog)="onHideDialog($event)"
+    ></app-insurance-term-ediit>
+  </div>
+
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>

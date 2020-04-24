@@ -19,7 +19,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
    insuranceTermForm: FormGroup;
    isFormSubmitted = false;
    displayDialog: boolean;
-   
+
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -28,6 +28,9 @@ export class InsuranceTermEdiitComponent implements OnInit {
   ngOnInit() {
     this.displayDialog = true;
     this.initForm();
+    console.log("edit");
+    console.log(this.selectedInsuranceTerm);
+
   }
 
   initForm() {

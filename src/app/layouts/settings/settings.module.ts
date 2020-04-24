@@ -61,6 +61,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-ediit/insurance-term-ediit.component';
+import { TestDataTableComponent } from './test-data-table/test-data-table.component';
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-edi
     MenuMaintenanceComponent,
     MenuDriverComponent,
     InsuranceTermEdiitComponent,
+    TestDataTableComponent,
 
 
 

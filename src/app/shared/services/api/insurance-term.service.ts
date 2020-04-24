@@ -11,4 +11,6 @@ export class InsuranceTermService extends EmsService<InsuranceTerm> {
     super(proxy, 'insuranceTerms');
   }
 
+  
+
 }

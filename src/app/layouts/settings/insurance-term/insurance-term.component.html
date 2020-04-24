@@ -125,11 +125,11 @@
           <td>
             <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
           </td>
-       
+
           <td *ngFor="let col of columns; let i = index">
             {{rowData[col.field]}}
-          </td> 
-          
+          </td>
+
 
           <!-- <p-checkbox binary="true"></p-checkbox> -->
         </tr>
@@ -140,17 +140,14 @@
   <div *ngIf="showDialog == true">
     <app-insurance-term-ediit
       [editModeTitle]="editModeTitle"
-      [selectedInsuranceTerm]="selectedInsuranceTerm"
+      [selectedInsuranceTerm]="selectedInsuranceTerm[0]"
       (showDialog)="onHideDialog($event)"
     ></app-insurance-term-ediit>
   </div>
 
-  <ngx-spinner
-    bdColor="rgba(255,255,255,0)"
-    size="large"
-    color="#00d2ff"
-    type="ball-spin-fade-rotating"
-  ></ngx-spinner>
+  </div>
+
+
   <p-confirmDialog
     header="Confirmation"
     icon="pi pi-exclamation-triangle"
@@ -158,4 +155,4 @@
     [rejectLabel]="'Non'"
   >
   </p-confirmDialog>
-</div>
+

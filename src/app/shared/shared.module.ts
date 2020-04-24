@@ -1,3 +1,24 @@
+import { PaginatorModule } from 'primeng/paginator';
+import { DialogModule } from 'primeng/dialog';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { PanelModule } from 'primeng/panel';
+import { TabViewModule } from 'primeng/tabview';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { CheckboxModule } from 'primeng/checkbox';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsRoutingModule } from './../layouts/settings/settings-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/api/user.service';
 import { AuthenticationService } from './services/api/authentication.service';
 import { ConsumptionTypeService } from './services/api/consumption-type.service';
@@ -38,12 +59,38 @@ import {
 import { SaleOrderStockService } from './services/api/sale-order-stock.service';
 import { AccountService } from './services/api/account.service';
 import { SaleOrderLineService } from './services/api/sale-order-line.service';
+import { DataTableComponent } from './components/data-table/data-table.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DataTableComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModalModule,
+    NgxSpinnerModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
+    TranslateModule,
+    DropdownModule,
+    TableModule,
+    AutoCompleteModule,
+    CalendarModule,
+    InputTextModule,
+    KeyFilterModule,
+    CheckboxModule,
+    TabMenuModule,
+    TabViewModule,
+    PanelModule,
+    MultiSelectModule,
+    SplitButtonModule,
+    DialogModule,
+  PaginatorModule
+
+  ],
+  exports:[
+    DataTableComponent
   ]
 })
 export class SharedModule {
@@ -84,7 +131,7 @@ export class SharedModule {
         SaleOrderLineService,
         ConsumptionTypeService,
         AuthenticationService,
-   UserService
+       UserService
 
         ]
     };

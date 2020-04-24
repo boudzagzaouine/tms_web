@@ -1,3 +1,5 @@
+import { TestDataTableComponent } from './test-data-table/test-data-table.component';
+import { DataTableComponent } from './../../shared/components/data-table/data-table.component';
 import { InsuranceTermEditComponent } from './insurance-term/insurance-term-edit/insurance-term-edit.component';
 import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
 import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
@@ -47,7 +49,8 @@ const routes: Routes = [
       { path: 'menu-insurance', component: MenuInsuranceComponent },
       { path: 'menu-vehicle', component: MenuVehicleComponent },
       { path: 'menu-maintenance', component: MenuMaintenanceComponent },
-      { path: 'menu-driver', component: MenuDriverComponent }
+      { path: 'menu-driver', component: MenuDriverComponent },
+      { path: 'test-table', component: TestDataTableComponent }
 
 
 

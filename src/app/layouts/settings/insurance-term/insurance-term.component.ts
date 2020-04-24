@@ -53,7 +53,7 @@ export class InsuranceTermComponent implements OnInit {
   visibilityBtnDelete = false;
   editMode :Boolean;
   editModeTitle: String;
- 
+
 
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
@@ -103,7 +103,7 @@ export class InsuranceTermComponent implements OnInit {
 
   }
 
- 
+
 
   // return columns selected in toggle
   @Input() get selectedColumns(): any[] {
@@ -130,7 +130,7 @@ export class InsuranceTermComponent implements OnInit {
       data => {
         console.log(data);
         this.insuranceTermList = data;
-      
+
         this.spinner.hide();
       },
       error => {

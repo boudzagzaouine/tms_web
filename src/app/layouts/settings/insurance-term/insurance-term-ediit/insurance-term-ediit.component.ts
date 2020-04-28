@@ -16,9 +16,9 @@ export class InsuranceTermEdiitComponent implements OnInit {
   @Input() selectedInsuranceTerm = new InsuranceTerm();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-   insuranceTermForm: FormGroup;
-   isFormSubmitted = false;
-   displayDialog: boolean;
+  insuranceTermForm: FormGroup;
+  isFormSubmitted = false;
+  displayDialog: boolean;
 
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
@@ -26,9 +26,11 @@ export class InsuranceTermEdiitComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
- 
-    if(this.editMode == 1){
-   this.selectedInsuranceTerm=new InsuranceTerm();
+
+    console.log(this.editMode);
+
+    if (this.editMode === 1) {
+      this.selectedInsuranceTerm = new InsuranceTerm();
     }
 
     this.displayDialog = true;
@@ -73,7 +75,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
     );
 
   }
-  onHideDialog() {
+  onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
   }

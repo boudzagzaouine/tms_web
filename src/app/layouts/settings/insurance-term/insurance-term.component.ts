@@ -284,7 +284,7 @@ export class InsuranceTermComponent implements OnInit {
 
   }
 
-  onHideDialog(event){
+  onShowDialog(event){
     this.showDialog = event;
     this.loadData();
   }

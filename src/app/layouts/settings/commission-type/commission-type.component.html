@@ -1,21 +1,17 @@
 <br />
-<div class="card ">
+<div class="card">
   <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
   <div class="card-body border-top-primary">
     <div class="row">
       <div class="col-md-3">
         <label class="font-weight-bold ">Code</label><br />
-        <input type="text" [(ngModel)]="codeSearch" pInputText />
+        <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
-
-
-
     </div>
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
-
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         Rechercher
       </button>
@@ -23,47 +19,37 @@
   </div>
 </div>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste  Types Commissions</span>
-    <span class="pull-right">
-      <app-commission-type-edit [editMode]="false" [insertOrInsert]="'Inserer'" (commissionTypeAdd)="onCommissionTypeAdded($event)"></app-commission-type-edit>
-    </span>
+<app-data-table
+  [className]='className'
+  [cols]='cols'
+  [objectList]="commissionTypeList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)='onObjectEdited($event)'
+  (lazyLoadData)='loadDataLazy($event)'
+ [listName]="'Types de Commisions'"
+  ></app-data-table>
+
+
+  <div *ngIf="showDialog == true">
+    <app-commission-type-edit
+      [editMode]="editMode"
+      [selectedCommissionType]="selectedCommissions[0]"
+      (showDialog)="onShowDialog($event)"
+    ></app-commission-type-edit>
   </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="commissionTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-    [(contextMenuSelection)]="selectedCommmissionType" [totalRecords]="collectionSize" [resizableColumns]="true"
-    [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedCommmissionType" >
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th>Montant</th>
 
-          <th style="width:10%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-commissionT>
-        <tr>
-             <td>{{commissionT?.code}}</td>
-             <td>{{commissionT?.description}}</td>
-             <td>{{commissionT?.percentage}}</td>
-
-          <td>
-      <app-commission-type-edit [editMode]="true"[insertOrInsert]="'Modifier'" [selectedCommissionType]="commissionT" (commissionTypeAdd)="onCommissionTypeAdded($event)"  ></app-commission-type-edit>
-
-            <button type="button" (click)="onDelete(commissionT.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>
-
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>
+  <p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
 </p-confirmDialog>
+

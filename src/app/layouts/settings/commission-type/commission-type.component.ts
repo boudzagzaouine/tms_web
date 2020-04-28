@@ -13,59 +13,60 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommissionTypeComponent implements OnInit {
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
-
-  selectedCommmissionType: CommissionType;
- searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
-  items: MenuItem[];
+  cols: any[];
   commissionTypeList: Array<CommissionType> = [];
+  selectedCommissions: Array<CommissionType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
-  constructor(private commissionTypeService:CommissionTypeService,
-     private spinner: NgxSpinnerService,
+  constructor(private commissionTypeService: CommissionTypeService,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedCommmissionType.id) }
+    this.className = CommissionType.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+      { field: 'percentage', header: 'Montant' },
     ];
+
+    this.loadData();
 
   }
 
-
   loadData(search: string = '') {
-
     this.spinner.show();
     this.commissionTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
-        console.log(this.collectionSize);
-
       }
     );
     this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-
+        console.log(data);
         this.commissionTypeList = data;
-        console.log(this.commissionTypeList);
 
         this.spinner.hide();
       },
       error => {
-
-
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -74,44 +75,59 @@ export class CommissionTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
-
+  /// end search
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
   }
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.commissionTypeService.delete(id).subscribe(
-          data => {
-            this.toastr.success("Elément Supprimer avec Succés","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
 
-         }
-        );
-      }
-    });
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectedCommissions = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedCommissions.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedCommissions.map(x => x.id);
+          this.commissionTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedCommissions.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
 
-  onCommissionTypeAdded(event) {
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
 

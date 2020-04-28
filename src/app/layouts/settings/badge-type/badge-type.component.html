@@ -19,42 +19,37 @@
   </div>
 </div>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste  Types de Badges</span>
-    <span class="pull-right">
-      <app-badge-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (badgeTypeAdded)="onBqdgeTypeAdded($event)"></app-badge-type-edit>
-    </span>
-  </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="badgeTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-      [(contextMenuSelection)]="selectedBadgeType" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedBadgeType" >
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th style="width:10%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-badgeType>
-        <tr>
-          <td>{{badgeType?.code}}</td>
-          <td>{{badgeType?.description}}</td>
-          <td>
-            <app-badge-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedBadgeType]="badgeType" (badgeTypeAdded)="onBqdgeTypeAdded($event)"></app-badge-type-edit>
-            <button type="button" (click)="onDelete(badgeType.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
+<app-data-table
+  [className]='className'
+  [cols]='cols'
+  [objectList]="badgeTypeList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)='onObjectEdited($event)'
+  (lazyLoadData)='loadDataLazy($event)'
+ [listName]="'Types de Badeges'"
+  ></app-data-table>
 
-<p-contextMenu #cm [model]="items"></p-contextMenu>
 
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+  <div *ngIf="showDialog == true">
+    <app-badge-type-edit
+      [editMode]="editMode"
+      [selectedBadgeType]="selectedBadgeTypes[0]"
+      (showDialog)="onShowDialog($event)"
+    ></app-badge-type-edit>
+  </div>
+
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>
+  <p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
 </p-confirmDialog>
+

@@ -13,33 +13,39 @@ import { BadgeType } from '../../../shared/models';
   providers: [ConfirmationService]
 })
 export class BadgeTypeComponent implements OnInit {
+
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
-
-  selectedBadgeType: BadgeType;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
-  items: MenuItem[];
-
+  cols: any[];
   badgeTypeList: Array<BadgeType> = [];
+  selectedBadgeTypes: Array<BadgeType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedBadgeType.id) }
+    this.className = BadgeType.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+
     ];
+
+    this.loadData();
+
   }
 
-
   loadData(search: string = '') {
-
     this.spinner.show();
     this.badgeTypeService.sizeSearch(search).subscribe(
       data => {
@@ -48,21 +54,21 @@ export class BadgeTypeComponent implements OnInit {
     );
     this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-
+        console.log(data);
         this.badgeTypeList = data;
+
         this.spinner.hide();
       },
       error => {
-
-
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -71,15 +77,12 @@ export class BadgeTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
-
+  /// end search
   reset() {
     this.codeSearch = null;
     this.page = 0;
@@ -87,29 +90,46 @@ export class BadgeTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.badgeTypeService.delete(id).subscribe(
-          data => {
-            this.toastr.success("Elément Supprimer avec Succés","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-         }
-        );
-      }
-    });
+    this.editMode = event.operationMode;
+    this.selectedBadgeTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedBadgeTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedBadgeTypes.map(x => x.id);
+          this.badgeTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedBadgeTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
 
-  onBqdgeTypeAdded(event) {
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
 

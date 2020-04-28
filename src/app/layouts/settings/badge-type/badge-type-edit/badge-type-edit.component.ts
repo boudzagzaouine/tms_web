@@ -1,3 +1,5 @@
+import { ConfirmationService } from 'primeng/api';
+import { Badge } from './../../../../shared/models/badge';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -14,84 +16,65 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class BadgeTypeEditComponent implements OnInit {
 
   @Input() selectedBadgeType = new BadgeType();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-  @Output() badgeTypeAdded = new EventEmitter<BadgeType>();
-
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   badgeTypeForm: FormGroup;
-  badgeTypeTypeList: BadgeType[] = [];
-
-  modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
 
-  constructor(
-    private badgeTypeService: BadgeTypeService,
-    private modalService: NgbModal,
+  constructor(private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
+
+    console.log(this.editMode);
+
+    if (this.editMode === 1) {
+      this.selectedBadgeType = new BadgeType();
+    }
+
+    this.displayDialog = true;
     this.initForm();
+
 
   }
 
   initForm() {
     this.badgeTypeForm = new FormGroup({
       'code': new FormControl(this.selectedBadgeType.code, Validators.required),
-      'description': new FormControl(this.selectedBadgeType.description)
+      'description': new FormControl(this.selectedBadgeType.description),
     });
   }
+
+
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.badgeTypeForm.invalid) {return; }
-
+    if (this.badgeTypeForm.invalid) { return; }
     this.spinner.show();
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
 
-
-    console.log(this.selectedBadgeType);
-
     const s = this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
-        this.badgeTypeAdded.emit(data);
-        this.toastr.success('Elément Enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        // this.loadData();
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
-        console.log(error);
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
-
       () => this.spinner.hide()
     );
-  }
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectedBadgeType = new BadgeType();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
 

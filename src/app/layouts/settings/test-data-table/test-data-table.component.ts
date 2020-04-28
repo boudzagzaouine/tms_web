@@ -1,3 +1,5 @@
+import { EmsFIlter } from './../../../shared/utils/ems-filter';
+import { Filter } from './../../../shared/models/filter';
 import { InsuranceTerm } from './../../../shared/models/insurance-term';
 import { User } from './../../../shared/models/user';
 import { UserService } from './../../../shared/services/api/user.service';
@@ -30,15 +32,14 @@ export class TestDataTableComponent implements OnInit {
   cols: any[];
   insuranceTermList: Array<InsuranceTerm> = [];
   selectedInsuranceTerms: Array<InsuranceTerm> = [];
-  insuranceTermForm: FormGroup;
-  isFormSubmitted = false;
   showDialog: boolean;
-  visibilityBtnUpdate = false;
-  visibilityBtnDelete = false;
   editMode: number;
-  editModeTitle: String;
   className: String;
 
+  dataarrray = [];
+  filter = new Filter();
+  operatorAndOR: any[];
+  operators: any[];
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -53,11 +54,37 @@ export class TestDataTableComponent implements OnInit {
       { field: 'description', header: 'Description' },
       { field: 'roofed', header: 'valeur' },
     ];
+    this.operatorAndOR = [
+      { field: '(', header: '(' },
+      { field: ',', header: 'ET' },
+      { field: '|', header: 'OU' },
+      { field: ')', header: ')' },
+
+    ];
+
+    this.operators = [
+      { field: '=', header: 'égale à' },
+      { field: '!=', header: 'différent' },
+
+
+    ];
 
     this.loadData();
 
+    this.dataarrray.push(this.filter);
   }
 
+  addForm() {
+
+    this.filter = new Filter();
+    this.dataarrray.push(this.filter);
+
+  }
+  onsubmit() {
+
+    console.log(this.dataarrray);
+
+  }
   loadData(search: string = '') {
     this.spinner.show();
     this.insuranceTermService.sizeSearch(search).subscribe(
@@ -84,7 +111,21 @@ export class TestDataTableComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+  onsclick() {
+    console.log(this.dataarrray);
 
+    const filter = new EmsFIlter();
+    for (let i = 0; i < this.dataarrray.length; i++) {
+         filter.append(this.dataarrray[i].operatorAnd.field);
+         filter.append(this.dataarrray[i].attribut.field);
+         filter.append(this.dataarrray[i].operator.field);
+         filter.append(this.dataarrray[i].value);
+         filter.append(this.dataarrray[i].operatorAndd.field);
+    }
+
+    console.log(filter.getValue());
+
+  }
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
@@ -103,24 +144,19 @@ export class TestDataTableComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  editModeSubmit(event) {
-    this.editMode = event.editMOde;
-    this.selectedInsuranceTerms = event.object;
-    if (this.editMode === 1 || this.editMode === 2) {
-      console.log("aj mod ");
+  onObjectEdited(event) {
 
-      this.showDialog = true;
-    } else {
+    this.editMode = event.operationMode;
+    this.selectedInsuranceTerms = event.object;
+    if (this.editMode === 3) {
       this.onDeleteAll();
+    } else {
+      this.showDialog = true;
     }
 
   }
 
   onDeleteAll() {
-    console.log("methode delete all");
- console.log(this.selectedInsuranceTerms);
-
-    console.log(this.selectedInsuranceTerms.length);
 
     if (this.selectedInsuranceTerms.length >= 1) {
       this.confirmationService.confirm({
@@ -146,7 +182,7 @@ export class TestDataTableComponent implements OnInit {
 
   }
 
-  onHideDialog(event) {
+  onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
   }

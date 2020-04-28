@@ -1,30 +1,139 @@
+<p-tabView>
+  <p-tabPanel header="Filtre Simple" headerStyleClass="m-a-p">
+    <ng-template pTemplate="content">
+      <div class="row">
+        <div class="col-md-3">
+          <label class="font-weight-bold">Code</label><br />
+          <input type="text" pInputText [(ngModel)]="codeSearch" />
+        </div>
+      </div>
+      <br />
+
+      <div class="text-center">
+        <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+          Réinitialiser
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="onSearchClicked()"
+        >
+          Rechercher
+        </button>
+      </div>
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Filtre avancé" headerStyleClass="m-a-p">
+    <ng-template pTemplate="content">
+
+
+        <div class="row" *ngFor="let obj of dataarrray">
+          <div class="col-md-2">
+            <label class="font-weight-bold">operateur</label><br />
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="operatorAndOR"
+              optionLabel="header"
+              [filter]="true"
+              [showClear]="true"
+              name="attribut"
+              [(ngModel)]="obj.operatorAnd"
+            ></p-dropdown>
+          </div>
+          <div class="col-md-2">
+            <label class="font-weight-bold">Champs</label><br />
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="cols"
+              optionLabel="header"
+              [filter]="true"
+              [showClear]="true"
+              name="operator"
+              [(ngModel)]="obj.attribut"
+            ></p-dropdown>
+          </div>
+          <div class="col-md-2">
+            <label class="font-weight-bold">Operateur</label><br />
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="operators"
+              optionLabel="header"
+              [filter]="true"
+              [showClear]="true"
+              name="operator"
+              [(ngModel)]="obj.operator"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-md-2">
+            <label class="font-weight-bold">Value</label><br />
+            <input
+              type="text"
+              pInputText
+              name="value"
+              [(ngModel)]="obj.value"
+            />
+          </div>
+          <div class="col-md-2">
+            <label class="font-weight-bold">operateur</label><br />
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="operatorAndOR"
+              optionLabel="header"
+              [filter]="true"
+              [showClear]="true"
+              name="attribut"
+              [(ngModel)]="obj.operatorAndd"
+            ></p-dropdown>
+          </div>
+
+
+        </div>
+        <p-button icon="pi pi-plus" (click)='addForm()'></p-button>
+
+      <br />
+
+      <div class="text-center">
+        <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+          Réinitialiser
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="onsclick()"
+        >
+          Rechercher
+        </button>
+      </div>
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>
+
 <app-data-table
-  [className]='className'
-  [cols]='cols'
+  [className]="className"
+  [cols]="cols"
   [objectList]="insuranceTermList"
   [collectionSize]="collectionSize"
   [size]="size"
-  (editModeBtn)='editModeSubmit($event)'
-  (lazySizePage)='loadDataLazy($event)'
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+></app-data-table>
 
-  ></app-data-table>
+<div *ngIf="showDialog == true">
+  <app-insurance-term-ediit
+    [editMode]="editMode"
+    [selectedInsuranceTerm]="selectedInsuranceTerms[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-insurance-term-ediit>
+</div>
 
-
-  <div *ngIf="showDialog == true">
-    <app-insurance-term-ediit
-      [editMode]="editMode"
-      [selectedInsuranceTerm]="selectedInsuranceTerms[0]"
-      (showDialog)="onHideDialog($event)"
-    ></app-insurance-term-ediit>
-  </div>
-
-  <ngx-spinner
-    bdColor="rgba(255,255,255,0)"
-    size="large"
-    color="#00d2ff"
-    type="ball-spin-fade-rotating"
-  ></ngx-spinner>
-  <p-confirmDialog
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
   header="Confirmation"
   icon="pi pi-exclamation-triangle"
   [acceptLabel]="'Oui'"

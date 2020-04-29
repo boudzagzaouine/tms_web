@@ -15,34 +15,39 @@ import { Component, OnInit } from '@angular/core';
 
 })
 export class MaintenanceTypeComponent implements OnInit {
-  page = 0;
-  size = 10;
-  collectionSize: number;
 
-  selectedMaintenanceType: MaintenanceType;
+  page = 0;
+  size = 5;
+  collectionSize: number;
   searchQuery = '';
   codeSearch: string;
-  items: MenuItem[];
-
+  cols: any[];
   maintenanceTypeList: Array<MaintenanceType> = [];
+  selectedMaintenanceTypes: Array<MaintenanceType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedMaintenanceType.id) }
+    this.className = MaintenanceType.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+
     ];
+
+    this.loadData();
 
   }
 
   loadData(search: string = '') {
-    console.log(`search query : ${this.searchQuery}`);
-
     this.spinner.show();
     this.maintenanceTypeService.sizeSearch(search).subscribe(
       data => {
@@ -53,19 +58,19 @@ export class MaintenanceTypeComponent implements OnInit {
       data => {
         console.log(data);
         this.maintenanceTypeList = data;
+
         this.spinner.hide();
       },
       error => {
-        console.log(error);
-
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -74,44 +79,62 @@ export class MaintenanceTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
-
+  /// end search
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
   }
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.maintenanceTypeService.delete(id).subscribe(
 
-          data => {
-            this.toastr.success("Elément est Supprimé avec Succès","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-         }
-        );
-      }
-    });
+    this.editMode = event.operationMode;
+    this.selectedMaintenanceTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedMaintenanceTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedMaintenanceTypes.map(x => x.id);
+          this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedMaintenanceTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
-  onMaintenanceTypeAdd(event) {
+
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
+
+
+
 }

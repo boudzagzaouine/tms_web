@@ -14,29 +14,27 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class MaintenanceTypeEditComponent implements OnInit {
 
   @Input() selectedMaintenanceType = new MaintenanceType();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-
-  @Output() maintenanceTypeAdd = new EventEmitter<MaintenanceType>();
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   maintenanceTypeForm: FormGroup;
-  maintenanceTypeList: MaintenanceType[] = [];
   isFormSubmitted = false;
-  modal: NgbModalRef;
+  displayDialog: boolean;
+
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
-    private modalService: NgbModal,
+
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.maintenanceTypeService.findAll().subscribe(
-      data => {
-        this.maintenanceTypeList = data;
-      }
-    );
+    console.log(this.editMode);
 
+    if (this.editMode === 1) {
+      this.selectedMaintenanceType = new MaintenanceType();
+    }
+
+    this.displayDialog = true;
     this.initForm();
   }
 
@@ -54,10 +52,9 @@ export class MaintenanceTypeEditComponent implements OnInit {
     console.log(this.selectedMaintenanceType);
     const s = this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
-        this.maintenanceTypeAdd.emit(data);
 
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -76,28 +73,13 @@ export class MaintenanceTypeEditComponent implements OnInit {
       'description': new FormControl(this.selectedMaintenanceType.description)
     });
   }
-  open(content) {
-    if (!this.editMode) {
 
-      this.selectedMaintenanceType = new MaintenanceType();
-      this.initForm();
-    }
 
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+
 }

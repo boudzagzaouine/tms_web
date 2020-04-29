@@ -17,29 +17,28 @@ import {  ToastrService } from 'ngx-toastr';
 export class VehicleCategorieEditComponent implements OnInit {
 
   @Input() selectedVehicleCategory = new VehicleCategory();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-
-  @Output() vehicleCategorieAdd = new EventEmitter<VehicleCategory>();
-
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   vehicleCategoryForm: FormGroup;
-
   isFormSubmitted = false;
-  insuranceTypeList: InsuranceType[] = [];
-  modal: NgbModalRef;
-  insuranceTypeCode:String;
+  displayDialog: boolean;
+
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
-    private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr:ToastrService,
-    private insuranceTypeService:InsuranceTypeService
     ) { }
   ngOnInit() {
-   // this.loadInsuranceType();
+
+
+    console.log(this.editMode);
+
+    if (this.editMode === 1) {
+      this.selectedVehicleCategory = new VehicleCategory();
+    }
+
+    this.displayDialog = true;
     this.initForm();
-    //this.loadInsuranceType();
 
 
   }
@@ -47,16 +46,15 @@ export class VehicleCategorieEditComponent implements OnInit {
   initForm() {
 
     this.vehicleCategoryForm = new FormGroup({
-      'Fcode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
-      'Fconsumption': new FormControl(this.selectedVehicleCategory.consumption),
-      'Fweight': new FormControl((this.selectedVehicleCategory.weight),Validators.required),
-      'Fwidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
-      'Fdepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
-      'Ftonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
-      'FemptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
-      'FtotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
-    // 'FIType': new FormControl(this.selectedVehicleCategory.insuranceType, Validators.required)
-
+      'fCode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
+      'fConsumption': new FormControl(this.selectedVehicleCategory.consumption),
+      'fLength': new FormControl((this.selectedVehicleCategory.length),Validators.required),
+      'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
+      'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
+      'fDepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
+      'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
+      'fEmptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
+      'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
     });
 
   }
@@ -66,27 +64,24 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     this.spinner.show();
 
-    this.selectedVehicleCategory.code = this.vehicleCategoryForm.value['Fcode'];
-    this.selectedVehicleCategory.consumption = this.vehicleCategoryForm.value['Fconsumption'];
-    this.selectedVehicleCategory.weight = +this.vehicleCategoryForm.value['Fweight'];
-    this.selectedVehicleCategory.width = this.vehicleCategoryForm.value['Fwidth'] ;
-    this.selectedVehicleCategory.depth = this.vehicleCategoryForm.value['Fdepth'] ;
-    this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['Ftonnage'];
-    this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['FemptyWeight'] ;
-    this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['FtotalWeight'] ;
-   // this.selectedVehicleCategory.insuranceType = this.vehicleCategoryForm.value['FIType'] ;
+    this.selectedVehicleCategory.code = this.vehicleCategoryForm.value['fCode'];
+    this.selectedVehicleCategory.consumption = this.vehicleCategoryForm.value['fConsumption'];
+    this.selectedVehicleCategory.length = +this.vehicleCategoryForm.value['fLength'];
+    this.selectedVehicleCategory.width = this.vehicleCategoryForm.value['fWidth'] ;
+    this.selectedVehicleCategory.height = this.vehicleCategoryForm.value['fheight'] ;
+    this.selectedVehicleCategory.depth = this.vehicleCategoryForm.value['fDepth'] ;
+    this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['fTonnage'];
+    this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'] ;
+    this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'] ;
 
     console.log(this.selectedVehicleCategory);
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
-        this.vehicleCategorieAdd.emit(data);
+
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
-   console.log("data");
-
-        console.log(this.selectedVehicleCategory);
 
       },
       error => {
@@ -100,39 +95,9 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   }
 
-  // loadInsuranceType(){
-  //   this.insuranceTypeService.findAll().subscribe(
-  //     data => {
-  //       this.insuranceTypeList = data;
-  //     }
-  //   );
-  // }
-  // onSelectInsuranceType(event) {
-  //   console.log(event);
-  //  this.selectedVehicleCategory.insuranceType = event.value;
-  // }
-
-  open(content) {
-    if (!this.editMode) {
-      this.selectedVehicleCategory = new VehicleCategory();
-    }
-
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 }

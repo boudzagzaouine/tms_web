@@ -15,15 +15,11 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class MaintenanceStatusEditComponent implements OnInit {
 
   @Input() selectedMaintenanceState = new MaintenanceState();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-
-  @Output() maintenanceStateAdd = new EventEmitter<MaintenanceState>();
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   maintenanceStateForm: FormGroup;
-  maintenanceStateList: MaintenanceState[] = [];
   isFormSubmitted = false;
-  modal: NgbModalRef;
+  displayDialog: boolean;
 
   constructor(
     private maintenanceStateService: MaintenanceStateService,
@@ -32,13 +28,13 @@ export class MaintenanceStatusEditComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    console.log(this.editMode);
 
-    this.maintenanceStateService.findAll().subscribe(
-      data => {
-        this.maintenanceStateList = data;
-      }
-    );
+    if (this.editMode === 1) {
+      this.selectedMaintenanceState = new MaintenanceState();
+    }
 
+    this.displayDialog = true;
     this.initForm();
   }
   onSubmit() {
@@ -55,10 +51,8 @@ this.spinner.show();
     console.log(this.selectedMaintenanceState);
     const s = this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
       data => {
-        this.maintenanceStateAdd.emit(data);
-
         this.toastr.success('Elément est enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -79,28 +73,11 @@ this.spinner.show();
       'description': new FormControl(this.selectedMaintenanceState.description)
     });
   }
-  open(content) {
-    this.isFormSubmitted = false;
-    if (!this.editMode) {
-      this.selectedMaintenanceState = new MaintenanceState();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 }
 

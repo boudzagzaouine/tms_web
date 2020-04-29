@@ -14,32 +14,37 @@ import { ContractType } from '../../../shared/models';
 export class ContractTypeComponent implements OnInit {
 
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
-
-  selectedContractType: ContractType;
-  searchQuery: string;
+  searchQuery = '';
   codeSearch: string;
-  items: MenuItem[];
-
-  contractTypeList: Array<ContractType> = [];
+  cols: any[];
+  contratTypeList: Array<ContractType> = [];
+  selectedContratTypes: Array<ContractType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private contractTypeService: ContractTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedContractType.id) }
+
+    this.className = ContractType.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+
     ];
+
+    this.loadData();
+
   }
 
-
   loadData(search: string = '') {
-    console.log(`search query : ${this.searchQuery}`);
-
     this.spinner.show();
     this.contractTypeService.sizeSearch(search).subscribe(
       data => {
@@ -49,20 +54,20 @@ export class ContractTypeComponent implements OnInit {
     this.contractTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.contractTypeList = data;
+        this.contratTypeList = data;
+
         this.spinner.hide();
       },
       error => {
-        console.log(error);
-
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -71,15 +76,12 @@ export class ContractTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
-
+  /// end search
   reset() {
     this.codeSearch = null;
     this.page = 0;
@@ -87,29 +89,46 @@ export class ContractTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.contractTypeService.delete(id).subscribe(
-          data => {
-            this.toastr.success('Elément est Supprimé avec Succès', 'Suppression');
-            this.loadData();
-          },
-          error => {
-            this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-          }
-        );
-        this.loadData();
-      }
-    });
+    this.editMode = event.operationMode;
+    this.selectedContratTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedContratTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedContratTypes.map(x => x.id);
+          this.contractTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedContratTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
-  onContactTypeAdd(event) {
+
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
 }

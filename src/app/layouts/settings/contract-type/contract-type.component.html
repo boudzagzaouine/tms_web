@@ -19,42 +19,37 @@
   </div>
 </div>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste  Types de Contrats</span>
-    <span class="pull-right">
-      <app-contract-type-edit [editMode]="false" [insertOrUpdate]="'Inserer'" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
-    </span>
-  </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="contractTypeList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-      [(contextMenuSelection)]="selectedContractType" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedContractType" >
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th style="width:10%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-contractType>
-        <tr>
-          <td>{{contractType?.code}}</td>
-          <td>{{contractType?.description}}</td>
-          <td>
-            <app-contract-type-edit [editMode]="true" [insertOrUpdate]="'Modifier'" [selectedContractType]="contractType" (contractTypeAdd)="onContactTypeAdd($event)"></app-contract-type-edit>
-            <button type="button" (click)="onDelete(contractType.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
+<app-data-table
+  [className]='className'
+  [cols]='cols'
+  [objectList]="contratTypeList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)='onObjectEdited($event)'
+  (lazyLoadData)='loadDataLazy($event)'
+ [listName]="'Types de Contrat'"
+  ></app-data-table>
 
-<p-contextMenu #cm [model]="items"></p-contextMenu>
 
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+  <div *ngIf="showDialog == true">
+    <app-contract-type-edit
+      [editMode]="editMode"
+      [selectedContractType]="selectedContratTypes[0]"
+      (showDialog)="onShowDialog($event)"
+    ></app-contract-type-edit>
+  </div>
+
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>
+  <p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
 </p-confirmDialog>
+

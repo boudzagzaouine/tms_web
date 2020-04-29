@@ -14,16 +14,11 @@ import { ContractTypeService } from '../../../../shared/services';
 export class ContractTypeEditComponent implements OnInit {
 
   @Input() selectedContractType = new ContractType();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-
-  @Output() contractTypeAdd = new EventEmitter<ContractType>();
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   contractTypeForm: FormGroup;
-  contractTypeTypeList: ContractType[] = [];
-
-  modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
 
   constructor(
     private contractTypeService: ContractTypeService,
@@ -33,8 +28,14 @@ export class ContractTypeEditComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.initForm();
+    console.log(this.editMode);
 
+    if (this.editMode === 1) {
+      this.selectedContractType = new ContractType();
+    }
+
+    this.displayDialog = true;
+    this.initForm();
   }
 
   initForm() {
@@ -54,9 +55,8 @@ export class ContractTypeEditComponent implements OnInit {
     console.log(this.selectedContractType);
     const s = this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
-        this.contractTypeAdd.emit(data);
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -71,28 +71,11 @@ export class ContractTypeEditComponent implements OnInit {
 
   }
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectedContractType = new ContractType();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
 
 

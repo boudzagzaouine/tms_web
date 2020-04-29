@@ -25,7 +25,7 @@ import { ConsumptionTypeService } from './services/api/consumption-type.service'
 import { TurnLineService } from './services/api/turn-line.service';
 import { SaleOrderService } from './services/api/sale-order.service';
 import { TurnService } from './services/api/turn.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { DeliveryLineService } from './services/api/delivery-line.service';
 import { DeliveryService } from './services/api/Delivery.service';
 import { VatServcie } from './services/api/vat.service';
@@ -131,8 +131,8 @@ export class SharedModule {
         SaleOrderLineService,
         ConsumptionTypeService,
         AuthenticationService,
-       UserService
-
+        UserService,
+    ConfirmationService
         ]
     };
   }

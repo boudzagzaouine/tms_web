@@ -237,6 +237,7 @@ p-autocomplete {
 .m-a-p{
   width: 49.8% !important;
 background-color: #222d32 !important;
+
 }
 
 .m-a-p ,li a,
@@ -244,9 +245,6 @@ background-color: #222d32 !important;
   body .ui-tabview.ui-tabview-right .ui-tabview-nav li a{
   color: white !important;
   }
-
-
-
    .ui-tabview-nav li.ui-state-active, body .ui-tabview.ui-tabview-left
      .ui-tabview-nav li.ui-state-active, body .ui-tabview.ui-tabview-right
      .ui-tabview-nav li.ui-state-active {
@@ -255,5 +253,9 @@ background-color: #222d32 !important;
   }
 
 
+  .m-three{
+    width: 33.1% !important;
+  background-color: #222d32 !important;
+  }
 
 

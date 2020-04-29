@@ -133,6 +133,7 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     SplitButtonModule,
     DialogModule,
   PaginatorModule
+ 
 
   ]
 })

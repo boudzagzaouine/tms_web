@@ -25,7 +25,7 @@ export class BadgeTypeEditComponent implements OnInit {
   constructor(private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+  ) { }
 
   ngOnInit() {
 

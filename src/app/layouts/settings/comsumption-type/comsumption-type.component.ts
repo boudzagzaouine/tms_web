@@ -1,3 +1,5 @@
+import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
+import { ContractType } from './../../../shared/models/contract-type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,111 +11,127 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-comsumption-type',
   templateUrl: './comsumption-type.component.html',
-  styleUrls: ['./comsumption-type.component.css']
+  styleUrls: ['./comsumption-type.component.css'],
+  providers: [ConfirmationService]
 })
 export class ComsumptionTypeComponent implements OnInit {
 
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
-
-  selectedConsumptionType: ConsumptionType;
   searchQuery = '';
   codeSearch: string;
-  items: MenuItem[];
-
+  cols: any[];
   consumptionTypeList: Array<ConsumptionType> = [];
+  selectedonsumptionTypes: Array<ConsumptionType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private consumptionTypeService: ConsumptionTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedConsumptionType.id) }
+
+    this.className = ConsumptionTypeService.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+
     ];
+
+    this.loadData();
+
   }
 
-
-  loadData() {
-
-    console.log(`search query : ${this.searchQuery}`);
-
+  loadData(search: string = '') {
     this.spinner.show();
-    this.consumptionTypeService.sizeSearch(this.searchQuery).subscribe(
+    this.consumptionTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.consumptionTypeService.findPagination(this.page, this.size, this.searchQuery).subscribe(
+    this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.consumptionTypeList = data;
+
         this.spinner.hide();
       },
       error => {
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
-        this.toastr.error('Erreur de connexion');
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
-    this.loadData();
+    this.loadData(this.searchQuery);
   }
 
   onSearchClicked() {
-
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
-
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData();
+    this.loadData(this.searchQuery);
 
   }
-
-
-
+  /// end search
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
-    this.loadData();
+    this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Supprimer?',
-      accept: () => {
-        this.consumptionTypeService.delete(id).subscribe(
-          data =>{
-            this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
+  onObjectEdited(event) {
 
-                 this.loadData();
-       },
-       error=>{
-        this.toastr.error(error.error.message);
+    this.editMode = event.operationMode;
+    this.selectedonsumptionTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
 
-      }
-        );
-
-      }
-    });
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedonsumptionTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedonsumptionTypes.map(x => x.id);
+          this.consumptionTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedonsumptionTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
-  onconsumptiontypeAdd(event) {
+
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
 

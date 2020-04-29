@@ -14,27 +14,27 @@ import { Component, OnInit, Input, Output ,EventEmitter} from '@angular/core';
 export class ConsumptionTypeEditComponent implements OnInit {
 
   @Input() selectedConsumptionType = new ConsumptionType();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-
-  @Output() conumptionTypeAdd = new EventEmitter<ConsumptionType>();
-
-  closeResult: String;
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   consumptionTypeForm: FormGroup;
-
-  modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
 
   constructor(
     private consumptionTypeService: ConsumptionTypeService,
-    private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
 
   ngOnInit() {
 
+    console.log(this.editMode);
 
+    if (this.editMode === 1) {
+      this.selectedConsumptionType = new ConsumptionType();
+    }
+
+    this.displayDialog = true;
     this.initForm();
 
   }
@@ -58,9 +58,9 @@ export class ConsumptionTypeEditComponent implements OnInit {
     console.log(this.selectedConsumptionType);
     const s = this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
       data => {
-        this.conumptionTypeAdd.emit(data);
+
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -73,36 +73,13 @@ export class ConsumptionTypeEditComponent implements OnInit {
       () => this.spinner.hide()
     );
 
-
-
-    this.selectedConsumptionType = new ConsumptionType();
-    if (this.modal) { this.modal.close(); }
-    this.isFormSubmitted = false;
   }
 
 
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectedConsumptionType = new ConsumptionType();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
 }

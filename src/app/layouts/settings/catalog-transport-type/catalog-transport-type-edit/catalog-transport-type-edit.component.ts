@@ -25,18 +25,15 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
 
   @Input() selectCatalogTransportType = new CatalogTransportType();
-  @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
-  @Output() transportCatVehicleAdd = new EventEmitter<CatalogTransportType>();
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
 
-  closeResult: String;
   transportCatVehicleForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
   zoneList: Zone[] = [];
   vatList: Vat[] = [];
-
-  modal: NgbModalRef;
+  displayDialog: boolean;
   isFormSubmitted = false;
 
   constructor(
@@ -72,6 +69,11 @@ export class CatalogTransportTypeEditComponent implements OnInit {
         this.vatList = data;
       }
     );
+    if (this.editMode === 1) {
+      this.selectCatalogTransportType = new CatalogTransportType();
+    }
+
+    this.displayDialog = true;
     this.initForm();
 
   }
@@ -106,9 +108,8 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     console.log(this.selectCatalogTransportType);
      this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
-        this.transportCatVehicleAdd.emit(data);
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -123,8 +124,6 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
 this.selectCatalogTransportType = new CatalogTransportType();
 
-    if (this.modal) { this.modal.close(); }
-    this.isFormSubmitted = false;
 
   }
 
@@ -156,29 +155,6 @@ this.selectCatalogTransportType = new CatalogTransportType();
   }
 
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectCatalogTransportType = new CatalogTransportType();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
 
   onPriceHtChange() {
     const priceHt = +this.transportCatVehicleForm.value['fAmountHt'];
@@ -201,5 +177,9 @@ this.selectCatalogTransportType = new CatalogTransportType();
 
 
 
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
+  }
 
 }

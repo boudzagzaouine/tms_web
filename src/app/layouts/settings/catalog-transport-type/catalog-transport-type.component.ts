@@ -20,17 +20,18 @@ export class CatalogTransportTypeComponent implements OnInit {
   size = 10;
   collectionSize: number;
 
-  selectCatalogTransportType: CatalogTransportType;
+  selectCatalogTransportTypes:Array<CatalogTransportType>=[];
   searchQuery = '';
   codeSearch: string;
   vehicleCategorySearch: string;
  transportSearch: string;
-
-  items: MenuItem[];
-
   transportCatVehicleList: Array<CatalogTransportType> = [];
   categorieVehicleList: Array<string> = [];
   transportList: Array<string> = [];
+  cols: any[];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -41,10 +42,19 @@ export class CatalogTransportTypeComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectCatalogTransportType.id) }
+    this.className = CatalogTransportType.name;
+    this.cols = [
+      { field: 'transport', header: 'Transport' },
+      { field: 'vehicleCategory', header: 'Catégorie Véhicle' },
+      { field: 'zoneSource', header: 'Zone Source' },
+      { field: 'zoneDestination', header: 'Zone Destination' },
+      { field: 'amountHt', header: 'Montant Ht' },
+      { field: 'amountTtc', header: 'Montant TTC' },
+      { field: 'amountTva', header: 'Montant' },
+      { field: 'vat', header: 'TVA' },
     ];
+
+    this.loadData();
   }
 
 
@@ -117,30 +127,48 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.loadData();
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Supprimer?',
-      accept: () => {
-        this.catalogTransportTypeService.delete(id).subscribe(
-          data =>{
-            this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
 
-                 this.loadData();
-       },
-       error=>{
-        this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-      }
-        );
+    this.editMode = event.operationMode;
+    this.selectCatalogTransportTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
 
-      }
-    });
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectCatalogTransportTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectCatalogTransportTypes.map(x => x.id);
+          this.catalogTransportTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectCatalogTransportTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
-  onTanrsportAdd(event) {
+
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
+
 }

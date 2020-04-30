@@ -17,13 +17,16 @@ export class InsuranceTypeComponent implements OnInit {
   size = 10;
   collectionSize: number;
 
-  selectedInsuranceType: InsuranceType;
+  selectedInsuranceTypes: Array<InsuranceType>=[];
   searchQuery: string;
   codeSearch: string;
   items: MenuItem[];
   insertOrUpdate:String;
   insuranceTypeList: Array<InsuranceType> = [];
-
+  showDialog: boolean;
+  editMode: number;
+  className: String;
+  cols: any[];
   constructor(private insuranceTypeService: InsuranceTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -31,10 +34,14 @@ export class InsuranceTypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedInsuranceType.id) }
+    this.className = InsuranceType.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
+
     ];
+
+    this.loadData();
   }
 
 
@@ -87,22 +94,45 @@ export class InsuranceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.insuranceTypeService.delete(id).subscribe(
-          data => {
-            this.toastr.success("Elément Supprimer avec Succés","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-         }
-        );
-      }
-    });
+    this.editMode = event.operationMode;
+    this.selectedInsuranceTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
+  }
+
+  onDeleteAll() {
+
+    if (this.selectedInsuranceTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedInsuranceTypes.map(x => x.id);
+          this.insuranceTypeService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedInsuranceTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+  }
+
+  onShowDialog(event) {
+    this.showDialog = event;
+    this.loadData();
   }
 
   onEdit() {

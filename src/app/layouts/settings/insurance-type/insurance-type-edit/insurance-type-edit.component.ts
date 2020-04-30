@@ -22,9 +22,11 @@ export class InsuranceTypeEditComponent implements OnInit {
 
 
   @Input() selectedinsuranceType = new InsuranceType();
-  @Input() editMode: boolean;
+  @Input() editMode: number;
   @Input() insertOrUpdate: String;
   @Output() insuranceTypeAdded = new EventEmitter<InsuranceType>();
+  @Output() showDialog = new EventEmitter<boolean>();
+
   insurannceTypeTerms: InsuranceTypeTerms[] = [];
   insurancetypee: number;
   page = 0;
@@ -41,6 +43,7 @@ export class InsuranceTypeEditComponent implements OnInit {
 
   modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
 
   constructor(
     private insuranceTypeService: InsuranceTypeService,
@@ -51,6 +54,13 @@ export class InsuranceTypeEditComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+
+
+    this.open();
+
+
+    this.displayDialog = true;
+
     this.initForm();
 
 
@@ -75,31 +85,7 @@ export class InsuranceTypeEditComponent implements OnInit {
 
 
   }
-  /* loadData() {
 
-     this.spinner.show();
-
-     this.insuranceTypeTermsService.findAllPagination().subscribe(
-       data => {
-         console.log("find with id insurance type");
-         this.insuranceTypeTermsList = data;
-         console.log(data);
-
-         this.spinner.hide();
-       },
-       error => {
-
-
-         this.spinner.hide();
-       },
-       () => this.spinner.hide()
-     );
-   }*/
-  /* loadDataLazy(event) {
-     this.page = event.first / this.size;
-     console.log('first : ' + event.first);
-     this.loadData(this.searchQuery);
-   }*/
   onLineEdited(insuranceTerms: InsuranceTypeTerms) {
 
     console.log(insuranceTerms.id);
@@ -132,14 +118,14 @@ export class InsuranceTypeEditComponent implements OnInit {
         console.log(dataIt);
         if (this.editMode) {
 
-         this.insuranceTypeTermsListC.forEach(eleme=>{
-                 this.insuranceTypeTermsService.delete(eleme.id).subscribe(
-                       d=>{
-                        console.log(eleme.id);
+          this.insuranceTypeTermsListC.forEach(eleme => {
+            this.insuranceTypeTermsService.delete(eleme.id).subscribe(
+              d => {
+                console.log(eleme.id);
 
-                       }
-                 );
-                });
+              }
+            );
+          });
         }
         if (this.insuranceTypeTermsList.length) {
           console.log(this.insuranceTypeTermsList.length);
@@ -162,10 +148,9 @@ export class InsuranceTypeEditComponent implements OnInit {
         }
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
         if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
-        console.log("insertion Type");
-        console.log(this.selectedinsuranceType);
 
 
 
@@ -181,13 +166,14 @@ export class InsuranceTypeEditComponent implements OnInit {
     );
   }
 
-  open(content) {
-    if (!this.editMode) {
+  open() {
+    this.insuranceTypeTermsList = [];
+    if (this.editMode === 1) {
       this.selectedinsuranceType = new InsuranceType();
-      this.insuranceTypeTermsList = [];
+
     }
     else {
-      this.insuranceTypeTermsList = [];
+
       this.insurancetypee = this.selectedinsuranceType.id;
       console.log(this.insurancetypee);
 
@@ -210,26 +196,16 @@ export class InsuranceTypeEditComponent implements OnInit {
 
     }
     this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'lg' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
   /*onInsuranceTermAdded(event) {
     this.loadData();
   }*/
 
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
+  }
 }

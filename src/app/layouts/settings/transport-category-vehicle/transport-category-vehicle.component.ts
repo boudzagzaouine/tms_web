@@ -17,18 +17,19 @@ export class TransportCategoryVehicleComponent implements OnInit {
   page = 0;
   size = 10;
   collectionSize: number;
-
-  selectTransportCatVehicle: TransportCategoryVehicle;
-  searchQuery = '';
-  codeSearch: string;
+transportSearch: string;
   vehicleCategorySearch: string;
- transportSearch: string;
-
-  items: MenuItem[];
-
+searchQuery = '';
+  codeSearch: string;
+  selectTransportCatVehicles:Array< TransportCategoryVehicle>=[];
   transportCatVehicleList: Array<TransportCategoryVehicle> = [];
-  categorieVehicleList: Array<string> = [];
+    categorieVehicleList: Array<string> = [];
   transportList: Array<string> = [];
+ cols: any[];
+    showDialog: boolean;
+  editMode: number;
+  className: String;
+
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -38,12 +39,20 @@ export class TransportCategoryVehicleComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectTransportCatVehicle.id) }
-    ];
-  }
 
+
+    this.className = TransportCategoryVehicle.name;
+    this.cols = [
+      { field: 'vehicleCategory[0]', header: 'Catégorie Véhicule' },
+      { field: 'transport', header: 'Transport' },
+      { field: 'quantity', header: 'Quantité' },
+
+    ];
+
+    this.loadData();
+
+
+  }
 
   loadData() {
 
@@ -114,31 +123,51 @@ export class TransportCategoryVehicleComponent implements OnInit {
     this.loadData();
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Supprimer?',
-      accept: () => {
-        this.transportCategoryVehicleService.delete(id).subscribe(
-          data =>{
-            this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
 
-                 this.loadData();
-       },
-       error=>{
-        this.toastr.error(error.error.message);
-
-      }
-        );
-
-      }
-    });
-  }
-
-  onEdit() {
-    this.toastr.info('selected ');
-  }
   onTanrsportAdd(event) {
     this.loadData();
   }
+
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectTransportCatVehicles = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
+  }
+
+  onDeleteAll() {
+
+    if (this.selectTransportCatVehicles.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectTransportCatVehicles.map(x => x.id);
+          this.transportCategoryVehicleService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectTransportCatVehicles.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+  }
+
+  onShowDialog(event) {
+    this.showDialog = event;
+    this.loadData();
+  }
+
 
 }

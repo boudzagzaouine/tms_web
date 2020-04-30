@@ -1,15 +1,16 @@
-<button class="btn btn-primary btn-sm" (click)="open(content)">
-  <i class="fa" [ngClass]="editMode ? 'fa-pencil' : 'fa-plus'"></i>
-</button>
-<ng-template #content let-modal>
-  <div class="modal-header" style=" background-color:#f7f7f7">
-    <h5 class="modal-title" id="modal-basic-title">{{'Editer Catégorie Transport  ' | translate}}</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body border-top-primary">
-    <div class="card-body ">
+<p-dialog
+header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Catégorie Véhicule"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '380px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
       <form [formGroup]="transportCatVehicleForm">
 
         <div class="row  justify-content-around">
@@ -22,7 +23,7 @@
               style="color: red; font-size: xx-small;">
               obligatoire
             </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true" [showClear]="true"
+            <p-dropdown [autoDisplayFirst]="false"  [options]="vehicleCategorieList" optionLabel="code" [filter]="true" [showClear]="true"
               (onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory"></p-dropdown>
           </div>
 
@@ -32,8 +33,8 @@
             (isFormSubmitted && transportCatVehicleForm.get('fTransport').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true" [showClear]="true"
+            </span><br>
+            <p-dropdown [autoDisplayFirst]="false"  [options]="transportList" optionLabel="code" [filter]="true" [showClear]="true"
               (onChange)="onSelectTransport($event)" formControlName="fTransport"></p-dropdown>
           </div>
 
@@ -55,13 +56,25 @@
       </form>
     </div>
   </div>
-  <div class="modal-footer pull-right">
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">
-      {{'Fermer' | translate}}
-    </button>
-    <button type="button" class="btn btn-success" (click)="onSubmit()">
-      {{'Valider' | translate}}
-    </button>
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="ui-button-primary"
+    label="fermer"
+  ></button>
+  <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="onSubmit()"
+      class="ui-button-success"
+      label="Valider"
+    ></button>
   </div>
-</ng-template>
+</p-footer>
+</p-dialog>

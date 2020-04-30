@@ -18,16 +18,16 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TransportCategoryVehicleEditComponent implements OnInit {
 
   @Input() selectTransportCatVehicle = new TransportCategoryVehicle();
-  @Input() editMode: boolean;
-  @Output() transportCatVehicleAdd = new EventEmitter<TransportCategoryVehicle>();
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
 
-  closeResult: String;
   transportCatVehicleForm: FormGroup;
+
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
 
-  modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
 
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
@@ -38,6 +38,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+
+
+
     this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.vehicleCategorieList = data;
@@ -49,6 +52,13 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
         this.transportList = data;
       }
     );
+    console.log(this.editMode);
+
+    if (this.editMode === 1) {
+      this.selectTransportCatVehicle = new TransportCategoryVehicle();
+    }
+
+    this.displayDialog = true;
     this.initForm();
 
   }
@@ -71,9 +81,8 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     console.log(this.selectTransportCatVehicle);
     const s = this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(
       data => {
-        this.transportCatVehicleAdd.emit(data);
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -89,8 +98,6 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
 
     this.selectTransportCatVehicle = new TransportCategoryVehicle();
-    if (this.modal) { this.modal.close(); }
-    this.isFormSubmitted = false;
   }
 
   onSelectVehicleCateory(event: any) {
@@ -105,28 +112,11 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   }
 
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectTransportCatVehicle = new TransportCategoryVehicle();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
 
 }

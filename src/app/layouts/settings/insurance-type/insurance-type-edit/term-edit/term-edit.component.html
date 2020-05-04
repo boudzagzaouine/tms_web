@@ -4,7 +4,7 @@
 </button>
 <ng-template #content let-modal>
   <div class="modal-header" style=" background-color:#f7f7f7">
-    <h5 class="modal-title" id="modal-basic-title">{{insertOrUpdate}} Terme d&acute;assurance</h5>
+    <h5 class="modal-title" id="modal-basic-title"> {{insertOrUpdate}} Terme d´assurance</h5>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -19,7 +19,7 @@
             <span *ngIf="(insuranceTypeTermForm.get('fTerm').touched && insuranceTypeTermForm.get('fTerm').invalid) ||
             (isFormSubmitted && insuranceTypeTermForm.get('fTerm').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-               obligatoire
+              {{ 'obligatoire'| translate}}
             </span>
             <br />
             <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTermList" optionLabel="description" [filter]="true"

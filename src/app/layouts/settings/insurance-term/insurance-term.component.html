@@ -1,55 +1,53 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body border-top-primary">
-    <div class="row">
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
-      </div>
-    </div>
-    <br />
-
-    <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        Rechercher
-      </button>
+<p-panel header='{{ "Filters" | translate }}' [toggleable]="true" >
+  <div class="row">
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Code" | translate }}</label
+      ><br />
+      <input type="text" pInputText [(ngModel)]="codeSearch" />
     </div>
   </div>
-</div>
+  <br />
+
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh"></i> {{ "Réinitialiser" | translate }}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search"></i> {{ "Rechercher" | translate }}
+    </button>
+  </div>
+</p-panel>
 
 <app-data-table
-  [className]='className'
-  [cols]='cols'
+  [className]="className"
+  [cols]="cols"
   [objectList]="insuranceTermList"
   [collectionSize]="collectionSize"
   [size]="size"
-  (objectEdited)='onObjectEdited($event)'
-  (lazyLoadData)='loadDataLazy($event)'
- [listName]="'Terme d assurance'"
-  ></app-data-table>
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  [listName]="'Termes Assurance'"
+></app-data-table>
 
+<div *ngIf="showDialog == true">
+  <app-insurance-term-ediit
+    [editMode]="editMode"
+    [selectedInsuranceTerm]="selectedCommissionTerms[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-insurance-term-ediit>
+</div>
 
-  <div *ngIf="showDialog == true">
-    <app-insurance-term-ediit
-      [editMode]="editMode"
-      [selectedInsuranceTerm]="selectedCommissionTerms[0]"
-      (showDialog)="onShowDialog($event)"
-    ></app-insurance-term-ediit>
-  </div>
-
-  <ngx-spinner
-    bdColor="rgba(255,255,255,0)"
-    size="large"
-    color="#00d2ff"
-    type="ball-spin-fade-rotating"
-  ></ngx-spinner>
-  <p-confirmDialog
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
   header="Confirmation"
   icon="pi pi-exclamation-triangle"
   [acceptLabel]="'Oui'"
   [rejectLabel]="'Non'"
 >
 </p-confirmDialog>
-

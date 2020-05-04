@@ -5,7 +5,7 @@ header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Type Assurance"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '750px' }"
+[style]="{ width: '800px' }"
 (onHide)='onShowDialog()'
 >
 <div>
@@ -45,12 +45,13 @@ showEffect="fade"
       </div>
       <div class="card-body border-top-primary">
         <p-table  [value]="insuranceTypeTermsList" [lazy]="true" [rows]="size" [paginator]="true"
-        [totalRecords]="insuranceTypeTermsList?.length" >
+        [totalRecords]="insuranceTypeTermsList?.length"  >
           <ng-template pTemplate="header">
             <tr>
               <th>Code</th>
               <th>prix</th>
               <th style="width:15%">Actions</th>
+
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-insuranceTerms>

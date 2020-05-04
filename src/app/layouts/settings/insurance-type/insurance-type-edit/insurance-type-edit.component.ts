@@ -30,7 +30,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   insurannceTypeTerms: InsuranceTypeTerms[] = [];
   insurancetypee: number;
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
 
   searchQuery: string;

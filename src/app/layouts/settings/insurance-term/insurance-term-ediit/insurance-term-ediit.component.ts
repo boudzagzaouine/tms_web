@@ -19,6 +19,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
   insuranceTermForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
+  title:string ='Modifier';
 
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
@@ -31,6 +32,8 @@ export class InsuranceTermEdiitComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedInsuranceTerm = new InsuranceTerm();
+      this.title='Ajouter';
+
     }
 
     this.displayDialog = true;

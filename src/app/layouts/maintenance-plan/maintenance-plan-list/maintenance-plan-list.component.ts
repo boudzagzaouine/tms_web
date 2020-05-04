@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
@@ -28,10 +29,15 @@ export class MaintenancePlanListComponent implements OnInit {
   statusMaintenanceSearch: MaintenanceState;
   codeSearch: String;
   searchQuery = '';
-  maintenancePlans: Array<MaintenancePlan> = [];
+  maintenancePlanList: Array<MaintenancePlan> = [];
   vehicleList: Array<Vehicle> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
+
+   selectMaintenancePlans:Array<MaintenancePlan> =[];
+   className: String;
+   cols: any[];
+   editMode: number;
 
   constructor(private vehicleService: VehicleService,
     private maintenanceStatusService: MaintenanceStateService,
@@ -39,15 +45,39 @@ export class MaintenancePlanListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private maintenancePlanService: MaintenancePlanService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router:Router) { }
 
   ngOnInit() {
 
+
+    this.className = Vehicle.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+
+
+    ];
     this.loadVechile();
     this.loadMaintenanceStatus();
     this.loadMaintenanceType();
 
   }
+
+
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectMaintenancePlans = event.object;
+
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.router.navigate(['/core/maintenance/edit', this.selectMaintenancePlans[0].id]);
+    }
+
+  }
+
+
 
   loadVechile() {
 
@@ -106,7 +136,7 @@ export class MaintenancePlanListComponent implements OnInit {
     this.maintenancePlanService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
-        this.maintenancePlans = data;
+        this.maintenancePlanList = data;
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
@@ -146,6 +176,34 @@ export class MaintenancePlanListComponent implements OnInit {
     this.searchQuery = '';
     this.loadData();
   }
+
+
+
+
+  onDeleteAll() {
+
+    if (this.selectMaintenancePlans.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectMaintenancePlans.map(x => x.id);
+          this.vehicleService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectMaintenancePlans.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+  }
+
 
   onDeleteMaintenance(id: number) {
     this.confirmationService.confirm({

@@ -46,44 +46,17 @@
   </div>
 </div>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des maintenances</span>
 
-  </div>
-  <div class="card-body  border-top-primary">
-    <p-table [value]="maintenancePlans" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size"
-      [paginator]="true" [totalRecords]="collectionSize">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Vehicule</th>
-          <th>Type Maintenance</th>
-          <th>Etat Maintenance </th>
-          <th>Date Fin</th>
-          <th style="width:10%">Action</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-mnt>
-        <tr>
-          <td>{{mnt?.code}}</td>
-          <td>{{mnt?.vehicle?.code}}</td>
-          <td>{{mnt?.maintenanceType?.code}}</td>
-          <td>{{mnt?.maintenanceState?.code}}</td>
-          <td>{{mnt?.endDate | date: "dd/MM/yyyy"}}</td>
-          <td>
-            <a [routerLink]="['/core/maintenances/edit', mnt.id]" routerLinkActive="active"
-              class="btn btn-sm btn-primary mr-2">
-              <i class="fa fa-pencil"></i>
-            </a>
-            <button type="button" (click)="onDeleteMaintenance(mnt?.id)" class="btn btn-sm btn-danger">
-              <i class="fa fa-trash-o"></i>
-            </button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="maintenancePlanList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  [listName]="'Véhicule'"
+></app-data-table>
+
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

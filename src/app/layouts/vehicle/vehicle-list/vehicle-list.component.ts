@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { Vehicle } from './../../../shared/models/vehicle';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -6,7 +8,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleService } from './../../../shared/services';
 import { Component, OnInit } from '@angular/core';
-import { Vehicle } from './../../../shared/models';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class VehicleListComponent implements OnInit {
   size = 10;
   collectionSize: number;
 
-  selectedVehicle: Vehicle;
+  selectedVehicles: Array<Vehicle> = [];
   searchQuery = '';
   codeSearch: string;
   matSearch: string;
@@ -32,14 +33,29 @@ export class VehicleListComponent implements OnInit {
   vehicleCategoryList: Array<string> = [];
   badgeTypeList: Array<string> = [];
 
+  className: String;
+  cols: any[];
+  editMode: number;
+  showDialog: boolean;
+
   constructor(private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.className = Vehicle.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'registrationNumber', header: 'Immatriculation' },
+      { field: 'vehicleCategory', header: 'Catégorie Véhicule' },
+
+    ];
+  }
 
 
   loadData(search: string = '') {
@@ -94,6 +110,21 @@ export class VehicleListComponent implements OnInit {
 
   }
 
+
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectedVehicles = event.object;
+    
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+      this.router.navigate(['/core/vehicles/edit', this.selectedVehicles[0].id]);
+    }
+
+  }
+
   onVehicleCategorySearch(event: any) {
     this.vehicleCategoryService.find('code~' + event.query).subscribe(
       data => this.vehicleCategoryList = data.map(f => f.code)
@@ -121,17 +152,41 @@ export class VehicleListComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.vehicleService.delete(id).subscribe(
-          data=>{
+          data => {
             this.toastr.success('Elément est Supprimé Avec Succès', 'Supprssion');
             this.loadData();
           },
-         err=>{
-          this.toastr.error(err.arror.message);
+          err => {
+            this.toastr.error(err.arror.message);
 
-         }
+          }
         );
       }
     });
+  }
+
+  onDeleteAll() {
+
+    if (this.selectedVehicles.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedVehicles.map(x => x.id);
+          this.vehicleService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedVehicles.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
   }
 
   onSelectVehcileCategory() {

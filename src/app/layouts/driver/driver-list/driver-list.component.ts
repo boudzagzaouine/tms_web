@@ -1,3 +1,5 @@
+import { Vehicle } from './../../../shared/models/vehicle';
+import { Router } from '@angular/router';
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
 import { BadgeTypeDriverService } from './../../../shared/services/api/badge-type-driver.service';
 import { BadgeType } from './../../../shared/models/badge-Type';
@@ -22,32 +24,56 @@ export class DriverListComponent implements OnInit {
   page = 0;
   size = 8;
   collectionSize: number;
-
   cinSearch: string;
   codeSearch: string;
   contratSearch: string;
   badgeTypeSearch: BadgeType;
-  selectedBadgeType: BadgeType;
+  selectedDrivers: Array<Vehicle>=[];
   loading: boolean;
-
   searchQuery = '';
-  drivers: Array<Driver> = [];
-  //badges: Array<Badge> = [];
+  driverList: Array<Driver> = [];
   badgesTypeList: Array<BadgeType> = [];
+
+  className: String;
+  cols: any[];
+  editMode: number;
 
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private badgeTypeService: BadgeTypeService,
     private badgetypedriverService:BadgeTypeDriverService,
     private confirmationService: ConfirmationService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router:Router) { }
 
   ngOnInit() {
+    this.className = Driver.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'cin', header: 'Cin' },
+      { field: 'birthDate', header: 'Date Naissance' },
+    ];
 
     this.loadData();
     this.loadBadge();
     // this.loading = true;
   }
+
+
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectedDrivers = event.object;
+
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.router.navigate(['/core/drivers/edit', this.selectedDrivers[0].id]);
+    }
+
+  }
+
+
   loadBadge() {
 
     this.badgeTypeService.findAll().subscribe(
@@ -87,7 +113,7 @@ export class DriverListComponent implements OnInit {
 
     this.driverService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.drivers = data;
+        this.driverList = data;
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
@@ -112,7 +138,7 @@ export class DriverListComponent implements OnInit {
 
     this.badgetypedriverService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.drivers = data.map(b => b.driver);
+        this.driverList = data.map(b => b.driver);
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
@@ -175,6 +201,32 @@ export class DriverListComponent implements OnInit {
     this.searchQuery = '';
     this.loadData();
   }
+
+
+  onDeleteAll() {
+
+    if (this.selectedDrivers.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedDrivers.map(x => x.id);
+          this.driverService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedDrivers.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+  }
+
 
   onDeleteDriver(id: number) {
     console.log('delete id : ' + id);

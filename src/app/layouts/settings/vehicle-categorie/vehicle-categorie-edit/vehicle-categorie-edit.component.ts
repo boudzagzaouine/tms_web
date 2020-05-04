@@ -1,5 +1,3 @@
-import { InsuranceType } from './../../../../shared/models/insurance-Type';
-import { InsuranceTypeService } from './../../../../shared/services/api/insurance-type.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';

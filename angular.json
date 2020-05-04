@@ -43,9 +43,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "src/assets/css/main.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              
-                "node_modules/primeflex/primeflex.css",
-          
+              "node_modules/primeflex/primeflex.css",
               "src/assets/css/ems-custom.scss"
             ],
             "scripts": [
@@ -84,7 +82,7 @@
               "node_modules/select2/dist/js/select2.full.min.js",
               "node_modules/jquery-minicolors/jquery.minicolors.min.js",
               "src/assets/js/app.js"
-            
+
             ]
           },
           "configurations": {

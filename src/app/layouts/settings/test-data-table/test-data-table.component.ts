@@ -29,6 +29,8 @@ export class TestDataTableComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  filterSearch: string;
+
   cols: any[];
   insuranceTermList: Array<InsuranceTerm> = [];
   selectedInsuranceTerms: Array<InsuranceTerm> = [];
@@ -55,6 +57,7 @@ export class TestDataTableComponent implements OnInit {
       { field: 'roofed', header: 'valeur' },
     ];
     this.operatorAndOR = [
+      {field: '', header: '     '},
       { field: '(', header: '(' },
       { field: ',', header: 'ET' },
       { field: '|', header: 'OU' },
@@ -63,7 +66,7 @@ export class TestDataTableComponent implements OnInit {
     ];
 
     this.operators = [
-      { field: '=', header: 'égale à' },
+      { field: ':', header: 'égale à' },
       { field: '!=', header: 'différent' },
 
 
@@ -116,14 +119,28 @@ export class TestDataTableComponent implements OnInit {
 
     const filter = new EmsFIlter();
     for (let i = 0; i < this.dataarrray.length; i++) {
-         filter.append(this.dataarrray[i].operatorAnd.field);
-         filter.append(this.dataarrray[i].attribut.field);
-         filter.append(this.dataarrray[i].operator.field);
-         filter.append(this.dataarrray[i].value);
-         filter.append(this.dataarrray[i].operatorAndd.field);
+
+
+        filter.append(this.dataarrray[i].operatorAnd.field);
+
+
+      filter.append(this.dataarrray[i].attribut.field);
+      filter.append(this.dataarrray[i].operator.field);
+      filter.append(this.dataarrray[i].value);
+      filter.append(this.dataarrray[i].operatorAndd.field);
+
     }
 
-    console.log(filter.getValue());
+    this.page = 0;
+    this.searchQuery = filter.getValue();
+    this.filterSearch =filter.getValue();
+    this.loadData(this.filterSearch);
+    console.log(this.searchQuery);
+
+  }
+  oncl(){
+    this.loadData(this.filterSearch);
+    console.log();
 
   }
   onSearchClicked() {

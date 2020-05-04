@@ -13,4 +13,6 @@ export class VehicleCategory {
   emptyWeight: number;
   totalWeight: number;
 
+  insuranceType:InsuranceType;
+
 }

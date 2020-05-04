@@ -66,7 +66,7 @@
           </div>
 
           <div class="col-md-2">
-            <label class="font-weight-bold">Value</label><br />
+            <label class="font-weight-bold">Valeur</label><br />
             <input
               type="text"
               pInputText
@@ -75,7 +75,7 @@
             />
           </div>
           <div class="col-md-2">
-            <label class="font-weight-bold">operateur</label><br />
+            <label class="font-weight-bold">Operateur</label><br />
             <p-dropdown
               [autoDisplayFirst]="false"
               [options]="operatorAndOR"
@@ -90,7 +90,10 @@
 
         </div>
         <p-button icon="pi pi-plus" (click)='addForm()'></p-button>
-
+        <div class="col-md-3">
+          <label class="font-weight-bold">Filter</label><br />
+          <input type="text" pInputText [(ngModel)]="filterSearch" />
+        </div>
       <br />
 
       <div class="text-center">
@@ -104,6 +107,13 @@
         >
           Rechercher
         </button>
+        <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="oncl()"
+      >
+        Rechercher filter
+      </button>
       </div>
     </ng-template>
   </p-tabPanel>

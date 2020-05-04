@@ -23,7 +23,6 @@ import { InsuranceComponent } from './insurance/insurance.component';
 import { BadgeEditComponent } from './badge/badge-edit/badge-edit.component';
 import { BadgeComponent } from './badge/badge.component';
 import { SettingsComponent } from './settings.component';
-import { InsuranceTermEditComponent } from './insurance-term/insurance-term-edit/insurance-term-edit.component';
 import { MaintenanceStatusComponent } from './maintenance-status/maintenance-status.component';
 import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.component';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
@@ -76,7 +75,7 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     InsuranceComponent,
     InsuranceEditComponent,
     InsuranceTermComponent,
-    InsuranceTermEditComponent,
+    InsuranceTermEdiitComponent,
     MaintenanceStatusComponent,
     MaintenanceStatusEditComponent,
     MaintenanceTypeComponent,
@@ -133,7 +132,7 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     SplitButtonModule,
     DialogModule,
   PaginatorModule
- 
+
 
   ]
 })

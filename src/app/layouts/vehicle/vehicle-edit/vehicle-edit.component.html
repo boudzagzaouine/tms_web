@@ -6,40 +6,44 @@
     <form [formGroup]="vehicleForm">
 
       <p-tabView [activeIndex]="index" >
-        <p-tabPanel header="General" [disabled]="true" >
+
+                                 <!-- Général -->
+        <p-tabPanel header="{{ 'Général' | translate}}" [disabled]="true" headerStyleClass="onglet-p-4">
+          <div formGroupName="general">  <!-- Form group imbriqué -->
+
           <div class="row  mt-3 justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Code' | translate}}*</label>
-              <span *ngIf="(vehicleForm.get('Fcode').touched && vehicleForm.get('Fcode').invalid) ||
-                (isFormSubmitted && vehicleForm.get('Fcode').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['general'].get('fCode').touched && vehicleForm.controls['general'].get('fCode').invalid) ||
+                (isFormSubmitted && vehicleForm.controls['general'].get('fCode').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span>
               <br />
-              <input type="text" class="form-control" pInputText formControlName="Fcode"
+              <input type="text" class="form-control" pInputText formControlName="fCode"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'immatriculation'| translate}}*</label>
-              <span *ngIf="(vehicleForm.get('FregistrationNumber').touched && vehicleForm.get('FregistrationNumber').invalid) ||
-              (isFormSubmitted && vehicleForm.get('FregistrationNumber').invalid)" class="text-lighter"
+              <label class="font-weight-bold ">{{'Immatriculation'| translate}}*</label>
+              <span *ngIf="(vehicleForm.controls['general'].get('fRegistrationNumber').touched && vehicleForm.controls['general'].get('fRegistrationNumber').invalid) ||
+              (isFormSubmitted && vehicleForm.controls['general'].get('fRegistrationNumber').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                  obligatoire
               </span>
               <br />
-              <input type="text" class="form-control" pInputText formControlName="FregistrationNumber" />
+              <input type="text" class="form-control" pInputText formControlName="fRegistrationNumber" />
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Vehicule Categorie' | translate}}*</label>
-              <span *ngIf="(vehicleForm.get('FvehicleCategory').touched && vehicleForm.get('FvehicleCategory').invalid) ||
-              (isFormSubmitted && vehicleForm.get('FvehicleCategory').invalid)" class="text-lighter"
+              <label class="font-weight-bold ">{{'Véhicule Catégorie' | translate}}*</label>
+              <span *ngIf="(vehicleForm.controls['general'].get('fVehicleCategory').touched && vehicleForm.controls['general'].get('fVehicleCategory').invalid) ||
+              (isFormSubmitted && vehicleForm.controls['general'].get('fVehicleCategory').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
-                formControlName="FvehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
+                formControlName="fVehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
                  [showClear]="true"></p-dropdown>
             </div>
           </div>
@@ -47,13 +51,13 @@
           <div class="row justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Type Badge' | translate}}*</label>
-              <span *ngIf="(vehicleForm.get('FbadgeType').touched && vehicleForm.get('FbadgeType').invalid) ||
-              (isFormSubmitted && vehicleForm.get('FbadgeType').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['general'].get('fBadgeType').touched && vehicleForm.controls['general'].get('fBadgeType').invalid) ||
+              (isFormSubmitted && vehicleForm.controls['general'].get('fBadgeType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
-                (onChange)="onSelectBadgeType($event)" formControlName="FbadgeType" [showClear]="true"></p-dropdown>
+              <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="description" [filter]="true"
+                (onChange)="onSelectBadgeType($event)" formControlName="fBadgeType" [showClear]="true"></p-dropdown>
             </div>
 
 
@@ -70,15 +74,15 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Visite Technique'| translate}}</label>
+              <label class="font-weight-bold ">{{'Contrôle Technique'| translate}}</label>
               <br />
               <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-                formControlName="FtechnicalVisit" yearRange="1970:2100"></p-calendar>
+                formControlName="fTechnicalVisit" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Valeur'| translate}}</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FValeurVisiteTechnique" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fValeurVisiteTechnique" />
             </div>
             <div class="form-group col-md-3 "></div>
           </div>
@@ -87,36 +91,42 @@
               <label class="font-weight-bold ">{{'Vignette'| translate}}</label>
               <br />
               <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-                formControlName="Fvignette" yearRange="1970:2100"></p-calendar>
+                formControlName="fVignette" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Valeur'| translate}}</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FValeurVignette" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fValeurVignette" />
             </div>
             <div class="form-group col-md-3 "></div>
           </div>
+        </div>
+
         </p-tabPanel>
-        <p-tabPanel header="Caracteristiques" [disabled]="true" headerStyleClass="main-div2">
+               <!--                     FIn Général                               -->
+               <!--                     caractéristiques                           -->
+        <p-tabPanel header="{{'caractéristiques ' | translate}}" [disabled]="true" headerStyleClass="onglet-p-4">
+          <div formGroupName="caracteristic">  <!-- Form group imbriqué -->
+
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Carte Grise' | translate}}</label>
 
               <br />
-              <input type="text" class="form-control" pInputText formControlName="FgrayCard"
+              <input type="text" class="form-control" pInputText formControlName="fGrayCard"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'N Chassis'| translate}}</label>
+              <label class="font-weight-bold ">{{'Numéro Chassis'| translate}}</label>
 
               <br />
-              <input type="text" class="form-control" pInputText formControlName="FchassisNumber" />
+              <input type="text" class="form-control" pInputText formControlName="fChassisNumber" />
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Nombre de Cylindres'| translate}}</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FnumberCylinder" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fNumberCylinder" />
             </div>
           </div>
 
@@ -125,21 +135,26 @@
               <label class="font-weight-bold ">{{'Puissance Fiscal' | translate}}</label>
 
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FfiscalPower"
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fFiscalPower"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'carrosserie'| translate}}</label>
+              <label class="font-weight-bold ">{{'Carrosserie'| translate}}</label>
 
               <br />
-              <input type="text" class="form-control" pInputText formControlName="Fbody" />
+              <input type="text" class="form-control" pInputText formControlName="fBody" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Energie'| translate}}</label>
-
-              <br />
-              <input type="text" class="form-control" pInputText formControlName="Fenergy" />
+              <label class="font-weight-bold ">{{'Type Consommation'| translate}}</label>
+              <span *ngIf="(vehicleForm.controls['caracteristic'].get('fConsumptionType').touched && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid) ||
+              (isFormSubmitted && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                obligatoire
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="consumptionTypeList" optionLabel="description"
+                formControlName="fConsumptionType" (onChange)="onSelectConsumptionType($event)" [filter]="true"
+                 [showClear]="true"></p-dropdown>
             </div>
           </div>
           <hr class="w-50" />
@@ -149,7 +164,7 @@
               <label class="font-weight-bold ">{{'Huile Moteur' | translate}} (KM)</label>
 
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FengineOil"
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fEngineOil"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
@@ -157,12 +172,12 @@
               <label class="font-weight-bold ">{{'Pont Arriere'| translate}} (KM)</label>
 
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FrearDeck" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fRearDeck" />
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Direction '| translate}} (KM)</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="Fdirection" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fDirection" />
             </div>
           </div>
 
@@ -171,18 +186,18 @@
               <label class="font-weight-bold ">{{'Radiateur' | translate}} (KM)</label>
 
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="Fradiator"
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fRadiator"
                 (keydown.space)="$event.preventDefault()" />
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Filtre à Air '| translate}} (KM)</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FareaFilter" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fAreaFilter" />
             </div>
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Boite a Vitesse '| translate}} (KM)</label>
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FgearBox" />
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fGearBox" />
             </div>
 
           </div>
@@ -192,7 +207,7 @@
               <label class="font-weight-bold ">{{'Filtre Dissicateur' | translate}} (KM)</label>
 
               <br />
-              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="FdesiccantFilter"
+              <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fDesiccantFilter"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
@@ -204,8 +219,15 @@
             </div>
 
           </div>
+          </div>
         </p-tabPanel>
-        <p-tabPanel header="Assurance" [disabled]="true" >
+
+               <!--                  Fin Onglet  caractéristiques                            -->
+
+               <!--                  début Onglet  Assurance                                       -->
+        <p-tabPanel header="{{'Assurance'|translate}}" [disabled]="true" headerStyleClass="onglet-p-4">
+
+          <div formGroupName="insurance">
            <div [style.visibility]="editModee ? 'visible' : 'hidden'"  >
           <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
             {{'Nouveau Assurance' | translate }}
@@ -214,86 +236,73 @@
 
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Numero' | translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIcode').touched && vehicleForm.get('FIcode').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('FIcode').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fICode').touched && vehicleForm.controls['insurance'].get('fICode').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['insurance'].get('fICode').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span>
               <br />
-              <input type="text" class="form-control" pInputText formControlName="FIcode"
+              <input type="text" class="form-control" pInputText formControlName="fICode"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
-            <!-- <div class="form-group col-md-3">
-              <label class="font-weight-bold ">{{'Description' | translate}}</label>
-              <span *ngIf="(vehicleForm.get('FIdescription').touched && vehicleForm.get('FIdescription').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('FIdescription').invalid)" class="text-lighter"
-                style="color: red; font-size: xx-small;">
-                Ce Champs est obligatoire
-              </span><br />
-              <input type="text" class="form-control" pInputText formControlName="FIdescription" />
-            </div> -->
+
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Type Assurance' | translate}}</label>
-              <span *ngIf="(vehicleForm.get('FIType').touched && vehicleForm.get('FIType').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('FIType').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fIType').touched && vehicleForm.controls['insurance'].get('fIType').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['insurance'].get('fIType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span><br />
-               <input type="text" [(ngModel)]="codeTI" class="form-control" pInputText  formControlName="FIType" />
-                      <!--  <p-autoComplete [suggestions]="insuranceTypeList" field="code" (completeethod)="TypeSearch($event)"
-              formControlName="FIType" ></p-autoComplete>
- <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
-              formControlName="FIType" (onChange)="onSelectInsuranceType($event)" [filter]="true" [showClear]="true">
-            </p-dropdown> -->
-
-
+              <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
+              formControlName="fIType" (onChange)="onSelectInsuranceType($event)" [filter]="true" [showClear]="true">
+            </p-dropdown>
             </div>
 
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Fournisseur'| translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIsupplier').touched && vehicleForm.get('FIsupplier').invalid) ||
-                      (isFormSubmitted && vehicleForm.get('FIsupplier').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fISupplier').touched && vehicleForm.controls['insurance'].get('fISupplier').invalid) ||
+                      (isFormSubmitted && vehicleForm.controls['insurance'].get('fISupplier').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                  obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code"
-                formControlName="FIsupplier" (onChange)="onSelectsupplier($event)" [filter]="true" [showClear]="true">
+                formControlName="fISupplier" (onChange)="onSelectsupplier($event)" [filter]="true" [showClear]="true">
               </p-dropdown>
             </div>
           </div>
           <div class="row justify-content-around">
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'De' | translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIstartDate').touched && vehicleForm.get('FIstartDate').invalid) ||
-                    (isFormSubmitted && vehicleForm.get('FIstartDate').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fIStartDate').touched && vehicleForm.controls['insurance'].get('fIStartDate').invalid) ||
+                    (isFormSubmitted && vehicleForm.controls['insurance'].get('fIStartDate').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                  obligatoire
               </span>
               <br />
-              <p-calendar formControlName="FIstartDate" dateFormat="dd-mm-yy" showButtonBar="true"
+              <p-calendar formControlName="fIStartDate" dateFormat="dd-mm-yy" showButtonBar="true"
                 [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
 
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'A' | translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIendDate').touched && vehicleForm.get('FIendDate').invalid) ||
-                    (isFormSubmitted && vehicleForm.get('FIendDate').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fIEndDate').touched && vehicleForm.controls['insurance'].get('fIEndDate').invalid) ||
+                    (isFormSubmitted && vehicleForm.controls['insurance'].get('fIEndDate').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                 obligatoire
               </span>
               <br />
-              <p-calendar formControlName="FIendDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+              <p-calendar formControlName="fIEndDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
-              <span *ngIf="(vehicleForm.get('FIMontant').touched && vehicleForm.get('FIMontant').invalid) ||
-                      (isFormSubmitted && vehicleForm.get('FIMontant').invalid)" class="text-lighter"
+              <span *ngIf="(vehicleForm.controls['insurance'].get('fIMontant').touched && vehicleForm.controls['insurance'].get('fIMontant').invalid) ||
+                      (isFormSubmitted && vehicleForm.controls['insurance'].get('fIMontant').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
                  obligatoire
               </span>
-              <input type="text" class="form-control" pInputText formControlName="FIMontant" />
+              <input type="text" class="form-control" pInputText formControlName="fIMontant" />
             </div>
           </div>
 
@@ -341,41 +350,44 @@
 
 
           </div>
-
+</div>
         </p-tabPanel>
+                     <!--                  Fin Onglet Assurance       -->
 
-        <p-tabPanel header="Contrat" [disabled]="true"  >
+                     <!--                  Début Onglet Contrat       -->
+        <p-tabPanel header="{{'Contrat' | translate}}" [disabled]="true" headerStyleClass="onglet-p-4" >
+          <div formGroupName="contract">
           <div class="row  mt-3 justify-content-around">
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type contrat' | translate}}*</label>
-             <span *ngIf="(vehicleForm.get('FcontractType').touched && vehicleForm.get('FcontractType').invalid) ||
-               (isFormSubmitted && vehicleForm.get('FcontractType').invalid)" class="text-lighter"
+              <label class="font-weight-bold ">{{'Type Contrat' | translate}}*</label>
+             <span *ngIf="(vehicleForm.controls['contract'].get('fContractType').touched && vehicleForm.controls['contract'].get('fContractType').invalid) ||
+               (isFormSubmitted && vehicleForm.controls['contract'].get('fContractType').invalid)" class="text-lighter"
                style="color: red; font-size: xx-small;">
               obligatoire
              </span><br />
              <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
-               (onChange)="onSelectContract($event)" formControlName="FcontractType" [showClear]="true"></p-dropdown>
+               (onChange)="onSelectContract($event)" formControlName="fContractType" [showClear]="true"></p-dropdown>
            </div>
            <div class="form-group col-md-3">
             <label class="font-weight-bold ">{{'Date Aquisition' | translate}} *</label>
-            <span *ngIf="(vehicleForm.get('Faquisition').touched && vehicleForm.get('Faquisition').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('Faquisition').invalid)" class="text-lighter"
+            <span *ngIf="(vehicleForm.controls['contract'].get('fAquisition').touched && vehicleForm.controls['contract'].get('fAquisition').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['contract'].get('fAquisition').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               obligatoire
             </span>
             <br />
-            <p-calendar formControlName="Faquisition" dateFormat="dd-mm-yy" showButtonBar="true"
+            <p-calendar formControlName="fAquisition" dateFormat="dd-mm-yy" showButtonBar="true"
               [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
           </div>
           <div class="form-group col-md-3">
             <label class="font-weight-bold ">{{'Mantant' | translate}} *</label>
-            <span *ngIf="(vehicleForm.get('Famountc').touched && vehicleForm.get('Famountc').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('Famountc').invalid)" class="text-lighter"
+            <span *ngIf="(vehicleForm.controls['contract'].get('fAmountc').touched && vehicleForm.controls['contract'].get('fAmountc').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['contract'].get('fAmountc').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
              obligatoire
             </span>
-            <input type="text" class="form-control" pInputText formControlName="Famountc" />
+            <input type="text" class="form-control" pInputText formControlName="fAmountc" />
 
             <br />
 
@@ -385,13 +397,13 @@
 
           <div class="form-group col-md-3">
             <label class="font-weight-bold ">{{'Transport' | translate}} *</label>
-            <span *ngIf="(vehicleForm.get('Ftransport').touched && vehicleForm.get('Ftransport').invalid) ||
-                  (isFormSubmitted && vehicleForm.get('Ftransport').invalid)" class="text-lighter"
+            <span *ngIf="(vehicleForm.controls['contract'].get('fTransport').touched && vehicleForm.controls['contract'].get('fTransport').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['contract'].get('fTransport').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
              obligatoire
             </span>
             <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true"
-            (onChange)="onSelectTransport($event)" formControlName="Ftransport" [showClear]="true"></p-dropdown>
+            (onChange)="onSelectTransport($event)" formControlName="fTransport" [showClear]="true"></p-dropdown>
 
             <br />
 
@@ -413,9 +425,10 @@
               {{ "Valider" | translate }}
             </button>
           </div>
+        </div>
         </p-tabPanel>
 
-
+              <!--             FIn Onglet  Contrat -->
 
   <div *ngIf="!(this.index==0)"  class="row pull-left ">
         <button type="button"  pButton icon="fa fa-chevron-left" (click)="openPrev()"></button>

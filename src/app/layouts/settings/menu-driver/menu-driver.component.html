@@ -1,11 +1,11 @@
 <p-tabView>
 
-  <p-tabPanel header="Type Badge"  headerStyleClass="m-a-p">
+  <p-tabPanel header="{{'Type de Badge' | translate }}"  headerStyleClass="m-a-p">
       <ng-template pTemplate="content">
                  <app-badge-type></app-badge-type>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel header="Type Commission" headerStyleClass="m-a-p">
+  <p-tabPanel header="{{ 'Type de  Commission' | translate}}" headerStyleClass="m-a-p">
       <ng-template pTemplate="content">
         <app-commission-type></app-commission-type>
       </ng-template>

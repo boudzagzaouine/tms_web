@@ -1,55 +1,54 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body border-top-primary">
-    <div class="row">
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
-      </div>
-    </div>
-    <br />
-
-    <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Réinitialiser</button>
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        Rechercher
-      </button>
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+  <div class="row">
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Code" | translate }}</label
+      ><br />
+      <input type="text" pInputText [(ngModel)]="codeSearch" />
     </div>
   </div>
-</div>
+  <br />
+
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
+
+    </button>
+  </div>
+</p-panel>
 
 <app-data-table
-  [className]='className'
-  [cols]='cols'
+  [className]="className"
+  [cols]="cols"
   [objectList]="commissionTypeList"
   [collectionSize]="collectionSize"
   [size]="size"
-  (objectEdited)='onObjectEdited($event)'
-  (lazyLoadData)='loadDataLazy($event)'
- [listName]="'Types de Commisions'"
-  ></app-data-table>
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  [listName]="'Liste des Types de Commisions'"
+></app-data-table>
 
+<div *ngIf="showDialog == true">
+  <app-commission-type-edit
+    [editMode]="editMode"
+    [selectedCommissionType]="selectedCommissions[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-commission-type-edit>
+</div>
 
-  <div *ngIf="showDialog == true">
-    <app-commission-type-edit
-      [editMode]="editMode"
-      [selectedCommissionType]="selectedCommissions[0]"
-      (showDialog)="onShowDialog($event)"
-    ></app-commission-type-edit>
-  </div>
-
-  <ngx-spinner
-    bdColor="rgba(255,255,255,0)"
-    size="large"
-    color="#00d2ff"
-    type="ball-spin-fade-rotating"
-  ></ngx-spinner>
-  <p-confirmDialog
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
   header="Confirmation"
   icon="pi pi-exclamation-triangle"
   [acceptLabel]="'Oui'"
   [rejectLabel]="'Non'"
 >
 </p-confirmDialog>
-

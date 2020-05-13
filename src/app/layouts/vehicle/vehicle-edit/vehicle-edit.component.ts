@@ -1,3 +1,4 @@
+import { ConsumptionType } from './../../../shared/models/consumption-type';
 
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 
@@ -27,6 +28,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractType, Supplier, InsuranceTerm } from '../../../shared/models';
+import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
 
 @Component({
   selector: 'app-vehicle-edit',
@@ -43,11 +45,13 @@ export class VehicleEditComponent implements OnInit {
   selectedVehicleCategory = new VehicleCategory();
   selectedInsurance = new Insurance();
   selectedModInsurance = new Insurance();
-
   selectedInsuranceType = new InsuranceType();
   selectedBadgeType = new BadgeType();
   selectedContractType = new ContractType();
+  selectedConsumptionType = new ConsumptionType();
+
   vehicleForm: FormGroup;
+
   editModee = false;
   editInsuranceMode = false;
   badgeTypeList: BadgeType[] = [];
@@ -57,6 +61,8 @@ export class VehicleEditComponent implements OnInit {
   insuranceTypeList: InsuranceType[] = [];
   inssuranceTermList: InsuranceTerm[] = [];
   inssuranceTypeTermList: InsuranceTypeTerms[] = [];
+  consumptionTypeList: ConsumptionType[] = [];
+
   selectInusuranceTypeTerm = new InsuranceTypeTerms();
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
   transportList: any[] = [];
@@ -84,12 +90,11 @@ export class VehicleEditComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private insuranceTypeService: InsuranceTypeService,
-    private transportService: TransportServcie
+    private transportService: TransportServcie,
+    private consumptionTypeService: ConsumptionTypeService,
   ) { }
 
   ngOnInit() {
-
-
     this.fr = {
       firstDayOfWeek: 1,
       dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],
@@ -100,69 +105,46 @@ export class VehicleEditComponent implements OnInit {
       today: 'Aujourd hui',
       clear: 'Supprimer'
     };
-
-
     this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
-    this.spinner.show();
+    //this.spinner.show();
     if (id) {
       this.editModee = true;
       this.activatedRoute.params.subscribe(params => {
         id = params['id'];
 
-        this.vehicleService.findById(id).subscribe(data => {
-          this.selectedVehicle = data;
+         this.vehicleService.findById(id).subscribe(data => {
+           this.selectedVehicle = data;
           console.log(this.selectedVehicle);
+            if (this.selectedVehicle.insurance) {
+              this.selectedInsurance = this.selectedVehicle.insurance;
+        //     // solution 1
+        //     // if (this.selectedInsurance.insuranceTermLignes == null) {
+        //     //   this.selectedInsurance.insuranceTermLignes = []; // size = 0
+        //     //   }
 
-          this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
-          this.idinsurancetype = this.selectedVehicle.vehicleCategory.insuranceType.id;
-          console.log(this.idinsurancetype);
-          //this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
-
-
-          // this.onloadTypeTermInsurance(this.idinsurancetype);
-          // this.inssuranceTypeTermList.push(this.selectedVehicle.insuranceTermVehicles);
-          if (this.selectedVehicle.insurance) {
-            this.selectedInsurance = this.selectedVehicle.insurance;
-            this.selectedModInsurance = this.selectedVehicle.insurance;
-
-
-            this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
-            console.log(this.codeTI);
-
-
-
-            // solution 1
-            // if (this.selectedInsurance.insuranceTermLignes == null) {
-            //   this.selectedInsurance.insuranceTermLignes = []; // size = 0
-            //   }
-
-            /* // solution 2
-             if (this.selectedInsurance.insuranceTermLigneLineList != null) {
-               this.myLinesList = this.selectedInsurance.insuranceTermLigneLineList;
-             }*/
-          }
-
-          this.initForm();
-          console.log('data');
-
-          console.log(data);
-        },
-          err => {
-            console.log(err);
-            this.toastr.error(err.error.message);
-            this.spinner.hide();
-          });
+        //     /* // solution 2
+        //      if (this.selectedInsurance.insuranceTermLigneLineList != null) {
+        //        this.myLinesList = this.selectedInsurance.insuranceTermLigneLineList;
+        //      }*/
+           }
+           this.initForm();
+         },
+           err => {
+             this.toastr.error(err.error.message);
+             this.spinner.hide();
+           });
       }
       );
-
-
     } else {
       this.initForm();
     }
 
-
-
+    this.consumptionTypeService.findAll().subscribe(
+      data => {
+        this.consumptionTypeList = data;
+      }
+    );
 
     this.insuranceTermService.findAll().subscribe(
       data => {
@@ -191,62 +173,39 @@ export class VehicleEditComponent implements OnInit {
     this.supplierService.findAll().subscribe(
       data => {
         this.supplierList = data;
-        console.log('supplier');
-
-        console.log(data);
-
       }
     );
     this.insuranceTypeService.findAll().subscribe(
       data => {
-        this.insuranceTypeList=data;
+        this.insuranceTypeList = data;
       }
     );
 
     this.transportService.findAll().subscribe(
       data => {
-      this.transportList=data;
+        this.transportList = data;
       }
     );
 
-    /*  this.insuranceService.findAll().subscribe(
-       data => {
-         this.insuranceList = data;
-         if (this.selectedVehicle.insurance != null) {
-           this.insuranceList.push(this.selectedVehicle.insurance);
-           console.log(this.selectedVehicle.insurance);
-
-         }
-       });*/
   }
 
 
-  TypeSearch(evt) {
-    this.insuranceTypeService.find(`code~${evt.query}`).subscribe(
-      data => {
-        this.insuranceTypeList = data;
-      }
-    );
-  }
+  // TypeSearch(evt) {
+  //   this.insuranceTypeService.find(`code~${evt.query}`).subscribe(
+  //     data => {
+  //       this.insuranceTypeList = data;
+  //     }
+  //   );
+  //}
   onLineEdited(line: InsuranceTermsVehicle) {
-
-
-
     this.selectedVehicle.insuranceTermVehicles = this.selectedVehicle.insuranceTermVehicles.filter(
       p => p.insuranceTerm.code !== line.insuranceTerm.code);
-
     this.selectedVehicle.insuranceTermVehicles.push(line);
-
-    console.log('line edited');
-
-    console.log(this.selectedVehicle.insuranceTermVehicles);
   }
 
   onDeleteLine(line: InsuranceTermsVehicle) {
-
     this.selectedVehicle.insuranceTermVehicles = this.selectedVehicle.insuranceTermVehicles.filter(
       p => p.insuranceTerm.id !== line.insuranceTerm.id);
-
   }
 
   initForm() {
@@ -256,112 +215,107 @@ export class VehicleEditComponent implements OnInit {
     const ddd = new Date(this.selectedVehicle.aquisitionDate);
 
     this.vehicleForm = new FormGroup({
-
-      'Fcode': new FormControl(this.selectedVehicle.code, Validators.required),
-      'FregistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
-      'FtechnicalVisit': new FormControl(d),
-      'FValeurVisiteTechnique': new FormControl(this.selectedVehicle.valueTechnicalVisit),
-      'FvehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory, Validators.required),
-      'FbadgeType': new FormControl(this.selectedVehicle.badgeType, Validators.required),
-      'Finsurance': new FormControl(this.selectedVehicle.insurance),
-      'FcontractType': new FormControl(this.selectedVehicle.contractType, Validators.required),
-      'Faquisition': new FormControl(ddd, Validators.required),
-      'Famountc': new FormControl(this.selectedVehicle.amount, Validators.required),
-
-      'FgrayCard': new FormControl(this.selectedVehicle.grayCard),
-      'FchassisNumber': new FormControl(this.selectedVehicle.chassisNumber),
-      'FnumberCylinder': new FormControl(this.selectedVehicle.numberCylinder),
-      'FfiscalPower': new FormControl(this.selectedVehicle.fiscalPower),
-      'Fbody': new FormControl(this.selectedVehicle.body),
-      'Fenergy': new FormControl(this.selectedVehicle.energy),
-      'FengineOil': new FormControl(this.selectedVehicle.engineOil),
-      'FrearDeck': new FormControl(this.selectedVehicle.rearDeck),
-      'Fdirection': new FormControl(this.selectedVehicle.direction),
-      'Fradiator': new FormControl(this.selectedVehicle.radiator),
-      'FareaFilter': new FormControl(this.selectedVehicle.airFilter),
-      'FgearBox': new FormControl(this.selectedVehicle.gearBox),
-      'FdesiccantFilter': new FormControl(this.selectedVehicle.desiccantFilter),
-
-      'FIcode': new FormControl(this.selectedInsurance.code, Validators.required),
-      //  'FIdescription': new FormControl(this.selectedInsurance.description),
-
-      'FIType': new FormControl(
+      general:new FormGroup({
+      'fCode': new FormControl(this.selectedVehicle.code, Validators.required),
+      'fRegistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
+      'fVehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory, Validators.required),
+      'fBadgeType': new FormControl(this.selectedVehicle.badgeType, Validators.required),
+      'fTechnicalVisit': new FormControl(d),
+      'fValeurVisiteTechnique': new FormControl(this.selectedVehicle.valueTechnicalVisit),
+      'fVignette': new FormControl(dd),
+      'fValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
+       }),
+       caracteristic:new FormGroup({
+      'fGrayCard': new FormControl(this.selectedVehicle.grayCard),
+      'fChassisNumber': new FormControl(this.selectedVehicle.chassisNumber),
+      'fNumberCylinder': new FormControl(this.selectedVehicle.numberCylinder),
+      'fFiscalPower': new FormControl(this.selectedVehicle.fiscalPower),
+      'fBody': new FormControl(this.selectedVehicle.body),
+      'fConsumptionType': new FormControl(this.selectedVehicle.energy),
+      'fEngineOil': new FormControl(this.selectedVehicle.engineOil),
+      'fRearDeck': new FormControl(this.selectedVehicle.rearDeck),
+      'fDirection': new FormControl(this.selectedVehicle.direction),
+      'fRadiator': new FormControl(this.selectedVehicle.radiator),
+      'fAreaFilter': new FormControl(this.selectedVehicle.airFilter),
+      'fGearBox': new FormControl(this.selectedVehicle.gearBox),
+      'fDesiccantFilter': new FormControl(this.selectedVehicle.desiccantFilter),
+     }),
+      insurance:new FormGroup({
+      'fInsurance': new FormControl(this.selectedVehicle.insurance),
+      'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
+      'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
+      'fIMontant': new FormControl(this.selectedInsurance.amount, Validators.required),
+      'fISupplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
+ 'fICode': new FormControl(this.selectedInsurance.code, Validators.required),
+      'fIType': new FormControl(
         {
           value:
             this.selectedVehicle != null
-              && this.selectedVehicle.vehicleCategory != null
-              && this.selectedVehicle.vehicleCategory.insuranceType != null
-              ? this.selectedVehicle.vehicleCategory.insuranceType : null
+              && this.selectedVehicle.insurance != null
+              && this.selectedVehicle.insurance.insuranceType != null
+              ? this.selectedVehicle.insurance.insuranceType : null
         }
       ),
-      'FIstartDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
-      'FIendDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
-      'FIMontant': new FormControl(this.selectedInsurance.amount, Validators.required),
-      'FIsupplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-      'Fvignette': new FormControl(dd),
-      'FValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
-      'Ftransport': new FormControl(this.selectedVehicle.transport, Validators.required),
+      }),
 
-
-
+    contract:new FormGroup({
+      'fContractType': new FormControl(this.selectedVehicle.contractType, Validators.required),
+      'fAquisition': new FormControl(ddd, Validators.required),
+      'fAmountc': new FormControl(this.selectedVehicle.amount, Validators.required),
+      'fTransport': new FormControl(this.selectedVehicle.transport, Validators.required),
+    }),
 
     });
-    this.spinner.hide();
   }
 
   onSubmit(close = false) {
 
     console.log('inside submit');
-
-
     console.log(this.vehicleForm);
-
     this.isFormSubmitted = true;
     if (this.vehicleForm.invalid) { this.spinner.hide(); return; }
     this.spinner.show();
     const formValue = this.vehicleForm.value;
 
+
     console.log('afer return');
-    this.selectedVehicle.code = formValue['Fcode'];
-    this.selectedVehicle.registrationNumber = formValue['FregistrationNumber'];
-    this.selectedVehicle.technicalVisit = formValue['FtechnicalVisit'];
-    this.selectedVehicle.valueTechnicalVisit = formValue['FValeurVisiteTechnique'];
-    this.selectedVehicle.grayCard = formValue['FgrayCard'];
-    this.selectedVehicle.chassisNumber = formValue['FchassisNumber'];
-    this.selectedVehicle.numberCylinder = formValue['FnumberCylinder'];
-    this.selectedVehicle.fiscalPower = formValue['FfiscalPower'];
-    this.selectedVehicle.body = formValue['Fbody'];
-    this.selectedVehicle.energy = formValue['Fenergy'];
-    this.selectedVehicle.engineOil = formValue['FengineOil'];
-    this.selectedVehicle.rearDeck = formValue['FrearDeck'];
-    this.selectedVehicle.direction = formValue['Fdirection'];
-    this.selectedVehicle.radiator = formValue['Fradiator'];
-    this.selectedVehicle.airFilter = formValue['FareaFilter'];
-    this.selectedVehicle.gearBox = formValue['FgearBox'];
-    this.selectedVehicle.desiccantFilter = formValue['FdesiccantFilter'];
-    this.selectedVehicle.technicalVisit = formValue['Fvignette'];
-    this.selectedVehicle.valueVignette = formValue['FValeurVignette'];
-    this.selectedVehicle.aquisitionDate = formValue['Faquisition'];
-    this.selectedVehicle.amount = formValue['Famountc'];
-    this.selectedInsurance.code = formValue['FIcode'];
-    this.selectedInsurance.description = formValue['FIdescription'];
-    this.selectedInsurance.startDate = formValue['FIstartDate'];
-    this.selectedInsurance.endDate = formValue['FIendDate'];
-    this.selectedInsurance.amount = formValue['FIMontant'];
-    this.selectedInsurance.vehicleCode = formValue['Fcode'];
+    this.selectedVehicle.code = formValue['general']['fCode'];
+    this.selectedVehicle.registrationNumber = formValue['general']['fRegistrationNumber'];
+    this.selectedVehicle.technicalVisit = formValue['general']['fTechnicalVisit'];
+    this.selectedVehicle.valueTechnicalVisit = formValue['general']['fValeurVisiteTechnique'];
+    this.selectedVehicle.technicalVisit = formValue['general']['fVignette'];
+    this.selectedVehicle.valueVignette = formValue['general']['fValeurVignette'];
+
+    this.selectedVehicle.grayCard = formValue['caracteristic']['fGrayCard'];
+    this.selectedVehicle.chassisNumber = formValue['caracteristic']['fChassisNumber'];
+    this.selectedVehicle.numberCylinder = formValue['caracteristic']['fNumberCylinder'];
+    this.selectedVehicle.fiscalPower = formValue['caracteristic']['fFiscalPower'];
+    this.selectedVehicle.body = formValue['caracteristic']['fBody'];
+    this.selectedVehicle.energy = formValue['caracteristic']['fEnergy'];
+    this.selectedVehicle.engineOil = formValue['caracteristic']['fEngineOil'];
+    this.selectedVehicle.rearDeck = formValue['caracteristic']['fRearDeck'];
+    this.selectedVehicle.direction = formValue['caracteristic']['fDirection'];
+    this.selectedVehicle.radiator = formValue['caracteristic']['fRadiator'];
+    this.selectedVehicle.airFilter = formValue['caracteristic']['fAreaFilter'];
+    this.selectedVehicle.gearBox = formValue['caracteristic']['fGearBox'];
+    this.selectedVehicle.desiccantFilter = formValue['caracteristic']['fDesiccantFilter'];
+
+    this.selectedInsurance.code = formValue['insurance']['fICode'];
+    this.selectedInsurance.startDate = formValue['insurance']['fIStartDate'];
+    this.selectedInsurance.endDate = formValue['insurance']['fIEndDate'];
+    this.selectedInsurance.amount = formValue['insurance']['fIMontant'];
+    this.selectedInsurance.vehicleCode = formValue['general']['Fcode'];
+
+    this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
+    this.selectedVehicle.amount = formValue['contract']['fAmountc'];
 
 
     if (this.selectedInsurance.code) {
       this.selectedVehicle.insurance = this.selectedInsurance;
     }
-    console.log(this.selectedVehicle);
-
-
     this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
-
         if (this.editInsuranceMode) {
-
           this.insuranceService.set(this.selectedModInsurance).subscribe(
             data => {
               console.log(this.selectedModInsurance);
@@ -407,7 +361,11 @@ export class VehicleEditComponent implements OnInit {
     console.log(event);
     this.selectedBadgeType = event.value;
     this.selectedVehicle.badgeType = event.value;
-    console.log(this.selectedVehicle.badgeType);
+  }
+  onSelectConsumptionType(event: any) {
+    console.log(event);
+    this.selectedConsumptionType = event.value;
+    this.selectedVehicle.consumptionType = event.value;
   }
   onSelectVehicleCategory(event: any) {
     //  this.selectedVehicle = new Vehicle();
@@ -415,203 +373,107 @@ export class VehicleEditComponent implements OnInit {
     this.selectedVehicleCategory = event.value;
     this.selectedVehicle.vehicleCategory = event.value;
 
-    this.idinsurancetype = this.selectedVehicle.vehicleCategory.insuranceType.id;
-    this.onloadTypeTermInsurance(this.idinsurancetype);
-
-
   }
 
   onloadTypeTermInsurance(idinsurancetype: number) {
 
     if (this.editModee) {
       this.selectedVehicle.insuranceTermVehicles = [];
-
     }
-
-
-    console.log(this.idinsurancetype);
-
-    console.log(this.selectedVehicle.vehicleCategory.insuranceType.code);
 
     this.insuranceTypeTermsService.findAll().subscribe(
       data => {
 
         this.inssuranceTypeTermList = data;
-        console.log("inssuranceTypeTermList  find all");
-
-        console.log(this.inssuranceTypeTermList);
-
         this.inssuranceTypeTermList = this.inssuranceTypeTermList.filter(p => p.insuranceType.id === idinsurancetype);
-        console.log("inssuranceTypeTermList  filter");
-
-        console.log(this.inssuranceTypeTermList);
-
         this.inssuranceTypeTermList.forEach(element => {
-          console.log(element.insuranceTerm.code);
-
           this.selectedVehicle.insuranceTermVehicles.push(new InsuranceTermsVehicle(element.insuranceTerm, element.amount));
         });
-
-        console.log("vehicule insurance term ");
-        console.log(this.selectedVehicle.insuranceTermVehicles);
-
-        this.codeTI = this.selectedVehicle.vehicleCategory.insuranceType.code;
-        this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
-        console.log(this.vehicleForm.controls['FIType'].value);
 
 
       }
 
 
     );
-    /*  this.insuranceTypeTermsService.findAll().subscribe(
-        data => {
-
-          this.inssuranceTypeTermList=data;
+  }
 
 
-            this.selectedVehicle.insuranceTermVehicule.()
+  onSelectContract(event: any) {
+    this.selectedVehicle.contractType = event.value;
+  }
 
-         this.selectedVehicle.insuranceTermVehicule.push(data.filter(p => p.insuranceType.id === idinsurancetype);
-          this.vehicleForm.controls['FIType'].setValue(this.selectedVehicle.vehicleCategory.insuranceType.code);
-
-          console.log(idinsurancetype);
-          console.log(this.selectedInsuranceType.insuranceTypeTermsSet);
-
-
-        }
-      );*/
-
-
+  onSelectsupplier(event: any) {
+    this.selectedInsurance.supplier = event.value;
+  }
+  onSelectInsuranceType(event: any) {
+    this.selectedInsurance.insuranceType = event.value;
+     this.idinsurancetype = this.selectedInsurance.insuranceType.id;
+     this.onloadTypeTermInsurance(this.idinsurancetype);
+  }
+  onSelectinssuranceTerm(event: any) {
+    this.selectedInsurance.insuranceTerm = event.value;
+  }
+  onSelectTransport(event: any) {
+    this.selectedVehicle.transport = event.value;
 
   }
+
+  onNvclick() {
+    this.vehicleForm.controls['insurance']['fICode'].setValue(null);
+    this.vehicleForm.controls['insurance']['fISupplier'].setValue(null);
+    this.vehicleForm.controls['insurance']['fIMontant'].setValue(null);
+    this.editInsuranceMode = true;
+    this.selectedInsurance = new Insurance();
+  }
+
+
   openNext() {
     this.isFormSubmitted = true;
-    console.log("insedx");
-    console.log(this.index);
 
-
-    if (this.index == 0) {
+    if (this.index === 0) {
       if
-        (this.vehicleForm.controls['Fcode'].invalid &&
-        this.vehicleForm.controls['FregistrationNumber'].invalid &&
-        this.vehicleForm.controls['FbadgeType'].invalid &&
-        this.vehicleForm.controls['FvehicleCategory'].invalid) {
-        console.log(this.index);
-
+        (this.vehicleForm.controls['general'].invalid) {
         return;
+      } else if (this.vehicleForm.controls['general'].valid) {
+        this.index = this.index + 1;
       }
 
-      else if (this.vehicleForm.controls['Fcode'].valid &&
-        this.vehicleForm.controls['FregistrationNumber'].valid &&
-        this.vehicleForm.controls['FbadgeType'].valid &&
-        this.vehicleForm.controls['FvehicleCategory'].valid) {
+    }
+    if (this.index === 1) {
+      if
+        (this.vehicleForm.controls['caracteristic'].invalid) {
+        return;
+      } else if (this.vehicleForm.controls['caracteristic'].valid) {
+        this.index = this.index + 1;
+      }
+
+    }
+    else if (this.index === 2) {
+      if
+        (this.vehicleForm.controls['insurance'].invalid ) {
+        return;
+      } else if (this.vehicleForm.controls['insurance']) {
         this.index = this.index + 1;
 
 
 
       }
-
-    }
-    else if (this.index == 2) {
+    } else if (this.index === 3) {
       if
-        (this.vehicleForm.controls['FIcode'].invalid &&
-        this.vehicleForm.controls['FIsupplier'].invalid &&
-        this.vehicleForm.controls['FIstartDate'].invalid &&
-        this.vehicleForm.controls['FIendDate'].invalid &&
-        this.vehicleForm.controls['FIMontant'].invalid) {
-
-
-        return;
-      }
-
-      else if (this.vehicleForm.controls['FIcode'].valid &&
-        this.vehicleForm.controls['FIsupplier'].valid &&
-        this.vehicleForm.controls['FIstartDate'].valid &&
-        this.vehicleForm.controls['FIendDate'].valid &&
-        this.vehicleForm.controls['FIMontant'].valid) {
-        this.index = this.index + 1;
-
-
-
-      }
-    }
-
-    else if (this.index == 3) {
-      if
-        (this.vehicleForm.controls['FcontractType'].invalid &&
-        this.vehicleForm.controls['Faquisition'].invalid &&
-        this.vehicleForm.controls['Famountc'].invalid
+        (this.vehicleForm.controls['caracteristic'].invalid
       ) {
 
 
         return;
-      }
-
-      else if (this.vehicleForm.controls['FcontractType'].valid &&
-        this.vehicleForm.controls['Faquisition'].valid &&
-        this.vehicleForm.controls['Famountc'].valid) {
+      } else if (this.vehicleForm.controls['caracteristic'].valid) {
         this.index = this.index + 1;
-
-
-
       }
-
-
-    }
-    else {
+    } else {
       this.index = this.index + 1;
     }
-
-
-
 
   }
   openPrev() {
     this.index = this.index - 1;
   }
-  onDeleteTermInsurance() {
-
-
-
-  }
-
-  onSelectContract(event: any) {
-    console.log(event);
-    this.selectedVehicle.contractType = event.value;
-  }
-
-  onSelectsupplier(event: any) {
-    console.log(event);
-    this.selectedInsurance.supplier = event.value;
-  }
-  onSelectInsuranceType(event: any) {
-    console.log(event);
-    this.selectedInsurance.insuranceType = event.value;
-  }
-  onSelectinssuranceTerm(event: any) {
-    console.log(event);
-    this.selectedInsurance.insuranceTerm = event.value;
-  }
-  onSelectTransport(event: any) {
-    console.log(event);
-    this.selectedVehicle.transport = event.value;
-    console.log(this.selectedVehicle.transport);
-
-  }
-
-  onNvclick() {
-
-    this.vehicleForm.controls['FIcode'].setValue(null);
-    // this.vehicleForm.controls['FIdescription'].setValue('');
-    this.vehicleForm.controls['FIsupplier'].setValue(null);
-    //this.vehicleForm.controls['FinsuranceTerm'].setValue(null);
-    this.vehicleForm.controls['FIMontant'].setValue(null);
-    this.editInsuranceMode = true;
-    this.selectedInsurance = new Insurance();
-
-  }
-
-
-
 }

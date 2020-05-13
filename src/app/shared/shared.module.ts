@@ -1,3 +1,4 @@
+import { PatrimonyTypeService } from './services/api/patrimony-type.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { DialogModule } from 'primeng/dialog';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -132,7 +133,8 @@ export class SharedModule {
         ConsumptionTypeService,
         AuthenticationService,
         UserService,
-    ConfirmationService
+    ConfirmationService,
+    PatrimonyTypeService
         ]
     };
   }

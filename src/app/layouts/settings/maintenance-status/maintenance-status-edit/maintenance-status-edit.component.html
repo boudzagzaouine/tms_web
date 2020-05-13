@@ -1,61 +1,72 @@
-
 <p-dialog
-header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Etat De Maintenance"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '350px' }"
-(onHide)='onShowDialog()'
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '350px' }"
+  (onHide)="onShowDialog()"
 >
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="maintenanceStateForm">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="maintenanceStateForm">
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold">{{ "Code" | translate }} *</label>
+              <span
+                *ngIf="
+                  (maintenanceStateForm.get('code').touched &&
+                    maintenanceStateForm.get('code').invalid) ||
+                  (isFormSubmitted && maintenanceStateForm.get('code').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="code"
+              />
+            </div>
 
-        <div class="row  justify-content-around">
-          <div class="form-group col-sm-12">
-            <label>{{'Code' | translate}} *</label>
-            <span *ngIf="(maintenanceStateForm.get('code').touched && maintenanceStateForm.get('code').invalid) ||
-            (isFormSubmitted && maintenanceStateForm.get('code').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="code" />
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold">{{ "Description" | translate }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="description"
+              />
+            </div>
+            <div class="col-md-3"></div>
           </div>
-
-          <div class="form-group col-sm-12">
-            <label>{{'Description' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="description" />
-          </div>
-          <div class="col-md-3"></div>
-
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-
-    <button
-    type="button"
-    pButton
-    (click)="onShowDialog()"
-    class="ui-button-primary"
-    label="fermer"
-  ></button>
-  <button
-      type="button"
-      pButton
-      icon="pi pi-check"
-      (click)="onSubmit()"
-      class="ui-button-success"
-      label="Valider"
-    ></button>
-  </div>
-</p-footer>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        (click)="onShowDialog()"
+        class="ui-button-primary"
+        label="{{ 'Annuler' | translate }}"
+      ></button>
+      <button
+        type="button"
+        pButton
+        (click)="onSubmit()"
+        class="ui-button-success"
+        label="{{ 'Valider' | translate }}"
+      ></button>
+    </div>
+  </p-footer>
 </p-dialog>
-

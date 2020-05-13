@@ -162,7 +162,7 @@
       }
     }
   },
-  "defaultProject": "lahib",
+  "defaultProject": "Gmao",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

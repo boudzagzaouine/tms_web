@@ -1,3 +1,4 @@
+import { ConsumptionType } from './consumption-type';
 import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
 import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';
@@ -12,13 +13,13 @@ export class Vehicle {
   registrationNumber = '';
   code = '';
   technicalVisit: Date = new Date();
-  valueTechnicalVisit:number;
+  valueTechnicalVisit: number;
   creationDate: Date = new Date();
   vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
   insurance: Insurance;
   contractType: ContractType;
-
+  consumptionType: ConsumptionType;
   engineOil: number;
   rearDeck: number;
   direction: number;
@@ -32,14 +33,14 @@ export class Vehicle {
   body: string;
   chassisNumber: string;
   energy: string;
-  vignette :Date=new Date();
-   valueVignette :number;
-   insuranceTerms:InsuranceTerm[]=[];
+  vignette: Date = new Date();
+  valueVignette: number;
+  insuranceTerms: InsuranceTerm[] = [];
 
-   aquisitionDate:Date = new Date();
-    amount:number;
+  aquisitionDate: Date = new Date();
+  amount: number;
 
-    insuranceTermVehicles : InsuranceTermsVehicle[] = [];
-    transport : Transport;
+  insuranceTermVehicles: InsuranceTermsVehicle[] = [];
+  transport: Transport;
 
 }

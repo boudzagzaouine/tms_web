@@ -1,8 +1,9 @@
 <br />
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
-    <div class="col-md-3">
-      <label class="font-weight-bold">{{ 'Code' |translate }}</label><br />
+    <div class="col-md-3" >
+      <label class="font-weight-bold">{{'Code' |translate}}</label
+      ><br />
       <input type="text" pInputText [(ngModel)]="codeSearch" />
     </div>
   </div>
@@ -21,20 +22,20 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="maintenanceStatusList"
+  [objectList]="patrimonyTypeList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Liste des États de Maintenance'"
+  [listName]="'List des types de Patrimoine '"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">
-  <app-maintenance-status-edit
+  <app-patrimony-edit
     [editMode]="editMode"
-    [selectedMaintenanceState]="selectedMaintenanceStatus[0]"
+    [selectedPatrimonyType]="selectedPatrimonyTypes[0]"
     (showDialog)="onShowDialog($event)"
-  ></app-maintenance-status-edit>
+  ></app-patrimony-edit>
 </div>
 
 <ngx-spinner

@@ -1,4 +1,6 @@
 
+
+
 <p-dialog
 header="{{ title | translate }}"
 [(visible)]="displayDialog"
@@ -12,37 +14,28 @@ showEffect="fade"
 <div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="maintenanceTypeForm">
+      <form [formGroup]="patrimonyTypeForm">
+
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label class="font-weight-bold">{{ "Code" | translate }} *</label>
-            <span *ngIf="(maintenanceTypeForm.get('code').touched && maintenanceTypeForm.get('code').invalid) ||
-            (isFormSubmitted && maintenanceTypeForm.get('code').invalid)" class="text-lighter"
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(patrimonyTypeForm.get('code').touched && patrimonyTypeForm.get('code').invalid) ||
+            (isFormSubmitted && patrimonyTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              {{"Obligatoire" | translate }}
+               {{'Obligatoire' | translate }}
             </span>
             <br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="code"
-
-
-            />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
           </div>
 
           <div class="form-group col-sm-12">
-            <label class="font-weight-bold">{{ "Description" | translate }}</label
-            ><br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="description"
-            />
+            <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
           <div class="col-md-3"></div>
+
         </div>
       </form>
     </div>
@@ -56,14 +49,14 @@ showEffect="fade"
     pButton
     (click)="onShowDialog()"
     class="ui-button-primary"
-    label="{{'Annuler' | translate}}"
+    label="{{'Annuler' | translate }}"
   ></button>
   <button
       type="button"
       pButton
       (click)="onSubmit()"
       class="ui-button-success"
-      label="{{'Valider' | translate }}"
+      label="{{ 'Valider' | translate }}"
     ></button>
   </div>
 </p-footer>

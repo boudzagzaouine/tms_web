@@ -28,20 +28,20 @@
       </div>
       <div>
         <p style="font-size: 16px; color: #5f5b5b;" class="text-center ml-5">
-          <b>Liste {{listName}} </b>
+          <b> {{listName | translate}} </b>
         </p>
       </div>
       <div>
         <div class="d-flex justify-content-end">
           <p-button
-            label="Enregistrer la vue"
+            label="{{ 'Enregistrer la vue' | translate }}"
             icon="pi pi-file"
             styleClass="ui-button-primary"
             class="mr-3"
             (click)="onSaveView()"
           ></p-button>
           <p-splitButton
-            label="Export"
+            label="{{'Export' | translate}}"
             icon="pi pi-file"
             class="mr-3"
             [model]="exportBtnItems"
@@ -52,10 +52,10 @@
             [options]="cols"
             [(ngModel)]="selectedColumns"
             optionLabel="header"
-            selectedItemsLabel="colonnes sélectionnées"
+            selectedItemsLabel="{{'colonnes sélectionnées'| translate }}"
             dropdownIcon="pi pi-table"
             [style]="{ minWidth: '150px' }"
-            defaultLabel="Choisir"
+            defaultLabel="{{ 'Choisir' | translate }}"
             maxSelectedLabels="0"
           ></p-multiSelect>
         </div>
@@ -80,6 +80,7 @@
       [reorderableColumns]="true"
       (onRowSelect)="onRowSelect($event)"
       (onRowUnselect)="onRowUnselect($event)"
+      sortMode="multiple"
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -87,8 +88,10 @@
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
 
-          <th *ngFor="let col of columns" pReorderableColumn>
+          <th *ngFor="let col of columns" pReorderableColumn [pSortableColumn]="col.field">
             {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+
           </th>
         </tr>
       </ng-template>
@@ -104,7 +107,13 @@
           </td>
 
           <td *ngFor="let col of columns; let i = index">
-            {{rowData[col.field]}}
+            <span *ngIf="rowData[col.field]?.code==null" >
+              {{rowData[col.field]}}
+            </span>
+            <span *ngIf="rowData[col.field]?.code!=null">
+              {{rowData[col.field]?.code}}
+            </span>
+
           </td>
 
 

@@ -28,13 +28,13 @@ import * as jsPDF from 'jspdf';
 export class InsuranceTermComponent implements OnInit {
 
   page = 0;
-  size = 5;
+  size = 10;
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
-  cols: any[];
   insuranceTermList: Array<InsuranceTerm> = [];
   selectedCommissionTerms: Array<InsuranceTerm> = [];
+  cols: any[];
   showDialog: boolean;
   editMode: number;
   className: String;
@@ -51,7 +51,7 @@ export class InsuranceTermComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
-      { field: 'roofed', header: 'Value' },
+      { field: 'roofed', header: 'Valeur' },
 
     ];
 
@@ -96,7 +96,7 @@ export class InsuranceTermComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
-  /// end search
+
   reset() {
     this.codeSearch = null;
     this.page = 0;

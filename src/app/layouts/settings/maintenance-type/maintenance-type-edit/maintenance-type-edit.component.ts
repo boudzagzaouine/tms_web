@@ -19,7 +19,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
   maintenanceTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  title = 'Modifier Type de Maintenance';
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
@@ -28,10 +28,10 @@ export class MaintenanceTypeEditComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedMaintenanceType = new MaintenanceType();
+      this.title = 'Ajouter Type de Maintenance';
     }
 
     this.displayDialog = true;
@@ -48,9 +48,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
     this.selectedMaintenanceType.code = this.maintenanceTypeForm.value['code'];
     this.selectedMaintenanceType.description = this.maintenanceTypeForm.value['description'];
 
-
-    console.log(this.selectedMaintenanceType);
-    const s = this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
+      this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
 
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

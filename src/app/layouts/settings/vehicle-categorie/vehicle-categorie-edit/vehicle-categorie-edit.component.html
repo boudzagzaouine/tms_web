@@ -1,141 +1,233 @@
-
 <p-dialog
-header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Catégorie Véhicule"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '500px' }"
-(onHide)='onShowDialog()'
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '500px'}"
+  (onHide)="onShowDialog()"
 >
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="vehicleCategoryForm">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="vehicleCategoryForm">
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Code" | translate }} *</label>
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fCode').touched &&
+                    vehicleCategoryForm.get('fCode').invalid) ||
+                  (isFormSubmitted && vehicleCategoryForm.get('fCode').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+               {{ 'Obligatoire'  | translate }}
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fCode"
+              />
+            </div>
 
-        <div class="row justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Code' | translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fCode').touched && vehicleCategoryForm.get('fCode').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fCode').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
+            <div class="form-group col-sm-6"></div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Longueur" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fLength').touched &&
+                    vehicleCategoryForm.get('fLength').invalid) ||
+                  (isFormSubmitted &&
+                    vehicleCategoryForm.get('fLength').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
             </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fCode"   />
-          </div>
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fLength"
+                pKeyFilter="num"
+              />
+            </div>
 
-          <div class="form-group col-sm-6">
-
-
-          </div>
-
-        </div>
-        <div class="row justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Longueur' | translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fLength').touched && vehicleCategoryForm.get('fLength').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fLength').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               obligatoire
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Largeur" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fWidth').touched &&
+                    vehicleCategoryForm.get('fWidth').invalid) ||
+                  (isFormSubmitted && vehicleCategoryForm.get('fWidth').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
             </span>
-            <input type="text" class="form-control" pInputText formControlName="fLength" pKeyFilter="num" />
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fWidth"
+                pKeyFilter="num"
+              />
+            </div>
           </div>
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Profondeur" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fDepth').touched &&
+                    vehicleCategoryForm.get('fDepth').invalid) ||
+                  (isFormSubmitted && vehicleCategoryForm.get('fDepth').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
 
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Largeur' | translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fWidth').touched && vehicleCategoryForm.get('fWidth').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fWidth').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               obligatoire
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fDepth"
+                pKeyFilter="num"
+              />
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Hauteur" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fheight').touched &&
+                    vehicleCategoryForm.get('fheight').invalid) ||
+                  (isFormSubmitted &&
+                    vehicleCategoryForm.get('fheight').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
             </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fWidth" pKeyFilter="num"/>
-
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fheight"
+                pKeyFilter="num"
+              />
+            </div>
           </div>
-
-        </div>
-        <div class="row justify-content-around">
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Profondeur'| translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fDepth').touched && vehicleCategoryForm.get('fDepth').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fDepth').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               obligatoire
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Tonnage" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fTonnage').touched &&
+                    vehicleCategoryForm.get('fTonnage').invalid) ||
+                  (isFormSubmitted &&
+                    vehicleCategoryForm.get('fTonnage').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
             </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fDepth" pKeyFilter="num">
-
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fTonnage"
+                pKeyFilter="num"
+              />
+            </div>
           </div>
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Hauteur'| translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fheight').touched && vehicleCategoryForm.get('fheight').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fheight').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fheight" pKeyFilter="num">
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Poids à Vide" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fEmptyWeight').touched &&
+                    vehicleCategoryForm.get('fEmptyWeight').invalid) ||
+                  (isFormSubmitted &&
+                    vehicleCategoryForm.get('fEmptyWeight').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ "Obligatoire"  | translate }}
 
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fEmptyWeight"
+                pKeyFilter="num"
+              />
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{
+                "Poids Total" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fTotalWeight"
+                pKeyFilter="num"
+              />
+            </div>
           </div>
-
-
-
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Tonnage' | translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fTonnage').touched && vehicleCategoryForm.get('fTonnage').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fTonnage').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-             obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fTonnage" pKeyFilter="num">
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Poids à Vide'| translate}} *</label>
-            <span *ngIf="(vehicleCategoryForm.get('fEmptyWeight').touched && vehicleCategoryForm.get('fEmptyWeight').invalid) ||
-            (isFormSubmitted && vehicleCategoryForm.get('fEmptyWeight').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-             obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fEmptyWeight" pKeyFilter="num">
-
-          </div>
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Poids Total'| translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="fTotalWeight" pKeyFilter="num">
-
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-
-    <button
-    type="button"
-    pButton
-    (click)="onShowDialog()"
-    class="ui-button-primary"
-    label="fermer"
-  ></button>
-  <button
-      type="button"
-      pButton
-      icon="pi pi-check"
-      (click)="onSubmit()"
-      class="ui-button-success"
-      label="Valider"
-    ></button>
-  </div>
-</p-footer>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        (click)="onShowDialog()"
+        class="ui-button-primary"
+        label="{{ 'Annuler' | translate}}"
+      ></button>
+      <button
+        type="button"
+        pButton
+        (click)="onSubmit()"
+        class="ui-button-success"
+        label="{{ 'Valider' | translate }}"
+      ></button>
+    </div>
+  </p-footer>
 </p-dialog>
-

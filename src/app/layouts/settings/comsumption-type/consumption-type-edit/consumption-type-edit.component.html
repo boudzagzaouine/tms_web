@@ -1,5 +1,5 @@
 <p-dialog
-header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Type De consomation"
+header="{{ title | translate }}"
 [(visible)]="displayDialog"
 [focusOnShow]="false"
 [responsive]="true"
@@ -19,7 +19,7 @@ showEffect="fade"
             <span *ngIf="(consumptionTypeForm.get('code').touched && consumptionTypeForm.get('code').invalid) ||
             (isFormSubmitted && consumptionTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              Ce Champs est obligatoire
+               {{' Obligatoire' | translate }}
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="code"
@@ -48,15 +48,14 @@ showEffect="fade"
     pButton
     (click)="onShowDialog()"
     class="ui-button-primary"
-    label="fermer"
+    label="{{'Annuler' | translate }}"
   ></button>
   <button
       type="button"
       pButton
-      icon="pi pi-check"
       (click)="onSubmit()"
       class="ui-button-success"
-      label="Valider"
+      label="{{ 'Valider' | translate }}"
     ></button>
   </div>
 </p-footer>

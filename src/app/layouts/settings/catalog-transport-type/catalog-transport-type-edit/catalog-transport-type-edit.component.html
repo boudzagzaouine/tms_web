@@ -1,136 +1,259 @@
 <p-dialog
-header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Trajet"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '500px' }"
-(onHide)='onShowDialog()'>
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  (onHide)="onShowDialog()"
+>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="transportCatVehicleForm">
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Vehicule Categorie" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fVehicleCategory').touched &&
+                    transportCatVehicleForm.get('fVehicleCategory').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fVehicleCategory').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
 
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="transportCatVehicleForm">
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="vehicleCategorieList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectVehicleCateory($event)"
+                formControlName="fVehicleCategory"
+              ></p-dropdown>
+            </div>
 
-        <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Transport" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fTransport').touched &&
+                    transportCatVehicleForm.get('fTransport').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fTransport').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
 
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="transportList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectTransport($event)"
+                formControlName="fTransport"
+              ></p-dropdown>
+            </div>
 
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Vehicule Categorie'| translate}} *</label>
-              <span *ngIf="(transportCatVehicleForm.get('fVehicleCategory').touched && transportCatVehicleForm.get('fVehicleCategory').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fVehicleCategory').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true" [showClear]="true"
-              (onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory"></p-dropdown>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Zone Source " | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fZoneSource').touched &&
+                    transportCatVehicleForm.get('fZoneSource').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fZoneSource').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="zoneList"
+                optionLabel="name"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectZoneSource($event)"
+                formControlName="fZoneSource"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Zone Destination" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fZoneDestination').touched &&
+                    transportCatVehicleForm.get('fZoneDestination').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fZoneDestination').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="zoneList"
+                optionLabel="name"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectZoneDestination($event)"
+                formControlName="fZoneDestination"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Taux Tva" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fVat').touched &&
+                    transportCatVehicleForm.get('fVat').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fVat').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="vatList"
+                optionLabel="value"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectVat($event)"
+                formControlName="fVat"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Montant HT" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fAmountHt').touched &&
+                    transportCatVehicleForm.get('fAmountHt').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fAmountHt').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                (ngModelChange)="onPriceHtChange()"
+                pInputText
+                formControlName="fAmountHt"
+                (keydown.space)="$event.preventDefault()"
+              />
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Montant TTC" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fAmountTtc').touched &&
+                    transportCatVehicleForm.get('fAmountTtc').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fAmountTtc').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fAmountTtc"
+                (keydown.space)="$event.preventDefault()"
+              />
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Montant TVA" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (transportCatVehicleForm.get('fAmountTva').touched &&
+                    transportCatVehicleForm.get('fAmountTva').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fAmountTva').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire' | translate}}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fAmountTva"
+                (keydown.space)="$event.preventDefault()"
+              />
+            </div>
           </div>
-
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Transport'| translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fTransport').touched && transportCatVehicleForm.get('fTransport').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fTransport').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true" [showClear]="true"
-              (onChange)="onSelectTransport($event)" formControlName="fTransport"></p-dropdown>
-          </div>
-
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Zone Source '| translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fZoneSource').touched && transportCatVehicleForm.get('fZoneSource').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fZoneSource').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="zoneList" optionLabel="name" [filter]="true" [showClear]="true"
-              (onChange)="onSelectZoneSource($event)" formControlName="fZoneSource"></p-dropdown>
-          </div>
-
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Zone Destination'| translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fZoneDestination').touched && transportCatVehicleForm.get('fZoneDestination').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fZoneDestination').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="zoneList" optionLabel="name" [filter]="true" [showClear]="true"
-              (onChange)="onSelectZoneDestination($event)" formControlName="fZoneDestination"></p-dropdown>
-          </div>
-
-          <div class="form-group col-sm-6 ">
-            <label class="font-weight-bold ">{{'Taux Tva'| translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fVat').touched && transportCatVehicleForm.get('fVat').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fVat').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <p-dropdown [autoDisplayFirst]="false" [options]="vatList" optionLabel="value" [filter]="true" [showClear]="true"
-              (onChange)="onSelectVat($event)" formControlName="fVat"></p-dropdown>
-          </div>
-
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Montant HT' | translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fAmountHt').touched && transportCatVehicleForm.get('fAmountHt').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fAmountHt').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" (ngModelChange)="onPriceHtChange()" pInputText formControlName="fAmountHt"
-              (keydown.space)="$event.preventDefault()" />
-          </div>
-
-
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Montant TTC' | translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fAmountTtc').touched && transportCatVehicleForm.get('fAmountTtc').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fAmountTtc').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fAmountTtc"
-              (keydown.space)="$event.preventDefault()" />
-          </div>
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Montant TVA' | translate}} *</label>
-            <span *ngIf="(transportCatVehicleForm.get('fAmountTva').touched && transportCatVehicleForm.get('fAmountTva').invalid) ||
-            (isFormSubmitted && transportCatVehicleForm.get('fAmountTva').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              obligatoire
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="fAmountTva"
-              (keydown.space)="$event.preventDefault()" />
-          </div>
-
-
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-
-    <button
-    type="button"
-    pButton
-    (click)="onShowDialog()"
-    class="ui-button-primary"
-    label="fermer"
-  ></button>
-  <button
-      type="button"
-      pButton
-      icon="pi pi-check"
-      (click)="onSubmit()"
-      class="ui-button-success"
-      label="Valider"
-    ></button>
-  </div>
-</p-footer>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        (click)="onShowDialog()"
+        class="ui-button-primary"
+        label="{{'Annuler' |translate }}"
+      ></button>
+      <button
+        type="button"
+        pButton
+        (click)="onSubmit()"
+        class="ui-button-success"
+        label="{{'Valider' |translate}}"
+      ></button>
+    </div>
+  </p-footer>
 </p-dialog>

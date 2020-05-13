@@ -19,12 +19,10 @@ export class TermEditComponent implements OnInit {
 
   @Input() selectedinsuranceTypeTerm = new InsuranceTypeTerms();
   @Input() editMode: boolean;
-  @Input() insertOrUpdate: String;
+  @Input() title: String;
   @Output() insuranceTypeTermAdded = new EventEmitter<InsuranceTypeTerms>();
-
   closeResult: String;
   insuranceTypeTermForm: FormGroup;
-
   modal: NgbModalRef;
   isFormSubmitted = false;
   insuranceTermList: Array<InsuranceTerm> = [];
@@ -34,7 +32,7 @@ export class TermEditComponent implements OnInit {
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -59,23 +57,13 @@ export class TermEditComponent implements OnInit {
     this.spinner.show();
     if (this.insuranceTypeTermForm.value['fAmount'] !== undefined) {
       this.selectedinsuranceTypeTerm.amount = this.insuranceTypeTermForm.value['fAmount'];
-    }
-    else {
+    } else {
       this.selectedinsuranceTypeTerm.amount = 0;
     }
-
-
-    console.log("amount");
-
-    console.log(this.selectedinsuranceTypeTerm.amount);
-
-
     this.insuranceTypeTermAdded.emit(this.selectedinsuranceTypeTerm);
     if (this.modal) {
       this.modal.close();
     }
-
-
     this.isFormSubmitted = false;
     this.spinner.hide();
 
@@ -84,16 +72,16 @@ export class TermEditComponent implements OnInit {
   open(content) {
     if (!this.editMode) {
       this.selectedinsuranceTypeTerm = new InsuranceTypeTerms();
-    }
-    else{
-      console.log(this.selectedinsuranceTypeTerm.insuranceTerm.code);
-
+      this.title = 'Ajouter Terme Assurance';
+    } else {
       if (this.selectedinsuranceTypeTerm.insuranceTerm.roofed) {
         this.insuranceTypeTermForm.controls['fAmount'].enable();
 
       } else {
         this.insuranceTypeTermForm.controls['fAmount'].disable();
       }
+      this.title = 'Modifier Terme Assurance';
+
     }
 
     this.initForm();
@@ -116,11 +104,8 @@ export class TermEditComponent implements OnInit {
   }
 
   onSelecInsuranceTerm(event: any) {
-    console.log(event);
 
     this.selectedinsuranceTypeTerm.insuranceTerm = event.value;
-    console.log(this.selectedinsuranceTypeTerm.insuranceTerm);
-
     if (this.selectedinsuranceTypeTerm.insuranceTerm.roofed) {
       this.insuranceTypeTermForm.controls['fAmount'].enable();
       this.insuranceTypeTermForm.controls['fAmount'].setValue(0);

@@ -1,5 +1,5 @@
 <br />
-<p-panel header='{{ "Filters" | translate }}' [toggleable]="true" >
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
     <div class="col-md-3">
       <label class="font-weight-bold">{{ "Code" | translate }}</label
@@ -11,10 +11,10 @@
 
   <div class="text-center">
     <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-      <i class="fa fa-refresh"></i> {{ "Réinitialiser" | translate }}
+      <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
     </button>
     <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-      <i class="fa fa-search"></i> {{ "Rechercher" | translate }}
+      <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
     </button>
   </div>
 </p-panel>
@@ -27,7 +27,7 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Termes Assurance'"
+  [listName]="'Liste des Termes Assurance'"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

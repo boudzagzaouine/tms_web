@@ -26,6 +26,7 @@ import { MaintenanceStatusComponent } from './maintenance-status/maintenance-sta
 import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
 import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.component';
 import { MenuDriverComponent } from './menu-driver/menu-driver.component';
+import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
       { path: 'menu-vehicle', component: MenuVehicleComponent },
       { path: 'menu-maintenance', component: MenuMaintenanceComponent },
       { path: 'menu-driver', component: MenuDriverComponent },
-      { path: 'test-table', component: TestDataTableComponent }
+      { path: 'test-table', component: TestDataTableComponent },
+      { path: 'patrimony', component: PatrimonyTypeComponent }
 
 
 

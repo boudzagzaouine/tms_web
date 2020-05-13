@@ -28,11 +28,12 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
   isFormSubmitted = false;
   displayDialog: boolean;
+  title = 'Modifier Catégorie de  Véhicule';
 
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
-    private transportService : TransportServcie,
+    private transportService: TransportServcie,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
@@ -52,10 +53,11 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
         this.transportList = data;
       }
     );
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectTransportCatVehicle = new TransportCategoryVehicle();
+      this.title = 'Ajouter Catégorie de  Véhicule';
+
     }
 
     this.displayDialog = true;
@@ -101,12 +103,10 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   }
 
   onSelectVehicleCateory(event: any) {
-    console.log(event);
     this.selectTransportCatVehicle.vehicleCategory = event.value;
 
   }
   onSelectTransport(event: any) {
-    console.log(event);
     this.selectTransportCatVehicle.transport = event.value;
 
   }

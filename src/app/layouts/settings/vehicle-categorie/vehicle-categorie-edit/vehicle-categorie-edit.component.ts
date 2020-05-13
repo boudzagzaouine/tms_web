@@ -4,7 +4,7 @@ import { VehicleCategoryService } from './../../../../shared/services/api/vehicl
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import {  ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,24 +20,21 @@ export class VehicleCategorieEditComponent implements OnInit {
   vehicleCategoryForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  title = 'Modifier Catégorie de Véhicule';
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private spinner: NgxSpinnerService,
-    private toastr:ToastrService,
-    ) { }
+    private toastr: ToastrService,
+  ) { }
   ngOnInit() {
-
-
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedVehicleCategory = new VehicleCategory();
-    }
+      this.title = 'Ajouter Catégorie de Véhicule';
 
+    }
     this.displayDialog = true;
     this.initForm();
-
 
   }
 
@@ -45,8 +42,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     this.vehicleCategoryForm = new FormGroup({
       'fCode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
-      'fConsumption': new FormControl(this.selectedVehicleCategory.consumption),
-      'fLength': new FormControl((this.selectedVehicleCategory.length),Validators.required),
+      'fLength': new FormControl((this.selectedVehicleCategory.length), Validators.required),
       'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
       'fDepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
@@ -58,21 +54,19 @@ export class VehicleCategorieEditComponent implements OnInit {
   }
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.vehicleCategoryForm.invalid) {return; }
+    if (this.vehicleCategoryForm.invalid) { return; }
 
     this.spinner.show();
 
     this.selectedVehicleCategory.code = this.vehicleCategoryForm.value['fCode'];
-    this.selectedVehicleCategory.consumption = this.vehicleCategoryForm.value['fConsumption'];
     this.selectedVehicleCategory.length = +this.vehicleCategoryForm.value['fLength'];
-    this.selectedVehicleCategory.width = this.vehicleCategoryForm.value['fWidth'] ;
-    this.selectedVehicleCategory.height = this.vehicleCategoryForm.value['fheight'] ;
-    this.selectedVehicleCategory.depth = this.vehicleCategoryForm.value['fDepth'] ;
+    this.selectedVehicleCategory.width = this.vehicleCategoryForm.value['fWidth'];
+    this.selectedVehicleCategory.height = this.vehicleCategoryForm.value['fheight'];
+    this.selectedVehicleCategory.depth = this.vehicleCategoryForm.value['fDepth'];
     this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['fTonnage'];
-    this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'] ;
-    this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'] ;
+    this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
+    this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
 
-    console.log(this.selectedVehicleCategory);
     const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
 

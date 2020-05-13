@@ -19,7 +19,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
   insuranceTermForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title:string ='Modifier';
+  title = "Modifier Terme d'assurance";
 
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
@@ -27,19 +27,12 @@ export class InsuranceTermEdiitComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-
-    console.log(this.editMode);
-
     if (this.editMode === 1) {
       this.selectedInsuranceTerm = new InsuranceTerm();
-      this.title='Ajouter';
-
+      this.title = "Ajouter Terme d'assurance";
     }
-
     this.displayDialog = true;
     this.initForm();
-
-
   }
 
   initForm() {
@@ -65,7 +58,6 @@ export class InsuranceTermEdiitComponent implements OnInit {
     const s = this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();

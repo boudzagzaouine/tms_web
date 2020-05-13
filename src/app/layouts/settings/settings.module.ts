@@ -1,3 +1,5 @@
+import { PatrimonyTypeEditComponent } from './patrimony-type/patrimony-type-edit/patrimony-type-edit.component';
+import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -63,6 +65,7 @@ import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-edi
 import { TestDataTableComponent } from './test-data-table/test-data-table.component';
 
 
+
 @NgModule({
   declarations: [
     SupplierComponent,
@@ -103,6 +106,8 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     MenuDriverComponent,
     InsuranceTermEdiitComponent,
     TestDataTableComponent,
+    PatrimonyTypeComponent,
+    PatrimonyTypeEditComponent,
 
 
 

@@ -21,6 +21,7 @@ export class BadgeTypeEditComponent implements OnInit {
   badgeTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
+  title = 'Modifier Type De Badge';
 
   constructor(private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
@@ -33,6 +34,8 @@ export class BadgeTypeEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedBadgeType = new BadgeType();
+      this.title = 'Ajouter Type De Badge';
+
     }
 
     this.displayDialog = true;

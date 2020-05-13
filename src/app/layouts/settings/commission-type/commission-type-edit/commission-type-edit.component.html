@@ -1,6 +1,6 @@
 
 <p-dialog
-header="{{ editMode ==1 ? 'Ajouter': 'Modifier' }} Type De Commission"
+header="{{ title | translate}}"
 [(visible)]="displayDialog"
 [focusOnShow]="false"
 [responsive]="true"
@@ -16,11 +16,11 @@ showEffect="fade"
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label>{{'Code' | translate}} *</label>
+            <label  class="font-weight-bold ">{{'Code' | translate}} *</label>
             <span *ngIf="(commissionTypeForm.get('code').touched && commissionTypeForm.get('code').invalid) ||
             (isFormSubmitted && commissionTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-               obligatoire
+               {{ 'Obligatoire' | translate}}
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="code"
@@ -29,15 +29,15 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-12">
-            <label>{{'Description' | translate}}</label><br />
+            <label  class="font-weight-bold ">{{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
           <div class="form-group col-sm-12 ">
-            <label class="font-weight-bold ">{{'Montant'| translate}}*</label>
+            <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
             <span *ngIf="(commissionTypeForm.get('fAmount').touched && commissionTypeForm.get('fAmount').invalid) ||
             (isFormSubmitted && commissionTypeForm.get('fAmount').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              obligatoire
+              {{ 'Obligatoire' | translate}}
             </span>
              <input type="text" class="form-control" formControlName="fAmount" pInputText  />
 
@@ -57,15 +57,14 @@ showEffect="fade"
     pButton
     (click)="onShowDialog()"
     class="ui-button-primary"
-    label="fermer"
+    label="{{'Annuler' | translate }}"
   ></button>
   <button
       type="button"
       pButton
-      icon="pi pi-check"
       (click)="onSubmit()"
       class="ui-button-success"
-      label="Valider"
+      label="{{ 'Valider' | translate }}"
     ></button>
   </div>
 </p-footer>

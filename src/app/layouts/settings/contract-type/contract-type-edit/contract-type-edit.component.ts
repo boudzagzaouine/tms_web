@@ -19,19 +19,19 @@ export class ContractTypeEditComponent implements OnInit {
   contractTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
+  title = 'Modifier Type de Contrat';
 
   constructor(
     private contractTypeService: ContractTypeService,
-    private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
-    ) { }
+  ) { }
 
   ngOnInit() {
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedContractType = new ContractType();
+      this.title = 'Ajouter Type de  Contrat';
     }
 
     this.displayDialog = true;
@@ -52,8 +52,7 @@ export class ContractTypeEditComponent implements OnInit {
     this.selectedContractType.code = this.contractTypeForm.value['code'];
     this.selectedContractType.description = this.contractTypeForm.value['description'];
 
-    console.log(this.selectedContractType);
-    const s = this.contractTypeService.set(this.selectedContractType).subscribe(
+    this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
         this.displayDialog = false;

@@ -20,7 +20,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
   maintenanceStateForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  title = 'Modifier État De Maintenance';
   constructor(
     private maintenanceStateService: MaintenanceStateService,
     private modalService: NgbModal,
@@ -32,6 +32,8 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedMaintenanceState = new MaintenanceState();
+      this.title = 'Ajouter État De Maintenance';
+
     }
 
     this.displayDialog = true;
@@ -42,7 +44,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
     if (this.maintenanceStateForm.invalid) {
       return;
     }
-this.spinner.show();
+    this.spinner.show();
 
     this.selectedMaintenanceState.code = this.maintenanceStateForm.value['code'];
     this.selectedMaintenanceState.description = this.maintenanceStateForm.value['description'];

@@ -35,7 +35,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   vatList: Vat[] = [];
   displayDialog: boolean;
   isFormSubmitted = false;
-
+  title = 'Modifier Trajet';
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -71,6 +71,8 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     );
     if (this.editMode === 1) {
       this.selectCatalogTransportType = new CatalogTransportType();
+      this.title = 'Ajouter Trajet';
+
     }
 
     this.displayDialog = true;
@@ -83,7 +85,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
       'fAmountHt': new FormControl(this.selectCatalogTransportType.amountHt, Validators.required),
       'fAmountTtc': new FormControl(this.selectCatalogTransportType.amountTtc),
-      'fAmountTva': new FormControl( this.selectCatalogTransportType.amountTva, Validators.required),
+      'fAmountTva': new FormControl(this.selectCatalogTransportType.amountTva, Validators.required),
       'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
       'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
       'fZoneSource': new FormControl(this.selectCatalogTransportType.zoneSource, Validators.required),
@@ -103,10 +105,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.selectCatalogTransportType.amountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
 
-
-
-    console.log(this.selectCatalogTransportType);
-     this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
+    this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
@@ -122,7 +121,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     );
 
 
-this.selectCatalogTransportType = new CatalogTransportType();
+    this.selectCatalogTransportType = new CatalogTransportType();
 
 
   }
@@ -171,7 +170,7 @@ this.selectCatalogTransportType = new CatalogTransportType();
     this.selectCatalogTransportType.amountTva = amountTva;
     this.transportCatVehicleForm.patchValue({
       'fAmountTtc': this.selectCatalogTransportType.amountTtc.toFixed(2),
-      'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2) ,
+      'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2),
     });
   }
 

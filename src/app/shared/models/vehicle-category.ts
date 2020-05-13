@@ -4,7 +4,6 @@ export class VehicleCategory {
 
   id: number;
   code: string;
-  consumption: string;
   length: number;
   width: number;
   height:number;

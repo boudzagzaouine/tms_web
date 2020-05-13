@@ -7,7 +7,7 @@ import { InsuranceTermService } from './../../services/api/insurance-term.servic
 import { User } from './../../models/user';
 import { FormGroup } from '@angular/forms';
 import { InsuranceTerm } from './../../models/insurance-term';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, SortEvent } from 'primeng/api';
 import { Columns } from './../../models/column';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as XLSX from 'xlsx';
@@ -29,7 +29,7 @@ export class DataTableComponent implements OnInit {
   @Input() selectedColumns: any[];
   @Input() cols: any[];
   @Input() className: String;
-  @Input() listName:String
+  @Input() listName: String
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
   //   @Input() get selectedColumns(): any[] {
@@ -63,8 +63,8 @@ export class DataTableComponent implements OnInit {
       },
     ];
 
-     console.log(this.className);
-     console.log(this.cols);
+    console.log(this.className);
+    console.log(this.cols);
 
     this.loadColumns();
 
@@ -178,5 +178,7 @@ export class DataTableComponent implements OnInit {
     );
 
   }
+
+
 
 }

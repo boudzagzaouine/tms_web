@@ -13,40 +13,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InsuranceTypeComponent implements OnInit {
 
+
+
   page = 0;
   size = 10;
-  collectionSize: number;
-
-  selectedInsuranceTypes: Array<InsuranceType>=[];
   searchQuery: string;
   codeSearch: string;
-  items: MenuItem[];
-  insertOrUpdate:String;
+  collectionSize: number;
+  selectedInsuranceTypes: Array<InsuranceType> = [];
   insuranceTypeList: Array<InsuranceType> = [];
+  cols: any[];
   showDialog: boolean;
   editMode: number;
   className: String;
-  cols: any[];
+  title = 'Modifier Type Assurance';
   constructor(private insuranceTypeService: InsuranceTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-
     this.className = InsuranceType.name;
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
-
     ];
-
     this.loadData();
   }
 
 
   loadData(search: string = '') {
-
     this.spinner.show();
     this.insuranceTypeService.sizeSearch(search).subscribe(
       data => {
@@ -55,13 +51,10 @@ export class InsuranceTypeComponent implements OnInit {
     );
     this.insuranceTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-
         this.insuranceTypeList = data;
         this.spinner.hide();
       },
       error => {
-
-
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -69,7 +62,6 @@ export class InsuranceTypeComponent implements OnInit {
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -78,11 +70,8 @@ export class InsuranceTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
@@ -95,7 +84,6 @@ export class InsuranceTypeComponent implements OnInit {
   }
 
   onObjectEdited(event) {
-
     this.editMode = event.operationMode;
     this.selectedInsuranceTypes = event.object;
     if (this.editMode === 3) {
@@ -107,7 +95,6 @@ export class InsuranceTypeComponent implements OnInit {
   }
 
   onDeleteAll() {
-
     if (this.selectedInsuranceTypes.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
@@ -135,12 +122,6 @@ export class InsuranceTypeComponent implements OnInit {
     this.loadData();
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
-  }
 
-  onInsuranceTypeAdded(event) {
-    this.loadData();
-  }
 
 }

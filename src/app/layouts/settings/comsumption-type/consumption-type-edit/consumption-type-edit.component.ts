@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input, Output ,EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-consumption-type-edit',
@@ -19,7 +19,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
   consumptionTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  title = 'Modifier Type de Consomation';
   constructor(
     private consumptionTypeService: ConsumptionTypeService,
     private toastr: ToastrService,
@@ -27,13 +27,11 @@ export class ConsumptionTypeEditComponent implements OnInit {
 
 
   ngOnInit() {
-
-    console.log(this.editMode);
-
     if (this.editMode === 1) {
       this.selectedConsumptionType = new ConsumptionType();
-    }
+      this.title = 'Ajouter Type de  Consomation';
 
+    }
     this.displayDialog = true;
     this.initForm();
 

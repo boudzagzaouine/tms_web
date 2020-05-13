@@ -22,18 +22,17 @@ export class CommissionTypeEditComponent implements OnInit {
   commissionTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  title = 'Modifier Type De Commission';
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-
-    console.log(this.editMode);
-
     if (this.editMode === 1) {
       this.selectedCommissionType = new CommissionType();
+      this.title = 'Ajouter Type De Commission';
+
     }
 
     this.displayDialog = true;
@@ -60,7 +59,7 @@ export class CommissionTypeEditComponent implements OnInit {
     this.selectedCommissionType.description = this.commissionTypeForm.value['description'];
     this.selectedCommissionType.percentage = this.commissionTypeForm.value['fAmount'];
 
-    const s = this.commissionTypeService.set(this.selectedCommissionType).subscribe(
+     this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();

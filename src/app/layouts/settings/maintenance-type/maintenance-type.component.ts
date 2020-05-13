@@ -84,7 +84,7 @@ export class MaintenanceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
-  /// end search
+
   reset() {
     this.codeSearch = null;
     this.page = 0;

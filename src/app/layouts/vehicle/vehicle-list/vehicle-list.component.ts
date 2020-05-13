@@ -21,14 +21,12 @@ export class VehicleListComponent implements OnInit {
   page = 0;
   size = 10;
   collectionSize: number;
-
-  selectedVehicles: Array<Vehicle> = [];
   searchQuery = '';
   codeSearch: string;
   matSearch: string;
   categorySearch: string;
   badgeTypeSearch: string;
-
+  selectedVehicles: Array<Vehicle> = [];
   vehicleList: Array<Vehicle> = [];
   vehicleCategoryList: Array<string> = [];
   badgeTypeList: Array<string> = [];
@@ -59,9 +57,6 @@ export class VehicleListComponent implements OnInit {
 
 
   loadData(search: string = '') {
-
-    console.log(`search query : ${this.searchQuery}`);
-
     this.spinner.show();
     this.vehicleService.sizeSearch(search).subscribe(
       data => {
@@ -74,13 +69,13 @@ export class VehicleListComponent implements OnInit {
         this.vehicleList = data;
         this.spinner.hide();
       },
-      error => { this.spinner.hide() },
+      error => { this.spinner.hide();
+      },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -115,7 +110,7 @@ export class VehicleListComponent implements OnInit {
 
     this.editMode = event.operationMode;
     this.selectedVehicles = event.object;
-    
+
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -147,23 +142,6 @@ export class VehicleListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.vehicleService.delete(id).subscribe(
-          data => {
-            this.toastr.success('Elément est Supprimé Avec Succès', 'Supprssion');
-            this.loadData();
-          },
-          err => {
-            this.toastr.error(err.arror.message);
-
-          }
-        );
-      }
-    });
-  }
 
   onDeleteAll() {
 
@@ -187,11 +165,6 @@ export class VehicleListComponent implements OnInit {
     } else if (this.selectedVehicles.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
-  }
-
-  onSelectVehcileCategory() {
-    console.log(this.categorySearch);
-
   }
 
 }

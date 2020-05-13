@@ -1,20 +1,18 @@
-import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
-import { ContractType } from './../../../shared/models/contract-type';
+import { PatrimonyTypeService } from './../../../shared/services/api/patrimony-type.service';
+import { PatrimonyType } from './../../../shared/models/patrimony-type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
+import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MenuItem, ConfirmationService } from 'primeng/api';
-import { ConsumptionType } from './../../../shared/models/consumption-type';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-comsumption-type',
-  templateUrl: './comsumption-type.component.html',
-  styleUrls: ['./comsumption-type.component.css'],
-  providers: [ConfirmationService]
+  selector: 'app-patrimony',
+  templateUrl: './patrimony-type.component.html',
+  styleUrls: ['./patrimony-type.component.css']
 })
-export class ComsumptionTypeComponent implements OnInit {
+export class PatrimonyTypeComponent implements OnInit {
 
   page = 0;
   size = 5;
@@ -22,13 +20,13 @@ export class ComsumptionTypeComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   cols: any[];
-  consumptionTypeList: Array<ConsumptionType> = [];
-  selectedonsumptionTypes: Array<ConsumptionType> = [];
+  patrimonyTypeList: Array<PatrimonyType> = [];
+  selectedPatrimonyTypes: Array<PatrimonyType> = [];
   showDialog: boolean;
   editMode: number;
   className: String;
 
-  constructor(private consumptionTypeService: ConsumptionTypeService,
+  constructor(private patrimonyTypeService: PatrimonyTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -36,7 +34,7 @@ export class ComsumptionTypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.className = ConsumptionTypeService.name;
+    this.className = PatrimonyType.name;
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
@@ -49,15 +47,16 @@ export class ComsumptionTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.consumptionTypeService.sizeSearch(search).subscribe(
+    this.patrimonyTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.patrimonyTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.consumptionTypeList = data;
+        this.patrimonyTypeList = data;
+
         this.spinner.hide();
       },
       error => {
@@ -92,8 +91,9 @@ export class ComsumptionTypeComponent implements OnInit {
   }
 
   onObjectEdited(event) {
+
     this.editMode = event.operationMode;
-    this.selectedonsumptionTypes = event.object;
+    this.selectedPatrimonyTypes = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -104,12 +104,12 @@ export class ComsumptionTypeComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedonsumptionTypes.length >= 1) {
+    if (this.selectedPatrimonyTypes.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
-          const ids = this.selectedonsumptionTypes.map(x => x.id);
-          this.consumptionTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedPatrimonyTypes.map(x => x.id);
+          this.patrimonyTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -121,7 +121,7 @@ export class ComsumptionTypeComponent implements OnInit {
           );
         }
       });
-    } else if (this.selectedonsumptionTypes.length < 1) {
+    } else if (this.selectedPatrimonyTypes.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 

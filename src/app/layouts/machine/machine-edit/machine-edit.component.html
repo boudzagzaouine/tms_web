@@ -1,0 +1,518 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{ editModeTitle | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary">
+    <form [formGroup]="vehicleForm">
+      <p-tabView [activeIndex]="index">
+        <!-- Général -->
+        <p-tabPanel
+          header="{{ 'Général' | translate }}"
+          [disabled]="true"
+          headerStyleClass="onglet-p-4"
+        >
+          <div formGroupName="general">
+            <!-- Form group imbriqué -->
+
+            <div class="row mt-3 justify-content-around">
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Code" | translate }}*</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['general'].get('fCode').touched &&
+                      vehicleForm.controls['general'].get('fCode').invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['general'].get('fCode').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <br />
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fCode"
+                  (keydown.space)="$event.preventDefault()"
+                />
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{
+                  "Type consommation" | translate
+                }}*</label>
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['general'].get('fConsumptionType')
+                      .touched &&
+                      vehicleForm.controls['general'].get('fConsumptionType')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['general'].get('fConsumptionType')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="consumptionTypeList"
+                  optionLabel="description"
+                  formControlName="fConsumptionType"
+                  (onChange)="onSelectConsumptionType($event)"
+                  [filter]="true"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+              <div class="form-group col-md-3"></div>
+            </div>
+
+
+          </div>
+
+
+        </p-tabPanel>
+        <!--                     FIn Général                               -->
+
+        <!--                  début Onglet  Assurance                                       -->
+        <p-tabPanel
+          header="{{ 'Assurance' | translate }}"
+          [disabled]="true"
+          headerStyleClass="onglet-p-4"
+        >
+          <div formGroupName="insurance">
+            <div [style.visibility]="editModee ? 'visible' : 'hidden'">
+              <button
+                type="button"
+                class="btn btn-success m-1 float-right"
+                (click)="onNvclick()"
+              >
+                {{ "Nouvelle assurance" | translate }}
+              </button>
+            </div>
+            <br /><br />
+            <div class="row mt-3 justify-content-around">
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Numero" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fICode').touched &&
+                      vehicleForm.controls['insurance'].get('fICode')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fICode').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <br />
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fICode"
+                  (keydown.space)="$event.preventDefault()"
+                />
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{
+                  "Type assurance" | translate
+                }}</label>
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fIType').touched &&
+                      vehicleForm.controls['insurance'].get('fIType')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fIType').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire </span
+                ><br />
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="insuranceTypeList"
+                  optionLabel="code"
+                  formControlName="fIType"
+                  (onChange)="onSelectInsuranceType($event)"
+                  [filter]="true"
+                  [showClear]="true"
+                >
+                </p-dropdown>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Fournisseur" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fISupplier')
+                      .touched &&
+                      vehicleForm.controls['insurance'].get('fISupplier')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fISupplier')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="supplierList"
+                  optionLabel="code"
+                  formControlName="fISupplier"
+                  (onChange)="onSelectsupplier($event)"
+                  [filter]="true"
+                  [showClear]="true"
+                >
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="row justify-content-around">
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{ "De" | translate }} *</label>
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fIStartDate')
+                      .touched &&
+                      vehicleForm.controls['insurance'].get('fIStartDate')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fIStartDate')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <br />
+                <p-calendar
+                  formControlName="fIStartDate"
+                  dateFormat="dd-mm-yy"
+                  showButtonBar="true"
+                  [locale]="fr"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1970:2100"
+                ></p-calendar>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{ "à" | translate }} *</label>
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fIEndDate')
+                      .touched &&
+                      vehicleForm.controls['insurance'].get('fIEndDate')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fIEndDate')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <br />
+                <p-calendar
+                  formControlName="fIEndDate"
+                  dateFormat="dd-mm-yy"
+                  showButtonBar="true"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1970:2100"
+                  [locale]="fr"
+                ></p-calendar>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Montant" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['insurance'].get('fIMontant')
+                      .touched &&
+                      vehicleForm.controls['insurance'].get('fIMontant')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['insurance'].get('fIMontant')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fIMontant"
+                />
+              </div>
+            </div>
+
+            <div class="card mt-2">
+              <div class="card-header" style="background-color: #f7f7f7;">
+                <span>{{
+                  "Liste des lignes terme d'assurance" | translate
+                }}</span>
+                <span class="pull-right">
+                  <app-machine-insurance-edit
+                    [editMode]="false"
+                    (insuranceTermLineAdded)="onLineEdited($event)"
+                  ></app-machine-insurance-edit>
+                </span>
+                <span class="pull-right"> </span>
+              </div>
+              <div class="card-body mt-2 border-top-primary">
+                <!-- selectedInsurance?.insuranceTermLignes -->
+                <p-table
+                  [value]="this.selectedInsurance?.insuranceTermLignes"
+                  [lazy]="true"
+                  [rows]="size"
+                  [paginator]="true"
+                  [totalRecords]="
+                    this.selectedInsurance?.insuranceTermLignes?.length
+                  "
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>{{ "Terme d'assurance" | translate }}</th>
+                      <th>{{ "Montant" | translate }}</th>
+
+                      <th style="width: 10%;">{{ "Action" | translate }}</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-line>
+                    <tr>
+                      <td>{{ line?.insuranceTerm?.code }}</td>
+                      <td>{{ line?.amount }}</td>
+                      <td>
+                        <app-machine-insurance-edit
+                          [selectedTermLigne]="line"
+                          [editMode]="true"
+                          (insuranceTermLineAdded)="onLineEdited($event)"
+                        ></app-machine-insurance-edit>
+                        <button
+                          type="button"
+                          (click)="onDeleteLine(line)"
+                          class="btn btn-sm btn-danger mx-1"
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+        <!--                  Fin Onglet Assurance       -->
+
+        <!--                  Début Onglet Contrat       -->
+        <p-tabPanel
+          header="{{ 'Contrat' | translate }}"
+          [disabled]="true"
+          headerStyleClass="onglet-p-4"
+        >
+          <div formGroupName="contract">
+            <div class="row mt-3 justify-content-around">
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Type de contrat" | translate }}*</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['contract'].get('fContractType')
+                      .touched &&
+                      vehicleForm.controls['contract'].get('fContractType')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['contract'].get('fContractType')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire </span
+                ><br />
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="contractTypeList"
+                  optionLabel="code"
+                  [filter]="true"
+                  (onChange)="onSelectContract($event)"
+                  formControlName="fContractType"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Date aquisition" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['contract'].get('fAquisition')
+                      .touched &&
+                      vehicleForm.controls['contract'].get('fAquisition')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['contract'].get('fAquisition')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <br />
+                <p-calendar
+                  formControlName="fAquisition"
+                  dateFormat="dd-mm-yy"
+                  showButtonBar="true"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1970:2100"
+                ></p-calendar>
+              </div>
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Mantant" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['contract'].get('fAmountc').touched &&
+                      vehicleForm.controls['contract'].get('fAmountc')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['contract'].get('fAmountc').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fAmountc"
+                />
+
+                <br />
+              </div>
+            </div>
+            <div class="row mt-3 justify-content-around">
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Transport" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['contract'].get('fTransport')
+                      .touched &&
+                      vehicleForm.controls['contract'].get('fTransport')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['contract'].get('fTransport')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  Obligatoire
+                </span>
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="transportList"
+                  optionLabel="code"
+                  [filter]="true"
+                  (onChange)="onSelectTransport($event)"
+                  formControlName="fTransport"
+                  [showClear]="true"
+                ></p-dropdown>
+
+                <br />
+              </div>
+
+              <div class="form-group col-md-3"></div>
+              <div class="form-group col-md-3"></div>
+            </div>
+
+            <div class="text-center mt-3 mr-3 ml-3">
+              <a
+                class="btn btn-primary m-1"
+                [routerLink]="['/core/vehicles/list']"
+              >
+                {{ "Fermer" | translate }}
+              </a>
+              <button
+                type="button"
+                class="btn btn-success m-1"
+                (click)="onSubmit()"
+              >
+                {{ "Valider et continuer" | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-success m-1"
+                (click)="onSubmit(true)"
+              >
+                {{ "Valider" | translate }}
+              </button>
+            </div>
+          </div>
+        </p-tabPanel>
+
+        <!--             FIn Onglet  Contrat -->
+
+        <div *ngIf="!(this.index == 0)" class="row pull-left">
+          <button
+            type="button"
+            pButton
+            icon="fa fa-chevron-left"
+            (click)="openPrev()"
+          ></button>
+        </div>
+
+        <div *ngIf="!(this.index == 3)" class="row pull-right">
+          <button
+            type="button"
+            pButton
+            icon="fa fa-chevron-right"
+            (click)="openNext()"
+          ></button>
+        </div>
+        <br /><br />
+      </p-tabView>
+    </form>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

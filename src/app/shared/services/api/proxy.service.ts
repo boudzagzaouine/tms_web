@@ -234,4 +234,14 @@ export class ProxyService {
     getToken(): string {
     return this.authService.computeToken();
 }
+
+findByPatrimony(controller: string, idVehicle: number): Observable<any> {
+  const fullurl =
+      this.url + controller + '/getVehicle/' + idVehicle + '?token=' + this.getToken();
+  console.log(fullurl);
+  return this.http.get<any>(fullurl);
+}
+
+
+
 }

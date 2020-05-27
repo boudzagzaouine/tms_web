@@ -1,43 +1,58 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body  border-top-primary">
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold">
-          Code</label><br />
+          {{"Code" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Matriculation</label><br />
+      <div class="col-md-2">
+        <label class="font-weight-bold ">{{"Matriculation" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="matSearch" />
       </div>
 
-      <div class="col-md-3 ">
-        <label class="font-weight-bold ">Catégorie</label><br />
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Catégorie " | translate}}</label><br />
         <p-autoComplete [(ngModel)]="categorySearch" [suggestions]="vehicleCategoryList"
           (completeMethod)="onVehicleCategorySearch($event)"></p-autoComplete>
       </div>
 
-      <div class="col-md-3 ">
-        <label class="font-weight-bold ">Type Badge</label><br />
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Type badge" | translate}}</label><br />
         <p-autoComplete [(ngModel)]="badgeTypeSearch" [suggestions]="badgeTypeList"
           (completeMethod)="onBadgeTypeSearch($event)"></p-autoComplete>
       </div>
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Type contrat" | translate}}</label><br />
+        <p-autoComplete [(ngModel)]="contratTypeSearch" [suggestions]="contratTypeList"
+          (completeMethod)="onContratTypeSearch($event)"></p-autoComplete>
+      </div>
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Transport" | translate}}</label><br />
+        <p-autoComplete [(ngModel)]="transportSearch" [suggestions]="transportList"
+          (completeMethod)="onTransportSearch($event)"></p-autoComplete>
+      </div>
 
     </div>
+
     <br />
     <br />
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+        <i class="fa fa-refresh mr-2"></i>
+        {{ "Réinitialiser" | translate }}
+      </button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        Rechercher
+        <i class="fa fa-search mr-2"></i>
+
+        {{ "Rechercher" | translate }}
       </button>
     </div>
-  </div>
-</div>
+
+</p-panel>
 
 
 
@@ -50,7 +65,9 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Véhicule'"
+  [listName]="'Liste des véhicule'"
+  [addBtnVisible]="'true'"
+  [viewBtnVisible]="'false'"
 ></app-data-table>
 
 

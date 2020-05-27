@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
@@ -22,7 +23,7 @@ export class InsuranceComponent implements OnInit {
   size = 10;
   collectionSize: number;
 
-  selectedInsurance: Insurance;
+  selectedInsurance: Array<Insurance> = [];
   searchQuery: string;
   codeSearch: string;
   insuranceTermSearch: string;
@@ -35,6 +36,11 @@ export class InsuranceComponent implements OnInit {
   supplierList: Array<string> = [];
   vehicleList: Array<string> = [];
 
+  className: String;
+  cols: any[];
+  editMode: number;
+  showDialog: boolean;
+
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTermService: InsuranceTermService,
@@ -42,15 +48,22 @@ export class InsuranceComponent implements OnInit {
     private vehicleService: VehicleService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private router: Router) { }
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedInsurance.id) }
+    this.className = Insurance.name;
+    this.cols = [
+      { field: 'code', header: 'Code' },
+      { field: 'patrimony', header: 'Équipement' },
+      { field: 'supplier', header: 'Fournisseur' },
+      { field: 'insuranceType', header: "Type d'assurance" },
+      { field: 'startDate', header: 'Date Début' },
+      { field: 'endDate', header: 'Date Fin' },
     ];
-  }
+    this.loadData();
+     }
 
 
   loadData(search: string = '') {
@@ -67,6 +80,8 @@ export class InsuranceComponent implements OnInit {
       data => {
         console.log(data);
         this.insuranceList = data;
+        console.log(data);
+
         this.spinner.hide();
       },
       error => { this.spinner.hide() },
@@ -104,7 +119,20 @@ export class InsuranceComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
+  onObjectEdited(event) {
 
+    this.editMode = event.operationMode;
+    this.selectedInsurance = event.object;
+
+    if (this.editMode === 4) {
+      this.showDialog = true;
+    }
+
+  }
+  onShowDialog(event) {
+    this.showDialog = event;
+    this.loadData();
+  }
   onInsuranceTermSearch(event: any) {
     this.insuranceTermService.find('code~' + event.query).subscribe(
       data => this.insuranceTermList = data.map(f => f.code)
@@ -135,28 +163,29 @@ export class InsuranceComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.insuranceService.delete(id).subscribe(
-          data => {
-            this.toastr.success("Elément est  Supprimé Avec Succès","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
+  onDeleteAll() {
 
-         }
-        );
-      }
-    });
-  }
+    if (this.selectedInsurance.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedInsurance.map(x => x.id);
+          this.insuranceService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedInsurance.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
 
-  onEdit() {
-    this.toastr.info('selected ');
-  }
-  onInsuranceAdd(event){
-  this.loadData();
+
   }
 }

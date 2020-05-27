@@ -1,3 +1,5 @@
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
+import { BadgeType } from './../../../shared/models/badge-Type';
 import { Router } from '@angular/router';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { ToastrService } from 'ngx-toastr';
@@ -26,11 +28,14 @@ export class VehicleListComponent implements OnInit {
   matSearch: string;
   categorySearch: string;
   badgeTypeSearch: string;
+  transportSearch: string;
+  contratTypeSearch: string;
   selectedVehicles: Array<Vehicle> = [];
   vehicleList: Array<Vehicle> = [];
-  vehicleCategoryList: Array<string> = [];
-  badgeTypeList: Array<string> = [];
-
+  vehicleCategoryList: Array<VehicleCategory> = [];
+  badgeTypeList: Array<BadgeType> = [];
+  transportList: Array<Transport> = [];
+  contratTypeList: Array<Transport> = [];
   className: String;
   cols: any[];
   editMode: number;
@@ -50,7 +55,31 @@ export class VehicleListComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'registrationNumber', header: 'Immatriculation' },
-      { field: 'vehicleCategory', header: 'Catégorie Véhicule' },
+      { field: 'vehicleCategory', header: 'Catégorie véhicule' },
+      { field: 'badgeType', header: 'Type de bage' },
+      { field: 'technicalVisit', header: 'Date du contrôle technique' },
+      { field: 'valueTechnicalVisit', header: 'Montant du contrôle technique' },
+      { field: 'vignette', header: 'Date De Paiment de la vignette' },
+      { field: 'valueVignette', header: 'Montant vignette' },
+      { field: 'grayCard', header: 'Carte grise' },
+      { field: 'chassisNumber', header: ' Numéro chassis' },
+      { field: 'numberCylinder', header: 'Nombre de cylindres' },
+      { field: 'fiscalPower', header: 'Puissance fiscal' },
+      { field: 'body', header: 'Carrosserie' },
+      { field: 'consumptionType', header: 'Type de consommation' },
+      { field: 'engineOil', header: 'Huile moteur' },
+      { field: 'rearDeck', header: 'Pont arriere' },
+      { field: 'direction', header: 'Direction' },
+      { field: 'radiator', header: 'Radiateur' },
+      { field: 'airFilter', header: 'Filtre à air' },
+      { field: 'gearBox', header: 'Boite a vitesse' },
+      { field: 'desiccantFilter', header: 'Filtre dissicateur' },
+      { field: 'contractType', header: 'Type de contrat' },
+      { field: 'aquisitionDate', header: 'Date aquisition' },
+      { field: 'amount', header: 'Montant' },
+      { field: 'transport', header: 'Transport' },
+
+
 
     ];
   }
@@ -69,7 +98,8 @@ export class VehicleListComponent implements OnInit {
         this.vehicleList = data;
         this.spinner.hide();
       },
-      error => { this.spinner.hide();
+      error => {
+        this.spinner.hide();
       },
       () => this.spinner.hide()
     );
@@ -96,6 +126,13 @@ export class VehicleListComponent implements OnInit {
 
     if (this.badgeTypeSearch != null && this.badgeTypeSearch !== '') {
       buffer.append(`badgeType.code~${this.badgeTypeSearch}`);
+    }
+    if (this.transportSearch != null && this.transportSearch !== '') {
+      buffer.append(`transport.code~${this.transportSearch}`);
+    }
+
+    if (this.contratTypeSearch != null && this.contratTypeSearch !== '') {
+      buffer.append(`contratType.code~${this.contratTypeSearch}`);
     }
 
 
@@ -129,6 +166,17 @@ export class VehicleListComponent implements OnInit {
   onBadgeTypeSearch(event: any) {
     this.badgeTypeService.find('code~' + event.query).subscribe(
       data => this.badgeTypeList = data.map(f => f.code)
+    );
+  }
+
+  onContratTypeSearch(event: any) {
+    this.badgeTypeService.find('code~' + event.query).subscribe(
+      data => this.contratTypeList = data.map(f => f.code)
+    );
+  }
+  onTransportSearch(event: any) {
+    this.badgeTypeService.find('code~' + event.query).subscribe(
+      data => this.transportList = data.map(f => f.code)
     );
   }
 

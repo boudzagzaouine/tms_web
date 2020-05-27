@@ -9,7 +9,7 @@ import { ProxyService } from './proxy.service';
 export class EmsService<T> {
   controller: string;
 
-  
+
   constructor(
     private proxy: ProxyService, controller: string) {
     this.controller = controller;
@@ -65,5 +65,9 @@ export class EmsService<T> {
 
   deleteAllByIds(ids: number[]) {
     return this.proxy.deleteAllByIds(this.controller, ids);
+  }
+
+  findByPatrimony(idVehicle: number): Observable<T> {
+    return this.proxy.findByPatrimony(this.controller, idVehicle);
   }
 }

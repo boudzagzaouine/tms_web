@@ -46,6 +46,8 @@
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
   [listName]="'List des Catégories de Transport'"
+  [viewBtnVisible]="'false'"
+
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

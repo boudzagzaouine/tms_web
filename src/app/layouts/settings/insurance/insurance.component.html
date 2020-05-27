@@ -1,10 +1,9 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body border-top-primary">
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+
     <div class="row">
       <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br />
+        <label class="font-weight-bold ">{{"Code"|translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
@@ -17,7 +16,7 @@
 
 
       <div class="col-md-3">
-        <label class="font-weight-bold ">{{'Vehicle' | translate}}</label><br />
+        <label class="font-weight-bold ">{{'Véhicule' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleList"
           (completeMethod)="onVehicleSearch($event)"></p-autoComplete>
       </div>
@@ -25,55 +24,39 @@
     <br />
 
     <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">Renitialiser</button>
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+        <i class="fa fa-refresh mr-2"></i>
+        {{ "Réinitialiser" | translate }}
+      </button>
 
       <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        Rechercher
+        <i class="fa fa-search mr-2"></i>
+        {{ "Rechercher" | translate }}
+
       </button>
     </div>
-  </div>
-</div>
+</p-panel>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des Assurances</span>
-    <span class="pull-right">
-     <!-- <app-insurance-edit [editMode]="false"></app-insurance-edit>-->
-    </span>
-  </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="insuranceList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-      [(contextMenuSelection)]="selectedInsurance" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedInsurance" [paginator]="true">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th>{{'Montant' | translate}}</th>
-          <th>{{'Fournissuer' | translate}}</th>
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="insuranceList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  [listName]="'Liste des assurance'"
+ [addBtnVisible]="'true'"
+  [updateBtnVisible]="'true'"
 
-          <th>{{'vehicle' | translate}}</th>
-          <th style="width:10%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-insurance>
-        <tr>
-          <td>{{insurance?.code}}</td>
-          <td>{{insurance?.description}}</td>
-          <td>{{insurance?.amount}}</td>
-          <td>{{insurance?.supplier?.code}}</td>
+></app-data-table>
 
-          <td>{{insurance?.vehicleCode}}</td>
-          <td>
-            <app-insurance-edit [editMode]="true" [selectedInsurance]="insurance" (insuranceAdd)="onInsuranceAdd($event)"></app-insurance-edit>
-            <!-- <button type="button" (click)="onDelete(insurance.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button> -->
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+<div *ngIf="showDialog == true">
+  <app-insurance-edit
+    [editMode]="editMode"
+    [selectedInsurance]="selectedInsurance[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-insurance-edit>
 </div>
 
 <p-contextMenu #cm [model]="items"></p-contextMenu>

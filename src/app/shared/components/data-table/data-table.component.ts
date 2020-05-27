@@ -29,22 +29,21 @@ export class DataTableComponent implements OnInit {
   @Input() selectedColumns: any[];
   @Input() cols: any[];
   @Input() className: String;
-  @Input() listName: String
+  @Input() listName: String;
+  @Input() addBtnVisible = false;
+  @Input() viewBtnVisible=false;
+  @Input() updateBtnVisible = false;
+  @Input() deleteBtnVisible=false;
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
-  //   @Input() get selectedColumns(): any[] {
-  //   return this._selectedColumns;
-  // }
-  // set selectedColumns(val: any[]) {
-  //   this._selectedColumns = val;
-  // }
   exportColumns: any[];
   columnsAdded: Array<Columns> = [];
   exportBtnItems: MenuItem[];
   selectedObjects: Array<any> = [];
   user = new User();
-  updateBtnVisible = false;
-  deleteBtnVisible = false;
+  updateBtnDisable = false;
+  deleteBtnDisable = false;
+  
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -134,18 +133,18 @@ export class DataTableComponent implements OnInit {
 
   onRowSelect(event) {
     if (this.selectedObjects.length === 1) {
-      this.updateBtnVisible = true;
-      this.deleteBtnVisible = true;
+      this.updateBtnDisable = true;
+      this.deleteBtnDisable = true;
     } else {
-      this.updateBtnVisible = false;
+      this.updateBtnDisable = false;
     }
   }
   onRowUnselect(event) {
     if (this.selectedObjects.length === 1) {
-      this.updateBtnVisible = true;
+      this.updateBtnDisable = true;
     } else if (this.selectedObjects.length < 1) {
-      this.updateBtnVisible = false;
-      this.deleteBtnVisible = false;
+      this.updateBtnDisable = false;
+      this.deleteBtnDisable = false;
     }
 
   }

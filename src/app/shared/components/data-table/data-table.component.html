@@ -3,6 +3,7 @@
     <div class="d-flex justify-content-between">
       <div>
         <button
+        [hidden]="addBtnVisible"
           type="button"
           class="btn btn-sm btn-primary mx-1"
           (click)="onEdit(1)"
@@ -10,21 +11,33 @@
           <i class="fa fa-plus"></i>
         </button>
         <button
-          type="button"
+         [hidden]="updateBtnVisible"
+         type="button"
           class="btn btn-sm btn-success mx-1"
           (click)="onEdit(2)"
-          [disabled]="updateBtnVisible == false"
+          [disabled]="updateBtnDisable == false"
         ><!--UPDATE-->
           <i class="fa fa-pencil"></i>
         </button>
         <button
+        [hidden]="deleteBtnVisible"
           type="button"
           class="btn btn-sm btn-danger mx-1"
           (click)="onEdit(3)"
-          [disabled]="deleteBtnVisible == false"
+          [disabled]="deleteBtnDisable == false"
         > <!--DELETE-->
           <i class="fa fa-trash-o"></i>
         </button>
+        <button
+        [hidden]="viewBtnVisible"
+        type="button"
+        class="btn btn-sm btn-info mx-1"
+        [disabled]="updateBtnDisable == false"
+
+        (click)="onEdit(4)"
+      > <!--view-->
+        <i class="fa fa-eye"></i>
+      </button>
       </div>
       <div>
         <p style="font-size: 16px; color: #5f5b5b;" class="text-center ml-5">
@@ -81,17 +94,19 @@
       (onRowSelect)="onRowSelect($event)"
       (onRowUnselect)="onRowUnselect($event)"
       sortMode="multiple"
+      [scrollable]="true"
+
     >
-      <ng-template pTemplate="header" let-columns>
+
+
+
+      <ng-template pTemplate="header" let-columns >
         <tr>
-          <th style="width: 3em;">
+          <th style="width:40px">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-
-          <th *ngFor="let col of columns" pReorderableColumn [pSortableColumn]="col.field">
-            {{ col.header }}
-            <p-sortIcon [field]="col.field"></p-sortIcon>
-
+          <th *ngFor="let col of columns" pReorderableColumn style="width:160px;font-size:13px">
+            {{ col.header | translate}}
           </th>
         </tr>
       </ng-template>
@@ -102,15 +117,15 @@
         let-rowIndex="rowIndex"
       >
         <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-          <td>
+          <td style="width:40px">
             <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
           </td>
 
-          <td *ngFor="let col of columns; let i = index">
+          <td *ngFor="let col of columns; let i = index" style="width:160px">
             <span *ngIf="rowData[col.field]?.code==null" >
               {{rowData[col.field]}}
             </span>
-            <span *ngIf="rowData[col.field]?.code!=null">
+            <span *ngIf="rowData[col.field]?.code!=null" style="width:160px">
               {{rowData[col.field]?.code}}
             </span>
 

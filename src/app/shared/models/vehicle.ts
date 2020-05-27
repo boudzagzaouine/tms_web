@@ -1,3 +1,4 @@
+import { Patrimony } from './patrimony';
 import { ConsumptionType } from './consumption-type';
 import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
 import { InsuranceTerm } from './insurance-term';
@@ -6,7 +7,7 @@ import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
 
-export class Vehicle {
+export class Vehicle extends Patrimony {
 
 
   id: number;
@@ -17,7 +18,7 @@ export class Vehicle {
   creationDate: Date = new Date();
   vehicleCategory: VehicleCategory;
   badgeType: BadgeType;
-  insurance: Insurance;
+  //insurance: Insurance;
   contractType: ContractType;
   consumptionType: ConsumptionType;
   engineOil: number;
@@ -39,8 +40,8 @@ export class Vehicle {
 
   aquisitionDate: Date = new Date();
   amount: number;
-
-  insuranceTermVehicles: InsuranceTermsVehicle[] = [];
+  patrimony_type='vehicule';
+ // insuranceTermVehicles: InsuranceTermsVehicle[] = [];
   transport: Transport;
 
 }

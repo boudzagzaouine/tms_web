@@ -1,3 +1,4 @@
+import { PanelModule } from 'primeng/panel';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -44,6 +45,7 @@ import {StepsModule} from 'primeng/steps';
     ConfirmDialogModule,
     ContextMenuModule,
     StepsModule,
+    PanelModule
   ]
 })
 export class VehicleModule { }

@@ -1,3 +1,5 @@
+import { REST_URL } from './../../utils/constants';
+import { Observable } from 'rxjs';
 import { EmsService } from './ems.service';
 import { Injectable } from '@angular/core';
 import { ProxyService } from './proxy.service';
@@ -9,4 +11,6 @@ export class InsuranceService extends EmsService<Insurance> {
   constructor(proxy: ProxyService) {
     super(proxy, 'insurances');
   }
+
+
 }

@@ -1,6 +1,6 @@
 <div class="card mt-4">
   <div class="card-header">
-    <span class="h4">{{ "editer Vehicule" | translate }}</span>
+    <span class="h4">{{ editModeTitle | translate }}</span>
   </div>
   <div class="card-body border-top-primary" >
     <form [formGroup]="vehicleForm">
@@ -17,7 +17,7 @@
               <span *ngIf="(vehicleForm.controls['general'].get('fCode').touched && vehicleForm.controls['general'].get('fCode').invalid) ||
                 (isFormSubmitted && vehicleForm.controls['general'].get('fCode').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <br />
               <input type="text" class="form-control" pInputText formControlName="fCode"
@@ -29,18 +29,18 @@
               <span *ngIf="(vehicleForm.controls['general'].get('fRegistrationNumber').touched && vehicleForm.controls['general'].get('fRegistrationNumber').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fRegistrationNumber').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                 obligatoire
+                 Obligatoire
               </span>
               <br />
               <input type="text" class="form-control" pInputText formControlName="fRegistrationNumber" />
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Véhicule Catégorie' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Catégorie véhicule ' | translate}}*</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fVehicleCategory').touched && vehicleForm.controls['general'].get('fVehicleCategory').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fVehicleCategory').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategoryList" optionLabel="code"
                 formControlName="fVehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
@@ -50,11 +50,11 @@
 
           <div class="row justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type Badge' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Type badge' | translate}}*</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fBadgeType').touched && vehicleForm.controls['general'].get('fBadgeType').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fBadgeType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="description" [filter]="true"
                 (onChange)="onSelectBadgeType($event)" formControlName="fBadgeType" [showClear]="true"></p-dropdown>
@@ -74,7 +74,7 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Contrôle Technique'| translate}}</label>
+              <label class="font-weight-bold ">{{'Date du contrôle technique'| translate}}</label>
               <br />
               <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
                 formControlName="fTechnicalVisit" yearRange="1970:2100"></p-calendar>
@@ -88,7 +88,7 @@
           </div>
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Vignette'| translate}}</label>
+              <label class="font-weight-bold ">{{'Date de paiement de la vignette'| translate}}</label>
               <br />
               <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
                 formControlName="fVignette" yearRange="1970:2100"></p-calendar>
@@ -110,7 +110,7 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Carte Grise' | translate}}</label>
+              <label class="font-weight-bold ">{{'Carte grise' | translate}}</label>
 
               <br />
               <input type="text" class="form-control" pInputText formControlName="fGrayCard"
@@ -118,13 +118,13 @@
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Numéro Chassis'| translate}}</label>
+              <label class="font-weight-bold ">{{'Numéro chassis'| translate}}</label>
 
               <br />
               <input type="text" class="form-control" pInputText formControlName="fChassisNumber" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Nombre de Cylindres'| translate}}</label>
+              <label class="font-weight-bold ">{{'Nombre de cylindres'| translate}}</label>
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fNumberCylinder" />
             </div>
@@ -132,7 +132,7 @@
 
           <div class="row mt-3 justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Puissance Fiscal' | translate}}</label>
+              <label class="font-weight-bold ">{{'Puissance fiscal' | translate}}</label>
 
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fFiscalPower"
@@ -146,11 +146,11 @@
               <input type="text" class="form-control" pInputText formControlName="fBody" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type Consommation'| translate}}</label>
+              <label class="font-weight-bold ">{{'Type consommation'| translate}}</label>
               <span *ngIf="(vehicleForm.controls['caracteristic'].get('fConsumptionType').touched && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid) ||
               (isFormSubmitted && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="consumptionTypeList" optionLabel="description"
                 formControlName="fConsumptionType" (onChange)="onSelectConsumptionType($event)" [filter]="true"
@@ -161,7 +161,7 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Huile Moteur' | translate}} (KM)</label>
+              <label class="font-weight-bold ">{{'Huile moteur' | translate}} (KM)</label>
 
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fEngineOil"
@@ -169,7 +169,7 @@
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Pont Arriere'| translate}} (KM)</label>
+              <label class="font-weight-bold ">{{'Pont arriére'| translate}} (KM)</label>
 
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fRearDeck" />
@@ -190,7 +190,7 @@
                 (keydown.space)="$event.preventDefault()" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Filtre à Air '| translate}} (KM)</label>
+              <label class="font-weight-bold ">{{'Filtre à air '| translate}} (KM)</label>
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fAreaFilter" />
             </div>
@@ -204,7 +204,7 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Filtre Dissicateur' | translate}} (KM)</label>
+              <label class="font-weight-bold ">{{'Filtre dissicateur' | translate}} (KM)</label>
 
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fDesiccantFilter"
@@ -230,7 +230,7 @@
           <div formGroupName="insurance">
            <div [style.visibility]="editModee ? 'visible' : 'hidden'"  >
           <button type="button" class="btn btn-success m-1 float-right"  (click)="onNvclick()">
-            {{'Nouveau Assurance' | translate }}
+            {{'Nouvelle assurance' | translate }}
           </button></div><br><br>
              <div class="row mt-3 justify-content-around">
 
@@ -239,7 +239,7 @@
               <span *ngIf="(vehicleForm.controls['insurance'].get('fICode').touched && vehicleForm.controls['insurance'].get('fICode').invalid) ||
                   (isFormSubmitted && vehicleForm.controls['insurance'].get('fICode').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <br />
               <input type="text" class="form-control" pInputText formControlName="fICode"
@@ -248,11 +248,11 @@
 
 
             <div class="form-group col-md-3">
-              <label class="font-weight-bold ">{{'Type Assurance' | translate}}</label>
+              <label class="font-weight-bold ">{{'Type assurance' | translate}}</label>
               <span *ngIf="(vehicleForm.controls['insurance'].get('fIType').touched && vehicleForm.controls['insurance'].get('fIType').invalid) ||
                   (isFormSubmitted && vehicleForm.controls['insurance'].get('fIType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span><br />
               <p-dropdown [autoDisplayFirst]="false" [options]="insuranceTypeList" optionLabel="code"
               formControlName="fIType" (onChange)="onSelectInsuranceType($event)" [filter]="true" [showClear]="true">
@@ -264,7 +264,7 @@
               <span *ngIf="(vehicleForm.controls['insurance'].get('fISupplier').touched && vehicleForm.controls['insurance'].get('fISupplier').invalid) ||
                       (isFormSubmitted && vehicleForm.controls['insurance'].get('fISupplier').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                 obligatoire
+                 Obligatoire
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="supplierList" optionLabel="code"
                 formControlName="fISupplier" (onChange)="onSelectsupplier($event)" [filter]="true" [showClear]="true">
@@ -277,30 +277,30 @@
               <span *ngIf="(vehicleForm.controls['insurance'].get('fIStartDate').touched && vehicleForm.controls['insurance'].get('fIStartDate').invalid) ||
                     (isFormSubmitted && vehicleForm.controls['insurance'].get('fIStartDate').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                 obligatoire
+                 Obligatoire
               </span>
               <br />
-              <p-calendar formControlName="fIStartDate" dateFormat="dd-mm-yy" showButtonBar="true"
+              <p-calendar formControlName="fIStartDate" dateFormat="dd-mm-yy" showButtonBar="true" [locale]="fr"
                 [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
 
             <div class="form-group col-md-3">
-              <label class="font-weight-bold ">{{'A' | translate}} *</label>
+              <label class="font-weight-bold ">{{'à' | translate}} *</label>
               <span *ngIf="(vehicleForm.controls['insurance'].get('fIEndDate').touched && vehicleForm.controls['insurance'].get('fIEndDate').invalid) ||
                     (isFormSubmitted && vehicleForm.controls['insurance'].get('fIEndDate').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                obligatoire
+                Obligatoire
               </span>
               <br />
               <p-calendar formControlName="fIEndDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
-                [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+                [yearNavigator]="true" yearRange="1970:2100" [locale]="fr"></p-calendar>
             </div>
             <div class="form-group col-md-3">
               <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
               <span *ngIf="(vehicleForm.controls['insurance'].get('fIMontant').touched && vehicleForm.controls['insurance'].get('fIMontant').invalid) ||
                       (isFormSubmitted && vehicleForm.controls['insurance'].get('fIMontant').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                 obligatoire
+                 Obligatoire
               </span>
               <input type="text" class="form-control" pInputText formControlName="fIMontant" />
             </div>
@@ -311,7 +311,7 @@
 
           <div class="card mt-2">
             <div class="card-header " style=" background-color:#f7f7f7;">
-              <span>Liste Des lignes de Term D'assurance</span>
+              <span>{{ "Liste des lignes terme d'assurance" | translate }}</span>
               <span class="pull-right">
                 <app-vehicule-edit-line [editMode]="false" (insuranceTermLineAdded)="onLineEdited($event)"></app-vehicule-edit-line>
               </span>
@@ -321,14 +321,14 @@
             <div class="card-body mt-2 border-top-primary">
 
 <!-- selectedInsurance?.insuranceTermLignes -->
-              <p-table [value]="this.selectedVehicle?.insuranceTermVehicles" [lazy]="true" [rows]="size" [paginator]="true"
-                [totalRecords]="this.selectedVehicle?.insuranceTermVehicles?.length" >
+              <p-table [value]="this.selectedInsurance?.insuranceTermLignes" [lazy]="true" [rows]="size" [paginator]="true"
+                [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" >
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>{{'Term Assurance' | translate}}</th>
-                    <th>Prix </th>
+                    <th>{{"Terme d'assurance" | translate}}</th>
+                    <th>{{"Montant" |translate }} </th>
 
-                    <th style="width:10%">Action</th>
+                    <th style="width:10%">{{ "Action" |translate}}</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-line>
@@ -360,21 +360,21 @@
           <div class="row  mt-3 justify-content-around">
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type Contrat' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Type de contrat' | translate}}*</label>
              <span *ngIf="(vehicleForm.controls['contract'].get('fContractType').touched && vehicleForm.controls['contract'].get('fContractType').invalid) ||
                (isFormSubmitted && vehicleForm.controls['contract'].get('fContractType').invalid)" class="text-lighter"
                style="color: red; font-size: xx-small;">
-              obligatoire
+              Obligatoire
              </span><br />
              <p-dropdown [autoDisplayFirst]="false" [options]="contractTypeList" optionLabel="code" [filter]="true"
                (onChange)="onSelectContract($event)" formControlName="fContractType" [showClear]="true"></p-dropdown>
            </div>
            <div class="form-group col-md-3">
-            <label class="font-weight-bold ">{{'Date Aquisition' | translate}} *</label>
+            <label class="font-weight-bold ">{{'Date aquisition' | translate}} *</label>
             <span *ngIf="(vehicleForm.controls['contract'].get('fAquisition').touched && vehicleForm.controls['contract'].get('fAquisition').invalid) ||
                   (isFormSubmitted && vehicleForm.controls['contract'].get('fAquisition').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-              obligatoire
+              Obligatoire
             </span>
             <br />
             <p-calendar formControlName="fAquisition" dateFormat="dd-mm-yy" showButtonBar="true"
@@ -385,7 +385,7 @@
             <span *ngIf="(vehicleForm.controls['contract'].get('fAmountc').touched && vehicleForm.controls['contract'].get('fAmountc').invalid) ||
                   (isFormSubmitted && vehicleForm.controls['contract'].get('fAmountc').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-             obligatoire
+             Obligatoire
             </span>
             <input type="text" class="form-control" pInputText formControlName="fAmountc" />
 
@@ -400,7 +400,7 @@
             <span *ngIf="(vehicleForm.controls['contract'].get('fTransport').touched && vehicleForm.controls['contract'].get('fTransport').invalid) ||
                   (isFormSubmitted && vehicleForm.controls['contract'].get('fTransport').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-             obligatoire
+             Obligatoire
             </span>
             <p-dropdown [autoDisplayFirst]="false" [options]="transportList" optionLabel="code" [filter]="true"
             (onChange)="onSelectTransport($event)" formControlName="fTransport" [showClear]="true"></p-dropdown>

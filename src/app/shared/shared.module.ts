@@ -1,3 +1,4 @@
+import { MachineService } from './services/api/machine.service';
 import { PatrimonyTypeService } from './services/api/patrimony-type.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { DialogModule } from 'primeng/dialog';
@@ -87,7 +88,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
     MultiSelectModule,
     SplitButtonModule,
     DialogModule,
-  PaginatorModule
+    PaginatorModule
 
   ],
   exports:[
@@ -134,7 +135,8 @@ export class SharedModule {
         AuthenticationService,
         UserService,
     ConfirmationService,
-    PatrimonyTypeService
+    PatrimonyTypeService,
+    MachineService,
         ]
     };
   }

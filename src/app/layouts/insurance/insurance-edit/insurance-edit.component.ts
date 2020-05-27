@@ -56,7 +56,7 @@ export class InsuranceEditComponent implements OnInit {
 
     console.log("vehiculeCode");
 
-    console.log(this.selectedInsurance.vehicleCode);
+    //console.log(this.selectedInsurance.vehicleCode);
 
   }
 
@@ -69,7 +69,7 @@ export class InsuranceEditComponent implements OnInit {
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
       'supplier': new FormControl(this.selectedInsurance.supplier != null ?
         this.selectedInsurance.supplier.code : null, Validators.required),
-      'vehiclecode': new FormControl(this.selectedInsurance.vehicleCode, Validators.required),
+      'vehiclecode': new FormControl(this.selectedInsurance.patrimony.id, Validators.required),
       'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm != null ?
         this.selectedInsurance.insuranceTerm.code : null, Validators.required)
     });

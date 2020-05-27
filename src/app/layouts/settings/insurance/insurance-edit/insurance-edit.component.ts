@@ -66,10 +66,10 @@ export class InsuranceEditComponent implements OnInit {
       'supplier': new FormControl(this.selectedInsurance.supplier != null ?
         this.selectedInsurance.supplier.code : null, Validators.required),
       'vehiclecode': new FormControl(
-         this.selectedInsurance.patrimony.patrimony_type='vehicule'?
-         this.selectedInsurance.patrimony.registrationNumber :
-         this.selectedInsurance.patrimony.code
-       , Validators.required),
+
+         this.selectedInsurance.patrimony.registrationNumber ? this.selectedInsurance.patrimony.registrationNumber
+         : this.selectedInsurance.patrimony.code
+       ),
       'typeinsurance':new FormControl(this.selectedInsurance.insuranceType.code),
       'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm != null ?
         this.selectedInsurance.insuranceTerm.code : null, Validators.required)

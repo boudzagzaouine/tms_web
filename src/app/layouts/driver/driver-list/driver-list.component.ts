@@ -52,6 +52,12 @@ export class DriverListComponent implements OnInit {
       { field: 'code', header: 'Code' },
       { field: 'cin', header: 'Cin' },
       { field: 'birthDate', header: 'Date Naissance' },
+
+      { field: 'carte', header: "Carte d'abonnement" },
+      { field: 'name', header: 'Nom' },
+      { field: 'tele1', header: 'Téléphone' },
+      { field: 'fax', header: 'Fax' },
+      { field: 'email', header: 'Email' },
     ];
 
     this.loadData();

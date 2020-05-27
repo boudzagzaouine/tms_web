@@ -1,20 +1,19 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body  border-top-primary">
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+
     <div class="row">
       <div class="col-md-3">
-        <label class="font-weight-bold"> Cin</label><br />
+        <label class="font-weight-bold"> {{"Cin" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="cinSearch" />
       </div>
 
       <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br />
+        <label class="font-weight-bold ">{{"Code" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="codeSearch" />
       </div>
 
       <div class="col-md-3 ">
-        <label class="font-weight-bold ">Badge</label><br />
+        <label class="font-weight-bold ">{{"Badge" | translate}}</label><br />
         <p-dropdown
           [options]="badgesTypeList"
           optionLabel="code"
@@ -29,15 +28,16 @@
 
     <div class="text-center">
       <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-        Renitialiser
-      </button>
+        <i class="fa fa-refresh mr-2"></i>
+        {{ "Réinitialiser" | translate }}      </button>
 
       <button type="button" class="btn btn-success" (click)="onSeachDriverBadge()">
-        Rechercher
-      </button>
+        <i class="fa fa-search mr-2"></i>
+
+        {{ "Rechercher" | translate }}      </button>
     </div>
-  </div>
-</div>
+
+</p-panel>
 
 
 
@@ -49,7 +49,9 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Véhicule'"
+  [listName]="'Liste des chauffeurs'"
+  [viewBtnVisible]="'false'"
+  [addBtnVisible]="'false'"
 ></app-data-table>
 
 <p-confirmDialog

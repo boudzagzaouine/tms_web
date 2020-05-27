@@ -96,6 +96,7 @@ export class VehicleListComponent implements OnInit {
       data => {
         console.log(data);
         this.vehicleList = data;
+        
         this.spinner.hide();
       },
       error => {

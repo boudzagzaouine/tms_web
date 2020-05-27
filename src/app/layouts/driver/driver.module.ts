@@ -1,3 +1,4 @@
+import { PanelModule } from 'primeng/panel';
 import { TabViewModule } from 'primeng/tabview';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'primeng/contextmenu';
@@ -46,6 +47,7 @@ import { DriverCommissionEditComponent } from './driver-edit/driver-commission-e
      ContextMenuModule,
      NgbModalModule,
      TabViewModule,
+     PanelModule
 
 
   ]

@@ -85,7 +85,7 @@ formControlName="DateFin"
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>Liste Des badges </span>
+    <span>{{'Liste Des badges' | translate}}</span>
 
   </div>
   <div class="card-body  border-top-primary">
@@ -98,11 +98,11 @@ formControlName="DateFin"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>Type Badge</th>
-          <th>Badge Number</th>
-          <th>Date Délivrance</th>
-          <th>Date Date de Fin De Validité</th>
-          <th style="width:10%">Action</th>
+          <th>{{ 'Type badge ' | translate}}</th>
+          <th>{{ 'Badge number ' | translate}}</th>
+          <th>{{ 'Date délivrance ' | translate}}</th>
+          <th>{{ 'Date date de fin De validité ' | translate}}</th>
+          <th style="width:10%">{{ 'Action ' | translate}}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-badgeL>

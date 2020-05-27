@@ -1,4 +1,4 @@
-import { ConfirmationService } from 'primeng/api';
+ import { ConfirmationService } from 'primeng/api';
 import { BadgeTypeDriverService } from './../../../../shared/services/api/badge-type-driver.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,7 +24,7 @@ export class BadgeDriverEditComponent implements OnInit {
   closeResult: String;
   badgeTypeDriverForm: FormGroup;
   badgeTypeList: BadgeType[] = [];
-  badgeTypeDriverList: BadgeTypeDriver[] = [];
+ @Input() badgeTypeDriverList: BadgeTypeDriver[] = [];
   @Output()badgeTypedriverListEdit = new EventEmitter<BadgeTypeDriver[]>();
   fr: any;
   @Input() idDriver:number;
@@ -54,20 +54,14 @@ export class BadgeDriverEditComponent implements OnInit {
     };
 
     this.loadBadgetype();
-    this.badgeTypeDriverService.find('driver.id:' + this.idDriver).subscribe(
+   /* this.badgeTypeDriverService.find('driver.id:' + this.idDriver).subscribe(
       data => {
         this.badgeTypeDriverList = data;
         console.log(this.idDriver);
 
         console.log(this.badgeTypeDriverList);
-
       }
-    );
-
-
-
-
-
+    );*/
 
   }
 

@@ -107,7 +107,7 @@
 
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{
-            "Carte" | translate
+            "Carte d'abonnement" | translate
           }}</label
           ><br />
           <input
@@ -160,7 +160,7 @@
 
     <p-tabPanel header="Badges"  >
       <ng-template pTemplate="content">
-        <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [idDriver]='idDriver'></app-badge-driver-edit>
+        <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [badgeTypeDriverList]="this.selectedDriver.badgeTypeDrivers" [idDriver]='idDriver'></app-badge-driver-edit>
 
         <div class="text-center">
           <a

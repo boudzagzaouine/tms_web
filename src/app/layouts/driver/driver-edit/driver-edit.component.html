@@ -1,12 +1,12 @@
 <br />
 <div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">
-    Inserer Chauffeur
+  <div class="card-header">
+    <span class="h4">{{ editModeTitle | translate }}</span>
   </div>
   <div class="card-body border-top-primary">
     <form [formGroup]="driverForm">
        <p-tabView [activeIndex]="index"  >
-        <p-tabPanel header="General"  >
+        <p-tabPanel header="General"   headerStyleClass="m-a-p">
       <div class="row justify-content-around">
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{ "Cin" | translate }}*</label>
@@ -158,7 +158,7 @@
 
     </p-tabPanel>
 
-    <p-tabPanel header="Badges"  >
+    <p-tabPanel header="Badges" headerStyleClass="m-a-p" >
       <ng-template pTemplate="content">
         <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [badgeTypeDriverList]="this.selectedDriver.badgeTypeDrivers" [idDriver]='idDriver'></app-badge-driver-edit>
 

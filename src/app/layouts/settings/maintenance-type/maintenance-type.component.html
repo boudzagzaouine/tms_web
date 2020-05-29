@@ -4,7 +4,12 @@
     <div class="col-md-3">
       <label class="font-weight-bold">{{ "Code" | translate }}</label
       ><br />
-      <input type="text" pInputText [(ngModel)]="codeSearch" />
+      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
+      (completeMethod)="onCodeSearch($event)"></p-autoComplete>    </div>
+
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
+      <input type="text" pInputText [(ngModel)]="descriptionSearch" />
     </div>
   </div>
   <br />
@@ -26,7 +31,7 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Liste des Types de Maintenance'"
+  [listName]="'Liste des types de maintenance'"
   [viewBtnVisible]="'false'"
 
 ></app-data-table>

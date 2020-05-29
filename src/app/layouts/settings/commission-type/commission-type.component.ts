@@ -17,6 +17,8 @@ export class CommissionTypeComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch = '';
+  codeList: Array<CommissionType> = [];
   cols: any[];
   commissionTypeList: Array<CommissionType> = [];
   selectedCommissions: Array<CommissionType> = [];
@@ -75,12 +77,19 @@ export class CommissionTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
-  /// end search
+  onCodeSearch(event: any) {
+    this.commissionTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   reset() {
     this.codeSearch = null;
     this.page = 0;

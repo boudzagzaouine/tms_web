@@ -8,6 +8,6 @@ import { TransportCategoryVehicle } from '../../models/transport-category-vehicl
 export class TransportCategoryVehicleService extends EmsService<TransportCategoryVehicle> {
 
     constructor(proxy: ProxyService) {
-      super(proxy, 'TransportCategoieVehicles');
+      super(proxy, 'transportcategoievehicles');
     }
 }

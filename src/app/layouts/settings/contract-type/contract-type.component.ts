@@ -1,8 +1,8 @@
+import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ContractTypeService } from '../../../shared/services';
 import { EmsBuffer } from '../../../shared/utils';
 import { ContractType } from '../../../shared/models';
 
@@ -17,7 +17,9 @@ export class ContractTypeComponent implements OnInit {
   size = 5;
   collectionSize: number;
   searchQuery = '';
+  descriptionSearch: string;
   codeSearch: string;
+  codeList: Array<ContractType> = [];
   cols: any[];
   contratTypeList: Array<ContractType> = [];
   selectedContratTypes: Array<ContractType> = [];
@@ -76,15 +78,24 @@ export class ContractTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
+  onCodeSearch(event: any) {
+    this.contractTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
   }
 

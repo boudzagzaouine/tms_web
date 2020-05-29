@@ -19,6 +19,8 @@ export class InsuranceTypeComponent implements OnInit {
   size = 10;
   searchQuery: string;
   codeSearch: string;
+  descriptionSearch: string;
+  codeList: Array<InsuranceType> = [];
   collectionSize: number;
   selectedInsuranceTypes: Array<InsuranceType> = [];
   insuranceTypeList: Array<InsuranceType> = [];
@@ -70,10 +72,18 @@ export class InsuranceTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
+  }
+  onCodeSearch(event: any) {
+    this.insuranceTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
   }
 
   reset() {

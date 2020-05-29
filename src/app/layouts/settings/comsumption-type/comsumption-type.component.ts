@@ -21,6 +21,8 @@ export class ComsumptionTypeComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch: string;
+  codeList: Array<ConsumptionType> = [];
   cols: any[];
   consumptionTypeList: Array<ConsumptionType> = [];
   selectedonsumptionTypes: Array<ConsumptionType> = [];
@@ -78,16 +80,23 @@ export class ComsumptionTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
-  /// end search
-  reset() {
+  onCodeSearch(event: any) {
+    this.consumptionTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }  reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
   }
 

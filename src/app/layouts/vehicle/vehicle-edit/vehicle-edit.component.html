@@ -13,11 +13,11 @@
 
           <div class="row  mt-3 justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Code' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Code' | translate}} *</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fCode').touched && vehicleForm.controls['general'].get('fCode').invalid) ||
                 (isFormSubmitted && vehicleForm.controls['general'].get('fCode').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
-                Obligatoire
+                {{'Obligatoire' |translate }}
               </span>
               <br />
               <input type="text" class="form-control" pInputText formControlName="fCode"
@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Immatriculation'| translate}}*</label>
+              <label class="font-weight-bold ">{{'Immatriculation'| translate}} *</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fRegistrationNumber').touched && vehicleForm.controls['general'].get('fRegistrationNumber').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fRegistrationNumber').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Catégorie véhicule ' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Catégorie de véhicule ' | translate}} *</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fVehicleCategory').touched && vehicleForm.controls['general'].get('fVehicleCategory').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fVehicleCategory').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -50,7 +50,7 @@
 
           <div class="row justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type badge' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Type de badge' | translate}} *</label>
               <span *ngIf="(vehicleForm.controls['general'].get('fBadgeType').touched && vehicleForm.controls['general'].get('fBadgeType').invalid) ||
               (isFormSubmitted && vehicleForm.controls['general'].get('fBadgeType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -88,7 +88,7 @@
           </div>
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Date de paiement de la vignette'| translate}}</label>
+              <label class="font-weight-bold ">{{'Date de paiement de vignette'| translate}}</label>
               <br />
               <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
                 formControlName="fVignette" yearRange="1970:2100"></p-calendar>
@@ -146,7 +146,7 @@
               <input type="text" class="form-control" pInputText formControlName="fBody" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type consommation'| translate}}</label>
+              <label class="font-weight-bold ">{{'Type consommation'| translate}} *</label>
               <span *ngIf="(vehicleForm.controls['caracteristic'].get('fConsumptionType').touched && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid) ||
               (isFormSubmitted && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -195,7 +195,7 @@
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fAreaFilter" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Boite a Vitesse '| translate}} (KM)</label>
+              <label class="font-weight-bold ">{{'Boite à Vitesse '| translate}} (KM)</label>
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fGearBox" />
             </div>
@@ -360,7 +360,7 @@
           <div class="row  mt-3 justify-content-around">
 
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type de contrat' | translate}}*</label>
+              <label class="font-weight-bold ">{{'Type de contrat' | translate}} *</label>
              <span *ngIf="(vehicleForm.controls['contract'].get('fContractType').touched && vehicleForm.controls['contract'].get('fContractType').invalid) ||
                (isFormSubmitted && vehicleForm.controls['contract'].get('fContractType').invalid)" class="text-lighter"
                style="color: red; font-size: xx-small;">

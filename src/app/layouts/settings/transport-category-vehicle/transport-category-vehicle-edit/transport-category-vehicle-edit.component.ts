@@ -28,7 +28,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Catégorie de  Véhicule';
+  title = 'Modifier une catégorie de véhicule';
 
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
@@ -56,7 +56,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectTransportCatVehicle = new TransportCategoryVehicle();
-      this.title = 'Ajouter Catégorie de  Véhicule';
+      this.title = 'Ajouter une catégorie de véhicule';
 
     }
 

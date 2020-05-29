@@ -20,6 +20,9 @@ export class VehicleCategorieComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch: string;
+  codeList: Array<VehicleCategory> = [];
+
   cols: any[];
   vehicleCategorieList: Array<VehicleCategory> = [];
   selectedVehicleCategories: Array<VehicleCategory> = [];
@@ -38,6 +41,7 @@ export class VehicleCategorieComponent implements OnInit {
     this.className = VehicleCategory.name;
     this.cols = [
       { field: 'code', header: 'Code' },
+      { field: 'description', header: 'Description' },
       { field: 'length', header: 'Longueur' },
       { field: 'width', header: 'Largeur' },
       { field: 'depth', header: 'Profondeur' },
@@ -83,16 +87,24 @@ export class VehicleCategorieComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
-  /// end search
+  onCodeSearch(event: any) {
+    this.vehicleCategorieService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
   }
 

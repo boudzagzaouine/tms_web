@@ -27,6 +27,7 @@ showEffect="fade"
               class="form-control"
               pInputText
               formControlName="code"
+              (keydown.space)="$event.preventDefault()"
 
 
             />

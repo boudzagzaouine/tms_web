@@ -22,7 +22,7 @@ export class CommissionTypeEditComponent implements OnInit {
   commissionTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Type De Commission';
+  title = 'Modifier un type de commission';
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -31,7 +31,7 @@ export class CommissionTypeEditComponent implements OnInit {
   ngOnInit() {
     if (this.editMode === 1) {
       this.selectedCommissionType = new CommissionType();
-      this.title = 'Ajouter Type De Commission';
+      this.title = 'Ajouter un type de commission';
 
     }
 

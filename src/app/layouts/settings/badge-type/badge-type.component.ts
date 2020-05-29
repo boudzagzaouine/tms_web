@@ -1,10 +1,10 @@
+import { BadgeType } from './../../../shared/models/badge-Type';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
 import { BadgeTypeService } from '../../../shared/services';
-import { BadgeType } from '../../../shared/models';
 
 @Component({
   selector: 'app-badge-type',
@@ -19,6 +19,8 @@ export class BadgeTypeComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch = '';
+  codeList: Array<BadgeType> = [];
   cols: any[];
   badgeTypeList: Array<BadgeType> = [];
   selectedBadgeTypes: Array<BadgeType> = [];
@@ -77,12 +79,19 @@ export class BadgeTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
-  /// end search
+  onCodeSearch(event: any) {
+    this.badgeTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   reset() {
     this.codeSearch = null;
     this.page = 0;

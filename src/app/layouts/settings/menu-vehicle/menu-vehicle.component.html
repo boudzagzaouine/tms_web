@@ -1,22 +1,18 @@
 <p-tabView>
-
-  <p-tabPanel header="{{ 'Catégorie de Véhicule ' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel header="{{ 'Catégorie de véhicule' | translate }}" headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
-                 <app-vehicle-categorie></app-vehicle-categorie>
+         <app-vehicle-categorie></app-vehicle-categorie>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel header="{{ 'Type de Contrat' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel header="{{ 'Type de contrat' | translate }}" headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
         <app-contract-type></app-contract-type>
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel header="{{ 'Type de Consommation ' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel header="{{ 'Type de consommation ' | translate }}" headerStyleClass="onglet-p-3">
     <ng-template pTemplate="content">
       <app-comsumption-type></app-comsumption-type>
     </ng-template>
 </p-tabPanel>
-
-
-
 </p-tabView>

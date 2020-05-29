@@ -21,6 +21,8 @@ export class MaintenanceTypeComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch: string;
+  codeList: Array<MaintenanceType> = [];
   cols: any[];
   maintenanceTypeList: Array<MaintenanceType> = [];
   selectedMaintenanceTypes: Array<MaintenanceType> = [];
@@ -79,6 +81,9 @@ export class MaintenanceTypeComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -89,9 +94,14 @@ export class MaintenanceTypeComponent implements OnInit {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
   }
-
+  onCodeSearch(event: any) {
+    this.maintenanceTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;

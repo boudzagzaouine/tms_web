@@ -146,7 +146,7 @@
               <input type="text" class="form-control" pInputText formControlName="fBody" />
             </div>
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type consommation'| translate}} *</label>
+              <label class="font-weight-bold ">{{'Type de consommation'| translate}} *</label>
               <span *ngIf="(vehicleForm.controls['caracteristic'].get('fConsumptionType').touched && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid) ||
               (isFormSubmitted && vehicleForm.controls['caracteristic'].get('fConsumptionType').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -311,13 +311,16 @@
 
           <div class="card mt-2">
             <div class="card-header " style=" background-color:#f7f7f7;">
-              <span>{{ "Liste des lignes terme d'assurance" | translate }}</span>
-              <span class="pull-right">
+              <div class="row">
+
+              <div class="col-xs-4 col-md-4 pull-left">
                 <app-vehicule-edit-line [editMode]="false" (insuranceTermLineAdded)="onLineEdited($event)"></app-vehicule-edit-line>
-              </span>
-              <span class="pull-right">
-              </span>
-            </div>
+              </div>
+              <div class=" col-xs-4 col-md-6 pull-center">{{ "Liste des termes assurance" | translate }}</div>
+
+
+           </div>
+          </div>
             <div class="card-body mt-2 border-top-primary">
 
 <!-- selectedInsurance?.insuranceTermLignes -->

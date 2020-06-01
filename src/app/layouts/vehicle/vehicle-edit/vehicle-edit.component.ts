@@ -104,7 +104,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
       this.editModee = true;
-      this.editModeTitle = 'Modifier véhicule';
+      this.editModeTitle = 'Modifier un véhicule';
       this.subscriptions.add(this.activatedRoute.params.subscribe(params => {
         id = params['id'];
         this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {

@@ -29,7 +29,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                  {{"Obligatoire" | translate}}
                 </span>
                 <br />
                 <input
@@ -58,8 +58,8 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
-                </span>
+                {{"Obligatoire" | translate}}
+                              </span>
                 <p-dropdown
                   [autoDisplayFirst]="false"
                   [options]="consumptionTypeList"
@@ -113,7 +113,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <br />
                 <input
@@ -140,7 +140,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire </span
+                {{"Obligatoire" | translate}} </span
                 ><br />
                 <p-dropdown
                   [autoDisplayFirst]="false"
@@ -171,7 +171,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <p-dropdown
                   [autoDisplayFirst]="false"
@@ -201,7 +201,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <br />
                 <p-calendar
@@ -230,7 +230,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <br />
                 <p-calendar
@@ -260,7 +260,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <input
                   type="text"
@@ -273,16 +273,19 @@
 
             <div class="card mt-2">
               <div class="card-header" style="background-color: #f7f7f7;">
-                <span>{{
-                  "Liste des lignes terme d'assurance" | translate
-                }}</span>
-                <span class="pull-right">
+                <div class="row">
+  <div class="col-xs-4 col-md-4 pull-left">
                   <app-machine-insurance-edit
                     [editMode]="false"
                     (insuranceTermLineAdded)="onLineEdited($event)"
                   ></app-machine-insurance-edit>
-                </span>
-                <span class="pull-right"> </span>
+                </div>
+                <div classe="col-xs-4 col-md-6 pull-center">{{
+                  "Liste des termes assurance" | translate
+                }}</div>
+
+                </div>
+
               </div>
               <div class="card-body mt-2 border-top-primary">
                 <!-- selectedInsurance?.insuranceTermLignes -->
@@ -355,7 +358,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire </span
+                {{"Obligatoire" | translate}} </span
                 ><br />
                 <p-dropdown
                   [autoDisplayFirst]="false"
@@ -384,7 +387,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <br />
                 <p-calendar
@@ -411,7 +414,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <input
                   type="text"
@@ -441,7 +444,7 @@
                   class="text-lighter"
                   style="color: red; font-size: xx-small;"
                 >
-                  Obligatoire
+                {{"Obligatoire" | translate}}
                 </span>
                 <p-dropdown
                   [autoDisplayFirst]="false"

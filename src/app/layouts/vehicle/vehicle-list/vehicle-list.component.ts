@@ -1,3 +1,7 @@
+import { TransportServcie } from './../../../shared/services/api/transport.service';
+import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
+import { ContractType } from './../../../shared/models/contract-type';
+import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { BadgeType } from './../../../shared/models/badge-Type';
 import { Router } from '@angular/router';
@@ -26,16 +30,17 @@ export class VehicleListComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   matSearch: string;
-  categorySearch: string;
-  badgeTypeSearch: string;
-  transportSearch: string;
-  contratTypeSearch: string;
+  categorySearch: VehicleCategory;
+  badgeTypeSearch: BadgeType;
+  transportSearch: Transport;
+  contratTypeSearch: ContractType;
   selectedVehicles: Array<Vehicle> = [];
   vehicleList: Array<Vehicle> = [];
+  vehicleCodeList: Array<Vehicle> = [];
   vehicleCategoryList: Array<VehicleCategory> = [];
   badgeTypeList: Array<BadgeType> = [];
   transportList: Array<Transport> = [];
-  contratTypeList: Array<Transport> = [];
+  contratTypeList: Array<ContractType> = [];
   className: String;
   cols: any[];
   editMode: number;
@@ -44,6 +49,8 @@ export class VehicleListComponent implements OnInit {
   constructor(private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private badgeTypeService: BadgeTypeService,
+    private contratTypeService:ContractTypeService,
+    private transportService:TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -82,6 +89,29 @@ export class VehicleListComponent implements OnInit {
 
 
     ];
+    this.vehicleCategoryService.findAll().subscribe(
+      data => {
+        this.vehicleCategoryList = data;
+      }
+    );
+
+    this.badgeTypeService.findAll().subscribe(
+      data => {
+        this.badgeTypeList = data;
+      }
+    );
+
+    this.contratTypeService.findAll().subscribe(
+      data => {
+        this.contratTypeList = data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+        this.transportList = data;
+      }
+    );
   }
 
 
@@ -96,7 +126,7 @@ export class VehicleListComponent implements OnInit {
       data => {
         console.log(data);
         this.vehicleList = data;
-        
+
         this.spinner.hide();
       },
       error => {
@@ -121,19 +151,19 @@ export class VehicleListComponent implements OnInit {
       buffer.append(`registrationNumber~${this.matSearch}`);
     }
 
-    if (this.categorySearch != null && this.categorySearch !== '') {
-      buffer.append(`vehicleCategory.code~${this.categorySearch}`);
+    if (this.categorySearch != null && this.categorySearch.code !== '') {
+      buffer.append(`vehicleCategory.code~${this.categorySearch.code}`);
     }
 
-    if (this.badgeTypeSearch != null && this.badgeTypeSearch !== '') {
-      buffer.append(`badgeType.code~${this.badgeTypeSearch}`);
+    if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
+      buffer.append(`badgeType.code~${this.badgeTypeSearch.code}`);
     }
-    if (this.transportSearch != null && this.transportSearch !== '') {
-      buffer.append(`transport.code~${this.transportSearch}`);
+    if (this.transportSearch != null && this.transportSearch.code !== '') {
+      buffer.append(`transport.code~${this.transportSearch.code}`);
     }
 
-    if (this.contratTypeSearch != null && this.contratTypeSearch !== '') {
-      buffer.append(`contratType.code~${this.contratTypeSearch}`);
+    if (this.contratTypeSearch != null && this.contratTypeSearch.code !== '') {
+      buffer.append(`contratType.code~${this.contratTypeSearch.code}`);
     }
 
 
@@ -158,34 +188,20 @@ export class VehicleListComponent implements OnInit {
 
   }
 
-  onVehicleCategorySearch(event: any) {
-    this.vehicleCategoryService.find('code~' + event.query).subscribe(
-      data => this.vehicleCategoryList = data.map(f => f.code)
+  onVehicleCodeSearch(event: any) {
+    this.vehicleService.find('code~' + event.query).subscribe(
+      data => this.vehicleCodeList = data.map(f => f.code)
     );
   }
 
-  onBadgeTypeSearch(event: any) {
-    this.badgeTypeService.find('code~' + event.query).subscribe(
-      data => this.badgeTypeList = data.map(f => f.code)
-    );
-  }
-
-  onContratTypeSearch(event: any) {
-    this.badgeTypeService.find('code~' + event.query).subscribe(
-      data => this.contratTypeList = data.map(f => f.code)
-    );
-  }
-  onTransportSearch(event: any) {
-    this.badgeTypeService.find('code~' + event.query).subscribe(
-      data => this.transportList = data.map(f => f.code)
-    );
-  }
 
   reset() {
     this.codeSearch = null;
     this.matSearch = null;
     this.categorySearch = null;
     this.badgeTypeSearch = null;
+    this.transportSearch = null;
+    this.contratTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

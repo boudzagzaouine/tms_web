@@ -41,7 +41,7 @@ export class DriverEditComponent implements OnInit {
   valid = false;
   collectionSize: number;
 
-  editModeTitle='Inserer Chaufeur';
+  editModeTitle = 'Ajouter un Chaufeur';
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private spinner: NgxSpinnerService,
@@ -78,7 +78,7 @@ export class DriverEditComponent implements OnInit {
       this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
-         this.editModeTitle='Modifier Chaufeur';
+          this.editModeTitle = 'Modifier un chaufeur';
           console.log(this.selectedDriver);
 
           this.initForm();

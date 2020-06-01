@@ -5,22 +5,22 @@
       <div class="row  justify-content-around">
 
         <div class="form-group col-md-6 ">
-          <label class="font-weight-bold ">{{'Type Badge '| translate}} *</label>
+          <label class="font-weight-bold ">{{'Type de Badge '| translate}} *</label>
           <span *ngIf="(badgeTypeDriverForm.get('fBadgeType').touched && badgeTypeDriverForm.get('fBadgeType').invalid) ||
           (isFormSubmitted && badgeTypeDriverForm.get('fBadgeType').invalid)" class="text-lighter"
             style="color: red; font-size: xx-small;">
-            obligatoire
+            {{"Obligatoire" | translate}}
           </span>
           <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="code" [filter]="true"
             (onChange)="onSelectBadgeType($event)" formControlName="fBadgeType"></p-dropdown>
         </div>
 
         <div class="form-group col-md-6">
-          <label class="font-weight-bold ">{{'Numero Badge' | translate}} *</label>
+          <label class="font-weight-bold ">{{'Numéro de Badge' | translate}} *</label>
           <span *ngIf="(badgeTypeDriverForm.get('fNumBadge').touched && badgeTypeDriverForm.get('fNumBadge').invalid) ||
           (isFormSubmitted && badgeTypeDriverForm.get('fNumBadge').invalid)" class="text-lighter"
             style="color: red; font-size: xx-small;">
-             obligatoire
+            {{"Obligatoire" | translate}}
           </span>
 
           <input type="text" class="form-control" pInputText
@@ -33,11 +33,11 @@
         <div class="form-group col-md-6">
           <label class="font-weight-bold ">{{
             "Date de délivrance" | translate
-          }}*</label>
+          }} *</label>
           <span *ngIf="(badgeTypeDriverForm.get('fDateDelivrance').touched && badgeTypeDriverForm.get('fDateDelivrance').invalid) ||
           (isFormSubmitted && badgeTypeDriverForm.get('fDateDelivrance').invalid)" class="text-lighter"
             style="color: red; font-size: xx-small;">
-           obligatoire
+            {{"Obligatoire" | translate}}
           </span>
 
           <p-calendar
@@ -53,7 +53,7 @@
         <div class="form-group col-md-6">
           <label class="font-weight-bold ">{{
             "Date de Fin de Validité" | translate
-          }}*</label>
+          }} *</label>
           <span *ngIf="(badgeTypeDriverForm.get('DateFin').touched && badgeTypeDriverForm.get('DateFin').invalid) ||
           (isFormSubmitted && badgeTypeDriverForm.get('DateFin').invalid)" class="text-lighter"
             style="color: red; font-size: xx-small;">
@@ -85,7 +85,7 @@ formControlName="DateFin"
 
 <div class="card mt-3">
   <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>{{'Liste Des badges' | translate}}</span>
+    <div class="text-center" ><p style="font-size: 16px; color: #5f5b5b;">{{'Liste des badges' | translate}}</p></div>
 
   </div>
   <div class="card-body  border-top-primary">
@@ -99,9 +99,9 @@ formControlName="DateFin"
       <ng-template pTemplate="header">
         <tr>
           <th>{{ 'Type badge ' | translate}}</th>
-          <th>{{ 'Badge number ' | translate}}</th>
-          <th>{{ 'Date délivrance ' | translate}}</th>
-          <th>{{ 'Date date de fin De validité ' | translate}}</th>
+          <th>{{ 'Numero de badge' | translate}}</th>
+          <th>{{ 'Date de délivrance ' | translate}}</th>
+          <th>{{ 'Date de fin De validité ' | translate}}</th>
           <th style="width:10%">{{ 'Action ' | translate}}</th>
         </tr>
       </ng-template>

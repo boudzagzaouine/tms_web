@@ -33,7 +33,7 @@ showEffect="fade"
             <input type="text" class="form-control" disabled="true" pInputText formControlName="vehiclecode" >
           </div>
           <div class="form-group col-sm-3 ">
-            <label class="font-weight-bold ">{{"Type d'assurance"| translate}} </label>
+            <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
             <input type="text" class="form-control" disabled="true" pInputText formControlName="typeinsurance" >
           </div>
         </div>
@@ -59,7 +59,8 @@ showEffect="fade"
 
         <div class="card mt-2">
           <div class="card-header " style=" background-color:#f7f7f7;">
-            <span>{{ "Liste des lignes terme d'assurance" | translate }}</span>
+            <div class="text-center" ><p style="font-size: 16px; color: #5f5b5b;">{{'Liste des termes assurance' | translate}}</p></div>
+
             <span class="pull-right">
             </span>
             <span class="pull-right">
@@ -72,7 +73,7 @@ showEffect="fade"
                           [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length"  [scrollable]="true" scrollHeight="150px">
                           <ng-template pTemplate="header">
                             <tr>
-                              <th>{{"Terme d'assurance" | translate}}</th>
+                              <th>{{"Terme assurance" | translate}}</th>
                               <th>{{"Montant" |translate }} </th>
                             </tr>
                           </ng-template>

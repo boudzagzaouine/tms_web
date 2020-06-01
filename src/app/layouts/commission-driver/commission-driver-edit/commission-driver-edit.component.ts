@@ -20,8 +20,8 @@ export class CommissionDriverEditComponent implements OnInit {
 
 
   @Input() selectedCommissionDriver = new CommissionDriver();
-  @Input() editMode: boolean;
-  @Output() commissionDriverAdded = new EventEmitter<CommissionDriver>();
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
 
   closeResult: String;
   commissionDriverForm: FormGroup;
@@ -31,8 +31,10 @@ export class CommissionDriverEditComponent implements OnInit {
   commissionTypeList: CommissionType[] = [];
   DriverList: Driver[] = [];
   fr:any;
-  modal: NgbModalRef;
+
   isFormSubmitted = false;
+  displayDialog: boolean;
+  title = 'Modifier Commission chauffeur';
 
   constructor(
     private commisionDriverService: CommissionDriverService,
@@ -43,6 +45,15 @@ export class CommissionDriverEditComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    console.log(this.editMode);
+
+    if (this.editMode === 1) {
+      this.selectedCommissionDriver = new CommissionDriver();
+      this.title = 'Ajouter Commission chauffeur';
+
+    }
+
+    this.displayDialog = true;
     this.initForm();
  this.loadCommissionType();
  this.loadDriver();
@@ -81,9 +92,9 @@ export class CommissionDriverEditComponent implements OnInit {
     const s = this.commisionDriverService.set(this.selectedCommissionDriver).subscribe(
       data => {
 
-        this.commissionDriverAdded.emit(this.selectedCommissionDriver);
-        this.toastr.success('Elément Enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        // this.loadData();
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -97,18 +108,6 @@ export class CommissionDriverEditComponent implements OnInit {
     );
   }
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectedCommissionDriver = new CommissionDriver();
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
   loadCommissionType() {
 
@@ -139,14 +138,9 @@ export class CommissionDriverEditComponent implements OnInit {
 
     this.selectedCommissionDriver.driver = event.value;
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
 

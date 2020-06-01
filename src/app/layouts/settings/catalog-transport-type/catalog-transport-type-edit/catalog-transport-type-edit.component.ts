@@ -1,3 +1,4 @@
+import { Transport } from './../../../../shared/models/transport';
 import { RoundPipe } from 'ngx-pipes';
 import { VatServcie } from './../../../../shared/services/api/vat.service';
 import { Vat } from './../../../../shared/models/vat';

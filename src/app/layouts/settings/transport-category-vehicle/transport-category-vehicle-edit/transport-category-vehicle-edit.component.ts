@@ -7,6 +7,7 @@ import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TransportCategoryVehicle } from './../../../../shared/models/transport-category-vehicle';
+import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 

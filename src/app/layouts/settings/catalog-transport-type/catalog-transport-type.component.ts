@@ -1,3 +1,6 @@
+import { Zone } from './../../../shared/models/Zone';
+import { Transport } from './../../../shared/models/transport';
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { ZoneServcie } from './../../../shared/services/api/zone.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -20,14 +23,19 @@ export class CatalogTransportTypeComponent implements OnInit {
   size = 10;
   collectionSize: number;
 
-  selectCatalogTransportTypes:Array<CatalogTransportType>=[];
+  selectCatalogTransportTypes: Array<CatalogTransportType> = [];
   searchQuery = '';
   codeSearch: string;
-  vehicleCategorySearch: string;
- transportSearch: string;
+  vehicleCategorySearch: VehicleCategory;
+  transportSearch: Transport;
   transportCatVehicleList: Array<CatalogTransportType> = [];
-  categorieVehicleList: Array<string> = [];
-  transportList: Array<string> = [];
+  categorieVehicleList: Array<VehicleCategory> = [];
+  transportList: Array<Transport> = [];
+
+  zoneSourceSearch: Zone;
+  zoneDestinationSearch: Zone;
+  zoneSourceList: Array<Zone> = [];
+
   cols: any[];
   showDialog: boolean;
   editMode: number;
@@ -35,8 +43,8 @@ export class CatalogTransportTypeComponent implements OnInit {
 
   constructor(private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
-    private zoneService : ZoneServcie,
-    private transportService:TransportServcie,
+    private zoneService: ZoneServcie,
+    private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
@@ -45,7 +53,7 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.className = CatalogTransportType.name;
     this.cols = [
       { field: 'transport', header: 'Transport' },
-      { field: 'vehicleCategory', header: 'Catégorie Véhicle' },
+      { field: 'vehicleCategory', header: 'Catégorie de Véhicle' },
       { field: 'zoneSource', header: 'Zone Source' },
       { field: 'zoneDestination', header: 'Zone Destination' },
       { field: 'amountHt', header: 'Montant Ht' },
@@ -55,6 +63,26 @@ export class CatalogTransportTypeComponent implements OnInit {
     ];
 
     this.loadData();
+
+    this.vehicleCategoryService.findAll().subscribe(
+      data => {
+        this.categorieVehicleList = data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+        this.transportList = data;
+      }
+    );
+
+    this.zoneService.findAll().subscribe(
+      data => {
+        this.zoneSourceList = data;
+
+      }
+    );
+
   }
 
 
@@ -94,13 +122,18 @@ export class CatalogTransportTypeComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
 
-    if (this.vehicleCategorySearch != null && this.vehicleCategorySearch !== '') {
-      buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch}`);
+    if (this.vehicleCategorySearch != null && this.vehicleCategorySearch.code !== '') {
+      buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch.code}`);
     }
-    if (this.transportSearch != null && this.transportSearch !== '') {
-      buffer.append(`transport.code~${this.transportSearch}`);
+    if (this.transportSearch != null && this.transportSearch.code !== '') {
+      buffer.append(`transport.code~${this.transportSearch.code}`);
     }
-
+    if (this.zoneSourceSearch != null && this.zoneSourceSearch.name !== '') {
+      buffer.append(`zoneSource.name~${this.zoneSourceSearch.name}`);
+    }
+    if (this.zoneDestinationSearch != null && this.zoneDestinationSearch.name !== '') {
+      buffer.append(`zoneDestination.name~${this.zoneDestinationSearch.name}`);
+    }
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -122,6 +155,8 @@ export class CatalogTransportTypeComponent implements OnInit {
   reset() {
     this.transportSearch = null;
     this.vehicleCategorySearch = null;
+    this.zoneSourceSearch = null;
+    this.zoneDestinationSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

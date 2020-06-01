@@ -1,3 +1,7 @@
+import { Transport } from './../../../shared/models/transport';
+import { ContractType } from './../../../shared/models/contract-type';
+import { TransportServcie } from './../../../shared/services/api/transport.service';
+import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +23,10 @@ export class MachineListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  transportSearch: Transport;
+  contratTypeSearch: ContractType;
+  transportList: Array<Transport> = [];
+  contratTypeList: Array<ContractType> = [];
   selectedMachines: Array<Machine> = [];
   maachineList: Array<Machine> = [];
   className: String;
@@ -27,6 +35,8 @@ export class MachineListComponent implements OnInit {
   showDialog: boolean;
 
   constructor(private machineService: MachineService,
+    private contratTypeService: ContractTypeService,
+    private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -46,6 +56,18 @@ export class MachineListComponent implements OnInit {
 
 
     ];
+
+    this.contratTypeService.findAll().subscribe(
+      data => {
+        this.contratTypeList = data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+        this.transportList = data;
+      }
+    );
   }
 
 
@@ -80,6 +102,13 @@ export class MachineListComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
 
+    if (this.transportSearch != null && this.transportSearch.code !== '') {
+      buffer.append(`transport.code~${this.transportSearch.code}`);
+    }
+
+    if (this.contratTypeSearch != null && this.contratTypeSearch.code !== '') {
+      buffer.append(`contratType.code~${this.contratTypeSearch.code}`);
+    }
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -104,6 +133,8 @@ export class MachineListComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
+    this.transportSearch = null;
+    this.contratTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

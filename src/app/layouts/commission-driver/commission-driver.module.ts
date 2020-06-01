@@ -1,3 +1,5 @@
+import { DialogModule } from 'primeng/dialog';
+import { PanelModule } from 'primeng/panel';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { KeyFilterModule } from 'primeng/keyfilter';
@@ -38,7 +40,9 @@ import { CommissionDriverListComponent } from './commission-driver-list/commissi
     ConfirmDialogModule,
      KeyFilterModule,
      ContextMenuModule,
-     NgbModalModule
+     NgbModalModule,
+     PanelModule,
+     DialogModule
   ],
 
 })

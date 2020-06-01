@@ -27,12 +27,16 @@ import { BadgeComponent } from './badge/badge.component';
 import { SettingsComponent } from './settings.component';
 import { MaintenanceStatusComponent } from './maintenance-status/maintenance-status.component';
 import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.component';
+import { MaintenanceActionComponent } from './maintenance-action/maintenance-action.component';
+import { MaintenanceLineRefComponent } from './maintenance-line-ref/maintenance-line-ref.component';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { MaintenanceTypeEditComponent } from './maintenance-type/maintenance-type-edit/maintenance-type-edit.component';
 import { MaintenanceStatusEditComponent } from './maintenance-status/maintenance-status-edit/maintenance-status-edit.component';
+import { MaintenanceActionEditComponent } from './maintenance-action/maintenance-action-edit/maintenance-action-edit.component';
+import { MaintenanceLineRefEditComponent } from './maintenance-line-ref/maintenance-line-ref-edit/maintenance-line-ref-edit.component';
 import { ContractTypeEditComponent } from './contract-type/contract-type-edit/contract-type-edit.component';
 import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
 import { VehicleCategorieEditComponent } from './vehicle-categorie/vehicle-categorie-edit/vehicle-categorie-edit.component';
@@ -83,6 +87,10 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     MaintenanceStatusEditComponent,
     MaintenanceTypeComponent,
     MaintenanceTypeEditComponent,
+    MaintenanceActionComponent,
+    MaintenanceActionEditComponent,    
+    MaintenanceLineRefComponent,
+    MaintenanceLineRefEditComponent,
     ContractTypeComponent,
     ContractTypeEditComponent,
     VehicleCategorieComponent,

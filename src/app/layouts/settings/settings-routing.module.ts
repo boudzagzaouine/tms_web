@@ -14,6 +14,9 @@ import { VehicleCategory } from './../../shared/models/vehicle-category';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { MaintenanceTypeComponent } from './maintenance-type/maintenance-type.component';
+import { MaintenanceActionComponent } from './maintenance-action/maintenance-action.component';
+import { MaintenanceLineRefComponent } from './maintenance-line-ref/maintenance-line-ref.component';
+
 import { InsuranceTermComponent } from './insurance-term/insurance-term.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { BadgeTypeComponent } from './badge-type/badge-type.component';
@@ -40,6 +43,8 @@ const routes: Routes = [
       { path: 'insurance-terms-ediit', component: InsuranceTermEdiitComponent },
       { path: 'maintenance-statuses', component: MaintenanceStatusComponent },
       { path: 'maintenance-types', component: MaintenanceTypeComponent },
+      { path: 'maintenance-action', component: MaintenanceActionComponent},
+      { path: 'maintenance-line-ref', component: MaintenanceLineRefComponent},
       { path: 'vehicle-categorie', component: VehicleCategorieComponent },
       { path: 'commission-type', component: CommissionTypeComponent },
       { path: 'consomption-type', component: ConsomtionTypeComponent },

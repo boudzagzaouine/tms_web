@@ -40,7 +40,8 @@ import { InsuranceTypeTermsService } from './services/api/insurance-type-term.se
 import { InsuranceTypeService } from './services/api/insurance-type.service';
 import { BadgeTypeDriverService } from './services/api/badge-type-driver.service';
 import { CommissionTypeService } from './services/api/commisionType.service';
-
+import { MaintenanceActionService } from './services/api/maintenance-action.service';
+import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
@@ -109,6 +110,8 @@ export class SharedModule {
         MaintenancePlanService,
         MaintenanceStateService,
         MaintenanceTypeService,
+        MaintenanceActionService,
+        MaintenanceLineRefService,
         SupplierService,
         VehicleCategoryService,
         VehicleService,

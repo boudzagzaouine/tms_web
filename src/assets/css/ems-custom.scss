@@ -234,10 +234,11 @@ p-autocomplete {
   width: 100vw !important;
 }
 
-.m-a-p{
-  width: 49.8% !important;
-background-color: #ffffff !important;
-
+.ui-tabview.ui-tabview-top>.ui-tabview-nav{
+  display:flex;
+}
+.ui-tabview.ui-tabview-top>.ui-tabview-nav li{
+  flex: 1;
 }
 .m-a-p ,li a,
   .ui-tabview.ui-tabview-left .ui-tabview-nav li a,

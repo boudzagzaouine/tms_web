@@ -1,3 +1,4 @@
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { TransportCategoryVehicleService } from './../../../shared/services/api/transport-category-vehicle.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
@@ -7,6 +8,7 @@ import { VehicleCategoryService } from './../../../shared/services/api/vehicle-c
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { TransportCategoryVehicle } from './../../../shared/models/transport-category-vehicle';
 import { Component, OnInit } from '@angular/core';
+import { Transport } from './../../../shared/models/transport';
 
 @Component({
   selector: 'app-transport-category-vehicle',
@@ -17,23 +19,23 @@ export class TransportCategoryVehicleComponent implements OnInit {
   page = 0;
   size = 10;
   collectionSize: number;
-transportSearch: string;
-  vehicleCategorySearch: string;
-searchQuery = '';
+  transportSearch: Transport;
+  vehicleCategorySearch: VehicleCategory;
+  searchQuery = '';
   codeSearch: string;
-  selectTransportCatVehicles:Array< TransportCategoryVehicle>=[];
+  selectTransportCatVehicles: Array<TransportCategoryVehicle> = [];
   transportCatVehicleList: Array<TransportCategoryVehicle> = [];
-    categorieVehicleList: Array<string> = [];
-  transportList: Array<string> = [];
- cols: any[];
-    showDialog: boolean;
+  categorieVehicleList: Array<VehicleCategory> = [];
+  transportList: Array<Transport> = [];
+  cols: any[];
+  showDialog: boolean;
   editMode: number;
   className: String;
 
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
-    private transportService:TransportServcie,
+    private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
@@ -43,7 +45,7 @@ searchQuery = '';
 
     this.className = TransportCategoryVehicle.name;
     this.cols = [
-      { field: 'vehicleCategory[0]', header: 'Catégorie Véhicule' },
+      { field: 'vehicleCategory', header: 'Catégorie Véhicule' },
       { field: 'transport', header: 'Transport' },
       { field: 'quantity', header: 'Quantité' },
 
@@ -51,12 +53,22 @@ searchQuery = '';
 
     this.loadData();
 
+    this.vehicleCategoryService.findAll().subscribe(
+      data => {
+        this.categorieVehicleList = data;
+      }
+    );
+
+    this.transportService.findAll().subscribe(
+      data => {
+        this.transportList = data;
+      }
+    );
 
   }
 
   loadData() {
 
-    console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
     this.transportCategoryVehicleService.sizeSearch(this.searchQuery).subscribe(
@@ -66,7 +78,6 @@ searchQuery = '';
     );
     this.transportCategoryVehicleService.findPagination(this.page, this.size, this.searchQuery).subscribe(
       data => {
-        console.log(data);
         this.transportCatVehicleList = data;
         this.spinner.hide();
       },
@@ -90,11 +101,11 @@ searchQuery = '';
       buffer.append(`code~${this.codeSearch}`);
     }
 
-    if (this.vehicleCategorySearch != null && this.vehicleCategorySearch !== '') {
-      buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch}`);
+    if (this.vehicleCategorySearch != null && this.vehicleCategorySearch.code !== '') {
+      buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch.code}`);
     }
-    if (this.transportSearch != null && this.transportSearch !== '') {
-      buffer.append(`transport.code~${this.transportSearch}`);
+    if (this.transportSearch != null && this.transportSearch.code !== '') {
+      buffer.append(`transport.code~${this.transportSearch.code}`);
     }
 
 
@@ -104,16 +115,7 @@ searchQuery = '';
 
   }
 
-  onCategoryVehicleSearch(event: any) {
-    this.vehicleCategoryService.find('code~' + event.query).subscribe(
-      data => this.categorieVehicleList = data.map(f => f.code)
-    );
-  }
-  onTransportSearch(event: any) {
-    this.transportService.find('code~' + event.query).subscribe(
-      data => this.transportList = data.map(f => f.code)
-    );
-  }
+
 
   reset() {
     this.transportSearch = null;

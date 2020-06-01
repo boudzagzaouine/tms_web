@@ -27,20 +27,21 @@ export class DriverEditComponent implements OnInit {
   badgesList: Array<Badge> = [];
   isFormSubmitted = false;
   fr: any;
-   idDriver :number;
+  idDriver: number;
 
   badgeDriverListEdited: BadgeTypeDriver[] = [];
   commissionDriverListEdited: CommissionDriver[] = [];
   items: MenuItem[];
   searchQuery = '';
-  commissionForm : FormGroup;
-  badgeForm : FormGroup;
+  commissionForm: FormGroup;
+  badgeForm: FormGroup;
   index: number = 0;
   page = 0;
   size = 8;
- valid=false;
-
+  valid = false;
   collectionSize: number;
+
+  editModeTitle = 'Ajouter un Chaufeur';
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private spinner: NgxSpinnerService,
@@ -70,15 +71,15 @@ export class DriverEditComponent implements OnInit {
         this.badgesList = data;
       }
     );*/
-console.log("avant snapshot");
+    console.log("avant snapshot");
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
       this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
-
-    console.log(this.selectedDriver);
+          this.editModeTitle = 'Modifier un chaufeur';
+          console.log(this.selectedDriver);
 
           this.initForm();
         }
@@ -89,7 +90,7 @@ console.log("avant snapshot");
 
 
   }
-  initForm(close=false) {
+  initForm(close = false) {
     const d = new Date(this.selectedDriver.birthDate);
     const dd = new Date(this.selectedDriver.lastMedicalVisit);
     this.driverForm = this.formBuilder.group(
@@ -99,7 +100,7 @@ console.log("avant snapshot");
         'code': new FormControl(this.selectedDriver.code, Validators.required),
         'dateNaissance': new FormControl(d),
         'visiteMedicale': new FormControl(dd),
-       // 'comission': new FormControl(this.selectedDriver.commission),
+        // 'comission': new FormControl(this.selectedDriver.commission),
         'nom': new FormControl(this.selectedDriver.name, Validators.required),
         'tele': new FormControl(this.selectedDriver.tele1),
         'fax': new FormControl(this.selectedDriver.fax),
@@ -128,43 +129,43 @@ console.log("avant snapshot");
 
     if (this.index == 0 && this.driverForm.invalid) {
       return;
+    }
+
+
+    else {
+      this.index = (this.index === 2) ? 0 : this.index + 1;
+      console.log(this.index);
+
+
+    }
+
+  }
+  /*onLoadCommission(commission:CommissionDriver[]){
+  console.log("commission");
+
+    console.log(commission.length);
+  console.log(commission);
+  this.commissionDriverListEdited=commission;
+  this.selectedDriver.commissions=this.commissionDriverListEdited;
+
+
+  }*/
+  onLoadBadge(badge: BadgeTypeDriver[]) {
+    console.log("badge");
+    console.log(badge.length);
+    console.log(badge);
+    this.badgeDriverListEdited = badge;
+
+    this.selectedDriver.badgeTypeDrivers = this.badgeDriverListEdited;
+
   }
 
-
-   else{
-   this.index = (this.index === 2) ? 0 : this.index + 1;
-   console.log(this.index);
-
-
-   }
-
-}
-/*onLoadCommission(commission:CommissionDriver[]){
-console.log("commission");
-
-  console.log(commission.length);
-console.log(commission);
-this.commissionDriverListEdited=commission;
-this.selectedDriver.commissions=this.commissionDriverListEdited;
-
-
-}*/
-onLoadBadge(badge:BadgeTypeDriver[]){
-  console.log("badge");
-console.log(badge.length);
-console.log(badge);
-this.badgeDriverListEdited = badge;
-
-this.selectedDriver.badgeTypeDrivers=this.badgeDriverListEdited;
-
-}
-
-openPrev() {
+  openPrev() {
     this.index = (this.index === 0) ? 2 : this.index - 1;
-}
+  }
   onSubmitForm() {
-console.log("debut");
-console.log(this.driverForm);
+    console.log("debut");
+    console.log(this.driverForm);
 
 
     this.isFormSubmitted = true;
@@ -172,7 +173,7 @@ console.log(this.driverForm);
     // stop here if form is invalid
     if (this.driverForm.invalid) {
       return;
-this.valid=true;
+      this.valid = true;
     }
     console.log("apres");
 
@@ -182,15 +183,15 @@ this.valid=true;
     this.selectedDriver.code = formValue['code'];
     this.selectedDriver.birthDate = formValue['dateNaissance'];
     this.selectedDriver.lastMedicalVisit = formValue['visiteMedicale'];
- //   this.selectedDriver.commission = formValue['comission'];
+    //   this.selectedDriver.commission = formValue['comission'];
     this.selectedDriver.name = formValue['nom'];
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
-    this.selectedDriver.carte=formValue['carte'];
+    this.selectedDriver.carte = formValue['carte'];
 
 
-  console.log(this.selectedDriver);
+    console.log(this.selectedDriver);
 
 
 

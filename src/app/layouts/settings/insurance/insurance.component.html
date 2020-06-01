@@ -2,24 +2,32 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{"Code"|translate}}</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
+        <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="insuranceCodeList"
+        (completeMethod)="onCodeSearch($event)"></p-autoComplete>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{'Fournisseur' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="supplierSearch" [suggestions]="supplierList"
           (completeMethod)="onSupplierearch($event)"></p-autoComplete>
       </div>
-
-
-
-      <div class="col-md-3">
-        <label class="font-weight-bold ">{{'Véhicule' | translate}}</label><br />
-            <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleList"
-          (completeMethod)="onVehicleSearch($event)"></p-autoComplete>
+      <div class="col-md-2">
+        <label class="font-weight-bold">{{
+          "Type assurance" | translate
+        }}</label
+        ><br />
+        <p-dropdown
+        [options]="insuranceTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="insuranceTypeSearch" filter="true"
+      >
+      </p-dropdown>
       </div>
+
+
     </div>
     <br />
 
@@ -45,7 +53,7 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Liste des assurance'"
+  [listName]="'Liste des assurances'"
  [addBtnVisible]="'true'"
   [updateBtnVisible]="'true'"
 

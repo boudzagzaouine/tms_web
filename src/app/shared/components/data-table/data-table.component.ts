@@ -43,7 +43,7 @@ export class DataTableComponent implements OnInit {
   user = new User();
   updateBtnDisable = false;
   deleteBtnDisable = false;
-  
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -116,6 +116,11 @@ export class DataTableComponent implements OnInit {
     //      enregistrer dans le fichier
     XLSX.writeFile(wb, `${this.className}.xlsx`);
   }
+
+
+
+
+
 
 
   onEdit(event) {

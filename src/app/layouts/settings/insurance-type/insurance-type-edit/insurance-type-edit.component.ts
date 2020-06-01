@@ -35,7 +35,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   insuranceTypeTermsListC: Array<InsuranceTypeTerms> = [];
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = "Modifier Type d'assurance";
+  title = 'Modifier un type assurance';
   constructor(
     private insuranceTypeService: InsuranceTypeService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
@@ -115,7 +115,7 @@ export class InsuranceTypeEditComponent implements OnInit {
     this.insuranceTypeTermsList = [];
     if (this.editMode === 1) {
       this.selectedinsuranceType = new InsuranceType();
-      this.title = "Ajouter Type d'ssurance";
+      this.title = 'Ajouter un type assurance';
     } else {
 
       this.insuranceTypeTermsService.findAllPagination(this.page, this.size).subscribe(

@@ -1,3 +1,6 @@
+import { DriverService } from './../../shared/services/api/driver.service';
+import { CommissionTypeService } from './../../shared/services/api/commisionType.service';
+import { CommissionType } from './../../shared/models/commissionType';
 import { Driver } from './../../shared/models/driver';
 import { EmsBuffer } from './../../shared/utils/ems-buffer';
 import { CommissionDriverService } from './../../shared/services/api/commision-driver.service';
@@ -15,110 +18,149 @@ import { Component, OnInit } from '@angular/core';
 export class CommissionDriverComponent implements OnInit {
 
   page = 0;
-  size = 10;
+  size = 5;
   collectionSize: number;
-
-  selectedCommissionDriver: CommissionDriver;
-  searchQuery: string;
-  codeSearch: Driver;
-  items: MenuItem[];
-
-  commissionDriverList: Array<CommissionDriver> = [];
+  searchQuery = '';
+  codeSearch: string;
+  commissionTypeSearch: CommissionType;
+  driverSearch: Driver;
+  descriptionSearch = '';
+  codeList: Array<CommissionDriver> = [];
+  cols: any[];
+  commisionDriverList: Array<CommissionDriver> = [];
+  DriverList: Array<Driver> = [];
+  selectedCommissionDriverTypes: Array<CommissionDriver> = [];
+  commisionTypeList: Array<CommissionType> = [];
+  showDialog: boolean;
+  editMode: number;
+  className: String;
 
   constructor(private commissionDriverService: CommissionDriverService,
+    private commissionTypeService: CommissionTypeService,
+    private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  ) { }
 
   ngOnInit() {
 
-    this.items = [
-      { label: 'View', icon: 'pi pi-search', command: (event) => this.onEdit() },
-      { label: 'Delete', icon: 'pi pi-times', command: (event) => this.onDelete(this.selectedCommissionDriver.id) }
+    this.className = CommissionDriver.name;
+    this.cols = [
+      { field: 'driver', header: 'Chauffeur' },
+      { field: 'commissionType', header: 'Type de commission' },
+      { field: 'datee', header: 'Date' },
+
+
     ];
+    this.commissionTypeService.findAll().subscribe(
+      data => {
+        this.commisionTypeList = data;
+      }
+    );
+    this.driverService.findAll().subscribe(
+      data => {
+        this.DriverList = data;
+      }
+    );
+    this.loadData();
+
   }
+
   loadData(search: string = '') {
-    console.log("load");
+    this.spinner.show();
+    this.commissionDriverService.sizeSearch(search).subscribe(
+      data => {
+        this.collectionSize = data;
+      }
+    );
+    this.commissionDriverService.findPagination(this.page, this.size, search).subscribe(
+      data => {
+        console.log(data);
+        this.commisionDriverList = data;
 
-     this.spinner.show();
-     this.commissionDriverService.sizeSearch(search).subscribe(
-       data => {
-         this.collectionSize = data;
-          console.log( this.collectionSize);
-
-       }
-     );
-     this.commissionDriverService.findPagination(this.page, this.size, search).subscribe(
-       data => {
-
-
-         this.commissionDriverList =data;
-         console.log(data);
-
-         console.log(this.commissionDriverList);
-
-         this.spinner.hide();
-       },
-       error => {
-       console.log(error);
-
-         this.spinner.hide();
-       },
-       () => this.spinner.hide()
-     );
-   }
-
-
+        this.spinner.hide();
+      },
+      error => {
+        this.toastr.error(error.error.message, 'Erreur');
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch.code !== '') {
-      buffer.append(`driver.code~${this.codeSearch}`);
+    if (this.codeSearch != null && this.codeSearch !== '') {
+      buffer.append(`commissionType.code~${this.codeSearch}`);
     }
-
+    if (this.driverSearch != null && this.driverSearch.code !== '') {
+      buffer.append(`driver.code~${this.driverSearch.code}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
 
   }
-
+  onCodeSearch(event: any) {
+    this.commissionDriverService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   reset() {
     this.codeSearch = null;
+    this.commissionTypeSearch = null;
+    this.driverSearch = null;
     this.page = 0;
     this.searchQuery = '';
-    this.loadData();
+    this.loadData(this.searchQuery);
   }
 
-  onDelete(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.commissionDriverService.delete(id).subscribe(
-          data => {
-            this.toastr.success("Elément Supprimer avec Succés","Suppression");
-            this.loadData();
-          },
-          error=>{
-           this.toastr.error(error.error.message);
+  onObjectEdited(event) {
 
-         }
-        );
-      }
-    });
+    this.editMode = event.operationMode;
+    this.selectedCommissionDriverTypes = event.object;
+    if (this.editMode === 3) {
+      this.onDeleteAll();
+    } else {
+      this.showDialog = true;
+    }
+
   }
 
-  onEdit() {
-    this.toastr.info('selected ');
+  onDeleteAll() {
+
+    if (this.selectedCommissionDriverTypes.length >= 1) {
+      this.confirmationService.confirm({
+        message: 'Voulez vous vraiment Suprimer?',
+        accept: () => {
+          const ids = this.selectedCommissionDriverTypes.map(x => x.id);
+          this.commissionDriverService.deleteAllByIds(ids).subscribe(
+            data => {
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.loadData();
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            },
+            () => this.spinner.hide()
+          );
+        }
+      });
+    } else if (this.selectedCommissionDriverTypes.length < 1) {
+      this.toastr.warning('aucun ligne sélectionnée');
+    }
+
+
   }
 
-  onCommissionDriverAdded(event) {
+  onShowDialog(event) {
+    this.showDialog = event;
     this.loadData();
   }
 

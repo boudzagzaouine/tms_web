@@ -31,6 +31,8 @@ export class InsuranceTermComponent implements OnInit {
   size = 10;
   collectionSize: number;
   searchQuery = '';
+  descriptionSearch = '';
+  codeList: Array<InsuranceTerm> = [];
   codeSearch: string;
   insuranceTermList: Array<InsuranceTerm> = [];
   selectedCommissionTerms: Array<InsuranceTerm> = [];
@@ -91,10 +93,20 @@ export class InsuranceTermComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
+    
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
+  }
+
+  onCodeSearch(event: any) {
+    this.insuranceTermService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
   }
 
   reset() {

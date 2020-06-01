@@ -58,11 +58,12 @@ import {
   SupplierService,
   VehicleCategoryService,
   VehicleService
- } from './services';
+} from './services';
 import { SaleOrderStockService } from './services/api/sale-order-stock.service';
 import { AccountService } from './services/api/account.service';
 import { SaleOrderLineService } from './services/api/sale-order-line.service';
 import { DataTableComponent } from './components/data-table/data-table.component';
+import { PatrimonyService } from './services/api/patrimony-service';
 
 
 @NgModule({
@@ -89,10 +90,11 @@ import { DataTableComponent } from './components/data-table/data-table.component
     MultiSelectModule,
     SplitButtonModule,
     DialogModule,
-    PaginatorModule
+    PaginatorModule,
+    PanelModule
 
   ],
-  exports:[
+  exports: [
     DataTableComponent
   ]
 })
@@ -137,10 +139,11 @@ export class SharedModule {
         ConsumptionTypeService,
         AuthenticationService,
         UserService,
-    ConfirmationService,
-    PatrimonyTypeService,
-    MachineService,
-        ]
+        ConfirmationService,
+        PatrimonyTypeService,
+        MachineService,
+        PatrimonyService,
+      ]
     };
   }
 }

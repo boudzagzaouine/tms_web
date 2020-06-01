@@ -41,7 +41,7 @@ export class MachineEditComponent implements OnInit {
   selectedConsumptionType = new ConsumptionType();
   vehicleForm: FormGroup;
   editModee = false;
-  editModeTitle = 'Inserer Machine';
+  editModeTitle = 'Ajouter une machine';
   editInsuranceMode = false;
   contractTypeList: ContractType[] = [];
   supplierList: Supplier[] = [];
@@ -89,7 +89,7 @@ export class MachineEditComponent implements OnInit {
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
       this.editModee = true;
-      this.editModeTitle = 'Modifier Machine';
+      this.editModeTitle = 'Modifier une machine';
       this.subscriptions.push(this.activatedRoute.params.subscribe(params => {
         id = params['id'];
         this.subscriptions.push(this.machineService.findById(id).subscribe(data => {

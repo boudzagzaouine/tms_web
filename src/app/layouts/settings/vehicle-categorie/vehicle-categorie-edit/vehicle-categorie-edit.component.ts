@@ -20,7 +20,7 @@ export class VehicleCategorieEditComponent implements OnInit {
   vehicleCategoryForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Catégorie de Véhicule';
+  title = 'Modifier une catégorie de véhicule';
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private spinner: NgxSpinnerService,
@@ -30,7 +30,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedVehicleCategory = new VehicleCategory();
-      this.title = 'Ajouter Catégorie de Véhicule';
+      this.title = 'Ajouter une catégorie de véhicule';
 
     }
     this.displayDialog = true;
@@ -42,6 +42,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     this.vehicleCategoryForm = new FormGroup({
       'fCode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
+      'fDescription': new FormControl(this.selectedVehicleCategory.description, Validators.required),
       'fLength': new FormControl((this.selectedVehicleCategory.length), Validators.required),
       'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
@@ -59,6 +60,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.spinner.show();
 
     this.selectedVehicleCategory.code = this.vehicleCategoryForm.value['fCode'];
+    this.selectedVehicleCategory.description = this.vehicleCategoryForm.value['fDescription'];
     this.selectedVehicleCategory.length = +this.vehicleCategoryForm.value['fLength'];
     this.selectedVehicleCategory.width = this.vehicleCategoryForm.value['fWidth'];
     this.selectedVehicleCategory.height = this.vehicleCategoryForm.value['fheight'];
@@ -67,7 +69,9 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
 
-    const s = this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
+    console.log(this.selectedVehicleCategory);
+
+      this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
 
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');

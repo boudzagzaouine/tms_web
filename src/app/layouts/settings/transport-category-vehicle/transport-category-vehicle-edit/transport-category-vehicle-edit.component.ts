@@ -7,6 +7,7 @@ import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TransportCategoryVehicle } from './../../../../shared/models/transport-category-vehicle';
+import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 
@@ -28,7 +29,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Catégorie de  Véhicule';
+  title = 'Modifier une catégorie de véhicule';
 
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
@@ -56,7 +57,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectTransportCatVehicle = new TransportCategoryVehicle();
-      this.title = 'Ajouter Catégorie de  Véhicule';
+      this.title = 'Ajouter une catégorie de véhicule';
 
     }
 

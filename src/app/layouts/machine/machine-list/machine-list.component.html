@@ -9,6 +9,27 @@
       </div>
 
 
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Type de contrat" | translate}}</label><br />
+        <p-dropdown
+        [options]="contratTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="contratTypeSearch" filter="true"
+      >
+      </p-dropdown>
+      </div>
+      <div class="col-md-2 ">
+        <label class="font-weight-bold ">{{"Transport" | translate}}</label><br />
+        <p-dropdown
+        [options]="transportList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="transportSearch" filter="true"
+      >
+      </p-dropdown>
+      </div>
+
 
     </div>
 

@@ -19,7 +19,7 @@ export class ContractTypeEditComponent implements OnInit {
   contractTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Type de Contrat';
+  title = 'Modifier un type de contrat';
 
   constructor(
     private contractTypeService: ContractTypeService,
@@ -31,7 +31,7 @@ export class ContractTypeEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedContractType = new ContractType();
-      this.title = 'Ajouter Type de  Contrat';
+      this.title = 'Ajouter un type de contrat';
     }
 
     this.displayDialog = true;

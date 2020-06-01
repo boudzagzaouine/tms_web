@@ -21,6 +21,8 @@ export class MaintenanceStatusComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch: string;
+  codeList: Array<MaintenanceState> = [];
   cols: any[];
   maintenanceStatusList: Array<MaintenanceState> = [];
   selectedMaintenanceStatus: Array<MaintenanceState> = [];
@@ -79,6 +81,9 @@ export class MaintenanceStatusComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
+      buffer.append(`description~${this.descriptionSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -89,7 +94,14 @@ export class MaintenanceStatusComponent implements OnInit {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
+  }
+
+  onCodeSearch(event: any) {
+    this.maintenanceStatusService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
   }
 
   onObjectEdited(event) {

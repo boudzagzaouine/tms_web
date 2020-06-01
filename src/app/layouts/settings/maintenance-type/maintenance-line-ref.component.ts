@@ -1,32 +1,36 @@
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { CommissionTypeService } from './../../../shared/services/api/commisionType.service';
-import { CommissionType } from './../../../shared/models/commissionType';
+import { MaintenanceLineRef } from '../../../shared/models/maintenance-line-ref';
+import { EmsBuffer } from '../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MaintenanceLineRefService } from '../../../shared/services/api/maintenance-line-ref.service';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
-  selector: 'app-commission-type',
-  templateUrl: './commission-type.component.html',
-  styleUrls: ['./commission-type.component.css']
+  selector: 'app-maintenance-line-ref',
+  templateUrl: './maintenance-line-ref.component.html',
+  styleUrls: ['./maintenance-line-ref.component.css'],
+  providers: [ConfirmationService]
+
 })
-export class CommissionTypeComponent implements OnInit {
+export class MaintenanceLineRefComponent implements OnInit {
+
   page = 0;
   size = 5;
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
-  descriptionSearch = '';
-  codeList: Array<CommissionType> = [];
+  descriptionSearch: string;
+  codeList: Array<MaintenanceLineRef> = [];
   cols: any[];
-  commissionTypeList: Array<CommissionType> = [];
-  selectedCommissions: Array<CommissionType> = [];
+  maintenanceTypeList: Array<MaintenanceLineRef> = [];
+  selectedMaintenanceLineRefs: Array<MaintenanceLineRef> = [];
   showDialog: boolean;
   editMode: number;
   className: String;
 
-  constructor(private commissionTypeService: CommissionTypeService,
+  constructor(private maintenanceTypeService: MaintenanceLineRefService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -34,11 +38,11 @@ export class CommissionTypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.className = CommissionType.name;
+    this.className = MaintenanceLineRef.name;
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
-      { field: 'percentage', header: 'Montant' },
+
     ];
 
     this.loadData();
@@ -47,15 +51,15 @@ export class CommissionTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.commissionTypeService.sizeSearch(search).subscribe(
+    this.maintenanceTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.maintenanceTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.commissionTypeList = data;
+        this.maintenanceTypeList = data;
 
         this.spinner.hide();
       },
@@ -85,22 +89,23 @@ export class CommissionTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
-  onCodeSearch(event: any) {
-    this.commissionTypeService.find('code~' + event.query).subscribe(
-      data => this.codeList = data.map(f => f.code)
-    );
-  }
+
   reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
+    this.descriptionSearch = '';
     this.loadData(this.searchQuery);
   }
-
+  onCodeSearch(event: any) {
+    this.maintenanceTypeService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedCommissions = event.object;
+    this.selectedMaintenanceLineRefs = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -111,12 +116,12 @@ export class CommissionTypeComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedCommissions.length >= 1) {
+    if (this.selectedMaintenanceLineRefs.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
-          const ids = this.selectedCommissions.map(x => x.id);
-          this.commissionTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedMaintenanceLineRefs.map(x => x.id);
+          this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -128,7 +133,7 @@ export class CommissionTypeComponent implements OnInit {
           );
         }
       });
-    } else if (this.selectedCommissions.length < 1) {
+    } else if (this.selectedMaintenanceLineRefs.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 
@@ -139,5 +144,7 @@ export class CommissionTypeComponent implements OnInit {
     this.showDialog = event;
     this.loadData();
   }
+
+
 
 }

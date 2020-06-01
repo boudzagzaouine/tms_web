@@ -53,7 +53,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   selectedConsumptionType = new ConsumptionType();
   vehicleForm: FormGroup;
   editModee = false;
-  editModeTitle = 'Inserer véhicule';
+  editModeTitle = 'Ajouter un véhicule';
   editInsuranceMode = false;
   badgeTypeList: BadgeType[] = [];
   contractTypeList: ContractType[] = [];
@@ -68,9 +68,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
-  subscriptions: Subscription[] = [];
+  subscriptions= new Subscription ();
   isFormSubmitted = false;
-
   fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -105,15 +104,15 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
       this.editModee = true;
-      this.editModeTitle = 'Modifier véhicule';
-      this.subscriptions.push(this.activatedRoute.params.subscribe(params => {
+      this.editModeTitle = 'Modifier un véhicule';
+      this.subscriptions.add(this.activatedRoute.params.subscribe(params => {
         id = params['id'];
-        this.subscriptions.push(this.vehicleService.findById(id).subscribe(data => {
+        this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
           console.log(this.selectedVehicle);
           // (`vehicle.type~${'vehicle'},vehicle.code~${this.selectedVehicle.code}`)
 
-          this.subscriptions.push(this.insuranceService.findByPatrimony(id)
+          this.subscriptions.add(this.insuranceService.findByPatrimony(id)
             .subscribe(
               data => {
                 if (data !== null) {
@@ -153,48 +152,48 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       this.initForm();
     }
 
-    this.subscriptions.push(this.consumptionTypeService.findAll().subscribe(
+    this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
       data => {
         this.consumptionTypeList = data;
       }
     ));
 
-    this.subscriptions.push(this.insuranceTermService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTermService.findAll().subscribe(
       data => {
         this.inssuranceTermList = data;
       }
     ));
 
-    this.subscriptions.push(this.vehicleCategoryService.findAll().subscribe(
+    this.subscriptions.add(this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.vehicleCategoryList = data;
 
       }
     ));
 
-    this.subscriptions.push(this.badgeTypeService.findAll().subscribe(
+    this.subscriptions.add(this.badgeTypeService.findAll().subscribe(
       data => {
         this.badgeTypeList = data;
       }
     ));
 
-    this.subscriptions.push(this.contractTypeService.findAll().subscribe(
+    this.subscriptions.add(this.contractTypeService.findAll().subscribe(
       data => {
         this.contractTypeList = data;
       }
     ));
-    this.subscriptions.push(this.supplierService.findAll().subscribe(
+    this.subscriptions.add(this.supplierService.findAll().subscribe(
       data => {
         this.supplierList = data;
       }
     ));
-    this.subscriptions.push(this.insuranceTypeService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTypeService.findAll().subscribe(
       data => {
         this.insuranceTypeList = data;
       }
     ));
 
-    this.subscriptions.push(this.transportService.findAll().subscribe(
+    this.subscriptions.add(this.transportService.findAll().subscribe(
       data => {
         this.transportList = data;
       }
@@ -301,12 +300,12 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     // this.selectedVehicle.insurance = this.selectedInsurance;
     // }
 
-    this.subscriptions.push(this.vehicleService.set(this.selectedVehicle).subscribe(
+    this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         if (this.selectedInsurance.code) {
           this.selectedInsurance.patrimony = data;
           console.log(this.selectedInsurance);
-          this.subscriptions.push(this.insuranceService.set(this.selectedInsurance).subscribe(
+          this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
 
             }
@@ -365,7 +364,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     if (this.editModee) {
       this.selectedInsurance.insuranceTermLignes = [];
     }
-    this.subscriptions.push(this.insuranceTypeTermsService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTypeTermsService.findAll().subscribe(
       data => {
         this.inssuranceTypeTermList = data;
         this.inssuranceTypeTermList = this.inssuranceTypeTermList.filter(p => p.insuranceType.id === idinsurancetype);
@@ -450,6 +449,6 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 }

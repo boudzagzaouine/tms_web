@@ -1,3 +1,7 @@
+import { InsuranceEditComponent } from './../../insurance/insurance-edit/insurance-edit.component';
+import { InsuranceType } from './../../../shared/models/insurance-Type';
+import { InsuranceTypeService } from './../../../shared/services/api/insurance-type.service';
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { Router } from '@angular/router';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
@@ -10,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { InsuranceService } from './../../../shared/services';
 import { Insurance } from './../../../shared/models/insurance';
+import { Patrimony } from 'src/app/shared/models/patrimony';
 
 
 @Component({
@@ -26,12 +31,14 @@ export class InsuranceComponent implements OnInit {
   selectedInsurance: Array<Insurance> = [];
   searchQuery: string;
   codeSearch: string;
+  insuranceTypeSearch: InsuranceType;
   insuranceTermSearch: string;
   supplierSearch: string;
   vehicleSearch: string;
   items: MenuItem[];
-
+  insuranceTypeList: Array<InsuranceType> = [];
   insuranceList: Array<Insurance> = [];
+  insuranceCodeList: Array<string> = [];
   insuranceTermList: Array<string> = [];
   supplierList: Array<string> = [];
   vehicleList: Array<string> = [];
@@ -46,6 +53,8 @@ export class InsuranceComponent implements OnInit {
     private insuranceTermService: InsuranceTermService,
     private supplierService: SupplierService,
     private vehicleService: VehicleService,
+    private InsurancetypeService: InsuranceTypeService,
+    private patrimonyService: PatrimonyService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -55,15 +64,21 @@ export class InsuranceComponent implements OnInit {
 
     this.className = Insurance.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
+      { field: 'code', header: 'Numéro assurance' },
       { field: 'patrimony', header: 'Équipement' },
       { field: 'supplier', header: 'Fournisseur' },
-      { field: 'insuranceType', header: "Type d'assurance" },
+      { field: 'insuranceType', header: 'Type assurance' },
       { field: 'startDate', header: 'Date Début' },
       { field: 'endDate', header: 'Date Fin' },
     ];
     this.loadData();
-     }
+
+    this.InsurancetypeService.findAll().subscribe(
+      data => {
+        this.insuranceTypeList = data;
+      }
+    );
+  }
 
 
   loadData(search: string = '') {
@@ -101,17 +116,15 @@ export class InsuranceComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
 
-    if (this.insuranceTermSearch != null && this.insuranceTermSearch !== '') {
-      buffer.append(`insuranceTerm.code~${this.insuranceTermSearch}`);
+    if (this.insuranceTypeSearch != null && this.insuranceTypeSearch.code !== '') {
+      buffer.append(`insuranceType.code~${this.insuranceTypeSearch.code}`);
     }
 
     if (this.supplierSearch != null && this.supplierSearch !== '') {
       buffer.append(`supplier.code~${this.supplierSearch}`);
     }
 
-    if (this.vehicleSearch != null && this.vehicleSearch !== '') {
-      buffer.append(`vehicleCode~${this.vehicleSearch}`);
-    }
+
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -138,6 +151,11 @@ export class InsuranceComponent implements OnInit {
       data => this.insuranceTermList = data.map(f => f.code)
     );
   }
+  onCodeSearch(event: any) {
+    this.insuranceService.find('code~' + event.query).subscribe(
+      data => this.insuranceCodeList = data.map(f => f.code)
+    );
+  }
 
   onSupplierearch(event: any) {
     this.supplierService.find('code~' + event.query).subscribe(
@@ -145,19 +163,13 @@ export class InsuranceComponent implements OnInit {
     );
   }
 
-  onVehicleSearch(event: any) {
-    this.vehicleService.find('code~' + event.query).subscribe(
-      data => this.vehicleList = data.map(f => f.code)
 
-    );
-
-  }
 
   reset() {
     this.codeSearch = null;
     this.vehicleSearch = null;
     this.supplierSearch = null;
-    this.insuranceTermSearch = null;
+    this.insuranceTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

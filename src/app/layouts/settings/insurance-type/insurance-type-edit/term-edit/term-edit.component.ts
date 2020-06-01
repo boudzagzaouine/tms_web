@@ -72,7 +72,7 @@ export class TermEditComponent implements OnInit {
   open(content) {
     if (!this.editMode) {
       this.selectedinsuranceTypeTerm = new InsuranceTypeTerms();
-      this.title = 'Ajouter Terme Assurance';
+      this.title = 'Ajouter un terme assurance';
     } else {
       if (this.selectedinsuranceTypeTerm.insuranceTerm.roofed) {
         this.insuranceTypeTermForm.controls['fAmount'].enable();
@@ -80,12 +80,12 @@ export class TermEditComponent implements OnInit {
       } else {
         this.insuranceTypeTermForm.controls['fAmount'].disable();
       }
-      this.title = 'Modifier Terme Assurance';
+      this.title = 'Modifier un terme assurance';
 
     }
 
     this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'sm' });
+    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'md' });
     this.modal.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

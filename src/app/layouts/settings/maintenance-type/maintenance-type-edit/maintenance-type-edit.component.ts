@@ -19,7 +19,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
   maintenanceTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Type de Maintenance';
+  title = 'Modifier un type de maintenance';
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
@@ -31,7 +31,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedMaintenanceType = new MaintenanceType();
-      this.title = 'Ajouter Type de Maintenance';
+      this.title = 'Ajouter un type de maintenance';
     }
 
     this.displayDialog = true;

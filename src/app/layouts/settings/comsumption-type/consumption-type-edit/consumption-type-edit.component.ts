@@ -19,7 +19,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
   consumptionTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Type de Consomation';
+  title = 'Modifier un type de consommation';
   constructor(
     private consumptionTypeService: ConsumptionTypeService,
     private toastr: ToastrService,
@@ -29,7 +29,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
   ngOnInit() {
     if (this.editMode === 1) {
       this.selectedConsumptionType = new ConsumptionType();
-      this.title = 'Ajouter Type de  Consomation';
+      this.title = 'Ajouter un type de consommation';
 
     }
     this.displayDialog = true;

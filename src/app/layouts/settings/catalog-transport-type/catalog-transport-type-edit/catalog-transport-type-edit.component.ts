@@ -1,3 +1,4 @@
+import { Transport } from './../../../../shared/models/transport';
 import { RoundPipe } from 'ngx-pipes';
 import { VatServcie } from './../../../../shared/services/api/vat.service';
 import { Vat } from './../../../../shared/models/vat';
@@ -35,7 +36,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   vatList: Vat[] = [];
   displayDialog: boolean;
   isFormSubmitted = false;
-  title = 'Modifier Trajet';
+  title = 'Modifier un Trajet';
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -71,7 +72,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     );
     if (this.editMode === 1) {
       this.selectCatalogTransportType = new CatalogTransportType();
-      this.title = 'Ajouter Trajet';
+      this.title = 'Ajouter un Trajet';
 
     }
 

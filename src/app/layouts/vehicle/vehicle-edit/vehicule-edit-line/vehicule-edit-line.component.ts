@@ -27,6 +27,7 @@ export class VehiculeEditLineComponent implements OnInit {
   insuranceTermLineList: InsuranceTermsVehicle[] = [];
   insuranceTermList: InsuranceTerm[] = [];
   isFormSubmitted = false;
+  title ='Modifier un terme assurance';
   constructor( private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -83,6 +84,8 @@ export class VehiculeEditLineComponent implements OnInit {
     this.isFormSubmitted = false;
     if (!this.editMode) {
       this.selectedTermLigne = new InsuranceTermsVehicle();
+      this.title ='Ajouter un terme assurance';
+
     }
     this.initForm();
 

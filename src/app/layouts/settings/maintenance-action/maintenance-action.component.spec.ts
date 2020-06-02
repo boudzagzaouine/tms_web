@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PatrimonyEditComponent } from './patrimony-edit.component';
+import { MaintenanceActionComponent } from './maintenance-action.component';
 
-describe('PatrimonyEditComponent', () => {
-  let component: PatrimonyEditComponent;
-  let fixture: ComponentFixture<PatrimonyEditComponent>;
+describe('MaintenanceActionComponent', () => {
+  let component: MaintenanceActionComponent;
+  let fixture: ComponentFixture<MaintenanceActionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PatrimonyEditComponent ]
+      declarations: [ MaintenanceActionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PatrimonyEditComponent);
+    fixture = TestBed.createComponent(MaintenanceActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

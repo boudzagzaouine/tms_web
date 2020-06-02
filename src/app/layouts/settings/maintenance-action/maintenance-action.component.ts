@@ -1,20 +1,20 @@
-import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { MaintenanceAction } from '../../../shared/models/maintenance-action';
+import { EmsBuffer } from '../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
+import { MaintenanceActionService } from '../../../shared/services/api/maintenance-action.service';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
 
 @Component({
-  selector: 'app-maintenance-type',
-  templateUrl: './maintenance-type.component.html',
-  styleUrls: ['./maintenance-type.component.css'],
+  selector: 'app-maintenance-action',
+  templateUrl: './maintenance-action.component.html',
+  styleUrls: ['./maintenance-action.component.css'],
   providers: [ConfirmationService]
 
 })
-export class MaintenanceTypeComponent implements OnInit {
+export class MaintenanceActionComponent implements OnInit {
 
   page = 0;
   size = 5;
@@ -22,15 +22,15 @@ export class MaintenanceTypeComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   descriptionSearch: string;
-  codeList: Array<MaintenanceType> = [];
+  codeList: Array<MaintenanceAction> = [];
   cols: any[];
-  maintenanceTypeList: Array<MaintenanceType> = [];
-  selectedMaintenanceTypes: Array<MaintenanceType> = [];
+  maintenanceActionList: Array<MaintenanceAction> = [];
+  selectedMaintenanceActions: Array<MaintenanceAction> = [];
   showDialog: boolean;
   editMode: number;
   className: String;
 
-  constructor(private maintenanceTypeService: MaintenanceTypeService,
+  constructor(private maintenanceActionService: MaintenanceActionService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -38,7 +38,7 @@ export class MaintenanceTypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.className = MaintenanceType.name;
+    this.className = MaintenanceAction.name;
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
@@ -51,15 +51,15 @@ export class MaintenanceTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.maintenanceTypeService.sizeSearch(search).subscribe(
+    this.maintenanceActionService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.maintenanceTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.maintenanceActionService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.maintenanceTypeList = data;
+        this.maintenanceActionList = data;
 
         this.spinner.hide();
       },
@@ -98,14 +98,14 @@ export class MaintenanceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onCodeSearch(event: any) {
-    this.maintenanceTypeService.find('code~' + event.query).subscribe(
+    this.maintenanceActionService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     );
   }
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedMaintenanceTypes = event.object;
+    this.selectedMaintenanceActions = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -116,12 +116,12 @@ export class MaintenanceTypeComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedMaintenanceTypes.length >= 1) {
+    if (this.selectedMaintenanceActions.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
-          const ids = this.selectedMaintenanceTypes.map(x => x.id);
-          this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedMaintenanceActions.map(x => x.id);
+          this.maintenanceActionService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -133,7 +133,7 @@ export class MaintenanceTypeComponent implements OnInit {
           );
         }
       });
-    } else if (this.selectedMaintenanceTypes.length < 1) {
+    } else if (this.selectedMaintenanceActions.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 

@@ -24,13 +24,13 @@ export class MaintenanceLineRefComponent implements OnInit {
   descriptionSearch: string;
   codeList: Array<MaintenanceLineRef> = [];
   cols: any[];
-  maintenanceTypeList: Array<MaintenanceLineRef> = [];
+  maintenanceLineRefList: Array<MaintenanceLineRef> = [];
   selectedMaintenanceLineRefs: Array<MaintenanceLineRef> = [];
   showDialog: boolean;
   editMode: number;
   className: String;
 
-  constructor(private maintenanceTypeService: MaintenanceLineRefService,
+  constructor(private maintenanceLineRefService: MaintenanceLineRefService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -51,15 +51,15 @@ export class MaintenanceLineRefComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.maintenanceTypeService.sizeSearch(search).subscribe(
+    this.maintenanceLineRefService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     );
-    this.maintenanceTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.maintenanceLineRefService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
-        this.maintenanceTypeList = data;
+        this.maintenanceLineRefList = data;
 
         this.spinner.hide();
       },
@@ -98,7 +98,7 @@ export class MaintenanceLineRefComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onCodeSearch(event: any) {
-    this.maintenanceTypeService.find('code~' + event.query).subscribe(
+    this.maintenanceLineRefService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     );
   }
@@ -121,7 +121,7 @@ export class MaintenanceLineRefComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedMaintenanceLineRefs.map(x => x.id);
-          this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
+          this.maintenanceLineRefService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PatrimonyComponent } from './patrimony.component';
+import { MaintenanceLineRefComponent } from './maintenance-line-ref.component';
 
-describe('PatrimonyComponent', () => {
-  let component: PatrimonyComponent;
-  let fixture: ComponentFixture<PatrimonyComponent>;
+describe('MaintenanceLineRefComponent', () => {
+  let component: MaintenanceLineRefComponent;
+  let fixture: ComponentFixture<MaintenanceLineRefComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PatrimonyComponent ]
+      declarations: [ MaintenanceLineRefComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PatrimonyComponent);
+    fixture = TestBed.createComponent(MaintenanceLineRefComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

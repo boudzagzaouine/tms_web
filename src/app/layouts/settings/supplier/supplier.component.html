@@ -1,70 +1,67 @@
 <br />
-<div class="card">
-  <div class="card-header " style="background-color:#f7f7f7;">Filters</div>
-  <div class="card-body border-top-primary">
-    <div class="row">
-      <div class="col-md-3">
-        <label class="font-weight-bold ">Code</label><br/>
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
-      </div>
-    </div>
-    <br/>
 
-    <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">{{'Renitialiser' | translate}}</button>
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        {{'Rechercher' | translate}}
-      </button>
+
+<br />
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+  <div class="row">
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Code" | translate }}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codesuppplierList"
+      (completeMethod)="onNameSearch($event)"></p-autoComplete>
     </div>
+
   </div>
+  <br />
+
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
+    </button>
+
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
+
+    </button>
+  </div>
+</p-panel>
+
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="suppplierList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  [listName]="'List des Fournisseurs'"
+  [viewBtnVisible]="'false'"
+
+></app-data-table>
+
+<div *ngIf="showDialog == true">
+  <app-supplier-edit
+    [editMode]="editMode"
+    [selectedSupplier]="selectSuppliers[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-supplier-edit>
 </div>
 
-<div class="card mt-3">
-  <div class="card-header " style=" background-color:#f7f7f7;">
-    <span>{{'Liste Des Fournisseurs' | translate}}</span>
-    <span class="pull-right">
-    <!--  <app-supplier-edit [editMode]="false" (supplierAdd)="onSupplierAdd($event)"></app-supplier-edit>-->
-    </span>
-  </div>
-  <div class="card-body border-top-primary">
-    <p-table [value]="supplierList" [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [rows]="size" [contextMenu]="cm"
-      [(contextMenuSelection)]="selectedSupplier" [totalRecords]="collectionSize" [resizableColumns]="true"
-      [reorderableColumns]="true" selectionMode="single" [(selection)]="selectedSupplier" [paginator]="true">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Code</th>
-          <th>Description</th>
-          <th>Nom</th>
-          <th>Tel</th>
-          <th>email</th>
-          <th>Ligne1</th>
-          <th>Ville</th>
-          <th style="width:10%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-supplier>
-        <tr>
-          <td>{{supplier?.code}}</td>
-          <td>{{supplier?.description}}</td>
-          <td>{{supplier?.contact?.name}}</td>
-          <td>{{supplier?.contact?.tel1}}</td>
-          <td>{{supplier?.contact?.email}}</td>
-          <td>{{supplier?.address?.line1}}</td>
-          <td>{{supplier?.address?.city}}</td>
-          <td class="text-center">
-           <app-supplier-edit [editMode]="true" [selectedSupplier]="supplier" (supplierAdd)="onSupplierAdd($event)"></app-supplier-edit>
-            <!-- <button type="button" (click)="onDelete(supplier.id)" class="btn btn-sm btn-danger mx-1">
-              <i class="fa fa-trash-o"></i>
-            </button> -->
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
-
-<p-contextMenu #cm [model]="items"></p-contextMenu>
-
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
 </p-confirmDialog>
+
+
+
+
+

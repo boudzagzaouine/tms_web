@@ -16,8 +16,8 @@ import { SupplierService } from '../../../../shared/services';
 export class SupplierEditComponent implements OnInit {
 
   @Input() selectedSupplier = new Supplier();
-  @Input() editMode: boolean;
-  @Output() supplierAdd = new EventEmitter<Supplier>();
+  @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
 
   selectedContact = new Contact();
   selectedAddress = new Address();
@@ -25,16 +25,36 @@ export class SupplierEditComponent implements OnInit {
   supplierForm: FormGroup;
   supplierTypeList: Supplier[] = [];
 
-  modal: NgbModalRef;
   isFormSubmitted = false;
+  displayDialog: boolean;
+  title = 'Modifier un Fournisseur';
 
   constructor(
     private supplierService: SupplierService,
-    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
     private toastr: ToastrService,
-    private modalService: NgbModal) { }
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    if (this.editMode === 1) {
+      this.selectedSupplier = new Supplier();
+      this.selectedContact = new Contact();
+      this.selectedAddress = new Address();
+      this.title = 'Ajouter un Fournisseur';
+
+    } else {
+      console.log(this.selectedSupplier);
+
+      if (this.selectedSupplier.contact) {
+        this.selectedContact = this.selectedSupplier.contact;
+      }
+      if (this.selectedSupplier.address) {
+        this.selectedAddress = this.selectedSupplier.address;
+      }
+    }
+
+
+    this.displayDialog = true;
     this.initForm();
 
   }
@@ -42,20 +62,20 @@ export class SupplierEditComponent implements OnInit {
   initForm() {
 
     this.supplierForm = new FormGroup({
-      'code': new FormControl({value:this.selectedSupplier.code, disabled: true}, Validators.required),
-      'description': new FormControl({value:this.selectedSupplier.description, disabled: true}),
-      'name': new FormControl({value:this.selectedContact.name, disabled: true}, Validators.required),
-      'surName': new FormControl({value:this.selectedContact.surname, disabled: true}),
-      'tel1': new FormControl({value:this.selectedContact.tel1, disabled: true}),
-      'tel2': new FormControl({value:this.selectedContact.tel2, disabled: true}),
-      'fax': new FormControl({value:this.selectedContact.fax, disabled: true}),
-      'email': new FormControl({value:this.selectedContact.email, disabled: true}),
-      'addrCode': new FormControl({value:this.selectedAddress.code, disabled: true}, Validators.required),
-      'line1': new FormControl({value:this.selectedAddress.line1, disabled: true}, Validators.required),
-      'line2': new FormControl({value:this.selectedAddress.line2, disabled: true}),
-      'zipCode': new FormControl({value:this.selectedAddress.zip, disabled: true}),
-      'city': new FormControl({value:this.selectedAddress.city, disabled: true}),
-      'country': new FormControl({value:this.selectedAddress.country, disabled: true})
+      'code': new FormControl(this.selectedSupplier.code, Validators.required),
+      'description': new FormControl(this.selectedSupplier.description),
+      'name': new FormControl(this.selectedContact.name, Validators.required),
+      'surName': new FormControl(this.selectedContact.surname),
+      'tel1': new FormControl(this.selectedContact.tel1),
+      'tel2': new FormControl(this.selectedContact.tel2),
+      'fax': new FormControl(this.selectedContact.fax),
+      'email': new FormControl(this.selectedContact.email),
+      'addrCode': new FormControl(this.selectedAddress.code, Validators.required),
+      'line1': new FormControl(this.selectedAddress.line1, Validators.required),
+      'line2': new FormControl(this.selectedAddress.line2),
+      'zipCode': new FormControl(this.selectedAddress.zip),
+      'city': new FormControl(this.selectedAddress.city),
+      'country': new FormControl(this.selectedAddress.country)
     });
   }
   onSubmit() {
@@ -89,10 +109,8 @@ export class SupplierEditComponent implements OnInit {
     console.log(this.selectedSupplier);
     const s = this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
-        this.supplierAdd.emit(data);
-
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        if (this.modal) { this.modal.close(); }
+        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
@@ -107,38 +125,11 @@ export class SupplierEditComponent implements OnInit {
 
   }
 
-  open(content) {
-    if (!this.editMode) {
-      this.selectedSupplier = new Supplier();
-      this.selectedContact = new Contact();
-      this.selectedAddress = new Address();
-    } else {
-      console.log(this.selectedSupplier);
 
-      if (this.selectedSupplier.contact) {
-        this.selectedContact = this.selectedSupplier.contact;
-      }
-      if (this.selectedSupplier.address) {
-        this.selectedAddress = this.selectedSupplier.address;
-      }
-    }
-    this.initForm();
-    this.modal = this.modalService.open(content, { backdrop: 'static', centered: true, size: 'xl' });
-    this.modal.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  onShowDialog() {
+    let a = false;
+    this.showDialog.emit(a);
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
 }

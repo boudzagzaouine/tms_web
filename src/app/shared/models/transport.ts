@@ -1,3 +1,4 @@
+import { Address } from './address';
 
 
 export class Transport {
@@ -9,5 +10,7 @@ export class Transport {
 
   siret: number;
   description: number;
+   address:Address;
+  active:Boolean;
 
 }

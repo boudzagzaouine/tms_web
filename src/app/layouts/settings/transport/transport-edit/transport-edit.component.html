@@ -1,0 +1,123 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '800px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+
+      <form [formGroup]="transportForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(transportForm.get('code').touched && transportForm.get('code').invalid) ||
+            (isFormSubmitted && transportForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+            <span *ngIf="(transportForm.get('name').touched && transportForm.get('name').invalid) ||
+            (isFormSubmitted && transportForm.get('name').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="name"
+           />
+          </div>
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'Description' | translate}} </label>
+
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="description"
+           />
+          </div>
+
+          <div class="col-md-3"></div>
+
+        </div>
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'pays' | translate}} *</label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="country"
+           />
+          </div>
+
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'ville' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="city"
+           />
+          </div>
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'Code Postale' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="zip"
+           />
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Addresse ' | translate}} </label>
+            <br />
+            <span *ngIf="(transportForm.get('line1').touched && transportForm.get('line1').invalid) ||
+            (isFormSubmitted && transportForm.get('line1').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="line1"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Addresse' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="line2"
+           />
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="ui-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="ui-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>

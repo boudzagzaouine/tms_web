@@ -67,6 +67,11 @@ import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-ediit/insurance-term-ediit.component';
 import { TestDataTableComponent } from './test-data-table/test-data-table.component';
+import { ZoneComponent } from './zone/zone.component';
+import { ZoneEditComponent } from './zone/zone-edit/zone-edit.component';
+import { TransportComponent } from './transport/transport.component';
+import { TransportEditComponent } from './transport/transport-edit/transport-edit.component';
+import {FieldsetModule} from 'primeng/fieldset';
 
 
 
@@ -88,7 +93,7 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     MaintenanceTypeComponent,
     MaintenanceTypeEditComponent,
     MaintenanceActionComponent,
-    MaintenanceActionEditComponent,    
+    MaintenanceActionEditComponent,
     MaintenanceLineRefComponent,
     MaintenanceLineRefEditComponent,
     ContractTypeComponent,
@@ -116,6 +121,10 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     TestDataTableComponent,
     PatrimonyTypeComponent,
     PatrimonyTypeEditComponent,
+    ZoneComponent,
+    ZoneEditComponent,
+    TransportComponent,
+    TransportEditComponent,
 
 
 
@@ -144,8 +153,8 @@ import { TestDataTableComponent } from './test-data-table/test-data-table.compon
     MultiSelectModule,
     SplitButtonModule,
     DialogModule,
-  PaginatorModule
-
+  PaginatorModule,
+  FieldsetModule
 
   ]
 })

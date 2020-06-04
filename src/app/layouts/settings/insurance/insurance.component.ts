@@ -14,7 +14,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { InsuranceService } from './../../../shared/services';
 import { Insurance } from './../../../shared/models/insurance';
-import { Patrimony } from 'src/app/shared/models/patrimony';
 
 
 @Component({

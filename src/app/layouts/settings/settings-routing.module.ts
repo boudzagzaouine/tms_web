@@ -1,3 +1,6 @@
+import { TransportComponent } from './transport/transport.component';
+import { Transport } from './../../shared/models/transport';
+import { ZoneComponent } from './zone/zone.component';
 import { InsuranceTermEdiitComponent } from './insurance-term/insurance-term-ediit/insurance-term-ediit.component';
 import { TestDataTableComponent } from './test-data-table/test-data-table.component';
 import { DataTableComponent } from './../../shared/components/data-table/data-table.component';
@@ -57,7 +60,9 @@ const routes: Routes = [
       { path: 'menu-maintenance', component: MenuMaintenanceComponent },
       { path: 'menu-driver', component: MenuDriverComponent },
       { path: 'test-table', component: TestDataTableComponent },
-      { path: 'patrimony', component: PatrimonyTypeComponent }
+      { path: 'patrimony', component: PatrimonyTypeComponent },
+      { path: 'zone', component: ZoneComponent },
+      { path: 'transport', component: TransportComponent }
 
 
 

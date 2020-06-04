@@ -1,3 +1,4 @@
+import { AddressService } from './services/api/address.service';
 import { MachineService } from './services/api/machine.service';
 import { PatrimonyTypeService } from './services/api/patrimony-type.service';
 import { PaginatorModule } from 'primeng/paginator';
@@ -45,6 +46,8 @@ import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.s
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import {FieldsetModule} from 'primeng/fieldset';
+
 import {
   BadgeTypeService,
   BadgeService,
@@ -91,7 +94,8 @@ import { PatrimonyService } from './services/api/patrimony-service';
     SplitButtonModule,
     DialogModule,
     PaginatorModule,
-    PanelModule
+    PanelModule,
+    FieldsetModule
 
   ],
   exports: [
@@ -143,6 +147,7 @@ export class SharedModule {
         PatrimonyTypeService,
         MachineService,
         PatrimonyService,
+        AddressService
       ]
     };
   }

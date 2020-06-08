@@ -79,14 +79,14 @@
             <ng-template pTemplate="header">
               <tr>
                 <th>{{ "Code" | translate }}</th>
-                <th>{{ "Prix" | translate }}</th>
+                <!-- <th>{{ "Prix" | translate }}</th> -->
                 <th style="width: 15%;">{{ "Actions" | translate }}</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-insuranceTerms>
               <tr>
                 <td>{{ insuranceTerms?.insuranceTerm?.description }}</td>
-                <td>{{ insuranceTerms?.amount }}</td>
+                <!-- <td>{{ insuranceTerms?.amount }}</td> -->
                 <td>
                   <app-term-edit
                     [editMode]="true"

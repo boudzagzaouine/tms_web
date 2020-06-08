@@ -1,3 +1,5 @@
+import { DialogModule } from 'primeng/dialog';
+import { PanelModule } from 'primeng/panel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ContextMenuModule } from 'primeng/contextmenu';
@@ -16,7 +18,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [InsuranceEditComponent, InsuranceComponent],
   imports: [
-    CommonModule,TranslateModule,CalendarModule,FormsModule,ReactiveFormsModule,TableModule,
+    CommonModule,TranslateModule,CalendarModule,FormsModule,ReactiveFormsModule,TableModule,PanelModule,DialogModule,
     ContextMenuModule,NgxSpinnerModule,ConfirmDialogModule,
     AutoCompleteModule
 

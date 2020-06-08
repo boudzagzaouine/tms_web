@@ -242,11 +242,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       }),
       insurance: new FormGroup({
         'fInsurance': new FormControl(),
-        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
-        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
-        'fIMontant': new FormControl(this.selectedInsurance.amount, Validators.required),
-        'fISupplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-        'fICode': new FormControl(this.selectedInsurance.code, Validators.required),
+        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate)),
+        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate)),
+        'fIMontant': new FormControl(this.selectedInsurance.amount),
+        'fISupplier': new FormControl(this.selectedInsurance.supplier),
+        'fICode': new FormControl(this.selectedInsurance.code),
         'fIType': new FormControl(this.selectedInsurance.insuranceType),
       }),
 
@@ -430,18 +430,18 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         this.isFormSubmitted = false;
 
       }
-
-    } else if (this.index === 2) {
-      if
-        (this.vehicleForm.controls['insurance'].invalid) {
-        return;
-      } else if (this.vehicleForm.controls['insurance']) {
+}
+      else if (this.index === 2) {
+    //   if
+    //     (this.vehicleForm.controls['insurance'].invalid) {
+    //     return;
+    //   } else if (this.vehicleForm.controls['insurance']) {
         this.index = this.index + 1;
-        this.isFormSubmitted = false;
+    //     this.isFormSubmitted = false;
 
-      }
+    //   }
 
-    }
+     }
 
   }
   openPrev() {

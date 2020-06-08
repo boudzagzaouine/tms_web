@@ -27,6 +27,20 @@
       </p-dropdown>
       </div>
 
+      <div class="col-md-2">
+        <label class="font-weight-bold">{{
+          "vehicule" | translate
+        }}</label
+        ><br />
+        <p-dropdown
+        [options]="vehicleList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="vehicleSearch" filter="true"
+      >
+      </p-dropdown>
+      </div>
+
 
     </div>
     <br />
@@ -54,8 +68,6 @@
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
   [listName]="'Liste des assurances'"
- [addBtnVisible]="'true'"
-  [updateBtnVisible]="'true'"
 
 ></app-data-table>
 

@@ -47,8 +47,8 @@ export class CommissionDriverComponent implements OnInit {
 
     this.className = CommissionDriver.name;
     this.cols = [
-      { field: 'driver', header: 'Chauffeur' },
-      { field: 'commissionType', header: 'Type de commission' },
+      { field: 'driver', child: 'code', header: 'Chauffeur' },
+      { field: 'commissionType', child: 'code', header: 'Type de commission' },
       { field: 'datee', header: 'Date' },
 
 

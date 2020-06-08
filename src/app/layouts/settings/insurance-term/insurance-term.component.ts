@@ -53,7 +53,7 @@ export class InsuranceTermComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
-      { field: 'roofed', header: 'Valeur' },
+      { field: 'roofed', header: 'Plafond' },
 
     ];
 
@@ -96,7 +96,7 @@ export class InsuranceTermComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
-    
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);

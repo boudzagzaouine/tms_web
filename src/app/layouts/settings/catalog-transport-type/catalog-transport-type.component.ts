@@ -52,14 +52,14 @@ export class CatalogTransportTypeComponent implements OnInit {
   ngOnInit() {
     this.className = CatalogTransportType.name;
     this.cols = [
-      { field: 'transport', header: 'Transport' },
-      { field: 'vehicleCategory', header: 'Catégorie de Véhicle' },
-      { field: 'zoneSource', header: 'Zone Source' },
-      { field: 'zoneDestination', header: 'Zone Destination' },
+      { field: 'transport', child: 'code', header: 'Transport' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de Véhicle' },
+      { field: 'zoneSource', child: 'name', header: 'Zone Source' },
+      { field: 'zoneDestination', child: 'name', header: 'Zone Destination' },
       { field: 'amountHt', header: 'Montant Ht' },
       { field: 'amountTtc', header: 'Montant TTC' },
       { field: 'amountTva', header: 'Montant' },
-      { field: 'vat', header: 'TVA' },
+      { field: 'vat', child: 'value', header: 'TVA' },
     ];
 
     this.loadData();

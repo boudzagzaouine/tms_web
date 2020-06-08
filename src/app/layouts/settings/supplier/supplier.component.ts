@@ -46,16 +46,18 @@ export class SupplierComponent implements OnInit {
       { field: 'tel2', header: 'Tele 2' },
       { field: 'fax', header: 'Fax' },
       { field: 'email', header: 'Email' },
-      { field: 'line1', header: 'Addresse 1' },
+      { field: 'address?.line1', header: 'Addresse 1' },
       { field: 'line2', header: 'Addresse 2' },
       { field: 'zip', header: 'Code postale' },
       { field: 'city', header: 'Ville' },
       { field: 'country', header: 'Pays' },
-
-
     ];
 
+
     this.loadData();
+    console.log("test");
+    console.log("");
+
 
 
   }

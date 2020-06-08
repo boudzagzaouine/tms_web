@@ -47,7 +47,7 @@ export class TermEditComponent implements OnInit {
   initForm() {
     this.insuranceTypeTermForm = new FormGroup({
       'fTerm': new FormControl(this.selectedinsuranceTypeTerm.insuranceTerm, Validators.required),
-      'fAmount': new FormControl({ value: this.selectedinsuranceTypeTerm.amount, disabled: true }, Validators.required)
+    //  'fAmount': new FormControl({ value: this.selectedinsuranceTypeTerm.amount, disabled: true }, Validators.required)
     });
   }
   onSubmit() {
@@ -56,7 +56,7 @@ export class TermEditComponent implements OnInit {
 
     this.spinner.show();
     if (this.insuranceTypeTermForm.value['fAmount'] !== undefined) {
-      this.selectedinsuranceTypeTerm.amount = this.insuranceTypeTermForm.value['fAmount'];
+     // this.selectedinsuranceTypeTerm.amount = this.insuranceTypeTermForm.value['fAmount'];
     } else {
       this.selectedinsuranceTypeTerm.amount = 0;
     }

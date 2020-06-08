@@ -122,12 +122,19 @@
           </td>
 
           <td *ngFor="let col of columns; let i = index" style="width:160px">
-            <span *ngIf="rowData[col.field]?.code==null" >
+            <!-- <span *ngIf="rowData[col.field]?.code==null" >
               {{rowData[col.field]}}
+            </span> -->
+
+            <span *ngIf="rowData[col.field]?.code ==null; else ok">
+              {{rowData[col.field] ? rowData[col.field] :''}}
             </span>
-            <span *ngIf="rowData[col.field]?.code!=null" style="width:160px">
+            <ng-template  #ok>
+                 {{rowData[col.field][col.child] ? rowData[col.field][col.child] :''}}
+            </ng-template>
+            <!-- <span *ngIf="rowData[col.field]?.code!=null" style="width:160px">
               {{rowData[col.field]?.code}}
-            </span>
+            </span> -->
 
           </td>
 

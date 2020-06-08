@@ -16,12 +16,12 @@ showEffect="fade"
         <div class="row justify-content-around">
           <div class="form-group col-sm-3">
             <label class="font-weight-bold ">{{'Code' | translate}}</label>
-            <input type="text" class="form-control" disabled="true" pInputText formControlName="code" (keydown.space)="$event.preventDefault()" />
+            <input type="text" class="form-control"  pInputText formControlName="code" (keydown.space)="$event.preventDefault()" />
           </div>
 
           <div class="form-group col-sm-3 ">
             <label class="font-weight-bold ">{{'Fournisseur'| translate}} </label>
-             <input type="text" class="form-control" disabled="true" pInputText formControlName="supplier"   />
+             <input type="text" class="form-control"  pInputText formControlName="supplier"   />
           </div>
           <div class="form-group col-sm-3 ">
             <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
@@ -30,29 +30,29 @@ showEffect="fade"
           <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
             <label class="font-weight-bold ">{{'Véhicule'| translate}} </label>
           </div>
-            <input type="text" class="form-control" disabled="true" pInputText formControlName="vehiclecode" >
+            <input type="text" class="form-control"  pInputText formControlName="vehiclecode" >
           </div>
           <div class="form-group col-sm-3 ">
             <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
-            <input type="text" class="form-control" disabled="true" pInputText formControlName="typeinsurance" >
+            <input type="text" class="form-control"  pInputText formControlName="typeinsurance" >
           </div>
         </div>
         <div class="row justify-content-around">
           <div class="form-group col-sm-3">
             <label class="font-weight-bold ">{{'De' | translate}} </label>
-            <p-calendar formControlName="startDate" disabled="true" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+            <p-calendar formControlName="startDate"  dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
               [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
           </div>
 
           <div class="form-group col-sm-3">
             <label class="font-weight-bold ">{{'à' | translate}} </label>
             <br />
-            <p-calendar formControlName="endDate" [disabled]="true" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+            <p-calendar formControlName="endDate"  dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
               [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
           </div>
           <div class="form-group col-sm-6">
             <label class="font-weight-bold ">{{'Montant' | translate}} </label>
-            <input type="text" class="form-control" disabled="true" pInputText formControlName="amount" pKeyFilter="num">
+            <input type="text" class="form-control"  pInputText formControlName="amount" pKeyFilter="num">
           </div>
         </div>
 

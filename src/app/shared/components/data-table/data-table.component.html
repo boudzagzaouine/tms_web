@@ -1,79 +1,88 @@
 <div class="card mt-3">
   <div class="card-header" style="background-color: #f7f7f7;">
-    <div class="d-flex justify-content-between">
-      <div>
-        <button
-        [hidden]="addBtnVisible"
-          type="button"
-          class="btn btn-sm btn-primary mx-1"
-          (click)="onEdit(1)"
-          ><!--ADD-->
-          <i class="fa fa-plus"></i>
-        </button>
-        <button
-         [hidden]="updateBtnVisible"
-         type="button"
-          class="btn btn-sm btn-success mx-1"
-          (click)="onEdit(2)"
-          [disabled]="updateBtnDisable == false"
-        ><!--UPDATE-->
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button
-        [hidden]="deleteBtnVisible"
-          type="button"
-          class="btn btn-sm btn-danger mx-1"
-          (click)="onEdit(3)"
-          [disabled]="deleteBtnDisable == false"
-        > <!--DELETE-->
-          <i class="fa fa-trash-o"></i>
-        </button>
-        <button
-        [hidden]="viewBtnVisible"
-        type="button"
-        class="btn btn-sm btn-info mx-1"
-        [disabled]="updateBtnDisable == false"
+      <div class="row">
 
-        (click)="onEdit(4)"
-      > <!--view-->
-        <i class="fa fa-eye"></i>
-      </button>
-      </div>
-      <div>
-        <p style="font-size: 16px; color: #5f5b5b;" class="text-center ml-5">
-          <b> {{listName | translate}} </b>
-        </p>
-      </div>
-      <div>
-        <div class="d-flex justify-content-end">
-          <p-button
-            label="{{ 'Enregistrer la vue' | translate }}"
-            icon="pi pi-file"
-            styleClass="ui-button-primary"
-            class="mr-3"
-            (click)="onSaveView()"
-          ></p-button>
-          <p-splitButton
-            label="{{'Export' | translate}}"
-            icon="pi pi-file"
-            class="mr-3"
-            [model]="exportBtnItems"
-            styleClass="ui-button-warning"
-          ></p-splitButton>
+        <div class="col-md-4 pull-left">
+          <div>
+            <button
+            [hidden]="addBtnVisible"
+              type="button"
+              class="btn btn-sm btn-primary mx-1"
+              (click)="onEdit(1)"
+              ><!--ADD-->
+              <i class="fa fa-plus"></i>
+            </button>
+            <button
+             [hidden]="updateBtnVisible"
+             type="button"
+              class="btn btn-sm btn-success mx-1"
+              (click)="onEdit(2)"
+              [disabled]="updateBtnDisable == false"
+            ><!--UPDATE-->
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button
+            [hidden]="deleteBtnVisible"
+              type="button"
+              class="btn btn-sm btn-danger mx-1"
+              (click)="onEdit(3)"
+              [disabled]="deleteBtnDisable == false"
+            > <!--DELETE-->
+              <i class="fa fa-trash-o"></i>
+            </button>
+            <button
+            [hidden]="viewBtnVisible"
+            type="button"
+            class="btn btn-sm btn-info mx-1"
+            [disabled]="updateBtnDisable == false"
 
-          <p-multiSelect
-            [options]="cols"
-            [(ngModel)]="selectedColumns"
-            optionLabel="header"
-            selectedItemsLabel="{{'colonnes sélectionnées'| translate }}"
-            dropdownIcon="pi pi-table"
-            [style]="{ minWidth: '150px' }"
-            defaultLabel="{{ 'Choisir' | translate }}"
-            maxSelectedLabels="0"
-          ></p-multiSelect>
+            (click)="onEdit(4)"
+          > <!--view-->
+            <i class="fa fa-eye"></i>
+          </button>
+          </div>
+        </div>
+        <div class=" col-md-4 pull-center">
+          <span style="font-size: 16px; color: #5f5b5b;">
+            <b>{{listName | translate}}</b></span
+          >
+        </div>
+        <div class=" col-md-4 pull-right">
+          <div>
+            <button
+              type="button"
+              title="{{ 'Enregistrer la vue' | translate }}"
+              class="btn btn-sm btn-primary mx-1"
+              (click)="onSaveView()"
+            ><i class="fa fa-eye">  </i>
+          </button>
+            <p-splitButton
+              title="{{'Export' | translate}}"
+              icon="pi pi-file"
+              class="mr-3"
+              [model]="exportBtnItems"
+              styleClass="ui-button-warning"
+            ></p-splitButton>
+
+            <p-multiSelect
+              [options]="cols"
+              [(ngModel)]="selectedColumns"
+              optionLabel="header"
+              selectedItemsLabel="{{'colonnes sélectionnées'| translate }}"
+              dropdownIcon="pi pi-table"
+              [style]="{ minWidth: '150px' }"
+              defaultLabel="{{ 'Choisir' | translate }}"
+              maxSelectedLabels="0"
+            ></p-multiSelect>
+            </div>
+
         </div>
       </div>
-    </div>
+
+      <div>
+
+      </div>
+
     <!-- (onRowReorder)='onSaveVue($event)' -->
     <p-table
       [value]="objectList"

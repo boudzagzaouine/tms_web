@@ -50,6 +50,12 @@ export class InsuranceEditComponent implements OnInit {
         this.supplierList = data;
       }
     );
+    if (this.editMode === 1) {
+      this.selectedInsurance = new Insurance();
+      this.title = 'Ajouter une assurance';
+
+    }
+
     this.displayDialog = true;
     this.initForm();
 
@@ -67,8 +73,7 @@ export class InsuranceEditComponent implements OnInit {
         this.selectedInsurance.supplier.code : null, Validators.required),
       'vehiclecode': new FormControl(
 
-         this.selectedInsurance.patrimony.registrationNumber ? this.selectedInsurance.patrimony.registrationNumber
-         : this.selectedInsurance.patrimony.code
+         this.selectedInsurance.patrimony.code , Validators.required
        ),
       'typeinsurance':new FormControl(this.selectedInsurance.insuranceType.code),
       'insuranceTerm': new FormControl(this.selectedInsurance.insuranceTerm != null ?

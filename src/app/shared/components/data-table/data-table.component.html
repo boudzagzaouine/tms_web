@@ -2,8 +2,7 @@
   <div class="card-header" style="background-color: #f7f7f7;">
       <div class="row">
 
-        <div class="col-md-4 pull-left">
-          <div>
+        <div class="col-md-4 pull-left ">
             <button
             [hidden]="addBtnVisible"
               type="button"
@@ -40,48 +39,73 @@
           > <!--view-->
             <i class="fa fa-eye"></i>
           </button>
-          </div>
         </div>
-        <div class=" col-md-4 pull-center">
+
+        <div class=" col-md-3 ">
           <span style="font-size: 16px; color: #5f5b5b;">
             <b>{{listName | translate}}</b></span
           >
         </div>
-        <div class=" col-md-4 pull-right">
-          <div>
+        <div class="d-flex col-md-5 justify-content-end ">
+
             <button
               type="button"
               title="{{ 'Enregistrer la vue' | translate }}"
-              class="btn btn-sm btn-primary mx-1"
+              class="btn btn-sm "
               (click)="onSaveView()"
-            ><i class="fa fa-eye">  </i>
+            ><i class="sidebar-item-icon"><img src="./assets/img/logos/saveview.png"
+              width="25px" height="25px"
+              ></i>
           </button>
-            <p-splitButton
-              title="{{'Export' | translate}}"
+          <button
+          type="button"
+          title="{{ 'Télécharger en PDF' | translate }}"
+          class="btn btn-sm "
+          (click)="exportPdf()"
+        > <i class="sidebar-item-icon"><img src="./assets/img/logos/pdf.png"
+          width="25px" height="25px"
+          ></i>
+      </button>
+      <button
+      type="button"
+      title="{{ 'Télécharger en EXCEL' | translate }}"
+            class="btn btn-sm "
+      (click)="exportexcell()"
+    ><i class="sidebar-item-icon "><img src="./assets/img/logos/excel.png"
+      width="25px" height="25px"     title="{{ 'Télécharger en EXCEL' | translate }}"
+   ></i>
+  </button>
+
+
+             <!-- <p-splitButton
+              label="{{'Export' | translate}}"
               icon="pi pi-file"
               class="mr-3"
-              [model]="exportBtnItems"
+              [model]="exportBtnItems3
               styleClass="ui-button-warning"
-            ></p-splitButton>
+            ></p-splitButton> -->
 
-            <p-multiSelect
+   <p-multiSelect
+            class="mx-1"
               [options]="cols"
               [(ngModel)]="selectedColumns"
               optionLabel="header"
               selectedItemsLabel="{{'colonnes sélectionnées'| translate }}"
               dropdownIcon="pi pi-table"
-              [style]="{ minWidth: '150px' }"
+              [style]="{ minWidth: '190px' }"
               defaultLabel="{{ 'Choisir' | translate }}"
               maxSelectedLabels="0"
             ></p-multiSelect>
-            </div>
+
 
         </div>
       </div>
 
-      <div>
+    </div>
 
-      </div>
+
+
+  </div>
 
     <!-- (onRowReorder)='onSaveVue($event)' -->
     <p-table
@@ -152,11 +176,7 @@
         </tr>
       </ng-template>
     </p-table>
-  </div>
 
-
-
-  </div>
 
   <ngx-spinner
     bdColor="rgba(255,255,255,0)"

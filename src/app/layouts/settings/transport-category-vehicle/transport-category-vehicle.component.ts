@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { TransportCategoryVehicleService } from './../../../shared/services/api/transport-category-vehicle.service';
@@ -28,14 +29,22 @@ export class TransportCategoryVehicleComponent implements OnInit {
   categorieVehicleList: Array<VehicleCategory> = [];
   transportList: Array<Transport> = [];
   cols: any[];
+  colsPdf: any[];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
 
+  transportCategoryVehicleExportList: {
+    'Catégorie de véhicule': string,
+    'Transport': string,
+    'Quantité': string,
+
+  }[] = [];
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
@@ -45,9 +54,9 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
     this.className = TransportCategoryVehicle.name;
     this.cols = [
-      { field: 'vehicleCategory', child:'code', header: 'Catégorie Véhicule' },
-      { field: 'transport',child:'code', header: 'Transport' },
-      { field: 'quantity',header: 'Quantité' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de véhicule' },
+      { field: 'transport', child: 'code', header: 'Transport' },
+      { field: 'quantity', header: 'Quantité' },
 
     ];
 
@@ -63,6 +72,42 @@ export class TransportCategoryVehicleComponent implements OnInit {
       data => {
         this.transportList = data;
       }
+    );
+
+  }
+
+  onExportExcelGlobal(event) {
+
+    this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
+      data => {
+        this.transportCategoryVehicleExportList = data.map(
+          m => ({
+            'Catégorie de véhicule': m.vehicleCategory.code,
+            'Transport': m.transport.code,
+            'Quantité': m.quantity,
+          }));
+        this.globalService.exportExcelGlobal(this.transportCategoryVehicleExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
+      data => {
+        this.transportCategoryVehicleExportList = data;
+        this.globalService.exportPdf(event,this.transportCategoryVehicleExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
     );
 
   }

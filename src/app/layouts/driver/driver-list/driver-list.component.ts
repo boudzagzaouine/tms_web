@@ -1,3 +1,5 @@
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { Router } from '@angular/router';
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
@@ -34,13 +36,26 @@ export class DriverListComponent implements OnInit {
   driverList: Array<Driver> = [];
   badgesTypeList: Array<BadgeType> = [];
 
-  className: String;
+  className: string;
   cols: any[];
   editMode: number;
+  driverExportList: {
+    'Code': string,
+    'Cin': string,
+    'Date Naissance': string,
+    'Carte abonnement': string,
+    'Nom': string,
+    'Téléphone': string,
+    'Fax': string,
+    'Email': string,
+
+  }[] = [];
+
 
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private badgeTypeService: BadgeTypeService,
+    private globalService:GlobalService,
     private badgetypedriverService:BadgeTypeDriverService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrService,
@@ -79,6 +94,49 @@ export class DriverListComponent implements OnInit {
 
   }
 
+  onExportExcelGlobal() {
+    console.log("methode insurance");
+
+    this.driverService.find(this.searchQuery).subscribe(
+      data => {
+        this.driverExportList = data.map(
+          m => ({
+
+              'Code': m.code,
+              'Cin': m.cin,
+              'Date Naissance': m.birthDate,
+              'Carte abonnement': m.carte,
+              'Nom': m.name,
+              'Téléphone': m.tele1,
+              'Fax': m.fax,
+              'Email': m.email,
+
+            }));
+        this.globalService.exportExcelGlobal(this.driverExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.driverService.find(this.searchQuery).subscribe(
+      data => {
+        this.driverExportList = data;
+        this.globalService.exportPdf(event,this.driverExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
 
   loadBadge() {
 

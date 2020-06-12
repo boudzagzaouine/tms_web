@@ -21,20 +21,38 @@ showEffect="fade"
 
           <div class="form-group col-sm-3 ">
             <label class="font-weight-bold ">{{'Fournisseur'| translate}} </label>
-             <input type="text" class="form-control"  pInputText formControlName="supplier"   />
+             <!-- <input type="text" class="form-control"  pInputText formControlName="supplier"   /> -->
+             <p-dropdown
+             [options]="supplierList"
+             optionLabel="code"
+             [autoDisplayFirst]="false"
+             formControlName="supplier" filter="true" [showClear]='true'
+           >
+           </p-dropdown>
           </div>
           <div class="form-group col-sm-3 ">
-            <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
+            <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
             <label class="font-weight-bold ">{{'Machine'| translate}} </label>
-          </div>
-          <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
+          </div> -->
+          <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
             <label class="font-weight-bold ">{{'Véhicule'| translate}} </label>
-          </div>
+          </div> -->
+          <label class="font-weight-bold ">{{'Patrimoine'| translate}} </label>
+
             <input type="text" class="form-control"  pInputText formControlName="vehiclecode" >
+
           </div>
           <div class="form-group col-sm-3 ">
             <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
-            <input type="text" class="form-control"  pInputText formControlName="typeinsurance" >
+            <!-- <input type="text" class="form-control"  pInputText formControlName="typeinsurance" > -->
+            <p-dropdown
+        [options]="insuranceTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        (onChange)="onSelectInsuranceType($event)"
+        formControlName="typeinsurance" filter="true" [showClear]='true'
+      >
+      </p-dropdown>
           </div>
         </div>
         <div class="row justify-content-around">
@@ -102,6 +120,13 @@ showEffect="fade"
     class="ui-button-primary"
     label="{{'Annuler' | translate }}"
   ></button>
+  <button
+  type="button"
+  pButton
+  (click)="onSubmit()"
+  class="ui-button-success"
+  label="{{ 'Valider' | translate }}"
+></button>
 
   </div>
 </p-footer>

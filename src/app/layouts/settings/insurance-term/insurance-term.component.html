@@ -33,6 +33,8 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des termes assurance'"
   [viewBtnVisible]="'false'"
 

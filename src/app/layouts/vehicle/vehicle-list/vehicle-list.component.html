@@ -1,82 +1,88 @@
 <br />
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+  <div class="row">
+    <div class="col-md-2">
+      <label class="font-weight-bold"> {{ "Code" | translate }}</label
+      ><br />
+      <p-autoComplete
+        [(ngModel)]="codeSearch"
+        [suggestions]="vehicleCodeList"
+        (completeMethod)="onVehicleCodeSearch($event)"
+      ></p-autoComplete>
+    </div>
 
-    <div class="row">
-      <div class="col-md-2">
-        <label class="font-weight-bold">
-          {{"Code" | translate}}</label><br />
-           <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="vehicleCodeList"
-          (completeMethod)="onVehicleCodeSearch($event)"></p-autoComplete>
-      </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Matriculation" | translate }}</label
+      ><br />
+      <input type="text" pInputText [(ngModel)]="matSearch" />
+    </div>
 
-      <div class="col-md-2">
-        <label class="font-weight-bold ">{{"Matriculation" | translate}}</label><br />
-        <input type="text" pInputText [(ngModel)]="matSearch" />
-      </div>
-
-      <div class="col-md-2 ">
-        <label class="font-weight-bold ">{{"Catégorie " | translate}}</label><br />
-        <p-dropdown
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Catégorie " | translate }}</label
+      ><br />
+      <p-dropdown
         [options]="vehicleCategoryList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="categorySearch" filter="true"
+        [(ngModel)]="categorySearch"
+        filter="true"
       >
       </p-dropdown>
-      </div>
+    </div>
 
-      <div class="col-md-2 ">
-        <label class="font-weight-bold ">{{"Type de badge" | translate}}</label><br />
-        <p-dropdown
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type de badge" | translate }}</label
+      ><br />
+      <p-dropdown
         [options]="badgeTypeList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="badgeTypeSearch" filter="true"
+        [(ngModel)]="badgeTypeSearch"
+        filter="true"
       >
       </p-dropdown>
-      </div>
-      <div class="col-md-2 ">
-        <label class="font-weight-bold ">{{"Type de contrat" | translate}}</label><br />
-        <p-dropdown
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type de contrat" | translate }}</label
+      ><br />
+      <p-dropdown
         [options]="contratTypeList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="contratTypeSearch" filter="true"
+        [(ngModel)]="contratTypeSearch"
+        filter="true"
       >
       </p-dropdown>
-      </div>
-      <div class="col-md-2 ">
-        <label class="font-weight-bold ">{{"Transport" | translate}}</label><br />
-        <p-dropdown
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Transport" | translate }}</label
+      ><br />
+      <p-dropdown
         [options]="transportList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="transportSearch" filter="true"
+        [(ngModel)]="transportSearch"
+        filter="true"
       >
       </p-dropdown>
-      </div>
-
     </div>
+  </div>
 
-    <br />
-    <br />
-    <div class="text-center">
-      <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-        <i class="fa fa-refresh mr-2"></i>
-        {{ "Réinitialiser" | translate }}
-      </button>
+  <br />
+  <br />
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i>
+      {{ "Réinitialiser" | translate }}
+    </button>
 
-      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-        <i class="fa fa-search mr-2"></i>
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i>
 
-        {{ "Rechercher" | translate }}
-      </button>
-    </div>
-
+      {{ "Rechercher" | translate }}
+    </button>
+  </div>
 </p-panel>
-
-
-
 
 <app-data-table
   [className]="className"
@@ -86,13 +92,23 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des véhicule'"
   [addBtnVisible]="'true'"
   [viewBtnVisible]="'false'"
 ></app-data-table>
 
-
-
-<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
 </p-confirmDialog>

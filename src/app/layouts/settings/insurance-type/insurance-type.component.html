@@ -32,12 +32,15 @@
   [className]="className"
   [cols]="cols"
   [objectList]="insuranceTypeList"
+  [objectExportList]="insuranceTypeExportList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des types assurance'"
   [viewBtnVisible]="'false'"
+  (exportBtnExcelGlobal)="onExportExcelGlobal()"
 
 ></app-data-table>
 

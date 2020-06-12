@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { ContractType } from './../../../shared/models/contract-type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
@@ -28,10 +29,16 @@ export class ComsumptionTypeComponent implements OnInit {
   selectedonsumptionTypes: Array<ConsumptionType> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+  consumptionTypeExportList: {
+
+    'Code': string,
+    'Description': string,
+  }[] = [];
 
   constructor(private consumptionTypeService: ConsumptionTypeService,
     private spinner: NgxSpinnerService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -74,7 +81,41 @@ export class ComsumptionTypeComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+  onExportExcelGlobal(event) {
 
+    this.consumptionTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.consumptionTypeExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+          }));
+        this.globalService.exportExcelGlobal(this.consumptionTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.consumptionTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.consumptionTypeExportList = data;
+        this.globalService.exportPdf(event, this.consumptionTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
@@ -92,7 +133,7 @@ export class ComsumptionTypeComponent implements OnInit {
     this.consumptionTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     );
-  }  reset() {
+  } reset() {
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';

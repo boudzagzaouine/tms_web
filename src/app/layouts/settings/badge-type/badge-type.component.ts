@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { BadgeType } from './../../../shared/models/badge-Type';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, ConfirmationService } from 'primeng/api';
@@ -26,9 +27,15 @@ export class BadgeTypeComponent implements OnInit {
   selectedBadgeTypes: Array<BadgeType> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+
+  badgeTypeExportList: {
+    'Code': string,
+    'Description': string,
+  }[] = [];
 
   constructor(private badgeTypeService: BadgeTypeService,
+    private globalService:GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -46,7 +53,40 @@ export class BadgeTypeComponent implements OnInit {
     this.loadData();
 
   }
+  onExportExcelGlobal(event) {
 
+    this.badgeTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.badgeTypeExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+          }));
+        this.globalService.exportExcelGlobal(this.badgeTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.badgeTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.badgeTypeExportList = data;
+        this.globalService.exportPdf(event,this.badgeTypeExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   loadData(search: string = '') {
     this.spinner.show();
     this.badgeTypeService.sizeSearch(search).subscribe(

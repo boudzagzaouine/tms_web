@@ -1,15 +1,14 @@
+import { TransportCategoryVehicleComponent } from './../../../layouts/settings/transport-category-vehicle/transport-category-vehicle.component';
+import { Observable } from 'rxjs';
 import { EmittedOBject } from './emitted-object';
 import { UserService } from './../../services/api/user.service';
 import { AuthenticationService } from './../../services/api/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { InsuranceTermService } from './../../services/api/insurance-term.service';
 import { User } from './../../models/user';
-import { FormGroup } from '@angular/forms';
-import { InsuranceTerm } from './../../models/insurance-term';
 import { MenuItem, ConfirmationService, SortEvent } from 'primeng/api';
 import { Columns } from './../../models/column';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -21,21 +20,25 @@ import * as XLSX from 'xlsx';
 
 export class DataTableComponent implements OnInit {
 
-
+  @ViewChild('myTable', { static: false }) myTable: ElementRef;
   @Input() page = 0;
   @Input() size;
   @Input() collectionSize: number;
   @Input() objectList: Array<any> = [];
+  @Input() objectExportList: Array<any> = [];
   @Input() selectedColumns: any[];
   @Input() cols: any[];
   @Input() className: String;
   @Input() listName: String;
   @Input() addBtnVisible = false;
-  @Input() viewBtnVisible=false;
+  @Input() viewBtnVisible = false;
   @Input() updateBtnVisible = false;
-  @Input() deleteBtnVisible=false;
+  @Input() deleteBtnVisible = false;
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
+  @Output() exportBtnExcelGlobal = new EventEmitter<void>();
+  @Output() exportBtnPdf = new EventEmitter<any[]>();
+
   exportColumns: any[];
   columnsAdded: Array<Columns> = [];
   exportBtnItems: MenuItem[];
@@ -61,9 +64,6 @@ export class DataTableComponent implements OnInit {
         label: 'Excel', icon: 'pi pi-file-excel', command: () => { this.exportexcell(); }
       },
     ];
-
-    console.log(this.className);
-    console.log(this.cols);
 
     this.loadColumns();
 
@@ -92,32 +92,35 @@ export class DataTableComponent implements OnInit {
     this.exportColumns = this.selectedColumns.map(col => ({ title: col.header, dataKey: col.field }));
 
   }
+  typeOf(value) {
+    return typeof value;
+  }
+
+   exportexcell() {
+
+      const element = document.getElementById('myTable');
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      // générer un classeur et ajouter la feuille de calcul
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
+      //      enregistrer dans le fichier
+      XLSX.writeFile(wb, `${this.className}.xlsx`);
+
+  }
+
+
 
 
 
   exportPdf() {
-    this.exportColumns = this.selectedColumns.map(col => ({ title: col.header, dataKey: col.field }));
-
-    import('jspdf').then(jsPDF => {
-      import('jspdf-autotable').then(x => {
-        const doc = new jsPDF.default(0, 0);
-        doc.autoTable(this.exportColumns, this.objectList);
-        doc.save(`${this.className}.pdf`);
-      });
-    });
+ this.exportBtnPdf.emit(this.selectedColumns);
+ console.log("export pdf data");
+ console.log(this.selectedColumns);
   }
 
-  exportexcell(): void {
-    const element = document.getElementById('myTable');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    // générer un classeur et ajouter la feuille de calcul
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
-    //      enregistrer dans le fichier
-    XLSX.writeFile(wb, `${this.className}.xlsx`);
+  exportExcelGlobal() {
+    this.exportBtnExcelGlobal.emit();
   }
-
-
 
 
 

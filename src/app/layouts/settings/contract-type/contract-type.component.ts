@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, ConfirmationService } from 'primeng/api';
@@ -25,9 +26,14 @@ export class ContractTypeComponent implements OnInit {
   selectedContratTypes: Array<ContractType> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+  contractTypeExportList: {
 
+    'Code': string,
+    'Description': string,
+  }[] = [];
   constructor(private contractTypeService: ContractTypeService,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -73,6 +79,40 @@ export class ContractTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
+  onExportExcelGlobal(event) {
+
+    this.contractTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.contractTypeExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+          }));
+        this.globalService.exportExcelGlobal(this.contractTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.contractTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.contractTypeExportList = data;
+        this.globalService.exportPdf(event, this.contractTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {

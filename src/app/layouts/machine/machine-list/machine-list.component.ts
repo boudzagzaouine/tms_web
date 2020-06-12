@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { Transport } from './../../../shared/models/transport';
 import { ContractType } from './../../../shared/models/contract-type';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
@@ -29,13 +30,24 @@ export class MachineListComponent implements OnInit {
   contratTypeList: Array<ContractType> = [];
   selectedMachines: Array<Machine> = [];
   maachineList: Array<Machine> = [];
-  className: String;
+  className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
 
+  machineExportList: {
+    'Code': string,
+    'Type de consommation': string,
+    'Type de contrat': string,
+    'Date aquisition': string,
+    'Montant': string,
+    'Transport': string,
+
+  }[] = [];
+
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
+    private globalService: GlobalService,
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -47,11 +59,11 @@ export class MachineListComponent implements OnInit {
     this.className = Machine.name;
     this.cols = [
       { field: 'code', header: 'Code' },
-      { field: 'consumptionType',child:'code', header: 'Type de consommation' },
-      { field: 'contractType',child:'code', header: 'Type de contrat' },
+      { field: 'consumptionType', child: 'code', header: 'Type de consommation' },
+      { field: 'contractType', child: 'code', header: 'Type de contrat' },
       { field: 'aquisitionDate', header: 'Date aquisition' },
       { field: 'amount', header: 'Montant' },
-      { field: 'transport',child:'code', header: 'Transport' },
+      { field: 'transport', child: 'code', header: 'Transport' },
 
 
 
@@ -70,7 +82,48 @@ export class MachineListComponent implements OnInit {
     );
   }
 
+  onExportExcelGlobal() {
+    console.log("methode insurance");
 
+    this.machineService.find(this.searchQuery).subscribe(
+      data => {
+        this.machineExportList = data.map(
+          m => ({
+
+            'Code': m.code,
+            'Type de consommation': m.consumptionType,
+            'Type de contrat': m.contractType,
+            'Date aquisition': m.aquisitionDate,
+            'Montant': m.amount,
+            'Transport': m.transport,
+
+          }));
+        this.globalService.exportExcelGlobal(this.machineExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.machineService.find(this.searchQuery).subscribe(
+      data => {
+        this.machineExportList = data;
+        this.globalService.exportPdf(event,this.machineExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   loadData(search: string = '') {
     this.spinner.show();
     this.machineService.sizeSearch(search).subscribe(

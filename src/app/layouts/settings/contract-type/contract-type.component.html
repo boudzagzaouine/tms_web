@@ -34,6 +34,8 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des types de contrat'"
   [viewBtnVisible]="'false'"
 ></app-data-table>

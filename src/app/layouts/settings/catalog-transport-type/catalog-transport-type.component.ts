@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { Zone } from './../../../shared/models/Zone';
 import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
@@ -39,12 +40,25 @@ export class CatalogTransportTypeComponent implements OnInit {
   cols: any[];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+
+  catalogTransportTypeExportList: {
+
+    'Transport': string,
+    'Catégorie de Véhicle': string,
+    'Zone Source': string,
+    'Zone Destination': string,
+    'Montant Ht': string,
+    'Montant TTC': string,
+    'Montant TVA': string,
+    'TVA': string,
+  }[] = [];
 
   constructor(private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
     private zoneService: ZoneServcie,
     private transportService: TransportServcie,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
@@ -58,7 +72,7 @@ export class CatalogTransportTypeComponent implements OnInit {
       { field: 'zoneDestination', child: 'name', header: 'Zone Destination' },
       { field: 'amountHt', header: 'Montant Ht' },
       { field: 'amountTtc', header: 'Montant TTC' },
-      { field: 'amountTva', header: 'Montant' },
+      { field: 'amountTva', header: 'Montant TVA' },
       { field: 'vat', child: 'value', header: 'TVA' },
     ];
 
@@ -114,7 +128,49 @@ export class CatalogTransportTypeComponent implements OnInit {
     console.log('first : ' + event.first);
     this.loadData();
   }
+  onExportExcelGlobal(event) {
 
+    this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.catalogTransportTypeExportList = data.map(
+          m => ({
+
+            'Transport': m.transport.code,
+            'Catégorie de Véhicle': m.vehicleCategory.code,
+            'Zone Source': m.zoneSource.name,
+            'Zone Destination': m.zoneDestination.name,
+            'Montant Ht': m.amountHt,
+            'Montant TTC': m.amountTtc,
+            'Montant TVA': m.amountTva,
+            'TVA': m.vat.value,
+
+          }));
+        this.globalService.exportExcelGlobal(this.catalogTransportTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.catalogTransportTypeExportList = data;
+        this.globalService.exportPdf(event,this.catalogTransportTypeExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
 
     const buffer = new EmsBuffer();

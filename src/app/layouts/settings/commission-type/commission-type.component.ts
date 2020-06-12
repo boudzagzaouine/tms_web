@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { CommissionTypeService } from './../../../shared/services/api/commisionType.service';
 import { CommissionType } from './../../../shared/models/commissionType';
@@ -24,10 +25,17 @@ export class CommissionTypeComponent implements OnInit {
   selectedCommissions: Array<CommissionType> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
-
+  className: string;
+  commissionTypeExportList: {
+    'Code': string,
+    'Description': string,
+    'Distance Min': string,
+    'Distance Max': string,
+    'Montant': string,
+  }[] = [];
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
+    private globalService:GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -38,6 +46,9 @@ export class CommissionTypeComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
+
+      { field: 'minDistance', header: 'Distance Min' },
+      { field: 'maxDistance', header: 'Distance Max' },
       { field: 'percentage', header: 'Montant' },
     ];
 
@@ -66,6 +77,46 @@ export class CommissionTypeComponent implements OnInit {
       () => this.spinner.hide()
     );
   }
+
+  onExportExcelGlobal(event) {
+
+    this.commissionTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.commissionTypeExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+            'Distance Min': m.minDistance,
+            'Distance Max': m.maxDistance,
+            'Montant': m.percentage,
+          }));
+        this.globalService.exportExcelGlobal(this.commissionTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.commissionTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.commissionTypeExportList = data;
+        this.globalService.exportPdf(event,this.commissionTypeExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
+
+
   loadDataLazy(event) {
     this.size = event.rows;
     this.page = event.first / this.size;

@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,10 +29,16 @@ export class MaintenanceStatusComponent implements OnInit {
   selectedMaintenanceStatus: Array<MaintenanceState> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
 
+  maintenanceStatusExportList: {
+
+    'Code': string,
+    'Description': string,
+  }[] = [];
   constructor(private maintenanceStatusService: MaintenanceStateService,
     private spinner: NgxSpinnerService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -75,7 +82,41 @@ export class MaintenanceStatusComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+  onExportExcelGlobal(event) {
 
+    this.maintenanceStatusService.find(this.searchQuery).subscribe(
+      data => {
+        this.maintenanceStatusExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+          }));
+        this.globalService.exportExcelGlobal(this.maintenanceStatusExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.maintenanceStatusService.find(this.searchQuery).subscribe(
+      data => {
+        this.maintenanceStatusExportList = data;
+        this.globalService.exportPdf(event,this.maintenanceStatusExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {

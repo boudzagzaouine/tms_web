@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { ContractType } from './../../../shared/models/contract-type';
@@ -41,13 +42,45 @@ export class VehicleListComponent implements OnInit {
   badgeTypeList: Array<BadgeType> = [];
   transportList: Array<Transport> = [];
   contratTypeList: Array<ContractType> = [];
-  className: String;
+  className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
 
+  vehicleExportList: {
+
+    'Code': string,
+    'Immatriculation': string,
+    'Catégorie véhicule': string,
+    'Type de bage': string,
+    'Date du contrôle technique': Date,
+    'Montant du contrôle technique': string,
+    'Date De Paiment de la vignette': string,
+    'Montant vignette': string,
+    'Carte grise': string,
+    'Numéro chassis': string,
+    'Nombre de cylindres': string,
+    'Puissance fiscal': string,
+    'Carrosserie': string,
+    'Type de consommation': string,
+    'Huile moteur': string,
+    'Pont arriere': string,
+    'Direction': string,
+    'Radiateur': string,
+    'Filtre à air': string,
+    'Boite a vitesse': string,
+    'Filtre dissicateur': string,
+    'Type de contrat': string,
+    'Date aquisition': string,
+    'Montant': string,
+    'Transport': string,
+
+  }[] = [];
+
+
   constructor(private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
+    private globalService : GlobalService,
     private badgeTypeService: BadgeTypeService,
     private contratTypeService: ContractTypeService,
     private transportService: TransportServcie,
@@ -144,6 +177,66 @@ export class VehicleListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
+  onExportExcelGlobal() {
+    console.log("methode insurance");
+
+    this.vehicleService.find(this.searchQuery).subscribe(
+      data => {
+        this.vehicleExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Immatriculation': m.registrationNumber,
+            'Catégorie véhicule': m.vehicleCategory.code,
+            'Type de bage': m.badgeType.code,
+            'Date du contrôle technique': m.technicalVisit,
+            'Montant du contrôle technique': m.valueTechnicalVisit,
+            'Date De Paiment de la vignette': m.vignette,
+            'Montant vignette': m.valueVignette,
+            'Carte grise': m.grayCard,
+            'Numéro chassis': m.chassisNumber,
+            'Nombre de cylindres': m.numberCylinder,
+            'Puissance fiscal': m.fiscalPower,
+            'Carrosserie': m.body,
+            'Type de consommation': m.consumptionType.code,
+            'Huile moteur': m.engineOil,
+            'Pont arriere': m.rearDeck,
+            'Direction': m.direction,
+            'Radiateur': m.radiator,
+            'Filtre à air': m.airFilter,
+            'Boite a vitesse': m.gearBox,
+            'Filtre dissicateur': m.desiccantFilter,
+            'Type de contrat': m.contractType.code,
+            'Date aquisition': m.aquisitionDate,
+            'Montant': m.amount,
+            'Transport': m.transport.code,
+          }));
+        this.globalService.exportExcelGlobal(this.vehicleExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+
+  onExportPdfGlobal(event) {
+    this.vehicleService.find(this.searchQuery).subscribe(
+      data => {
+        this.vehicleExportList = data;
+        this.globalService.exportPdf(event,this.vehicleExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
 
     const buffer = new EmsBuffer();

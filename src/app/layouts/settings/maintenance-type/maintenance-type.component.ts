@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';
@@ -28,10 +29,17 @@ export class MaintenanceTypeComponent implements OnInit {
   selectedMaintenanceTypes: Array<MaintenanceType> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+
+  maintenanceTypeExportList: {
+
+    'Code': string,
+    'Description': string,
+  }[] = [];
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -70,6 +78,43 @@ export class MaintenanceTypeComponent implements OnInit {
       () => this.spinner.hide()
     );
   }
+
+  onExportExcelGlobal(event) {
+
+    this.maintenanceTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.maintenanceTypeExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+          }));
+        this.globalService.exportExcelGlobal(this.maintenanceTypeExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.maintenanceTypeService.find(this.searchQuery).subscribe(
+      data => {
+        this.maintenanceTypeExportList = data;
+        this.globalService.exportPdf(event,this.maintenanceTypeExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
+
   loadDataLazy(event) {
     this.size = event.rows;
     this.page = event.first / this.size;

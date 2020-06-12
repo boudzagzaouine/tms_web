@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { Insurance } from './../../../shared/models/insurance';
 import { CommissionTypeService } from './../../../shared/services/api/commisionType.service';
 import { CommissionType } from './../../../shared/models/commissionType';
@@ -39,9 +40,17 @@ export class InsuranceTermComponent implements OnInit {
   cols: any[];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+
+  insuranceTermExportList: {
+
+    'Code': string,
+    'Description': string,
+    'plafonné': string,
+  }[] = [];
 
   constructor(private insuranceTermService: InsuranceTermService,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -53,7 +62,7 @@ export class InsuranceTermComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code' },
       { field: 'description', header: 'Description' },
-      { field: 'roofed', header: 'Plafond' },
+      { field: 'roofed', header: 'plafonné' },
 
     ];
 
@@ -86,6 +95,44 @@ export class InsuranceTermComponent implements OnInit {
     this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
+  }
+
+  onExportExcelGlobal() {
+    console.log("methode insurance");
+
+    this.insuranceTermService.find(this.searchQuery).subscribe(
+      data => {
+        this.insuranceTermExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+            'plafonné': m.roofed ? 'Oui' : 'Non',
+          }));
+        this.globalService.exportExcelGlobal(this.insuranceTermExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.insuranceTermService.find(this.searchQuery).subscribe(
+      data => {
+        this.insuranceTermExportList = data;
+        this.globalService.exportPdf( event,this.insuranceTermExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
   }
 
   onSearchClicked() {

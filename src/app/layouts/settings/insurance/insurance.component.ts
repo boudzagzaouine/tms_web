@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { PatrimonyType } from './../../../shared/models/patrimony-type';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { InsuranceEditComponent } from './../../insurance/insurance-edit/insurance-edit.component';
@@ -31,7 +32,7 @@ export class InsuranceComponent implements OnInit {
   collectionSize: number;
 
   selectedInsurance: Array<Insurance> = [];
-  searchQuery: string;
+  searchQuery: string = '';
   codeSearch: string;
   insuranceTypeSearch: InsuranceType;
   insuranceTermSearch: string;
@@ -47,14 +48,22 @@ export class InsuranceComponent implements OnInit {
   patrimonyLit: Array<Patrimony> = [];
   patrimonySearch: Patrimony;
 
-  className: String;
+  className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
-
+  insuranceExportList: {
+    'Code': string,
+    'Patrimoine': string,
+    'Fournisseur': string,
+    'Type assurance': string,
+    'Date Début': string,
+    'Date Fin': string,
+  }[] = [];
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTermService: InsuranceTermService,
+    private globalService: GlobalService,
     private supplierService: SupplierService,
     private vehicleService: VehicleService,
     private InsurancetypeService: InsuranceTypeService,
@@ -69,9 +78,9 @@ export class InsuranceComponent implements OnInit {
     this.className = Insurance.name;
     this.cols = [
       { field: 'code', header: 'Numéro assurance' },
-      { field: 'patrimony',child:'code', header: 'Équipement' },
-      { field: 'supplier',child:'code', header: 'Fournisseur' },
-      { field: 'insuranceType',child:'code', header: 'Type assurance' },
+      { field: 'patrimony', child: 'code', header: 'Patrimoine' },
+      { field: 'supplier', child: 'code', header: 'Fournisseur' },
+      { field: 'insuranceType', child: 'code', header: 'Type assurance' },
       { field: 'startDate', header: 'Date Début' },
       { field: 'endDate', header: 'Date Fin' },
     ];
@@ -90,7 +99,47 @@ export class InsuranceComponent implements OnInit {
       }
     );
   }
+  onExportExcelGlobal(event) {
+    console.log("on expoer insurance");
 
+    this.insuranceService.find(this.searchQuery).subscribe(
+      data => {
+        this.insuranceExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Patrimoine': m.patrimony.code,
+            'Fournisseur': m.supplier.code,
+            'Type assurance': m.insuranceType.code,
+            'Date Début': m.startDate,
+            'Date Fin': m.endDate,
+          }));
+        this.globalService.exportExcelGlobal(this.insuranceExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    console.log("on expoer insurance");
+
+    this.insuranceService.find(this.searchQuery).subscribe(
+      data => {
+        this.insuranceExportList = data;
+        this.globalService.exportPdf(event, this.insuranceExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
 
   loadData(search: string = '') {
 

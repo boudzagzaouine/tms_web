@@ -49,6 +49,8 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)='onExportExcelGlobal()'
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'List des catégories de transport'"
   [viewBtnVisible]="'false'"
 

@@ -37,6 +37,8 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des catégories de  véhicule'"
   [viewBtnVisible]="'false'"
 ></app-data-table>

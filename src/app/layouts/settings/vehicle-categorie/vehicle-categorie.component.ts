@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { ToastrService } from 'ngx-toastr';
@@ -28,9 +29,23 @@ export class VehicleCategorieComponent implements OnInit {
   selectedVehicleCategories: Array<VehicleCategory> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
+
+  vehicleCategoyExportList: {
+
+    'Code': string,
+    'Description': string,
+    'Longueur': string,
+    'Largeur': string,
+    'Profondeur': string,
+    'Hauteur': string,
+    'Tonnage': string,
+    'Poids à Vide': string,
+    'Poids Total': string,
+  }[] = [];
 
   constructor(private vehicleCategorieService: VehicleCategoryService,
+    private globalService : GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -81,7 +96,48 @@ export class VehicleCategorieComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+  onExportExcelGlobal(event) {
 
+    this.vehicleCategorieService.find(this.searchQuery).subscribe(
+      data => {
+        this.vehicleCategoyExportList = data.map(
+          m => ({
+            'Code': m.code,
+            'Description': m.description,
+            'Longueur': m.length,
+            'Largeur': m.width,
+            'Profondeur': m.depth,
+            'Hauteur': m.height,
+            'Tonnage': m.tonnage,
+            'Poids à Vide': m.emptyWeight,
+            'Poids Total': m.totalWeight,
+          }));
+        this.globalService.exportExcelGlobal(this.vehicleCategoyExportList, this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+
+  onExportPdfGlobal(event) {
+    this.vehicleCategorieService.find(this.searchQuery).subscribe(
+      data => {
+        this.vehicleCategoyExportList = data;
+        this.globalService.exportPdf(event,this.vehicleCategoyExportList,this.className);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {

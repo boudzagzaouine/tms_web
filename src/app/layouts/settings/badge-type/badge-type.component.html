@@ -33,6 +33,8 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)='onExportExcelGlobal()'
+  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'List des types de badges'"
   [viewBtnVisible]="'false'"
 ></app-data-table>

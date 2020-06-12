@@ -6,7 +6,7 @@ header="{{ title | translate}}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '350px' }"
+[style]="{ width: '500px' }"
 (onHide)='onShowDialog()'
 >
 <div>
@@ -15,7 +15,7 @@ showEffect="fade"
       <form [formGroup]="commissionTypeForm">
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label  class="font-weight-bold ">{{'Code' | translate}} *</label>
             <span *ngIf="(commissionTypeForm.get('code').touched && commissionTypeForm.get('code').invalid) ||
             (isFormSubmitted && commissionTypeForm.get('code').invalid)" class="text-lighter"
@@ -28,11 +28,31 @@ showEffect="fade"
            />
           </div>
 
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label  class="font-weight-bold ">{{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
-          <div class="form-group col-sm-12 ">
+          <div class="form-group col-sm-6 ">
+            <label class="font-weight-bold ">{{'Distance Min'| translate}} *</label>
+            <span *ngIf="(commissionTypeForm.get('fMinDistance').touched && commissionTypeForm.get('fMinDistance').invalid) ||
+            (isFormSubmitted && commissionTypeForm.get('fMinDistance').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{ 'Obligatoire' | translate}}
+            </span>
+             <input type="text" class="form-control" formControlName="fMinDistance" pInputText  />
+
+           </div>
+           <div class="form-group col-sm-6 ">
+            <label class="font-weight-bold ">{{'Distance Max'| translate}} *</label>
+            <span *ngIf="(commissionTypeForm.get('fMaxDistance').touched && commissionTypeForm.get('fMaxDistance').invalid) ||
+            (isFormSubmitted && commissionTypeForm.get('fMaxDistance').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{ 'Obligatoire' | translate}}
+            </span>
+             <input type="text" class="form-control" formControlName="fMaxDistance" pInputText  />
+
+           </div>
+          <div class="form-group col-sm-6 ">
             <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
             <span *ngIf="(commissionTypeForm.get('fAmount').touched && commissionTypeForm.get('fAmount').invalid) ||
             (isFormSubmitted && commissionTypeForm.get('fAmount').invalid)" class="text-lighter"
@@ -42,7 +62,7 @@ showEffect="fade"
              <input type="text" class="form-control" formControlName="fAmount" pInputText  />
 
            </div>
-          <div class="col-md-3"></div>
+          <div class="col-md-6"></div>
 
         </div>
       </form>

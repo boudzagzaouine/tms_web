@@ -46,6 +46,8 @@ export class CommissionTypeEditComponent implements OnInit {
       'code': new FormControl(this.selectedCommissionType.code, Validators.required),
       'description': new FormControl(this.selectedCommissionType.description),
       'fAmount': new FormControl(this.selectedCommissionType.percentage, Validators.required),
+      'fMinDistance': new FormControl(this.selectedCommissionType.minDistance, Validators.required),
+      'fMaxDistance': new FormControl(this.selectedCommissionType.maxDistance, Validators.required),
 
     });
   }
@@ -58,6 +60,8 @@ export class CommissionTypeEditComponent implements OnInit {
     this.selectedCommissionType.code = this.commissionTypeForm.value['code'];
     this.selectedCommissionType.description = this.commissionTypeForm.value['description'];
     this.selectedCommissionType.percentage = this.commissionTypeForm.value['fAmount'];
+    this.selectedCommissionType.minDistance = this.commissionTypeForm.value['fMinDistance'];
+    this.selectedCommissionType.maxDistance = this.commissionTypeForm.value['fMaxDistance'];
 
      this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {

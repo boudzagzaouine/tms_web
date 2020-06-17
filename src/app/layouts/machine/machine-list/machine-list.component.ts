@@ -58,12 +58,12 @@ export class MachineListComponent implements OnInit {
 
     this.className = Machine.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'consumptionType', child: 'code', header: 'Type de consommation' },
-      { field: 'contractType', child: 'code', header: 'Type de contrat' },
-      { field: 'aquisitionDate', header: 'Date aquisition' },
-      { field: 'amount', header: 'Montant' },
-      { field: 'transport', child: 'code', header: 'Transport' },
+      { field: 'code', header: 'Code', type:'string' },
+      { field: 'consumptionType', child: 'code', header: 'Type de consommation', type:'object' },
+      { field: 'contractType', child: 'code', header: 'Type de contrat', type:'object' },
+      { field: 'aquisitionDate', header: 'Date aquisition' , type:'date'},
+      { field: 'amount', header: 'Montant', type:'number'},
+      { field: 'transport', child: 'code', header: 'Transport' , type:'object'},
 
 
 

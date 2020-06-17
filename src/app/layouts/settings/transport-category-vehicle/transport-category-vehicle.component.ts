@@ -54,9 +54,9 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
     this.className = TransportCategoryVehicle.name;
     this.cols = [
-      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de véhicule' },
-      { field: 'transport', child: 'code', header: 'Transport' },
-      { field: 'quantity', header: 'Quantité' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de véhicule' ,type:'object'},
+      { field: 'transport', child: 'code', header: 'Transport',type:'object' },
+      { field: 'quantity', header: 'Quantité' ,type:'string'},
 
     ];
 

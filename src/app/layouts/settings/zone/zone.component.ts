@@ -37,7 +37,7 @@ export class ZoneComponent implements OnInit {
 
     this.className = Zone.name;
     this.cols = [
-      { field: 'name', header: 'Nom' },
+      { field: 'name', header: 'Nom' ,type:'number'},
 
 
     ];

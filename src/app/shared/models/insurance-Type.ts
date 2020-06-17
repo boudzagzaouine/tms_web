@@ -9,5 +9,10 @@ export class InsuranceType {
 
   insuranceTypeTermsSet: InsuranceTypeTerms[] = [];
 
+  public toString = () : string => {
+    console.log("tostring ");
+    return this.code;
+
+}
 
 }

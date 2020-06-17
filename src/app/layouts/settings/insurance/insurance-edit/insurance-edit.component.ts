@@ -13,6 +13,8 @@ import { Insurance, InsuranceTerm, Supplier, Vehicle } from '../../../../shared/
 import { ToastrService } from 'ngx-toastr';
 import { InsuranceTermsVehicle } from '../../../../shared/models/insurance-terms-vehicle';
 import { InsuranceTypeTermsService } from '../../../../shared/services/api/insurance-type-term.service';
+import { PatrimonyService } from '../../../../shared/services/api/patrimony-service';
+import { Patrimony } from 'src/app/shared/models/patrimony';
 @Component({
   selector: 'app-insurance-edit',
   templateUrl: './insurance-edit.component.html',
@@ -32,7 +34,7 @@ export class InsuranceEditComponent implements OnInit {
 
   insuranceForm: FormGroup;
   insuranceTermList: InsuranceTerm[] = [];
-  patrimonyList: Array<string> = [];
+  patrimonyList: Array<Patrimony> = [];
   supplierList: Supplier[] = [];
   insuranceTypeList: InsuranceType[] = [];
   isFormSubmitted = false;
@@ -45,6 +47,7 @@ export class InsuranceEditComponent implements OnInit {
     private insuranceService: InsuranceService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private insuranceType: InsuranceTypeService,
+    private patrimonyService: PatrimonyService,
     private vehicleService: VehicleService,
     private machineService: MachineService,
     private supplierService: SupplierService,
@@ -66,6 +69,12 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
 
+    this.patrimonyService.findAll().subscribe(
+      data => {
+        this.patrimonyList = data;
+      }
+    );
+
     if (this.editMode === 1) {
       this.selectedInsurance = new Insurance();
       this.title = 'Ajouter une assurance';
@@ -83,7 +92,7 @@ export class InsuranceEditComponent implements OnInit {
 
   initForm() {
     this.insuranceForm = new FormGroup({
-      'code': new FormControl({ value: this.selectedInsurance.code, disabled: true }, Validators.required),
+      'code': new FormControl( this.selectedInsurance.code, Validators.required),
       // 'description': new FormControl(this.selectedInsurance.description),
       'startDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
@@ -108,16 +117,18 @@ export class InsuranceEditComponent implements OnInit {
     this.selectedInsurance.code = this.insuranceForm.value['code'];
     this.selectedInsurance.supplier = this.insuranceForm.value['supplier'];
     this.selectedInsurance.patrimony = this.insuranceForm.value['vehiclecode'];
-    this.selectedInsurance.patrimony = this.insuranceForm.value['vehiclecode'];
     this.selectedInsurance.insuranceType = this.insuranceForm.value['typeinsurance'];
     this.selectedInsurance.startDate = this.insuranceForm.value['startDate'];
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'];
     this.selectedInsurance.amount = this.insuranceForm.value['amount'];
 
+  console.log(this.selectedInsurance);
+
+
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        // this.loadData();
+        //this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
@@ -130,6 +141,19 @@ export class InsuranceEditComponent implements OnInit {
     );
 
   }
+
+  onPatrimonySearch(event: any) {
+    this.patrimonyService.find('code~' + event.query).subscribe(
+      data =>{
+
+        this.patrimonyList = data ; //.map(f => f.code)
+      //  console.log(data);
+
+      }
+    );
+  }
+
+
   onloadByTypeTermInsurance(idinsurancetype: number) {
     if (this.editMode === 1) {
       this.selectedInsurance.insuranceTermLignes = [];

@@ -1,3 +1,5 @@
+import { Filter } from './../../models/filter';
+import { Key, element } from 'protractor';
 import { Subject } from 'rxjs';
 import { Injectable, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
@@ -8,31 +10,52 @@ import * as XLSX from 'xlsx';
 })
 export class GlobalService {
 
-
+  rows: Array<any>[];
   constructor() {
 
   }
 
 
-  exportPdf(selectedColumns : any[] ,objectExportList : any[],className : string) {
-    selectedColumns = selectedColumns.map(col => ({ title: col.header, dataKey: col.field }));
-    import('jspdf').then(jsPDF => {
-      import('jspdf-autotable').then(x => {
-        const doc = new jsPDF.default(0, 0);
-        doc.autoTable(selectedColumns, objectExportList);
-        console.log(doc);
+  exportPdf(selectedColumns: any[], objectExportList: any[], className: string) {
+    var rows = [];
 
-       doc.save(`${className}.pdf`);
-      });
-    });
+    selectedColumns = selectedColumns.map(col => ({
+      title: col.header, dataKey: col.field,
+
+
+    }));
+
+
+    selectedColumns.forEach(elementt => console.log(elementt.field)
+    );
+
+    // tslint:disable-next-line: forin
+    for (let key in objectExportList) {
+      let temp = [key, objectExportList[key]];
+      rows.push(temp);
+    }
+
+    console.log("rows is ");
+    console.log(rows);
+
+
+    // import('jspdf').then(jsPDF => {
+    //   import('jspdf-autotable').then(x => {
+    //     const doc = new jsPDF.default(0, 0);
+    //     doc.autoTable(selectedColumns, objectExportList);
+    //     console.log(doc);
+
+    //     doc.save(`${className}.pdf`);
+    //   });
+    // });
   }
 
-  exportExcelGlobal(objects: any[], className: string) {
-    import('xlsx').then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(objects);
+  exportExcelGlobal(data: any[], fileName: string) {
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, `${className}.pdf`);
+      this.saveAsExcelFile(excelBuffer, fileName);
     });
   }
 

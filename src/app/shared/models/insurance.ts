@@ -24,4 +24,6 @@ export class Insurance {
   insuranceType :InsuranceType;
   insuranceTermLignes: InsuranceTermsVehicle[] = [];
 
+  
+
 }

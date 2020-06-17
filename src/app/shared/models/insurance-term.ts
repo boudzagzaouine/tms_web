@@ -12,5 +12,4 @@ export class InsuranceTerm {
   //insuranceTypeTermsSet: InsuranceTypeTerms[] = [];
 
  
-   
 }

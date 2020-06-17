@@ -47,6 +47,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import {FieldsetModule} from 'primeng/fieldset';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 import {
   BadgeTypeService,
@@ -95,7 +96,8 @@ import { PatrimonyService } from './services/api/patrimony-service';
     DialogModule,
     PaginatorModule,
     PanelModule,
-    FieldsetModule
+    FieldsetModule,
+    RadioButtonModule
 
   ],
   exports: [

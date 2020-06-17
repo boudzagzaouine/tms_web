@@ -64,15 +64,15 @@ export class DriverListComponent implements OnInit {
   ngOnInit() {
     this.className = Driver.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'cin', header: 'Cin' },
-      { field: 'birthDate', header: 'Date Naissance' },
+      { field: 'code', header: 'Code' , type:'string'},
+      { field: 'cin', header: 'Cin', type:'string' },
+      { field: 'birthDate', header: 'Date Naissance' , type:'date'},
 
-      { field: 'carte', header: "Carte d'abonnement" },
-      { field: 'name', header: 'Nom' },
-      { field: 'tele1', header: 'Téléphone' },
-      { field: 'fax', header: 'Fax' },
-      { field: 'email', header: 'Email' },
+      { field: 'carte', header: "Carte d'abonnement" , type:'string'},
+      { field: 'name', header: 'Nom' , type:'string'},
+      { field: 'tele1', header: 'Téléphone' , type:'string'},
+      { field: 'fax', header: 'Fax', type:'string'},
+      { field: 'email', header: 'Email' , type:'string'},
     ];
 
     this.loadData();

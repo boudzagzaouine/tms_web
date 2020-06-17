@@ -11,7 +11,7 @@
       <div class="col-md-2">
         <label class="font-weight-bold ">{{'Fournisseur' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="supplierSearch" [suggestions]="supplierList"
-          (completeMethod)="onSupplierearch($event)"></p-autoComplete>
+          (completeMethod)="onSupplierearch($event)" ></p-autoComplete>
       </div>
       <div class="col-md-2">
         <label class="font-weight-bold">{{
@@ -32,16 +32,9 @@
           "vehicule" | translate
         }}</label
         ><br />
-        <p-dropdown
-        [options]="vehicleList"
-        optionLabel="code"
-        [autoDisplayFirst]="false"
-        [(ngModel)]="vehicleSearch" filter="true"
-      >
-      </p-dropdown>
+        <p-autoComplete [(ngModel)]="patrimonySearch" [suggestions]="patrimonyList"
+        (completeMethod)="onPatrimonySearch($event)"></p-autoComplete>
       </div>
-
-
     </div>
     <br />
 
@@ -70,6 +63,7 @@
   (exportBtnExcelGlobal)="onExportExcelGlobal()"
   (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des assurances'"
+
 
 ></app-data-table>
 

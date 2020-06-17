@@ -39,18 +39,18 @@ export class SupplierComponent implements OnInit {
 
     this.className = Supplier.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'description', header: 'Description' },
-      { field: 'name', header: 'Nom' },
-      { field: 'tel1', header: 'Tele 1' },
-      { field: 'tel2', header: 'Tele 2' },
-      { field: 'fax', header: 'Fax' },
-      { field: 'email', header: 'Email' },
-      { field: 'address?.line1', header: 'Addresse 1' },
-      { field: 'line2', header: 'Addresse 2' },
-      { field: 'zip', header: 'Code postale' },
-      { field: 'city', header: 'Ville' },
-      { field: 'country', header: 'Pays' },
+      { field: 'code', header: 'Code',type:'string' },
+      { field: 'description', header: 'Description',type:'string' },
+      { field: 'name', header: 'Nom' ,type:'string'},
+      { field: 'tel1', header: 'Tele 1' ,type:'string'},
+      { field: 'tel2', header: 'Tele 2' ,type:'string'},
+      { field: 'fax', header: 'Fax' ,type:'string'},
+      { field: 'email', header: 'Email' ,type:'string'},
+      { field: 'address', header: 'Addresse 1' ,type:'string'},
+      { field: 'line2', header: 'Addresse 2' ,type:'string'},
+      { field: 'zip', header: 'Code postale' ,type:'string'},
+      { field: 'city', header: 'Ville',type:'string' },
+      { field: 'country', header: 'Pays' ,type:'string'},
     ];
 
 

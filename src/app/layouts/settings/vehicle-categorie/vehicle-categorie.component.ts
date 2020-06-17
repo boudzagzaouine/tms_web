@@ -55,15 +55,15 @@ export class VehicleCategorieComponent implements OnInit {
 
     this.className = VehicleCategory.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'description', header: 'Description' },
-      { field: 'length', header: 'Longueur' },
-      { field: 'width', header: 'Largeur' },
-      { field: 'depth', header: 'Profondeur' },
-      { field: 'height', header: 'Hauteur' },
-      { field: 'tonnage', header: 'Tonnage' },
-      { field: 'emptyWeight', header: 'Poids à Vide' },
-      { field: 'totalWeight', header: 'Poids Total' },
+      { field: 'code', header: 'Code' ,type:'string'},
+      { field: 'description', header: 'Description' ,type:'string'},
+      { field: 'length', header: 'Longueur',type:'number' },
+      { field: 'width', header: 'Largeur',type:'number' },
+      { field: 'depth', header: 'Profondeur' ,type:'number'},
+      { field: 'height', header: 'Hauteur' ,type:'number'},
+      { field: 'tonnage', header: 'Tonnage' ,type:'number'},
+      { field: 'emptyWeight', header: 'Poids à Vide' ,type:'number'},
+      { field: 'totalWeight', header: 'Poids Total' ,type:'number'},
     ];
 
     this.loadData();

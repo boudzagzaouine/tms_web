@@ -66,14 +66,14 @@ export class CatalogTransportTypeComponent implements OnInit {
   ngOnInit() {
     this.className = CatalogTransportType.name;
     this.cols = [
-      { field: 'transport', child: 'code', header: 'Transport' },
-      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de Véhicle' },
-      { field: 'zoneSource', child: 'name', header: 'Zone Source' },
-      { field: 'zoneDestination', child: 'name', header: 'Zone Destination' },
-      { field: 'amountHt', header: 'Montant Ht' },
-      { field: 'amountTtc', header: 'Montant TTC' },
-      { field: 'amountTva', header: 'Montant TVA' },
-      { field: 'vat', child: 'value', header: 'TVA' },
+      { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de Véhicle', type: 'object' },
+      { field: 'zoneSource', child: 'name', header: 'Zone Source', type: 'object' },
+      { field: 'zoneDestination', child: 'name', header: 'Zone Destination', type: 'object' },
+      { field: 'amountHt', header: 'Montant Ht', type: 'number' },
+      { field: 'amountTtc', header: 'Montant TTC', type: 'number' },
+      { field: 'amountTva', header: 'Montant TVA', type: 'number' },
+      { field: 'vat', child: 'value', header: 'TVA', type: 'object' },
     ];
 
     this.loadData();
@@ -161,7 +161,7 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.catalogTransportTypeService.find(this.searchQuery).subscribe(
       data => {
         this.catalogTransportTypeExportList = data;
-        this.globalService.exportPdf(event,this.catalogTransportTypeExportList,this.className);
+        this.globalService.exportPdf(event, this.catalogTransportTypeExportList, this.className);
         this.spinner.hide();
       },
       error => {

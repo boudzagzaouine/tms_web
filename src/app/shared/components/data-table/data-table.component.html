@@ -112,14 +112,13 @@
     </div>
 
 
-
   </div>
 
     <!-- (onRowReorder)='onSaveVue($event)' -->
     <p-table
       [value]="objectList"
       #myTable
-      id="myTable"
+      id="{{this.tableId}}"
       [rows]="size"
       [paginator]="true"
       [rowsPerPageOptions]="[5,10, 20, 50, 100, 1000]"
@@ -163,19 +162,25 @@
           </td>
 
           <td *ngFor="let col of columns; let i = index" style="width:160px">
-            <!-- <span *ngIf="rowData[col.field]?.code==null" >
-              {{rowData[col.field]}}
-            </span> -->
 
-            <span *ngIf="(rowData[col.field]?.code ==null );else ok">
-              {{rowData[col.field] ? rowData[col.field] :''}}
+
+
+
+             <span *ngIf="(typeOf(col.type)===1 );">
+             {{rowData[col.field][col.child] ? rowData[col.field][col.child] :''}}
+
             </span>
-            <ng-template  #ok>
-                 {{rowData[col.field][col.child] ? rowData[col.field][col.child] :''}}
-            </ng-template>
-            <!-- <span *ngIf="rowData[col.field]?.code!=null" style="width:160px">
-              {{rowData[col.field]?.code}}
-            </span> -->
+            <span  *ngIf="(typeOf(col.type)===2 );">
+            {{rowData[col.field] ? rowData[col.field] :''}}
+            </span>
+
+            <span  *ngIf="(typeOf(col.type)===3 );">
+              {{rowData[col.field]  | date: 'dd-MM-yyyy'}}
+              </span>
+              <span  *ngIf="(typeOf(col.type)===4 );">
+              <p-checkbox [(ngModel)]="rowData[col.field]" binary="true" [disabled]="true"></p-checkbox>
+
+            </span>
 
           </td>
 

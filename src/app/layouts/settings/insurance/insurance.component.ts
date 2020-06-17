@@ -37,17 +37,14 @@ export class InsuranceComponent implements OnInit {
   insuranceTypeSearch: InsuranceType;
   insuranceTermSearch: string;
   supplierSearch: string;
-  vehicleSearch: Vehicle;
+  patrimonySearch: string;
   items: MenuItem[];
   insuranceTypeList: Array<InsuranceType> = [];
   insuranceList: Array<Insurance> = [];
   insuranceCodeList: Array<string> = [];
   insuranceTermList: Array<string> = [];
   supplierList: Array<string> = [];
-  vehicleList: Array<Vehicle> = [];
-  patrimonyLit: Array<Patrimony> = [];
-  patrimonySearch: Patrimony;
-
+  patrimonyList: Array<Patrimony> = [];
   className: string;
   cols: any[];
   editMode: number;
@@ -77,12 +74,12 @@ export class InsuranceComponent implements OnInit {
 
     this.className = Insurance.name;
     this.cols = [
-      { field: 'code', header: 'Numéro assurance' },
-      { field: 'patrimony', child: 'code', header: 'Patrimoine' },
-      { field: 'supplier', child: 'code', header: 'Fournisseur' },
-      { field: 'insuranceType', child: 'code', header: 'Type assurance' },
-      { field: 'startDate', header: 'Date Début' },
-      { field: 'endDate', header: 'Date Fin' },
+      { field: 'code', header: 'Numéro assurance' ,type:'string' },
+      { field: 'patrimony', child: 'code', header: 'Patrimoine' ,type:'object' },
+      { field: 'supplier', child: 'code', header: 'Fournisseur' ,type:'object'},
+      { field: 'insuranceType', child: 'code', header: 'Type assurance' ,type:'object'},
+      { field: 'startDate', header: 'Date Début' ,type:'date' },
+      { field: 'endDate', header: 'Date Fin' ,type:'date'},
     ];
     this.loadData();
 
@@ -91,9 +88,9 @@ export class InsuranceComponent implements OnInit {
         this.insuranceTypeList = data;
       }
     );
-    this.vehicleService.findAll().subscribe(
+    this.patrimonyService.findAll().subscribe(
       data => {
-        this.vehicleList = data;
+        this.patrimonyList = data;
         console.log(data);
 
       }
@@ -153,7 +150,7 @@ export class InsuranceComponent implements OnInit {
     );
     this.insuranceService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log("List<");
+        console.log("List");
         this.insuranceList = data;
         console.log(data);
 
@@ -184,6 +181,9 @@ export class InsuranceComponent implements OnInit {
       buffer.append(`supplier.code~${this.supplierSearch}`);
     }
 
+    if (this.patrimonySearch != null && this.patrimonySearch !== '') {
+      buffer.append(`patrimony.code~${this.patrimonySearch}`);
+    }
 
 
 
@@ -225,16 +225,21 @@ export class InsuranceComponent implements OnInit {
       data => this.supplierList = data.map(f => f.code)
     );
   }
-  onVehicleearch(event: any) {
-    this.vehicleService.find('code~' + event.query).subscribe(
-      data => this.vehicleList = data.map(f => f.code)
+  onPatrimonySearch(event: any) {
+    this.patrimonyService.find('code~' + event.query).subscribe(
+      data =>{
+
+        this.patrimonyList = data.map(f => f.code)
+      //  console.log(data);
+
+      }
     );
   }
 
 
   reset() {
     this.codeSearch = null;
-    this.vehicleSearch = null;
+    this.patrimonySearch = null;
     this.supplierSearch = null;
     this.insuranceTypeSearch = null;
     this.page = 0;

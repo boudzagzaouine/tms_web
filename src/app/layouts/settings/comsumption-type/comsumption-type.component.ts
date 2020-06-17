@@ -47,8 +47,8 @@ export class ComsumptionTypeComponent implements OnInit {
 
     this.className = ConsumptionTypeService.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'description', header: 'Description' },
+      { field: 'code', header: 'Code' ,type:'string' },
+      { field: 'description', header: 'Description' ,type:'string'},
 
     ];
 

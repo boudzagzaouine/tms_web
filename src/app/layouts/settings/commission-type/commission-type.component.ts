@@ -35,7 +35,7 @@ export class CommissionTypeComponent implements OnInit {
   }[] = [];
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
-    private globalService:GlobalService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -44,12 +44,12 @@ export class CommissionTypeComponent implements OnInit {
 
     this.className = CommissionType.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'description', header: 'Description' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
-      { field: 'minDistance', header: 'Distance Min' },
-      { field: 'maxDistance', header: 'Distance Max' },
-      { field: 'percentage', header: 'Montant' },
+      { field: 'minDistance', header: 'Distance Min', type: 'number' },
+      { field: 'maxDistance', header: 'Distance Max', type: 'number' },
+      { field: 'percentage', header: 'Montant', type: 'number' },
     ];
 
     this.loadData();
@@ -105,7 +105,7 @@ export class CommissionTypeComponent implements OnInit {
     this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.commissionTypeExportList = data;
-        this.globalService.exportPdf(event,this.commissionTypeExportList,this.className);
+        this.globalService.exportPdf(event, this.commissionTypeExportList, this.className);
         this.spinner.hide();
       },
       error => {

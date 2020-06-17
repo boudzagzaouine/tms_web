@@ -37,14 +37,14 @@ export class TransportComponent implements OnInit {
 
     this.className = Transport.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'name', header: 'Nom' },
-      { field: 'description', header: 'Description' },
-      { field: 'line1', header: 'Adrress 1' },
-      { field: 'line2', header: 'Address 2' },
-      { field: 'zip', header: 'Code Postale' },
+      { field: 'code', header: 'Code' ,type:'string'},
+      { field: 'name', header: 'Nom' ,type:'string'},
+      { field: 'description', header: 'Description' ,type:'string'},
+      { field: 'line1', header: 'Adrress 1' ,type:'string'},
+      { field: 'line2', header: 'Address 2' ,type:'string'},
+      { field: 'zip', header: 'Code Postale' ,type:'string'},
       { field: 'city', header: 'Ville' },
-      { field: 'address.country', header: 'Pays' },
+      { field: 'address.country', header: 'Pays',type:'string' },
     ];
 
     this.loadData();

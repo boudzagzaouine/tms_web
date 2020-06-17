@@ -60,9 +60,9 @@ export class InsuranceTermComponent implements OnInit {
 
     this.className = InsuranceTerm.name;
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'description', header: 'Description' },
-      { field: 'roofed', header: 'plafonné' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
+      { field: 'roofed', header: 'plafonné', type: 'boolean' },
 
     ];
 
@@ -124,7 +124,7 @@ export class InsuranceTermComponent implements OnInit {
     this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTermExportList = data;
-        this.globalService.exportPdf( event,this.insuranceTermExportList, this.className);
+        this.globalService.exportPdf(event, this.insuranceTermExportList, this.className);
         this.spinner.hide();
       },
       error => {

@@ -10,6 +10,7 @@ import { MenuItem, ConfirmationService, SortEvent } from 'primeng/api';
 import { Columns } from './../../models/column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as XLSX from 'xlsx';
+import { Key } from 'protractor';
 
 @Component({
   selector: 'app-data-table',
@@ -21,6 +22,7 @@ import * as XLSX from 'xlsx';
 export class DataTableComponent implements OnInit {
 
   @ViewChild('myTable', { static: false }) myTable: ElementRef;
+  @Input()tableId;
   @Input() page = 0;
   @Input() size;
   @Input() collectionSize: number;
@@ -92,19 +94,32 @@ export class DataTableComponent implements OnInit {
     this.exportColumns = this.selectedColumns.map(col => ({ title: col.header, dataKey: col.field }));
 
   }
-  typeOf(value) {
-    return typeof value;
+  typeOf(event) {
+    let res: number;
+
+     if ((event) === 'object') {
+       res = 1;
+     } else if(event === 'number' || event === 'string' ){
+      res = 2;
+     }else if(event === 'date' ){
+      res = 3;
+     }
+     else if(event === 'boolean' ){
+      res = 4;
+     }
+
+    return res;
   }
 
-   exportexcell() {
+  exportexcell() {
 
-      const element = document.getElementById('myTable');
-      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-      // générer un classeur et ajouter la feuille de calcul
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
-      //      enregistrer dans le fichier
-      XLSX.writeFile(wb, `${this.className}.xlsx`);
+    const element = document.getElementById(this.tableId);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    // générer un classeur et ajouter la feuille de calcul
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
+    //      enregistrer dans le fichier
+    XLSX.writeFile(wb, `${this.className}.xlsx`);
 
   }
 
@@ -113,9 +128,9 @@ export class DataTableComponent implements OnInit {
 
 
   exportPdf() {
- this.exportBtnPdf.emit(this.selectedColumns);
- console.log("export pdf data");
- console.log(this.selectedColumns);
+    this.exportBtnPdf.emit(this.selectedColumns);
+    console.log("export pdf data");
+    console.log(this.selectedColumns);
   }
 
   exportExcelGlobal() {

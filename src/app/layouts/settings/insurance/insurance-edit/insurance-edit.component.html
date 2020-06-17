@@ -39,7 +39,18 @@ showEffect="fade"
           </div> -->
           <label class="font-weight-bold ">{{'Patrimoine'| translate}} </label>
 
-            <input type="text" class="form-control"  pInputText formControlName="vehiclecode" >
+            <!-- <input type="text" class="form-control"  pInputText formControlName="vehiclecode" > -->
+            <p-autoComplete formControlName="vehiclecode" [suggestions]="patrimonyList"
+            (completeMethod)="onPatrimonySearch($event)" field="code"
+             ></p-autoComplete>
+
+            <!-- <p-dropdown
+            [options]="patrimonyList"
+            optionLabel="code"
+            [autoDisplayFirst]="false"
+            formControlName="vehiclecode" filter="true" [showClear]='true'
+          >
+          </p-dropdown> -->
 
           </div>
           <div class="form-group col-sm-3 ">

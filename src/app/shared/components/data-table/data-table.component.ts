@@ -10,7 +10,7 @@ import { MenuItem, ConfirmationService, SortEvent } from 'primeng/api';
 import { Columns } from './../../models/column';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { Key } from 'protractor';
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-data-table',
@@ -22,13 +22,15 @@ import { Key } from 'protractor';
 export class DataTableComponent implements OnInit {
 
   @ViewChild('myTable', { static: false }) myTable: ElementRef;
-  @Input()tableId;
+  @ViewChild('htmlData', { static: true }) htmlData:ElementRef;
+
+  @Input() tableId;
   @Input() page = 0;
   @Input() size;
   @Input() collectionSize: number;
   @Input() objectList: Array<any> = [];
   @Input() objectExportList: Array<any> = [];
-  @Input() selectedColumns: any[];
+  @Input() _selectedColumns: any[];
   @Input() cols: any[];
   @Input() className: String;
   @Input() listName: String;
@@ -39,6 +41,7 @@ export class DataTableComponent implements OnInit {
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
   @Output() exportBtnExcelGlobal = new EventEmitter<void>();
+  @Output() exportBtnExcelVue = new EventEmitter<void>();
   @Output() exportBtnPdf = new EventEmitter<any[]>();
 
   exportColumns: any[];
@@ -71,6 +74,15 @@ export class DataTableComponent implements OnInit {
 
   }
 
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+}
+
+set selectedColumns(val: any[]) {
+    //restore original order
+    this._selectedColumns = this.cols.filter(col => val.includes(col));
+}
+
 
   loadColumns() {
     this.user = this.authUser.getCurrentUser();
@@ -97,40 +109,68 @@ export class DataTableComponent implements OnInit {
   typeOf(event) {
     let res: number;
 
-     if ((event) === 'object') {
-       res = 1;
-     } else if(event === 'number' || event === 'string' ){
+    if ((event) === 'object') {
+      res = 1;
+    } else if (event === 'number' || event === 'string') {
       res = 2;
-     }else if(event === 'date' ){
+    } else if (event === 'date') {
       res = 3;
-     }
-     else if(event === 'boolean' ){
+    } else if (event === 'boolean') {
       res = 4;
-     }
+    }
 
     return res;
   }
 
   exportexcell() {
 
-    const element = document.getElementById(this.tableId);
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    // générer un classeur et ajouter la feuille de calcul
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
-    //      enregistrer dans le fichier
-    XLSX.writeFile(wb, `${this.className}.xlsx`);
+     const element = document.getElementById(this.tableId);
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      // générer un classeur et ajouter la feuille de calcul
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
+      //      enregistrer dans le fichier
+      XLSX.writeFile(wb, `${this.className}.xlsx`);
 
   }
 
 
+  public openPDF():void {
+    let DATA = this.htmlData.nativeElement;
+    let doc = new jsPDF('p','pt', 'a4');
+    doc.fromHTML(DATA.innerHTML,15,15);
+    doc.output('dataurlnewwindow');
+  }
 
 
+  exportPdf():void {
 
-  exportPdf() {
+    // let DATA = this.htmlData.nativeElement;
+    // let doc = new jsPDF('p','pt', 'a4');
+
+    // let handleElement = {
+    //   '#editor':function(element,renderer){
+    //     return true;
+    //   }
+    // };
+    // doc.fromHTML(DATA.innerHTML,15,15,{
+    //   'width': 200,
+    //   'elementHandlers': handleElement
+    // });
+
+    // doc.save('angular-demo.pdf');
+
+
     this.exportBtnPdf.emit(this.selectedColumns);
     console.log("export pdf data");
     console.log(this.selectedColumns);
+
+
+
+
+
+
+
   }
 
   exportExcelGlobal() {

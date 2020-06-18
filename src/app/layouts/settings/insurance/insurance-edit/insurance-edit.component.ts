@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InsuranceTermsVehicle } from '../../../../shared/models/insurance-terms-vehicle';
 import { InsuranceTypeTermsService } from '../../../../shared/services/api/insurance-type-term.service';
 import { PatrimonyService } from '../../../../shared/services/api/patrimony-service';
-import { Patrimony } from 'src/app/shared/models/patrimony';
+import { Patrimony } from '../../../../shared/models/patrimony';
 @Component({
   selector: 'app-insurance-edit',
   templateUrl: './insurance-edit.component.html',

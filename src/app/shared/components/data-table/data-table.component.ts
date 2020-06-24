@@ -22,7 +22,7 @@ import * as jsPDF from 'jspdf';
 export class DataTableComponent implements OnInit {
 
   @ViewChild('myTable', { static: false }) myTable: ElementRef;
-  @ViewChild('htmlData', { static: true }) htmlData:ElementRef;
+  @ViewChild('htmlData', { static: true }) htmlData: ElementRef;
 
   @Input() tableId;
   @Input() page = 0;
@@ -40,8 +40,8 @@ export class DataTableComponent implements OnInit {
   @Input() deleteBtnVisible = false;
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
-  @Output() exportBtnExcelGlobal = new EventEmitter<void>();
-  @Output() exportBtnExcelVue = new EventEmitter<void>();
+  @Output() exportBtnExcelGlobal = new EventEmitter<any[]>();
+  @Output() exportBtnExcelVue = new EventEmitter<any[]>();
   @Output() exportBtnPdf = new EventEmitter<any[]>();
 
   exportColumns: any[];
@@ -61,14 +61,14 @@ export class DataTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.exportBtnItems = [
-      {
-        label: 'PDF', icon: 'pi pi-file-pdf', command: () => { this.exportPdf(); }
-      },
-      {
-        label: 'Excel', icon: 'pi pi-file-excel', command: () => { this.exportexcell(); }
-      },
-    ];
+    // this.exportBtnItems = [
+    //   {
+    //     label: 'PDF', icon: 'pi pi-file-pdf', command: () => { this.exportPdf(); }
+    //   },
+    //   {
+    //     label: 'Excel', icon: 'pi pi-file-excel', command: () => { this.exportBtnExcelVue(); }
+    //   },
+    // ];
 
     this.loadColumns();
 
@@ -76,12 +76,12 @@ export class DataTableComponent implements OnInit {
 
   @Input() get selectedColumns(): any[] {
     return this._selectedColumns;
-}
+  }
 
-set selectedColumns(val: any[]) {
+  set selectedColumns(val: any[]) {
     //restore original order
     this._selectedColumns = this.cols.filter(col => val.includes(col));
-}
+  }
 
 
   loadColumns() {
@@ -122,59 +122,20 @@ set selectedColumns(val: any[]) {
     return res;
   }
 
-  exportexcell() {
+  exportExcelVue(): void {
 
-     const element = document.getElementById(this.tableId);
-      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-      // générer un classeur et ajouter la feuille de calcul
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, `${this.className}`);
-      //      enregistrer dans le fichier
-      XLSX.writeFile(wb, `${this.className}.xlsx`);
+    this.exportBtnExcelVue.emit(this.selectedColumns);
 
   }
 
-
-  public openPDF():void {
-    let DATA = this.htmlData.nativeElement;
-    let doc = new jsPDF('p','pt', 'a4');
-    doc.fromHTML(DATA.innerHTML,15,15);
-    doc.output('dataurlnewwindow');
-  }
-
-
-  exportPdf():void {
-
-    // let DATA = this.htmlData.nativeElement;
-    // let doc = new jsPDF('p','pt', 'a4');
-
-    // let handleElement = {
-    //   '#editor':function(element,renderer){
-    //     return true;
-    //   }
-    // };
-    // doc.fromHTML(DATA.innerHTML,15,15,{
-    //   'width': 200,
-    //   'elementHandlers': handleElement
-    // });
-
-    // doc.save('angular-demo.pdf');
-
+  exportPdf(): void {
 
     this.exportBtnPdf.emit(this.selectedColumns);
-    console.log("export pdf data");
-    console.log(this.selectedColumns);
-
-
-
-
-
-
 
   }
 
-  exportExcelGlobal() {
-    this.exportBtnExcelGlobal.emit();
+  exportExcelGlobal(): void {
+    this.exportBtnExcelGlobal.emit(null);
   }
 
 

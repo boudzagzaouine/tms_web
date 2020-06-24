@@ -27,11 +27,8 @@ export class ContractTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  contractTypeExportList: {
-
-    'Code': string,
-    'Description': string,
-  }[] = [];
+  contractTypeExportList: Array<ContractType> = [];
+  titleList = 'Liste des types de contrat';
   constructor(private contractTypeService: ContractTypeService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -43,8 +40,8 @@ export class ContractTypeComponent implements OnInit {
 
     this.className = ContractType.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string' },
-      { field: 'description', header: 'Description' ,type:'string' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
     ];
 
@@ -79,16 +76,17 @@ export class ContractTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.contractTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.contractTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.contractTypeExportList, this.className);
+        this.contractTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.contractTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.contractTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -103,7 +101,7 @@ export class ContractTypeComponent implements OnInit {
     this.contractTypeService.find(this.searchQuery).subscribe(
       data => {
         this.contractTypeExportList = data;
-        this.globalService.exportPdf(event, this.contractTypeExportList, this.className);
+        this.globalService.generatePdf(event, this.contractTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

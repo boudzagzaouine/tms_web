@@ -34,12 +34,8 @@ export class TransportCategoryVehicleComponent implements OnInit {
   editMode: number;
   className: string;
 
-  transportCategoryVehicleExportList: {
-    'Catégorie de véhicule': string,
-    'Transport': string,
-    'Quantité': string,
-
-  }[] = [];
+  transportCategoryVehicleExportList: Array<VehicleCategory> = [];
+  titleList: 'List des catégories de transport';
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -54,9 +50,9 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
     this.className = TransportCategoryVehicle.name;
     this.cols = [
-      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de véhicule' ,type:'object'},
-      { field: 'transport', child: 'code', header: 'Transport',type:'object' },
-      { field: 'quantity', header: 'Quantité' ,type:'string'},
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie de véhicule', type: 'object' },
+      { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
+      { field: 'quantity', header: 'Quantité', type: 'string' },
 
     ];
 
@@ -76,17 +72,17 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
   }
 
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
       data => {
-        this.transportCategoryVehicleExportList = data.map(
-          m => ({
-            'Catégorie de véhicule': m.vehicleCategory.code,
-            'Transport': m.transport.code,
-            'Quantité': m.quantity,
-          }));
-        this.globalService.exportExcelGlobal(this.transportCategoryVehicleExportList, this.className);
+        this.transportCategoryVehicleExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.transportCategoryVehicleExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.transportCategoryVehicleExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -101,7 +97,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
     this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
       data => {
         this.transportCategoryVehicleExportList = data;
-        this.globalService.exportPdf(event,this.transportCategoryVehicleExportList,this.className);
+        this.globalService.generatePdf(event, this.transportCategoryVehicleExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

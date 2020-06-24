@@ -60,10 +60,10 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnExcelGlobal)="onExportExcel($event)"
   (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="'Liste des assurances'"
-  [tableId]="'insurance'"
 
 
 ></app-data-table>

@@ -31,12 +31,11 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)="onExportExcelGlobal()"
-  (exportBtnPdf)="onExportPdfGlobal($event)"
   [listName]="'Liste des états de maintenance'"
   [viewBtnVisible]="'false'"
-  [tableId]="'maintenancestatus'"
-
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

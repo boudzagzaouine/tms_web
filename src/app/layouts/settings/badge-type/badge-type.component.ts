@@ -28,14 +28,11 @@ export class BadgeTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
-  badgeTypeExportList: {
-    'Code': string,
-    'Description': string,
-  }[] = [];
+  titleList = 'List des types de badges';
+  badgeTypeExportList: Array<BadgeType> = [];
 
   constructor(private badgeTypeService: BadgeTypeService,
-    private globalService:GlobalService,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -45,24 +42,25 @@ export class BadgeTypeComponent implements OnInit {
 
     this.className = BadgeType.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string' },
-      { field: 'description', header: 'Description' ,type :'string' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
     ];
 
     this.loadData();
 
   }
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.badgeTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.badgeTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.badgeTypeExportList, this.className);
+        this.badgeTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.badgeTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.badgeTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -77,7 +75,7 @@ export class BadgeTypeComponent implements OnInit {
     this.badgeTypeService.find(this.searchQuery).subscribe(
       data => {
         this.badgeTypeExportList = data;
-        this.globalService.exportPdf(event,this.badgeTypeExportList,this.className);
+        this.globalService.generatePdf(event, this.badgeTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

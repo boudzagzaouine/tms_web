@@ -31,21 +31,10 @@ export class VehicleCategorieComponent implements OnInit {
   editMode: number;
   className: string;
 
-  vehicleCategoyExportList: {
-
-    'Code': string,
-    'Description': string,
-    'Longueur': string,
-    'Largeur': string,
-    'Profondeur': string,
-    'Hauteur': string,
-    'Tonnage': string,
-    'Poids à Vide': string,
-    'Poids Total': string,
-  }[] = [];
-
+  vehicleCategoyExportList: Array<VehicleCategory> = [];
+  titleList = 'Liste des catégories de  véhicule';
   constructor(private vehicleCategorieService: VehicleCategoryService,
-    private globalService : GlobalService,
+    private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -55,15 +44,15 @@ export class VehicleCategorieComponent implements OnInit {
 
     this.className = VehicleCategory.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
-      { field: 'description', header: 'Description' ,type:'string'},
-      { field: 'length', header: 'Longueur',type:'number' },
-      { field: 'width', header: 'Largeur',type:'number' },
-      { field: 'depth', header: 'Profondeur' ,type:'number'},
-      { field: 'height', header: 'Hauteur' ,type:'number'},
-      { field: 'tonnage', header: 'Tonnage' ,type:'number'},
-      { field: 'emptyWeight', header: 'Poids à Vide' ,type:'number'},
-      { field: 'totalWeight', header: 'Poids Total' ,type:'number'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
+      { field: 'length', header: 'Longueur', type: 'number' },
+      { field: 'width', header: 'Largeur', type: 'number' },
+      { field: 'depth', header: 'Profondeur', type: 'number' },
+      { field: 'height', header: 'Hauteur', type: 'number' },
+      { field: 'tonnage', header: 'Tonnage', type: 'number' },
+      { field: 'emptyWeight', header: 'Poids à Vide', type: 'number' },
+      { field: 'totalWeight', header: 'Poids Total', type: 'number' },
     ];
 
     this.loadData();
@@ -96,23 +85,18 @@ export class VehicleCategorieComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
-  onExportExcelGlobal(event) {
+
+  onExportExcel(event) {
 
     this.vehicleCategorieService.find(this.searchQuery).subscribe(
       data => {
-        this.vehicleCategoyExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-            'Longueur': m.length,
-            'Largeur': m.width,
-            'Profondeur': m.depth,
-            'Hauteur': m.height,
-            'Tonnage': m.tonnage,
-            'Poids à Vide': m.emptyWeight,
-            'Poids Total': m.totalWeight,
-          }));
-        this.globalService.exportExcelGlobal(this.vehicleCategoyExportList, this.className);
+        this.vehicleCategoyExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.vehicleCategoyExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.vehicleCategoyExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -128,7 +112,7 @@ export class VehicleCategorieComponent implements OnInit {
     this.vehicleCategorieService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleCategoyExportList = data;
-        this.globalService.exportPdf(event,this.vehicleCategoyExportList,this.className);
+        this.globalService.generatePdf(event, this.vehicleCategoyExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

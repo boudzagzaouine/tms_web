@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { Supplier } from './../../../shared/models/supplier';
 import { Component, OnInit } from '@angular/core';
@@ -26,11 +27,14 @@ export class SupplierComponent implements OnInit {
   cols: any[];
   showDialog: boolean;
   editMode: number;
-  className: String;
+  className: string;
 
+  supplierExportList: Array<Supplier> = [];
+  titleList = 'List des Fournisseurs';
 
   constructor(private supplierService: SupplierService,
     private spinner: NgxSpinnerService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
 
@@ -39,18 +43,18 @@ export class SupplierComponent implements OnInit {
 
     this.className = Supplier.name;
     this.cols = [
-      { field: 'code', header: 'Code',type:'string' },
-      { field: 'description', header: 'Description',type:'string' },
-      { field: 'name', header: 'Nom' ,type:'string'},
-      { field: 'tel1', header: 'Tele 1' ,type:'string'},
-      { field: 'tel2', header: 'Tele 2' ,type:'string'},
-      { field: 'fax', header: 'Fax' ,type:'string'},
-      { field: 'email', header: 'Email' ,type:'string'},
-      { field: 'address', header: 'Addresse 1' ,type:'string'},
-      { field: 'line2', header: 'Addresse 2' ,type:'string'},
-      { field: 'zip', header: 'Code postale' ,type:'string'},
-      { field: 'city', header: 'Ville',type:'string' },
-      { field: 'country', header: 'Pays' ,type:'string'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
+      { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'tel1', header: 'Tele 1', type: 'string' },
+      { field: 'tel2', header: 'Tele 2', type: 'string' },
+      { field: 'fax', header: 'Fax', type: 'string' },
+      { field: 'email', header: 'Email', type: 'string' },
+      { field: 'address', header: 'Addresse 1', type: 'string' },
+      { field: 'line2', header: 'Addresse 2', type: 'string' },
+      { field: 'zip', header: 'Code postale', type: 'string' },
+      { field: 'city', header: 'Ville', type: 'string' },
+      { field: 'country', header: 'Pays', type: 'string' },
     ];
 
 
@@ -93,6 +97,44 @@ export class SupplierComponent implements OnInit {
       data => this.codesuppplierList = data.map(f => f.code)
     );
   }
+
+  onExportExcel(event) {
+
+    this.supplierService.find(this.searchQuery).subscribe(
+      data => {
+        this.supplierExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.supplierExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.supplierExportList, this.className, this.titleList);
+
+        }
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.supplierService.find(this.searchQuery).subscribe(
+      data => {
+        this.supplierExportList = data;
+        this.globalService.generatePdf(event, this.supplierExportList, this.className, this.titleList);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
+
+
   onSearchClicked() {
 
     const buffer = new EmsBuffer();

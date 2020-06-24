@@ -41,18 +41,8 @@ export class CatalogTransportTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
-  catalogTransportTypeExportList: {
-
-    'Transport': string,
-    'Catégorie de Véhicle': string,
-    'Zone Source': string,
-    'Zone Destination': string,
-    'Montant Ht': string,
-    'Montant TTC': string,
-    'Montant TVA': string,
-    'TVA': string,
-  }[] = [];
+  titleList ='Liste des trajets';
+  catalogTransportTypeExportList: Array<CatalogTransportType> = [];
 
   constructor(private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -128,24 +118,17 @@ export class CatalogTransportTypeComponent implements OnInit {
     console.log('first : ' + event.first);
     this.loadData();
   }
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.catalogTransportTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogTransportTypeExportList = data.map(
-          m => ({
+        this.catalogTransportTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.catalogTransportTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.catalogTransportTypeExportList, this.className, this.titleList);
 
-            'Transport': m.transport.code,
-            'Catégorie de Véhicle': m.vehicleCategory.code,
-            'Zone Source': m.zoneSource.name,
-            'Zone Destination': m.zoneDestination.name,
-            'Montant Ht': m.amountHt,
-            'Montant TTC': m.amountTtc,
-            'Montant TVA': m.amountTva,
-            'TVA': m.vat.value,
-
-          }));
-        this.globalService.exportExcelGlobal(this.catalogTransportTypeExportList, this.className);
+        }
         this.spinner.hide();
       },
       error => {
@@ -156,12 +139,11 @@ export class CatalogTransportTypeComponent implements OnInit {
 
 
   }
-
   onExportPdfGlobal(event) {
     this.catalogTransportTypeService.find(this.searchQuery).subscribe(
       data => {
         this.catalogTransportTypeExportList = data;
-        this.globalService.exportPdf(event, this.catalogTransportTypeExportList, this.className);
+        this.globalService.generatePdf(event, this.catalogTransportTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

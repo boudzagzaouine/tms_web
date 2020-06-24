@@ -43,6 +43,7 @@ export class VehicleListComponent implements OnInit {
   transportList: Array<Transport> = [];
   contratTypeList: Array<ContractType> = [];
   className: string;
+  titleList: string = 'Liste Des Véhicule';
   cols: any[];
   editMode: number;
   showDialog: boolean;
@@ -80,7 +81,7 @@ export class VehicleListComponent implements OnInit {
 
   constructor(private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
-    private globalService : GlobalService,
+    private globalService: GlobalService,
     private badgeTypeService: BadgeTypeService,
     private contratTypeService: ContractTypeService,
     private transportService: TransportServcie,
@@ -94,34 +95,34 @@ export class VehicleListComponent implements OnInit {
     this.className = Vehicle.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'registrationNumber', header: 'Immatriculation' , type: 'string' },
-      { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule'  , type: 'object'},
-      { field: 'badgeType', child: 'code', header: 'Type de bage' , type: 'object'},
+      { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
+      { field: 'badgeType', child: 'code', header: 'Type de bage', type: 'object' },
       //  child:[{
 
       //   field:'code'},
       // ]},
-      { field: 'technicalVisit', header: 'Date du contrôle technique' , type: 'date' },
-       { field: 'valueTechnicalVisit', header: 'Montant du contrôle technique' , type: 'number' },
-       { field: 'vignette', header: 'Date De Paiment de la vignette' , type: 'date' },
-       { field: 'valueVignette', header: 'Montant vignette' , type: 'number'},
-       { field: 'grayCard', header: 'Carte grise' , type: 'string'},
-     { field: 'chassisNumber', header: ' Numéro chassis' ,type: 'string'},
-       { field: 'numberCylinder', header: 'Nombre de cylindres' ,type: 'string'},
-       { field: 'fiscalPower', header: 'Puissance fiscal' ,type: 'string'},
-       { field: 'body', header: 'Carrosserie' ,type: 'string'},
-       { field: 'consumptionType', child: 'code', header: 'Type de consommation',type: 'object' },
-       { field: 'engineOil', header: 'Huile moteur',type: 'string' },
-       { field: 'rearDeck', header: 'Pont arriere' ,type: 'string'},
-       { field: 'direction', header: 'Direction' ,type: 'string'},
-       { field: 'radiator', header: 'Radiateur',type: 'string' },
-      { field: 'airFilter', header: 'Filtre à air' ,type: 'string'},
-       { field: 'gearBox', header: 'Boite a vitesse',type: 'string' },
-       { field: 'desiccantFilter', header: 'Filtre dissicateur',type: 'string' },
-       { field: 'contractType', child: 'code', header: 'Type de contrat',type: 'object' },
-       { field: 'aquisitionDate', header: 'Date aquisition' ,type: 'date'},
-       { field: 'amount', header: 'Montant',type: 'number'},
-      { field: 'transport', child: 'code', header: 'Transport' ,type: 'object'},
+      { field: 'technicalVisit', header: 'Date du contrôle technique', type: 'date' },
+      { field: 'valueTechnicalVisit', header: 'Montant du contrôle technique', type: 'number' },
+      { field: 'vignette', header: 'Date De Paiment de la vignette', type: 'date' },
+      { field: 'valueVignette', header: 'Montant vignette', type: 'number' },
+      { field: 'grayCard', header: 'Carte grise', type: 'string' },
+      { field: 'chassisNumber', header: ' Numéro chassis', type: 'string' },
+      { field: 'numberCylinder', header: 'Nombre de cylindres', type: 'string' },
+      { field: 'fiscalPower', header: 'Puissance fiscal', type: 'string' },
+      { field: 'body', header: 'Carrosserie', type: 'string' },
+      { field: 'consumptionType', child: 'code', header: 'Type de consommation', type: 'object' },
+      { field: 'engineOil', header: 'Huile moteur', type: 'string' },
+      { field: 'rearDeck', header: 'Pont arriere', type: 'string' },
+      { field: 'direction', header: 'Direction', type: 'string' },
+      { field: 'radiator', header: 'Radiateur', type: 'string' },
+      { field: 'airFilter', header: 'Filtre à air', type: 'string' },
+      { field: 'gearBox', header: 'Boite a vitesse', type: 'string' },
+      { field: 'desiccantFilter', header: 'Filtre dissicateur', type: 'string' },
+      { field: 'contractType', child: 'code', header: 'Type de contrat', type: 'object' },
+      { field: 'aquisitionDate', header: 'Date aquisition', type: 'date' },
+      { field: 'amount', header: 'Montant', type: 'number' },
+      { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
 
 
 
@@ -177,40 +178,18 @@ export class VehicleListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onExportExcelGlobal() {
-    console.log("methode insurance");
+
+  onExportExcel(event) {
 
     this.vehicleService.find(this.searchQuery).subscribe(
       data => {
-        this.vehicleExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Immatriculation': m.registrationNumber,
-            'Catégorie véhicule': m.vehicleCategory.code,
-            'Type de bage': m.badgeType.code,
-            'Date du contrôle technique': m.technicalVisit,
-            'Montant du contrôle technique': m.valueTechnicalVisit,
-            'Date De Paiment de la vignette': m.vignette,
-            'Montant vignette': m.valueVignette,
-            'Carte grise': m.grayCard,
-            'Numéro chassis': m.chassisNumber,
-            'Nombre de cylindres': m.numberCylinder,
-            'Puissance fiscal': m.fiscalPower,
-            'Carrosserie': m.body,
-            'Type de consommation': m.consumptionType.code,
-            'Huile moteur': m.engineOil,
-            'Pont arriere': m.rearDeck,
-            'Direction': m.direction,
-            'Radiateur': m.radiator,
-            'Filtre à air': m.airFilter,
-            'Boite a vitesse': m.gearBox,
-            'Filtre dissicateur': m.desiccantFilter,
-            'Type de contrat': m.contractType.code,
-            'Date aquisition': m.aquisitionDate,
-            'Montant': m.amount,
-            'Transport': m.transport.code,
-          }));
-        this.globalService.exportExcelGlobal(this.vehicleExportList, this.className);
+        this.vehicleExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.vehicleExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.vehicleExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -227,7 +206,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleExportList = data;
-        this.globalService.exportPdf(event,this.vehicleExportList,this.className);
+        this.globalService.generatePdf(event, this.vehicleExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -237,6 +216,7 @@ export class VehicleListComponent implements OnInit {
     );
 
   }
+ 
   onSearchClicked() {
 
     const buffer = new EmsBuffer();

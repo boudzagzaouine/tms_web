@@ -34,11 +34,11 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnExcelGlobal)="onExportExcel($event)"
   (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="'Liste des types de commisions'"
   [viewBtnVisible]="'false'"
-  [tableId]="'commisionType'"
 
 ></app-data-table>
 

@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
@@ -25,10 +26,12 @@ export class ZoneComponent implements OnInit {
   selectedZones: Array<Zone> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
-
+  className: string;
+  zoneExportList: Array<Zone> = [];
+  titleList = 'Liste des zones';
   constructor(private zoneService: ZoneServcie,
     private spinner: NgxSpinnerService,
+    private globalService :GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -72,6 +75,45 @@ export class ZoneComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+
+
+  onExportExcel(event) {
+
+    this.zoneService.find(this.searchQuery).subscribe(
+      data => {
+        this.zoneExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.zoneExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.zoneExportList, this.className, this.titleList);
+
+        }
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.zoneService.find(this.searchQuery).subscribe(
+      data => {
+        this.zoneExportList = data;
+        this.globalService.generatePdf(event, this.zoneExportList, this.className, this.titleList);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
+
+
 
   onSearchClicked() {
     const buffer = new EmsBuffer();

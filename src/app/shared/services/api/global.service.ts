@@ -5,37 +5,37 @@ import { Subject } from 'rxjs';
 import { Injectable, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import * as jsPDF from 'jspdf';
-
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
 
+  data: Array<any[]> = [];
+  header: Array<any[]> = [];
+
 
   constructor() {
 
   }
 
-
-  exportPdf(selectedColumns: any[], objectExportList: any[], className: string) {
-    var rows = [];
-
+  generateColumns(selectedColumns: any[], objectExportList: any[]) {
+    this.data = [];
     selectedColumns = selectedColumns.map(col => ({
       title: col.header, dataKey: col.field, child: col.child, type: col.type
-
-
     }));
     console.log(objectExportList);
 
-    var prepare = [];
+
     objectExportList.forEach(e => {
       var tempObj = [];
       selectedColumns.forEach(c => {
         if (c.type === 'object') {
           tempObj.push(e[c.dataKey][c.child]);
         } else if (c.type === 'number' || c.type === 'string') {
-          tempObj.push(e[c.dataKey] );
+          tempObj.push(e[c.dataKey]);
         } else if (c.type === 'date') {
           const d = new Date(e[c.dataKey]);
 
@@ -45,49 +45,78 @@ export class GlobalService {
         }
 
       });
-      prepare.push(tempObj);
+      //this.data = [];
+      this.data.push(tempObj);
+      this.header = selectedColumns.map(e => e.title);
     });
-
-
-    // import('jspdf').then(jsPDF => {
-    //   import('jspdf-autotable').then(x => {
-    //     const doc = new jsPDF.default(0, 0);
-    //     doc.setFontSize(18);
-    //     var splitTitle = doc.splitTextToSize("Liste /n", 180);
-    //     doc.text(15, 15, splitTitle);
-    //     doc.autoTable(selectedColumns, prepare);
-
-
-    //     doc.save(`${className}.pdf`);
-    //   });
-    // });
-
-      //prepare[0]=selectedColumns.map(e=>e.title);
 
   }
 
-  exportExcelGlobal(data: any[], fileName: string) {
-    import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, fileName);
-    });
-  }
+  generatePdf(selectedColumns: any[], objectExportList: any[], className: string, titleList: string) {
 
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    import('file-saver').then(FileSaver => {
-      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      let EXCEL_EXTENSION = '.xlsx';
-      const data: Blob = new Blob([buffer], {
-        type: EXCEL_TYPE
+    this.generateColumns(selectedColumns, objectExportList);
+
+    import('jspdf').then(jsPDF => {
+      import('jspdf-autotable').then(x => {
+        const doc = new jsPDF.default(0, 0);
+        doc.setFontSize(18);
+        // doc.text(15, 15, titleList);
+        doc.autoTable(selectedColumns, this.data);
+        doc.save(`${className}.pdf`);
       });
-      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
+
+
+
+
+
   }
 
+  generateExcel(selectedColumns: any[], objectExportList: any[], className: string, titleClasse: string) {
+
+    this.generateColumns(selectedColumns, objectExportList);
 
 
+    // generate header
+    //Excel Title, Header, Data
+    const title = titleClasse;
+
+    //Create workbook and worksheet
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet(title);
+    //Add Row and formatting
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Times New Roman', family: 4, size: 16, bold: true, }
+    worksheet.addRow([]);
+    worksheet.mergeCells('A1:D2');
+    //Blank Row
+    worksheet.addRow([]);
+    //Add Header Row
+    let headerRow = worksheet.addRow(this.header);
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '1DBBD9' },
+        bgColor: { argb: '1DBBD9' },
+
+      }
+      headerRow.font = { name: 'Times New Roman', family: 4, size: 12, bold: true, }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+    })
+    // Add Data and Conditional Formatting
+    this.data.forEach(d => {
+      worksheet.addRow(d);
+    }
+    );
+
+    //Generate Excel File with given name
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, `${className}.xlsx`);
+    })
+  }
 
 
 }

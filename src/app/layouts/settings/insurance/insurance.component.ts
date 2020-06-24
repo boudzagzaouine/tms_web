@@ -49,14 +49,8 @@ export class InsuranceComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-  insuranceExportList: {
-    'Code': string,
-    'Patrimoine': string,
-    'Fournisseur': string,
-    'Type assurance': string,
-    'Date Début': string,
-    'Date Fin': string,
-  }[] = [];
+  insuranceExportList: Array<InsuranceType> = [];
+  titleList = 'Liste des assurances';
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTermService: InsuranceTermService,
@@ -74,12 +68,12 @@ export class InsuranceComponent implements OnInit {
 
     this.className = Insurance.name;
     this.cols = [
-      { field: 'code', header: 'Numéro assurance' ,type:'string' },
-      { field: 'patrimony', child: 'code', header: 'Patrimoine' ,type:'object' },
-      { field: 'supplier', child: 'code', header: 'Fournisseur' ,type:'object'},
-      { field: 'insuranceType', child: 'code', header: 'Type assurance' ,type:'object'},
-      { field: 'startDate', header: 'Date Début' ,type:'date' },
-      { field: 'endDate', header: 'Date Fin' ,type:'date'},
+      { field: 'code', header: 'Numéro assurance', type: 'string' },
+      { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
+      { field: 'supplier', child: 'code', header: 'Fournisseur', type: 'object' },
+      { field: 'insuranceType', child: 'code', header: 'Type assurance', type: 'object' },
+      { field: 'startDate', header: 'Date Début', type: 'date' },
+      { field: 'endDate', header: 'Date Fin', type: 'date' },
     ];
     this.loadData();
 
@@ -96,21 +90,19 @@ export class InsuranceComponent implements OnInit {
       }
     );
   }
-  onExportExcelGlobal(event) {
-    console.log("on expoer insurance");
+
+
+  onExportExcel(event) {
 
     this.insuranceService.find(this.searchQuery).subscribe(
       data => {
-        this.insuranceExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Patrimoine': m.patrimony.code,
-            'Fournisseur': m.supplier.code,
-            'Type assurance': m.insuranceType.code,
-            'Date Début': m.startDate,
-            'Date Fin': m.endDate,
-          }));
-        this.globalService.exportExcelGlobal(this.insuranceExportList, this.className);
+        this.insuranceExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.insuranceExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.insuranceExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -121,13 +113,14 @@ export class InsuranceComponent implements OnInit {
 
 
   }
+
   onExportPdfGlobal(event) {
     console.log("on expoer insurance");
 
     this.insuranceService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceExportList = data;
-        this.globalService.exportPdf(event, this.insuranceExportList, this.className);
+        this.globalService.generatePdf(event, this.insuranceExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -227,10 +220,10 @@ export class InsuranceComponent implements OnInit {
   }
   onPatrimonySearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe(
-      data =>{
+      data => {
 
         this.patrimonyList = data.map(f => f.code)
-      //  console.log(data);
+        //  console.log(data);
 
       }
     );

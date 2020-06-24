@@ -17,7 +17,13 @@
       "es2017",
       "dom"
     ],
+
     "module": "esnext",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "exceljs": [
+        "node_modules/exceljs/dist/exceljs.min"
+      ]
+    },
   }
 }

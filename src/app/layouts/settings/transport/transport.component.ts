@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Transport } from './../../../shared/models/transport';
 import { ConfirmationService } from 'primeng/api';
@@ -25,10 +26,12 @@ export class TransportComponent implements OnInit {
   selectedTransports: Array<Transport> = [];
   showDialog: boolean;
   editMode: number;
-  className: String;
-
+  className: string;
+  transportExportList: Array<Transport> = [];
+  titleList = 'List des Transports';
   constructor(private tranportService: TransportServcie,
     private spinner: NgxSpinnerService,
+    private globalService : GlobalService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -37,14 +40,14 @@ export class TransportComponent implements OnInit {
 
     this.className = Transport.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
-      { field: 'name', header: 'Nom' ,type:'string'},
-      { field: 'description', header: 'Description' ,type:'string'},
-      { field: 'line1', header: 'Adrress 1' ,type:'string'},
-      { field: 'line2', header: 'Address 2' ,type:'string'},
-      { field: 'zip', header: 'Code Postale' ,type:'string'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
+      { field: 'line1', header: 'Adrress 1', type: 'string' },
+      { field: 'line2', header: 'Address 2', type: 'string' },
+      { field: 'zip', header: 'Code Postale', type: 'string' },
       { field: 'city', header: 'Ville' },
-      { field: 'address.country', header: 'Pays',type:'string' },
+      { field: 'address.country', header: 'Pays', type: 'string' },
     ];
 
     this.loadData();
@@ -77,6 +80,44 @@ export class TransportComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
+
+  onExportExcel(event) {
+
+    this.tranportService.find(this.searchQuery).subscribe(
+      data => {
+        this.transportExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.transportExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.transportExportList, this.className, this.titleList);
+
+        }
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+
+  }
+  onExportPdfGlobal(event) {
+    this.tranportService.find(this.searchQuery).subscribe(
+      data => {
+        this.transportExportList = data;
+        this.globalService.generatePdf(event, this.transportExportList, this.className, this.titleList);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
+
+
 
   onSearchClicked() {
     const buffer = new EmsBuffer();

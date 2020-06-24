@@ -31,11 +31,8 @@ export class MaintenanceTypeComponent implements OnInit {
   editMode: number;
   className: string;
 
-  maintenanceTypeExportList: {
-
-    'Code': string,
-    'Description': string,
-  }[] = [];
+  maintenanceTypeExportList: Array<MaintenanceType> = [];
+  titleList = 'Liste des types de maintenance';
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
@@ -48,8 +45,8 @@ export class MaintenanceTypeComponent implements OnInit {
 
     this.className = MaintenanceType.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
-      { field: 'description', header: 'Description',type:'string' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
     ];
 
@@ -78,17 +75,17 @@ export class MaintenanceTypeComponent implements OnInit {
       () => this.spinner.hide()
     );
   }
-
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.maintenanceTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.maintenanceTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.maintenanceTypeExportList, this.className);
+        this.maintenanceTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.maintenanceTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.maintenanceTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -100,11 +97,12 @@ export class MaintenanceTypeComponent implements OnInit {
 
   }
 
+
   onExportPdfGlobal(event) {
     this.maintenanceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceTypeExportList = data;
-        this.globalService.exportPdf(event,this.maintenanceTypeExportList,this.className);
+        this.globalService.generatePdf(event, this.maintenanceTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

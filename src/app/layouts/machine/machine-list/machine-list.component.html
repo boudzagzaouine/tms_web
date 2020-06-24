@@ -61,8 +61,10 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+
+  (exportBtnExcelGlobal)="onExportExcel($event)"
   (exportBtnPdf)="onExportPdfGlobal($event)"
-  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="'Liste des Machines'"
   [addBtnVisible]="'true'"
   [viewBtnVisible]="'false'"

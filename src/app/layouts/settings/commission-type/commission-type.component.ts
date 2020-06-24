@@ -26,13 +26,8 @@ export class CommissionTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  commissionTypeExportList: {
-    'Code': string,
-    'Description': string,
-    'Distance Min': string,
-    'Distance Max': string,
-    'Montant': string,
-  }[] = [];
+  commissionTypeExportList: Array<CommissionType> = [];
+  titleList = 'Liste des types de commisions';
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -78,19 +73,17 @@ export class CommissionTypeComponent implements OnInit {
     );
   }
 
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.commissionTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-            'Distance Min': m.minDistance,
-            'Distance Max': m.maxDistance,
-            'Montant': m.percentage,
-          }));
-        this.globalService.exportExcelGlobal(this.commissionTypeExportList, this.className);
+        this.commissionTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.commissionTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.commissionTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -105,7 +98,7 @@ export class CommissionTypeComponent implements OnInit {
     this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.commissionTypeExportList = data;
-        this.globalService.exportPdf(event, this.commissionTypeExportList, this.className);
+        this.globalService.generatePdf(event, this.commissionTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

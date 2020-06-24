@@ -42,12 +42,8 @@ export class InsuranceTermComponent implements OnInit {
   editMode: number;
   className: string;
 
-  insuranceTermExportList: {
-
-    'Code': string,
-    'Description': string,
-    'plafonné': string,
-  }[] = [];
+  insuranceTermExportList: Array<InsuranceTerm> = [];
+  titleList = 'Liste des termes assurance';
 
   constructor(private insuranceTermService: InsuranceTermService,
     private globalService: GlobalService,
@@ -97,18 +93,17 @@ export class InsuranceTermComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onExportExcelGlobal() {
-    console.log("methode insurance");
+  onExportExcel(event) {
 
     this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
-        this.insuranceTermExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-            'plafonné': m.roofed ? 'Oui' : 'Non',
-          }));
-        this.globalService.exportExcelGlobal(this.insuranceTermExportList, this.className);
+        this.insuranceTermExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.insuranceTermExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.insuranceTermExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -124,7 +119,7 @@ export class InsuranceTermComponent implements OnInit {
     this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTermExportList = data;
-        this.globalService.exportPdf(event, this.insuranceTermExportList, this.className);
+        this.globalService.generatePdf(event, this.insuranceTermExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

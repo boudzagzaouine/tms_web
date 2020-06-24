@@ -30,9 +30,12 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'List des zones'"
+  [listName]="'Liste des zones'"
   [viewBtnVisible]="'false'"
-  [tableId]="'zone'"
+
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
 
 ></app-data-table>
 

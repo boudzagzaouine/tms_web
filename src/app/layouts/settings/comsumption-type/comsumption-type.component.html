@@ -34,11 +34,12 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)='onExportExcelGlobal()'
-  (exportBtnPdf)='onExportPdfGlobal($event)'
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="'Liste des types de consommation'"
   [viewBtnVisible]="'false'"
-  [tableId]="'consumptiontype'"
+
 
 ></app-data-table>
 

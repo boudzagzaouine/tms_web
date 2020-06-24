@@ -79,12 +79,11 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)="onExportExcelGlobal()"
+  (exportBtnExcelGlobal)="onExportExcel($event)"
   (exportBtnPdf)="onExportPdfGlobal($event)"
-  [listName]="'List des trajets'"
+  (exportBtnExcelVue)="onExportExcel($event)"
+  [listName]="'Liste des trajets'"
   [viewBtnVisible]="'false'"
-  [tableId]="'catalogTransport'"
-
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

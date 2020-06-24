@@ -30,12 +30,8 @@ export class ComsumptionTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  consumptionTypeExportList: {
-
-    'Code': string,
-    'Description': string,
-  }[] = [];
-
+  consumptionTypeExportList: Array<ConsumptionType> = [];
+  titleList = 'Liste des types de consommation';
   constructor(private consumptionTypeService: ConsumptionTypeService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -47,8 +43,8 @@ export class ComsumptionTypeComponent implements OnInit {
 
     this.className = ConsumptionTypeService.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string' },
-      { field: 'description', header: 'Description' ,type:'string'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
     ];
 
@@ -81,16 +77,18 @@ export class ComsumptionTypeComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
-  onExportExcelGlobal(event) {
+
+  onExportExcel(event) {
 
     this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.consumptionTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.consumptionTypeExportList, this.className);
+        this.consumptionTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.consumptionTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.consumptionTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -106,7 +104,7 @@ export class ComsumptionTypeComponent implements OnInit {
     this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.consumptionTypeExportList = data;
-        this.globalService.exportPdf(event, this.consumptionTypeExportList, this.className);
+        this.globalService.generatePdf(event, this.consumptionTypeExportList, this.className,this.titleList);
         this.spinner.hide();
       },
       error => {

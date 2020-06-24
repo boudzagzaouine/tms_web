@@ -31,11 +31,8 @@ export class MaintenanceStatusComponent implements OnInit {
   editMode: number;
   className: string;
 
-  maintenanceStatusExportList: {
-
-    'Code': string,
-    'Description': string,
-  }[] = [];
+  maintenanceStatusExportList: Array<MaintenanceState> = [];
+  titleList = 'Liste des états de maintenance';
   constructor(private maintenanceStatusService: MaintenanceStateService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -47,8 +44,8 @@ export class MaintenanceStatusComponent implements OnInit {
 
     this.className = MaintenanceState.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
-      { field: 'description', header: 'Description',type:'string' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
 
     ];
 
@@ -82,16 +79,18 @@ export class MaintenanceStatusComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
-  onExportExcelGlobal(event) {
+
+  onExportExcel(event) {
 
     this.maintenanceStatusService.find(this.searchQuery).subscribe(
       data => {
-        this.maintenanceStatusExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.maintenanceStatusExportList, this.className);
+        this.maintenanceStatusExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.maintenanceStatusExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.maintenanceStatusExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -102,12 +101,11 @@ export class MaintenanceStatusComponent implements OnInit {
 
 
   }
-
   onExportPdfGlobal(event) {
     this.maintenanceStatusService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceStatusExportList = data;
-        this.globalService.exportPdf(event,this.maintenanceStatusExportList,this.className);
+        this.globalService.generatePdf(event, this.maintenanceStatusExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

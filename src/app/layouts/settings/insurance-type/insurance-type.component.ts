@@ -30,12 +30,8 @@ export class InsuranceTypeComponent implements OnInit {
   editMode: number;
   className: string;
   title = 'Modifier Type Assurance';
-  insuranceTypeExportList: {
-
-    'Code': string,
-    'Description': string,
-  }[] = [];
-
+  insuranceTypeExportList: Array<InsuranceType> = [];
+  titleList = 'Liste des types assurance';
 
   constructor(private insuranceTypeService: InsuranceTypeService,
     private spinner: NgxSpinnerService,
@@ -46,8 +42,8 @@ export class InsuranceTypeComponent implements OnInit {
   ngOnInit() {
     this.className = InsuranceType.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
-      { field: 'description', header: 'Description',type:'string' },
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
     ];
     this.loadData();
   }
@@ -78,16 +74,17 @@ export class InsuranceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
-  onExportExcelGlobal(event) {
+  onExportExcel(event) {
 
     this.insuranceTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.insuranceTypeExportList = data.map(
-          m => ({
-            'Code': m.code,
-            'Description': m.description,
-          }));
-        this.globalService.exportExcelGlobal(this.insuranceTypeExportList, this.className);
+        this.insuranceTypeExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.insuranceTypeExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.insuranceTypeExportList, this.className, this.titleList);
+
+        }
         this.spinner.hide();
       },
       error => {
@@ -103,7 +100,7 @@ export class InsuranceTypeComponent implements OnInit {
     this.insuranceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTypeExportList = data;
-        this.globalService.exportPdf(event,this.insuranceTypeExportList,this.className);
+        this.globalService.generatePdf(event, this.insuranceTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

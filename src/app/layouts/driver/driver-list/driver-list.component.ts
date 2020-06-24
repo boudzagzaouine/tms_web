@@ -30,7 +30,7 @@ export class DriverListComponent implements OnInit {
   codeSearch: string;
   contratSearch: string;
   badgeTypeSearch: BadgeType;
-  selectedDrivers: Array<Vehicle>=[];
+  selectedDrivers: Array<Vehicle> = [];
   loading: boolean;
   searchQuery = '';
   driverList: Array<Driver> = [];
@@ -39,40 +39,31 @@ export class DriverListComponent implements OnInit {
   className: string;
   cols: any[];
   editMode: number;
-  driverExportList: {
-    'Code': string,
-    'Cin': string,
-    'Date Naissance': string,
-    'Carte abonnement': string,
-    'Nom': string,
-    'Téléphone': string,
-    'Fax': string,
-    'Email': string,
-
-  }[] = [];
+  driverExportList: Array<Driver> = [];
+  titleList = 'Liste des chauffeurs';
 
 
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private badgeTypeService: BadgeTypeService,
-    private globalService:GlobalService,
-    private badgetypedriverService:BadgeTypeDriverService,
+    private globalService: GlobalService,
+    private badgetypedriverService: BadgeTypeDriverService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrService,
-    private router:Router) { }
+    private router: Router) { }
 
   ngOnInit() {
     this.className = Driver.name;
     this.cols = [
-      { field: 'code', header: 'Code' , type:'string'},
-      { field: 'cin', header: 'Cin', type:'string' },
-      { field: 'birthDate', header: 'Date Naissance' , type:'date'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'cin', header: 'Cin', type: 'string' },
+      { field: 'birthDate', header: 'Date Naissance', type: 'date' },
 
-      { field: 'carte', header: "Carte d'abonnement" , type:'string'},
-      { field: 'name', header: 'Nom' , type:'string'},
-      { field: 'tele1', header: 'Téléphone' , type:'string'},
-      { field: 'fax', header: 'Fax', type:'string'},
-      { field: 'email', header: 'Email' , type:'string'},
+      { field: 'carte', header: "Carte d'abonnement", type: 'string' },
+      { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'tele1', header: 'Téléphone', type: 'string' },
+      { field: 'fax', header: 'Fax', type: 'string' },
+      { field: 'email', header: 'Email', type: 'string' },
     ];
 
     this.loadData();
@@ -94,25 +85,17 @@ export class DriverListComponent implements OnInit {
 
   }
 
-  onExportExcelGlobal() {
-    console.log("methode insurance");
+  onExportExcel(event) {
 
     this.driverService.find(this.searchQuery).subscribe(
       data => {
-        this.driverExportList = data.map(
-          m => ({
+        this.driverExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.driverExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.driverExportList, this.className, this.titleList);
 
-              'Code': m.code,
-              'Cin': m.cin,
-              'Date Naissance': m.birthDate,
-              'Carte abonnement': m.carte,
-              'Nom': m.name,
-              'Téléphone': m.tele1,
-              'Fax': m.fax,
-              'Email': m.email,
-
-            }));
-        this.globalService.exportExcelGlobal(this.driverExportList, this.className);
+        }
         this.spinner.hide();
       },
       error => {
@@ -127,7 +110,7 @@ export class DriverListComponent implements OnInit {
     this.driverService.find(this.searchQuery).subscribe(
       data => {
         this.driverExportList = data;
-        this.globalService.exportPdf(event,this.driverExportList,this.className);
+        this.globalService.generatePdf(event, this.driverExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

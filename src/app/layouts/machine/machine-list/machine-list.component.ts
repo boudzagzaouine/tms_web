@@ -35,15 +35,8 @@ export class MachineListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
 
-  machineExportList: {
-    'Code': string,
-    'Type de consommation': string,
-    'Type de contrat': string,
-    'Date aquisition': string,
-    'Montant': string,
-    'Transport': string,
-
-  }[] = [];
+  machineExportList: Array<Machine> = [];
+  titleList = 'Liste des Machines';
 
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
@@ -58,12 +51,12 @@ export class MachineListComponent implements OnInit {
 
     this.className = Machine.name;
     this.cols = [
-      { field: 'code', header: 'Code', type:'string' },
-      { field: 'consumptionType', child: 'code', header: 'Type de consommation', type:'object' },
-      { field: 'contractType', child: 'code', header: 'Type de contrat', type:'object' },
-      { field: 'aquisitionDate', header: 'Date aquisition' , type:'date'},
-      { field: 'amount', header: 'Montant', type:'number'},
-      { field: 'transport', child: 'code', header: 'Transport' , type:'object'},
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'consumptionType', child: 'code', header: 'Type de consommation', type: 'object' },
+      { field: 'contractType', child: 'code', header: 'Type de contrat', type: 'object' },
+      { field: 'aquisitionDate', header: 'Date aquisition', type: 'date' },
+      { field: 'amount', header: 'Montant', type: 'number' },
+      { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
 
 
 
@@ -82,23 +75,17 @@ export class MachineListComponent implements OnInit {
     );
   }
 
-  onExportExcelGlobal() {
-    console.log("methode insurance");
+  onExportExcel(event) {
 
     this.machineService.find(this.searchQuery).subscribe(
       data => {
-        this.machineExportList = data.map(
-          m => ({
+        this.machineExportList = data;
+        if (event != null) {
+          this.globalService.generateExcel(event, this.machineExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.machineExportList, this.className, this.titleList);
 
-            'Code': m.code,
-            'Type de consommation': m.consumptionType,
-            'Type de contrat': m.contractType,
-            'Date aquisition': m.aquisitionDate,
-            'Montant': m.amount,
-            'Transport': m.transport,
-
-          }));
-        this.globalService.exportExcelGlobal(this.machineExportList, this.className);
+        }
         this.spinner.hide();
       },
       error => {
@@ -109,12 +96,11 @@ export class MachineListComponent implements OnInit {
 
 
   }
-
   onExportPdfGlobal(event) {
     this.machineService.find(this.searchQuery).subscribe(
       data => {
         this.machineExportList = data;
-        this.globalService.exportPdf(event,this.machineExportList,this.className);
+        this.globalService.generatePdf(event, this.machineExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {

@@ -4,6 +4,7 @@ export class Columns {
     field: String;
     header:String
     classe: String;
-    visible : boolean ;
+    type : boolean ;
+    child:string
 
 }

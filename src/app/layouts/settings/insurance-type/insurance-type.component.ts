@@ -18,7 +18,7 @@ export class InsuranceTypeComponent implements OnInit {
 
   page = 0;
   size = 10;
-  searchQuery: string = '';
+  searchQuery= '';
   codeSearch: string;
   descriptionSearch: string;
   codeList: Array<InsuranceType> = [];
@@ -96,7 +96,7 @@ export class InsuranceTypeComponent implements OnInit {
 
   }
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.insuranceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTypeExportList = data;

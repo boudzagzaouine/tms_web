@@ -115,7 +115,7 @@ export class InsuranceTermComponent implements OnInit {
 
   }
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTermExportList = data;

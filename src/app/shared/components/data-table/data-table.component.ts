@@ -30,7 +30,7 @@ export class DataTableComponent implements OnInit {
   @Input() collectionSize: number;
   @Input() objectList: Array<any> = [];
   @Input() objectExportList: Array<any> = [];
-  @Input() _selectedColumns: any[];
+  @Input() _selectedColumns: Array<any> = [];
   @Input() cols: any[];
   @Input() className: String;
   @Input() listName: String;
@@ -45,7 +45,8 @@ export class DataTableComponent implements OnInit {
   @Output() exportBtnPdf = new EventEmitter<any[]>();
 
   exportColumns: any[];
-  columnsAdded: Array<Columns> = [];
+  columnsAdded: any[];
+  columnsMapped: any[];
   exportBtnItems: MenuItem[];
   selectedObjects: Array<any> = [];
   user = new User();
@@ -86,18 +87,31 @@ export class DataTableComponent implements OnInit {
 
   loadColumns() {
     this.user = this.authUser.getCurrentUser();
+    console.log(this.user);
+
     if (this.user.columns != null && this.user.columns !== '') {
       this.columnsAdded = JSON.parse(this.user.columns);
-      const columnsMapped = this.columnsAdded.filter(
-        tab => tab.classe === this.className)
-        .map(col => ({ field: col.field, header: col.header }));
-      if (columnsMapped.length >= 1) {
-        this.selectedColumns = columnsMapped;
+      this.columnsMapped = this.columnsAdded.filter(
+        tab => tab.classe === 'InsuranceType');
 
+      if (this.columnsMapped.length >= 1) {
+
+        for(let i =0 ; i<this.cols.length; i++){
+
+            for(let j=0;j<this.columnsMapped.length;j++){
+
+              if(this.cols[i].field == this.columnsMapped[j].field){
+                   this.selectedColumns.push(this.cols[i]);
+              }
+            }
+        }
+
+        console.log("select ");
+
+        console.log(this.selectedColumns);
 
       } else {
         this.selectedColumns = this.cols;
-
       }
     } else {
       this.selectedColumns = this.cols;
@@ -182,7 +196,8 @@ export class DataTableComponent implements OnInit {
       c.field = this.selectedColumns[i].field;
       c.header = this.selectedColumns[i].header;
       c.classe = this.className;
-      c.visible = true;
+      c.type = this.selectedColumns[i].type;
+      c.child = this.selectedColumns[i].child;
       this.columnsAdded.push(c);
     }
     this.user = this.authUser.getCurrentUser();

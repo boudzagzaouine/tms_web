@@ -12,7 +12,7 @@ export class Vehicle extends Patrimony {
 
   id: number;
   registrationNumber = '';
-  code = '';
+  code ;
   technicalVisit: Date = new Date();
   valueTechnicalVisit: number;
   creationDate: Date = new Date();

@@ -1,29 +1,30 @@
-import { TransportCategoryVehicleComponent } from './../../../layouts/settings/transport-category-vehicle/transport-category-vehicle.component';
-import { Observable } from 'rxjs';
-import { EmittedOBject } from './emitted-object';
-import { UserService } from './../../services/api/user.service';
-import { AuthenticationService } from './../../services/api/authentication.service';
-import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { User } from './../../models/user';
-import { MenuItem, ConfirmationService, SortEvent } from 'primeng/api';
-import { Columns } from './../../models/column';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import * as XLSX from 'xlsx';
-import * as jsPDF from 'jspdf';
+import { TransportCategoryVehicleComponent } from "./../../../layouts/settings/transport-category-vehicle/transport-category-vehicle.component";
+import { Observable } from "rxjs";
+import { EmittedOBject } from "./emitted-object";
+import { UserService } from "./../../services/api/user.service";
+import { AuthenticationService } from "./../../services/api/authentication.service";
+import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
+import { User } from "./../../models/user";
+import { MenuItem, ConfirmationService, SortEvent } from "primeng/api";
+import { Columns } from "./../../models/column";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from "@angular/core";
 
 @Component({
-  selector: 'app-data-table',
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.css']
+  selector: "app-data-table",
+  templateUrl: "./data-table.component.html",
+  styleUrls: ["./data-table.component.css"]
 })
-
-
 export class DataTableComponent implements OnInit {
-
-  @ViewChild('myTable', { static: false }) myTable: ElementRef;
-  @ViewChild('htmlData', { static: true }) htmlData: ElementRef;
-
   @Input() tableId;
   @Input() page = 0;
   @Input() size;
@@ -53,26 +54,15 @@ export class DataTableComponent implements OnInit {
   updateBtnDisable = false;
   deleteBtnDisable = false;
 
-
   constructor(
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private authUser: AuthenticationService,
     private userservice: UserService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    // this.exportBtnItems = [
-    //   {
-    //     label: 'PDF', icon: 'pi pi-file-pdf', command: () => { this.exportPdf(); }
-    //   },
-    //   {
-    //     label: 'Excel', icon: 'pi pi-file-excel', command: () => { this.exportBtnExcelVue(); }
-    //   },
-    // ];
-
     this.loadColumns();
-
   }
 
   @Input() get selectedColumns(): any[] {
@@ -84,52 +74,58 @@ export class DataTableComponent implements OnInit {
     this._selectedColumns = this.cols.filter(col => val.includes(col));
   }
 
-
   loadColumns() {
     this.user = this.authUser.getCurrentUser();
-    console.log(this.user);
+    console.log("user colm");
+    console.log(this.user.columns);
 
-    if (this.user.columns != null && this.user.columns !== '') {
+    if (this.user.columns != null && this.user.columns !== "") {
       this.columnsAdded = JSON.parse(this.user.columns);
       this.columnsMapped = this.columnsAdded.filter(
-        tab => tab.classe === 'InsuranceType');
+        tab => tab.classe === this.className
+      );
 
       if (this.columnsMapped.length >= 1) {
-
-        for(let i =0 ; i<this.cols.length; i++){
-
-            for(let j=0;j<this.columnsMapped.length;j++){
-
-              if(this.cols[i].field == this.columnsMapped[j].field){
-                   this.selectedColumns.push(this.cols[i]);
-              }
+        for (let i = 0; i < this.cols.length; i++) {
+          for (let j = 0; j < this.columnsMapped.length; j++) {
+            if (this.cols[i].field === this.columnsMapped[j].field) {
+              this.selectedColumns.push(this.cols[i]);
             }
+          }
         }
-
-        console.log("select ");
-
-        console.log(this.selectedColumns);
-
       } else {
         this.selectedColumns = this.cols;
       }
     } else {
       this.selectedColumns = this.cols;
-
     }
-    this.exportColumns = this.selectedColumns.map(col => ({ title: col.header, dataKey: col.field }));
+    this.exportColumns = this.selectedColumns.map(col => ({
+      title: col.header,
+      dataKey: col.field
+    }));
 
+    console.log("class name");
+
+    console.log(this.className);
+
+    console.log("column select");
+
+    console.log(this.selectedColumns);
+
+    console.log("cols ");
+
+    console.log(this.cols);
   }
   typeOf(event) {
     let res: number;
 
-    if ((event) === 'object') {
+    if (event === "object") {
       res = 1;
-    } else if (event === 'number' || event === 'string') {
+    } else if (event === "number" || event === "string") {
       res = 2;
-    } else if (event === 'date') {
+    } else if (event === "date") {
       res = 3;
-    } else if (event === 'boolean') {
+    } else if (event === "boolean") {
       res = 4;
     }
 
@@ -137,31 +133,25 @@ export class DataTableComponent implements OnInit {
   }
 
   exportExcelVue(): void {
-
     this.exportBtnExcelVue.emit(this.selectedColumns);
-
   }
 
   exportPdf(): void {
-
     this.exportBtnPdf.emit(this.selectedColumns);
-
   }
 
   exportExcelGlobal(): void {
     this.exportBtnExcelGlobal.emit(null);
   }
 
-
-
-
-
   onEdit(event) {
     console.log(event);
-    this.objectEdited.emit({ object: this.selectedObjects, operationMode: event });
+    this.objectEdited.emit({
+      object: this.selectedObjects,
+      operationMode: event
+    });
     this.selectedObjects = [];
   }
-
 
   loadDataLazy(event) {
     // this.size = event.rows;
@@ -184,12 +174,20 @@ export class DataTableComponent implements OnInit {
       this.updateBtnDisable = false;
       this.deleteBtnDisable = false;
     }
-
   }
 
   onSaveView(event) {
+    console.log(this.className);
+
+    console.log(this.columnsAdded);
+
     this.spinner.show();
-    this.columnsAdded = [];
+
+    this.columnsAdded = this.columnsAdded.filter(
+      col => col.classe !== this.className
+    );
+    console.log(this.columnsAdded);
+
     for (let i = 0; i < this.selectedColumns.length; i++) {
       let c = new Columns();
       c.position = i;
@@ -200,23 +198,20 @@ export class DataTableComponent implements OnInit {
       c.child = this.selectedColumns[i].child;
       this.columnsAdded.push(c);
     }
+    console.log(this.columnsAdded);
+
     this.user = this.authUser.getCurrentUser();
     this.user.columns = JSON.stringify(this.columnsAdded);
     this.authUser.setuser(this.user);
     this.userservice.set(this.user).subscribe(
       data => {
-        this.toastr.success('La vue a été enregistrée avec Succés', 'Edition');
+        this.toastr.success("La vue a été enregistrée avec Succés", "Edition");
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.toastr.error(error.error.message, "Erreur");
         this.spinner.hide();
       },
       () => this.spinner.hide()
-
     );
-
   }
-
-
-
 }

@@ -94,7 +94,7 @@ export class CommissionTypeComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.commissionTypeExportList = data;
@@ -136,6 +136,7 @@ export class CommissionTypeComponent implements OnInit {
   }
   reset() {
     this.codeSearch = null;
+    this.descriptionSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

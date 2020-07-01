@@ -31,10 +31,10 @@
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  [listName]="'Liste des états de maintenance'"
+  [listName]="titleList"
   [viewBtnVisible]="'false'"
   (exportBtnExcelGlobal)="onExportExcel($event)"
-  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
 ></app-data-table>
 

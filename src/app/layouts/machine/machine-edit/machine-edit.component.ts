@@ -189,6 +189,7 @@ export class MachineEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       general: new FormGroup({
         'fCode': new FormControl(this.selectedMachine.code, Validators.required),
+        'fRef': new FormControl(this.selectedMachine.ref),
         'fConsumptionType': new FormControl(this.selectedMachine.consumptionType, Validators.required),
       }),
 
@@ -220,7 +221,7 @@ export class MachineEditComponent implements OnInit {
     const formValue = this.vehicleForm.value;
 
     this.selectedMachine.code = formValue['general']['fCode'];
-
+    this.selectedMachine.ref = formValue['general']['fRef'];
     this.selectedInsurance.code = formValue['insurance']['fICode'];
     this.selectedInsurance.startDate = formValue['insurance']['fIStartDate'];
     this.selectedInsurance.endDate = formValue['insurance']['fIEndDate'];

@@ -93,7 +93,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
       data => {
         this.transportCategoryVehicleExportList = data;

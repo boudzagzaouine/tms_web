@@ -54,14 +54,14 @@ showEffect="fade"
         <div class="row  justify-content-around">
 
           <div class="form-group col-sm-4">
-            <label class="font-weight-bold">{{'pays' | translate}} *</label>
+            <label class="font-weight-bold">{{'Pays' | translate}} *</label>
             <br />
             <input type="text" class="form-control" pInputText formControlName="country"
            />
           </div>
 
           <div class="form-group col-sm-4">
-            <label class="font-weight-bold">{{'ville' | translate}} </label>
+            <label class="font-weight-bold">{{'Ville' | translate}} </label>
             <br />
             <input type="text" class="form-control" pInputText formControlName="city"
            />
@@ -77,8 +77,7 @@ showEffect="fade"
         <div class="row  justify-content-around">
 
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Addresse ' | translate}} </label>
-            <br />
+            <label class="font-weight-bold">{{'Addresse ' | translate}} *</label>
             <span *ngIf="(transportForm.get('line1').touched && transportForm.get('line1').invalid) ||
             (isFormSubmitted && transportForm.get('line1').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -89,7 +88,7 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Addresse' | translate}} </label>
+            <label class="font-weight-bold">{{'Addresse 2' | translate}} </label>
             <br />
             <input type="text" class="form-control" pInputText formControlName="line2"
            />

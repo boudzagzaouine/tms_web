@@ -95,9 +95,8 @@ export class ContractTypeComponent implements OnInit {
       () => this.spinner.hide()
     );
 
-
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.contractTypeService.find(this.searchQuery).subscribe(
       data => {
         this.contractTypeExportList = data;

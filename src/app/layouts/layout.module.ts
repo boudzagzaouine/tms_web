@@ -1,3 +1,4 @@
+import { VehicleComponent } from './vehicle/vehicle.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ConfirmationService } from 'primeng/api';
 import { SharedModule } from './../shared/shared.module';
@@ -10,6 +11,7 @@ import { LayoutComponent } from './/layout.component';
 import { AppHeaderComponent } from './template/app-header/app-header.component';
 import { AppSidebarComponent as AppSidebarComponent } from './template/app-sidebar/app-sidebar.component';
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
+import { VehiculeEditLineComponent } from './vehicle/vehicle-edit/vehicule-edit-line/vehicule-edit-line.component';
 
 
 
@@ -26,10 +28,12 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
     AppHeaderComponent,
     AppSidebarComponent,
     AppFooterComponent,
+    
   ],
   imports: [
     CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule
   ],
+
   providers: [ ConfirmationService]
 })
 export class LayoutModule {

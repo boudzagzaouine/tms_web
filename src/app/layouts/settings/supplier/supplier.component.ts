@@ -59,10 +59,6 @@ export class SupplierComponent implements OnInit {
 
 
     this.loadData();
-    console.log("test");
-    console.log("");
-
-
 
   }
 
@@ -119,7 +115,7 @@ export class SupplierComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.supplierService.find(this.searchQuery).subscribe(
       data => {
         this.supplierExportList = data;

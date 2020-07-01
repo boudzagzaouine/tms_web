@@ -71,7 +71,7 @@ export class BadgeTypeComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.badgeTypeService.find(this.searchQuery).subscribe(
       data => {
         this.badgeTypeExportList = data;
@@ -132,6 +132,7 @@ export class BadgeTypeComponent implements OnInit {
   }
   reset() {
     this.codeSearch = null;
+    this.descriptionSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

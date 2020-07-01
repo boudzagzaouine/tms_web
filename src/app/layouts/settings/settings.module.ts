@@ -1,3 +1,4 @@
+import { VehicleComponent } from './../vehicle/vehicle.component';
 import { PatrimonyTypeEditComponent } from './patrimony-type/patrimony-type-edit/patrimony-type-edit.component';
 import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -72,6 +73,7 @@ import { ZoneEditComponent } from './zone/zone-edit/zone-edit.component';
 import { TransportComponent } from './transport/transport.component';
 import { TransportEditComponent } from './transport/transport-edit/transport-edit.component';
 import {FieldsetModule} from 'primeng/fieldset';
+import { TermEdiitComponent } from './insurance/insurance-edit/term-ediit/term-ediit.component';
 
 
 
@@ -125,6 +127,7 @@ import {FieldsetModule} from 'primeng/fieldset';
     ZoneEditComponent,
     TransportComponent,
     TransportEditComponent,
+    TermEdiitComponent
 
 
 

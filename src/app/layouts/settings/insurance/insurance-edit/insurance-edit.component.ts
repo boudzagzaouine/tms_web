@@ -152,7 +152,15 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
   }
-
+  onLineEdited(line: InsuranceTermsVehicle) {
+    this.selectedInsurance.insuranceTermLignes = this.selectedInsurance.insuranceTermLignes.filter(
+      p => p.insuranceTerm.code !== line.insuranceTerm.code);
+    this.selectedInsurance.insuranceTermLignes.push(line);
+  }
+  onDeleteLine(line: InsuranceTermsVehicle) {
+    this.selectedInsurance.insuranceTermLignes = this.selectedInsurance.insuranceTermLignes.filter(
+      p => p.insuranceTerm.id !== line.insuranceTerm.id);
+  }
 
   onloadByTypeTermInsurance(idinsurancetype: number) {
     if (this.editMode === 1) {

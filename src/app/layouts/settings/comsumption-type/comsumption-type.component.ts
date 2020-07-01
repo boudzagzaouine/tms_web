@@ -100,7 +100,7 @@ export class ComsumptionTypeComponent implements OnInit {
 
   }
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.consumptionTypeExportList = data;

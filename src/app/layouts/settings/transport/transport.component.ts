@@ -102,7 +102,7 @@ export class TransportComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.tranportService.find(this.searchQuery).subscribe(
       data => {
         this.transportExportList = data;

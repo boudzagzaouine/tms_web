@@ -12,11 +12,12 @@ export class Machine extends Patrimony {
 
   id: number;
   code = '';
+  ref : string;
   contractType: ContractType;
   consumptionType: ConsumptionType;
   aquisitionDate: Date = new Date();
   amount: number;
-  patrimony_type='machine';
+  patrimony_type = 'machine';
   transport: Transport;
 
 }

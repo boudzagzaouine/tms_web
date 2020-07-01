@@ -98,7 +98,7 @@ export class MaintenanceTypeComponent implements OnInit {
   }
 
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.maintenanceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceTypeExportList = data;

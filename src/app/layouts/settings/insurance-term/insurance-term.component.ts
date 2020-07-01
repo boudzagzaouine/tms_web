@@ -16,8 +16,7 @@ import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { InsuranceTermService } from './../../../shared/services';
 import { EmsBuffer } from './../../../shared/utils';
 import { InsuranceTerm } from './../../../shared/models';
-import * as XLSX from 'xlsx';
-import * as jsPDF from 'jspdf';
+
 
 @Component({
   selector: 'app-insurance-term',
@@ -153,6 +152,7 @@ export class InsuranceTermComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
+    this.descriptionSearch=null
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

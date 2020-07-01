@@ -101,7 +101,7 @@ export class MaintenanceStatusComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.maintenanceStatusService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceStatusExportList = data;

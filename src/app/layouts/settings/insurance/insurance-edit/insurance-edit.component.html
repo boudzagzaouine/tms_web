@@ -1,50 +1,38 @@
-<p-dialog
-header="{{ title | translate }}"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '850px' }"
-(onHide)='onShowDialog()'
->
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="insuranceForm">
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '850px' }" (onHide)='onShowDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="insuranceForm">
 
-        <div class="row justify-content-around">
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold ">{{'Code' | translate}}</label>
-            <input type="text" class="form-control"  pInputText formControlName="code" (keydown.space)="$event.preventDefault()" />
-          </div>
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold ">{{'Code' | translate}}</label>
+              <input type="text" class="form-control" pInputText formControlName="code"
+                (keydown.space)="$event.preventDefault()" />
+            </div>
 
-          <div class="form-group col-sm-3 ">
-            <label class="font-weight-bold ">{{'Fournisseur'| translate}} </label>
-             <!-- <input type="text" class="form-control"  pInputText formControlName="supplier"   /> -->
-             <p-dropdown
-             [options]="supplierList"
-             optionLabel="code"
-             [autoDisplayFirst]="false"
-             formControlName="supplier" filter="true" [showClear]='true'
-           >
-           </p-dropdown>
-          </div>
-          <div class="form-group col-sm-3 ">
-            <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
+            <div class="form-group col-sm-3 ">
+              <label class="font-weight-bold ">{{'Fournisseur'| translate}} </label>
+              <!-- <input type="text" class="form-control"  pInputText formControlName="supplier"   /> -->
+              <p-dropdown [options]="supplierList" optionLabel="code" [autoDisplayFirst]="false"
+                formControlName="supplier" filter="true" [showClear]='true'>
+              </p-dropdown>
+            </div>
+            <div class="form-group col-sm-3 ">
+              <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
             <label class="font-weight-bold ">{{'Machine'| translate}} </label>
           </div> -->
-          <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
+              <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
             <label class="font-weight-bold ">{{'Véhicule'| translate}} </label>
           </div> -->
-          <label class="font-weight-bold ">{{'Patrimoine'| translate}} </label>
+              <label class="font-weight-bold ">{{'Patrimoine'| translate}} </label>
 
-            <!-- <input type="text" class="form-control"  pInputText formControlName="vehiclecode" > -->
-            <p-autoComplete formControlName="vehiclecode" [suggestions]="patrimonyList"
-            (completeMethod)="onPatrimonySearch($event)" field="code"
-             ></p-autoComplete>
+              <!-- <input type="text" class="form-control"  pInputText formControlName="vehiclecode" > -->
+              <p-autoComplete formControlName="vehiclecode" [suggestions]="patrimonyList"
+                (completeMethod)="onPatrimonySearch($event)" field="code"></p-autoComplete>
 
-            <!-- <p-dropdown
+              <!-- <p-dropdown
             [options]="patrimonyList"
             optionLabel="code"
             [autoDisplayFirst]="false"
@@ -52,93 +40,92 @@ showEffect="fade"
           >
           </p-dropdown> -->
 
+            </div>
+            <div class="form-group col-sm-3 ">
+              <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
+              <!-- <input type="text" class="form-control"  pInputText formControlName="typeinsurance" > -->
+              <p-dropdown [options]="insuranceTypeList" optionLabel="code" [autoDisplayFirst]="false"
+                (onChange)="onSelectInsuranceType($event)" formControlName="typeinsurance" filter="true"
+                [showClear]='true'>
+              </p-dropdown>
+            </div>
           </div>
-          <div class="form-group col-sm-3 ">
-            <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
-            <!-- <input type="text" class="form-control"  pInputText formControlName="typeinsurance" > -->
-            <p-dropdown
-        [options]="insuranceTypeList"
-        optionLabel="code"
-        [autoDisplayFirst]="false"
-        (onChange)="onSelectInsuranceType($event)"
-        formControlName="typeinsurance" filter="true" [showClear]='true'
-      >
-      </p-dropdown>
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold ">{{'De' | translate}} </label>
+              <p-calendar formControlName="startDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold ">{{'à' | translate}} </label>
+              <br />
+              <p-calendar formControlName="endDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold ">{{'Montant' | translate}} </label>
+              <input type="text" class="form-control" pInputText formControlName="amount" pKeyFilter="num">
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-around">
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold ">{{'De' | translate}} </label>
-            <p-calendar formControlName="startDate"  dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+
+
+          <div class="card mt-2">
+            <div class="card-header " style=" background-color:#f7f7f7;">
+              <div class="row">
+
+              <div class="col-xs-4 col-md-4 pull-left">
+                <app-term-ediit [editMode]="false" (insuranceTermLineAdded)="onLineEdited($event)"></app-term-ediit>
+              </div>
+              <div class=" col-xs-4 col-md-6 pull-center">{{ "Liste des termes assurance" | translate }}</div>
+
+
+           </div>
+          </div>
+            <div class="card-body mt-2 border-top-primary">
+
+              <p-table [value]="this.selectedInsurance?.insuranceTermLignes"
+                [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" [scrollable]="true"
+                scrollHeight="150px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>{{"Terme assurance" | translate}}</th>
+                    <th>{{"Montant" |translate }} </th>
+                    <th>{{"Actions" |translate }} </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-line>
+                  <tr>
+                    <td>{{line?.insuranceTerm?.code}}</td>
+                    <td>{{line?.amount}}</td>
+                    <td>
+
+                   <app-term-ediit
+                    [selectedTermLigne]="line" [editMode]="true"
+                    (insuranceTermLineAdded)="onLineEdited($event)"> </app-term-ediit>
+                  <button type="button" (click)="onDeleteLine(line)" class="btn btn-sm btn-danger mx-1">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </div>
 
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold ">{{'à' | translate}} </label>
-            <br />
-            <p-calendar formControlName="endDate"  dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
-          </div>
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold ">{{'Montant' | translate}} </label>
-            <input type="text" class="form-control"  pInputText formControlName="amount" pKeyFilter="num">
-          </div>
-        </div>
-
-
-        <div class="card mt-2">
-          <div class="card-header " style=" background-color:#f7f7f7;">
-            <div class="text-center" ><p style="font-size: 16px; color: #5f5b5b;">{{'Liste des termes assurance' | translate}}</p></div>
-
-            <span class="pull-right">
-            </span>
-            <span class="pull-right">
-            </span>
-          </div>
-        <div class="card-body mt-2 border-top-primary">
-
-          <!-- selectedInsurance?.insuranceTermLignes -->
-                        <p-table [value]="this.selectedInsurance?.insuranceTermLignes"
-                          [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length"  [scrollable]="true" scrollHeight="150px">
-                          <ng-template pTemplate="header">
-                            <tr>
-                              <th>{{"Terme assurance" | translate}}</th>
-                              <th>{{"Montant" |translate }} </th>
-                            </tr>
-                          </ng-template>
-                          <ng-template pTemplate="body" let-line>
-                            <tr>
-                              <td>{{line?.insuranceTerm?.code}}</td>
-                             <td>{{line?.amount}}</td>
-
-                            </tr>
-                          </ng-template>
-                        </p-table>
-                      </div>
-                    </div>
-
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-    <button
-    type="button"
-    pButton
-    (click)="onShowDialog()"
-    class="ui-button-primary"
-    label="{{'Annuler' | translate }}"
-  ></button>
-  <button
-  type="button"
-  pButton
-  (click)="onSubmit()"
-  class="ui-button-success"
-  label="{{ 'Valider' | translate }}"
-></button>
+      <button type="button" pButton (click)="onShowDialog()" class="ui-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="ui-button-success"
+        label="{{ 'Valider' | translate }}"></button>
 
-  </div>
-</p-footer>
+    </div>
+  </p-footer>
 </p-dialog>

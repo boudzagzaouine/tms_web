@@ -24,6 +24,8 @@ export class MachineListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  codeList: Array<Machine> = [];
+  refSearch: string;
   transportSearch: Transport;
   contratTypeSearch: ContractType;
   transportList: Array<Transport> = [];
@@ -52,6 +54,7 @@ export class MachineListComponent implements OnInit {
     this.className = Machine.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
+      { field: 'ref', header: 'Référence', type: 'string' },
       { field: 'consumptionType', child: 'code', header: 'Type de consommation', type: 'object' },
       { field: 'contractType', child: 'code', header: 'Type de contrat', type: 'object' },
       { field: 'aquisitionDate', header: 'Date aquisition', type: 'date' },
@@ -96,7 +99,7 @@ export class MachineListComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.machineService.find(this.searchQuery).subscribe(
       data => {
         this.machineExportList = data;
@@ -140,13 +143,16 @@ export class MachineListComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.refSearch != null && this.refSearch !== '') {
+      buffer.append(`ref~${this.refSearch}`);
+    }
 
     if (this.transportSearch != null && this.transportSearch.code !== '') {
       buffer.append(`transport.code~${this.transportSearch.code}`);
     }
 
     if (this.contratTypeSearch != null && this.contratTypeSearch.code !== '') {
-      buffer.append(`contratType.code~${this.contratTypeSearch.code}`);
+      buffer.append(`contractType.code~${this.contratTypeSearch.code}`);
     }
 
     this.page = 0;
@@ -154,7 +160,11 @@ export class MachineListComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
-
+  onCodeSearch(event: any) {
+    this.machineService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    );
+  }
 
   onObjectEdited(event) {
 

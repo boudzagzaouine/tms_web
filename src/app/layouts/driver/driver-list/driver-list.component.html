@@ -2,15 +2,21 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
     <div class="row">
+       <div class="col-md-3">
+        <label class="font-weight-bold ">{{"Code" | translate}}</label><br />
+        <p-autoComplete
+        [(ngModel)]="codeSearch"
+        [suggestions]="drivercodeList"
+        (completeMethod)="ondriverCodeSearch($event)"
+      ></p-autoComplete>
+      </div>
       <div class="col-md-3">
         <label class="font-weight-bold"> {{"Cin" | translate}}</label><br />
+
         <input type="text" pInputText [(ngModel)]="cinSearch" />
       </div>
 
-      <div class="col-md-3">
-        <label class="font-weight-bold ">{{"Code" | translate}}</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
-      </div>
+
 
       <div class="col-md-3 ">
         <label class="font-weight-bold ">{{"Badge" | translate}}</label><br />
@@ -30,10 +36,8 @@
       <button type="button" class="btn btn-primary mr-2" (click)="reset()">
         <i class="fa fa-refresh mr-2"></i>
         {{ "Réinitialiser" | translate }}      </button>
-
-      <button type="button" class="btn btn-success" (click)="onSeachDriverBadge()">
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         <i class="fa fa-search mr-2"></i>
-
         {{ "Rechercher" | translate }}      </button>
     </div>
 
@@ -50,12 +54,11 @@
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
   (exportBtnExcelGlobal)="onExportExcel($event)"
-  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
-  [listName]="'Liste des chauffeurs'"
+  [listName]="titleList"
   [viewBtnVisible]="'false'"
   [addBtnVisible]="'false'"
-  [tableId]="'driver'"
 
 ></app-data-table>
 

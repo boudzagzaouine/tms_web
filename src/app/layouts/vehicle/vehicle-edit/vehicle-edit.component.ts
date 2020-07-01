@@ -437,6 +437,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     //     return;
     //   } else if (this.vehicleForm.controls['insurance']) {
         this.index = this.index + 1;
+        this.isFormSubmitted = false;
+
     //     this.isFormSubmitted = false;
 
     //   }

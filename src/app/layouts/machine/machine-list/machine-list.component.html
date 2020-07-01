@@ -1,15 +1,21 @@
 <br />
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
-    <div class="row">
-      <div class="col-md-2">
+  <div class="row  mt-3 justify-content-around">
+    <!-- <div class="col-md-3">
         <label class="font-weight-bold">
           {{"Code" | translate}}</label><br />
-        <input type="text" pInputText [(ngModel)]="codeSearch" />
+          <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
+          (completeMethod)="onCodeSearch($event)"></p-autoComplete>
+      </div> -->
+
+      <div class="col-md-3">
+        <label class="font-weight-bold">
+          {{"référence" | translate}}</label><br />
+        <input type="text" pInputText [(ngModel)]="refSearch" />
       </div>
 
-
-      <div class="col-md-2 ">
+      <div class="col-md-3">
         <label class="font-weight-bold ">{{"Type de contrat" | translate}}</label><br />
         <p-dropdown
         [options]="contratTypeList"
@@ -19,7 +25,8 @@
       >
       </p-dropdown>
       </div>
-      <div class="col-md-2 ">
+
+      <div class="col-md-3">
         <label class="font-weight-bold ">{{"Transport" | translate}}</label><br />
         <p-dropdown
         [options]="transportList"
@@ -30,7 +37,9 @@
       </p-dropdown>
       </div>
 
+      <div class="col-md-3">
 
+      </div>
     </div>
 
     <br />
@@ -63,12 +72,11 @@
   (lazyLoadData)="loadDataLazy($event)"
 
   (exportBtnExcelGlobal)="onExportExcel($event)"
-  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
-  [listName]="'Liste des Machines'"
+  [listName]="titleList"
   [addBtnVisible]="'true'"
   [viewBtnVisible]="'false'"
-  [tableId]="'machine'"
 
 ></app-data-table>
 

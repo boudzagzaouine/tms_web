@@ -31,6 +31,8 @@ export class DriverListComponent implements OnInit {
   contratSearch: string;
   badgeTypeSearch: BadgeType;
   selectedDrivers: Array<Vehicle> = [];
+  drivercodeList: Array<Driver> = [];
+
   loading: boolean;
   searchQuery = '';
   driverList: Array<Driver> = [];
@@ -106,7 +108,7 @@ export class DriverListComponent implements OnInit {
 
 
   }
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.driverService.find(this.searchQuery).subscribe(
       data => {
         this.driverExportList = data;
@@ -120,7 +122,11 @@ export class DriverListComponent implements OnInit {
     );
 
   }
-
+  ondriverCodeSearch(event: any) {
+    this.driverService.find('code~' + event.query).subscribe(
+      data => this.drivercodeList = data.map(f => f.code)
+    );
+  }
   loadBadge() {
 
     this.badgeTypeService.findAll().subscribe(
@@ -146,13 +152,11 @@ export class DriverListComponent implements OnInit {
 
   loadData(search: string = '') {
 
-    console.log('loading data');
 
     this.spinner.show();
 
     this.driverService.sizeSearch(search).subscribe(
       data => {
-        console.log('data size : ' + data);
 
         this.collectionSize = data;
       }
@@ -234,8 +238,6 @@ export class DriverListComponent implements OnInit {
     console.log('search ' + searchQuery);
 
     this.loadDataOfBD(searchQuery);
-
-
 
   }
 

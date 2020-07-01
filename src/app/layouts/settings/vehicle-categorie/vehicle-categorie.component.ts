@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
-import { reject } from 'q';
+
 
 @Component({
   selector: 'app-vehicle-categorie',
@@ -23,14 +23,12 @@ export class VehicleCategorieComponent implements OnInit {
   codeSearch: string;
   descriptionSearch: string;
   codeList: Array<VehicleCategory> = [];
-
   cols: any[];
   vehicleCategorieList: Array<VehicleCategory> = [];
   selectedVehicleCategories: Array<VehicleCategory> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
-
   vehicleCategoyExportList: Array<VehicleCategory> = [];
   titleList = 'Liste des catégories de  véhicule';
   constructor(private vehicleCategorieService: VehicleCategoryService,
@@ -108,7 +106,7 @@ export class VehicleCategorieComponent implements OnInit {
 
   }
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.vehicleCategorieService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleCategoyExportList = data;

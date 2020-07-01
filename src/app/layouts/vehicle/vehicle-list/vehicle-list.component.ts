@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
@@ -15,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleService } from './../../../shared/services';
 import { Component, OnInit } from '@angular/core';
+import { Patrimony } from './../../../shared/models/patrimony';
 
 
 @Component({
@@ -29,7 +31,7 @@ export class VehicleListComponent implements OnInit {
   size = 10;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: string;
+  codeSearch: Vehicle;
   matSearch: string;
   categorySearch: VehicleCategory;
   badgeTypeSearch: BadgeType;
@@ -37,49 +39,22 @@ export class VehicleListComponent implements OnInit {
   contratTypeSearch: ContractType;
   selectedVehicles: Array<Vehicle> = [];
   vehicleList: Array<Vehicle> = [];
-  vehicleCodeList: Array<Vehicle> = [];
+  vehicleCodeList: Array<Patrimony> = [];
   vehicleCategoryList: Array<VehicleCategory> = [];
   badgeTypeList: Array<BadgeType> = [];
   transportList: Array<Transport> = [];
   contratTypeList: Array<ContractType> = [];
   className: string;
-  titleList: string = 'Liste Des Véhicule';
+  titleList = 'Liste Des Véhicules';
   cols: any[];
   editMode: number;
   showDialog: boolean;
 
-  vehicleExportList: {
-
-    'Code': string,
-    'Immatriculation': string,
-    'Catégorie véhicule': string,
-    'Type de bage': string,
-    'Date du contrôle technique': Date,
-    'Montant du contrôle technique': string,
-    'Date De Paiment de la vignette': string,
-    'Montant vignette': string,
-    'Carte grise': string,
-    'Numéro chassis': string,
-    'Nombre de cylindres': string,
-    'Puissance fiscal': string,
-    'Carrosserie': string,
-    'Type de consommation': string,
-    'Huile moteur': string,
-    'Pont arriere': string,
-    'Direction': string,
-    'Radiateur': string,
-    'Filtre à air': string,
-    'Boite a vitesse': string,
-    'Filtre dissicateur': string,
-    'Type de contrat': string,
-    'Date aquisition': string,
-    'Montant': string,
-    'Transport': string,
-
-  }[] = [];
+  vehicleExportList:Array<Vehicle> = [];
 
 
   constructor(private vehicleService: VehicleService,
+    private patrimonyService : PatrimonyService,
     private vehicleCategoryService: VehicleCategoryService,
     private globalService: GlobalService,
     private badgeTypeService: BadgeTypeService,
@@ -98,10 +73,6 @@ export class VehicleListComponent implements OnInit {
       { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
       { field: 'badgeType', child: 'code', header: 'Type de bage', type: 'object' },
-      //  child:[{
-
-      //   field:'code'},
-      // ]},
       { field: 'technicalVisit', header: 'Date du contrôle technique', type: 'date' },
       { field: 'valueTechnicalVisit', header: 'Montant du contrôle technique', type: 'number' },
       { field: 'vignette', header: 'Date De Paiment de la vignette', type: 'date' },
@@ -123,8 +94,6 @@ export class VehicleListComponent implements OnInit {
       { field: 'aquisitionDate', header: 'Date aquisition', type: 'date' },
       { field: 'amount', header: 'Montant', type: 'number' },
       { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
-
-
 
     ];
     this.vehicleCategoryService.findAll().subscribe(
@@ -184,6 +153,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleExportList = data;
+
         if (event != null) {
           this.globalService.generateExcel(event, this.vehicleExportList, this.className, this.titleList);
         } else {
@@ -202,7 +172,7 @@ export class VehicleListComponent implements OnInit {
   }
 
 
-  onExportPdfGlobal(event) {
+  onExportPdf(event) {
     this.vehicleService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleExportList = data;
@@ -216,12 +186,14 @@ export class VehicleListComponent implements OnInit {
     );
 
   }
- 
+
   onSearchClicked() {
 
+    console.log(this.vehicleCodeList);
+
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.codeSearch != null && this.codeSearch.code !== '') {
+      buffer.append(`registrationNumber~${this.codeSearch.registrationNumber}`);
     }
 
     if (this.matSearch != null && this.matSearch !== '') {
@@ -240,7 +212,7 @@ export class VehicleListComponent implements OnInit {
     }
 
     if (this.contratTypeSearch != null && this.contratTypeSearch.code !== '') {
-      buffer.append(`contratType.code~${this.contratTypeSearch.code}`);
+      buffer.append(`contractType.code~${this.contratTypeSearch.code}`);
     }
 
 
@@ -266,11 +238,10 @@ export class VehicleListComponent implements OnInit {
   }
 
   onVehicleCodeSearch(event: any) {
-    this.vehicleService.find('code~' + event.query).subscribe(
-      data => this.vehicleCodeList = data.map(f => f.code)
+    this.patrimonyService.find('code~' + event.query).subscribe(
+      data => this.vehicleCodeList = data ,
     );
   }
-
 
   reset() {
     this.codeSearch = null;

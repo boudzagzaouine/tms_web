@@ -125,7 +125,7 @@ export class MaintenancePlanEditComponent implements OnInit {
     this.maintenanceForm = this.formBuilder.group(
       {
         'Fcode': new FormControl({ value: this.selectedMaintenance.code, disabled: this.editMode }, Validators.required),
-        'Fvehicule': new FormControl({ value: this.selectedMaintenance.vehicle, disabled: this.editMode }, Validators.required),
+        //'Fvehicule': new FormControl({ value: this.selectedMaintenance.vehicle, disabled: this.editMode }, Validators.required),
         'FmaintenanceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
         'FdateDebut': new FormControl(d),
         'FdateFin': new FormControl(dd),
@@ -136,7 +136,7 @@ export class MaintenancePlanEditComponent implements OnInit {
         }),
         'FstatusMaintenance': new FormControl(this.selectedMaintenance.maintenanceState),
         'Fdescription': new FormControl(this.selectedMaintenance.description),
-        
+
       }
     );
   }
@@ -176,8 +176,7 @@ export class MaintenancePlanEditComponent implements OnInit {
   }
 
   onSelectVehicle(event) {
-
-    this.selectedMaintenance.vehicle = event.value;
+   //this.selectedMaintenance.vehicle = event.value;
   }
   onSelectMaintenanceType(event) {
 

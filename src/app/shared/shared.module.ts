@@ -1,3 +1,9 @@
+import { ActionService } from './services/api/action.service';
+import { Action } from 'rxjs/internal/scheduler/Action';
+import { ServiceProviderService } from './services/api/service-provider.service';
+import { ResponsabilityService } from './services/api/responsability.service';
+import { ProgramTypeService } from './services/api/program-type.service';
+import { OperationTypeService } from './services/api/operation-type.service';
 import { AddressService } from './services/api/address.service';
 import { MachineService } from './services/api/machine.service';
 import { PatrimonyTypeService } from './services/api/patrimony-type.service';
@@ -68,6 +74,7 @@ import { AccountService } from './services/api/account.service';
 import { SaleOrderLineService } from './services/api/sale-order-line.service';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { PatrimonyService } from './services/api/patrimony-service';
+import { PeriodicityTypeService } from './services/api/periodicity-type.service';
 
 
 @NgModule({
@@ -107,6 +114,9 @@ import { PatrimonyService } from './services/api/patrimony-service';
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
+
+
+
       ngModule: SharedModule,
       providers: [
         BadgeTypeService,
@@ -149,8 +159,15 @@ export class SharedModule {
         PatrimonyTypeService,
         MachineService,
         PatrimonyService,
-        AddressService
-      ]
+        AddressService,
+        PeriodicityTypeService,
+        OperationTypeService,
+        ProgramTypeService,
+        ResponsabilityService,
+        ServiceProviderService,
+        ActionService
+      ],
+
     };
   }
 }

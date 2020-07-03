@@ -47,8 +47,6 @@ import {StepsModule} from 'primeng/steps';
     StepsModule,
     PanelModule
   ],
-  exports: [
-    VehicleComponent,
-  ]
+
 })
 export class VehicleModule { }

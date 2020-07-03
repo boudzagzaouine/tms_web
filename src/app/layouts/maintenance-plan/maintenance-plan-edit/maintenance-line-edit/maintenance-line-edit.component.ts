@@ -17,9 +17,9 @@ export class MaintenanceLineEditComponent implements OnInit {
   @Input() selectedMaintenanceLine: MaintenanceLine = new MaintenanceLine();
   @Input() editMode = false;
   @Output() lineEdited = new EventEmitter<MaintenanceLine>();
+  
   tv: number;
   selectedProduct: Product;
-
   isFormSubmitted = false;
 
   lineForm: FormGroup;

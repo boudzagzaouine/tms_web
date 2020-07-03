@@ -177,7 +177,9 @@ export class BadgeTypeComponent implements OnInit {
   }
 
   onShowDialog(event) {
+  
     this.showDialog = event;
+
     this.loadData();
   }
 

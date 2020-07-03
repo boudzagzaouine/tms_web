@@ -1,0 +1,146 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '55vw' }"
+(onHide)='onHideDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="maintenanceForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+
+            <br />
+            <p-autoComplete [(ngModel)]="actionSearch" [suggestions]="actionList"
+            (completeMethod)="onActionCodeSearch($event)"
+            formControlName="Fcode" (onSelect)="onSelect($event)" field='code'></p-autoComplete>
+
+          </div>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'description' | translate}} *</label>
+
+            <br />
+            <p-autoComplete [(ngModel)]="actionSearch" [suggestions]="actionList"
+            (completeMethod)="onActionDescriptionSearch($event)"
+            formControlName="Fdescription"field='code'></p-autoComplete>
+          </div>
+
+
+        </div>
+      </form>
+
+
+      <div class="card mt-3">
+        <div class="card-header" style="background-color: #f7f7f7;">
+         <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button
+
+              type="button"
+              class="btn btn-sm btn-primary mx-1"
+              (click)="onShowDialogPrdt()"
+              ><!--ADD-->
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste des produit" | translate }}</b></span
+            >
+          </div>
+        </div></div>
+        <div class="card-body border-top-primary">
+          <p-table
+
+          [value]="maintenanceLineList" [lazy]="true" [rows]="size" [paginator]="true"
+          [totalRecords]="maintenanceLineList?.length"
+
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{'produit' | translate}}</th>
+                <th>{{'Prix Un' | translate}}</th>
+                <th>{{'Quantite' | translate}}</th>
+                <th>{{'Prix HT '| translate}}</th>
+                <th>{{'Prix TTC' | translate}} </th>
+                <!-- <th>{{ "Prix" | translate }}</th> -->
+                <th style="width: 18%;">{{ "Actions" | translate }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{line?.product?.code}}</td>
+                <td>{{line?.unitPrice}}</td>
+                <td>{{line?.quantity}}</td>
+                <td>{{line?.totalPriceHT}}</td>
+                <td>{{line?.totalPriceTTC}}</td>
+                <td>
+
+                  <button
+
+                  type="button"
+                  class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogPrdt(line)"
+                  ><!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button
+
+                type="button"
+                class="btn btn-sm btn-danger mx-1"
+                (click)="onDeleteMaintenanceLine(line.product.id)"
+                ><!--ADD-->
+                <i class="fa fa-trash"></i>
+              </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onHideDialog()"
+    class="ui-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="ui-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+
+<div *ngIf="showDialogprdt == true">
+  <app-product-edit
+    (showDialog)="onHideDialogPrdt($event)"
+    (lineEdited)="onLineEdited($event)"
+    [selectedMaintenanceLine]="selectedMaintenanceLine"
+    [editMode]="editMode"
+    ></app-product-edit>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

@@ -176,7 +176,7 @@ yearRange="1970:2100"></p-calendar>
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialog()"
+        (click)="onShowDialogAction()"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>
@@ -190,8 +190,8 @@ yearRange="1970:2100"></p-calendar>
   <div class="card-body border-top-primary">
     <p-table
 
-    [value]="selectedMaintenance?.maintenanceLineList" [lazy]="true" [rows]="size" [paginator]="true"
-    [totalRecords]="selectedMaintenance?.maintenanceLineList?.length"
+    [value]="selectedMaintenanceLine" [lazy]="true" [rows]="size" [paginator]="true"
+    [totalRecords]="selectedMaintenanceLine?.length"
 
     >
       <ng-template pTemplate="header">
@@ -210,7 +210,7 @@ yearRange="1970:2100"></p-calendar>
 
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialog(line)"
+            (click)="onShowDialogAction(line)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>
@@ -236,9 +236,9 @@ yearRange="1970:2100"></p-calendar>
 
 <div *ngIf="showDialog == true">
   <app-action-edit
-    (showDialog)="onHideDialog($event)"
-    (lineEdited)="onLineEdited($event)"
-    [selectedMaintenanceLine]="selectedMaintenanceLine"
+    (showDialog)="onHideDialogAction($event)"
+    (maintenanceLine)="onLineEditedAction($event)"
+    [maintenanceLines]="maintenanceLine"
     ></app-action-edit>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

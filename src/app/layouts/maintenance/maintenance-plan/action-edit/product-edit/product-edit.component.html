@@ -14,9 +14,11 @@ showEffect="fade"
     <div class="card-body">
       <form [formGroup]="lineForm">
 
+       
+
         <div class="row  justify-content-around">
           <div class="form-group col-md-3">
-            <label>{{'Produit' | translate}} *</label>
+            <label class="font-weight-bold">{{'Produit' | translate}} *</label>
             <span *ngIf="(lineForm.get('product').touched && lineForm.get('product').invalid) ||
             (isFormSubmitted && lineForm.get('product').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -28,12 +30,12 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-md-3">
-            <label>{{'Description' | translate}}</label><br />
+            <label class="font-weight-bold">{{'Description' | translate}}</label><br />
             <input type="text" class="form-control" formControlName="description" pInputText  />
           </div>
 
   <div class="form-group col-md-3 ">
-            <label>{{'Prix Unitaire'| translate}}</label><br />
+            <label class="font-weight-bold">{{'Prix Unitaire'| translate}}</label><br />
             <input type="text" class="form-control" (ngModelChange)="onUnitPriceChange()" formControlName="unitPrice" pInputText pKeyFilter="num"
               />
           </div>
@@ -45,20 +47,20 @@ showEffect="fade"
         </div>
         <div class="row justify-content-around">
           <div class="form-group col-md-3">
-            <label>{{'Taux TVA' | translate}}</label><br />
+            <label class="font-weight-bold">{{'Taux TVA' | translate}}</label><br />
             <input type="text" class="form-control" formControlName="tva" pInputText  />
           </div>
           <div class="form-group col-md-3 ">
-            <label>{{'Prix Total HT'| translate}}</label><br />
+            <label class="font-weight-bold">{{'Prix Total HT'| translate}}</label><br />
             <input type="text" class="form-control" formControlName="priceHT" pInputText pKeyFilter="num"  />
           </div>
 
           <div class="form-group col-md-3">
-            <label>{{'Montant Tva' | translate}}</label><br />
+            <label class="font-weight-bold">{{'Montant Tva' | translate}}</label><br />
             <input type="text" class="form-control" formControlName="amountTva" pInputText  />
           </div>
           <div class="form-group col-md-3 ">
-            <label>{{'Prix Total TTC'| translate}}</label><br />
+            <label class="font-weight-bold">{{'Prix Total TTC'| translate}}</label><br />
             <input type="text" class="form-control" formControlName="priceTTC" pInputText pKeyFilter="num"  />
           </div>
         </div>

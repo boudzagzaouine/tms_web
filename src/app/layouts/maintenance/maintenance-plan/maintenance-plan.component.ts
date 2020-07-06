@@ -1,187 +1,203 @@
-import { FormGroup } from '@angular/forms';
-import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
-import { MaintenanceLine } from './../../../shared/models/maintenance-line';
-import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
-import { PeriodicityTypeService } from './../../../shared/services/api/periodicity-type.service';
-import { ServiceProviderService } from './../../../shared/services/api/service-provider.service';
-import { OperationTypeService } from './../../../shared/services/api/operation-type.service';
-import { ResponsabilityService } from './../../../shared/services/api/responsability.service';
-import { ProgramTypeService } from './../../../shared/services/api/program-type.service';
-import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
-import { Subscription } from 'rxjs';
-import { PeriodicityType } from './../../../shared/models/periodicity-type';
-import { ServiceProvider } from './../../../shared/models/service-provider';
-import { OperationType } from './../../../shared/models/operation-type';
-import { Responsability } from './../../../shared/models/responsability';
-import { ProgramType } from './../../../shared/models/program-type';
-import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { Component, OnInit } from '@angular/core';
-import { SelectItem, ConfirmationService } from 'primeng/api';
-import { Patrimony } from './../../../shared/models/patrimony';
+import { Action } from './../../../shared/models/action';
+import { FormGroup } from "@angular/forms";
+import { MaintenancePlan } from "./../../../shared/models/maintenance-plan";
+import { MaintenanceLine } from "./../../../shared/models/maintenance-line";
+import { PatrimonyService } from "./../../../shared/services/api/patrimony-service";
+import { PeriodicityTypeService } from "./../../../shared/services/api/periodicity-type.service";
+import { ServiceProviderService } from "./../../../shared/services/api/service-provider.service";
+import { OperationTypeService } from "./../../../shared/services/api/operation-type.service";
+import { ResponsabilityService } from "./../../../shared/services/api/responsability.service";
+import { ProgramTypeService } from "./../../../shared/services/api/program-type.service";
+import { MaintenanceTypeService } from "./../../../shared/services/api/maintenance-type.service";
+import { Subscription } from "rxjs";
+import { PeriodicityType } from "./../../../shared/models/periodicity-type";
+import { ServiceProvider } from "./../../../shared/models/service-provider";
+import { OperationType } from "./../../../shared/models/operation-type";
+import { Responsability } from "./../../../shared/models/responsability";
+import { ProgramType } from "./../../../shared/models/program-type";
+import { MaintenanceType } from "./../../../shared/models/maintenance-type";
+import { Component, OnInit,EventEmitter, Output} from "@angular/core";
+import { SelectItem, ConfirmationService } from "primeng/api";
+import { Patrimony } from "./../../../shared/models/patrimony";
+
 
 @Component({
-  selector: 'app-maintenance-plan',
-  templateUrl: './maintenance-plan.component.html',
-  styleUrls: ['./maintenance-plan.component.css'],
+  selector: "app-maintenance-plan",
+  templateUrl: "./maintenance-plan.component.html",
+  styleUrls: ["./maintenance-plan.component.css"],
+
+
 })
 export class MaintenancePlanComponent implements OnInit {
 
+
+  @Output() maintenanceLine = new EventEmitter<MaintenanceLine[]>();
+
   page = 0;
   size = 8;
-  editModeTitle = 'Inserer Plan de maintenance';
+  editModeTitle = "Inserer Plan de maintenance";
   fr: any;
   selectedTypes: string[] = [];
   types: SelectItem[];
   periodicities: Array<any> = [];
-  periodicityMode=0;
-  value4  :number;
-  showDialog: boolean ;
+  periodicityMode = 0;
+  value4: number;
+  showDialog: boolean;
   selectedMaintenance: MaintenancePlan = new MaintenancePlan();
   maintenanceForm: FormGroup;
-  selectedMaintenanceLine = new MaintenanceLine();
+  selectedMaintenanceLine: Array<MaintenanceLine> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   programTypeList: Array<ProgramType> = [];
   responsabilityList: Array<Responsability> = [];
   operationTypeList: Array<OperationType> = [];
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
-  patrimonyList : Array<Patrimony>=[];
+  patrimonyList: Array<Patrimony> = [];
   patrimonySearch: string;
- subscrubtion = new Subscription ();
-  constructor(    private maintenanceTypeService: MaintenanceTypeService,
+  subscrubtion = new Subscription();
+  constructor(
+    private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
     private operationTypeService: OperationTypeService,
     private serviceProviderService: ServiceProviderService,
     private periodicityTypeService: PeriodicityTypeService,
-    private patrimonyService :PatrimonyService,
-    private confirmationService: ConfirmationService,
-    ) {}
+    private patrimonyService: PatrimonyService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit() {
     this.fr = {
       firstDayOfWeek: 1,
       dayNames: [
-        'dimanche',
-        'lundi',
-        'mardi ',
-        'mercredi',
-        'mercredi ',
-        'vendredi ',
-        'samedi ',
+        "dimanche",
+        "lundi",
+        "mardi ",
+        "mercredi",
+        "mercredi ",
+        "vendredi ",
+        "samedi ",
       ],
-      dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
-      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+      dayNamesShort: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+      dayNamesMin: ["D", "L", "M", "M", "J", "V", "S"],
       monthNames: [
-        'janvier',
-        'février',
-        'mars',
-        'avril',
-        'mai',
-        'juin',
-        'juillet',
-        'août',
-        'septembre',
-        'octobre',
-        'novembre',
-        'décembre',
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "août",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre",
       ],
       monthNamesShort: [
-        'jan',
-        'fév',
-        'mar',
-        'avr',
-        'mai',
-        'jun',
-        'jui',
-        'aoû',
-        'sep',
-        'oct',
-        'nov',
-        'dec',
+        "jan",
+        "fév",
+        "mar",
+        "avr",
+        "mai",
+        "jun",
+        "jui",
+        "aoû",
+        "sep",
+        "oct",
+        "nov",
+        "dec",
       ],
-      today: 'Aujourd hui',
-      clear: 'Supprimer',
+      today: "Aujourd hui",
+      clear: "Supprimer",
     };
 
     this.types = [
-      { label: 'lundi', value: 'lundi' },
-      { label: 'mardi', value: 'mardi' },
-      { label: 'mercredi', value: 'mercredi' },
-      { label: 'jeudi', value: 'jeudi' },
-      { label: 'vendredi', value: 'vendredi' },
-      { label: 'samedi', value: 'samedi' },
-      { label: 'dimanche', value: 'dimanche' },
+      { label: "lundi", value: "lundi" },
+      { label: "mardi", value: "mardi" },
+      { label: "mercredi", value: "mercredi" },
+      { label: "jeudi", value: "jeudi" },
+      { label: "vendredi", value: "vendredi" },
+      { label: "samedi", value: "samedi" },
+      { label: "dimanche", value: "dimanche" },
     ];
 
-    this.subscrubtion.add(this.periodicityTypeService.findAll().subscribe((data) => {
-      this.periodicityTypeList = data;
-    }));
+    this.subscrubtion.add(
+      this.periodicityTypeService.findAll().subscribe((data) => {
+        this.periodicityTypeList = data;
+      })
+    );
 
+    this.subscrubtion.add(
+      this.maintenanceTypeService.findAll().subscribe((data) => {
+        this.maintenanceTypeList = data;
+      })
+    );
 
-    this.subscrubtion.add(this.maintenanceTypeService.findAll().subscribe((data) => {
-      this.maintenanceTypeList = data;
-    }));
+    this.subscrubtion.add(
+      this.responsabilityService.findAll().subscribe((data) => {
+        this.responsabilityList = data;
+      })
+    );
 
-    this.subscrubtion.add(this.responsabilityService.findAll().subscribe((data) => {
-      this.responsabilityList = data;
-    }));
+    this.subscrubtion.add(
+      this.operationTypeService.findAll().subscribe((data) => {
+        this.operationTypeList = data;
+      })
+    );
 
-    this.subscrubtion.add(this.operationTypeService.findAll().subscribe((data) => {
-      this.operationTypeList = data;
-    }));
-
-    this.subscrubtion.add(this.serviceProviderService.findAll().subscribe((data) => {
-      this.serviceProviderList = data;
-    }));
-    this.subscrubtion.add(this.programTypeService.findAll().subscribe((data) => {
-      this.programTypeList = data;
-    }));
-
+    this.subscrubtion.add(
+      this.serviceProviderService.findAll().subscribe((data) => {
+        this.serviceProviderList = data;
+      })
+    );
+    this.subscrubtion.add(
+      this.programTypeService.findAll().subscribe((data) => {
+        this.programTypeList = data;
+      })
+    );
   }
 
   onChangePeriodicity(event) {
     this.periodicityMode = event.value.id;
-
   }
 
   onPatrimonySearch(event: any) {
-    this.patrimonyService.find('code~' + event.query).subscribe(
-      data => {
-
-        this.patrimonyList = data.map(f => f.code);
-
-
-      }
-    );
+    this.patrimonyService.find("code~" + event.query).subscribe((data) => {
+      this.patrimonyList = data.map((f) => f.code);
+    });
   }
 
-  onShowDialog(event) {
+  onShowDialogAction(event) {
     this.showDialog = true;
-    console.log(event);
+    console.log(event.action.code);
 
-    // if(event === undefined){
-    //   this.selectedMaintenanceLine = new MaintenanceLine();
-    //   console.log(this.selectedMaintenanceLine);
+    this.maintenanceLine.emit(this.selectedMaintenanceLine.filter(
+      l => {
 
-    //     } else{
-    //           this.selectedMaintenanceLine = event;
-    //                console.log(this.selectedMaintenanceLine);
-
-    //     }
-  }
-
-  onHideDialog(event) {
-    this.showDialog = event;
-
-  }
-
-  onLineEdited(line: MaintenanceLine) {
-    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(
-      (l) => l.action.id !== line.action.id
+          // tslint:disable-next-line: no-unused-expression
+          l.action.id !== event.action.id;
+      }
+    ),
     );
-    this.selectedMaintenance.maintenanceLineList.push(line);
-    //this.updateTotalPrice();
+   console.log(this.maintenanceLine);
+
+  }
+
+  onHideDialogAction(event) {
+    this.showDialog = event;
+  }
+
+  onLineEditedAction(lines: MaintenanceLine[]) {
+    //this.selectedMaintenanceLine.push(lines);
+    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(
+      (l) => l.action.id !== lines[0].action.id
+    );
+    lines.forEach((l) => {
+      this.selectedMaintenanceLine.push(l);
+    });
+
+    // this.updateTotalPrice();
   }
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
@@ -190,7 +206,7 @@ export class MaintenancePlanComponent implements OnInit {
         this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList.filter(
           (l) => l.action.id !== id
         );
-      //  this.updateTotalPrice();
+        //  this.updateTotalPrice();
       },
     });
   }

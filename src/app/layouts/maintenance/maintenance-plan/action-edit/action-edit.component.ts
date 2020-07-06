@@ -25,10 +25,11 @@ import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 export class ActionEditComponent implements OnInit {
   page = 0;
   size = 8;
-
   @Input() selectedMaintenanceLine = new MaintenanceLine();
+  @Input() maintenanceLines : Array<MaintenanceLine>=[];
+
   @Output() showDialog = new EventEmitter<boolean>();
-  @Output() lineEdited = new EventEmitter<MaintenanceLine>();
+  @Output() maintenanceLine = new EventEmitter<MaintenanceLine[]>();
   maintenanceLineList: Array<MaintenanceLine> = [];
   selectedActions = new Action();
   showDialogprdt: boolean;
@@ -53,8 +54,9 @@ export class ActionEditComponent implements OnInit {
 
   ngOnInit() {
     this.title = "Ajouter une action";
-
     this.displayDialog = true;
+
+    
     this.initForm();
   }
   initForm() {
@@ -86,17 +88,22 @@ export class ActionEditComponent implements OnInit {
     if (this.maintenanceForm.invalid) {
       return;
     }
-    this.selectedMaintenanceLine.action = this.selectedActions;
-    this.lineEdited.emit(this.selectedMaintenanceLine);
+
+
+   this.maintenanceLine.emit(this.maintenanceLineList);
+ // console.log(this.maintenanceLineList);
+
     this.displayDialog = false;
   }
 
-  onLineEdited(line: MaintenanceLine) {
+  onLineEditedPrdt(line: MaintenanceLine) {
     this.maintenanceLineList = this.maintenanceLineList.filter(
       (l) => l.product.id !== line.product.id
     );
     line.action=this.selectedActions;
     this.maintenanceLineList.push(line);
+    console.log(this.maintenanceLineList);
+
   }
 
   onDeleteMaintenanceLine(id: number) {
@@ -111,6 +118,7 @@ export class ActionEditComponent implements OnInit {
   }
  onSelect(event) {
     this.selectedActions = event;
+    this.selectedMaintenanceLine.action=this.selectedActions;
     console.log(this.selectedActions);
   }
   onHideDialog() {
@@ -119,11 +127,17 @@ export class ActionEditComponent implements OnInit {
     this.displayDialog = false;
   }
 
-  onShowDialogPrdt(event) {
+  onShowDialogPrdt(line,event) {
+
     this.showDialogprdt = true;
+    this.editMode = event;
+
+      this.selectedMaintenanceLine=line;
+
   }
   onHideDialogPrdt(event) {
     this.showDialogprdt = event;
   }
+
 
 }

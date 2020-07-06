@@ -47,7 +47,7 @@ showEffect="fade"
 
               type="button"
               class="btn btn-sm btn-primary mx-1"
-              (click)="onShowDialogPrdt()"
+              (click)="onShowDialogPrdt(false)"
               ><!--ADD-->
               <i class="fa fa-plus"></i>
             </button>
@@ -89,7 +89,7 @@ showEffect="fade"
 
                   type="button"
                   class="btn btn-sm btn-primary mx-1"
-                  (click)="onShowDialogPrdt(line)"
+                  (click)="onShowDialogPrdt(line,true)"
                   ><!--ADD-->
                   <i class="fa fa-pencil"></i>
                 </button>
@@ -137,10 +137,11 @@ showEffect="fade"
 <div *ngIf="showDialogprdt == true">
   <app-product-edit
     (showDialog)="onHideDialogPrdt($event)"
-    (lineEdited)="onLineEdited($event)"
+    (lineEdited)="onLineEditedPrdt($event)"
     [selectedMaintenanceLine]="selectedMaintenanceLine"
-    [editMode]="editMode"
-    ></app-product-edit>
+  [editMode]="this.editMode"
+   ></app-product-edit>
+
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

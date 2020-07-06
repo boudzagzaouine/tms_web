@@ -1,3 +1,4 @@
+import { ActionService } from './../../../../../shared/services/api/action.service';
 import { ProductService } from "./../../../../../shared/services/api/product.service";
 import { Product } from "./../../../../../shared/models/product";
 import { MaintenanceLine } from "./../../../../../shared/models/maintenance-line";
@@ -24,23 +25,31 @@ export class ProductEditComponent implements OnInit {
   selectedProduct: Product;
   lineForm: FormGroup;
   productList: Product[] = [];
+  actionList: Array<Action> = [];
+  actionSearch: Action;
+  selectedActions = new Action();
 
   constructor(
     private formBuilder: FormBuilder,
     private roundPipe: RoundPipe,
-    private productService: ProductService
+    private productService: ProductService,
+    private actionService: ActionService,
+
   ) {}
 
   ngOnInit() {
 
     this.title = "Ajouter un produit";
     this.displayDialog = true;
-
+if(!this.editMode){
+  this.selectedMaintenanceLine=new MaintenanceLine();
+}
     this.initForm();
   }
 
   initForm() {
     this.lineForm = this.formBuilder.group({
+
       product: this.formBuilder.control(
         {
           value: this.selectedMaintenanceLine.product,
@@ -69,15 +78,15 @@ export class ProductEditComponent implements OnInit {
           this.selectedMaintenanceLine.totalPriceTTC,
           2
         ),
-        disabled: true,
+       disabled: true,
       }),
 
-      tva: this.formBuilder.control({
-        value: this.editMode
-          ? this.selectedMaintenanceLine.product.vat.value
-          : 0,
+       tva: this.formBuilder.control({
+        value: this.selectedMaintenanceLine.product ?
+         this.selectedMaintenanceLine.product.vat.value : 0,
         disabled: true,
-      }),
+     }),
+
       amountTva: this.formBuilder.control({
         value: this.roundPipe.transform(
           this.selectedMaintenanceLine.amountVat,
@@ -88,22 +97,19 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
+
+
   onSubmit() {
     this.isFormSubmitted = true;
-
     if (this.lineForm.invalid) {
       return;
     }
-
-    this.selectedMaintenanceLine.description = this.lineForm.value[
-      "description"
-    ];
+    this.selectedMaintenanceLine.description = this.lineForm.value["description" ];
     this.selectedMaintenanceLine.unitPrice = +this.lineForm.value["unitPrice"];
     this.selectedMaintenanceLine.quantity = +this.lineForm.value["quantity"];
-
     this.lineEdited.emit(this.selectedMaintenanceLine);
-
     this.displayDialog = false;
+
   }
   productSearch(evt) {
     this.productService.find(`code~${evt.query}`).subscribe((data) => {

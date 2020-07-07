@@ -1,3 +1,4 @@
+import { Action } from './action';
 import { PeriodicityType } from './periodicity-type';
 import { Responsability } from './responsability';
 import { ServiceProvider } from './service-provider';
@@ -24,7 +25,7 @@ export class MaintenancePlan {
   serviceProvider : ServiceProvider;
   responsability : Responsability;
   periodicityType :PeriodicityType;
-  maintenanceLineList: MaintenanceLine [] = [];
+  actions: Action [] = [];
   patrimony: Patrimony;
   mileage = 0.0;
   totalPrice = 0;

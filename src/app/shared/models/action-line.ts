@@ -4,7 +4,7 @@ import { MaintenancePlan } from './maintenance-plan';
 import { Product } from './product';
 import { Uom } from './uom';
 
-export class MaintenanceLine {
+export class ActionLine {
 
   id = 0;
   product: Product;

@@ -44,7 +44,10 @@
 
     <br />
     <p-autoComplete [(ngModel)]="patrimonySearch" [suggestions]="patrimonyList"
-    (completeMethod)="onPatrimonySearch($event)"></p-autoComplete>
+    (completeMethod)="onPatrimonySearch($event)"
+    [ngModelOptions]="{standalone: true}"
+
+    ></p-autoComplete>
   </div>
   <div class="form-group col-md-9 ">
 
@@ -112,11 +115,8 @@ yearRange="1970:2100"></p-calendar>
 </div>
 <div class="form-group col-md-6" *ngIf="(this.periodicityMode===2 || this.periodicityMode===3)">
 </div>
-
-
   <div class="form-group col-md-9" ></div>
 </div>
-
 
 
 <div class="row  mt-3 justify-content-around">
@@ -190,8 +190,8 @@ yearRange="1970:2100"></p-calendar>
   <div class="card-body border-top-primary">
     <p-table
 
-    [value]="selectedMaintenanceLine" [lazy]="true" [rows]="size" [paginator]="true"
-    [totalRecords]="selectedMaintenanceLine?.length"
+    [value]=" this.selectedMaintenance?.actions" [lazy]="true" [rows]="size" [paginator]="true"
+    [totalRecords]=" this.selectedMaintenance?.actions?.length"
 
     >
       <ng-template pTemplate="header">
@@ -203,14 +203,14 @@ yearRange="1970:2100"></p-calendar>
       </ng-template>
       <ng-template pTemplate="body" let-line>
         <tr>
-          <td>{{line?.action?.code}}</td>
+          <td>{{line?.actionType?.code}}</td>
 
           <td>
             <button
 
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line)"
+            (click)="onShowDialogAction(line,true)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>
@@ -237,8 +237,9 @@ yearRange="1970:2100"></p-calendar>
 <div *ngIf="showDialog == true">
   <app-action-edit
     (showDialog)="onHideDialogAction($event)"
-    (maintenanceLine)="onLineEditedAction($event)"
-    [maintenanceLines]="maintenanceLine"
+    (test)="onLineEditedAction($event)"
+     [selectedAction]="selectAction"
+     [editMode]="editMode"
     ></app-action-edit>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

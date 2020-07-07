@@ -12,7 +12,7 @@ showEffect="fade"
 <div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="maintenanceForm">
+      <form [formGroup]="actionForm">
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-6">
@@ -25,12 +25,7 @@ showEffect="fade"
 
           </div>
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'description' | translate}} *</label>
 
-            <br />
-            <p-autoComplete [(ngModel)]="actionSearch" [suggestions]="actionList"
-            (completeMethod)="onActionDescriptionSearch($event)"
-            formControlName="Fdescription"field='code'></p-autoComplete>
           </div>
 
 
@@ -61,8 +56,8 @@ showEffect="fade"
         <div class="card-body border-top-primary">
           <p-table
 
-          [value]="maintenanceLineList" [lazy]="true" [rows]="size" [paginator]="true"
-          [totalRecords]="maintenanceLineList?.length"
+          [value]="selectedAction?.actionLines" [lazy]="true" [rows]="size" [paginator]="true"
+          [totalRecords]="selectedAction?.actionLines.length"
 
           >
             <ng-template pTemplate="header">
@@ -137,9 +132,9 @@ showEffect="fade"
 <div *ngIf="showDialogprdt == true">
   <app-product-edit
     (showDialog)="onHideDialogPrdt($event)"
-    (lineEdited)="onLineEditedPrdt($event)"
-    [selectedMaintenanceLine]="selectedMaintenanceLine"
-  [editMode]="this.editMode"
+    (actionLineEdited)="onLineEditedPrdt($event)"
+    [selectedActionLine]="actionEdited"
+    [editMode]="this.editMode"
    ></app-product-edit>
 
 </div>

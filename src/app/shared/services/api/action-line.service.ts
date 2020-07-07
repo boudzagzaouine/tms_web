@@ -1,3 +1,4 @@
+import { ActionLine } from './../../models/action-line';
 import { Action } from './../../models/action';
 import { EmsService } from './ems.service';
 import { Badge } from './../../models/badge';
@@ -5,9 +6,9 @@ import { Injectable } from '@angular/core';
 import { ProxyService } from './proxy.service';
 
 @Injectable()
-export class ActionService extends EmsService<Action> {
+export class ActionLineService extends EmsService<ActionLine> {
 
     constructor(proxy: ProxyService) {
-      super(proxy, 'actions');
+      super(proxy, 'actionlines');
     }
 }

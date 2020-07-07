@@ -148,7 +148,7 @@ export class MaintenancePlanEditComponent implements OnInit {
       return;
     }
 
-    if (!this.selectedMaintenance.maintenanceLineList.length) {
+    if (!this.selectedMaintenance.actions.length) {
       this.toastr.warning('Veuillez ajouter des lignes de maintenance', 'Avertissement')
       return;
     }
@@ -189,20 +189,20 @@ export class MaintenancePlanEditComponent implements OnInit {
   onLineEdited(line: MaintenanceLine) {
 
 
-    this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
-      .filter(l => l.product.id !== line.product.id);
-    this.selectedMaintenance.maintenanceLineList.push(line);
-    this.updateTotalPrice();
-  }
+  //   this.selectedMaintenance.actions = this.selectedMaintenance.actions
+  //     .filter(l => l.product.id !== line.product.id);
+  //   this.selectedMaintenance.actions.push(line);
+  //   this.updateTotalPrice();
+   }
   onDeleteMaintenanceLine(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
- this.selectedMaintenance.maintenanceLineList = this.selectedMaintenance.maintenanceLineList
-    .filter(l => l.product.id !== id);
-      this.updateTotalPrice();
-      }
-    });
+//     this.confirmationService.confirm({
+//       message: 'Voulez vous vraiment Suprimer?',
+//       accept: () => {
+//  this.selectedMaintenance.actions = this.selectedMaintenance.actions
+//     .filter(l => l.product.id !== id);
+//       this.updateTotalPrice();
+//       }
+//     });
 
 
 
@@ -214,19 +214,19 @@ export class MaintenancePlanEditComponent implements OnInit {
 
 
   updateTotalPrice() {
-    this.selectedMaintenance.totalPrice = 0;
+    // this.selectedMaintenance.totalPrice = 0;
 
-    if (this.selectedMaintenance.maintenanceLineList.length) {
-      this.selectedMaintenance.totalPrice =
-        this.selectedMaintenance.maintenanceLineList
-          .map(l => l.totalPriceTTC)
-          .reduce((acc = 0, curr) => acc + curr, 0);
-    }
+    // if (this.selectedMaintenance.actions.length) {
+    //   this.selectedMaintenance.totalPrice =
+    //     this.selectedMaintenance.actions
+    //       .map(l => l.totalPriceTTC)
+    //       .reduce((acc = 0, curr) => acc + curr, 0);
+    // }
 
-    console.log(this.selectedMaintenance.totalPrice);
+    // console.log(this.selectedMaintenance.totalPrice);
 
-    this.maintenanceForm.patchValue({
-      'price': this.selectedMaintenance.totalPrice
-    });
+    // this.maintenanceForm.patchValue({
+    //   'price': this.selectedMaintenance.totalPrice
+    // });
   }
 }

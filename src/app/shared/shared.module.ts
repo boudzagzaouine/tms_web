@@ -1,3 +1,6 @@
+import { ActionLineService } from './services/api/action-line.service';
+import { ActionLine } from './models/action-line';
+import { ActionTypeService } from './services/api/action-type.service';
 import { ActionService } from './services/api/action.service';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { ServiceProviderService } from './services/api/service-provider.service';
@@ -165,7 +168,9 @@ export class SharedModule {
         ProgramTypeService,
         ResponsabilityService,
         ServiceProviderService,
-        ActionService
+        ActionService,
+        ActionTypeService,
+        ActionLineService,
       ],
 
     };

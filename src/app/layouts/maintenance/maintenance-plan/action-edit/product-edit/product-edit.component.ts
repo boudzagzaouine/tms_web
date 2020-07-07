@@ -1,27 +1,27 @@
+import { ActionLine } from './../../../../../shared/models/action-line';
+import { Action } from './../../../../../shared/models/action';
 import { ActionService } from './../../../../../shared/services/api/action.service';
-import { ProductService } from "./../../../../../shared/services/api/product.service";
-import { Product } from "./../../../../../shared/models/product";
-import { MaintenanceLine } from "./../../../../../shared/models/maintenance-line";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { RoundPipe } from "ngx-pipes";
-import { Action } from "./../../../../../shared/models/action";
-import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
+import { ProductService } from './../../../../../shared/services/api/product.service';
+import { Product } from './../../../../../shared/models/product';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RoundPipe } from 'ngx-pipes';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: "app-product-edit",
-  templateUrl: "./product-edit.component.html",
-  styleUrls: ["./product-edit.component.css"],
+  selector: 'app-product-edit',
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.css'],
   providers: [RoundPipe],
 })
 export class ProductEditComponent implements OnInit {
 
-  @Input() selectedMaintenanceLine: MaintenanceLine = new MaintenanceLine();
+  @Input() selectedActionLine: ActionLine = new ActionLine();
   @Input() editMode = false;
+  @Output() actionLineEdited = new EventEmitter<ActionLine>();
   @Output() showDialog = new EventEmitter<boolean>();
-  @Output() lineEdited = new EventEmitter<MaintenanceLine>();
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = "Modifier un produit";
+  title = 'Modifier un produit';
   selectedProduct: Product;
   lineForm: FormGroup;
   productList: Product[] = [];
@@ -35,15 +35,21 @@ export class ProductEditComponent implements OnInit {
     private productService: ProductService,
     private actionService: ActionService,
 
-  ) {}
+  ) { }
 
   ngOnInit() {
 
-    this.title = "Ajouter un produit";
+    this.title = 'Ajouter un produit';
     this.displayDialog = true;
-if(!this.editMode){
-  this.selectedMaintenanceLine=new MaintenanceLine();
-}
+    if (!this.editMode) {
+      this.selectedActionLine = new ActionLine();
+      console.log("ajouter");
+    }else {
+      console.log("modifier");
+      console.log(this.selectedActionLine);
+
+
+    }
     this.initForm();
   }
 
@@ -52,44 +58,44 @@ if(!this.editMode){
 
       product: this.formBuilder.control(
         {
-          value: this.selectedMaintenanceLine.product,
+          value: this.selectedActionLine.product,
           disabled: this.editMode,
         },
         Validators.required
       ),
       description: this.formBuilder.control(
-        this.selectedMaintenanceLine.description
+        this.selectedActionLine.description
       ),
       unitPrice: this.formBuilder.control(
-        this.roundPipe.transform(this.selectedMaintenanceLine.unitPrice, 2)
+        this.roundPipe.transform(this.selectedActionLine.unitPrice, 2)
       ),
       quantity: this.formBuilder.control(
-        this.roundPipe.transform(this.selectedMaintenanceLine.quantity, 2)
+        this.roundPipe.transform(this.selectedActionLine.quantity, 2)
       ),
       priceHT: this.formBuilder.control({
         value: this.roundPipe.transform(
-          this.selectedMaintenanceLine.totalPriceHT,
+          this.selectedActionLine.totalPriceHT,
           2
         ),
         disabled: true,
       }),
       priceTTC: this.formBuilder.control({
         value: this.roundPipe.transform(
-          this.selectedMaintenanceLine.totalPriceTTC,
+          this.selectedActionLine.totalPriceTTC,
           2
         ),
-       disabled: true,
+        disabled: true,
       }),
 
-       tva: this.formBuilder.control({
-        value: this.selectedMaintenanceLine.product ?
-         this.selectedMaintenanceLine.product.vat.value : 0,
+      tva: this.formBuilder.control({
+        value: this.selectedActionLine.product ?
+          this.selectedActionLine.product.vat.value : 0,
         disabled: true,
-     }),
+      }),
 
       amountTva: this.formBuilder.control({
         value: this.roundPipe.transform(
-          this.selectedMaintenanceLine.amountVat,
+          this.selectedActionLine.amountVat,
           2
         ),
         disabled: true,
@@ -104,10 +110,10 @@ if(!this.editMode){
     if (this.lineForm.invalid) {
       return;
     }
-    this.selectedMaintenanceLine.description = this.lineForm.value["description" ];
-    this.selectedMaintenanceLine.unitPrice = +this.lineForm.value["unitPrice"];
-    this.selectedMaintenanceLine.quantity = +this.lineForm.value["quantity"];
-    this.lineEdited.emit(this.selectedMaintenanceLine);
+    this.selectedActionLine.description = this.lineForm.value['description'];
+    this.selectedActionLine.unitPrice = +this.lineForm.value['unitPrice'];
+    this.selectedActionLine.quantity = +this.lineForm.value['quantity'];
+    this.actionLineEdited.emit(this.selectedActionLine);
     this.displayDialog = false;
 
   }
@@ -119,7 +125,7 @@ if(!this.editMode){
   onSelectProduct(event) {
 
     this.selectedProduct = event as Product;
-    this.selectedMaintenanceLine.product = event as Product;
+    this.selectedActionLine.product = event as Product;
 
     this.lineForm.patchValue({
       description: this.selectedProduct.shortDesc,
@@ -132,15 +138,15 @@ if(!this.editMode){
     this.onUnitPriceChange();
   }
   onQuantityChange() {
-    const quantity = this.lineForm.value["quantity"];
-    let unitPrice = this.lineForm.value["unitPrice"];
+    const quantity = this.lineForm.value['quantity'];
+    let unitPrice = this.lineForm.value['unitPrice'];
 
     let vat = 0;
     if (
-      this.selectedMaintenanceLine.product != null &&
-      this.selectedMaintenanceLine.product.vat != null
+      this.selectedActionLine.product != null &&
+      this.selectedActionLine.product.vat != null
     ) {
-      vat = this.selectedMaintenanceLine.product.vat.value;
+      vat = this.selectedActionLine.product.vat.value;
     }
     if (!unitPrice) {
       unitPrice = 0;
@@ -149,9 +155,9 @@ if(!this.editMode){
     const priceHT = unitPrice * quantity;
     const amountTva = (priceHT / 100) * vat;
     const priceTTC = priceHT + amountTva;
-    this.selectedMaintenanceLine.totalPriceHT = priceHT;
-    this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
-    this.selectedMaintenanceLine.amountVat = amountTva;
+    this.selectedActionLine.totalPriceHT = priceHT;
+    this.selectedActionLine.totalPriceTTC = priceTTC;
+    this.selectedActionLine.amountVat = amountTva;
     this.lineForm.patchValue({
       priceHT: this.roundPipe.transform(priceHT, 2),
       priceTTC: this.roundPipe.transform(priceTTC, 2),
@@ -160,14 +166,14 @@ if(!this.editMode){
   }
 
   onUnitPriceChange() {
-    let quantity = this.lineForm.value["quantity"];
-    const unitPrice = this.lineForm.value["unitPrice"];
+    let quantity = this.lineForm.value['quantity'];
+    const unitPrice = this.lineForm.value['unitPrice'];
     let vat = 0;
     if (
-      this.selectedMaintenanceLine.product != null &&
-      this.selectedMaintenanceLine.product.vat != null
+      this.selectedActionLine.product != null &&
+      this.selectedActionLine.product.vat != null
     ) {
-      vat = this.selectedMaintenanceLine.product.vat.value;
+      vat = this.selectedActionLine.product.vat.value;
     }
     if (!quantity) {
       quantity = 0;
@@ -177,9 +183,9 @@ if(!this.editMode){
     const amountTva = (priceHT / 100) * vat;
     const priceTTC = priceHT + amountTva;
 
-    this.selectedMaintenanceLine.totalPriceHT = priceHT;
-    this.selectedMaintenanceLine.totalPriceTTC = priceTTC;
-    this.selectedMaintenanceLine.amountVat = amountTva;
+    this.selectedActionLine.totalPriceHT = priceHT;
+    this.selectedActionLine.totalPriceTTC = priceTTC;
+    this.selectedActionLine.amountVat = amountTva;
     this.lineForm.patchValue({
       priceHT: this.roundPipe.transform(priceHT, 2),
       priceTTC: this.roundPipe.transform(priceTTC, 2),
@@ -188,10 +194,10 @@ if(!this.editMode){
   }
 
   onHideDialog() {
-    let a = false;
+    const a = false;
     this.showDialog.emit(a);
     this.displayDialog = false;
-    console.log(this.selectedMaintenanceLine);
+    console.log(this.selectedActionLine);
 
   }
 }

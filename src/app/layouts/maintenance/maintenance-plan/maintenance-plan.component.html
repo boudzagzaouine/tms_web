@@ -3,18 +3,9 @@
     <span class="h4">{{ editModeTitle | translate }}</span>
   </div>
   <div class="card-body border-top-primary" >
-    <form >
+    <form  [formGroup]="maintenacePlanForm">
 
       <div class="row  mt-3 justify-content-around">
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type maintenance' | translate}} *</label>
-
-          <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-              [filter]="true" [options]="maintenanceTypeList"
-             [showClear]="true"></p-dropdown>
-        </div>
-
 
         <div class="form-group col-md-3 ">
           <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
@@ -22,7 +13,7 @@
           <br />
           <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
           [filter]="true" [options]="programTypeList"
-         [showClear]="true"></p-dropdown>
+         [showClear]="true" (onChange)='onSelectProgrameType($event)' formControlName="fProgram"></p-dropdown>
     </div>
 
         <div class="form-group col-md-3 ">
@@ -30,10 +21,10 @@
 
           <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
               [filter]="true" [options]="operationTypeList"
-             [showClear]="true"></p-dropdown>
+             [showClear]="true" formControlName="fOperation"></p-dropdown>
         </div>
 
-        <div class="form-group col-md-3"></div>
+        <div class="form-group col-md-6"></div>
  </div>
 
 
@@ -44,8 +35,8 @@
 
     <br />
     <p-autoComplete [(ngModel)]="patrimonySearch" [suggestions]="patrimonyList"
-    (completeMethod)="onPatrimonySearch($event)"
-    [ngModelOptions]="{standalone: true}"
+    (completeMethod)="onPatrimonySearch($event)" formControlName="fPatrimony"
+
 
     ></p-autoComplete>
   </div>
@@ -65,7 +56,7 @@
 
     <br />
     <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-    yearRange="1970:2100"></p-calendar>
+    yearRange="1970:2100"  formControlName="fDateStart"> </p-calendar>
   </div>
 
 
@@ -74,7 +65,7 @@
 
     <br />
     <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-     yearRange="1970:2100"></p-calendar>
+     yearRange="1970:2100" formControlName="fDateEnd"></p-calendar>
 </div>
 
   <div class="form-group col-md-6"></div>
@@ -92,7 +83,7 @@
     <br />
     <p-dropdown [autoDisplayFirst]="false" [options]="periodicityTypeList" optionLabel="code"
     [filter]="true"  (onChange)="onChangePeriodicity($event)"
-   [showClear]="true"></p-dropdown>
+   [showClear]="true" formControlName="fPeriodicity"></p-dropdown>
   </div>
 
 
@@ -101,7 +92,8 @@
         <label class="font-weight-bold ">{{'répéter le '| translate}} {{selectedTypes}}*</label>
     <br />
 
-    <p-selectButton [options]="types" [(ngModel)]="selectedTypes" multiple="multiple" [ngModelOptions]="{standalone: true}"></p-selectButton>
+    <p-selectButton [options]="types" formControlName="frepeatDate" [(ngModel)]="selectedTypes" multiple="multiple"
+   ></p-selectButton>
 
 </div>
 
@@ -109,7 +101,7 @@
 
   <label class="font-weight-bold ">{{'répéter le '| translate}} *</label>
 <br />
-<p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+<p-calendar [monthNavigator]="true" formControlName="frepeatDate" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
 yearRange="1970:2100"></p-calendar>
 
 </div>
@@ -124,7 +116,7 @@ yearRange="1970:2100"></p-calendar>
     <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
     <br />
     <p-inputNumber [(ngModel)]="value4" mode="decimal"
-    [showButtons]="true" [min]="0" [max]="5" [ngModelOptions]="{standalone: true}">
+    [showButtons]="true" [min]="0" [max]="5" formControlName="frepeatDate">
     </p-inputNumber>
 
     </div>
@@ -142,7 +134,7 @@ yearRange="1970:2100"></p-calendar>
 
     <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
         [filter]="true" [options]="serviceProviderList"
-       [showClear]="true"></p-dropdown>
+       [showClear]="true"  formControlName="fServiceProvider"></p-dropdown>
   </div>
   <div class="form-group col-md-3 ">
     <label class="font-weight-bold ">{{'Responsabilité' | translate}} *</label>
@@ -150,13 +142,13 @@ yearRange="1970:2100"></p-calendar>
 
     <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
         [filter]="true" [options]="responsabilityList"
-       [showClear]="true"></p-dropdown>
+       [showClear]="true" formControlName="fResponsability"></p-dropdown>
   </div>
 
   <div class="form-group col-md-3 ">
     <label class="font-weight-bold ">{{'Agent' | translate}} *</label>
     <br />
-    <input type="text" class="form-control" pInputText   />
+    <input type="text" class="form-control" formControlName="fagent" pInputText   />
   </div>
   <div class="form-group col-md-3 ">
   </div>
@@ -189,11 +181,9 @@ yearRange="1970:2100"></p-calendar>
   </div></div>
   <div class="card-body border-top-primary">
     <p-table
-
-    [value]=" this.selectedMaintenance?.actions" [lazy]="true" [rows]="size" [paginator]="true"
-    [totalRecords]=" this.selectedMaintenance?.actions?.length"
-
-    >
+    [value]=" this.selectedMaintenancePlan?.actions" [lazy]="true" [rows]="size" [paginator]="true"
+    [totalRecords]=" this.selectedMaintenancePlan
+    ?.actions?.length">
       <ng-template pTemplate="header">
         <tr>
           <th>{{ "operation" | translate }}</th>
@@ -210,7 +200,7 @@ yearRange="1970:2100"></p-calendar>
 
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line,true)"
+            (click)="onShowDialogAction(line)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>
@@ -230,6 +220,17 @@ yearRange="1970:2100"></p-calendar>
   </div>
 </div>
 
+<div class="text-center mt-3 mr-3 ml-3" >
+  <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
+    {{'Fermer' | translate}}
+  </a>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+    {{'Valider et continuer' | translate }}
+  </button>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+    {{ "Valider" | translate }}
+  </button>
+</div>
 
 </div>
 
@@ -237,7 +238,7 @@ yearRange="1970:2100"></p-calendar>
 <div *ngIf="showDialog == true">
   <app-action-edit
     (showDialog)="onHideDialogAction($event)"
-    (test)="onLineEditedAction($event)"
+    (lineActionEdited)="onLineEditedAction($event)"
      [selectedAction]="selectAction"
      [editMode]="editMode"
     ></app-action-edit>

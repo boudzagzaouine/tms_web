@@ -1,3 +1,4 @@
+import { ProgramType } from './program-type';
 
 
 export class OperationType {

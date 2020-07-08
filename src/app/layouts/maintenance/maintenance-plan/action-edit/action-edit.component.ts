@@ -28,7 +28,7 @@ export class ActionEditComponent implements OnInit {
   @Input() selectedAction = new Action();
   @Output() showDialog   =  new EventEmitter<boolean>();
   @Output() actionEdited = new EventEmitter<Action>();
-  @Output() test = new EventEmitter<Action>();
+  @Output() lineActionEdited = new EventEmitter<Action>();
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
   actionForm: FormGroup;
@@ -53,17 +53,20 @@ export class ActionEditComponent implements OnInit {
   ngOnInit() {
     this.title = 'Ajouter une action';
     this.displayDialog = true;
+
+
  if(!this.editMode){
      this.selectedAction = new Action();
    }
-    console.log(this.selectedAction);
+    console.log(this.selectedAction.actionType);
 
     this.initForm();
   }
   initForm() {
     this.actionForm = this.formBuilder.group({
       Fcode: new FormControl(
-        { value:  this.selectedAction.actionType, disabled: this.editMode },
+        { value:  this.selectedAction.actionType
+            },
         Validators.required
       ),
       FstatusMaintenance: new FormControl(
@@ -73,7 +76,7 @@ export class ActionEditComponent implements OnInit {
   }
 
   onActionCodeSearch(event) {
-    this.actionTpeService.find('code~' + event.query).subscribe((data) => {
+    this.actionTpeService.find(`code~${event.query}`).subscribe((data) => {
       this.actionList = data;
     });
   }
@@ -96,7 +99,7 @@ export class ActionEditComponent implements OnInit {
     console.log(this.selectedAction);
     this.selectedAction.actionType = this.selectedActionType;
 
-    this.test.emit(this.selectedAction);
+    this.lineActionEdited.emit(this.selectedAction);
 
     this.displayDialog = false;
 

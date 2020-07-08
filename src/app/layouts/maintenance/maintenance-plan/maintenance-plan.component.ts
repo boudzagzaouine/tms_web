@@ -1,5 +1,5 @@
 import { Action } from './../../../shared/models/action';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { PeriodicityTypeService } from './../../../shared/services/api/periodicity-type.service';
@@ -15,7 +15,7 @@ import { OperationType } from './../../../shared/models/operation-type';
 import { Responsability } from './../../../shared/models/responsability';
 import { ProgramType } from './../../../shared/models/program-type';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { SelectItem, ConfirmationService } from 'primeng/api';
 import { Patrimony } from './../../../shared/models/patrimony';
 
@@ -30,12 +30,12 @@ import { Patrimony } from './../../../shared/models/patrimony';
 export class MaintenancePlanComponent implements OnInit {
 
 
-  @Input() actionEdited : Action = new Action();
+  @Input() actionEdited: Action = new Action();
   selectAction = new Action();
   page = 0;
   size = 8;
   editModeTitle = 'Inserer Plan de maintenance';
-  editMode :boolean;
+  editMode: boolean;
   fr: any;
   selectedTypes: string[] = [];
   types: SelectItem[];
@@ -43,9 +43,9 @@ export class MaintenancePlanComponent implements OnInit {
   periodicityMode = 0;
   value4: number;
   showDialog: boolean;
-  selectedMaintenance: MaintenancePlan = new MaintenancePlan();
+  selectedMaintenancePlan: MaintenancePlan = new MaintenancePlan();
   maintenanceForm: FormGroup;
-  selectedMaintenanceLine: Array<Action> = [];
+  selectedMaintenancePlanLine: Array<Action> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   programTypeList: Array<ProgramType> = [];
   responsabilityList: Array<Responsability> = [];
@@ -55,6 +55,7 @@ export class MaintenancePlanComponent implements OnInit {
   patrimonyList: Array<Patrimony> = [];
   patrimonySearch: string;
   subscrubtion = new Subscription();
+  maintenacePlanForm : FormGroup ;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
@@ -64,7 +65,7 @@ export class MaintenancePlanComponent implements OnInit {
     private periodicityTypeService: PeriodicityTypeService,
     private patrimonyService: PatrimonyService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.fr = {
@@ -129,22 +130,12 @@ export class MaintenancePlanComponent implements OnInit {
     );
 
     this.subscrubtion.add(
-      this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data;
-      })
-    );
-
-    this.subscrubtion.add(
       this.responsabilityService.findAll().subscribe((data) => {
         this.responsabilityList = data;
       })
     );
 
-    this.subscrubtion.add(
-      this.operationTypeService.findAll().subscribe((data) => {
-        this.operationTypeList = data;
-      })
-    );
+
 
     this.subscrubtion.add(
       this.serviceProviderService.findAll().subscribe((data) => {
@@ -153,11 +144,37 @@ export class MaintenancePlanComponent implements OnInit {
     );
     this.subscrubtion.add(
       this.programTypeService.findAll().subscribe((data) => {
-        this.programTypeList = data;
+        this.programTypeList = data.filter(l =>
+          l.maintenanceType.id !== 2
+        );
+        console.log(this.programTypeList);
       })
     );
+    this.initForm();
   }
 
+  initForm(){
+    this.maintenacePlanForm = new FormGroup({
+      'fProgram': new FormControl(this.selectedMaintenancePlan.programType, Validators.required),
+      'fOperation': new FormControl({value: this.selectedMaintenancePlan.operationType, disabled: true}
+        , Validators.required),
+        'fPatrimony': new FormControl(this.selectedMaintenancePlan.patrimony, Validators.required),
+
+        'fDateStart': new FormControl(this.selectedMaintenancePlan.startDate, Validators.required),
+
+        'fDateEnd': new FormControl(this.selectedMaintenancePlan.endDate, Validators.required),
+
+        'fPeriodicity': new FormControl(this.selectedMaintenancePlan.periodicityType, Validators.required),
+
+        'frepeatDate': new FormControl(this.selectedMaintenancePlan.dayTrigger, Validators.required),
+        'fServiceProvider': new FormControl(this.selectedMaintenancePlan.serviceProvider, Validators.required),
+        'fResponsability': new FormControl(this.selectedMaintenancePlan.responsability, Validators.required),
+        'fagent': new FormControl(this.selectedMaintenancePlan.agent, Validators.required),
+
+    });
+
+  }
+  
   onChangePeriodicity(event) {
     this.periodicityMode = event.value.id;
   }
@@ -168,27 +185,44 @@ export class MaintenancePlanComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line,event) {
-   this.showDialog = true;
+  onShowDialogAction(line) {
+    this.showDialog = true;
+    console.log(line);
 
-   this.selectAction = line;
-  this.editMode =  event;
+    if (line !== undefined) {
+      this.selectAction = line;
+      this.editMode = true;
+      console.log(this.editMode);
+    }
+
+
+ console.log(this.editMode);
 
   }
+onSubmit(){
+
+
+
+
+}
+
+onSelectProgrameType(event){
+  this.subscrubtion.add(
+    this.operationTypeService.find('programType.code~' + event.value.code).subscribe((data) => {
+      this.operationTypeList = data;
+    })
+  );
+}
 
   onHideDialogAction(event) {
     this.showDialog = event;
-
   }
 
   onLineEditedAction(line: Action) {
- console.log("afficher");
-
-     console.log(line);
-   this.selectedMaintenance.actions = this.selectedMaintenance.actions.filter(
-     (l) => l.actionType.id !== line.actionType.id
+    this.selectedMaintenancePlan.actions = this.selectedMaintenancePlan.actions.filter(
+      (l) => l.actionType.id !== line.actionType.id
     );
-   this.selectedMaintenance.actions.push(line);
+    this.selectedMaintenancePlan.actions.push(line);
 
     // this.updateTotalPrice();
   }
@@ -196,7 +230,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.selectedMaintenance.actions = this.selectedMaintenance.actions.filter(
+        this.selectedMaintenancePlan.actions = this.selectedMaintenancePlan.actions.filter(
           (l) => l.actionType.id !== id
         );
         //  this.updateTotalPrice();

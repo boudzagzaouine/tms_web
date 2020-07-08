@@ -29,5 +29,8 @@ export class MaintenancePlan {
   patrimony: Patrimony;
   mileage = 0.0;
   totalPrice = 0;
+agent : string;
+   dateTrigger: number;
+   dayTrigger : Date ;
 
 }

@@ -15,6 +15,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ProductEditComponent implements OnInit {
 
+  
   @Input() selectedActionLine: ActionLine = new ActionLine();
   @Input() editMode = false;
   @Output() actionLineEdited = new EventEmitter<ActionLine>();
@@ -33,7 +34,6 @@ export class ProductEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private roundPipe: RoundPipe,
     private productService: ProductService,
-    private actionService: ActionService,
 
   ) { }
 
@@ -43,19 +43,12 @@ export class ProductEditComponent implements OnInit {
     this.displayDialog = true;
     if (!this.editMode) {
       this.selectedActionLine = new ActionLine();
-      console.log("ajouter");
-    }else {
-      console.log("modifier");
-      console.log(this.selectedActionLine);
-
-
     }
     this.initForm();
   }
 
   initForm() {
     this.lineForm = this.formBuilder.group({
-
       product: this.formBuilder.control(
         {
           value: this.selectedActionLine.product,
@@ -104,7 +97,6 @@ export class ProductEditComponent implements OnInit {
   }
 
 
-
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.lineForm.invalid) {
@@ -123,10 +115,8 @@ export class ProductEditComponent implements OnInit {
     });
   }
   onSelectProduct(event) {
-
     this.selectedProduct = event as Product;
     this.selectedActionLine.product = event as Product;
-
     this.lineForm.patchValue({
       description: this.selectedProduct.shortDesc,
       unitPrice: this.selectedProduct.purshasePriceUB
@@ -134,13 +124,11 @@ export class ProductEditComponent implements OnInit {
         : 0,
       tva: this.selectedProduct.vat.value,
     });
-
     this.onUnitPriceChange();
   }
   onQuantityChange() {
     const quantity = this.lineForm.value['quantity'];
     let unitPrice = this.lineForm.value['unitPrice'];
-
     let vat = 0;
     if (
       this.selectedActionLine.product != null &&
@@ -151,7 +139,6 @@ export class ProductEditComponent implements OnInit {
     if (!unitPrice) {
       unitPrice = 0;
     }
-
     const priceHT = unitPrice * quantity;
     const amountTva = (priceHT / 100) * vat;
     const priceTTC = priceHT + amountTva;
@@ -178,7 +165,6 @@ export class ProductEditComponent implements OnInit {
     if (!quantity) {
       quantity = 0;
     }
-
     const priceHT = unitPrice * quantity;
     const amountTva = (priceHT / 100) * vat;
     const priceTTC = priceHT + amountTva;
@@ -197,7 +183,6 @@ export class ProductEditComponent implements OnInit {
     const a = false;
     this.showDialog.emit(a);
     this.displayDialog = false;
-    console.log(this.selectedActionLine);
 
   }
 }

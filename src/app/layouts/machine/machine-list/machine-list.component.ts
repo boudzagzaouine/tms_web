@@ -62,7 +62,6 @@ export class MachineListComponent implements OnInit {
       { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
 
 
-
     ];
 
     this.contratTypeService.findAll().subscribe(

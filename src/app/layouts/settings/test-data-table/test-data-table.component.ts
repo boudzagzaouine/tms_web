@@ -38,7 +38,8 @@ export class TestDataTableComponent implements OnInit {
   editMode: number;
   className: String;
 
-  dataarrray = [];
+
+  dataarrray=[];
   filter = new Filter();
   operatorAndOR: any[];
   operators: any[];

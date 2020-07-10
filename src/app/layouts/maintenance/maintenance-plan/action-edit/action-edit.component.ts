@@ -26,13 +26,14 @@ export class ActionEditComponent implements OnInit {
   page = 0;
   size = 8;
   @Input() selectedAction = new Action();
+   @Input() editMode = false;
   @Output() showDialog   =  new EventEmitter<boolean>();
   @Output() actionEdited = new EventEmitter<Action>();
   @Output() lineActionEdited = new EventEmitter<Action>();
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
   actionForm: FormGroup;
-  @Input() editMode = false;
+
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une action';
@@ -58,7 +59,7 @@ export class ActionEditComponent implements OnInit {
  if(!this.editMode){
      this.selectedAction = new Action();
    }
-    console.log(this.selectedAction.actionType);
+    console.log(this.selectedAction);
 
     this.initForm();
   }
@@ -69,9 +70,8 @@ export class ActionEditComponent implements OnInit {
             },
         Validators.required
       ),
-      FstatusMaintenance: new FormControl(
-        this.selectedAction.maintenanceState
-      ),
+
+
     });
   }
 
@@ -87,10 +87,6 @@ export class ActionEditComponent implements OnInit {
   }
 
   onSubmit() {
-
-   // this.test.emit(this.selectedAction);
-
-    //this.displayDialog = false;
     this.isFormSubmitted = true;
     if (this.actionForm.invalid) {
       return;

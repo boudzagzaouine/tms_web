@@ -166,6 +166,8 @@ export class DataTableComponent implements OnInit {
     } else {
       this.updateBtnDisable = false;
     }
+    console.log(event);
+
   }
   onRowUnselect(event) {
     if (this.selectedObjects.length === 1) {

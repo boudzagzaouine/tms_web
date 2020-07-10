@@ -20,17 +20,19 @@ export class MaintenancePlan {
   endDate: Date = new Date();
   maintenanceType: MaintenanceType;
   maintenanceState: MaintenanceState;
-  programType : ProgramType;
-  operationType :OperationType;
-  serviceProvider : ServiceProvider;
-  responsability : Responsability;
-  periodicityType :PeriodicityType;
-  actions: Action [] = [];
+  programType: ProgramType;
+  operationType: OperationType;
+  serviceProvider: ServiceProvider;
+  responsability: Responsability;
+  service: Responsability;
+  periodicityType: PeriodicityType;
+  actions: Action[] = [];
   patrimony: Patrimony;
   mileage = 0.0;
   totalPrice = 0;
-agent : string;
-   dateTrigger: number;
-   dayTrigger : Date ;
-
+  agent: string;
+  employer: string;
+  alert: number;
+  triggerDate: Date;
+  interventionDate: Date;
 }

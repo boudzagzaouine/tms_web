@@ -24,10 +24,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ActionEditComponent } from './maintenance-plan/action-edit/action-edit.component';
 import {DialogModule} from 'primeng/dialog';
 import { ProductEditComponent } from './maintenance-plan/action-edit/product-edit/product-edit.component';
+import { MaintenanceTraitementComponent } from './maintenance-traitement/maintenance-traitement.component';
 
 
 @NgModule({
-  declarations: [MaintenanceComponent, MaintenancePlanComponent, ActionEditComponent, ProductEditComponent],
+  declarations: [MaintenanceComponent, MaintenancePlanComponent, ActionEditComponent, ProductEditComponent, MaintenanceTraitementComponent],
   imports: [
     CommonModule,
     MaintenanceRoutingModule,

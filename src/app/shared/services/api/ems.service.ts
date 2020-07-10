@@ -7,12 +7,15 @@ import { ProxyService } from './proxy.service';
 
 @Injectable()
 export class EmsService<T> {
-  controller: string;
+  controller: s
+
+  tring;
 
 
   constructor(
     private proxy: ProxyService, controller: string) {
     this.controller = controller;
+
   }
 
   findAll(): Observable<T[]> {

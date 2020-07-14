@@ -20,7 +20,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
   selector: 'app-action-edit',
   templateUrl: './action-edit.component.html',
   styleUrls: ['./action-edit.component.css'],
-  providers: [RoundPipe],
+
 })
 export class ActionEditComponent implements OnInit {
   page = 0;
@@ -55,19 +55,20 @@ export class ActionEditComponent implements OnInit {
     this.title = 'Ajouter une action';
     this.displayDialog = true;
 
-
+    console.log(this.editMode);
  if(!this.editMode){
      this.selectedAction = new Action();
    }
     console.log(this.selectedAction);
 
     this.initForm();
+    console.log(this.actionForm);
+
   }
   initForm() {
     this.actionForm = this.formBuilder.group({
-      Fcode: new FormControl(
-        { value:  this.selectedAction.actionType
-            },
+      'FcodeType': new FormControl(
+        this.selectedAction.actionType,
         Validators.required
       ),
 
@@ -93,7 +94,7 @@ export class ActionEditComponent implements OnInit {
     }
 
     console.log(this.selectedAction);
-    this.selectedAction.actionType = this.selectedActionType;
+    this.selectedAction.actionType = this.actionForm.value['FcodeType'];
 
     this.lineActionEdited.emit(this.selectedAction);
 
@@ -133,9 +134,7 @@ export class ActionEditComponent implements OnInit {
   onShowDialogPrdt(line,event) {
      this.showDialogprdt = true;
      this.editMode = event;
-     console.log(line);
-
-     this.actionEdited = line;
+     this.actionEdited=(line);
 
   }
   onHideDialogPrdt(event) {

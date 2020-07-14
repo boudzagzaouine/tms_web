@@ -7,9 +7,7 @@ import { ProxyService } from './proxy.service';
 
 @Injectable()
 export class EmsService<T> {
-  controller: s
-
-  tring;
+  controller: string;
 
 
   constructor(

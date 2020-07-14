@@ -15,7 +15,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ProductEditComponent implements OnInit {
 
-  
+
   @Input() selectedActionLine: ActionLine = new ActionLine();
   @Input() editMode = false;
   @Output() actionLineEdited = new EventEmitter<ActionLine>();
@@ -41,10 +41,17 @@ export class ProductEditComponent implements OnInit {
 
     this.title = 'Ajouter un produit';
     this.displayDialog = true;
+
+
     if (!this.editMode) {
       this.selectedActionLine = new ActionLine();
+      console.log(this.selectedActionLine);
+
     }
+    console.log(this.selectedActionLine);
     this.initForm();
+
+
   }
 
   initForm() {

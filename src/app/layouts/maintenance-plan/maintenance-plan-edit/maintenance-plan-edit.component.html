@@ -92,8 +92,8 @@
   <div class="card-body mt-2 border-top-primary">
 
 
-    <p-table [value]="selectedMaintenance?.maintenanceLineList" [lazy]="true" [rows]="size" [paginator]="true"
-      [totalRecords]="selectedMaintenance?.maintenanceLineList?.length">
+    <p-table [value]="selectedMaintenance" [lazy]="true" [rows]="size" [paginator]="true"
+      [totalRecords]="selectedMaintenance">
       <ng-template pTemplate="header">
         <tr>
           <th>{{'produit' | translate}}</th>

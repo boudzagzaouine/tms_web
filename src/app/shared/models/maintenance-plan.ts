@@ -11,6 +11,7 @@ import { MaintenanceState } from './maintenance-state';
 import { Patrimony } from './patrimony';
 
 
+
 export class MaintenancePlan {
 
   id = 0;
@@ -33,6 +34,10 @@ export class MaintenancePlan {
   agent: string;
   employer: string;
   alert: number;
-  triggerDate: Date;
-  interventionDate: Date;
+  triggerDate: Date  = new Date();
+  interventionDate: Date  = new Date();
+  duration : number ;
+  declaredDate : Date = new Date();
+  observation : string;
+  selectedTypes : []= [];
 }

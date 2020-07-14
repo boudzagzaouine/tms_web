@@ -1,3 +1,4 @@
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +12,7 @@ import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { Component, OnInit } from '@angular/core';
-import { Patrimony } from 'src/app/shared/models/patrimony';
+import { Patrimony } from './../../../shared/models/patrimony';
 
 @Component({
   selector: 'app-maintenance-traitement',
@@ -24,28 +25,34 @@ export class MaintenanceTraitementComponent implements OnInit {
   page = 0;
   size = 8;
   collectionSize: number;
-  vehicleSearch: Patrimony;
   typeMaintenanceSearch: MaintenanceType;
   statusMaintenanceSearch: MaintenanceState;
-  codeSearch: String;
   searchQuery = '';
   maintenancePlanList: Array<MaintenancePlan> = [];
-  vehicleList: Array<Patrimony> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
+  maintenanceStateList: Array<MaintenanceState> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
-
   selectMaintenancePlans: Array<MaintenancePlan> = [];
-  className: String;
+  className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
+  patrimonyList: Array<Patrimony> = [];
+  patrimonySearch: string;
+  titleList = 'Liste Des Maintenance';
+
+  maintenanceList: Array<MaintenancePlan> = [];
+  maintenancecodeSearch: string;
+  maintenancePlanExportList:Array<MaintenancePlan> = [];
 
   constructor(private patrimonyService: PatrimonyService,
-    private maintenanceStatusService: MaintenanceStateService,
+    private maintenanceStatService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private maintenancePlanService: MaintenancePlanService,
+    private globalService: GlobalService,
+
     private toastr: ToastrService,
     private router: Router) { }
 
@@ -55,18 +62,25 @@ export class MaintenanceTraitementComponent implements OnInit {
     this.className = MaintenancePlan.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      //{ field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
+      { field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
        { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
        { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
 
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
-      // { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
+      { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
        { field: 'interventionDate', header: 'Date intervention', type: 'date' },
-      // { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
+       { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
 
     ];
 
+    this.maintenanceTypeService.findAll().subscribe((data) => {
+      this.maintenanceTypeList = data;
+    });
+
+    this.maintenanceStatService.findAll().subscribe((data) => {
+      this.maintenanceStateList = data;
+    });
 
 
   }
@@ -88,25 +102,45 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   }
 
-  loadMaintenanceType() {
-    this.maintenanceTypeService.findAll().subscribe(
+
+  onExportExcel(event) {
+
+    this.maintenancePlanService.find(this.searchQuery).subscribe(
       data => {
-        this.maintenanceTypeList = data;
-        console.log('Maintenance Types ');
-        console.log(this.maintenanceTypeList);
-      }
+        this.maintenancePlanExportList = data;
+
+        if (event != null) {
+          this.globalService.generateExcel(event, this.maintenancePlanExportList, this.className, this.titleList);
+        } else {
+          this.globalService.generateExcel(this.cols, this.maintenancePlanExportList, this.className, this.titleList);
+
+        }
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
     );
-  }
-  loadMaintenanceStatus() {
-    this.maintenanceStatusService.findAll().subscribe(
-      data => {
-        this.maintenanceStatusList = data;
-        console.log('Maintenance Status ');
-        console.log(this.maintenanceStatusList);
-      }
-    );
+
+
   }
 
+
+  onExportPdf(event) {
+    this.maintenancePlanService.find(this.searchQuery).subscribe(
+      data => {
+        this.maintenancePlanExportList = data;
+        this.globalService.generatePdf(event, this.maintenancePlanExportList, this.className, this.titleList);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+
+  }
   loadDataLazy(event) {
     console.log('evnt' + event.first);
     this.page = event.first / this.size;
@@ -141,15 +175,37 @@ export class MaintenanceTraitementComponent implements OnInit {
     );
   }
 
+  onPatrimonySearch(event: any) {
+    this.patrimonyService.find('code~' + event.query).subscribe(
+      data => {
+
+        this.patrimonyList = data.map(f => f.code)
+        //  console.log(data);
+
+      }
+    );
+  }
+
+  onMaintenanceSearch(event: any) {
+    this.maintenancePlanService.find('code~' + event.query).subscribe(
+      data => {
+
+        this.maintenanceList = data.map(f => f.code)
+        //  console.log(data);
+
+      }
+    );
+  }
+
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.vehicleSearch != null && this.vehicleSearch.code != null && this.vehicleSearch.code !== '') {
-      buffer.append(`vehicle.code~${this.vehicleSearch.code}`);
+    if (this.patrimonySearch != null && this.patrimonySearch !== '') {
+      buffer.append(`patrimony.code~${this.patrimonySearch}`);
     }
 
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.maintenancecodeSearch != null && this.maintenancecodeSearch !== '') {
+      buffer.append(`code~${this.maintenancecodeSearch}`);
     }
     if (this.typeMaintenanceSearch != null && this.typeMaintenanceSearch.code != null && this.typeMaintenanceSearch.code !== '') {
       buffer.append(`maintenanceType.code~${this.typeMaintenanceSearch.code}`);
@@ -160,13 +216,11 @@ export class MaintenanceTraitementComponent implements OnInit {
     this.page = 0;
     const searchQuery = buffer.getValue();
     console.log('search ' + searchQuery);
-
     this.loadData(searchQuery);
   }
 
   reset() {
-    this.codeSearch = null;
-    this.vehicleSearch = null;
+    this.maintenancecodeSearch = null;
     this.typeMaintenanceSearch = null;
     this.statusMaintenanceSearch = null;
     this.page = 0;
@@ -184,7 +238,8 @@ export class MaintenanceTraitementComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectMaintenancePlans.map(x => x.id);
-          this.patrimonyService.deleteAllByIds(ids).subscribe(
+
+          this.maintenancePlanService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -202,22 +257,7 @@ export class MaintenanceTraitementComponent implements OnInit {
   }
 
 
-  onDeleteMaintenance(id: number) {
-    this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
-      accept: () => {
-        this.maintenancePlanService.delete(id).subscribe(
-          data => {
-            this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-          },
-          (e) => {
-            this.toastr.error(e.error.message);
-          }
-        );
-        this.loadData();
-      }
-    });
-  }
+ 
 
 
 }

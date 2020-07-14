@@ -16,16 +16,16 @@ showEffect="fade"
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Code' | translate}} *</label>
-            <span *ngIf="(actionForm.get('Fcode').touched && actionForm.get('Fcode').invalid) ||
-            (isFormSubmitted && actionForm.get('Fcode').invalid)" class="text-lighter"
+            <label class="font-weight-bold">{{'Type Action' | translate}} *</label>
+            <span *ngIf="(actionForm.get('FcodeType').touched && actionForm.get('FcodeType').invalid) ||
+            (isFormSubmitted && actionForm.get('FcodeType').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <p-autoComplete [suggestions]="actionList" field='code'
+            <p-autoComplete  [suggestions]="actionList" field='code'
             (completeMethod)="onActionCodeSearch($event)"
-            formControlName="Fcode" (onSelect)="onSelect($event)" ></p-autoComplete>
+            formControlName="FcodeType" (onSelect)="onSelect($event)" ></p-autoComplete>
 
           </div>
           <div class="form-group col-sm-6">

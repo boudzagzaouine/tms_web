@@ -1,3 +1,5 @@
+import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
+import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { EventEmitter } from '@angular/core';
 import { ActionTypeService } from './../../../../shared/services/api/action-type.service';
 import { ActionType } from './../../../../shared/models/action-type';
@@ -33,6 +35,7 @@ export class ActionEditComponent implements OnInit {
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
   actionForm: FormGroup;
+  MaintenancestateList: Array<MaintenanceState> = [];
 
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -45,6 +48,7 @@ export class ActionEditComponent implements OnInit {
     private toastr: ToastrService,
     private actionTpeService: ActionTypeService,
     private confirmationService: ConfirmationService,
+    private maintenanceStateService : MaintenanceStateService,
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -60,7 +64,9 @@ export class ActionEditComponent implements OnInit {
      this.selectedAction = new Action();
    }
     console.log(this.selectedAction);
-
+    this.maintenanceStateService.findAll().subscribe((data) => {
+      this.MaintenancestateList = data;
+    })
     this.initForm();
     console.log(this.actionForm);
 
@@ -71,11 +77,17 @@ export class ActionEditComponent implements OnInit {
         this.selectedAction.actionType,
         Validators.required
       ),
+      'fState': new FormControl(
+        this.selectedAction.maintenanceState,
+        Validators.required
+      ),
 
 
     });
   }
-
+  onSelectMaintenanceState(event) {
+    this.selectedAction.maintenanceState = event.value as MaintenanceState;
+  }
   onActionCodeSearch(event) {
     this.actionTpeService.find(`code~${event.query}`).subscribe((data) => {
       this.actionList = data;

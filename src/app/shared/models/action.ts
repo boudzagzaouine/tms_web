@@ -12,6 +12,6 @@ export class Action {
   maintenanceState: MaintenanceState;
   maintenancePlan: MaintenancePlan;
   actionLines: ActionLine[] = [];
-
+  
 
 }

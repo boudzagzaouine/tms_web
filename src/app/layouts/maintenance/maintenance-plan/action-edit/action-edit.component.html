@@ -28,10 +28,18 @@ showEffect="fade"
             formControlName="FcodeType" (onSelect)="onSelect($event)" ></p-autoComplete>
 
           </div>
-          <div class="form-group col-sm-6">
-
-          </div>
-
+          <div class="form-group col-md-6 ">
+            <label class="font-weight-bold ">{{'Etat de Maintenance'| translate}} *</label>
+            <span *ngIf="(actionForm.get('fState').touched && actionForm.get('fState').invalid) ||
+            (isFormSubmitted && actionForm.get('fState').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+            [filter]="true" [options]="MaintenancestateList"
+           [showClear]="true" (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown>
+    </div>
 
         </div>
       </form>

@@ -1,3 +1,6 @@
+import { Day } from './day';
+import { Month } from './month';
+import { SelectItem } from 'primeng/api';
 import { Action } from './action';
 import { PeriodicityType } from './periodicity-type';
 import { Responsability } from './responsability';
@@ -33,11 +36,14 @@ export class MaintenancePlan {
   totalPrice = 0;
   agent: string;
   employer: string;
-  alert: number;
+  triggerDay: number;
   triggerDate: Date  = new Date();
   interventionDate: Date  = new Date();
   duration : number ;
   declaredDate : Date = new Date();
   observation : string;
-  selectedTypes : []= [];
+  day : Day[] = [];
+  month : Month[] = [];
+  dayOfMonth : SelectItem[] = [];
+
 }

@@ -161,9 +161,9 @@ export class TurnEditComponent implements OnInit, DoCheck {
       data => {
         console.log(data);
         this.saleOrders = data;
-        this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
-        || s.orderStatus.code === 'En attente' ||
-        s.orderStatus.code === 'En cours'));
+        // this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
+        // || s.orderStatus.code === 'En attente' ||
+        // s.orderStatus.code === 'En cours'));
       console.log('chargement data Commande ');
         console.log("data sal order ");
         console.log(this.saleOrders);

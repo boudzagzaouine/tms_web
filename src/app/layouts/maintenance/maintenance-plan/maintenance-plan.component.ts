@@ -51,9 +51,8 @@ export class MaintenancePlanComponent implements OnInit {
   editMode: boolean;
   fr: any;
   selectedTypes: string[] = [];
-  types: SelectItem[];
+
   periodicities: Array<any> = [];
-  periodicityMode = 0;
   value4: number;
   showDialog: boolean;
   selectedMaintenancePlan: MaintenancePlan = new MaintenancePlan();
@@ -77,7 +76,13 @@ export class MaintenancePlanComponent implements OnInit {
   editModee = false;
   subscriptions: Subscription[] = [];
   validiteMode = false;
-
+  periodicityMode: number;
+  daysOfMonth: SelectItem[] = [];
+  days: SelectItem[] = [];
+  months: SelectItem[] = [];
+  periodicityTreatment: Array<any> = [];
+  selectedMaintenancePlans: Array<MaintenancePlan> = [];
+  editMType : boolean =false ;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
@@ -145,7 +150,28 @@ export class MaintenancePlanComponent implements OnInit {
       clear: 'Supprimer',
     };
 
-    this.types = [
+    this.daysOfMonth = [
+      { label: '1', value: 1 }, { label: '2', value: 2 },
+      { label: '3', value: 3 }, { label: '4', value: 4 },
+      { label: '5', value: 5 }, { label: '6', value: 6 },
+      { label: '7', value: 7 }, { label: '8', value: 8 },
+      { label: '9', value: 9 }, { label: '10', value: 10 },
+      { label: '11', value: 11 }, { label: '12', value: 12 },
+      { label: '13', value: 13 }, { label: '14', value: 14 }, { label: '15', value: 15 },
+      { label: '16', value: 16 }, { label: '17', value: 17 },
+      { label: '18', value: 18 }, { label: '19', value: 19 },
+      { label: '20', value: 20 }, { label: '21', value: 21 },
+      { label: '22', value: 23 }, { label: '24', value: 24 },
+      { label: '25', value: 25 }, { label: '26', value: 26 },
+      { label: '18', value: 18 }, { label: '19', value: 19 },
+      { label: '20', value: 20 }, { label: '21', value: 21 },
+      { label: '22', value: 23 }, { label: '24', value: 24 },
+      { label: '25', value: 25 }, { label: '26', value: 26 },
+      { label: '27', value: 27 }, { label: '28', value: 28 },
+      { label: '29', value: 29 }, { label: '30', value: 30 },
+      { label: '31', value: 31 }
+    ];
+    this.days = [
       { label: 'lundi', value: 'lundi' },
       { label: 'mardi', value: 'mardi' },
       { label: 'mercredi', value: 'mercredi' },
@@ -154,6 +180,24 @@ export class MaintenancePlanComponent implements OnInit {
       { label: 'samedi', value: 'samedi' },
       { label: 'dimanche', value: 'dimanche' },
     ];
+
+    this.months = [
+      { label: 'Janvier', value: 0 },
+      { label: 'Février', value: 1 },
+      { label: 'Mars', value: 2 },
+      { label: 'Avril', value: 3 },
+      { label: 'Mai', value: 4 },
+      { label: 'Juin', value: 5 },
+      { label: 'Juillet', value: 6 },
+      { label: 'Août', value: 7 },
+      { label: 'Septembre', value: 8 },
+      { label: 'Octobre', value: 9 },
+      { label: 'Novembre', value: 10 },
+      { label: 'Décembre', value: 11 },
+
+    ];
+
+
 
     this.subscrubtion.add(
       this.periodicityTypeService.findAll().subscribe((data) => {
@@ -194,13 +238,15 @@ export class MaintenancePlanComponent implements OnInit {
         id = params['id'];
         this.subscriptions.push(this.maintenancePlanService.findById(id).subscribe(
           data => {
-           this.selectedMaintenancePlan = data;
-          if(this.selectedMaintenancePlan.maintenanceType.id===1){
-           this.onSelectPeriodicity(this.selectedMaintenancePlan.periodicityType);
-          }
-           this.onSelectMaintenanceType(this.selectedMaintenancePlan.maintenanceType);
+            this.selectedMaintenancePlan = data;
+            if (this.selectedMaintenancePlan.maintenanceType.id === 1) {
+              console.log("pariodicyt");
+              this.onSelectPeriodicity(this.selectedMaintenancePlan.periodicityType);
+              this.editMType=true;
+            }
+            this.onSelectMaintenanceType(this.selectedMaintenancePlan.maintenanceType);
 
- console.log(this.selectedMaintenancePlan);
+            console.log(this.selectedMaintenancePlan);
 
             this.initForm();
           },
@@ -220,13 +266,15 @@ export class MaintenancePlanComponent implements OnInit {
   initForm() {
     const dStart = new Date(this.selectedMaintenancePlan.startDate);
     const dEnd = new Date(this.selectedMaintenancePlan.endDate);
-    const dDeclare = new Date(this.selectedMaintenancePlan.declaredDate);
-    const dTrigger = new Date(this.selectedMaintenancePlan.triggerDate);
-
+    const dTriggerDate = new Date(this.selectedMaintenancePlan.triggerDate);
     const dInterventionDate = new Date(this.selectedMaintenancePlan.interventionDate);
+    const dDeclare = new Date(this.selectedMaintenancePlan.declaredDate);
 
     this.maintenacePlanForm = new FormGroup({
-
+      'price': new FormControl({
+        value: this.selectedMaintenancePlan.totalPrice ?
+          this.roundPipe.transform(this.selectedMaintenancePlan.totalPrice, 2) : 0, disabled: true
+      }),
       general: new FormGroup({
         'fcode': new FormControl(this.selectedMaintenancePlan.code, Validators.required),
         'fmaintenaceType': new FormControl(this.selectedMaintenancePlan.maintenanceType, Validators.required),
@@ -240,40 +288,35 @@ export class MaintenancePlanComponent implements OnInit {
         'fDateEnd': new FormControl(dEnd, Validators.required),
         'fPeriodicity': new FormControl(this.selectedMaintenancePlan.periodicityType, Validators.required),
         'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
-        'fTrigger': new FormControl(this.selectedMaintenancePlan.alert, Validators.required),
-        'flist': new FormControl(this.selectedMaintenancePlan.selectedTypes),
+        'fTriggerDay': new FormControl(this.selectedMaintenancePlan.triggerDay, Validators.required),
+        'flist': new FormControl(this.selectedMaintenancePlan.hebdomadaires),
+        'fmensuel': new FormControl(this.selectedMaintenancePlan.mensuels),
+        'fdayOfMonth': new FormControl(this.selectedMaintenancePlan.dayOfMonth),
 
       }),
 
       responsability: new FormGroup({
         'fServiceProvider': new FormControl(this.selectedMaintenancePlan.serviceProvider, Validators.required),
         'fResponsability': new FormControl(this.selectedMaintenancePlan.responsability, Validators.required),
-        'fagent': new FormControl(this.selectedMaintenancePlan.agent, Validators.required),
+        'fagent': new FormControl(this.selectedMaintenancePlan.agent),
 
       }),
       service: new FormGroup({
         'fService': new FormControl(this.selectedMaintenancePlan.service, Validators.required),
         'femplyer': new FormControl(this.selectedMaintenancePlan.employer, Validators.required),
-        'fTriggerr': new FormControl(dTrigger, Validators.required),
+        'fTriggerDayy': new FormControl(this.selectedMaintenancePlan.triggerDay, Validators.required),
         'fDeclareDate': new FormControl(dDeclare, Validators.required),
         'fObseravtion': new FormControl(this.selectedMaintenancePlan.observation, Validators.required),
-        'fDuration': new FormControl(this.selectedMaintenancePlan.duration, Validators.required),
+        'fDuration': new FormControl(this.selectedMaintenancePlan.duration),
         'fIntervetionDate': new FormControl(dInterventionDate, Validators.required),
 
       }),
 
-      'price': new FormControl({
-        value: this.selectedMaintenancePlan.totalPrice ?
-          this.roundPipe.transform(this.selectedMaintenancePlan.totalPrice, 2) : 0, disabled: true
-      }),
+
     });
 
   }
 
-  onChangePeriodicity(event) {
-    this.periodicityMode = event.value.id;
-
-  }
 
   onPatrimonySearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe((data) => {
@@ -289,8 +332,7 @@ export class MaintenancePlanComponent implements OnInit {
       this.selectAction = line;
       this.editMode = true;
       console.log(this.editMode);
-    }else
-    {
+    } else {
       this.editMode = false;
 
     }
@@ -300,61 +342,66 @@ export class MaintenancePlanComponent implements OnInit {
 
   }
   onSubmit(close = false) {
- console.log(this.maintenacePlanForm);
+    console.log(this.maintenacePlanForm);
     this.isFormSubmitted = true;
     if (this.maintenacePlanForm.controls['general'].invalid &&
       this.maintenacePlanForm.controls['responsability'].invalid) { return; }
+
     if (this.selectMaintenancetype.id === 1) {
       if (
-        this.maintenacePlanForm.controls['periodicity'].invalid
-      ) { return; }
+        this.maintenacePlanForm.controls['periodicity'].invalid) { return; }
+
     } else if (this.selectMaintenancetype.id === 2) {
       if (
         this.maintenacePlanForm.controls['service'].invalid) { return; }
     }
-
-
 
     this.selectedMaintenancePlan.code = this.maintenacePlanForm.value['general']['fcode'];
     this.selectedMaintenancePlan.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
     this.selectedMaintenancePlan.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenancePlan.agent = this.maintenacePlanForm.value['responsability']['fagent'];
 
-    if(this.selectedMaintenancePlan.maintenanceType.id === 1){
+    if (this.selectedMaintenancePlan.maintenanceType.id === 1) {
       console.log("preventive");
+      this.selectedMaintenancePlan.startDate = this.maintenacePlanForm.value['periodicity']['fDateStart'];
+      this.selectedMaintenancePlan.endDate = this.maintenacePlanForm.value['periodicity']['fDateEnd'];
+      this.selectedMaintenancePlan.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
+      this.selectedMaintenancePlan.triggerDay = this.maintenacePlanForm.value['periodicity']['fTriggerDay'];
+      this.selectedMaintenancePlan.hebdomadaires = this.maintenacePlanForm.value['periodicity']['flist'];
+      this.selectedMaintenancePlan.dayOfMonth = this.maintenacePlanForm.value['periodicity']['fdayOfMonth'];
+      this.selectedMaintenancePlan.mensuels = this.maintenacePlanForm.value['periodicity']['fmensuel'];
 
-    this.selectedMaintenancePlan.startDate = this.maintenacePlanForm.value['periodicity']['fDateStart'];
-    this.selectedMaintenancePlan.endDate = this.maintenacePlanForm.value['periodicity']['fDateEnd'];
-    this.selectedMaintenancePlan.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
-    this.selectedMaintenancePlan.alert = this.maintenacePlanForm.value['periodicity']['fTrigger'];
-    this.selectedMaintenancePlan.selectedTypes = this.maintenacePlanForm.value['periodicity']['flist'];
 
-  } else if (this.selectedMaintenancePlan.maintenanceType.id === 2){
-    console.log("corrective");
+    } else if (this.selectedMaintenancePlan.maintenanceType.id === 2) {
+      console.log("corrective");
+      this.selectedMaintenancePlan.employer = this.maintenacePlanForm.value['service']['femplyer'];
+      this.selectedMaintenancePlan.declaredDate = this.maintenacePlanForm.value['service']['fDeclareDate'];
+      this.selectedMaintenancePlan.triggerDay = this.maintenacePlanForm.value['service']['fTriggerDayy'];
+      this.selectedMaintenancePlan.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
+      this.selectedMaintenancePlan.duration = this.maintenacePlanForm.value['service']['fDuration'];
+      this.selectedMaintenancePlan.interventionDate = this.maintenacePlanForm.value['service']['fIntervetionDate'];
 
-    this.selectedMaintenancePlan.employer = this.maintenacePlanForm.value['service']['femplyer'];
-    this.selectedMaintenancePlan.declaredDate = this.maintenacePlanForm.value['service']['fDeclareDate'];
-    this.selectedMaintenancePlan.triggerDate = this.maintenacePlanForm.value['service']['fTriggerr'];
-    this.selectedMaintenancePlan.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
-    this.selectedMaintenancePlan.duration = this.maintenacePlanForm.value['service']['fDuration'];
-
+      console.log("triger Date");
+      console.log(this.selectedMaintenancePlan.triggerDate);
+      let dt = new Date(this.selectedMaintenancePlan.interventionDate);
+      let day = this.selectedMaintenancePlan.triggerDay;
+      dt.setDate(dt.getDate() - day);
+      this.selectedMaintenancePlan.triggerDate = dt;
     }
 
-    var dt = new Date(this.selectedMaintenancePlan.interventionDate);
-    var day =this.selectedMaintenancePlan.alert;
-    dt.setDate( dt.getDate() - day );
-    console.log(dt);
-    console.log(day);
+  // if(this.selectedMaintenancePlan.maintenanceType.id=== 1){
+  //    this.listofperiodicityMensuel();
+  //  }
+  //   else if(this.selectedMaintenancePlan.maintenanceType.id=== 2) {
+  //           this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
+  //   }
+  let dt = new Date(this.selectedMaintenancePlan.interventionDate);
+  let day = this.selectedMaintenancePlan.triggerDay;
+  dt.setDate(dt.getDate() - day);
+  this.selectedMaintenancePlan.triggerDate = dt;
 
-
-
-    this.selectedMaintenancePlan.triggerDate = dt;
-
-    console.log(this.selectedMaintenancePlan);
-
- console.log(this.selectedMaintenancePlan.selectedTypes);
-
-    this.maintenancePlanService.set(this.selectedMaintenancePlan).subscribe(
+  this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
+    this.maintenancePlanService.saveAll(this.selectedMaintenancePlans).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
 
@@ -382,7 +429,43 @@ export class MaintenancePlanComponent implements OnInit {
     );
   }
 
+  listofperiodicityMensuel() {
+    let dtS = new Date(this.selectedMaintenancePlan.startDate);
+    let dtE = new Date(this.selectedMaintenancePlan.endDate);
+    let nbr = dtE.getFullYear() - dtS.getFullYear();
+    for (let i = 0; i <= nbr; i++) {
+      for (let j = 0; j < this.selectedMaintenancePlan.mensuels.length; j++) {
+        let dat = new Date();
+        let days: number = this.selectedMaintenancePlan.dayOfMonth['value'];
+        let monthh: number = this.selectedMaintenancePlan.mensuels[j]['value'];
+        dat.setDate(days);
+        dat.setMonth(monthh);
+        let fr = i;
+        if (i === 0) {
+          dat.setFullYear(dtS.getFullYear());
+        } else {
+          dat.setFullYear(dtS.getFullYear() + 1);
+        }
+  if( dat > dtS  || dat > dtE){
+    console.log("superier");
+        this.periodicityTreatment.push(dat);
+      }}
+    }
+    console.log(this.periodicityTreatment);
 
+   for (let i =0 ; i< this.periodicityTreatment.length ;i++){
+             this.selectedMaintenancePlan.interventionDate =this.periodicityTreatment[i];
+             let dt = new Date(this.selectedMaintenancePlan.interventionDate);
+             let day = this.selectedMaintenancePlan.triggerDay;
+             dt.setDate(dt.getDate() - day);
+             this.selectedMaintenancePlan.triggerDate = dt;
+             this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
+
+   }
+   console.log(this.selectedMaintenancePlans);
+
+
+  }
 
   onSelectMaintenanceType(event) {
     if (event.value === undefined) {
@@ -416,20 +499,15 @@ export class MaintenancePlanComponent implements OnInit {
 
   }
   onSelectPeriodicity(event) {
-
+    this.periodicityMode = 0;
     if (event.value === undefined) {
       this.selectedMaintenancePlan.periodicityType = event;
     } else {
       this.selectedMaintenancePlan.periodicityType = event.value as PeriodicityType;
     }
+    this.periodicityMode = this.selectedMaintenancePlan.periodicityType.id;
 
-    if(this.selectedMaintenancePlan.periodicityType.id !== 3){
-  this.validiteMode=true;
-    }else{
-      this.validiteMode=false;
-
-    }
-   console.log(this.selectedMaintenancePlan.periodicityType.id);
+    console.log(this.selectedMaintenancePlan.periodicityType.id);
 
   }
   onSelectPServiceProvider(event) {
@@ -467,6 +545,7 @@ export class MaintenancePlanComponent implements OnInit {
       },
     });
   }
+
   updateTotalPrice() {
     this.selectedMaintenancePlan.totalPrice = 0;
 

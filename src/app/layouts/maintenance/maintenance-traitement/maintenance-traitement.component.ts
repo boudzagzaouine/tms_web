@@ -61,7 +61,7 @@ export class MaintenanceTraitementComponent implements OnInit {
 
     this.className = MaintenancePlan.name;
     this.cols = [
-      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'code', header: 'Titre', type: 'string' },
       { field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
        { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
        { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
@@ -70,6 +70,7 @@ export class MaintenanceTraitementComponent implements OnInit {
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
       { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
        { field: 'interventionDate', header: 'Date intervention', type: 'date' },
+       { field: 'triggerDate', header: 'Date declanchement', type: 'date' },
        { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
 
     ];
@@ -257,7 +258,7 @@ export class MaintenanceTraitementComponent implements OnInit {
   }
 
 
- 
+
 
 
 }

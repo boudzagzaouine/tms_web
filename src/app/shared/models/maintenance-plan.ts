@@ -44,6 +44,6 @@ export class MaintenancePlan {
   observation : string;
   day : Day[] = [];
   month : Month[] = [];
-  dayOfMonth : SelectItem[] = [];
+  dayOfMonth : number;
 
 }

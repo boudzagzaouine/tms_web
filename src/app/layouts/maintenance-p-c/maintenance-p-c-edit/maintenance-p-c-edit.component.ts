@@ -1,48 +1,42 @@
-import { MonthService } from './../../../shared/services/api/month';
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { ActionLine } from './../../../shared/models/action-line';
-import { ActionLineService } from './../../../shared/services/api/action-line.service';
-import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
-import { MaintenanceState } from './../../../shared/models/maintenance-state';
-import { ActionService } from './../../../shared/services/api/action.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { RoundPipe } from 'ngx-pipes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MonthService } from './../../../shared/services/api/month';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { LoginModule } from './../../../login/login.module';
+import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
-import { Action } from './../../../shared/models/action';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { PeriodicityTypeService } from './../../../shared/services/api/periodicity-type.service';
+import { ActionService } from './../../../shared/services/api/action.service';
 import { ServiceProviderService } from './../../../shared/services/api/service-provider.service';
+import { ActionLineService } from './../../../shared/services/api/action-line.service';
 import { OperationTypeService } from './../../../shared/services/api/operation-type.service';
-import { ResponsabilityService } from './../../../shared/services/api/responsability.service';
 import { ProgramTypeService } from './../../../shared/services/api/program-type.service';
+import { ResponsabilityService } from './../../../shared/services/api/responsability.service';
 import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
-import { Subscription } from 'rxjs';
+import { SelectItem, ConfirmationService } from 'primeng/api';
 import { PeriodicityType } from './../../../shared/models/periodicity-type';
 import { ServiceProvider } from './../../../shared/models/service-provider';
-import { OperationType } from './../../../shared/models/operation-type';
 import { Responsability } from './../../../shared/models/responsability';
+import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { ProgramType } from './../../../shared/models/program-type';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { SelectItem, ConfirmationService } from 'primeng/api';
-import { Patrimony } from './../../../shared/models/patrimony';
-
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActionLine } from './../../../shared/models/action-line';
+import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
+import { Action } from './../../../shared/models/action';
+import { Component, OnInit, Input } from '@angular/core';
+import { Patrimony } from 'src/app/shared/models/patrimony';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-maintenance-plan',
-  templateUrl: './maintenance-plan.component.html',
-  styleUrls: ['./maintenance-plan.component.css'],
+  selector: 'app-maintenance-p-c-edit',
+  templateUrl: './maintenance-p-c-edit.component.html',
+  styleUrls: ['./maintenance-p-c-edit.component.css'],
   providers: [RoundPipe]
 
-
 })
-export class MaintenancePlanComponent implements OnInit {
-
+export class MaintenancePCEditComponent implements OnInit {
 
   @Input() actionEdited: Action = new Action();
   selectAction = new Action();

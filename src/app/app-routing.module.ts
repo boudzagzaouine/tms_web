@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'not-found', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full'  },
   { path: 'maintenance', loadChildren: () => import('./layouts/maintenance/maintenance.module').then(m => m.MaintenanceModule) },
+  { path: 'maintenance-p-c', loadChildren: () => import('./layouts/maintenance-p-c/maintenance-p-c.module').then(m => m.MaintenancePCModule) },
 
 ];
 

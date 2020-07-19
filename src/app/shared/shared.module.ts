@@ -1,3 +1,4 @@
+import { MonthService } from './services/api/month';
 import { ActionLineService } from './services/api/action-line.service';
 import { ActionLine } from './models/action-line';
 import { ActionTypeService } from './services/api/action-type.service';
@@ -171,6 +172,7 @@ export class SharedModule {
         ActionService,
         ActionTypeService,
         ActionLineService,
+        MonthService
       ],
 
     };

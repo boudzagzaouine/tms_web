@@ -9,6 +9,7 @@ import { MaintenancePlanComponent } from './maintenance-plan/maintenance-plan.co
 const routes: Routes = [{ path: '', component: MaintenanceComponent },
 { path: 'plan', component: MaintenancePlanComponent },
 {path: 'plan/:id', component: MaintenancePlanComponent},
+{path: 'plan/:type', component: MaintenancePlanComponent},
 { path: 'treatment', component: MaintenanceTraitementComponent },
 { path: 'calendar', component: MaintenanceCalendarComponent }]
 

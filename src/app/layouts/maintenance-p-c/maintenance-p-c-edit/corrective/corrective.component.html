@@ -1,0 +1,101 @@
+<form>
+
+<div formGroupName="service">
+
+
+    <div class="row  mt-3 justify-content-around">
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Service' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('fService').touched && maintenacePlanForm.controls['service'].get('fService').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('fService').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+          [filter]="true" [options]="responsabilityList"
+         [showClear]="true"(onChange)="onSelectService($event)" formControlName="fService"></p-dropdown>
+    </div>
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Nom' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('femplyer').touched && maintenacePlanForm.controls['service'].get('femplyer').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('femplyer').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <input type="text" class="form-control" formControlName="femplyer" pInputText   />
+
+    </div>
+
+    <div class="form-group col-md-3 ">
+
+      <label class="font-weight-bold ">{{'Date de déclaration ' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('fDeclareDate').touched && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+      yearRange="1970:2100"  formControlName="fDeclareDate" > </p-calendar>
+    </div>
+
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('fTriggerDayy').touched && maintenacePlanForm.controls['service'].get('fTriggerDay').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('fTriggerDayy').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-inputNumber  mode="decimal"
+      [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDayy">
+      </p-inputNumber>
+  </div>
+
+  </div>
+  <div class="row  mt-3 justify-content-around">
+
+    <div class="form-group col-md-6 ">
+      <label class="font-weight-bold ">{{'Constat' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('fObseravtion').touched && maintenacePlanForm.controls['service'].get('fObseravtion').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('fObseravtion').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+
+      <input type="text" class="form-control" formControlName="fObseravtion" pInputText   />
+
+    </div>
+    <div class="form-group col-md-3 ">
+
+      <label class="font-weight-bold ">{{'Date intervention ' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['service'].get('fIntervetionDate').touched && maintenacePlanForm.controls['service'].get('fIntervetionDate').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['service'].get('fIntervetionDate').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-calendar [monthNavigator]="true"  [showTime]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+      yearRange="1970:2100"  formControlName="fIntervetionDate" > </p-calendar>
+    </div>
+    <div class="form-group col-md-3 ">
+
+      <label class="font-weight-bold ">{{'Durée' | translate}} </label>
+
+      <br />
+      <p-inputNumber  formControlName="fDuration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
+
+     </p-inputNumber>
+
+  </div>
+  </div>
+  <hr>
+  </div>
+
+</form>

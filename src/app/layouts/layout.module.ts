@@ -11,7 +11,7 @@ import { LayoutComponent } from './/layout.component';
 import { AppHeaderComponent } from './template/app-header/app-header.component';
 import { AppSidebarComponent as AppSidebarComponent } from './template/app-sidebar/app-sidebar.component';
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
-import { VehiculeEditLineComponent } from './vehicle/vehicle-edit/vehicule-edit-line/vehicule-edit-line.component';
+
 
 
 
@@ -22,13 +22,14 @@ import { VehiculeEditLineComponent } from './vehicle/vehicle-edit/vehicule-edit-
     AppSidebarComponent,
     AppFooterComponent,
 
+
   ],
   exports: [
     LayoutComponent,
     AppHeaderComponent,
     AppSidebarComponent,
     AppFooterComponent,
-    
+
   ],
   imports: [
     CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule

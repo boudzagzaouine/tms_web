@@ -29,6 +29,11 @@ const routes: Routes = [
         loadChildren: () => import('./maintenance/maintenance.module')
           .then(m => m.MaintenanceModule)
       },
+      {
+        path: 'maintenancepc',
+        loadChildren: () => import('./maintenance-p-c/maintenance-p-c.module')
+          .then(m => m.MaintenancePCModule)
+      },
     ]
   }];
 

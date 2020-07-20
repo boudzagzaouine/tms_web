@@ -25,13 +25,12 @@ import { ActionEditComponent } from './maintenance-plan/action-edit/action-edit.
 import {DialogModule} from 'primeng/dialog';
 import { ProductEditComponent } from './maintenance-plan/action-edit/product-edit/product-edit.component';
 import { MaintenanceTraitementComponent } from './maintenance-traitement/maintenance-traitement.component';
-import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance-calendar.component';
 
 
 @NgModule({
   declarations: [MaintenanceComponent, MaintenancePlanComponent,
      ActionEditComponent, ProductEditComponent, MaintenanceTraitementComponent,
-      MaintenanceCalendarComponent],
+      ],
   imports: [
     CommonModule,
     MaintenanceRoutingModule,

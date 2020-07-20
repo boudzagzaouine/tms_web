@@ -15,7 +15,7 @@ import { Patrimony } from './patrimony';
 
 
 
-export class MaintenancePlan {
+export class Maintenance {
 
   id = 0;
   code: string;
@@ -42,8 +42,7 @@ export class MaintenancePlan {
   duration : number ;
   declaredDate : Date = new Date();
   observation : string;
-  day : Day[] = [];
-  months : Month[] = [];
+
   dayOfMonth : number;
 
 }

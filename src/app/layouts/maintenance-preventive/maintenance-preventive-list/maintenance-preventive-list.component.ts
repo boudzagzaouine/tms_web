@@ -1,26 +1,25 @@
-import { GlobalService } from './../../../shared/services/api/global.service';
+import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
+import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalService } from './../../../shared/services/api/global.service';
 import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
 import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
-import { Maintenance } from './../../../shared/models/maintenance';
+import { Patrimony } from './../../../shared/models/patrimony';
 import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { MaintenanceService } from './../../../shared/services/api/maintenance.service';
 import { Component, OnInit } from '@angular/core';
-import { Patrimony } from './../../../shared/models/patrimony';
 
 @Component({
-  selector: 'app-maintenance-traitement',
-  templateUrl: './maintenance-traitement.component.html',
-  styleUrls: ['./maintenance-traitement.component.css']
+  selector: 'app-maintenance-preventive-list',
+  templateUrl: './maintenance-preventive-list.component.html',
+  styleUrls: ['./maintenance-preventive-list.component.css']
 })
-export class MaintenanceTraitementComponent implements OnInit {
-
+export class MaintenancePreventiveListComponent implements OnInit {
 
   page = 0;
   size = 8;
@@ -28,28 +27,29 @@ export class MaintenanceTraitementComponent implements OnInit {
   typeMaintenanceSearch: MaintenanceType;
   statusMaintenanceSearch: MaintenanceState;
   searchQuery = '';
-  maintenanceList: Array<Maintenance> = [];
+  maintenancePreventiveList: Array<MaintenancePlan> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   maintenanceStateList: Array<MaintenanceState> = [];
   maintenanceStatusList: Array<MaintenanceState> = [];
-  selectMaintenances: Array<Maintenance> = [];
+  selectMaintenancePlans: Array<MaintenancePlan> = [];
   className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
   patrimonyList: Array<Patrimony> = [];
   patrimonySearch: string;
-  titleList = 'Liste Des Maintenance';
+  titleList = 'Liste Des Plan Maintenance';
 
+  maintenanceList: Array<MaintenancePlan> = [];
   maintenancecodeSearch: string;
-  MaintenanceExportList:Array<Maintenance> = [];
+  maintenancePreventiveExportList:Array<MaintenancePlan> = [];
 
   constructor(private patrimonyService: PatrimonyService,
     private maintenanceStatService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
-    private maintenanceService: MaintenanceService,
+    private maintenancePreventiveService: MaintenancePlanService,
     private globalService: GlobalService,
 
     private toastr: ToastrService,
@@ -58,18 +58,12 @@ export class MaintenanceTraitementComponent implements OnInit {
   ngOnInit() {
 
 
-    this.className = Maintenance.name;
+    this.className = MaintenancePlan.name;
     this.cols = [
       { field: 'code', header: 'Titre', type: 'string' },
       { field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
        { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
-       { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
-       { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
-
-       { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
       { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
-       { field: 'interventionDate', header: 'Date intervention', type: 'date' },
-       { field: 'triggerDate', header: 'Date declanchement', type: 'date' },
        { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
 
     ];
@@ -89,13 +83,13 @@ export class MaintenanceTraitementComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectMaintenances = event.object;
+    this.selectMaintenancePlans = event.object;
 
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
       this.showDialog = true;
-      this.router.navigate(['/core/maintenance/edit', this.selectMaintenances[0].id]);
+      this.router.navigate(['/core/maintenance-plan/edit', this.selectMaintenancePlans[0].id]);
 
 
     }
@@ -105,14 +99,14 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.maintenanceService.find(this.searchQuery).subscribe(
+    this.maintenancePreventiveService.find(this.searchQuery).subscribe(
       data => {
-        this.MaintenanceExportList = data;
+        this.maintenancePreventiveExportList = data;
 
         if (event != null) {
-          this.globalService.generateExcel(event, this.MaintenanceExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.maintenancePreventiveExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.MaintenanceExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.maintenancePreventiveExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -128,10 +122,10 @@ export class MaintenanceTraitementComponent implements OnInit {
 
 
   onExportPdf(event) {
-    this.maintenanceService.find(this.searchQuery).subscribe(
+    this.maintenancePreventiveService.find(this.searchQuery).subscribe(
       data => {
-        this.MaintenanceExportList = data;
-        this.globalService.generatePdf(event, this.MaintenanceExportList, this.className, this.titleList);
+        this.maintenancePreventiveExportList = data;
+        this.globalService.generatePdf(event, this.maintenancePreventiveExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -153,7 +147,7 @@ export class MaintenanceTraitementComponent implements OnInit {
 
     console.log('loading data');
     this.spinner.show();
-    this.maintenanceService.sizeSearch(search).subscribe(
+    this.maintenancePreventiveService.sizeSearch(search).subscribe(
       data => {
         console.log('data size : ' + data);
 
@@ -162,11 +156,11 @@ export class MaintenanceTraitementComponent implements OnInit {
     );
 
 
-    this.maintenanceService.findPagination(this.page, this.size, search).subscribe(
+    this.maintenancePreventiveService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
-        this.maintenanceList = data;
-        console.log(this.maintenanceList);
+        this.maintenancePreventiveList = data;
+        console.log(this.maintenancePreventiveList);
 
         this.spinner.hide();
       },
@@ -187,7 +181,7 @@ export class MaintenanceTraitementComponent implements OnInit {
   }
 
   onMaintenanceSearch(event: any) {
-    this.maintenanceService.find('code~' + event.query).subscribe(
+    this.maintenancePreventiveService.find('code~' + event.query).subscribe(
       data => {
 
         this.maintenanceList = data.map(f => f.code)
@@ -233,13 +227,13 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectMaintenances.length >= 1) {
+    if (this.selectMaintenancePlans.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
-          const ids = this.selectMaintenances.map(x => x.id);
+          const ids = this.selectMaintenancePlans.map(x => x.id);
 
-          this.maintenanceService.deleteAllByIds(ids).subscribe(
+          this.maintenancePreventiveService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -251,12 +245,10 @@ export class MaintenanceTraitementComponent implements OnInit {
           );
         }
       });
-    } else if (this.selectMaintenances.length < 1) {
+    } else if (this.selectMaintenancePlans.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
   }
-
-
 
 
 

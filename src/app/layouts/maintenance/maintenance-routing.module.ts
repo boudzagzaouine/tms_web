@@ -1,4 +1,3 @@
-import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance-calendar.component';
 import { MaintenanceTraitementComponent } from './maintenance-traitement/maintenance-traitement.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -7,11 +6,9 @@ import { MaintenanceComponent } from './maintenance.component';
 import { MaintenancePlanComponent } from './maintenance-plan/maintenance-plan.component';
 
 const routes: Routes = [{ path: '', component: MaintenanceComponent },
-{ path: 'plan', component: MaintenancePlanComponent },
-{path: 'plan/:id', component: MaintenancePlanComponent},
-{path: 'plan/:type', component: MaintenancePlanComponent},
-{ path: 'treatment', component: MaintenanceTraitementComponent },
-{ path: 'calendar', component: MaintenanceCalendarComponent }]
+{ path: 'edit', component: MaintenancePlanComponent },
+{path: 'edit/:id', component: MaintenancePlanComponent},
+{ path: 'treatment', component: MaintenanceTraitementComponent },]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

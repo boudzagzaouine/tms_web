@@ -30,11 +30,12 @@ const routes: Routes = [
           .then(m => m.MaintenanceModule)
       },
       {
-        path: 'maintenancepc',
-        loadChildren: () => import('./maintenance-p-c/maintenance-p-c.module')
-          .then(m => m.MaintenancePCModule)
+        path: 'maintenance-plan',
+        loadChildren: () => import('./maintenance-preventive/maintenance-preventive.module')
+          .then(m => m.MaintenancePreventiveModule)
       },
-    ]
+
+    ],
   }];
 
 @NgModule({

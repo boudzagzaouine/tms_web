@@ -92,133 +92,62 @@
 <div *ngIf="this.selectMaintenancetype.id === 1" >
 
 
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'périodicité' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fPeriodicity').touched && maintenacePlanForm.controls['periodicity'].get('fPeriodicity').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fPeriodicity').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="false" [options]="periodicityTypeList" optionLabel="code"
-    [filter]="true"
-   [showClear]="true" (onChange)="onSelectPeriodicity($event)" formControlName="fPeriodicity"></p-dropdown>
-  </div>
-  <div class="form-group col-md-3 "*ngIf="periodicityMode===3">
-    <label class="font-weight-bold ">{{'Date d intervention' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fInterventionDate').touched && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-    yearRange="1970:2100"  formControlName="fInterventionDate" > </p-calendar>
 
-</div>
-<div class="form-group col-md-9 " *ngIf="periodicityMode!==3">
-</div>
-<div class="form-group col-md-6 ">
-</div>
-</div>
-  <div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===1">
-   <div class="form-group col-md-9" >
 
-        <label class="font-weight-bold ">{{'répéter le '| translate}} {{selectedTypes}}*</label>
-        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('flist').touched && maintenacePlanForm.controls['periodicity'].get('flist').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('flist').invalid)" class="text-lighter"
+<div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===2">
+
+
+  <div class="row  mt-3 justify-content-around">
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fTriggerDay').touched && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-inputNumber  mode="decimal"
+      [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDay">
+      </p-inputNumber>
+
+      </div>
+      <div class="form-group col-md-3 " *ngIf="periodicityMode!==3" >
+
+        <label class="font-weight-bold ">{{'Date debut' | translate}} *</label>
+        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
+        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
           {{"Obligatoire" | translate}}
         </span>
         <br />
-
-    <p-selectButton [options]="days" formControlName="flist"  multiple="multiple"
-   ></p-selectButton>
-</div>
-<div class="form-group col-md-3" >
+        <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+        yearRange="1970:2100"  formControlName="fDateStart" > </p-calendar>
+      </div>
 
 
-</div>
-  </div>
-<div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===2">
-
-<div class="form-group col-md-3" >
-  <label class="font-weight-bold ">{{'Le jour du mois '| translate}} *</label>
-  <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').touched && maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').invalid)" class="text-lighter"
+      <div class="form-group col-md-3 " *ngIf="periodicityMode!==3">
+        <label class="font-weight-bold ">{{'Date fin'| translate}} *</label>
+        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
+        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
           {{"Obligatoire" | translate}}
         </span>
-<br />
-<p-dropdown [options]="daysOfMonth" formControlName="fdayOfMonth"  optionLabel="label" [showClear]="true"></p-dropdown>
-
-</div>
-<div class="form-group col-md-9" >
-
-  <label class="font-weight-bold ">{{'répéter le '| translate}} {{selectedTypes}}*</label>
-  <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fmensuel').touched && maintenacePlanForm.controls['periodicity'].get('fmensuel').invalid) ||
-  (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fmensuel').invalid)" class="text-lighter"
-    style="color: red; font-size: xx-small;">
-    {{"Obligatoire" | translate}}
-  </span>
-  <br />
-
-<p-selectButton [options]="monthList" optionLabel="code" formControlName="fmensuel"  multiple="multiple"
-></p-selectButton>
-</div>
-<div class="form-group col-md-6" >
-</div>
-  <div class="form-group col-md-9" ></div>
-</div>
-
-
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fTriggerDay').touched && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-inputNumber  mode="decimal"
-    [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDay">
-    </p-inputNumber>
-
-    </div>
-    <div class="form-group col-md-3 " *ngIf="periodicityMode!==3" >
-
-      <label class="font-weight-bold ">{{'Date debut' | translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-      yearRange="1970:2100"  formControlName="fDateStart" > </p-calendar>
+        <br />
+        <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
+         yearRange="1970:2100" formControlName="fDateEnd" ></p-calendar>
     </div>
 
-
-    <div class="form-group col-md-3 " *ngIf="periodicityMode!==3">
-      <label class="font-weight-bold ">{{'Date fin'| translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-       yearRange="1970:2100" formControlName="fDateEnd" ></p-calendar>
+    <div class="form-group col-md-3" *ngIf="periodicityMode!==3">
+  </div>
+  <div class="form-group col-md-9" *ngIf="periodicityMode===3">
   </div>
 
-  <div class="form-group col-md-3" *ngIf="periodicityMode!==3">
-</div>
-<div class="form-group col-md-9" *ngIf="periodicityMode===3">
-</div>
+  </div>
+
 
 </div>
+
+
 <hr>
 
 </div>

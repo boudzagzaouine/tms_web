@@ -1,21 +1,23 @@
-import { ActionLine } from './../../../../shared/models/action-line';
-import { RoundPipe } from 'ngx-pipes';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
-import { ConfirmationService } from 'primeng/api';
-import { ActionTypeService } from './../../../../shared/services/api/action-type.service';
-import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { MaintenanceState } from './../../../../shared/models/maintenance-state';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActionType } from './../../../../shared/models/action-type';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { ActionTypeService } from './../../../../shared/services/api/action-type.service';
+import { ConfirmationService } from 'primeng/api';
+import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoundPipe } from 'ngx-pipes';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { MaintenanceState } from './../../../../shared/models/maintenance-state';
+import { ActionLine } from './../../../../shared/models/action-line';
 import { Action } from './../../../../shared/models/action';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-action-edit',
   templateUrl: './action-edit.component.html',
-  styleUrls: ['./action-edit.component.css']
+  styleUrls: ['./action-edit.component.css'],
+  providers: [RoundPipe]
+
 })
 export class ActionEditComponent implements OnInit {
 
@@ -46,6 +48,7 @@ export class ActionEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private roundPipe: RoundPipe
   ) { }
 
   ngOnInit() {
@@ -145,4 +148,7 @@ export class ActionEditComponent implements OnInit {
   onHideDialogPrdt(event) {
     this.showDialogprdt = event;
   }
+
+
+
 }

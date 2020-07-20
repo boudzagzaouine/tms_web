@@ -1,20 +1,18 @@
 import { ProductService } from './../../../../../shared/services/api/product.service';
 import { RoundPipe } from 'ngx-pipes';
-import { Product } from './../../../../../shared/models/product';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Product } from './../../../../../shared/models/product';
 import { ActionLine } from './../../../../../shared/models/action-line';
 import { Action } from './../../../../../shared/models/action';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.css'],
-  providers: [RoundPipe],
-
+  styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
-
 
   @Input() selectedActionLine: ActionLine = new ActionLine();
   @Input() editMode = false;
@@ -192,4 +190,5 @@ export class ProductEditComponent implements OnInit {
     this.displayDialog = false;
 
   }
+
 }

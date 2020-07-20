@@ -1,4 +1,8 @@
-import { MonthService } from './services/api/month';
+import { MaintenanceService } from './services/api/maintenance.service';
+import { Maintenance } from './models/maintenance';
+import { MaintenancePlanService } from './services/api/maintenance-plan.service';
+import { DayService } from './services/api/day.service';
+import { MonthService } from './services/api/month.service';
 import { ActionLineService } from './services/api/action-line.service';
 import { ActionLine } from './models/action-line';
 import { ActionTypeService } from './services/api/action-type.service';
@@ -66,7 +70,6 @@ import {
   DriverService,
   InsuranceTermService,
   InsuranceService,
-  MaintenancePlanService,
   MaintenanceStateService,
   MaintenanceTypeService,
   SupplierService,
@@ -172,7 +175,10 @@ export class SharedModule {
         ActionService,
         ActionTypeService,
         ActionLineService,
-        MonthService
+        MonthService,
+        DayService,
+        MaintenancePlanService,
+        MaintenanceService
       ],
 
     };

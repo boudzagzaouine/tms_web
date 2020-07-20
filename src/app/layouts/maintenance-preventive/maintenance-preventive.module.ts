@@ -1,9 +1,7 @@
-import { ProductEditComponent } from './maintenance-p-c-edit/action-edit/product-edit/product-edit.component';
-import { ActionEditComponent } from './maintenance-p-c-edit/action-edit/action-edit.component';
-import { PanelModule } from 'primeng/panel';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { PanelModule } from 'primeng/panel';
 import { StepsModule } from 'primeng/steps';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,21 +16,23 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from './../../shared/shared.module';
-import { MaintenancePCRoutingModule } from './maintenance-p-c-routing.module';
-import { MaintenancePCComponent } from './maintenance-p-c.component';
 
-import { MaintenancePCEditComponent } from './maintenance-p-c-edit/maintenance-p-c-edit.component';
-import { CorrectiveComponent } from './maintenance-p-c-edit/corrective/corrective.component';
+import { MaintenancePreventiveRoutingModule } from './maintenance-preventive-routing.module';
+import { MaintenancePreventiveComponent } from './maintenance-preventive.component';
+import { MaintenancePreventiveEditComponent } from './maintenance-preventive-edit/maintenance-preventive-edit.component';
+import { ActionEditComponent } from './maintenance-preventive-edit/action-edit/action-edit.component';
+import { ProductEditComponent } from './maintenance-preventive-edit/action-edit/product-edit/product-edit.component';
+import { MaintenancePreventiveListComponent } from './maintenance-preventive-list/maintenance-preventive-list.component';
 
 
 @NgModule({
-  declarations: [MaintenancePCComponent, MaintenancePCEditComponent,ActionEditComponent,ProductEditComponent, CorrectiveComponent],
+  declarations: [MaintenancePreventiveComponent, MaintenancePreventiveEditComponent, ActionEditComponent, ProductEditComponent, MaintenancePreventiveListComponent],
   imports: [
     CommonModule,
-    MaintenancePCRoutingModule,
+    MaintenancePreventiveRoutingModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
@@ -42,6 +42,7 @@ import { CorrectiveComponent } from './maintenance-p-c-edit/corrective/correctiv
     DropdownModule,
     AutoCompleteModule,
     NgxSpinnerModule,
+    SharedModule,
     CalendarModule,
     ConfirmDialogModule,
     TabViewModule,
@@ -56,4 +57,4 @@ import { CorrectiveComponent } from './maintenance-p-c-edit/corrective/correctiv
    DialogModule,
   ]
 })
-export class MaintenancePCModule { }
+export class MaintenancePreventiveModule { }

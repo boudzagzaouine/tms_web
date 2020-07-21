@@ -65,8 +65,6 @@ export class MaintenanceTraitementComponent implements OnInit {
        { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
        { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
-
-       { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
       { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
        { field: 'interventionDate', header: 'Date intervention', type: 'date' },
        { field: 'triggerDate', header: 'Date declanchement', type: 'date' },

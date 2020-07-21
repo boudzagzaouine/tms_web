@@ -158,7 +158,8 @@ export class MaintenancePlanComponent implements OnInit {
       { label: '7', value: 7 }, { label: '8', value: 8 },
       { label: '9', value: 9 }, { label: '10', value: 10 },
       { label: '11', value: 11 }, { label: '12', value: 12 },
-      { label: '13', value: 13 }, { label: '14', value: 14 }, { label: '15', value: 15 },
+      { label: '13', value: 13 }, { label: '14', value: 14 },
+      { label: '15', value: 15 },
       { label: '16', value: 16 }, { label: '17', value: 17 },
       { label: '18', value: 18 }, { label: '19', value: 19 },
       { label: '20', value: 20 }, { label: '21', value: 21 },
@@ -172,15 +173,7 @@ export class MaintenancePlanComponent implements OnInit {
       { label: '29', value: 29 }, { label: '30', value: 30 },
       { label: '31', value: 31 }
     ];
-    this.days = [
-      { label: 'lundi', value: 'lundi' },
-      { label: 'mardi', value: 'mardi' },
-      { label: 'mercredi', value: 'mercredi' },
-      { label: 'jeudi', value: 'jeudi' },
-      { label: 'vendredi', value: 'vendredi' },
-      { label: 'samedi', value: 'samedi' },
-      { label: 'dimanche', value: 'dimanche' },
-    ];
+
 
 
 
@@ -194,7 +187,7 @@ export class MaintenancePlanComponent implements OnInit {
 
     this.subscrubtion.add(
       this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data.filter(f=> f.id===2);
+        this.maintenanceTypeList = data;
       })
     );
 
@@ -220,11 +213,11 @@ export class MaintenancePlanComponent implements OnInit {
         this.subscriptions.push(this.maintenanceService.findById(id).subscribe(
           data => {
             this.selectedMaintenance = data;
-            if (this.selectedMaintenance.maintenanceType.id === 1) {
-              console.log("pariodicyt");
-              this.onSelectPeriodicity(this.selectedMaintenance.periodicityType);
-              this.editMType=true;
-            }
+            // if (this.selectedMaintenance.maintenanceType.id === 1) {
+            //   console.log("pariodicyt");
+            //   this.onSelectPeriodicity(this.selectedMaintenance.periodicityType);
+            //   this.editMType=true;
+            // }
             this.onSelectMaintenanceType(this.selectedMaintenance.maintenanceType);
 
             console.log(this.selectedMaintenance);

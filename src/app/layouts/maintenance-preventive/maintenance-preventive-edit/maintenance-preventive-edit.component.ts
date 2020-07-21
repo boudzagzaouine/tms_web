@@ -35,7 +35,30 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-maintenance-preventive-edit',
   templateUrl: './maintenance-preventive-edit.component.html',
-  styleUrls: ['./maintenance-preventive-edit.component.css'],
+  styles: [`
+  :host ::ng-deep .ui-multiselect {
+      min-width: 15em;
+  }
+
+  :host ::ng-deep .ui-multiselected-item-token,
+  :host ::ng-deep .ui-multiselected-empty-token {
+      padding: 2px 4px;
+      margin: 0 0.286em 0 0;
+      display: inline-block;
+      vertical-align:middle;
+      height: 1.857em;
+  }
+
+  :host ::ng-deep .ui-multiselected-item-token {
+      background: #007ad9;
+      color: #ffffff;
+  }
+
+  :host ::ng-deep .ui-multiselected-empty-token {
+      background: #d95f00;
+      color: #ffffff;
+  }
+`],
   providers: [RoundPipe]
 
 })
@@ -82,6 +105,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   periodicityTreatment: Array<any> = [];
   selectedMaintenancePlans: Array<MaintenancePlan> = [];
   editMType : boolean =false ;
+
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
@@ -235,8 +259,11 @@ export class MaintenancePreventiveEditComponent implements OnInit {
             this.onSelectMaintenanceType(this.selectedMaintenancePreventive.maintenanceType);
 
             console.log(this.selectedMaintenancePreventive);
+    console.log(this.selectedMaintenancePreventive.months);
 
             this.initForm();
+            console.log(this.maintenacePlanForm.value['periodicity']['fmensuel']);
+
           },
           err => {
             this.toastr.error(err.error.message);
@@ -248,6 +275,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
       this.initForm();
     }
     this.initForm();
+
 
   }
 
@@ -336,7 +364,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.selectedMaintenancePreventive.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
     this.selectedMaintenancePreventive.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenancePreventive.agent = this.maintenacePlanForm.value['responsability']['fagent'];
-
+    this.selectedMaintenancePreventive.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
       this.selectedMaintenancePreventive.startDate = this.maintenacePlanForm.value['periodicity']['fDateStart'];
       this.selectedMaintenancePreventive.endDate = this.maintenacePlanForm.value['periodicity']['fDateEnd'];
       this.selectedMaintenancePreventive.triggerDay = this.maintenacePlanForm.value['periodicity']['fTriggerDay'];
@@ -344,24 +372,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
       this.selectedMaintenancePreventive.dayOfMonth = this.maintenacePlanForm.value['periodicity']['fdayOfMonth'];
       this.selectedMaintenancePreventive.months = this.maintenacePlanForm.value['periodicity']['fmensuel'];
 
-      // console.log("triger Date");
-      // console.log(this.selectedMaintenancePreventive.triggerDate);
-      // let dt = new Date(this.selectedMaintenancePreventive.interventionDate);
-      // let day = this.selectedMaintenancePreventive.triggerDay;
-      // dt.setDate(dt.getDate() - day);
-      // this.selectedMaintenancePreventive.triggerDate = dt;
 
-
-  // if(this.selectedMaintenancePlan.maintenanceType.id=== 1){
-  //    this.listofperiodicityMensuel();
-  //  }
-  //   else if(this.selectedMaintenancePlan.maintenanceType.id=== 2) {
-  //           this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
-  //   }
-  // let dt = new Date(this.selectedMaintenancePreventive.interventionDate);
-  // let day = this.selectedMaintenancePreventive.triggerDay;
-  // dt.setDate(dt.getDate() - day);
-  // this.selectedMaintenancePreventive.triggerDate = dt;
 console.log(this.selectedMaintenancePreventive);
 
  // this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);

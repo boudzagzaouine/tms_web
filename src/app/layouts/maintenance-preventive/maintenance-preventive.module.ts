@@ -1,3 +1,4 @@
+import { MultiSelectModule } from 'primeng/multiselect';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -55,6 +56,8 @@ import { MaintenancePreventiveListComponent } from './maintenance-preventive-lis
    SelectButtonModule,
    InputNumberModule,
    DialogModule,
+   MultiSelectModule,
+
   ]
 })
 export class MaintenancePreventiveModule { }

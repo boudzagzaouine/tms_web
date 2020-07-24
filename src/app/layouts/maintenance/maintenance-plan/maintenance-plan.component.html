@@ -313,9 +313,9 @@
   </div></div>
   <div class="card-body border-top-primary">
     <p-table
-    [value]=" this.selectedMaintenance?.actions" [lazy]="true" [rows]="size" [paginator]="true"
+    [value]=" this.selectedMaintenance?.actionMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
     [totalRecords]=" this.selectedMaintenance
-    ?.actions?.length">
+    ?.actionMaintenances?.length">
       <ng-template pTemplate="header">
         <tr>
           <th>{{ "operation" | translate }}</th>

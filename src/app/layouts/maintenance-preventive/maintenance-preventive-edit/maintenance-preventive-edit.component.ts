@@ -372,8 +372,11 @@ export class MaintenancePreventiveEditComponent implements OnInit {
       this.selectedMaintenancePreventive.dayOfMonth = this.maintenacePlanForm.value['periodicity']['fdayOfMonth'];
       this.selectedMaintenancePreventive.months = this.maintenacePlanForm.value['periodicity']['fmensuel'];
 
+ console.log(this.selectedMaintenancePreventive.months);
 
-console.log(this.selectedMaintenancePreventive);
+      this.selectedMaintenancePreventive.months=this.selectedMaintenancePreventive.months.sort();
+
+      console.log(this.selectedMaintenancePreventive.months);
 
  // this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(

@@ -1,3 +1,4 @@
+import { ActionMaintenance } from './action-maintenance';
 import { Day } from './day';
 import { Month } from './month';
 import { SelectItem } from 'primeng/api';
@@ -30,7 +31,7 @@ export class Maintenance {
   responsability: Responsability;
   service: Responsability;
   periodicityType: PeriodicityType;
-  actions: Action[] = [];
+  actionMaintenances: ActionMaintenance[] = [];
   patrimony: Patrimony;
   mileage = 0.0;
   totalPrice = 0;

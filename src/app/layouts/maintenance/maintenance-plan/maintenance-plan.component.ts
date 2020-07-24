@@ -1,3 +1,4 @@
+import { ActionMaintenance } from './../../../shared/models/action-maintenance';
 import { MaintenanceService } from './../../../shared/services/api/maintenance.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { ActionLine } from './../../../shared/models/action-line';
@@ -44,8 +45,8 @@ import { Maintenance } from './../../../shared/models/maintenance';
 export class MaintenancePlanComponent implements OnInit {
 
 
-  @Input() actionEdited: Action = new Action();
-  selectAction = new Action();
+  @Input() actionEdited: ActionMaintenance = new ActionMaintenance();
+  selectAction = new ActionMaintenance();
   page = 0;
   size = 8;
   editModeTitle = 'Inserer  maintenance';
@@ -57,11 +58,11 @@ export class MaintenancePlanComponent implements OnInit {
   value4: number;
   showDialog: boolean;
   selectedMaintenance: Maintenance = new Maintenance();
-  selectedMaintenanceAction: Array<Action> = [];
+  selectedMaintenanceAction: Array<ActionMaintenance> = [];
   selectedMaintenanceActionLine: Array<ActionLine> = [];
   searchQuery = '';
   maintenanceForm: FormGroup;
-  selectedMaintenancePlanLine: Array<Action> = [];
+  selectedMaintenancePlanLine: Array<ActionMaintenance> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   programTypeList: Array<ProgramType> = [];
   MaintenancestateList: Array<MaintenanceState> = [];
@@ -480,11 +481,11 @@ export class MaintenancePlanComponent implements OnInit {
     this.showDialog = event;
   }
 
-  onLineEditedAction(line: Action) {
-    this.selectedMaintenance.actions = this.selectedMaintenance.actions.filter(
+  onLineEditedAction(line: ActionMaintenance) {
+    this.selectedMaintenance.actionMaintenances = this.selectedMaintenance.actionMaintenances.filter(
       (l) => l.actionType.id !== line.actionType.id
     );
-    this.selectedMaintenance.actions.push(line);
+    this.selectedMaintenance.actionMaintenances.push(line);
     this.updateTotalPrice();
 
   }
@@ -492,7 +493,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.selectedMaintenance.actions = this.selectedMaintenance.actions.filter(
+        this.selectedMaintenance.actionMaintenances = this.selectedMaintenance.actionMaintenances.filter(
           (l) => l.id !== id
         );
         this.updateTotalPrice();
@@ -503,11 +504,11 @@ export class MaintenancePlanComponent implements OnInit {
   updateTotalPrice() {
     this.selectedMaintenance.totalPrice = 0;
 
-    if (this.selectedMaintenance.actions.length) {
+    if (this.selectedMaintenance.actionMaintenances.length) {
       this.selectedMaintenance.totalPrice =
-        this.selectedMaintenance.actions
+        this.selectedMaintenance.actionMaintenances
           .map(l => {
-            return l.actionLines.map(ls => ls.totalPriceTTC)
+            return l.actionLineMaintenances.map(ls => ls.totalPriceTTC)
               .reduce((acc = 0, curr) => acc + curr, 0);
           })
           .reduce((acc = 0, curr) => acc + curr, 0);

@@ -11,7 +11,7 @@ showEffect="fade"
 >
 <div>
   <div class="modal-body">
-    <div class="card-body">a
+    <div class="card-body">
       <form [formGroup]="actionForm">
 
         <div class="row  justify-content-around">
@@ -68,8 +68,8 @@ showEffect="fade"
         <div class="card-body border-top-primary">
           <p-table
 
-          [value]="selectedAction?.actionLines" [lazy]="true" [rows]="size" [paginator]="true"
-          [totalRecords]="selectedAction?.actionLines.length"
+          [value]="selectedAction?.actionLineMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
+          [totalRecords]="selectedAction?.actionLineMaintenances.length"
 
           >
             <ng-template pTemplate="header">

@@ -1,3 +1,5 @@
+import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
+import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
@@ -27,6 +29,9 @@ export class MaintenanceTraitementComponent implements OnInit {
   collectionSize: number;
   typeMaintenanceSearch: MaintenanceType;
   statusMaintenanceSearch: MaintenanceState;
+  planSearch: MaintenancePlan;
+  planList: Array<MaintenancePlan> = [];
+
   searchQuery = '';
   maintenanceList: Array<Maintenance> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
@@ -47,6 +52,7 @@ export class MaintenanceTraitementComponent implements OnInit {
   constructor(private patrimonyService: PatrimonyService,
     private maintenanceStatService: MaintenanceStateService,
     private maintenanceTypeService: MaintenanceTypeService,
+    private maintenancePlanService:MaintenancePlanService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private maintenanceService: MaintenanceService,
@@ -79,7 +85,9 @@ export class MaintenanceTraitementComponent implements OnInit {
     this.maintenanceStatService.findAll().subscribe((data) => {
       this.maintenanceStateList = data;
     });
-
+    this.maintenancePlanService.findAll().subscribe((data) => {
+      this.planList = data;
+    });
 
   }
 
@@ -210,6 +218,9 @@ export class MaintenanceTraitementComponent implements OnInit {
     }
     if (this.statusMaintenanceSearch != null && this.statusMaintenanceSearch.code != null && this.statusMaintenanceSearch.code !== '') {
       buffer.append(`maintenanceState.code~${this.statusMaintenanceSearch.code}`);
+    }
+    if (this.planSearch != null && this.planSearch.id != null) {
+      buffer.append(`maintenancePlan.id:${this.planSearch.id}`);
     }
     this.page = 0;
     const searchQuery = buffer.getValue();

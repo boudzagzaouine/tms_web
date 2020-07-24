@@ -1,10 +1,11 @@
+import { ActionLineMaintenance } from './../../../../shared/models/action-line-maintenance';
+import { ActionMaintenance } from './../../../../shared/models/action-maintenance';
 import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { EventEmitter } from '@angular/core';
 import { ActionTypeService } from './../../../../shared/services/api/action-type.service';
 import { ActionType } from './../../../../shared/models/action-type';
 import { ActionLine } from './../../../../shared/models/action-line';
-import { Action } from './../../../../shared/models/action';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { RoundPipe } from 'ngx-pipes';
@@ -27,11 +28,11 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 export class ActionEditComponent implements OnInit {
   page = 0;
   size = 8;
-  @Input() selectedAction = new Action();
+  @Input() selectedAction = new ActionMaintenance();
    @Input() editMode = false;
   @Output() showDialog   =  new EventEmitter<boolean>();
-  @Output() actionEdited = new EventEmitter<Action>();
-  @Output() lineActionEdited = new EventEmitter<Action>();
+  @Output() actionEdited = new EventEmitter<ActionMaintenance>();
+  @Output() lineActionEdited = new EventEmitter<ActionMaintenance>();
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
   actionForm: FormGroup;
@@ -40,8 +41,8 @@ export class ActionEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une action';
-  actionList: Array<Action> = [];
-  actionSearch: Action;
+  actionList: Array<ActionMaintenance> = [];
+  actionSearch: ActionMaintenance;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -61,7 +62,7 @@ export class ActionEditComponent implements OnInit {
 
     console.log(this.editMode);
  if(!this.editMode){
-     this.selectedAction = new Action();
+     this.selectedAction = new ActionMaintenance();
    }
     console.log(this.selectedAction);
     this.maintenanceStateService.findAll().subscribe((data) => {
@@ -114,18 +115,18 @@ export class ActionEditComponent implements OnInit {
 
   }
 
-  onLineEditedPrdt(line: ActionLine) {
-    this.selectedAction.actionLines = this.selectedAction.actionLines.filter(
+  onLineEditedPrdt(line: ActionLineMaintenance) {
+    this.selectedAction.actionLineMaintenances = this.selectedAction.actionLineMaintenances.filter(
       (l) => l.product.id !== line.product.id
     );
-    this.selectedAction.actionLines.push(line);
+    this.selectedAction.actionLineMaintenances.push(line);
   }
 
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.selectedAction.actionLines = this.selectedAction.actionLines.filter(
+        this.selectedAction.actionLineMaintenances = this.selectedAction.actionLineMaintenances.filter(
           (l) => l.product.id !== id
         );
       },

@@ -125,16 +125,27 @@
   <div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===1">
    <div class="form-group col-md-9" >
 
-        <label class="font-weight-bold ">{{'répéter le '| translate}} {{selectedTypes}}*</label>
+        <label class="font-weight-bold ">{{'répéter lee '| translate}} {{selectedTypes}}*</label>
         <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').touched && maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').invalid) ||
         (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
           {{"Obligatoire" | translate}}
         </span>
         <br />
+        <p-multiSelect [options]="days"   [maxSelectedLabels]="7"   optionLabel="code"
+formControlName="fmensuel">
+  <ng-template let-value pTemplate="selectedItems">
+      <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
+          <span>{{val.code}}</span>
+      </div>
+      <span *ngIf="!value || value.length === 0"
+       class="ui-multiselected-empty-token ui-corner-all">Choose</span>
+  </ng-template>
 
-    <p-selectButton [options]="days"  optionLabel="code" formControlName="fhebdomadaire"  multiple="multiple"
-   ></p-selectButton>
+</p-multiSelect>
+    <!-- <p-selectButton [options]="days"  optionLabel="code" formControlName="fhebdomadaire"  multiple="multiple"
+   ></p-selectButton> -->
+
 </div>
 <div class="form-group col-md-3" >
 
@@ -165,18 +176,6 @@
     {{"Obligatoire" | translate}}
   </span>
   <br />
-
-  <!-- <p-multiSelect
-  [options]="monthList"
-  optionLabel="code"
-  defaultLabel="- - - - - - Choisir - - - - - - "
-  [maxSelectedLabels]="12"
-  [panelStyle]="{ minWidth: '20em' }"
-  [showTransitionOptions]="'0ms'"
-  [hideTransitionOptions]="'0ms'"
-  formControlName="fmensuel"
->
-</p-multiSelect> -->
 
 
 <p-multiSelect [options]="monthList"   [maxSelectedLabels]="12"   optionLabel="code"

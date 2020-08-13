@@ -42,7 +42,7 @@ export class MaintenancePlan {
   duration : number ;
   declaredDate : Date = new Date();
   observation : string;
-  day : Day[] = [];
+  days : Day[] = [];
   months : Month[] = [];
   dayOfMonth : number;
 

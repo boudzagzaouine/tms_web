@@ -305,7 +305,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
         'fPeriodicity': new FormControl(this.selectedMaintenancePreventive.periodicityType, Validators.required),
         'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
         'fTriggerDay': new FormControl(this.selectedMaintenancePreventive.triggerDay, Validators.required),
-        'fhebdomadaire': new FormControl(this.selectedMaintenancePreventive.day),
+        'fhebdomadaire': new FormControl(this.selectedMaintenancePreventive.days),
         'fmensuel': new FormControl(this.selectedMaintenancePreventive.months),
         'fdayOfMonth': new FormControl(this.selectedMaintenancePreventive.dayOfMonth),
 
@@ -365,14 +365,14 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.selectedMaintenancePreventive.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenancePreventive.agent = this.maintenacePlanForm.value['responsability']['fagent'];
     this.selectedMaintenancePreventive.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
-      this.selectedMaintenancePreventive.startDate = this.maintenacePlanForm.value['periodicity']['fDateStart'];
+      this.selectedMaintenancePreventive.startDate = new Date( this.maintenacePlanForm.value['periodicity']['fDateStart']);
       this.selectedMaintenancePreventive.endDate = this.maintenacePlanForm.value['periodicity']['fDateEnd'];
       this.selectedMaintenancePreventive.triggerDay = this.maintenacePlanForm.value['periodicity']['fTriggerDay'];
-      this.selectedMaintenancePreventive.day = this.maintenacePlanForm.value['periodicity']['fhebdomadaire'];
+      this.selectedMaintenancePreventive.days = this.maintenacePlanForm.value['periodicity']['fhebdomadaire'];
       this.selectedMaintenancePreventive.dayOfMonth = this.maintenacePlanForm.value['periodicity']['fdayOfMonth'];
       this.selectedMaintenancePreventive.months = this.maintenacePlanForm.value['periodicity']['fmensuel'];
 
- console.log(this.selectedMaintenancePreventive.months);
+ console.log(this.selectedMaintenancePreventive);
 
       this.selectedMaintenancePreventive.months=this.selectedMaintenancePreventive.months.sort();
 

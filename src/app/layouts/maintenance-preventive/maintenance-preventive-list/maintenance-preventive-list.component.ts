@@ -217,6 +217,7 @@ export class MaintenancePreventiveListComponent implements OnInit {
     this.maintenancecodeSearch = null;
     this.typeMaintenanceSearch = null;
     this.statusMaintenanceSearch = null;
+    this.patrimonySearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

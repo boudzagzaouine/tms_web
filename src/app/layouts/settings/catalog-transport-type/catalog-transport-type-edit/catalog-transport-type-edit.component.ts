@@ -1,6 +1,6 @@
 import { Transport } from './../../../../shared/models/transport';
 import { RoundPipe } from 'ngx-pipes';
-import { VatServcie } from './../../../../shared/services/api/vat.service';
+import { VatService } from './../../../../shared/services/api/vat.service';
 import { Vat } from './../../../../shared/models/vat';
 import { Zone } from './../../../../shared/models/Zone';
 import { ZoneServcie } from './../../../../shared/services/api/zone.service';
@@ -41,7 +41,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
-    private vatService: VatServcie,
+    private vatService: VatService,
     private zoneService: ZoneServcie,
     private modalService: NgbModal,
     private toastr: ToastrService,

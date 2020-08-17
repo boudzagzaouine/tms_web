@@ -188,7 +188,7 @@ export class MaintenancePlanComponent implements OnInit {
 
     this.subscrubtion.add(
       this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data;
+        this.maintenanceTypeList = data.filter(f=> f.id===2);
       })
     );
 

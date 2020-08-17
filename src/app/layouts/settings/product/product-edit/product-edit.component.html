@@ -1,0 +1,223 @@
+<p-dialog
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '800px' }"
+  (onHide)="onShowDialog()"
+>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+      <form [formGroup]="productForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Code' | translate}}*</label>
+            <span
+            *ngIf="
+              (productForm.get('code').touched &&
+              productForm.get('code').invalid) ||
+              (isFormSubmitted &&
+              productForm.get('code').invalid)
+            "
+            class="text-lighter"
+            style="color: red; font-size: xx-small;"
+          >
+          {{ 'Obligatoire' | translate}}
+
+          </span>
+         <br />
+         <input
+         type="text"
+         class="form-control"
+                 pInputText
+         formControlName="code"
+         (keydown.space)="$event.preventDefault()"
+       />
+
+          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Description' | translate}}</label><br />
+
+           <input
+           type="text"
+           class="form-control"
+                   pInputText
+           formControlName="description"
+
+         />
+
+          </div>
+
+          <div class="col-sm-12 col-md-4"></div>
+        </div>
+        <hr />
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Type' | translate}}*</label>
+            <span *ngIf="(productForm.get('type').touched && productForm.get('type').invalid) ||
+                (isFormSubmitted && productForm.get('type').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               'obligatoire'
+            </span>
+            <br />
+            <p-autoComplete  formControlName="type"
+            [suggestions]="productTypeList"
+            field="code"  (completeMethod)="onSearchProduct($event)"
+            (onSelect)="onSelectProductType($event)" class="form-control">
+        </p-autoComplete>
+        
+          </div>
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'UOM' | translate}}</label>
+            <span *ngIf="(productForm.get('uom').touched && productForm.get('uom').invalid) ||
+            (isFormSubmitted && productForm.get('uom').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           obligatoire
+        </span><br />
+        <p-dropdown  formControlName="uom"
+        [options]="uoms" [autoDisplayFirst]="false"
+         (onChange)="onSelectUom($event)"
+        optionLabel="code"  [filter]="true">
+    </p-dropdown>
+      </div>
+
+
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'TVA de vente' | translate}}</label><br />
+            <span *ngIf="(productForm.get('vat').touched && productForm.get('vat').invalid) ||
+            (isFormSubmitted && productForm.get('vat').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <p-dropdown   formControlName="vat" class="w-100"
+            [options]="vats" [autoDisplayFirst]="true"
+            (onChange)="onSelectVat($event)" emptyFilterMessage="{{
+                'No result found' | translate
+            }}" optionLabel="value"  [filter]="true">
+        </p-dropdown>
+                </div>
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'TVA d achat' | translate}}</label>
+            <span *ngIf="(productForm.get('purchaseVat').touched && productForm.get('purchaseVat').invalid) ||
+            (isFormSubmitted && productForm.get('purchaseVat').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <br />
+            <p-dropdown   formControlName="purchaseVat"
+            [autoDisplayFirst]="true" class="w-100" [options]="vats"
+            (onChange)="onSelectPurchaseVat($event)" optionLabel="value"
+            [filter]="true">
+        </p-dropdown>
+        </div>
+
+
+        </div>
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Prix achat HT' | translate}}</label><br />
+            <span *ngIf="(productForm.get('purchasePrice').touched && productForm.get('purchasePrice').invalid) ||
+            (isFormSubmitted && productForm.get('purchasePrice').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <input type="number" class="form-control  mb-2" formControlName="purchasePrice"
+            (keyup)="onPriceOrMarginChange(1)" />          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Prix d achat TTC' | translate}}</label><br />
+            <span *ngIf="(productForm.get('purchasePriceTTC').touched && productForm.get('purchasePriceTTC').invalid) ||
+            (isFormSubmitted && productForm.get('purchasePriceTTC').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <input type="number" class="form-control  mb-2" formControlName="purchasePriceTTC"
+            (keyup)="onTTCPriceChange(2)">          </div>
+
+        </div>
+
+        <hr />
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Marge %' | translate}}*</label>
+            <span *ngIf="(productForm.get('margin').touched && productForm.get('margin').invalid) ||
+            (isFormSubmitted && productForm.get('margin').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <br />
+            <input type="number" class="form-control  mb-2" formControlName="margin"
+            (keyup)="onPriceOrMarginChange(1)" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <!-- <label class="font-weight-bold">{{'Marge de gros (%)' | translate}}*</label>
+
+            <br />
+            <input type="number" class="form-control  mb-2" formControlName="professionalMargin"
+            (keyup)="onPriceOrMarginChange(4)"> -->
+          </div>
+
+
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Prix de vente' | translate}}</label><br />
+            <span *ngIf="(productForm.get('salePrice').touched && productForm.get('salePrice').invalid) ||
+            (isFormSubmitted && productForm.get('salePrice').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <input type="number" class="form-control  mb-2" formControlName="salePrice"
+            (keyup)="onPriceOrMarginChange(2)" />          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Prix de vente TTC' | translate}}</label><br />
+            <span *ngIf="(productForm.get('salePriceTTC').touched && productForm.get('salePriceTTC').invalid) ||
+            (isFormSubmitted && productForm.get('salePriceTTC').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           'obligatoire'
+        </span>
+            <input type="number" class="form-control  mb-2" formControlName="salePriceTTC"
+            (keyup)="onTTCPriceChange(1)">
+                    </div>
+
+
+        </div>
+
+
+
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <button
+      type="button"
+      pButton
+      (click)="onShowDialog()"
+      class="ui-button-primary"
+      label="{{'Annuler' | translate }}"
+    ></button>
+    <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="ui-button-success"
+      label="{{'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+

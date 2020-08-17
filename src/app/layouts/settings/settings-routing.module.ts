@@ -1,3 +1,5 @@
+import { ProductComponent } from './product/product.component';
+import { ProductEditComponent } from './../maintenance/maintenance-plan/action-edit/product-edit/product-edit.component';
 import { TransportComponent } from './transport/transport.component';
 import { Transport } from './../../shared/models/transport';
 import { ZoneComponent } from './zone/zone.component';
@@ -62,7 +64,8 @@ const routes: Routes = [
       { path: 'test-table', component: TestDataTableComponent },
       { path: 'patrimony', component: PatrimonyTypeComponent },
       { path: 'zone', component: ZoneComponent },
-      { path: 'transport', component: TransportComponent }
+      { path: 'transport', component: TransportComponent },
+      { path: 'product', component: ProductComponent }
 
 
 

@@ -1,3 +1,5 @@
+import { ProductService } from './services/api/product.service';
+import { ProductTypeService } from './services/api/product-type.service';
 import { MaintenanceService } from './services/api/maintenance.service';
 import { Maintenance } from './models/maintenance';
 import { MaintenancePlanService } from './services/api/maintenance-plan.service';
@@ -45,7 +47,7 @@ import { TurnService } from './services/api/turn.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DeliveryLineService } from './services/api/delivery-line.service';
 import { DeliveryService } from './services/api/Delivery.service';
-import { VatServcie } from './services/api/vat.service';
+import { VatService } from './services/api/vat.service';
 import { CatalogTransportTypeServcie } from './services/api/Catalog-Transport-Type.service';
 import { ZoneServcie } from './services/api/zone.service';
 import { TransportServcie } from './services/api/transport.service';
@@ -82,6 +84,7 @@ import { SaleOrderLineService } from './services/api/sale-order-line.service';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { PatrimonyService } from './services/api/patrimony-service';
 import { PeriodicityTypeService } from './services/api/periodicity-type.service';
+import { UomService } from './services/api/uom.service';
 
 
 @NgModule({
@@ -149,7 +152,7 @@ export class SharedModule {
         TransportServcie,
         ZoneServcie,
         CatalogTransportTypeServcie,
-        VatServcie,
+        VatService,
         DeliveryService,
         DeliveryLineService,
         MessageService,
@@ -178,7 +181,10 @@ export class SharedModule {
         MonthService,
         DayService,
         MaintenancePlanService,
-        MaintenanceService
+        MaintenanceService,
+        ProductTypeService,
+        UomService,
+        ProductService
       ],
 
     };

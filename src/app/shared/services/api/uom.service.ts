@@ -1,3 +1,4 @@
+import { Uom } from './../../models/uom';
 import { Vat } from './../../models/vat';
 import { EmsService } from './ems.service';
 import { Badge } from './../../models/badge';
@@ -6,9 +7,9 @@ import { ProxyService } from './proxy.service';
 import { TransportCategoryVehicle } from '../../models/transport-category-vehicle';
 
 @Injectable()
-export class VatService extends EmsService<Vat> {
+export class UomService extends EmsService<Uom> {
 
     constructor(proxy: ProxyService) {
-      super(proxy, 'vats');
+      super(proxy, 'uoms');
     }
 }

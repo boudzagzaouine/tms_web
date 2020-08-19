@@ -8,7 +8,14 @@
       <label class="font-weight-bold">{{ "Code" | translate }}</label
       ><br />
       <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codesuppplierList"
-      (completeMethod)="onNameSearch($event)"></p-autoComplete>
+      (completeMethod)="onNameSearch($event)" field="code"></p-autoComplete>
+    </div>
+
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Type" | translate }}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="ProductTypeSearch" [suggestions]="ProductTypeList"
+      (completeMethod)="oncodeProductTypeSearch($event)" field="code"></p-autoComplete>
     </div>
 
   </div>

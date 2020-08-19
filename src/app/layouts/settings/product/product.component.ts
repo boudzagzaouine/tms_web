@@ -1,3 +1,6 @@
+import { ProductTypeService } from './../../../shared/services/api/product-type.service';
+import { ProductType } from './../../../shared/models/product-type';
+import { Product } from './../../../shared/models/product';
 import { ProductService } from './../../../shared/services/api/product.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,7 +10,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Supplier } from './../../../shared/models/supplier';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
-import { Product } from './../../../shared/models';
 
 @Component({
   selector: 'app-product',
@@ -20,7 +22,10 @@ export class ProductComponent implements OnInit {
   size = 10;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: string;
+  codeSearch: Product;
+  ProductTypeSearch: ProductType;
+  ProductTypeList: Array<ProductType> = [];
+
   selectProducts: Array<Product> = [];
   productList: Product[];
   codesuppplierList: Array<Product> = [];
@@ -34,6 +39,7 @@ export class ProductComponent implements OnInit {
   titleList = 'List des Produit';
 
   constructor(private productService: ProductService,
+    private productTypeService: ProductTypeService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
@@ -45,7 +51,7 @@ export class ProductComponent implements OnInit {
     this.className = Supplier.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'description', header: 'Description', type: 'string' },
+      { field: 'desc', header: 'Description', type: 'string' },
       {
         field: 'productType',
         child: 'code',
@@ -53,24 +59,48 @@ export class ProductComponent implements OnInit {
         type: 'object'
       },
       {
-        field: 'vat',
-        child: 'value',
-        header: 'TVA%',
-        type: 'object'
+        field: 'uomByProductUomBase',
+        header: 'unité de mesure',
+        child: 'code',
+        type: 'objet'
       },
       {
-        field: 'salePrice',
-        header: 'Prix de vente',
+        field: 'vat',
+        child: 'value',
+        header: 'TVA de vente',
+        type: 'object'
+      },
+
+
+
+      {
+        field: 'purshasePriceUB',
+        header: 'Prix d achat HT',
         type: 'number'
       },
       {
-        field: 'salePriceTTC',
+        field: 'purshasePriceTTCUB',
+        header: 'Prix d achat TTC',
+        type: 'number'
+      },
+      {
+        field: 'marginOfPurchase',
+        header: 'Marge',
+        type: 'number'
+      },
+      {
+        field: 'salePriceUB',
+        header: 'Prix de vente HT',
+        type: 'number'
+      },
+      {
+        field: 'salePriceTTCUB',
         header: 'Prix de vente TTC',
         type: 'number'
       },
       {
         field: 'stockQuantity',
-        header: 'Quantité',
+        header: 'Quantity Stock',
         type: 'number'
       },
     ];
@@ -108,7 +138,12 @@ export class ProductComponent implements OnInit {
   }
   onNameSearch(event: any) {
     this.productService.find('code~' + event.query).subscribe(
-      data => this.codesuppplierList = data.map(f => f.code)
+      data => this.codesuppplierList = data
+    );
+  }
+  oncodeProductTypeSearch(event: any) {
+    this.productTypeService.find('code~' + event.query).subscribe(
+      data => this.ProductTypeList = data
     );
   }
 
@@ -152,8 +187,11 @@ export class ProductComponent implements OnInit {
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.codeSearch != null && this.codeSearch.code !== '') {
+      buffer.append(`code~${this.codeSearch.code}`);
+    }
+    if (this.ProductTypeSearch != null && this.ProductTypeSearch.code !== '') {
+      buffer.append(`productType.code~${this.ProductTypeSearch.code}`);
     }
 
     this.page = 0;
@@ -165,7 +203,8 @@ export class ProductComponent implements OnInit {
 
 
   reset() {
-
+ this.codeSearch = null;
+ this.ProductTypeSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

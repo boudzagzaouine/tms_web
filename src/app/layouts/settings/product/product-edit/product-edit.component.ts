@@ -173,16 +173,12 @@ onSelectUom(event) {
 onSelectVat(event) {
   // console.log(event);
   this.selectedProduct.vat = event.value as Vat;
-  this.productForm.patchValue({
-      vat: this.selectedProduct.vat
-  });
+
 }
 onSelectPurchaseVat(event) {
   // console.log(event);
   this.selectedProduct.purchaseVat = event.value as Vat;
-  this.productForm.patchValue({
-    purchaseVat: this.selectedProduct.purchaseVat
-  });
+
 
 
 }

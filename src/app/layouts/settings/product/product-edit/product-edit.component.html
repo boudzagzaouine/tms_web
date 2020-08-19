@@ -70,7 +70,7 @@
             field="code"  (completeMethod)="onSearchProduct($event)"
             (onSelect)="onSelectProductType($event)" class="form-control">
         </p-autoComplete>
-        
+
           </div>
           <div class="form-group col-sm-12 col-md-6">
             <label class="font-weight-bold">{{'UOM' | translate}}</label>
@@ -82,7 +82,7 @@
         <p-dropdown  formControlName="uom"
         [options]="uoms" [autoDisplayFirst]="false"
          (onChange)="onSelectUom($event)"
-        optionLabel="code"  [filter]="true">
+        optionLabel="code"  [filter]="true" [showClear]="true">
     </p-dropdown>
       </div>
 
@@ -98,10 +98,8 @@
            'obligatoire'
         </span>
             <p-dropdown   formControlName="vat" class="w-100"
-            [options]="vats" [autoDisplayFirst]="true"
-            (onChange)="onSelectVat($event)" emptyFilterMessage="{{
-                'No result found' | translate
-            }}" optionLabel="value"  [filter]="true">
+            [options]="vats" [autoDisplayFirst]="false"
+            (onChange)="onSelectVat($event)"  optionLabel="value"  [filter]="true">
         </p-dropdown>
                 </div>
           <div class="form-group col-sm-12 col-md-6">
@@ -113,7 +111,7 @@
         </span>
             <br />
             <p-dropdown   formControlName="purchaseVat"
-            [autoDisplayFirst]="true" class="w-100" [options]="vats"
+            [autoDisplayFirst]="false" class="w-100" [options]="vats"
             (onChange)="onSelectPurchaseVat($event)" optionLabel="value"
             [filter]="true">
         </p-dropdown>

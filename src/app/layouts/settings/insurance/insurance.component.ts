@@ -1,7 +1,6 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { PatrimonyType } from './../../../shared/models/patrimony-type';
 import { Vehicle } from './../../../shared/models/vehicle';
-import { InsuranceEditComponent } from './../../insurance/insurance-edit/insurance-edit.component';
 import { InsuranceType } from './../../../shared/models/insurance-Type';
 import { InsuranceTypeService } from './../../../shared/services/api/insurance-type.service';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';

@@ -35,6 +35,10 @@ const routes: Routes = [
           .then(m => m.MaintenancePreventiveModule)
       },
 
+      { path: 'stock',
+       loadChildren: () => import('./stock/stock.module').then(m => m.StockModule) },
+
+
     ],
   }];
 

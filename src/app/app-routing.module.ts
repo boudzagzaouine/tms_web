@@ -8,9 +8,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: 'not-found', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full'  },
-  { path: 'maintenance', loadChildren: () => import('./layouts/maintenance/maintenance.module').then(m => m.MaintenanceModule) },
-  { path: 'maintenance-preventive', loadChildren: () => import('./layouts/maintenance-preventive/maintenance-preventive.module').then(m => m.MaintenancePreventiveModule) },
-
+ 
 ];
 
 @NgModule({

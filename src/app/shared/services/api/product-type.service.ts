@@ -8,7 +8,7 @@ import { Driver } from '../../models/driver';
 export class ProductTypeService  extends EmsService<ProductType> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'productTypes');
+    super(proxy, 'producttypes');
   }
 
 }

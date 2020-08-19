@@ -1,3 +1,5 @@
+import { MenuProductComponent } from './menu-product/menu-product.component';
+import { ProductTypeComponent } from './product-type/product-type.component';
 import { ProductComponent } from './product/product.component';
 import { ProductEditComponent } from './../maintenance/maintenance-plan/action-edit/product-edit/product-edit.component';
 import { TransportComponent } from './transport/transport.component';
@@ -61,11 +63,13 @@ const routes: Routes = [
       { path: 'menu-vehicle', component: MenuVehicleComponent },
       { path: 'menu-maintenance', component: MenuMaintenanceComponent },
       { path: 'menu-driver', component: MenuDriverComponent },
+      { path: 'menu-product', component: MenuProductComponent },
       { path: 'test-table', component: TestDataTableComponent },
       { path: 'patrimony', component: PatrimonyTypeComponent },
       { path: 'zone', component: ZoneComponent },
       { path: 'transport', component: TransportComponent },
-      { path: 'product', component: ProductComponent }
+      { path: 'product', component: ProductComponent },
+      { path: 'product-type', component: ProductTypeComponent }
 
 
 

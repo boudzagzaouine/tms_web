@@ -76,6 +76,9 @@ import {FieldsetModule} from 'primeng/fieldset';
 import { TermEdiitComponent } from './insurance/insurance-edit/term-ediit/term-ediit.component';
 import { ProductComponent } from './product/product.component';
 import { ProductEditComponent } from './product/product-edit/product-edit.component';
+import { ProductTypeComponent } from './product-type/product-type.component';
+import { ProductTypeEditComponent } from './product-type/product-type-edit/product-type-edit.component';
+import { MenuProductComponent } from './menu-product/menu-product.component';
 
 
 
@@ -131,7 +134,10 @@ import { ProductEditComponent } from './product/product-edit/product-edit.compon
     TransportEditComponent,
     TermEdiitComponent,
     ProductComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    ProductTypeComponent,
+    ProductTypeEditComponent,
+    MenuProductComponent
 
 
 

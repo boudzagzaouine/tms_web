@@ -1,3 +1,4 @@
+import { StockService } from './services/api/stock.service';
 import { ProductService } from './services/api/product.service';
 import { ProductTypeService } from './services/api/product-type.service';
 import { MaintenanceService } from './services/api/maintenance.service';
@@ -184,7 +185,9 @@ export class SharedModule {
         MaintenanceService,
         ProductTypeService,
         UomService,
-        ProductService
+        ProductService,
+        StockService,
+        ProductTypeService
       ],
 
     };

@@ -18,6 +18,7 @@ export class BadgeTypeEditComponent implements OnInit {
   @Input() selectedBadgeType = new BadgeType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
+
   badgeTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -35,7 +36,6 @@ export class BadgeTypeEditComponent implements OnInit {
     if (this.editMode === 1) {
       this.selectedBadgeType = new BadgeType();
       this.title = 'Ajouter un type de badge';
-
     }
 
     this.displayDialog = true;

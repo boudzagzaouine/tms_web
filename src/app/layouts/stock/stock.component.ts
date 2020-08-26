@@ -216,6 +216,11 @@ export class StockComponent implements OnInit {
       data => this.productCodeList = data ,
     );
   }
+  onProductTypeCodeSearch(event: any) {
+    this.productTypeService.find('code~' + event.query).subscribe(
+      data => this.productTypeCodeList = data ,
+    );
+  }
   onSupplierCodeSearch(event: any) {
     this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierCodeList = data ,

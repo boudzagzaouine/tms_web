@@ -1,3 +1,4 @@
+import { Supplier } from './supplier';
 //import { IOption } from 'ng-select';
 import { Currency } from './currency';
 //import { CashRegister } from './cash-register';
@@ -6,7 +7,7 @@ import { OrderStatus } from './order-status';
 import {PurchaseOrderLine } from './purchase-order-line';
 //import { Owner, User, Warehouse, Supplier, DeliveryMethod, SupplierInvoice } from '.';
 import { OrderType } from './order-type';
-//implements IOption 
+//implements IOption
 export class PurchaseOrder {
 
     id: number;
@@ -23,7 +24,7 @@ export class PurchaseOrder {
     //user: User;
    // warehouse: Warehouse;
     notes: string;
-  //  supplier: Supplier;
+    supplier: Supplier;
     //supplierInvoice: SupplierInvoice;
   //  supplierAssets: SupplierAsset[] = [];
     //deliveryMethod: DeliveryMethod;

@@ -1,3 +1,8 @@
+import { PurchaseOrder } from './models/purchase-order';
+import { PurchaseOrderLineService } from './services/api/purchase-order-line.service';
+import { OrderTypeService } from './services/api/order-type.service';
+import { ReceptionService } from './services/api/reception.service';
+import { PurchaseOrderService } from './services/api/purchase-order.service';
 import { StockService } from './services/api/stock.service';
 import { ProductService } from './services/api/product.service';
 import { ProductTypeService } from './services/api/product-type.service';
@@ -187,7 +192,12 @@ export class SharedModule {
         UomService,
         ProductService,
         StockService,
-        ProductTypeService
+        ProductTypeService,
+        PurchaseOrderService,
+        ReceptionService,
+        OrderTypeService,
+        PurchaseOrderLineService,
+        PurchaseOrder
       ],
 
     };

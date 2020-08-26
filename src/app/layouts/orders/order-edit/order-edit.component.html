@@ -1,0 +1,237 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{ editModeTitle | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary" >
+    <form  [formGroup]="purchaseOrderForm">
+
+      <div >
+        <div class="row  mt-3 justify-content-around">
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Code'| translate}} *</label>
+            <span *ngIf="(purchaseOrderForm.get('code').touched && purchaseOrderForm.get('code').invalid) ||
+            (isFormSubmitted && purchaseOrderForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control" formControlName="code" pInputText   />
+          </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Fournisseur'| translate}} *</label>
+            <span *ngIf="(purchaseOrderForm.get('supplier').touched && purchaseOrderForm.get('supplier').invalid) ||
+            (isFormSubmitted && purchaseOrderForm.get('supplier').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete  [suggestions]="supplierList"
+        (completeMethod)="onSupplierCodeSearch($event)"
+        field='code'  formControlName="supplier" (onSelect)="onSelectSupplier($event)"
+        ></p-autoComplete>
+      </div>
+
+      <div class="form-group col-md-3 ">
+        <label class="font-weight-bold ">{{'Type'| translate}} *</label>
+        <span *ngIf="(purchaseOrderForm.get('orderType').touched && purchaseOrderForm.get('orderType').invalid) ||
+        (isFormSubmitted && purchaseOrderForm.get('orderType').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+          {{"Obligatoire" | translate}}
+        </span>
+        <br />
+        <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+        [filter]="true" [options]="orderTypeList"
+       [showClear]="true" (onChange)='onSelectOrderType($event)' formControlName="orderType"></p-dropdown>
+  </div>
+
+        </div>
+      <div class="row  mt-3 justify-content-around">
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Total HT' | translate}} *</label>
+      <span *ngIf="(purchaseOrderForm.get('totalHt').touched && purchaseOrderForm.get('totalHt').invalid) ||
+      (isFormSubmitted && purchaseOrderForm.get('totalHt').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="totalHt"
+                                />
+    </div>
+
+        <div class="form-group col-md-3">
+
+          <label class="font-weight-bold ">{{'TVA'| translate}} *</label>
+          <span *ngIf="(purchaseOrderForm.get('vat').touched && purchaseOrderForm.get('vat').invalid) ||
+          (isFormSubmitted && purchaseOrderForm.get('vat').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="vat"
+                                />
+
+        </div>
+
+
+        <div class="form-group col-md-3">
+
+          <label class="font-weight-bold ">{{'Total TTC'| translate}} *</label>
+          <span *ngIf="(purchaseOrderForm.get('totalTTC').touched && purchaseOrderForm.get('totalTTC').invalid) ||
+          (isFormSubmitted && purchaseOrderForm.get('totalTTC').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="totalTTC"
+                                />
+
+        </div>
+      </div>
+
+        <div class="row  mt-3 justify-content-around">
+
+        <div class="form-group col-md-11">
+
+          <label class="font-weight-bold ">{{'Note'| translate}} *</label>
+          <span *ngIf="(purchaseOrderForm.get('notes').touched && purchaseOrderForm.get('notes').invalid) ||
+          (isFormSubmitted && purchaseOrderForm.get('notes').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="notes"
+                                />
+
+        </div>
+ </div>
+
+
+  </div>
+
+
+
+<hr>
+
+      </form>
+ </div>
+
+
+ <div class="card m-5 ">
+  <div class="card-header" style="background-color: #f7f7f7;">
+   <div class="row">
+
+    <div class="col-xs-4 col-md-4 pull-left">
+      <button
+
+        type="button"
+        class="btn btn-sm btn-primary mx-1"
+        (click)="onShowDialogAction()"
+        ><!--ADD-->
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class=" col-xs-4 col-md-6 pull-center">
+      <span style="font-size: 16px; color: #5f5b5b;">
+        <b> {{ "Liste des ligne de commande" | translate }}</b></span
+      >
+    </div>
+  </div></div>
+  <div class="card-body border-top-primary">
+
+    <p-table
+    [value]=" this.selectedPurchaseOrder?.purshaseOrderLines" [lazy]="true" [rows]="size" [paginator]="true"
+    [totalRecords]=" this.selectedPurchaseOrder
+    ?.purshaseOrderLines?.length">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ "Produit" | translate }}</th>
+         <!-- // <th>{{ "description" | translate }}</th> -->
+          <th>{{ "Prix" | translate }}</th>
+          <th>{{ "Quantité" | translate }}</th>
+          <th>{{ "UOM" | translate }}</th>
+          <th>{{ "Total HT" | translate }}</th>
+          <th>{{ "Total TVA" | translate }}</th>
+          <th>{{ "Total TTC" | translate }}</th>
+
+          <th style="width: 15%;">{{ "Actions" | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-line>
+        <tr>
+          <td>
+            {{ line?.product?.code }}
+        </td>
+     <!-- //   <td>{{ line?.product?.shortDesc }}</td> -->
+        <td>{{ line?.purshasePrice }}</td>
+        <td>
+            {{ line?.quantity }}
+        </td>
+        <td>{{ line?.uom?.code }}</td>
+        <td>{{ line?.totalPriceHT }}</td>
+        <td>{{ line?.vat?.value }}</td>
+        <td>{{ line?.totalPriceTTC }}</td>
+          <td>
+            <button
+
+            type="button"
+            class="btn btn-sm btn-primary mx-1"
+            (click)="onShowDialogAction(line)"
+            ><!--ADD-->
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button
+
+          type="button"
+          class="btn btn-sm btn-danger mx-1"
+          (click)="onDeleteMaintenanceLine(line.id)"
+          ><!--ADD-->
+          <i class="fa fa-trash"></i>
+        </button>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+</div>
+
+<div class="text-center mt-3 mr-3 ml-3" >
+  <a class="btn btn-primary m-1" [routerLink]="['/core/order/list']">
+    {{'Fermer' | translate}}
+  </a>
+  <button type="button" class="btn btn-success m-1" >
+    {{'Valider et continuer' | translate }}
+  </button>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+    {{ "Valider" | translate }}
+  </button>
+</div>
+
+</div>
+
+
+ <div *ngIf="showDialog == true">
+  <app-order-line-edit
+    (showDialog)="onHideDialogAction($event)"
+    (purchaseOrderLineAdded)="onLineEditedAction($event)"
+     [selectedPurchaseOrderLine]="selectedPurchaseOrderLine"
+     [editMode]="editMode"
+    ></app-order-line-edit>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

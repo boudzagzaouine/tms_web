@@ -1,0 +1,121 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="purchaseOrderLineForm" >
+        <div class="modal-body">
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-6">
+                    <label>{{'Produit' | translate}}*</label>
+                    <span *ngIf="(purchaseOrderLineForm.get('pdt').touched && purchaseOrderLineForm.get('pdt').invalid) ||
+            (isFormSubmitted && purchaseOrderLineForm.get('pdt').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+                    <input  type="text" class="form-control" formControlName="pdt" *ngIf="editMode" />
+                    <p-autoComplete formControlName="pdt" [suggestions]="productList" class="w-100" field="code" class="form-control border-0"
+                        [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)" *ngIf="!editMode"
+                        (onSelect)="onSelectProduct($event)"></p-autoComplete>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>{{'Descritpion' | translate}}</label>
+                    <input type="text" class="form-control mb-2" formControlName="description">
+                </div>
+            </div>
+
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                    <label>{{'Price' | translate}}*</label>
+                    <span *ngIf="(purchaseOrderLineForm.get('payedPrice').touched && purchaseOrderLineForm.get('payedPrice').invalid) ||
+                    (isFormSubmitted && purchaseOrderLineForm.get('payedPrice').invalid)" class="text-lighter"
+                      style="color: red; font-size: xx-small;">
+                      {{"Obligatoire" | translate}}
+                    </span>
+                    <input pInputText type="number" class="form-control mb-2" formControlName="payedPrice" (keyup)="onNumberChanged()"
+                        step="1" pattern="[0-9]+" appNumber="true">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>{{'Quantity' | translate}}*</label>
+                    <span *ngIf="(purchaseOrderLineForm.get('quantity').touched && purchaseOrderLineForm.get('quantity').invalid) ||
+                    (isFormSubmitted && purchaseOrderLineForm.get('quantity').invalid)" class="text-lighter"
+                      style="color: red; font-size: xx-small;">
+                      {{"Obligatoire" | translate}}
+                    </span>
+                    <input pInputText type="number" class="form-control mb-2" formControlName="quantity"
+                     (keyup)="onNumberChanged()"
+                        step="1" pattern="[0-9]+" appNumber="true">
+                </div>
+            </div>
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                    <label>{{'UOM' | translate}}</label>
+                    <p-dropdown name="pdtPackUom"  formControlName="pdtPack"
+                    class="w-100" [options]="productPackList"
+                        optionLabel="uom.code" [autoDisplayFirst]="true" >
+                    </p-dropdown>
+
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>{{'Total HT' | translate}}</label>
+                    <input type="text" class="form-control mb-2" formControlName="totalHT">
+                </div>
+            </div>
+
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                    <label>{{'VAT' | translate}}</label>
+                    <input type="text" class="form-control mb-2"
+                    formControlName="vat">
+
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <label>{{'Total TTC' | translate}}</label>
+                    <input type="text" class="form-control mb-2" formControlName="totalTTC">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+</div>
+</div>
+</div>
+<p-footer>
+<div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+  <button
+  type="button"
+  pButton
+  (click)="onShowDialog()"
+  class="ui-button-primary"
+  label="{{'Annuler' | translate }}"
+></button>
+<button
+    type="button"
+    pButton
+    (click)="onSubmit()"
+    class="ui-button-success"
+    label="{{ 'Valider' | translate }}"
+  ></button>
+</div>
+</p-footer>
+</p-dialog>

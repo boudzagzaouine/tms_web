@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReceptionComponent } from './reception.component';
 
 const routes: Routes = [{ path: '', component: ReceptionComponent },
+{ path: 'edit/:id', component: ReceptionEditComponent },
 { path: 'edit', component: ReceptionEditComponent },
 { path: 'list', component: ReceptionListComponent }];
 

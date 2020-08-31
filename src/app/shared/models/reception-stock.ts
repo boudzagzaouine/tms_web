@@ -1,4 +1,7 @@
-//import {Color} from './color';
+import { Uom } from './uom';
+import { ReceptionLine } from './reception-line';
+import { Product } from './product';
+import {Color} from './color';
 import {Supplier} from './supplier';
 import {ProductPack} from './product-pack';
 import {Stock} from './stock';
@@ -13,7 +16,7 @@ export class ReceptionStock {
     updateDate: Date;
     creationDate: Date;
    // warehouse: Warehouse;
-   // product: Product;
+    product: Product;
     dlc: Date;
     dluo: Date;
     serialNo: string;
@@ -22,13 +25,13 @@ export class ReceptionStock {
     reception: Reception;
     orderDate: Date;
     quantityReceived: number;
-    //receptionLine: ReceptionLine;
-   // uom: Uom;
-    //uomReceived: Uom;
+    receptionLine: ReceptionLine;
+    uom: Uom;
+    uomReceived: Uom;
     stock: Stock;
     productPack: ProductPack;
     supplier: Supplier;
-   // color: Color;
+    color: Color ;
     receptionDate: Date;
 
 }

@@ -1,3 +1,4 @@
+import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
 import { StepsModule } from 'primeng/steps';
 import { ContextMenuModule } from 'primeng/contextmenu';
@@ -21,10 +22,11 @@ import { ReceptionRoutingModule } from './reception-routing.module';
 import { ReceptionComponent } from './reception.component';
 import { ReceptionEditComponent } from './reception-edit/reception-edit.component';
 import { ReceptionListComponent } from './reception-list/reception-list.component';
+import { ReceptionLineEditComponent } from './reception-edit/reception-line-edit/reception-line-edit.component';
 
 
 @NgModule({
-  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent],
+  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent, ReceptionLineEditComponent],
   imports: [
     CommonModule,
     ReceptionRoutingModule,
@@ -46,7 +48,9 @@ import { ReceptionListComponent } from './reception-list/reception-list.componen
     ConfirmDialogModule,
     ContextMenuModule,
     StepsModule,
-    PanelModule
+    PanelModule,
+    DialogModule
+
   ]
 })
 export class ReceptionModule { }

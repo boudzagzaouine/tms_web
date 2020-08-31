@@ -50,6 +50,15 @@ export class ReceptionListComponent implements OnInit {
     this.className = Reception.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
+      { field: 'orderCode', header: 'BL', type: 'number' },
+      { field: 'remarks', header: 'Remarque', type: 'string' },
+      { field: 'supplier', child: 'code', header: 'Fournisseur', type: 'object' },
+      { field: 'orderType', child: 'code', header: 'Type', type: 'object' },
+      { field: 'totalPriceHT',  header: 'Total HT', type: 'number' },
+      { field: 'vat', header: 'TVA', type: 'number' },
+      { field: 'totalPriceTTC',  header: 'Total TTC', type: 'number' },
+      { field: 'orderStatus', child: 'code', header: 'Statut', type: 'object' },
+      { field: 'receptionDate', header: 'Date Reception', type: 'date' },
 
 
     ];
@@ -144,12 +153,9 @@ export class ReceptionListComponent implements OnInit {
 
   }
 
-
   onObjectEdited(event) {
-
     this.editMode = event.operationMode;
     this.selectedReception = event.object;
-
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -160,7 +166,7 @@ export class ReceptionListComponent implements OnInit {
   }
 
   onReceptionCodeSearch(event: any) {
-    this.receptionService.find('code~' + event.query).subscribe(
+    this.receptionService.find('codeng serve' + event.query).subscribe(
       data => this.receptionCodeList = data ,
     );
   }

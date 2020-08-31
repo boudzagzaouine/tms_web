@@ -1,0 +1,139 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="receptionLineForm" >
+        <div class="modal-body">
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-6">
+                    <label>{{'Produit' | translate}}*</label>
+                    <span *ngIf="(receptionLineForm.get('pdt').touched && receptionLineForm.get('pdt').invalid) ||
+            (isFormSubmitted && receptionLineForm.get('pdt').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+                    </span>
+                    <input  type="text" class="form-control" formControlName="pdt" *ngIf="editMode" />
+                    <p-autoComplete formControlName="pdt" [suggestions]="productList" class="w-100" field="code" class="form-control border-0"
+                        [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)" *ngIf="!editMode"
+                        (onSelect)="onSelectProduct($event)"></p-autoComplete>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>{{'Descritpion' | translate}}</label>
+                    <input type="text" class="form-control mb-2" formControlName="description">
+                </div>
+            </div>
+
+
+
+
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                    <label>{{'Quantite' | translate}}*</label>
+                    <span *ngIf="(receptionLineForm.get('expectedQuantity').touched && receptionLineForm.get('expectedQuantity').invalid) ||
+                    (isFormSubmitted && receptionLineForm.get('expectedQuantity').invalid)" class="text-lighter"
+                      style="color: red; font-size: xx-small;">
+                      {{"Obligatoire" | translate}}
+                    </span>
+                    <input type="text" class="form-control mb-2" formControlName="expectedQuantity"
+                    (keyup)="onUnitPayedPriceChanged()">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>{{'UOM' | translate}}</label>
+                  <input type="text" class="form-control mb-2" formControlName="expectedUom" *ngIf="editMode">
+                  <p-dropdown name="pdtPack" (onChange)="onSelectPdtPack($event)"
+                      [editable]="true" formControlName="pdtPack" class="w-100" [options]="productPackList"
+                      optionLabel="uom.code" [autoDisplayFirst]="false" *ngIf="!editMode">
+                  </p-dropdown>
+
+
+              </div>
+            </div>
+
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                  <label>{{' prix.U HT' | translate}}</label>
+                  <input type="text" class="form-control mb-2" formControlName="price">
+
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>{{' Prix.U TTC' | translate}}</label>
+                    <input type="text" class="form-control mb-2" formControlName="priceTTC">
+              </div>
+            </div>
+
+
+            <div class="row  mt-3 justify-content-around">
+              <div class="form-group col-md-6">
+                  <label>{{'P. Unit Price HT' | translate}} *</label>
+                    <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPrice"
+                        (keyup)="onUnitPayedPriceChanged()">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>{{'P. Unit Price TTC' | translate}} *</label>
+                  <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPriceTTC"
+                      (keyup)="onUnitPayedPriceTTCChanged()">   </div>
+            </div>
+
+            <div class="row  mt-3 justify-content-around">
+                <div class="form-group col-md-6">
+                  <label>{{'Total Price HT' | translate}} *</label>
+                    <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="totalPayedPrice"
+                        (keyup)="onTotalPayedPriceChanged()">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>{{'Total Price TTC' | translate}} *</label>
+                  <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="totalPayedPriceTTC"
+                      (keyup)="onTotalPayedPriceTTCChanged()">
+            </div>
+
+</div>
+
+
+
+
+
+
+        </div>
+
+    </form>
+
+
+</div>
+</div>
+</div>
+<p-footer>
+<div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+  <button
+  type="button"
+  pButton
+  (click)="onShowDialog()"
+  class="ui-button-primary"
+  label="{{'Annuler' | translate }}"
+></button>
+<button
+    type="button"
+    pButton
+    (click)="onSubmit()"
+    class="ui-button-success"
+    label="{{ 'Valider' | translate }}"
+  ></button>
+</div>
+</p-footer>
+</p-dialog>

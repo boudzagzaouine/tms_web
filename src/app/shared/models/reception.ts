@@ -35,7 +35,7 @@ export class Reception {
     active: boolean;
     accounted: boolean;
     receptionLines: ReceptionLine[] = [];
-    receptionDate: Date;
+    receptionDate: Date=new Date();
    // box: CashRegister;
     supplierDeliveryDate: Date;
 }

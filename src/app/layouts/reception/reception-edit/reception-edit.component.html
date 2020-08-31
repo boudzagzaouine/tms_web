@@ -1,0 +1,291 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{ editModeTitle | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary" >
+    <form  [formGroup]="receptionForm">
+
+      <div >
+        <div class="row  mt-3 justify-content-around">
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Code'| translate}} *</label>
+            <span *ngIf="(receptionForm.get('code').touched && receptionForm.get('code').invalid) ||
+            (isFormSubmitted && receptionForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control" formControlName="code" pInputText   />
+          </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Commande d achat'| translate}} *</label>
+            <span *ngIf="(receptionForm.get('order').touched && receptionForm.get('order').invalid) ||
+            (isFormSubmitted && receptionForm.get('order').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+
+            <p-autoComplete  [suggestions]="purchaseOrderList"
+            (completeMethod)="onPurchaseOrderCodeSearch($event)"
+            field='code'  formControlName="order" (onSelect)="onSelectPurchaseOrder($event)"
+            ></p-autoComplete>
+
+      </div>
+
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Fournisseur'| translate}} *</label>
+            <span *ngIf="(receptionForm.get('supplier').touched && receptionForm.get('supplier').invalid) ||
+            (isFormSubmitted && receptionForm.get('supplier').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete  [suggestions]="supplierList"
+        (completeMethod)="onSupplierCodeSearch($event)"
+        field='code'  formControlName="supplier" (onSelect)="onSelectSupplier($event)"
+        ></p-autoComplete>
+      </div>
+
+
+  <div class="form-group col-md-3">
+
+    <label class="font-weight-bold ">{{'BL'| translate}} *</label>
+    <span *ngIf="(receptionForm.get('supplierBL').touched && receptionForm.get('supplierBL').invalid) ||
+    (isFormSubmitted && receptionForm.get('supplierBL').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <input
+                              type="text"
+                              class="form-control"
+                              formControlName="supplierBL"
+                          />
+
+  </div>
+</div>
+<div class="row  mt-3 justify-content-around">
+
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold ">{{'Type'| translate}} *</label>
+    <span *ngIf="(receptionForm.get('type').touched && receptionForm.get('type').invalid) ||
+    (isFormSubmitted && receptionForm.get('type').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+    [filter]="true" [options]="orderTypeList"
+   [showClear]="true" (onChange)='onSelectOrderType($event)' formControlName="type"></p-dropdown>
+</div>
+
+<div class="form-group col-md-3 ">
+  <div class="form-group">
+      <label>{{ "Status" | translate }}</label>
+      <input type="text" class="form-control"
+          formControlName="status" />
+  </div>
+</div>
+
+ <div class="form-group col-md-3 ">
+
+  <div class="form-group">
+    <label>{{ "BL Date" | translate }}</label>
+    <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy"
+  yearRange="1970:2100" formControlName="receptionDate"></p-calendar>
+
+</div>
+
+</div>
+
+
+<div class="form-group col-md-3">
+  <div class="form-group">
+      <label>{{ "Remarks" | translate }}</label>
+      <div class="input-group">
+          <input pInputText type="text" class="form-control"
+              formControlName="remarks" />
+      </div>
+  </div>
+
+
+</div>
+
+        </div>
+      <div class="row  mt-3 justify-content-around">
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Total HT' | translate}} *</label>
+      <span *ngIf="(receptionForm.get('totalPriceHT').touched && receptionForm.get('totalPriceHT').invalid) ||
+      (isFormSubmitted && receptionForm.get('totalPriceHT').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="totalPriceHT"
+                                />
+    </div>
+
+        <div class="form-group col-md-3">
+
+          <label class="font-weight-bold ">{{'TVA'| translate}} *</label>
+          <span *ngIf="(receptionForm.get('vat').touched && receptionForm.get('vat').invalid) ||
+          (isFormSubmitted && receptionForm.get('vat').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="vat"
+                                />
+
+        </div>
+
+
+        <div class="form-group col-md-3">
+
+          <label class="font-weight-bold ">{{'Total TTC'| translate}} *</label>
+          <span *ngIf="(receptionForm.get('totalttc').touched && receptionForm.get('totalttc').invalid) ||
+          (isFormSubmitted && receptionForm.get('totalttc').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="totalttc"
+                                />
+        </div>
+
+        <div class="form-group col-md-3">
+</div>
+      </div>
+
+
+
+
+  </div>
+
+
+
+<hr>
+
+      </form>
+ </div>
+
+
+ <div class="card m-5 ">
+  <div class="card-header" style="background-color: #f7f7f7;">
+   <div class="row">
+
+    <div class="col-xs-4 col-md-4 pull-left">
+      <button
+
+        type="button"
+        class="btn btn-sm btn-primary mx-1"
+        (click)="onShowDialogAction()"
+        ><!--ADD-->
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class=" col-xs-4 col-md-6 pull-center">
+      <span style="font-size: 16px; color: #5f5b5b;">
+        <b> {{ "Liste des ligne de Reception" | translate }}</b></span
+      >
+    </div>
+  </div></div>
+  <div class="card-body border-top-primary">
+
+    <p-table
+    [value]=" selectedReception?.receptionLines" [lazy]="true" [rows]="size" [paginator]="true"
+    [totalRecords]=" selectedReception
+    ?.receptionLines?.length">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ "Produit" | translate }}</th>
+          <th>{{ "Description" | translate }}</th>
+          <th>{{ "Quantité" | translate }}</th>
+          <th>{{ "UOM" | translate }}</th>
+          <th>{{ "P.U Ht" | translate }}</th>
+          <th>{{ "Total HT" | translate }}</th>
+          <th>{{ "TVA" | translate }}</th>
+          <th>{{ "Total TTC" | translate }}</th>
+
+          <th style="width: 15%;">{{ "Actions" | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-line>
+        <tr>
+          <td>
+            {{ line?.product?.code }}
+        </td>
+        <td>{{ line?.product?.shortDesc }}</td>
+        <td>
+            {{ line?.quantity }}
+        </td>
+        <td>{{ line?.uom?.code }}</td>
+        <td>{{ line?.purshasePrice }}</td>
+        <td>{{ line?.totalPriceHT }}</td>
+
+        <td>{{ line?.vat?.value }}</td>
+        <td>{{ line?.totalPriceTTC }}</td>
+          <td>
+            <button
+
+            type="button"
+            class="btn btn-sm btn-primary mx-1"
+            (click)="onShowDialogAction(line)"
+            ><!--ADD-->
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button
+
+          type="button"
+          class="btn btn-sm btn-danger mx-1"
+          (click)="onDeleteMaintenanceLine(line.id)"
+          ><!--ADD-->
+          <i class="fa fa-trash"></i>
+        </button>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+</div>
+
+<div class="text-center mt-3 mr-3 ml-3" >
+  <a class="btn btn-primary m-1" [routerLink]="['/core/order/list']">
+    {{'Fermer' | translate}}
+  </a>
+  <button type="button" class="btn btn-success m-1" >
+    {{'Valider et continuer' | translate }}
+  </button>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+    {{ "Valider" | translate }}
+  </button>
+</div>
+
+</div>
+
+
+ <div *ngIf="showDialog == true">
+  <app-reception-line-edit
+    (showDialog)="onHideDialogAction($event)"
+    (receptionLineAdded)="onLineEditedAction($event)"
+     [selectedReceptionLine]="selectedReceptionLine"
+     [editMode]="editMode"
+    ></app-reception-line-edit>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

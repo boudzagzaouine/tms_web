@@ -64,7 +64,7 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                  <label>{{' prix.U HT' | translate}}</label>
+                  <label>{{' Prix.U HT' | translate}}</label>
                   <input type="text" class="form-control mb-2" formControlName="price">
 
                 </div>
@@ -78,13 +78,13 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                  <label>{{'P. Unit Price HT' | translate}} *</label>
+                  <label>{{'P.U  HT' | translate}} *</label>
                     <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPrice"
                         (keyup)="onUnitPayedPriceChanged()">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label>{{'P. Unit Price TTC' | translate}} *</label>
+                  <label>{{'P.U TTC' | translate}} *</label>
                   <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPriceTTC"
                       (keyup)="onUnitPayedPriceTTCChanged()">   </div>
             </div>
@@ -98,7 +98,8 @@ showEffect="fade"
 
                 <div class="form-group col-md-6">
                   <label>{{'Total Price TTC' | translate}} *</label>
-                  <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="totalPayedPriceTTC"
+                  <input pInputText pKeyFilter="num" class="form-control mb-2"
+                   formControlName="totalPayedPriceTTC"
                       (keyup)="onTotalPayedPriceTTCChanged()">
             </div>
 

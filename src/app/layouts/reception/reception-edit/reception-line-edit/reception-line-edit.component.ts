@@ -58,6 +58,7 @@ export class ReceptionLineEditComponent implements OnInit {
 
     this.displayDialog = true;
     this.initForm();
+    this.onUnitPayedPriceChanged();
   }
 
 
@@ -200,25 +201,7 @@ export class ReceptionLineEditComponent implements OnInit {
     });
   }
 
-  onUnitPayedPriceChanged() {
-    if (this.selectedReceptionLine.product == null) {
-        return;
-    }
-    const price = +this.receptionLineForm.value['payedPrice'];
 
-    const qty = +this.receptionLineForm.value['expectedQuantity'];
-    const vat =
-        this.selectedReceptionLine.product !== null &&
-        this.selectedReceptionLine.product.purchaseVat !== null
-            ? this.selectedReceptionLine.product.purchaseVat.value / 100
-            : 0;
-    const priceHT = price * (1 + vat);
-    this.receptionLineForm.patchValue({
-        payedPriceTTC: (price * (1 + vat)).toFixed(2),
-        totalPayedPrice: (price * qty).toFixed(2),
-        totalPayedPriceTTC: (priceHT * qty).toFixed(2)
-    });
-}
 
 
 onSelectProduct(event) {
@@ -250,6 +233,25 @@ onSelectProduct(event) {
           }
       });
   // console.log('purchase price : ' + this.selectedReceptionLine.product.purshasePriceUB);
+}
+onUnitPayedPriceChanged() {
+    if (this.selectedReceptionLine.product == null) {
+        return;
+    }
+    const price = +this.receptionLineForm.value['payedPrice'];
+
+    const qty = +this.receptionLineForm.value['expectedQuantity'];
+    const vat =
+        this.selectedReceptionLine.product !== null &&
+        this.selectedReceptionLine.product.purchaseVat !== null
+            ? this.selectedReceptionLine.product.purchaseVat.value / 100
+            : 0;
+    const priceHT = price * (1 + vat);
+    this.receptionLineForm.patchValue({
+        payedPriceTTC: (price * (1 + vat)).toFixed(2),
+        totalPayedPrice: (price * qty).toFixed(2),
+        totalPayedPriceTTC: (priceHT * qty).toFixed(2)
+    });
 }
   onUnitPayedPriceTTCChanged() {
     if (this.selectedReceptionLine.product == null) {

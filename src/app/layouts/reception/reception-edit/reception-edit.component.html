@@ -77,9 +77,20 @@
       {{"Obligatoire" | translate}}
     </span>
     <br />
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-    [filter]="true" [options]="orderTypeList"
-   [showClear]="true" (onChange)='onSelectOrderType($event)' formControlName="type"></p-dropdown>
+    <div class="input-group">
+      <input type="text" class="form-control" name="type" id="type" formControlName="type"
+          *ngIf="
+              editMode ||
+              selectedReception?.purshaseOrder?.id
+          " />
+  </div>
+
+  <p-dropdown name="order-type"  formControlName="type" class="w-100"
+      [options]="orderTypeList" optionLabel="code" [autoDisplayFirst]="true" *ngIf="
+          !editMode &&
+          !selectedReception?.purshaseOrder?.id
+      " (onChange)="onSelectOrderType($event)">
+  </p-dropdown>
 </div>
 
 <div class="form-group col-md-3 ">
@@ -228,7 +239,7 @@
           <td>
             {{ line?.product?.code }}
         </td>
-        <td>{{ line?.product?.shortDesc }}</td>
+        <td>{{ line?.product?.description }}</td>
         <td>
             {{ line?.quantity }}
         </td>

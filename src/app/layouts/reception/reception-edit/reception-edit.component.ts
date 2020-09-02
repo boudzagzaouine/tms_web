@@ -35,6 +35,7 @@ export class ReceptionEditComponent implements OnInit {
   size = 8;
   receptionForm: FormGroup;
   selectedReception: Reception = new Reception();
+  selectedPurchaseOrder: PurchaseOrder = new PurchaseOrder();
   selectedReceptionLine: ReceptionLine = new ReceptionLine();
   isFormSubmitted = false;
   editModeTitle = 'Inserer une Reception';
@@ -76,6 +77,7 @@ export class ReceptionEditComponent implements OnInit {
         id = params['id'];
         this.receptionService.findById(id).subscribe(data => {
           this.selectedReception = data;
+          this.selectedPurchaseOrder = data.purshaseOrder;
           console.log(this.selectedReception);
 
 
@@ -89,6 +91,14 @@ export class ReceptionEditComponent implements OnInit {
       });
 
     } else {
+
+      this.receptionService.generateCode().subscribe(
+        code => {
+       this.selectedReception.code = code;
+        this.initForm();
+    });
+
+
       this.orderStatusService.findById(5).subscribe(order => {
         this.selectedReception.orderStatus = order;
         this.receptionForm.patchValue({
@@ -96,31 +106,31 @@ export class ReceptionEditComponent implements OnInit {
         });
     });
 
-    this.orderTypeService.find('flow:1').subscribe(data => {
-        this.orderTypeList = data;
-        if (data && data.length) {
-            this.selectedReception.orderType = data[0];
-        }
-    });
+    // this.orderTypeService.find('flow:1').subscribe(data => {
+    //     this.orderTypeList = data;
+    //     if (data && data.length) {
+    //         this.selectedReception.orderType = data[0];
+    //     }
+    // });
 
-    this.purchcaseOrderService
-        .find('orderStatus.id:' + 2)
-        .subscribe(data => {
-            // console.log(data);
+    // this.purchcaseOrderService
+    //     .find('orderStatus.id:' + 2)
+    //     .subscribe(data => {
+    //         console.log(data);
 
-            if (data) {
-                this.purchaseOrderList = data;
-            }
-        });
+    //         if (data) {
+    //             this.purchaseOrderList = data;
+    //         }
+    //     });
 
-    this.purchcaseOrderService
-        .find('orderStatus.id:' + 7)
-        .subscribe(data => {
-            // console.log(data);
-            if (data) {
-                this.purchaseOrderList.concat(data);
-            }
-        });
+    // this.purchcaseOrderService
+    //     .find('orderStatus.id:' + 7)
+    //     .subscribe(data => {
+    //         console.log(data);
+    //         if (data) {
+    //             this.purchaseOrderList.concat(data);
+    //         }
+    //     });
 
       this.initForm();
     }
@@ -138,7 +148,7 @@ export class ReceptionEditComponent implements OnInit {
                   this.selectedReception.code != null
                       ? this.selectedReception.code
                       : null,
-              disabled: this.editMode === true
+              disabled: true
           },
           Validators.required
       ),
@@ -157,14 +167,15 @@ export class ReceptionEditComponent implements OnInit {
               this.selectedReception.totalPriceHT : 0,
           disabled: true
       }),
-      order: new FormControl({
-          value:
-              this.selectedReception != null &&
-              this.selectedReception.purshaseOrder != null
-                  ? this.selectedReception.purshaseOrder.code
-                  : null,
-          disabled: this.editMode
-      }),
+       order: new FormControl(
+        this.selectedReception.purshaseOrder
+      //     value:
+      //         this.selectedReception != null &&
+      //         this.selectedReception.purshaseOrder != null
+      //             ? this.selectedReception.purshaseOrder.code
+      //             : null,
+      //     disabled: this.editMode
+      ),
       supplierEdit: new FormControl({
           value:
               this.selectedReception != null &&
@@ -246,7 +257,6 @@ onSubmit() {
       return;
   }
 
- this.selectedReception.code = this.receptionForm.value['code'];
  this.selectedReception.remarks = this.receptionForm.value['remarks'];
         this.selectedReception.orderCode = this.receptionForm.value['supplierBL'];
         if (this.selectedReception.receptionDate == null) {
@@ -309,11 +319,32 @@ onSubmit() {
     console.log(event);
     this.selectedReception.orderType= event.value as OrderType;
   }
-  onSelectPurchaseOrder(event){
-    this.selectedReception.purshaseOrder=  event as PurchaseOrder;
-    console.log(this.selectedReception.purshaseOrder);
+  onSelectPurchaseOrder(event) {
 
-  }
+     console.log(event);
+    this.selectedPurchaseOrder = event;
+    this.selectedReception.purshaseOrder = this.selectedPurchaseOrder;
+    this.selectedReception.supplier = this.selectedPurchaseOrder.supplier;
+    this.selectedReception.orderStatus = this.selectedPurchaseOrder.orderStatus;
+    this.selectedReception.orderType = this.selectedPurchaseOrder.orderType;
+    this.selectedReception.totalPriceHT = this.selectedPurchaseOrder.totalPriceHT;
+    this.selectedReception.vat = this.selectedPurchaseOrder.vat;
+    this.selectedReception.totalPriceTTC = this.selectedPurchaseOrder.totalPriceTTC;
+    this.selectedReception.accounted = this.selectedPurchaseOrder.accounted;
+
+    this.selectedReception.receptionLines = this.receptionService.generateReceptionLinesFromPurchaseOrderLines(
+        this.selectedPurchaseOrder.purshaseOrderLines
+    );
+    //  this.initForm();
+
+    this.receptionForm.patchValue({
+      supplier: this.selectedPurchaseOrder.supplier,
+        type: this.selectedPurchaseOrder.orderType.code,
+        //status: this.selectedReception.orderStatus.code
+    });
+
+    this.receptionForm.updateValueAndValidity();
+}
 
   onSelectSupplier(event){
     console.log(event);
@@ -347,15 +378,15 @@ onSubmit() {
   onLineEditedAction(receptionLine: ReceptionLine) {
     console.log(receptionLine);
 
-    this.selectedReception.receptionLines = this.selectedReception.receptionLines.filter(
-      line => line.product.id === receptionLine.product.id
 
-  );  this.selectedReception.receptionLines.push( receptionLine);
-//   if (orderline == null) {
-//       this.selectedReception.receptionLines.push(
-//         receptionLine
-//       );
-//  }
+  const orderline = this.selectedReception.receptionLines.find(
+    line => line.product.id === receptionLine.product.id
+);
+if (orderline == null) {
+    this.selectedReception.receptionLines.push(receptionLine);
+}
+
+
   this.selectedReception.totalPriceTTC = 0.0;
   this.selectedReception.totalPriceHT = 0.0;
   this.selectedReception.vat = 0.0;
@@ -379,6 +410,37 @@ onSubmit() {
 
 
   }
+
+  calculateAllLines() {
+    // console.log(line);
+    this.selectedReception.totalPriceHT = 0;
+    this.selectedReception.totalPriceTTC = 0;
+    this.selectedReception.vat = 0;
+    this.selectedReception.receptionLines.forEach(line => {
+            this.selectedReception.totalPriceHT += line.totalPriceHT;
+            this.selectedReception.totalPriceTTC += line.totalPriceTTC;
+            this.selectedReception.vat =
+                (this.selectedReception.totalPriceTTC -
+                    this.selectedReception.totalPriceHT);
+        }
+    );
+    const purchaseOrderNameControl = this.receptionForm.get('order');
+    this.receptionForm.patchValue({
+        'vat': this.selectedReception.vat
+    });
+    this.receptionForm.patchValue({
+        'totalttc': this.selectedReception.totalPriceTTC
+    });
+    this.receptionForm.patchValue({
+        'totalPriceHT': this.selectedReception.totalPriceHT
+    });
+    purchaseOrderNameControl.disable({
+        onlySelf:
+            this.selectedReception.receptionLines != null &&
+            this.selectedReception.receptionLines.length > 0
+    });
+}
+
   onHideDialogAction(event) {
     this.showDialog = event;
   }

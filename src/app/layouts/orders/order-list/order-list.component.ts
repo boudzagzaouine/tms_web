@@ -138,7 +138,7 @@ export class OrderListComponent implements OnInit {
 
 
     if (this.supplierSearch != null && this.supplierSearch.code !== '') {
-      buffer.append(`Supplier.code~${this.supplierSearch.code}`);
+      buffer.append(`supplier.code~${this.supplierSearch.code}`);
     }
 
 

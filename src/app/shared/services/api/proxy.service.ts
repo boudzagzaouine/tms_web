@@ -229,7 +229,7 @@ export class ProxyService {
       const fullurl =
           this.url + controller + '/nextval?token=' + this.getToken();
       console.log(fullurl);
-      return this.http.get<string>(fullurl);
+      return this.http.get<string>(fullurl,{responseType : 'text' as 'json'});
   }
     getToken(): string {
     return this.authService.computeToken();

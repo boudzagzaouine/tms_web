@@ -71,4 +71,7 @@ export class EmsService<T> {
   findByPatrimony(idVehicle: number): Observable<T> {
     return this.proxy.findByPatrimony(this.controller, idVehicle);
   }
-}
+
+  generateCode(): Observable<string> {
+    return this.proxy.generateCode(this.controller);
+}}

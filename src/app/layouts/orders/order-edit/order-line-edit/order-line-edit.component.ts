@@ -51,6 +51,8 @@ export class OrderLineEditComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log(this.selectedPurchaseOrderLine);
+
     this.vatService.findAll().subscribe(
       data=>{
         this.vatList =data;
@@ -111,7 +113,14 @@ export class OrderLineEditComponent implements OnInit {
         ),
         pdtPack: new FormControl(
 
-                    this.selectedPurchaseOrderLine.uom
+          {
+            value:
+                this.selectedPurchaseOrderLine != null &&
+                this.selectedPurchaseOrderLine.uom != null
+                    ? this.selectedPurchaseOrderLine.uom.code
+                    : null,
+            disabled: this.editMode
+        },
 
 
         ),
@@ -132,8 +141,14 @@ export class OrderLineEditComponent implements OnInit {
             disabled: true
         }),
         vat: new FormControl(
-                    this.selectedPurchaseOrderLine.vat
-
+          {
+            value:
+                this.selectedPurchaseOrderLine != null &&
+                this.selectedPurchaseOrderLine.vat != null
+                    ? this.selectedPurchaseOrderLine.vat.value
+                    : null,
+            disabled: this.editMode
+        },
         )
     });
 }
@@ -156,7 +171,10 @@ onSubmit() {
           price * quantity * (1 + this.selectedProduct.vat.value / 100);
   }
 
-  this.selectedPurchaseOrderLine.vat = this.selectedProduct.purchaseVat;
+  console.log (this.purchaseOrderLineForm.value['vat']);
+  console.log(this.selectedProduct.purchaseVat);
+
+  this.selectedPurchaseOrderLine.vat =  this.selectedProduct.vat;
   this.selectedPurchaseOrderLine.purshasePrice = price;
   this.selectedPurchaseOrderLine.quantity = quantity;
   if (!this.editMode) {
@@ -208,9 +226,6 @@ public onSelectProduct(value: Product): void {
 onNumberChanged() {
   const price = +this.purchaseOrderLineForm.value['payedPrice'];
   const quantity = +this.purchaseOrderLineForm.value['quantity'];
-  // console.log(price);
-  // console.log(quantity);
-
   if (!isNaN(price) && !isNaN(quantity)) {
       this.purchaseOrderLineForm.patchValue(
           {

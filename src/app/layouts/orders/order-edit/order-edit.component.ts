@@ -53,6 +53,7 @@ export class OrderEditComponent implements OnInit {
     this.orderTypeService.findAll().subscribe(
       data => {
           this.orderTypeList = data.filter(f=> f.id === 1);
+ this.selectedPurchaseOrder.orderType=this.orderTypeList[0];
       }
     );
 
@@ -74,6 +75,11 @@ export class OrderEditComponent implements OnInit {
       });
 
     } else {
+      this.purchaseOrderService.generateCode().subscribe(
+        code => {
+        this.selectedPurchaseOrder.code = code;
+   this.initForm();
+    });
       this.initForm();
     }
 
@@ -82,11 +88,17 @@ export class OrderEditComponent implements OnInit {
 
   initForm() {
     this.purchaseOrderForm = new FormGroup({
-        code: new FormControl(
 
-                 this.selectedPurchaseOrder.code,
-
-            Validators.required
+            code: new FormControl(
+                {
+                    value:
+                        this.selectedPurchaseOrder != null &&
+                        this.selectedPurchaseOrder.code != null
+                            ? this.selectedPurchaseOrder.code
+                            : null,
+                    disabled: true
+                },
+                Validators.required
         ),
         supplier: new FormControl(
 
@@ -95,10 +107,10 @@ export class OrderEditComponent implements OnInit {
 
             Validators.required
         ),
-        orderType: new FormControl(
-
-                    this.selectedPurchaseOrder.orderType,
-
+        orderType: new FormControl({
+value:
+                    this.selectedPurchaseOrder.orderType, disabled:true
+        },
             Validators.required
         ),
         totalHt: new FormControl({
@@ -139,7 +151,8 @@ onSubmit() {
  console.log("submit");
 
  this.selectedPurchaseOrder.notes = this.purchaseOrderForm.value['notes'];
- this.selectedPurchaseOrder.code = this.purchaseOrderForm.value['code'];
+ //this.selectedPurchaseOrder.code = this.purchaseOrderForm.value['code'];
+ //this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
  console.log(this.selectedPurchaseOrder);
 
 // this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];

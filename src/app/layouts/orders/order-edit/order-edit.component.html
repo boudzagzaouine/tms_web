@@ -40,7 +40,8 @@
           {{"Obligatoire" | translate}}
         </span>
         <br />
-        <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+
+        <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
         [filter]="true" [options]="orderTypeList"
        [showClear]="true" (onChange)='onSelectOrderType($event)' formControlName="orderType"></p-dropdown>
   </div>
@@ -49,12 +50,8 @@
       <div class="row  mt-3 justify-content-around">
 
     <div class="form-group col-md-3 ">
-      <label class="font-weight-bold ">{{'Total HT' | translate}} *</label>
-      <span *ngIf="(purchaseOrderForm.get('totalHt').touched && purchaseOrderForm.get('totalHt').invalid) ||
-      (isFormSubmitted && purchaseOrderForm.get('totalHt').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
+      <label class="font-weight-bold ">{{'Total HT' | translate}} </label>
+
       <br />
       <input
                                     type="text"
@@ -65,12 +62,8 @@
 
         <div class="form-group col-md-3">
 
-          <label class="font-weight-bold ">{{'TVA'| translate}} *</label>
-          <span *ngIf="(purchaseOrderForm.get('vat').touched && purchaseOrderForm.get('vat').invalid) ||
-          (isFormSubmitted && purchaseOrderForm.get('vat').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
+          <label class="font-weight-bold ">{{'TVA'| translate}} </label>
+
           <br />
           <input
                                     type="text"
@@ -83,12 +76,8 @@
 
         <div class="form-group col-md-3">
 
-          <label class="font-weight-bold ">{{'Total TTC'| translate}} *</label>
-          <span *ngIf="(purchaseOrderForm.get('totalTTC').touched && purchaseOrderForm.get('totalTTC').invalid) ||
-          (isFormSubmitted && purchaseOrderForm.get('totalTTC').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
+          <label class="font-weight-bold ">{{'Total TTC'| translate}}</label>
+
           <br />
           <input
                                     type="text"
@@ -103,12 +92,8 @@
 
         <div class="form-group col-md-11">
 
-          <label class="font-weight-bold ">{{'Note'| translate}} *</label>
-          <span *ngIf="(purchaseOrderForm.get('notes').touched && purchaseOrderForm.get('notes').invalid) ||
-          (isFormSubmitted && purchaseOrderForm.get('notes').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
+          <label class="font-weight-bold ">{{'Note'| translate}} </label>
+
           <br />
           <input
                                     type="text"
@@ -164,7 +149,7 @@
           <th>{{ "Quantité" | translate }}</th>
           <th>{{ "UOM" | translate }}</th>
           <th>{{ "Total HT" | translate }}</th>
-          <th>{{ "Total TVA" | translate }}</th>
+          <th>{{ "TVA" | translate }}</th>
           <th>{{ "Total TTC" | translate }}</th>
 
           <th style="width: 15%;">{{ "Actions" | translate }}</th>

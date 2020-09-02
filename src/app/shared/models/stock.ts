@@ -1,3 +1,4 @@
+import { ProductPack } from './product-pack';
 import { Supplier } from './supplier';
 import { Uom } from './uom';
 //import { Product, Uom } from '.';
@@ -12,5 +13,6 @@ export class Stock {
     uom: Uom;
     receptionDate:Date = new Date();
     supplier:Supplier;
+    productPack : ProductPack;
 
 }

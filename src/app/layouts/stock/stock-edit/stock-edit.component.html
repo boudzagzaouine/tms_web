@@ -23,7 +23,7 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
             </span>
             <br />
-            <p-autoComplete  [suggestions]="productList"
+            <p-autoComplete  [suggestions]="productList" (onSelect)='onSelectProduct($event)'
             (completeMethod)="onCodeProductSearch($event)"formControlName="product"
             field="code"></p-autoComplete>
 
@@ -37,9 +37,9 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
             </span>
             <p-dropdown  formControlName="uom"
-        [options]="uoms" [autoDisplayFirst]="false"
+        [options]="productPackList" [autoDisplayFirst]="false"
          (onChange)="onSelectUom($event)"
-        optionLabel="code"  [filter]="true">
+        optionLabel="uom.code"  [filter]="true">
     </p-dropdown>
 
           </div>

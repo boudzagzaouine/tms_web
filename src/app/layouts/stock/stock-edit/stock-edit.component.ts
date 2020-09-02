@@ -1,3 +1,5 @@
+import { ProductPack } from './../../../shared/models/product-pack';
+import { ProductPackService } from './../../../shared/services/api/product-pack.service';
 import { UomService } from './../../../shared/services/api/uom.service';
 import { Uom } from './../../../shared/models/uom';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
@@ -30,12 +32,13 @@ export class StockEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un stock';
+  productPackList: ProductPack[];
 
   constructor(private stockService: StockService,
      private productService:ProductService,
      private supplierService:SupplierService,
      private uomService :UomService,
-
+ private productPackService :ProductPackService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -63,7 +66,7 @@ export class StockEditComponent implements OnInit {
 
     this.stockForm = new FormGroup({
       'product': new FormControl(this.selectedStock.product, Validators.required),
-      'uom': new FormControl(this.selectedStock.uom, Validators.required),
+      'uom': new FormControl(this.selectedStock.productPack, Validators.required),
       'quantity': new FormControl(this.selectedStock.quantity, Validators.required),
       'supplier': new FormControl(this.selectedStock.supplier, Validators.required),
       'receptionDate': new FormControl(d, Validators.required),
@@ -111,11 +114,27 @@ export class StockEditComponent implements OnInit {
   }
 
   onSelectUom(event) {
-    this.selectedStock.uom = event.value as Uom;
-
+    this.selectedStock.productPack = event.value;
   }
   onSelectProduct(event) {
-    this.selectedStock.product = event.value as Product;
+    console.log(event);
+
+    this.selectedStock.product = event ;
+    this.productPackService
+    .find('product.id:' + this.selectedStock.product.id)
+    .subscribe(data => {
+        if (data && data.length) {
+            this.productPackList = data;
+            this.selectedStock.productPack = data[0];
+            this.selectedStock.uom = data[0].uom;
+            this.stockForm.patchValue({
+                uom: data[0].uom.code
+            });
+
+            this.stockForm.updateValueAndValidity();
+           // console.log(data);
+        }
+    });
 
   }
   onSelectSupplier(event) {

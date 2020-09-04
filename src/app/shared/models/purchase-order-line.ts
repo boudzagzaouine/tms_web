@@ -2,6 +2,7 @@ import { ProductPack } from './product-pack';
 import { PurchaseOrder } from './purchase-order';
 import { Uom, Product, ReceptionLine, Warehouse, Vat } from '.';
 import { Owner } from './owner';
+import { OrderStatus } from './order-status';
 
 export class PurchaseOrderLine {
     id: number;
@@ -22,6 +23,8 @@ export class PurchaseOrderLine {
     warehouse: Warehouse;
     productPack: ProductPack;
     purshasePrice: number;
+    orderStatus:OrderStatus;
+    quantityReceived:number;
 
     constructor() {}
 }

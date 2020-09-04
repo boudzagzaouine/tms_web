@@ -1,3 +1,5 @@
+import { OrderStatusService } from './../../../shared/services/api/order-status.service';
+import { OrderStatus } from './../../../shared/models/order-status';
 import { Uom } from './../../../shared/models/uom';
 import { UomService } from './../../../shared/services/api/uom.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -32,13 +34,16 @@ export class OrderEditComponent implements OnInit {
   editModeTitle = 'Inserer une Commande';
   supplierList: Supplier[] = [];
   orderTypeList: OrderType[] = [];
+  orderStatutList: OrderStatus[] = [];
+
   uomList: Uom[] = [];
   showDialog: boolean;
   editMode: boolean;
 
-  constructor(private supplierService:SupplierService,
-    private purchaseOrderService:PurchaseOrderService,
-    private orderTypeService : OrderTypeService,
+  constructor(private supplierService: SupplierService,
+    private purchaseOrderService: PurchaseOrderService,
+    private orderTypeService: OrderTypeService,
+    private orderStatutService: OrderStatusService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -46,17 +51,9 @@ export class OrderEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
 
 
-     ) { }
+  ) { }
 
   ngOnInit() {
-
-    this.orderTypeService.findAll().subscribe(
-      data => {
-          this.orderTypeList = data.filter(f=> f.id === 1);
- this.selectedPurchaseOrder.orderType=this.orderTypeList[0];
-      }
-    );
-
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
       this.editModeTitle = 'Modifier une Commande';
@@ -73,13 +70,25 @@ export class OrderEditComponent implements OnInit {
             this.spinner.hide();
           });
       });
-
     } else {
+      this.orderTypeService.findAll().subscribe(
+        data => {
+          this.orderTypeList = data.filter(f => f.id === 1);
+          this.selectedPurchaseOrder.orderType = this.orderTypeList[0];
+        }
+      );
+      this.orderStatutService.findAll().subscribe(
+        data => {
+          this.orderStatutList = data.filter(f => f.id === 2);
+          this.selectedPurchaseOrder.orderStatus = this.orderStatutList[0];
+        }
+      );
+
       this.purchaseOrderService.generateCode().subscribe(
         code => {
-        this.selectedPurchaseOrder.code = code;
-   this.initForm();
-    });
+          this.selectedPurchaseOrder.code = code;
+          this.initForm();
+        });
       this.initForm();
     }
 
@@ -89,103 +98,115 @@ export class OrderEditComponent implements OnInit {
   initForm() {
     this.purchaseOrderForm = new FormGroup({
 
-            code: new FormControl(
-                {
-                    value:
-                        this.selectedPurchaseOrder != null &&
-                        this.selectedPurchaseOrder.code != null
-                            ? this.selectedPurchaseOrder.code
-                            : null,
-                    disabled: true
-                },
-                Validators.required
-        ),
-        supplier: new FormControl(
-
-                    this.selectedPurchaseOrder.supplier,
-
-
-            Validators.required
-        ),
-        orderType: new FormControl({
-value:
-                    this.selectedPurchaseOrder.orderType, disabled:true
+      code: new FormControl(
+        {
+          value:
+            this.selectedPurchaseOrder != null &&
+              this.selectedPurchaseOrder.code != null
+              ? this.selectedPurchaseOrder.code
+              : null,
+          disabled: true
         },
-            Validators.required
-        ),
-        totalHt: new FormControl({
-            value:
-                this.selectedPurchaseOrder != null
-                    ? this.selectedPurchaseOrder.totalPriceHT
-                    : null,
-            disabled: true
-        }),
-        vat: new FormControl({
-            value:
-                this.selectedPurchaseOrder != null
-                    ? this.selectedPurchaseOrder.vat
-                    : null,
-            disabled: true
-        }),
-        totalTTC: new FormControl({
-            value:
-                this.selectedPurchaseOrder != null
-                    ? this.selectedPurchaseOrder.totalPriceTTC
-                    : null,
-            disabled: true
-        }),
+        Validators.required
+      ),
+      supplier: new FormControl(
 
-        notes: new FormControl(
+        this.selectedPurchaseOrder.supplier,
 
-                this.selectedPurchaseOrder.notes )
+
+        Validators.required
+      ),
+      orderType: new FormControl({
+        value:
+        this.selectedPurchaseOrder.orderType != null
+        ? this.selectedPurchaseOrder.orderType.code
+        : null,
+        disabled: true
+      },
+        Validators.required
+      ),
+      totalHt: new FormControl({
+        value:
+          this.selectedPurchaseOrder != null
+            ? this.selectedPurchaseOrder.totalPriceHT
+            : null,
+        disabled: true
+      }),
+      vat: new FormControl({
+        value:
+          this.selectedPurchaseOrder != null
+            ? this.selectedPurchaseOrder.vat
+            : null,
+        disabled: true
+      }),
+      statut: new FormControl(
+        {
+        value:
+        this.selectedPurchaseOrder.orderStatus != null
+        ? this.selectedPurchaseOrder.orderStatus.code
+        : null,
+          disabled: true
+        }
+      ),
+      totalTTC: new FormControl({
+        value:
+          this.selectedPurchaseOrder != null
+            ? this.selectedPurchaseOrder.totalPriceTTC
+            : null,
+        disabled: true
+      }),
+
+      notes: new FormControl(
+
+        this.selectedPurchaseOrder.notes)
 
     });
 
 
-}
-onSubmit() {
-  this.isFormSubmitted=true;
-  if (this.purchaseOrderForm.invalid) {
+  }
+  onSubmit() {
+    this.isFormSubmitted = true;
+    if (this.purchaseOrderForm.invalid) {
       return;
-  }
- console.log("submit");
-
- this.selectedPurchaseOrder.notes = this.purchaseOrderForm.value['notes'];
- //this.selectedPurchaseOrder.code = this.purchaseOrderForm.value['code'];
- //this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
- console.log(this.selectedPurchaseOrder);
-
-// this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
-
- this.purchaseOrderService.set(this.selectedPurchaseOrder).subscribe(
-  dataM => {
-    this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
-
-    this.isFormSubmitted = false;
-    this.spinner.hide();
-    this.selectedPurchaseOrder = new PurchaseOrder();
-    this.purchaseOrderForm.reset();
-
-    if (close) {
-      this.router.navigate(['/core/order/list']);
-    } else {
-
-      this.router.navigate(['/core/order/edit']);
     }
+    console.log("submit");
 
-  },
-  err => {
-    this.toastr.error(err.error.message);
-    this.spinner.hide();
-    return;
-  },
-  () => {
-    this.spinner.hide();
+    this.selectedPurchaseOrder.notes = this.purchaseOrderForm.value['notes'];
+    //this.selectedPurchaseOrder.code = this.purchaseOrderForm.value['code'];
+    //this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
+    console.log(this.selectedPurchaseOrder);
+
+    // this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
+
+    this.purchaseOrderService.set(this.selectedPurchaseOrder).subscribe(
+      dataM => {
+        this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
+
+        this.isFormSubmitted = false;
+        this.spinner.hide();
+        this.selectedPurchaseOrder = new PurchaseOrder();
+        this.purchaseOrderForm.reset();
+
+        if (close) {
+          this.router.navigate(['/core/order/list']);
+        } else {
+
+          this.router.navigate(['/core/order/edit']);
+        }
+
+      },
+      err => {
+        this.toastr.error(err.error.message);
+        this.spinner.hide();
+        return;
+      },
+      () => {
+        this.spinner.hide();
+      }
+    );
+
+
   }
-);
-
-
-}
 
 
   onSupplierCodeSearch(event: any) {
@@ -195,13 +216,13 @@ onSubmit() {
     });
   }
 
-  onSelectOrderType(event){
+  onSelectOrderType(event) {
     console.log(event);
-    this.selectedPurchaseOrder.orderType= event.value as OrderType;
+    this.selectedPurchaseOrder.orderType = event.value as OrderType;
   }
-  onSelectSupplier(event){
+  onSelectSupplier(event) {
     console.log(event);
-    this.selectedPurchaseOrder.supplier= event as Supplier;
+    this.selectedPurchaseOrder.supplier = event as Supplier;
   }
 
   onShowDialogAction(line) {
@@ -222,7 +243,7 @@ onSubmit() {
         this.selectedPurchaseOrder.purshaseOrderLines = this.selectedPurchaseOrder.purshaseOrderLines.filter(
           (l) => l.id !== id
         );
-       // this.updateTotalPrice();
+        // this.updateTotalPrice();
       },
     });
 
@@ -233,30 +254,30 @@ onSubmit() {
 
     const orderline = this.selectedPurchaseOrder.purshaseOrderLines.find(
       line => line.product.id === purchaseOrderLine.product.id
-  );
-  if (orderline == null) {
+    );
+    if (orderline == null) {
       this.selectedPurchaseOrder.purshaseOrderLines.push(
-          purchaseOrderLine
+        purchaseOrderLine
       );
-  }
-  this.selectedPurchaseOrder.totalPriceTTC = 0.0;
-  this.selectedPurchaseOrder.totalPriceHT = 0.0;
-  this.selectedPurchaseOrder.vat = 0.0;
-  this.selectedPurchaseOrder.purshaseOrderLines.forEach(line => {
+    }
+    this.selectedPurchaseOrder.totalPriceTTC = 0.0;
+    this.selectedPurchaseOrder.totalPriceHT = 0.0;
+    this.selectedPurchaseOrder.vat = 0.0;
+    this.selectedPurchaseOrder.purshaseOrderLines.forEach(line => {
       this.selectedPurchaseOrder.totalPriceTTC += line.totalPriceTTC;
       this.selectedPurchaseOrder.totalPriceHT += line.totalPriceHT;
       this.selectedPurchaseOrder.vat +=
-          line.totalPriceTTC - line.totalPriceHT;
-  });
+        line.totalPriceTTC - line.totalPriceHT;
+    });
 
-  if (this.purchaseOrderForm != null) {
+    if (this.purchaseOrderForm != null) {
       this.purchaseOrderForm.patchValue({
         totalHt: this.selectedPurchaseOrder.totalPriceHT,
-          vat: this.selectedPurchaseOrder.vat,
-          totalTTC: this.selectedPurchaseOrder.totalPriceTTC
+        vat: this.selectedPurchaseOrder.vat,
+        totalTTC: this.selectedPurchaseOrder.totalPriceTTC
       });
       this.purchaseOrderForm.updateValueAndValidity();
-  }
+    }
 
 
   }

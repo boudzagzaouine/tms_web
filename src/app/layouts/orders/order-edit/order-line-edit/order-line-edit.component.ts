@@ -15,6 +15,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Reception } from './../../../../shared/models/reception';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { VatService } from './../../../../shared/services/api/vat.service';
+import { OrderStatusService } from './../../../../shared/services/api/order-status.service';
+import { OrderStatus } from './../../../../shared/models/order-status';
 
 @Component({
   selector: 'app-order-line-edit',
@@ -30,6 +32,7 @@ export class OrderLineEditComponent implements OnInit {
     selectedProduct: Product;
     productList: Product[];
     vatList: Vat[];
+    orderStatutList: OrderStatus[];
 
     productPackList: ProductPack[] = [];
     uomList: Uom[] = [];
@@ -43,6 +46,7 @@ export class OrderLineEditComponent implements OnInit {
 
   constructor(private purchaseOrderLineService: PurchaseOrderLineService,
     private productService :ProductService,
+    private orderStatutService :OrderStatusService,
     private productPackService: ProductPackService,
     private uomService :UomService,
     private vatService :VatService,
@@ -58,6 +62,7 @@ export class OrderLineEditComponent implements OnInit {
         this.vatList =data;
       }
     );
+
 
     this.displayDialog=true;
     this.initForm();
@@ -112,7 +117,6 @@ export class OrderLineEditComponent implements OnInit {
             Validators.required
         ),
         pdtPack: new FormControl(
-
           {
             value:
                 this.selectedPurchaseOrderLine != null &&
@@ -121,10 +125,15 @@ export class OrderLineEditComponent implements OnInit {
                     : null,
             disabled: this.editMode
         },
-
-
         ),
-
+        status: new FormControl(
+          {
+            value:
+            this.selectedPurchaseOrderLine.orderStatus != null
+            ? this.selectedPurchaseOrderLine.orderStatus.code
+            : null,
+              disabled: true
+            }),
         totalHT: new FormControl({
             value:
                 this.selectedPurchaseOrderLine != null
@@ -132,7 +141,6 @@ export class OrderLineEditComponent implements OnInit {
                     : '',
             disabled: true
         }),
-
         totalTTC: new FormControl({
             value:
                 this.selectedPurchaseOrderLine != null
@@ -220,6 +228,18 @@ public onSelectProduct(value: Product): void {
            console.log( this.purchaseOrderLineForm);
 
       });
+
+      this.orderStatutService.findById(5).subscribe(
+        data=>{
+          this.selectedPurchaseOrderLine.orderStatus = data;
+          console.log("new");
+          console.log(this.selectedPurchaseOrderLine.orderStatus);
+          this.purchaseOrderLineForm.patchValue({
+            status: this.selectedPurchaseOrderLine.orderStatus.code,
+
+        });
+        }
+      );
 
 }
 

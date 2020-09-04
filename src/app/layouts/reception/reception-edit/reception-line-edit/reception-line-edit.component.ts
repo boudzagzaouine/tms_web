@@ -181,13 +181,12 @@ export class ReceptionLineEditComponent implements OnInit {
       'description'
       ];
 
-  this.selectedReceptionLine.totalPriceHT =
+      this.selectedReceptionLine.totalPriceHT =
       this.selectedReceptionLine.purshasePrice *
       this.selectedReceptionLine.quantity;
-  this.selectedReceptionLine.totalPriceTTC = +this.receptionLineForm
+      this.selectedReceptionLine.totalPriceTTC = +this.receptionLineForm
       .value['totalPayedPriceTTC'];
 
-     // console.log(this.selectedReceptionLine);
 
   this.receptionLineAdded.emit(this.selectedReceptionLine);
     this.displayDialog = false;
@@ -243,9 +242,11 @@ onUnitPayedPriceChanged() {
     const qty = +this.receptionLineForm.value['expectedQuantity'];
     const vat =
         this.selectedReceptionLine.product !== null &&
-        this.selectedReceptionLine.product.purchaseVat !== null
-            ? this.selectedReceptionLine.product.purchaseVat.value / 100
+        this.selectedReceptionLine.product.vat !== null
+            ? this.selectedReceptionLine.product.vat.value / 100
             : 0;
+
+
     const priceHT = price * (1 + vat);
     this.receptionLineForm.patchValue({
         payedPriceTTC: (price * (1 + vat)).toFixed(2),
@@ -262,8 +263,8 @@ onUnitPayedPriceChanged() {
     const qty = +this.receptionLineForm.value['expectedQuantity'];
     const vat =
         this.selectedReceptionLine.product !== null &&
-        this.selectedReceptionLine.product.purchaseVat !== null
-            ? this.selectedReceptionLine.product.purchaseVat.value / 100
+        this.selectedReceptionLine.product.vat !== null
+            ? this.selectedReceptionLine.product.vat.value / 100
             : 0;
     const priceHT = priceTTC / (1 + vat);
     this.receptionLineForm.patchValue({
@@ -288,8 +289,8 @@ onTotalPayedPriceChanged() {
   const qty = +this.receptionLineForm.value['expectedQuantity'];
   const vat =
       this.selectedReceptionLine.product !== null &&
-      this.selectedReceptionLine.product.purchaseVat !== null
-          ? this.selectedReceptionLine.product.purchaseVat.value / 100
+      this.selectedReceptionLine.product.vat !== null
+          ? this.selectedReceptionLine.product.vat.value / 100
           : 0;
   const unitPriceHT = totalPrice / qty;
   const unitPriceTTC = unitPriceHT * (1 + vat);
@@ -304,16 +305,13 @@ onTotalPayedPriceTTCChanged() {
   if (this.selectedReceptionLine.product == null) {
       return;
   }
-  const totalPriceTTC = +this.receptionLineForm.value[
-      'totalPayedPriceTTC'
-      ];
-
+  const totalPriceTTC = +this.receptionLineForm.value['totalPayedPriceTTC'];
   const qty = +this.receptionLineForm.value['expectedQuantity'];
 
   const vat =
       this.selectedReceptionLine.product !== null &&
-      this.selectedReceptionLine.product.purchaseVat !== null
-          ? this.selectedReceptionLine.product.purchaseVat.value / 100
+      this.selectedReceptionLine.product.vat !== null
+          ? this.selectedReceptionLine.product.vat.value / 100
           : 0;
   const unitPriceTTC = totalPriceTTC / qty;
   const priceHT = unitPriceTTC / (1 + vat);

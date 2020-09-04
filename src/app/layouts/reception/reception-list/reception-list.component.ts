@@ -1,3 +1,5 @@
+import { PurchaseOrderService } from './../../../shared/services/api/purchase-order.service';
+import { PurchaseOrder } from './../../../shared/models/purchase-order';
 import { ReceptionService } from './../../../shared/services/api/reception.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
@@ -24,10 +26,12 @@ export class ReceptionListComponent implements OnInit {
   codeSearch: Reception;
   matSearch: string;
   supplierSearch: Supplier;
+  orderSearch: PurchaseOrder;
   selectedReception: Array<Reception> = [];
   receptionList: Array<Reception> = [];
   receptionCodeList: Array<Reception> = [];
   supplierList: Array<Supplier> = [];
+  orderList: Array<PurchaseOrder> = [];
   className: string;
   titleList = 'Liste Des reception';
   cols: any[];
@@ -39,6 +43,7 @@ export class ReceptionListComponent implements OnInit {
 
   constructor(private receptionService: ReceptionService,
     private globalService: GlobalService,
+    private purchaseOrderService:PurchaseOrderService,
     private supplierService: SupplierService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -143,7 +148,12 @@ export class ReceptionListComponent implements OnInit {
 
 
     if (this.supplierSearch != null && this.supplierSearch.code !== '') {
-      buffer.append(`Supplier.code~${this.supplierSearch.code}`);
+      buffer.append(`supplier.code~${this.supplierSearch.code}`);
+    }
+
+
+    if (this.orderSearch != null && this.orderSearch.code !== '') {
+      buffer.append(`purshaseOrder.code~${this.orderSearch.code}`);
     }
 
 
@@ -166,7 +176,7 @@ export class ReceptionListComponent implements OnInit {
   }
 
   onReceptionCodeSearch(event: any) {
-    this.receptionService.find('codeng serve' + event.query).subscribe(
+    this.receptionService.find('code~' + event.query).subscribe(
       data => this.receptionCodeList = data ,
     );
   }
@@ -175,11 +185,16 @@ export class ReceptionListComponent implements OnInit {
       data => this.supplierList = data ,
     );
   }
+  onOrderCodeSearch(event: any) {
+    this.purchaseOrderService.find('code~' + event.query).subscribe(
+      data => this.orderList = data ,
+    );
+  }
 
   reset() {
     this.codeSearch = null;
     this.matSearch = null;
-
+    this.orderSearch=null;
     this.supplierSearch = null;
     this.page = 0;
     this.searchQuery = '';

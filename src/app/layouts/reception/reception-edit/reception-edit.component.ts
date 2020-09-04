@@ -1,3 +1,4 @@
+import { StockService } from './../../../shared/services/api/stock.service';
 import { ReceptionStockService } from './../../../shared/services/api/reception-stock.service';
 import { OrderStatusService } from './../../../shared/services/api/order-status.service';
 import { PurchaseOrder } from './../../../shared/models/purchase-order';
@@ -24,6 +25,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { VatService } from './../../../shared/services/api/vat.service';
 import { ReceptionService } from './../../../shared/services/api/reception.service';
 import { OrderType } from './../../../shared/models/order-type';
+import { logging } from 'protractor';
 
 @Component({
   selector: 'app-reception-edit',
@@ -48,6 +50,7 @@ export class ReceptionEditComponent implements OnInit {
 
   constructor(private supplierService : SupplierService,
     private receptionStockService:ReceptionStockService,
+    private stockSrvice :StockService,
     private purchcaseOrderService : PurchaseOrderService,
     private receptionService: ReceptionService,
     private orderStatusService : OrderStatusService,
@@ -100,10 +103,13 @@ export class ReceptionEditComponent implements OnInit {
 
 
       this.orderStatusService.findById(5).subscribe(order => {
-        this.selectedReception.orderStatus = order;
         this.receptionForm.patchValue({
             status: order.code
         });
+        this.selectedReception.orderStatus = order;
+        console.log("status");
+      console.log(this.selectedReception.orderStatus);
+
     });
 
     // this.orderTypeService.find('flow:1').subscribe(data => {
@@ -256,16 +262,13 @@ onSubmit() {
   if (this.receptionForm.invalid) {
       return;
   }
-
- this.selectedReception.remarks = this.receptionForm.value['remarks'];
+  this.selectedReception.remarks = this.receptionForm.value['remarks'];
         this.selectedReception.orderCode = this.receptionForm.value['supplierBL'];
         if (this.selectedReception.receptionDate == null) {
             this.selectedReception.receptionDate = this.receptionForm.value['receptionDate'];
         }
         this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate']; console.log(this.selectedReception);
-
 // this.selectedReception.orderType = this.purchaseOrderForm.value['orderType'];
-
  this.receptionService.set(this.selectedReception).subscribe(
   dataM => {
     if (this.selectedReception.purshaseOrder !== null) {
@@ -295,11 +298,7 @@ onSubmit() {
     this.spinner.hide();
   }
 );
-
-
 }
-
-
   onSupplierCodeSearch(event: any) {
 
     this.supplierService.find('code~' + event.query).subscribe((data) => {
@@ -307,13 +306,11 @@ onSubmit() {
     });
   }
 
-
   onPurchaseOrderCodeSearch(event: any) {
     this.purchcaseOrderService.find('code~' + event.query).subscribe((data) => {
-      this.purchaseOrderList = data;
+      this.purchaseOrderList = data.filter(data =>  data.orderStatus.id != 1);
     });
   }
-
 
   onSelectOrderType(event){
     console.log(event);
@@ -331,10 +328,11 @@ onSubmit() {
     this.selectedReception.vat = this.selectedPurchaseOrder.vat;
     this.selectedReception.totalPriceTTC = this.selectedPurchaseOrder.totalPriceTTC;
     this.selectedReception.accounted = this.selectedPurchaseOrder.accounted;
-
     this.selectedReception.receptionLines = this.receptionService.generateReceptionLinesFromPurchaseOrderLines(
         this.selectedPurchaseOrder.purshaseOrderLines
     );
+
+
     //  this.initForm();
 
     this.receptionForm.patchValue({

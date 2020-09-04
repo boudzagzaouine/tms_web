@@ -10,8 +10,6 @@
         (completeMethod)="onReceptionCodeSearch($event)"
         field="code"
       ></p-autoComplete>
-
-
     </div>
 
 
@@ -25,6 +23,22 @@
       field="code"
     ></p-autoComplete>
     </div>
+
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Commande" | translate }}</label
+      ><br />
+      <p-autoComplete
+      [(ngModel)]="orderSearch"
+      [suggestions]="orderList"
+      (completeMethod)="onOrderCodeSearch($event)"
+      field="code"
+    ></p-autoComplete>
+    </div>
+
+    <div class="col-md-3">
+
+    </div>
+
     </div>
 
 

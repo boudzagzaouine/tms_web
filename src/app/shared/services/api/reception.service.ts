@@ -1,3 +1,5 @@
+import { Stock } from './../../models/stock';
+import { StockService } from './stock.service';
 import { ReceptionLine } from './../../models/reception-line';
 import { PurchaseOrderLine } from './../../models/purchase-order-line';
 import { Reception } from './../../models/reception';
@@ -11,23 +13,28 @@ import { ProxyService } from './proxy.service';
 @Injectable()
 export class ReceptionService extends EmsService<Reception> {
 
+  stock : Stock[] = [];
+
   constructor(proxy: ProxyService) {
     super(proxy, 'receptions');
   }
 
 
   generateReceptionLinesFromPurchaseOrderLines(
-    lines: PurchaseOrderLine[]
-): ReceptionLine[] {
+
+    lines: PurchaseOrderLine[]): ReceptionLine[] {
+
     const list: ReceptionLine[] = [];
     for (const line of lines) {
-        const l = new ReceptionLine();
+      if(line.orderStatus.id != 1){
+
+        const l  = new ReceptionLine();
         l.lineNumber = line.number;
         l.owner = line.owner;
         l.product = line.product;
         l.productPack = line.productPack;
         l.uom = line.uom;
-        l.quantity = line.quantity;
+        l.quantity = line.quantity - line.quantityReceived;
         l.quantityReceived = 0;
         l.receptionDate = new Date();
         l.totalPriceHT = line.totalPriceHT;
@@ -40,6 +47,8 @@ export class ReceptionService extends EmsService<Reception> {
         l.comment = line.description;
         l.purshasePrice = line.purshasePrice;
         list.push(l);
+
+    }
     }
 
     return list;

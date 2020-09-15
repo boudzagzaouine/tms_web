@@ -27,7 +27,6 @@ export class ZoneEditComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedzones = new Zone();
@@ -43,7 +42,9 @@ export class ZoneEditComponent implements OnInit {
 
   initForm() {
     this.zoneForm = new FormGroup({
-      'name': new FormControl(this.selectedzones.name, Validators.required),
+      'code': new FormControl(this.selectedzones.code, Validators.required),
+      'description': new FormControl(this.selectedzones.code),
+
     });
   }
 
@@ -52,7 +53,8 @@ export class ZoneEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.zoneForm.invalid) { return; }
     this.spinner.show();
-    this.selectedzones.name = this.zoneForm.value['name'];
+    this.selectedzones.code = this.zoneForm.value['code'];
+    this.selectedzones.description = this.zoneForm.value['description'];
 
     const s = this.zoneService.set(this.selectedzones).subscribe(
       data => {

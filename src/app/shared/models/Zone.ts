@@ -3,6 +3,7 @@
 export class Zone {
 
   id: number;
-  name: string;
+  code: string;
+  description: string;
 
 }

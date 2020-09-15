@@ -16,14 +16,27 @@ showEffect="fade"
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
-            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
-            <span *ngIf="(zoneForm.get('name').touched && zoneForm.get('name').invalid) ||
-            (isFormSubmitted && zoneForm.get('name').invalid)" class="text-lighter"
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(zoneForm.get('code').touched && zoneForm.get('code').invalid) ||
+            (isFormSubmitted && zoneForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="name"
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold">{{'Description' | translate}} </label>
+            <span *ngIf="(zoneForm.get('description').touched && zoneForm.get('description').invalid) ||
+            (isFormSubmitted && zoneForm.get('description').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="description"
             (keydown.space)="$event.preventDefault()"
            />
           </div>

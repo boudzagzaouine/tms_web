@@ -40,7 +40,8 @@ export class ZoneComponent implements OnInit {
 
     this.className = Zone.name;
     this.cols = [
-      { field: 'name', header: 'Nom' ,type:'number'},
+      { field: 'code', header: 'Code' ,type:'string'},
+      { field: 'description', header: 'Description' ,type:'string'},
 
 
     ];
@@ -58,7 +59,6 @@ export class ZoneComponent implements OnInit {
     );
     this.zoneService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.zoneList = data;
 
         this.spinner.hide();
@@ -118,7 +118,7 @@ export class ZoneComponent implements OnInit {
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.nameSearch != null && this.nameSearch !== '') {
-      buffer.append(`name~${this.nameSearch}`);
+      buffer.append(`code~${this.nameSearch}`);
     }
 
     this.page = 0;
@@ -127,7 +127,7 @@ export class ZoneComponent implements OnInit {
 
   }
   onNameSearch(event: any) {
-    this.zoneService.find('name~' + event.query).subscribe(
+    this.zoneService.find('code~' + event.query).subscribe(
       data => this.nameList = data.map(f => f.name)
     );
   }

@@ -24,7 +24,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private confirmationService: ConfirmationService) { }
+    ) { }
 
   ngOnInit() {
     if (this.editMode === 1) {

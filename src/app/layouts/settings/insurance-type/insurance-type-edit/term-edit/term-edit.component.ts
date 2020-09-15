@@ -29,7 +29,6 @@ export class TermEditComponent implements OnInit {
 
   constructor(
     private insuranceTermeService: InsuranceTermService,
-    private insuranceTypeTermsService: InsuranceTypeTermsService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
   ) { }
@@ -47,7 +46,6 @@ export class TermEditComponent implements OnInit {
   initForm() {
     this.insuranceTypeTermForm = new FormGroup({
       'fTerm': new FormControl(this.selectedinsuranceTypeTerm.insuranceTerm, Validators.required),
-    //  'fAmount': new FormControl({ value: this.selectedinsuranceTypeTerm.amount, disabled: true }, Validators.required)
     });
   }
   onSubmit() {
@@ -55,11 +53,7 @@ export class TermEditComponent implements OnInit {
     if (this.insuranceTypeTermForm.invalid) { return; }
 
     this.spinner.show();
-    if (this.insuranceTypeTermForm.value['fAmount'] !== undefined) {
-     // this.selectedinsuranceTypeTerm.amount = this.insuranceTypeTermForm.value['fAmount'];
-    } else {
-      this.selectedinsuranceTypeTerm.amount = 0;
-    }
+
     this.insuranceTypeTermAdded.emit(this.selectedinsuranceTypeTerm);
     if (this.modal) {
       this.modal.close();
@@ -74,12 +68,6 @@ export class TermEditComponent implements OnInit {
       this.selectedinsuranceTypeTerm = new InsuranceTypeTerms();
       this.title = 'Ajouter un terme assurance';
     } else {
-      if (this.selectedinsuranceTypeTerm.insuranceTerm.roofed) {
-        this.insuranceTypeTermForm.controls['fAmount'].enable();
-
-      } else {
-        this.insuranceTypeTermForm.controls['fAmount'].disable();
-      }
       this.title = 'Modifier un terme assurance';
 
     }
@@ -104,15 +92,7 @@ export class TermEditComponent implements OnInit {
   }
 
   onSelecInsuranceTerm(event: any) {
-
     this.selectedinsuranceTypeTerm.insuranceTerm = event.value;
-    if (this.selectedinsuranceTypeTerm.insuranceTerm.roofed) {
-      this.insuranceTypeTermForm.controls['fAmount'].enable();
-      this.insuranceTypeTermForm.controls['fAmount'].setValue(0);
-    } else {
-      this.insuranceTypeTermForm.controls['fAmount'].disable();
-      this.insuranceTypeTermForm.controls['fAmount'].setValue(0);
-    }
 
   }
 

@@ -7,43 +7,73 @@
 
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold ">{{'Code' | translate}}</label>
+              <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+              <span
+                *ngIf="
+                  (insuranceForm.get('code').touched &&
+                  insuranceForm.get('code').invalid) ||
+                  (isFormSubmitted && insuranceForm.get('code').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
               <input type="text" class="form-control" pInputText formControlName="code"
                 (keydown.space)="$event.preventDefault()" />
             </div>
 
             <div class="form-group col-sm-3 ">
-              <label class="font-weight-bold ">{{'Fournisseur'| translate}} </label>
-              <!-- <input type="text" class="form-control"  pInputText formControlName="supplier"   /> -->
-              <p-dropdown [options]="supplierList" optionLabel="code" [autoDisplayFirst]="false"
-                formControlName="supplier" filter="true" [showClear]='true'>
-              </p-dropdown>
+              <label class="font-weight-bold ">{{'Fournisseur'| translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('supplier').touched &&
+                insuranceForm.get('supplier').invalid) ||
+                (isFormSubmitted && insuranceForm.get('supplier').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
+
+              <p-autoComplete formControlName="supplier" [suggestions]="supplierList"
+              (completeMethod)="onSupplierSearch($event)" field="code"></p-autoComplete>
+
+
             </div>
             <div class="form-group col-sm-3 ">
-              <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='machine')">
-            <label class="font-weight-bold ">{{'Machine'| translate}} </label>
-          </div> -->
-              <!-- <div *ngIf="(this.selectedInsurance.patrimony.patrimony_type==='vehicule')">
-            <label class="font-weight-bold ">{{'Véhicule'| translate}} </label>
-          </div> -->
-              <label class="font-weight-bold ">{{'Patrimoine'| translate}} </label>
 
-              <!-- <input type="text" class="form-control"  pInputText formControlName="vehiclecode" > -->
-              <p-autoComplete formControlName="vehiclecode" [suggestions]="patrimonyList"
+              <label class="font-weight-bold ">{{'Patrimoine'| translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('patrimony').touched &&
+                insuranceForm.get('patrimony').invalid) ||
+                (isFormSubmitted && insuranceForm.get('patrimony').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
+              <p-autoComplete formControlName="patrimony" [suggestions]="patrimonyList"
                 (completeMethod)="onPatrimonySearch($event)" field="code"></p-autoComplete>
 
-              <!-- <p-dropdown
-            [options]="patrimonyList"
-            optionLabel="code"
-            [autoDisplayFirst]="false"
-            formControlName="vehiclecode" filter="true" [showClear]='true'
-          >
-          </p-dropdown> -->
 
             </div>
             <div class="form-group col-sm-3 ">
-              <label class="font-weight-bold ">{{"Type assurance"| translate}} </label>
-              <!-- <input type="text" class="form-control"  pInputText formControlName="typeinsurance" > -->
+              <label class="font-weight-bold ">{{"Type assurance"| translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('typeinsurance').touched &&
+                insuranceForm.get('typeinsurance').invalid) ||
+                (isFormSubmitted && insuranceForm.get('typeinsurance').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
               <p-dropdown [options]="insuranceTypeList" optionLabel="code" [autoDisplayFirst]="false"
                 (onChange)="onSelectInsuranceType($event)" formControlName="typeinsurance" filter="true"
                 [showClear]='true'>
@@ -52,23 +82,56 @@
           </div>
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold ">{{'De' | translate}} </label>
+
+              <label class="font-weight-bold ">{{'De' | translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('startDate').touched &&
+                insuranceForm.get('startDate').invalid) ||
+                (isFormSubmitted && insuranceForm.get('startDate').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
               <p-calendar formControlName="startDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
 
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold ">{{'à' | translate}} </label>
+              <label class="font-weight-bold ">{{'à' | translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('endDate').touched &&
+                insuranceForm.get('endDate').invalid) ||
+                (isFormSubmitted && insuranceForm.get('endDate').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
               <br />
               <p-calendar formControlName="endDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-sm-6">
-              <label class="font-weight-bold ">{{'Montant' | translate}} </label>
+              <label class="font-weight-bold ">{{'Montant' | translate}} *</label>
+              <span
+              *ngIf="
+                (insuranceForm.get('amount').touched &&
+                insuranceForm.get('amount').invalid) ||
+                (isFormSubmitted && insuranceForm.get('amount').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
               <input type="text" class="form-control" pInputText formControlName="amount" pKeyFilter="num">
             </div>
           </div>
-
 
           <div class="card mt-2">
             <div class="card-header " style=" background-color:#f7f7f7;">
@@ -78,7 +141,6 @@
                 <app-term-ediit [editMode]="false" (insuranceTermLineAdded)="onLineEdited($event)"></app-term-ediit>
               </div>
               <div class=" col-xs-4 col-md-6 pull-center">{{ "Liste des termes assurance" | translate }}</div>
-
 
            </div>
           </div>
@@ -90,15 +152,15 @@
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{"Terme assurance" | translate}}</th>
-                    <th>{{"Montant" |translate }} </th>
-                    <th>{{"Actions" |translate }} </th>
+                    <th width='30%'>{{"valeur" |translate }} </th>
+                    <th width='20%'>{{"Actions" |translate }} </th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-line>
                   <tr>
                     <td>{{line?.insuranceTerm?.code}}</td>
-                    <td>{{line?.amount}}</td>
-                    <td>
+                    <td  width='30%'> {{line?.amount}}</td>
+                    <td width='20%'>
 
                    <app-term-ediit
                     [selectedTermLigne]="line" [editMode]="true"

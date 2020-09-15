@@ -55,7 +55,6 @@ export class InsuranceComponent implements OnInit {
     private insuranceTermService: InsuranceTermService,
     private globalService: GlobalService,
     private supplierService: SupplierService,
-    private vehicleService: VehicleService,
     private InsurancetypeService: InsuranceTypeService,
     private patrimonyService: PatrimonyService,
     private spinner: NgxSpinnerService,
@@ -84,7 +83,7 @@ export class InsuranceComponent implements OnInit {
     this.patrimonyService.findAll().subscribe(
       data => {
         this.patrimonyList = data;
-        console.log(data);
+
 
       }
     );
@@ -114,7 +113,6 @@ export class InsuranceComponent implements OnInit {
   }
 
   onExportPdfGlobal(event) {
-    console.log("on expoer insurance");
 
     this.insuranceService.find(this.searchQuery).subscribe(
       data => {
@@ -132,7 +130,6 @@ export class InsuranceComponent implements OnInit {
 
   loadData(search: string = '') {
 
-    console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
     this.insuranceService.sizeSearch(search).subscribe(
@@ -142,9 +139,9 @@ export class InsuranceComponent implements OnInit {
     );
     this.insuranceService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log("List");
+
         this.insuranceList = data;
-        console.log(data);
+
 
         this.spinner.hide();
       },
@@ -153,8 +150,8 @@ export class InsuranceComponent implements OnInit {
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData(this.searchQuery);
   }
 
@@ -222,7 +219,7 @@ export class InsuranceComponent implements OnInit {
       data => {
 
         this.patrimonyList = data.map(f => f.code)
-        //  console.log(data);
+
 
       }
     );

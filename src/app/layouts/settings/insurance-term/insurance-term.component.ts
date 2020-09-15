@@ -152,7 +152,7 @@ export class InsuranceTermComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
-    this.descriptionSearch=null
+    this.descriptionSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -174,7 +174,7 @@ export class InsuranceTermComponent implements OnInit {
 
     if (this.selectedCommissionTerms.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedCommissionTerms.map(x => x.id);
           this.insuranceTermService.deleteAllByIds(ids).subscribe(

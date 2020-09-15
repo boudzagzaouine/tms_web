@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { element } from 'protractor';
 import { Driver } from './../../../../shared/models/driver';
 import { InsuranceTypeTerms } from './../../../../shared/models/insurance-type-terms';
@@ -28,6 +29,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   page = 0;
   size = 5;
+  collectionSize: number;
   searchQuery: string;
   insuranceTypeForm: FormGroup;
   selectInsurannceTypeTerms: any;
@@ -37,6 +39,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un type assurance';
   constructor(
+    private confirmationService: ConfirmationService,
     private insuranceTypeService: InsuranceTypeService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private spinner: NgxSpinnerService,
@@ -49,6 +52,7 @@ export class InsuranceTypeEditComponent implements OnInit {
     this.initForm();
 
 
+
   }
 
   initForm() {
@@ -59,8 +63,17 @@ export class InsuranceTypeEditComponent implements OnInit {
   }
 
   onDeleteLine(insuranceTerms: InsuranceTypeTerms) {
-    this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
-      p => p.insuranceTerm.id !== insuranceTerms.insuranceTerm.id);
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Supprimer ?',
+      accept: () => {
+        this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
+          p => p.insuranceTerm.id !== insuranceTerms.insuranceTerm.id);
+        this.toastr.success(
+          'Elément Supprimer avec Succés',
+          'Suppression'
+        );
+      }
+    });
   }
 
   onLineEdited(insuranceTerms: InsuranceTypeTerms) {
@@ -70,6 +83,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isFormSubmitted = true;
     if (this.insuranceTypeForm.invalid) { return; }
     this.spinner.show();
     this.selectedinsuranceType.code = this.insuranceTypeForm.value['code'];
@@ -77,9 +91,7 @@ export class InsuranceTypeEditComponent implements OnInit {
     this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
       dataIt => {
         this.insuranceTypeAdded.emit(dataIt);
-        console.log(dataIt);
         if (this.editMode) {
-
           this.insuranceTypeTermsListC.forEach(eleme => {
             this.insuranceTypeTermsService.delete(eleme.id).subscribe(
               d => {
@@ -118,13 +130,10 @@ export class InsuranceTypeEditComponent implements OnInit {
       this.title = 'Ajouter un type assurance';
     } else {
 
-      this.insuranceTypeTermsService.findAllPagination(this.page, this.size).subscribe(
+      this.insuranceTypeTermsService.find('insuranceType.id:' + this.selectedinsuranceType.id).subscribe(
         data => {
           this.insuranceTypeTermsList = data;
-          this.insuranceTypeTermsList = this.insuranceTypeTermsList.filter(
-            p =>
-              ((p.insuranceType.id === this.selectedinsuranceType.id))
-          );
+
           this.insuranceTypeTermsListC = this.insuranceTypeTermsList;
           this.spinner.hide();
         },

@@ -42,7 +42,7 @@ export class InsuranceEditComponent implements OnInit {
   subscriptions = new Subscription();
   inssuranceTypeTermList: InsuranceTypeTerms[] = [];
 
-  title = 'Assurance';
+  title = 'Modifier assurance';
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
@@ -63,17 +63,9 @@ export class InsuranceEditComponent implements OnInit {
       }
     );
 
-    this.supplierService.findAll().subscribe(
-      data => {
-        this.supplierList = data;
-      }
-    );
 
-    this.patrimonyService.findAll().subscribe(
-      data => {
-        this.patrimonyList = data;
-      }
-    );
+
+
 
     if (this.editMode === 1) {
       this.selectedInsurance = new Insurance();
@@ -93,20 +85,14 @@ export class InsuranceEditComponent implements OnInit {
   initForm() {
     this.insuranceForm = new FormGroup({
       'code': new FormControl( this.selectedInsurance.code, Validators.required),
-      // 'description': new FormControl(this.selectedInsurance.description),
       'startDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
       'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
       'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
-      'supplier': new FormControl(this.selectedInsurance.supplier != null ?
-        this.selectedInsurance.supplier.code : null, Validators.required),
-      'vehiclecode': new FormControl(
-
-        this.selectedInsurance.patrimony != null ?
-          this.selectedInsurance.patrimony.code : null, Validators.required
+      'supplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
+      'patrimony': new FormControl(
+          this.selectedInsurance.patrimony, Validators.required
       ),
-      'typeinsurance': new FormControl(this.selectedInsurance.insuranceType != null ?
-        this.selectedInsurance.insuranceType.code : null, Validators.required),
-
+      'typeinsurance': new FormControl(this.selectedInsurance.insuranceType, Validators.required),
     });
   }
 
@@ -116,7 +102,7 @@ export class InsuranceEditComponent implements OnInit {
     this.spinner.show();
     this.selectedInsurance.code = this.insuranceForm.value['code'];
     this.selectedInsurance.supplier = this.insuranceForm.value['supplier'];
-    this.selectedInsurance.patrimony = this.insuranceForm.value['vehiclecode'];
+    this.selectedInsurance.patrimony = this.insuranceForm.value['patrimony'];
     this.selectedInsurance.insuranceType = this.insuranceForm.value['typeinsurance'];
     this.selectedInsurance.startDate = this.insuranceForm.value['startDate'];
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'];
@@ -146,17 +132,25 @@ export class InsuranceEditComponent implements OnInit {
     this.patrimonyService.find('code~' + event.query).subscribe(
       data =>{
 
-        this.patrimonyList = data ; //.map(f => f.code)
-      //  console.log(data);
-
+        this.patrimonyList = data ;
       }
     );
   }
+
+  onSupplierSearch(event: any) {
+    this.supplierService.find('code~' + event.query).subscribe(
+      data =>{
+        this.supplierList = data;
+      }
+    );
+  }
+
   onLineEdited(line: InsuranceTermsVehicle) {
     this.selectedInsurance.insuranceTermLignes = this.selectedInsurance.insuranceTermLignes.filter(
       p => p.insuranceTerm.code !== line.insuranceTerm.code);
     this.selectedInsurance.insuranceTermLignes.push(line);
   }
+
   onDeleteLine(line: InsuranceTermsVehicle) {
     this.selectedInsurance.insuranceTermLignes = this.selectedInsurance.insuranceTermLignes.filter(
       p => p.insuranceTerm.id !== line.insuranceTerm.id);

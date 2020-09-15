@@ -66,9 +66,7 @@ export class VehicleCategorieComponent implements OnInit {
     );
     this.vehicleCategorieService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.vehicleCategorieList = data;
-
         this.spinner.hide();
       },
       error => {
@@ -128,6 +126,7 @@ export class VehicleCategorieComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -162,7 +161,7 @@ export class VehicleCategorieComponent implements OnInit {
 
     if (this.selectedVehicleCategories.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedVehicleCategories.map(x => x.id);
           this.vehicleCategorieService.deleteAllByIds(ids).subscribe(

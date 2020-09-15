@@ -109,24 +109,17 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         id = params['id'];
         this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
-          console.log(this.selectedVehicle);
-          // (`vehicle.type~${'vehicle'},vehicle.code~${this.selectedVehicle.code}`)
-
           this.subscriptions.add(this.insuranceService.findByPatrimony(id)
             .subscribe(
               data => {
                 if (data !== null) {
 
                   this.selectedInsurance = data;
-                  console.log("data");
-                  console.log(data);
+
 
                 } else {
                   this.selectedInsurance = new Insurance();
                   this.editModee=false;
-                  console.log("instn");
-                  console.log(data);
-
                 }
                 this.initForm();
               },
@@ -149,7 +142,12 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       })
       );
     } else {
-      this.initForm();
+
+      this.vehicleService.generateCode().subscribe(
+        code => {
+       this.selectedVehicle.code = code;
+        this.initForm();
+    });
     }
 
     this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
@@ -271,7 +269,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.registrationNumber = formValue['general']['fRegistrationNumber'];
     this.selectedVehicle.technicalVisit = formValue['general']['fTechnicalVisit'];
     this.selectedVehicle.valueTechnicalVisit = formValue['general']['fValeurVisiteTechnique'];
-    this.selectedVehicle.technicalVisit = formValue['general']['fVignette'];
+    this.selectedVehicle.vignette = formValue['general']['fVignette'];
     this.selectedVehicle.valueVignette = formValue['general']['fValeurVignette'];
 
     this.selectedVehicle.grayCard = formValue['caracteristic']['fGrayCard'];
@@ -304,7 +302,6 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       data => {
         if (this.selectedInsurance.code) {
           this.selectedInsurance.patrimony = data;
-          console.log(this.selectedInsurance);
           this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
 
@@ -407,6 +404,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.editInsuranceMode = true;
     this.selectedModInsurance = this.selectedInsurance;
     this.selectedInsurance = new Insurance();
+
   }
 
 
@@ -428,20 +426,13 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       } else if (this.vehicleForm.controls['caracteristic'].valid) {
         this.index = this.index + 1;
         this.isFormSubmitted = false;
-
       }
 }
       else if (this.index === 2) {
-    //   if
-    //     (this.vehicleForm.controls['insurance'].invalid) {
-    //     return;
-    //   } else if (this.vehicleForm.controls['insurance']) {
         this.index = this.index + 1;
         this.isFormSubmitted = false;
 
-    //     this.isFormSubmitted = false;
 
-    //   }
 
      }
 

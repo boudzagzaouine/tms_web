@@ -131,7 +131,6 @@ export class VehicleListComponent implements OnInit {
     );
     this.vehicleService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.vehicleList = data;
 
         this.spinner.hide();
@@ -189,7 +188,6 @@ export class VehicleListComponent implements OnInit {
 
   onSearchClicked() {
 
-    console.log(this.vehicleCodeList);
 
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch.code !== '') {

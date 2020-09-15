@@ -71,7 +71,6 @@ export class DriverEditComponent implements OnInit {
         this.badgesList = data;
       }
     );*/
-    console.log("avant snapshot");
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
@@ -79,11 +78,17 @@ export class DriverEditComponent implements OnInit {
         data => {
           this.selectedDriver = data;
           this.editModeTitle = 'Modifier un chaufeur';
-          console.log(this.selectedDriver);
 
           this.initForm();
         }
       );
+    }else{
+
+      this.driverService.generateCode().subscribe(
+        code => {
+       this.selectedDriver.code = code;
+        this.initForm();
+      });
     }
 
 
@@ -134,26 +139,21 @@ export class DriverEditComponent implements OnInit {
 
     else {
       this.index = (this.index === 2) ? 0 : this.index + 1;
-      console.log(this.index);
+
 
 
     }
 
   }
   /*onLoadCommission(commission:CommissionDriver[]){
-  console.log("commission");
 
-    console.log(commission.length);
-  console.log(commission);
   this.commissionDriverListEdited=commission;
   this.selectedDriver.commissions=this.commissionDriverListEdited;
 
 
   }*/
   onLoadBadge(badge: BadgeTypeDriver[]) {
-    console.log("badge");
-    console.log(badge.length);
-    console.log(badge);
+
     this.badgeDriverListEdited = badge;
 
     this.selectedDriver.badgeTypeDrivers = this.badgeDriverListEdited;
@@ -164,8 +164,7 @@ export class DriverEditComponent implements OnInit {
     this.index = (this.index === 0) ? 2 : this.index - 1;
   }
   onSubmitForm() {
-    console.log("debut");
-    console.log(this.driverForm);
+
 
 
     this.isFormSubmitted = true;
@@ -175,7 +174,7 @@ export class DriverEditComponent implements OnInit {
       return;
       this.valid = true;
     }
-    console.log("apres");
+
 
     this.spinner.show();
     const formValue = this.driverForm.value;
@@ -191,7 +190,7 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.carte = formValue['carte'];
 
 
-    console.log(this.selectedDriver);
+
 
 
 

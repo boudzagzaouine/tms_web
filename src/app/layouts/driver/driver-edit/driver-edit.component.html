@@ -8,6 +8,30 @@
        <p-tabView [activeIndex]="index"  >
         <p-tabPanel header="Général"   headerStyleClass="m-a-p">
       <div class="row justify-content-around">
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Code" | translate }} * </label>
+          <span
+            *ngIf="
+              (driverForm.get('code').touched &&
+                driverForm.get('code').invalid) ||
+              (isFormSubmitted && driverForm.get('code').invalid)
+            "
+            class="text-lighter"
+            style="color: red; font-size: xx-small;"
+          >
+          {{"Obligatoire" | translate}}
+          </span>
+          <br />
+
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="code" [attr.disabled]="true"
+          />
+        </div>
+
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{ "Cin" | translate }} *</label>
           <span
@@ -30,28 +54,7 @@
           />
         </div>
 
-        <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ "Code" | translate }} * </label>
-          <span
-            *ngIf="
-              (driverForm.get('code').touched &&
-                driverForm.get('code').invalid) ||
-              (isFormSubmitted && driverForm.get('code').invalid)
-            "
-            class="text-lighter"
-            style="color: red; font-size: xx-small;"
-          >
-          {{"Obligatoire" | translate}}
-          </span>
-          <br />
 
-          <input
-            type="text"
-            class="form-control"
-            pInputText
-            formControlName="code"
-          />
-        </div>
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{ "Nom" | translate }} * </label>
           <span

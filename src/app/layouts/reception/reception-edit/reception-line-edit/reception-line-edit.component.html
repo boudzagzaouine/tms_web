@@ -53,6 +53,7 @@ showEffect="fade"
                 <div class="form-group col-md-6">
                   <label>{{'UOM' | translate}}</label>
                   <input type="text" class="form-control mb-2" formControlName="expectedUom" *ngIf="editMode">
+
                   <p-dropdown name="pdtPack" (onChange)="onSelectPdtPack($event)"
                       [editable]="true" formControlName="pdtPack" class="w-100" [options]="productPackList"
                       optionLabel="uom.code" [autoDisplayFirst]="false" *ngIf="!editMode">

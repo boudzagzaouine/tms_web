@@ -28,7 +28,7 @@ export class BadgeTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'List des types de badges';
+  titleList = 'Liste des types de badges';
   badgeTypeExportList: Array<BadgeType> = [];
 
   constructor(private badgeTypeService: BadgeTypeService,
@@ -154,7 +154,7 @@ export class BadgeTypeComponent implements OnInit {
 
     if (this.selectedBadgeTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer  ?',
         accept: () => {
           const ids = this.selectedBadgeTypes.map(x => x.id);
           this.badgeTypeService.deleteAllByIds(ids).subscribe(
@@ -177,7 +177,7 @@ export class BadgeTypeComponent implements OnInit {
   }
 
   onShowDialog(event) {
-  
+
     this.showDialog = event;
 
     this.loadData();

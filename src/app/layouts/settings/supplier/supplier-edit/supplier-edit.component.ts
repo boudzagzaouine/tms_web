@@ -43,7 +43,6 @@ export class SupplierEditComponent implements OnInit {
       this.title = 'Ajouter un Fournisseur';
 
     } else {
-      console.log(this.selectedSupplier);
 
       if (this.selectedSupplier.contact) {
         this.selectedContact = this.selectedSupplier.contact;
@@ -106,7 +105,6 @@ export class SupplierEditComponent implements OnInit {
       this.selectedSupplier.address = this.selectedAddress;
     }
 
-    console.log(this.selectedSupplier);
     const s = this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
@@ -116,7 +114,6 @@ export class SupplierEditComponent implements OnInit {
       },
       error => {
         this.toastr.error(error.error.message);
-        console.log(error);
         this.spinner.hide();
       },
 

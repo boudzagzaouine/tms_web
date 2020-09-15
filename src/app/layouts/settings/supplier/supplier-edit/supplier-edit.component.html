@@ -15,11 +15,12 @@
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
-            <label class="font-weight-bold">{{'Code' | translate}}*</label>
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
             <span *ngIf="(supplierForm.get('code').touched && supplierForm.get('code').invalid) ||
             (isFormSubmitted && supplierForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-               obligatoire
+              {{'Obligatoire'| translate}}
+
             </span> <br />
             <input type="text" class="form-control" pInputText formControlName="code"
               (keydown.space)="$event.preventDefault()" />
@@ -35,11 +36,11 @@
         <hr />
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
-            <label class="font-weight-bold">{{'Nom' | translate}}*</label>
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
             <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
                 (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-               obligatoire
+              {{'Obligatoire'| translate}}
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="name"
@@ -76,11 +77,11 @@
         <hr />
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-4">
-            <label class="font-weight-bold">{{'Code Adresse' | translate}}*</label>
+            <label class="font-weight-bold">{{'Code Adresse' | translate}} *</label>
             <span *ngIf="(supplierForm.get('addrCode').touched && supplierForm.get('addrCode').invalid) ||
             (isFormSubmitted && supplierForm.get('addrCode').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-            Ce Champs est obligatoire
+            {{'Obligatoire'| translate}}
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="addrCode"
@@ -88,11 +89,12 @@
           </div>
 
           <div class="form-group col-sm-12 col-md-4">
-            <label class="font-weight-bold">{{'Ligne 1' | translate}}*</label>
+            <label class="font-weight-bold">{{'Ligne 1' | translate}} *</label>
             <span *ngIf="(supplierForm.get('line1').touched && supplierForm.get('line1').invalid) ||
             (isFormSubmitted && supplierForm.get('line1').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
-               obligatoire
+              {{'Obligatoire'| translate}}
+
             </span>
             <br />
             <input type="text" class="form-control" pInputText formControlName="line1"

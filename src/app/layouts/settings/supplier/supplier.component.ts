@@ -45,16 +45,20 @@ export class SupplierComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
-      { field: 'name', header: 'Nom', type: 'string' },
-      { field: 'tel1', header: 'Tele 1', type: 'string' },
-      { field: 'tel2', header: 'Tele 2', type: 'string' },
-      { field: 'fax', header: 'Fax', type: 'string' },
-      { field: 'email', header: 'Email', type: 'string' },
-      { field: 'address', header: 'Addresse 1', type: 'string' },
-      { field: 'line2', header: 'Addresse 2', type: 'string' },
-      { field: 'zip', header: 'Code postale', type: 'string' },
-      { field: 'city', header: 'Ville', type: 'string' },
-      { field: 'country', header: 'Pays', type: 'string' },
+       { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
+       { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
+       { field: 'contact', child: 'tel2', header: 'Telephone 2', type: 'object' },
+       { field: 'contact', child: 'fax', header: 'Fax', type: 'object' },
+       { field: 'contact', child: 'email', header: 'Email', type: 'object' },
+
+
+      { field: 'address', child: 'line1', header: 'Addresse 1', type: 'object' },
+      { field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
+      { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },
+      { field: 'address', child: 'city', header: 'Ville', type: 'object' },
+      { field: 'address', child: 'country', header: 'Pays', type: 'object' },
+
+
     ];
 
 
@@ -85,7 +89,6 @@ export class SupplierComponent implements OnInit {
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData();
   }
   onNameSearch(event: any) {
@@ -174,7 +177,7 @@ export class SupplierComponent implements OnInit {
 
     if (this.selectSuppliers.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectSuppliers.map(x => x.id);
           this.supplierService.deleteAllByIds(ids).subscribe(

@@ -10,6 +10,25 @@
       </div> -->
 
       <div class="col-md-3">
+        <label class="font-weight-bold"> {{ "Code" | translate }}</label
+        ><br />
+        <p-autoComplete
+          [(ngModel)]="codeSearch"
+          [suggestions]="machineCodeList"
+          (completeMethod)="onMachineCodeSearch($event)"
+          field="code"
+        ></p-autoComplete>
+
+       <!-- <p-dropdown
+        [options]="vehicleCodeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="codeSearch"
+        filter="true"
+      >
+      </p-dropdown> -->
+      </div>
+      <div class="col-md-3">
         <label class="font-weight-bold">
           {{"référence" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="refSearch" />

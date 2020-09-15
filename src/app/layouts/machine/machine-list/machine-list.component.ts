@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { Transport } from './../../../shared/models/transport';
 import { ContractType } from './../../../shared/models/contract-type';
@@ -11,6 +12,7 @@ import { MachineService } from './../../../shared/services/api/machine.service';
 import { Machine } from './../../../shared/models/machine';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
+import { Patrimony } from './../../../shared/models/patrimony';
 
 @Component({
   selector: 'app-machine-list',
@@ -23,7 +25,7 @@ export class MachineListComponent implements OnInit {
   size = 10;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: string;
+  codeSearch: Machine;
   codeList: Array<Machine> = [];
   refSearch: string;
   transportSearch: Transport;
@@ -36,12 +38,14 @@ export class MachineListComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-
+  machineCodeList: Array<Patrimony> = [];
   machineExportList: Array<Machine> = [];
   titleList = 'Liste des Machines';
 
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
+    private patrimonyService : PatrimonyService,
+
     private globalService: GlobalService,
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
@@ -121,7 +125,7 @@ export class MachineListComponent implements OnInit {
     );
     this.machineService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+
         this.maachineList = data;
         this.spinner.hide();
       },
@@ -139,8 +143,8 @@ export class MachineListComponent implements OnInit {
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.codeSearch != null && this.codeSearch.code !== '') {
+      buffer.append(`ref~${this.codeSearch.ref}`);
     }
     if (this.refSearch != null && this.refSearch !== '') {
       buffer.append(`ref~${this.refSearch}`);
@@ -186,6 +190,11 @@ export class MachineListComponent implements OnInit {
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
+  }
+  onMachineCodeSearch(event: any) {
+    this.patrimonyService.find('code~' + event.query).subscribe(
+      data => this.machineCodeList = data ,
+    );
   }
 
 

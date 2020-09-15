@@ -94,7 +94,6 @@ export class MachineEditComponent implements OnInit {
         id = params['id'];
         this.subscriptions.push(this.machineService.findById(id).subscribe(data => {
           this.selectedMachine = data;
-          console.log(this.selectedMachine);
           // (`vehicle.type~${'vehicle'},vehicle.code~${this.selectedVehicle.code}`)
 
           this.subscriptions.push(this.insuranceService.findByPatrimony(id)
@@ -103,14 +102,12 @@ export class MachineEditComponent implements OnInit {
                 if (data !== null) {
 
                   this.selectedInsurance = data;
-                  console.log("data");
-                  console.log(data);
+
 
                 } else {
                   this.selectedInsurance = new Insurance();
                   this.editModee=false;
-                  console.log("instn");
-                  console.log(data);
+
 
                 }
                 this.initForm();
@@ -134,7 +131,11 @@ export class MachineEditComponent implements OnInit {
       })
       );
     } else {
+       this.machineService.generateCode().subscribe(
+      code => {
+     this.selectedMachine.code = code;
       this.initForm();
+    });
     }
 
     this.subscriptions.push(this.consumptionTypeService.findAll().subscribe(
@@ -239,7 +240,6 @@ export class MachineEditComponent implements OnInit {
       data => {
         if (this.selectedInsurance.code) {
           this.selectedInsurance.patrimony = data;
-          console.log(this.selectedInsurance);
           this.subscriptions.push(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
 

@@ -104,17 +104,7 @@ export class DataTableComponent implements OnInit {
       dataKey: col.field
     }));
 
-    console.log("class name");
 
-    console.log(this.className);
-
-    console.log("column select");
-
-    console.log(this.selectedColumns);
-
-    console.log("cols ");
-
-    console.log(this.cols);
   }
   typeOf(event) {
     let res: number;
@@ -178,7 +168,7 @@ export class DataTableComponent implements OnInit {
     }
   }
 
-  onSaveView(event) {
+  onSaveView() {
     console.log(this.className);
 
     console.log(this.columnsAdded);

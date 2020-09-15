@@ -3,7 +3,7 @@ export class EmsBuffer {
     constructor() {}
     append(content: string) {
         if (this.buffer.length > 0) {
-            this.buffer += ', ';
+            this.buffer += ',';
         }
         this.buffer += content;
     }

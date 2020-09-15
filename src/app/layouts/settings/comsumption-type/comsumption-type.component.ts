@@ -104,7 +104,7 @@ export class ComsumptionTypeComponent implements OnInit {
     this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.consumptionTypeExportList = data;
-        this.globalService.generatePdf(event, this.consumptionTypeExportList, this.className,this.titleList);
+        this.globalService.generatePdf(event, this.consumptionTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -132,6 +132,7 @@ export class ComsumptionTypeComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     );
   } reset() {
+    
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';

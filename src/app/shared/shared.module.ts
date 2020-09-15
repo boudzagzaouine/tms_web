@@ -1,3 +1,4 @@
+import { MaintenanceStockService } from './services/api/maintenance-stock.service';
 import { ReceptionStockService } from './services/api/reception-stock.service';
 import { OrderStatusService } from './services/api/order-status.service';
 import { ReceptionLineService } from './services/api/reception-line.service';
@@ -203,7 +204,8 @@ export class SharedModule {
         PurchaseOrderService,
         ReceptionLineService,
         OrderStatusService,
-        ReceptionStockService
+        ReceptionStockService,
+        MaintenanceStockService,
       ],
 
     };

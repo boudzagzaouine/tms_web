@@ -21,12 +21,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   @Input() selectTransportCatVehicle = new TransportCategoryVehicle();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-
   transportCatVehicleForm: FormGroup;
-
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
-
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une catégorie de véhicule';
@@ -80,8 +77,6 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     this.spinner.show();
 
     this.selectTransportCatVehicle.quantity = this.transportCatVehicleForm.value['fQuantity'];
-
-    console.log(this.selectTransportCatVehicle);
     const s = this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');

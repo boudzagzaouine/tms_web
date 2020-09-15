@@ -66,7 +66,6 @@ export class CommissionTypeEditComponent implements OnInit {
      this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();

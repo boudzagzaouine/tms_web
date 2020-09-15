@@ -152,7 +152,7 @@ export class ContractTypeComponent implements OnInit {
 
     if (this.selectedContratTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedContratTypes.map(x => x.id);
           this.contractTypeService.deleteAllByIds(ids).subscribe(

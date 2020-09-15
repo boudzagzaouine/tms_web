@@ -15,7 +15,6 @@ import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-
 import { CatalogTransportType } from './../../shared/models/CatalogTransportType';
 import { TransportCategoryVehicleComponent } from './transport-category-vehicle/transport-category-vehicle.component';
 import { InsuranceTypeComponent } from './insurance-type/insurance-type.component';
-import { ConsomtionTypeComponent } from './consomtion-type/consomtion-type.component';
 import { CommissionTypeComponent } from './commission-type/commission-type.component';
 import { VehicleCategory } from './../../shared/models/vehicle-category';
 import { ContractTypeComponent } from './contract-type/contract-type.component';
@@ -54,7 +53,6 @@ const routes: Routes = [
       { path: 'maintenance-line-ref', component: MaintenanceLineRefComponent},
       { path: 'vehicle-categorie', component: VehicleCategorieComponent },
       { path: 'commission-type', component: CommissionTypeComponent },
-      { path: 'consomption-type', component: ConsomtionTypeComponent },
       { path: 'insurance-type', component: InsuranceTypeComponent },
       { path: 'transport-category-vehicle', component: TransportCategoryVehicleComponent },
       { path: 'path', component: CatalogTransportTypeComponent },

@@ -42,7 +42,7 @@
         </div>
 
         <div class=" col-md-3 ">
-          <span style="font-size: 16px; color: #5f5b5b;">
+          <span style="font-size: 14px; color: #5f5b5b;">
             <b>{{listName | translate}}</b></span
           >
         </div>
@@ -114,8 +114,7 @@
 
   </div>
 
-    <!-- (onRowReorder)='onSaveVue($event)' -->
-    <div id="htmlData" #htmlData>
+    <div >
     <p-table
       [value]="objectList"
 
@@ -143,7 +142,7 @@
       <ng-template pTemplate="header" let-columns >
         <tr>
           <th style="width:40px">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
           </th>
           <th *ngFor="let col of columns" pReorderableColumn style="width:160px;font-size:13px">
             {{ col.header | translate}}

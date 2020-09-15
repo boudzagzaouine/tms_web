@@ -158,7 +158,7 @@ export class CommissionTypeComponent implements OnInit {
 
     if (this.selectedCommissions.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedCommissions.map(x => x.id);
           this.commissionTypeService.deleteAllByIds(ids).subscribe(

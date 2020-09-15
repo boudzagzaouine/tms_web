@@ -37,6 +37,7 @@ export class ActionEditComponent implements OnInit {
   showDialogprdt: boolean;
   actionForm: FormGroup;
   MaintenancestateList: Array<MaintenanceState> = [];
+  MaintenancestateLists: Array<MaintenanceState> = [];
 
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -63,11 +64,16 @@ export class ActionEditComponent implements OnInit {
     console.log(this.editMode);
  if(!this.editMode){
      this.selectedAction = new ActionMaintenance();
+
+     this.maintenanceStateService.findAll().subscribe((data) => {
+      this.MaintenancestateList =  data ;
+
+
+
+    })
    }
     console.log(this.selectedAction);
-    this.maintenanceStateService.findAll().subscribe((data) => {
-      this.MaintenancestateList = data;
-    })
+
     this.initForm();
     console.log(this.actionForm);
 
@@ -80,7 +86,7 @@ export class ActionEditComponent implements OnInit {
       ),
       'fState': new FormControl(
         this.selectedAction.maintenanceState,
-        Validators.required
+
       ),
 
 

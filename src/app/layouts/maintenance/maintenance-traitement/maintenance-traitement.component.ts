@@ -66,12 +66,12 @@ export class MaintenanceTraitementComponent implements OnInit {
 
     this.className = Maintenance.name;
     this.cols = [
-      { field: 'code', header: 'Titre', type: 'string' },
+      { field: 'code', header: 'Code', type: 'string' },
       { field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
        { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
        { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
-      { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
+     // { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
        { field: 'interventionDate', header: 'Date intervention', type: 'date' },
        { field: 'triggerDate', header: 'Date declanchement', type: 'date' },
        { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
@@ -186,7 +186,6 @@ export class MaintenanceTraitementComponent implements OnInit {
       data => {
 
         this.patrimonyList = data.map(f => f.code)
-        //  console.log(data);
 
       }
     );
@@ -232,6 +231,7 @@ export class MaintenanceTraitementComponent implements OnInit {
     this.maintenancecodeSearch = null;
     this.typeMaintenanceSearch = null;
     this.statusMaintenanceSearch = null;
+    this.patrimonySearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

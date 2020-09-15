@@ -15,7 +15,7 @@
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <input type="text" class="form-control" formControlName="fcode" pInputText   />
+            <input type="text" class="form-control" [attr.disabled]="true" formControlName="fcode" pInputText   />
           </div>
       <div class="form-group col-md-9 ">
       </div>
@@ -316,7 +316,7 @@ formControlName="fmensuel">
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction()"
+        (click)="onShowDialogAction($event)"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>

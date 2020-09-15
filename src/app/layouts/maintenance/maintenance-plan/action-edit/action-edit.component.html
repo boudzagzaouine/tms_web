@@ -36,7 +36,7 @@ showEffect="fade"
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+            <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
             [filter]="true" [options]="MaintenancestateList"
            [showClear]="true" (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown>
     </div>
@@ -54,7 +54,7 @@ showEffect="fade"
 
               type="button"
               class="btn btn-sm btn-primary mx-1"
-              (click)="onShowDialogPrdt(false)"
+              (click)="onShowDialogPrdt($event,false)"
               ><!--ADD-->
               <i class="fa fa-plus"></i>
             </button>
@@ -67,11 +67,8 @@ showEffect="fade"
         </div></div>
         <div class="card-body border-top-primary">
           <p-table
-
           [value]="selectedAction?.actionLineMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
-          [totalRecords]="selectedAction?.actionLineMaintenances.length"
-
-          >
+          [totalRecords]="selectedAction?.actionLineMaintenances.length">
             <ng-template pTemplate="header">
               <tr>
                 <th>{{'produit' | translate}}</th>
@@ -93,7 +90,7 @@ showEffect="fade"
                 <td>
 
                   <button
-
+                  [disabled]="editMode"
                   type="button"
                   class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogPrdt(line,true)"
@@ -101,7 +98,7 @@ showEffect="fade"
                   <i class="fa fa-pencil"></i>
                 </button>
                 <button
-
+                [disabled]="editMode"
                 type="button"
                 class="btn btn-sm btn-danger mx-1"
                 (click)="onDeleteMaintenanceLine(line.product.id)"
@@ -137,6 +134,13 @@ showEffect="fade"
       class="ui-button-success"
       label="{{ 'Valider' | translate }}"
     ></button>
+    <!-- <button
+    type="button"
+    pButton
+    (click)="onSubmit(2)"
+    class="ui-button-success"
+    label="{{ 'Valider et fermer' | translate }}"
+  ></button> -->
   </div>
 </p-footer>
 </p-dialog>

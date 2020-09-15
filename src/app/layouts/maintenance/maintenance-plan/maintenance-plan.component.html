@@ -29,7 +29,7 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
           [filter]="true" [options]="maintenanceTypeList"
          [showClear]="true" (onChange)='onSelectMaintenanceType($event)' formControlName="fmaintenaceType"></p-dropdown>
     </div>
@@ -69,9 +69,11 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
           [filter]="true" [options]="MaintenancestateList"
-         [showClear]="true" (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown>
+         [showClear]="true"
+
+         (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown>
 
 
         </div>
@@ -300,7 +302,7 @@
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction()"
+        (click)="onShowDialogAction($event)"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>

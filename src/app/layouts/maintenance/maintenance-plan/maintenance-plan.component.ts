@@ -1,3 +1,4 @@
+import { MaintenanceStockService } from './../../../shared/services/api/maintenance-stock.service';
 import { ActionMaintenance } from './../../../shared/models/action-maintenance';
 import { MaintenanceService } from './../../../shared/services/api/maintenance.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
@@ -89,11 +90,8 @@ export class MaintenancePlanComponent implements OnInit {
     private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
-    private operationTypeService: OperationTypeService,
-    private actionLineService: ActionLineService,
-    private actionService: ActionService,
+    private maintenanceStockService : MaintenanceStockService,
     private serviceProviderService: ServiceProviderService,
-    private periodicityTypeService: PeriodicityTypeService,
     private patrimonyService: PatrimonyService,
     private confirmationService: ConfirmationService,
     private maintenanceService: MaintenanceService,
@@ -176,7 +174,12 @@ export class MaintenancePlanComponent implements OnInit {
     ];
 
 
+    this.subscrubtion.add(
+      this.maintenanceStateService.findAll().subscribe((data) => {
+        this.MaintenancestateList = data;
 
+      })
+    );
 
 
 
@@ -198,11 +201,7 @@ export class MaintenancePlanComponent implements OnInit {
       })
     );
 
-    this.subscrubtion.add(
-      this.maintenanceStateService.findAll().subscribe((data) => {
-        this.MaintenancestateList = data;
-      })
-    );
+
 
     // this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
@@ -232,7 +231,15 @@ export class MaintenancePlanComponent implements OnInit {
       })
       );
     } else {
-      this.initForm();
+      this.maintenanceService.generateCode().subscribe(
+        code => {
+       this.selectedMaintenance.code = code;
+       console.log(this.selectedMaintenance.code);
+
+       this.initForm();
+        });
+
+        
     }
     this.initForm();
 
@@ -251,8 +258,16 @@ export class MaintenancePlanComponent implements OnInit {
           this.roundPipe.transform(this.selectedMaintenance.totalPrice, 2) : 0, disabled: true
       }),
       general: new FormGroup({
-        'fcode': new FormControl(this.selectedMaintenance.code, Validators.required),
-        'fmaintenaceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
+        'fcode': new FormControl(
+          {
+            value:
+                this.selectedMaintenance != null &&
+                this.selectedMaintenance.code != null
+                    ? this.selectedMaintenance.code
+                    : null,
+            disabled: true
+        },
+        Validators.required),        'fmaintenaceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
         'fProgram': new FormControl(this.selectedMaintenance.programType, Validators.required),
         'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
         'fState': new FormControl(this.selectedMaintenance.maintenanceState, Validators.required),
@@ -280,7 +295,6 @@ export class MaintenancePlanComponent implements OnInit {
         'fIntervetionDate': new FormControl(dInterventionDate, Validators.required),
 
       }),
-
 
     });
 
@@ -325,7 +339,7 @@ export class MaintenancePlanComponent implements OnInit {
         this.maintenacePlanForm.controls['service'].invalid) { return; }
     }
 
-    this.selectedMaintenance.code = this.maintenacePlanForm.value['general']['fcode'];
+    //this.selectedMaintenance.code = this.maintenacePlanForm.value['general']['fcode'];
     this.selectedMaintenance.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
     this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
@@ -358,6 +372,8 @@ export class MaintenancePlanComponent implements OnInit {
 
     this.maintenanceService.set(this.selectedMaintenance).subscribe(
       dataM => {
+
+          this.maintenanceStockService.insert(dataM);
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
 
         this.isFormSubmitted = false;

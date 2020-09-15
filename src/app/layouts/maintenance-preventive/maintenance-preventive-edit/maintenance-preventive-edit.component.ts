@@ -272,7 +272,14 @@ export class MaintenancePreventiveEditComponent implements OnInit {
       })
       );
     } else {
-      this.initForm();
+      this.maintenancePreventiveService.generateCode().subscribe(
+        code => {
+       this.selectedMaintenancePreventive.code = code;
+       console.log(this.selectedMaintenancePreventive.code);
+
+       this.initForm();
+        });
+
     }
     this.initForm();
 
@@ -292,7 +299,10 @@ export class MaintenancePreventiveEditComponent implements OnInit {
           this.roundPipe.transform(this.selectedMaintenancePreventive.totalPrice, 2) : 0, disabled: true
       }),
       general: new FormGroup({
-        'fcode': new FormControl(this.selectedMaintenancePreventive.code, Validators.required),
+        'fcode': new FormControl(
+
+                this.selectedMaintenancePreventive.code,
+        Validators.required),
         'fmaintenaceType': new FormControl(this.selectedMaintenancePreventive.maintenanceType, Validators.required),
         'fProgram': new FormControl(this.selectedMaintenancePreventive.programType, Validators.required),
         'fPatrimony': new FormControl(this.selectedMaintenancePreventive.patrimony, Validators.required),

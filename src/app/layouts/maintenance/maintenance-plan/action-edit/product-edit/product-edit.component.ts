@@ -1,6 +1,7 @@
-import { ActionLine } from './../../../../../shared/models/action-line';
-import { Action } from './../../../../../shared/models/action';
-import { ActionService } from './../../../../../shared/services/api/action.service';
+import { MaintenanceState } from './../../../../../shared/models/maintenance-state';
+import { MaintenanceStateService } from './../../../../../shared/services/api/maintenance-states.service';
+import { ActionLineMaintenance } from './../../../../../shared/models/action-line-maintenance';
+import { ActionMaintenance } from './../../../../../shared/models/action-maintenance';
 import { ProductService } from './../../../../../shared/services/api/product.service';
 import { Product } from './../../../../../shared/models/product';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,9 +17,9 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 export class ProductEditComponent implements OnInit {
 
 
-  @Input() selectedActionLine: ActionLine = new ActionLine();
+  @Input() selectedActionLine: ActionLineMaintenance = new ActionLineMaintenance();
   @Input() editMode = false;
-  @Output() actionLineEdited = new EventEmitter<ActionLine>();
+  @Output() actionLineEdited = new EventEmitter<ActionLineMaintenance>();
   @Output() showDialog = new EventEmitter<boolean>();
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -26,15 +27,16 @@ export class ProductEditComponent implements OnInit {
   selectedProduct: Product;
   lineForm: FormGroup;
   productList: Product[] = [];
-  actionList: Array<Action> = [];
-  actionSearch: Action;
-  selectedActions = new Action();
+  actionList: Array<ActionMaintenance> = [];
+  actionSearch: ActionMaintenance;
+  selectedActions = new ActionMaintenance();
+  maintenanceStateList: Array<MaintenanceState> = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private roundPipe: RoundPipe,
     private productService: ProductService,
-
+    private maintenanceStateService : MaintenanceStateService,
   ) { }
 
   ngOnInit() {
@@ -44,9 +46,13 @@ export class ProductEditComponent implements OnInit {
 
 
     if (!this.editMode) {
-      this.selectedActionLine = new ActionLine();
+      this.selectedActionLine = new ActionLineMaintenance();
       console.log(this.selectedActionLine);
 
+      this.maintenanceStateService.findAll().subscribe((data) => {
+       this.maintenanceStateList= data.filter(f => f.id === 2);
+       this.selectedActionLine.maintenanceState=this.maintenanceStateList[0];
+      })
     }
     console.log(this.selectedActionLine);
     this.initForm();
@@ -109,18 +115,24 @@ export class ProductEditComponent implements OnInit {
     if (this.lineForm.invalid) {
       return;
     }
+
     this.selectedActionLine.description = this.lineForm.value['description'];
     this.selectedActionLine.unitPrice = +this.lineForm.value['unitPrice'];
     this.selectedActionLine.quantity = +this.lineForm.value['quantity'];
+    //this.selectedActionLine.quantityServed = +this.lineForm.value['quantity'];
+    console.log(this.selectedActionLine.maintenanceState);
+
     this.actionLineEdited.emit(this.selectedActionLine);
     this.displayDialog = false;
 
   }
+  
   productSearch(evt) {
     this.productService.find(`code~${evt.query}`).subscribe((data) => {
       this.productList = data;
     });
   }
+
   onSelectProduct(event) {
     this.selectedProduct = event as Product;
     this.selectedActionLine.product = event as Product;
@@ -133,6 +145,7 @@ export class ProductEditComponent implements OnInit {
     });
     this.onUnitPriceChange();
   }
+
   onQuantityChange() {
     const quantity = this.lineForm.value['quantity'];
     let unitPrice = this.lineForm.value['unitPrice'];

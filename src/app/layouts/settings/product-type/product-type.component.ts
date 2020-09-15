@@ -153,7 +153,7 @@ export class ProductTypeComponent implements OnInit {
 
     if (this.selectedproductTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedproductTypes.map(x => x.id);
           this.productTypeService.deleteAllByIds(ids).subscribe(

@@ -27,7 +27,6 @@ export class ProductTypeEditComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedProductType = new ProductType();

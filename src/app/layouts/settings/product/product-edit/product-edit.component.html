@@ -15,7 +15,7 @@
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Code' | translate}}*</label>
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
             <span
             *ngIf="
               (productForm.get('code').touched &&
@@ -58,7 +58,7 @@
         <hr />
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Type' | translate}}*</label>
+            <label class="font-weight-bold">{{'Type' | translate}} *</label>
             <span *ngIf="(productForm.get('type').touched && productForm.get('type').invalid) ||
                 (isFormSubmitted && productForm.get('type').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -128,7 +128,8 @@
           style="color: red; font-size: xx-small;">
            'obligatoire'
         </span>
-            <input type="number" class="form-control  mb-2" formControlName="purchasePrice"
+
+            <input  class="form-control  mb-2" formControlName="purchasePrice"
             (keyup)="onPriceOrMarginChange(1)" />          </div>
 
           <div class="form-group col-sm-12 col-md-6">
@@ -138,7 +139,7 @@
           style="color: red; font-size: xx-small;">
            'obligatoire'
         </span>
-            <input type="number" class="form-control  mb-2" formControlName="purchasePriceTTC"
+            <input  class="form-control  mb-2" formControlName="purchasePriceTTC"
             (keyup)="onTTCPriceChange(2)">          </div>
 
         </div>
@@ -146,14 +147,14 @@
         <hr />
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Marge %' | translate}}*</label>
+            <label class="font-weight-bold">{{'Marge %' | translate}} *</label>
             <span *ngIf="(productForm.get('margin').touched && productForm.get('margin').invalid) ||
             (isFormSubmitted && productForm.get('margin').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
            'obligatoire'
         </span>
             <br />
-            <input type="number" class="form-control  mb-2" formControlName="margin"
+            <input  class="form-control  mb-2" formControlName="margin"
             (keyup)="onPriceOrMarginChange(1)" />
           </div>
 
@@ -176,7 +177,7 @@
           style="color: red; font-size: xx-small;">
            'obligatoire'
         </span>
-            <input type="number" class="form-control  mb-2" formControlName="salePrice"
+            <input  class="form-control  mb-2" formControlName="salePrice"
             (keyup)="onPriceOrMarginChange(2)" />          </div>
 
           <div class="form-group col-sm-12 col-md-6">
@@ -186,7 +187,7 @@
           style="color: red; font-size: xx-small;">
            'obligatoire'
         </span>
-            <input type="number" class="form-control  mb-2" formControlName="salePriceTTC"
+            <input  class="form-control  mb-2" formControlName="salePriceTTC"
             (keyup)="onTTCPriceChange(1)">
                     </div>
 

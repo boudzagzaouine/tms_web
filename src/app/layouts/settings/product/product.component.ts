@@ -110,7 +110,7 @@ export class ProductComponent implements OnInit {
 
   }
 
-  loadData() {
+  loadData(search: string = '') {
 
 
     this.spinner.show();
@@ -119,7 +119,7 @@ export class ProductComponent implements OnInit {
         this.collectionSize = data;
       }
     );
-    this.productService.findPagination(this.page, this.size, this.searchQuery).subscribe(
+    this.productService.findPagination(this.page, this.size,search).subscribe(
       data => {
         this.productList = data;
         this.spinner.hide();
@@ -132,9 +132,9 @@ export class ProductComponent implements OnInit {
     );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
-    this.loadData();
+    this.loadData(this.searchQuery);
   }
   onNameSearch(event: any) {
     this.productService.find('code~' + event.query).subscribe(
@@ -196,7 +196,7 @@ export class ProductComponent implements OnInit {
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData();
+    this.loadData(this.searchQuery);
 
   }
 

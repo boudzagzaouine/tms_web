@@ -123,15 +123,14 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
-        this.toastr.error('Erreur de connexion');
       },
       () => this.spinner.hide()
     );
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData();
   }
 
@@ -156,8 +155,6 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
   }
 
-
-
   reset() {
     this.transportSearch = null;
     this.vehicleCategorySearch = null;
@@ -172,7 +169,6 @@ export class TransportCategoryVehicleComponent implements OnInit {
   }
 
   onObjectEdited(event) {
-
     this.editMode = event.operationMode;
     this.selectTransportCatVehicles = event.object;
     if (this.editMode === 3) {
@@ -187,7 +183,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
     if (this.selectTransportCatVehicles.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer ? ',
         accept: () => {
           const ids = this.selectTransportCatVehicles.map(x => x.id);
           this.transportCategoryVehicleService.deleteAllByIds(ids).subscribe(
@@ -205,6 +201,12 @@ export class TransportCategoryVehicleComponent implements OnInit {
     } else if (this.selectTransportCatVehicles.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
+  }
+
+  onTransportSearch(event: any) {
+    this.transportService.find('code~' + event.query).subscribe(
+      data => this.transportList = data
+    );
   }
 
   onShowDialog(event) {

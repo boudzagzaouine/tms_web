@@ -36,6 +36,7 @@ export class TransportComponent implements OnInit {
     private confirmationService: ConfirmationService,
   ) { }
 
+
   ngOnInit() {
 
     this.className = Transport.name;
@@ -43,11 +44,11 @@ export class TransportComponent implements OnInit {
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
-      { field: 'line1', header: 'Adrress 1', type: 'string' },
-      { field: 'line2', header: 'Address 2', type: 'string' },
-      { field: 'zip', header: 'Code Postale', type: 'string' },
-      { field: 'city', header: 'Ville' },
-      { field: 'address.country', header: 'Pays', type: 'string' },
+    //  { field: 'address', child: 'line1', header: 'Addresse 1', type: 'object' },
+      //{ field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
+    //  { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },
+     // { field: 'address', child: 'city', header: 'Ville', type: 'object' },
+    //  { field: 'address', child: 'country', header: 'Pays', type: 'object' },
     ];
 
     this.loadData();
@@ -63,7 +64,6 @@ export class TransportComponent implements OnInit {
     );
     this.tranportService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.zoneList = data;
 
         this.spinner.hide();
@@ -158,7 +158,7 @@ export class TransportComponent implements OnInit {
 
     if (this.selectedTransports.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedTransports.map(x => x.id);
           this.tranportService.deleteAllByIds(ids).subscribe(

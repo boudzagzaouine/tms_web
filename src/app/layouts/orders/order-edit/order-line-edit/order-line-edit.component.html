@@ -17,7 +17,7 @@ showEffect="fade"
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-6">
-                    <label>{{'Produit' | translate}} *</label>
+                    <label class="font-weight-bold">{{'Produit' | translate}} *</label>
                     <span *ngIf="(purchaseOrderLineForm.get('pdt').touched && purchaseOrderLineForm.get('pdt').invalid) ||
             (isFormSubmitted && purchaseOrderLineForm.get('pdt').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -28,16 +28,25 @@ showEffect="fade"
                         [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)" *ngIf="!editMode"
                         (onSelect)="onSelectProduct($event)"></p-autoComplete>
                 </div>
-
                 <div class="form-group col-md-6">
-                    <label>{{'Descritpion' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="description">
-                </div>
+                  <label class="font-weight-bold"> {{'Statut' | translate}}</label>
+                  <input type="text" class="form-control mb-2" formControlName="status"
+                  >
+              </div>
+
             </div>
+            <div class="row  justify-content-around">
+              <div class="form-group col-md-12">
+                <label class="font-weight-bold">{{'Descritpion' | translate}}</label>
+                <input type="text" class="form-control mb-2" formControlName="description">
+            </div>
+
+
+              </div>
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                    <label>{{'Price' | translate}} *</label>
+                    <label class="font-weight-bold">{{'Price' | translate}} *</label>
                     <span *ngIf="(purchaseOrderLineForm.get('payedPrice').touched && purchaseOrderLineForm.get('payedPrice').invalid) ||
                     (isFormSubmitted && purchaseOrderLineForm.get('payedPrice').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
@@ -48,7 +57,7 @@ showEffect="fade"
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>{{'Quantity' | translate}} *</label>
+                    <label class="font-weight-bold">{{'Quantity' | translate}} *</label>
                     <span *ngIf="(purchaseOrderLineForm.get('quantity').touched && purchaseOrderLineForm.get('quantity').invalid) ||
                     (isFormSubmitted && purchaseOrderLineForm.get('quantity').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
@@ -61,7 +70,7 @@ showEffect="fade"
             </div>
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                    <label>{{'UOM' | translate}}</label>
+                    <label class="font-weight-bold">{{'UOM' | translate}}</label>
                     <input  type="text" class="form-control" formControlName="pdtPack" *ngIf="editMode" />
                     <p-dropdown   formControlName="pdtPack"
                     class="w-100" [options]="productPackList"
@@ -72,36 +81,28 @@ showEffect="fade"
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>{{'Total HT' | translate}}</label>
+                    <label class="font-weight-bold">{{'Total HT' | translate}}</label>
                     <input type="text" class="form-control mb-2" formControlName="totalHT">
                 </div>
             </div>
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                    <label>{{'VAT' | translate}}</label>
+                    <label class="font-weight-bold">{{'VAT' | translate}}</label>
                     <input type="text" class="form-control mb-2"
                     formControlName="vat"  [attr.disabled]="true">
                 </div>
 
 
                 <div class="form-group col-md-6">
-                    <label>{{'Total TTC' | translate}}</label>
+                    <label class="font-weight-bold">{{'Total TTC' | translate}}</label>
                     <input type="text" class="form-control mb-2" formControlName="totalTTC"
                     >
                 </div>
             </div>
 
 
-            <div class="row  mt-3 justify-content-around">
-
-                <div class="form-group col-md-6">
-                    <label>{{'Statut' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="status"
-                    >
-                </div>
-                <div class="form-group col-md-6"></div>
-            </div>
+          
 
 
         </div>

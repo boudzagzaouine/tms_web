@@ -43,10 +43,9 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     private transportService: TransportServcie,
     private vatService: VatService,
     private zoneService: ZoneServcie,
-    private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private roundPipe: RoundPipe) { }
+    ) { }
 
   ngOnInit() {
     this.vehicleCategoryService.findAll().subscribe(
@@ -128,29 +127,32 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   }
 
   onSelectVehicleCateory(event: any) {
-    console.log(event);
     this.selectCatalogTransportType.vehicleCategory = event.value;
 
   }
   onSelectTransport(event: any) {
-    console.log(event);
-    this.selectCatalogTransportType.transport = event.value;
-
+    this.selectCatalogTransportType.transport = event;
+  }
+  onTransportSearch(event: any) {
+    this.transportService
+      .find('code~' + event.query)
+      .subscribe(data => (this.transportList = data));
+  }
+  onZoneSourceSearch(event: any) {
+    this.zoneService
+      .find('code~' + event.query)
+      .subscribe(data => (this.zoneList = data));
   }
 
   onSelectVat(event: any) {
-    console.log(event);
     this.selectCatalogTransportType.vat = event.value;
 
   }
   onSelectZoneSource(event: any) {
-    console.log(event);
-    this.selectCatalogTransportType.zoneSource = event.value;
-
+    this.selectCatalogTransportType.zoneSource = event;
   }
   onSelectZoneDestination(event: any) {
-    console.log(event);
-    this.selectCatalogTransportType.zoneDestination = event.value;
+    this.selectCatalogTransportType.zoneDestination = event;
 
   }
 
@@ -162,13 +164,13 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     if (this.selectCatalogTransportType.vat != null) {
       vat = this.selectCatalogTransportType.vat.value;
     }
-
     const amountTva = (priceHt / 100) * vat;
     const priceTTC = priceHt + amountTva;
 
 
     this.selectCatalogTransportType.amountTtc = priceTTC;
     this.selectCatalogTransportType.amountTva = amountTva;
+
     this.transportCatVehicleForm.patchValue({
       'fAmountTtc': this.selectCatalogTransportType.amountTtc.toFixed(2),
       'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2),

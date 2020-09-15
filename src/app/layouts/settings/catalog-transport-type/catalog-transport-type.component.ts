@@ -71,13 +71,13 @@ export class CatalogTransportTypeComponent implements OnInit {
       },
       {
         field: 'zoneSource',
-        child: 'name',
+        child: 'code',
         header: 'Zone Source',
         type: 'object'
       },
       {
         field: 'zoneDestination',
-        child: 'name',
+        child: 'code',
         header: 'Zone Destination',
         type: 'object'
       },
@@ -103,7 +103,6 @@ export class CatalogTransportTypeComponent implements OnInit {
   }
 
   loadData() {
-    console.log(`search query : ${this.searchQuery}`);
 
     this.spinner.show();
     this.catalogTransportTypeService
@@ -115,7 +114,6 @@ export class CatalogTransportTypeComponent implements OnInit {
       .findPagination(this.page, this.size, this.searchQuery)
       .subscribe(
         data => {
-          console.log(data);
           this.transportCatVehicleList = data;
           this.spinner.hide();
         },
@@ -128,7 +126,6 @@ export class CatalogTransportTypeComponent implements OnInit {
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    console.log('first : ' + event.first);
     this.loadData();
   }
   onExportExcel(event) {
@@ -191,14 +188,14 @@ export class CatalogTransportTypeComponent implements OnInit {
     if (this.transportSearch != null && this.transportSearch.code !== '') {
       buffer.append(`transport.code~${this.transportSearch.code}`);
     }
-    if (this.zoneSourceSearch != null && this.zoneSourceSearch.name !== '') {
-      buffer.append(`zoneSource.name~${this.zoneSourceSearch.name}`);
+    if (this.zoneSourceSearch != null && this.zoneSourceSearch.code !== '') {
+      buffer.append(`zoneSource.name~${this.zoneSourceSearch.code}`);
     }
     if (
       this.zoneDestinationSearch != null &&
-      this.zoneDestinationSearch.name !== ''
+      this.zoneDestinationSearch.code !== ''
     ) {
-      buffer.append(`zoneDestination.name~${this.zoneDestinationSearch.name}`);
+      buffer.append(`zoneDestination.name~${this.zoneDestinationSearch.code}`);
     }
 
     this.page = 0;
@@ -214,7 +211,12 @@ export class CatalogTransportTypeComponent implements OnInit {
   onTransportSearch(event: any) {
     this.transportService
       .find('code~' + event.query)
-      .subscribe(data => (this.transportList = data.map(f => f.code)));
+      .subscribe(data => (this.transportList = data));
+  }
+  onZoneSouceSearch(event: any) {
+    this.zoneService
+      .find('code~' + event.query)
+      .subscribe(data => (this.zoneSourceList = data));
   }
 
   reset() {
@@ -240,7 +242,7 @@ export class CatalogTransportTypeComponent implements OnInit {
   onDeleteAll() {
     if (this.selectCatalogTransportTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectCatalogTransportTypes.map(x => x.id);
           this.catalogTransportTypeService.deleteAllByIds(ids).subscribe(

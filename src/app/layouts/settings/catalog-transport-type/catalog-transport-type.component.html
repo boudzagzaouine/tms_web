@@ -4,13 +4,10 @@
     <div class="col-md-3">
       <label class="font-weight-bold">{{ "Transport" | translate }}</label
       ><br />
-      <p-dropdown
-      [options]="transportList"
-      optionLabel="code"
-      [autoDisplayFirst]="false"
-      [(ngModel)]="transportSearch" filter="true"
-    >
-    </p-dropdown>
+      <p-autoComplete [(ngModel)]="transportSearch" [suggestions]="transportList"
+      (completeMethod)="onTransportSearch($event)" field="code"></p-autoComplete>
+
+
     </div>
 
     <div class="col-md-3">
@@ -32,26 +29,22 @@
         "Zone Source" | translate
       }}</label
       ><br />
-      <p-dropdown
-      [options]="zoneSourceList"
-      optionLabel="name"
-      [autoDisplayFirst]="false"
-      [(ngModel)]="zoneSourceSearch" filter="true"
-    >
-    </p-dropdown>
+
+      <p-autoComplete [(ngModel)]="zoneSourceSearch" [suggestions]="zoneSourceList"
+      (completeMethod)="onZoneSouceSearch($event)" field="code"></p-autoComplete>
+
+
+
     </div>
     <div class="col-md-3">
       <label class="font-weight-bold">{{
         "Zone Destination" | translate
       }}</label
       ><br />
-      <p-dropdown
-      [options]="zoneSourceList"
-      optionLabel="name"
-      [autoDisplayFirst]="false"
-      [(ngModel)]="zoneDestinationSearch" filter="true"
-    >
-    </p-dropdown>
+
+      <p-autoComplete [(ngModel)]="zoneDestinationSearch" [suggestions]="zoneSourceList"
+      (completeMethod)="onZoneSouceSearch($event)" field="code"></p-autoComplete>
+
     </div>
 
 

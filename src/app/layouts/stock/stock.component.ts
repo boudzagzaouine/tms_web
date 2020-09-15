@@ -40,7 +40,7 @@ export class StockComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'List du Stock';
+  titleList = 'Liste du Stock';
   stockExportList: Array<Stock> = [];
 
   constructor(private stockService: StockService,
@@ -66,7 +66,9 @@ export class StockComponent implements OnInit {
       {
         field: 'uom',child: 'code',   header: 'Unité de mesure',    type: 'object'
       },
-
+      // {
+      //   field: 'supplier',child: 'code',   header: 'Fournisseur',    type: 'object'
+      // },
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'
       },
@@ -123,9 +125,9 @@ export class StockComponent implements OnInit {
     );
     this.stockService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
-        this.stockList = data;
 
+
+        this.stockList = data.filter(f => f.active === true);
         this.spinner.hide();
       },
       error => {
@@ -152,6 +154,7 @@ export class StockComponent implements OnInit {
     if (this.supplierSearch != null && this.supplierSearch.code !== '') {
       buffer.append(`supplier.code~${this.supplierSearch.code}`);
     }
+   buffer.append('active:true');
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);

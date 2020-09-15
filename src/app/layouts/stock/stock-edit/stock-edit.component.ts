@@ -35,10 +35,10 @@ export class StockEditComponent implements OnInit {
   productPackList: ProductPack[];
 
   constructor(private stockService: StockService,
-     private productService:ProductService,
-     private supplierService:SupplierService,
-     private uomService :UomService,
- private productPackService :ProductPackService,
+    private productService: ProductService,
+    private supplierService: SupplierService,
+    private uomService: UomService,
+    private productPackService: ProductPackService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -47,14 +47,17 @@ export class StockEditComponent implements OnInit {
     this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
     });
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedStock = new Stock();
       this.title = 'Ajouter un stock';
 
+    } else {
+    this.productPackService.findAll().subscribe(
+      d =>
+        this.productPackList = d
+    );
     }
-
     this.displayDialog = true;
     this.initForm();
 
@@ -82,8 +85,8 @@ export class StockEditComponent implements OnInit {
     this.spinner.show();
     this.selectedStock.receptionDate = this.stockForm.value['receptionDate'];
     this.selectedStock.quantity = this.stockForm.value['quantity'];
-     this.selectedStock.product = this.stockForm.value['product'];
-     this.selectedStock.supplier = this.stockForm.value['supplier'];
+    this.selectedStock.product = this.stockForm.value['product'];
+    this.selectedStock.supplier = this.stockForm.value['supplier'];
 
     const s = this.stockService.set(this.selectedStock).subscribe(
       data => {
@@ -117,24 +120,25 @@ export class StockEditComponent implements OnInit {
     this.selectedStock.productPack = event.value;
   }
   onSelectProduct(event) {
-    console.log(event);
 
-    this.selectedStock.product = event ;
+
+    this.selectedStock.product = event;
     this.productPackService
-    .find('product.id:' + this.selectedStock.product.id)
-    .subscribe(data => {
+      .find('product.id:' + this.selectedStock.product.id)
+      .subscribe(data => {
         if (data && data.length) {
-            this.productPackList = data;
-            this.selectedStock.productPack = data[0];
-            this.selectedStock.uom = data[0].uom;
-            this.stockForm.patchValue({
-                uom: data[0].uom.code
-            });
+          this.productPackList = data;
+          this.selectedStock.productPack = data[0];
+          this.selectedStock.uom = data[0].uom;
+          this.stockForm.patchValue({
+            uom: data[0].uom.code
+          });
 
-            this.stockForm.updateValueAndValidity();
-           // console.log(data);
+
+          this.stockForm.updateValueAndValidity();
+
         }
-    });
+      });
 
   }
   onSelectSupplier(event) {

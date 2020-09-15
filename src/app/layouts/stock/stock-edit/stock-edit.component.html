@@ -36,10 +36,11 @@ showEffect="fade"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>
+
             <p-dropdown  formControlName="uom"
         [options]="productPackList" [autoDisplayFirst]="false"
          (onChange)="onSelectUom($event)"
-        optionLabel="uom.code"  [filter]="true">
+        optionLabel="uom.code"  [filter]="true" >
     </p-dropdown>
 
           </div>

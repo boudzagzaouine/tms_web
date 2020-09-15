@@ -6,6 +6,7 @@ import { Uom } from './uom';
 import { Product } from './product';
 
 export class Stock {
+  
     id: number;
     quantity: number;
     dlc: Date;
@@ -14,5 +15,6 @@ export class Stock {
     receptionDate:Date = new Date();
     supplier:Supplier;
     productPack : ProductPack;
+    active : Boolean= true;
 
 }

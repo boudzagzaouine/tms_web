@@ -85,12 +85,12 @@ export class MaintenancePlanComponent implements OnInit {
   monthList: SelectItem[] = [];
   periodicityTreatment: Array<any> = [];
   selectedMaintenancePlans: Array<Maintenance> = [];
-  editMType : boolean =false ;
+  editMType: number =2;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
-    private maintenanceStockService : MaintenanceStockService,
+    private maintenanceStockService: MaintenanceStockService,
     private serviceProviderService: ServiceProviderService,
     private patrimonyService: PatrimonyService,
     private confirmationService: ConfirmationService,
@@ -191,7 +191,7 @@ export class MaintenancePlanComponent implements OnInit {
 
     this.subscrubtion.add(
       this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data.filter(f=> f.id===2);
+        this.maintenanceTypeList = data.filter(f => f.id === 2);
       })
     );
 
@@ -200,6 +200,7 @@ export class MaintenancePlanComponent implements OnInit {
         this.serviceProviderList = data;
       })
     );
+
 
 
 
@@ -218,9 +219,26 @@ export class MaintenancePlanComponent implements OnInit {
             //   this.onSelectPeriodicity(this.selectedMaintenance.periodicityType);
             //   this.editMType=true;
             // }
-            this.onSelectMaintenanceType(this.selectedMaintenance.maintenanceType);
+            this.initForm();
+
+            this.subscrubtion.add(
+              this.programTypeService.findAll().subscribe((data) => {
+                this.programTypeList = data.filter(l =>
+
+                  l.id === this.selectedMaintenance.programType.id
+                );
+              })
+            );
+            //this.onSelectMaintenanceType(this.selectedMaintenance.maintenanceType);
 
             console.log(this.selectedMaintenance);
+            if (this.selectedMaintenance.maintenanceType.id === 1) {
+              this.editMType = 1;
+            } else if(this.selectedMaintenance.maintenanceType.id === 2) {
+              this.editMType = 2;
+            }
+
+
 
             this.initForm();
           },
@@ -233,13 +251,13 @@ export class MaintenancePlanComponent implements OnInit {
     } else {
       this.maintenanceService.generateCode().subscribe(
         code => {
-       this.selectedMaintenance.code = code;
-       console.log(this.selectedMaintenance.code);
+          this.selectedMaintenance.code = code;
+          console.log(this.selectedMaintenance.code);
 
-       this.initForm();
+          this.initForm();
         });
 
-        
+
     }
     this.initForm();
 
@@ -261,14 +279,30 @@ export class MaintenancePlanComponent implements OnInit {
         'fcode': new FormControl(
           {
             value:
-                this.selectedMaintenance != null &&
+              this.selectedMaintenance != null &&
                 this.selectedMaintenance.code != null
-                    ? this.selectedMaintenance.code
-                    : null,
+                ? this.selectedMaintenance.code
+                : null,
             disabled: true
-        },
-        Validators.required),        'fmaintenaceType': new FormControl(this.selectedMaintenance.maintenanceType, Validators.required),
-        'fProgram': new FormControl(this.selectedMaintenance.programType, Validators.required),
+          },
+          Validators.required),
+
+        'fmaintenaceType': new FormControl(
+
+              this.editMType === 2
+                ? this.selectedMaintenance.maintenanceType
+                : this.selectedMaintenance.maintenanceType.code,
+               // disabled : true
+ Validators.required),
+
+        'fProgram': new FormControl(
+
+          this.editMType === 2
+                ? this.selectedMaintenance.programType
+                : this.selectedMaintenance.programType.code,
+              //  disabled : true
+
+           Validators.required),
         'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
         'fState': new FormControl(this.selectedMaintenance.maintenanceState, Validators.required),
 
@@ -307,7 +341,7 @@ export class MaintenancePlanComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line) {
+  onShowDialogAction(line = new ActionMaintenance) {
     this.showDialog = true;
     console.log(line);
 
@@ -321,7 +355,7 @@ export class MaintenancePlanComponent implements OnInit {
     }
 
 
-    console.log(this.editMode);
+
 
   }
   onSubmit(close = false) {
@@ -344,36 +378,36 @@ export class MaintenancePlanComponent implements OnInit {
     this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
 
-      this.selectedMaintenance.employer = this.maintenacePlanForm.value['service']['femplyer'];
-      this.selectedMaintenance.declaredDate = this.maintenacePlanForm.value['service']['fDeclareDate'];
-      this.selectedMaintenance.triggerDay = this.maintenacePlanForm.value['service']['fTriggerDayy'];
-      this.selectedMaintenance.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
-      this.selectedMaintenance.duration = this.maintenacePlanForm.value['service']['fDuration'];
-      this.selectedMaintenance.interventionDate = this.maintenacePlanForm.value['service']['fIntervetionDate'];
+    this.selectedMaintenance.employer = this.maintenacePlanForm.value['service']['femplyer'];
+    this.selectedMaintenance.declaredDate = this.maintenacePlanForm.value['service']['fDeclareDate'];
+    this.selectedMaintenance.triggerDay = this.maintenacePlanForm.value['service']['fTriggerDayy'];
+    this.selectedMaintenance.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
+    this.selectedMaintenance.duration = this.maintenacePlanForm.value['service']['fDuration'];
+    this.selectedMaintenance.interventionDate = this.maintenacePlanForm.value['service']['fIntervetionDate'];
 
-      // console.log("triger Date");
-      // console.log(this.selectedMaintenance.triggerDate);
-      // let dt = new Date(this.selectedMaintenance.interventionDate);
-      // let day = this.selectedMaintenance.triggerDay;
-      // dt.setDate(dt.getDate() - day);
-      // this.selectedMaintenance.triggerDate = dt;
+    // console.log("triger Date");
+    // console.log(this.selectedMaintenance.triggerDate);
+    // let dt = new Date(this.selectedMaintenance.interventionDate);
+    // let day = this.selectedMaintenance.triggerDay;
+    // dt.setDate(dt.getDate() - day);
+    // this.selectedMaintenance.triggerDate = dt;
 
 
-  // if(this.selectedMaintenancePlan.maintenanceType.id=== 1){
-  //    this.listofperiodicityMensuel();
-  //  }
-  //   else if(this.selectedMaintenancePlan.maintenanceType.id=== 2) {
-  //           this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
-  //   }
-  let dt = new Date(this.selectedMaintenance.interventionDate);
-  let day = this.selectedMaintenance.triggerDay;
-  dt.setDate(dt.getDate() - day);
-  this.selectedMaintenance.triggerDate = dt;
+    // if(this.selectedMaintenancePlan.maintenanceType.id=== 1){
+    //    this.listofperiodicityMensuel();
+    //  }
+    //   else if(this.selectedMaintenancePlan.maintenanceType.id=== 2) {
+    //           this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
+    //   }
+    let dt = new Date(this.selectedMaintenance.interventionDate);
+    let day = this.selectedMaintenance.triggerDay;
+    dt.setDate(dt.getDate() - day);
+    this.selectedMaintenance.triggerDate = dt;
 
     this.maintenanceService.set(this.selectedMaintenance).subscribe(
       dataM => {
 
-          this.maintenanceStockService.insert(dataM);
+        this.maintenanceStockService.insert(dataM);
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
 
         this.isFormSubmitted = false;
@@ -439,6 +473,8 @@ export class MaintenancePlanComponent implements OnInit {
   // }
 
   onSelectMaintenanceType(event) {
+    console.log(event.value);
+
     if (event.value === undefined) {
       this.selectMaintenancetype = event;
       this.selectedMaintenance.maintenanceType = event;
@@ -451,6 +487,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.subscrubtion.add(
       this.programTypeService.findAll().subscribe((data) => {
         this.programTypeList = data.filter(l =>
+
           l.maintenanceType.id === this.selectMaintenancetype.id
         );
       })

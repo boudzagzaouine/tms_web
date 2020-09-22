@@ -1,3 +1,5 @@
+import { ActionMaintenance } from './../../../shared/models/action-maintenance';
+import { PurchaseOrderLine } from './../../../shared/models/purchase-order-line';
 import { MaintenancePlan } from './../../../shared/models/maintenance-plan';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { DayService } from './../../../shared/services/api/day.service';
@@ -341,7 +343,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line) {
+  onShowDialogAction(line = new Action) {
     this.showDialog = true;
     console.log(line);
 

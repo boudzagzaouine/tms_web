@@ -62,15 +62,12 @@ export class ActionEditComponent implements OnInit {
     this.displayDialog = true;
 
     console.log(this.editMode);
+    this.maintenanceStateService.findAll().subscribe((data) => {
+      this.MaintenancestateList =  data ; })
+
  if(!this.editMode){
      this.selectedAction = new ActionMaintenance();
 
-     this.maintenanceStateService.findAll().subscribe((data) => {
-      this.MaintenancestateList =  data ;
-
-
-
-    })
    }
     console.log(this.selectedAction);
 

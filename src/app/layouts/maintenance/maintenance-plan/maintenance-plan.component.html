@@ -29,7 +29,10 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
+          <input type="text" class="form-control" *ngIf="editMType==1"
+          [attr.disabled]="true"  formControlName="fmaintenaceType" pInputText   />
+
+          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"*ngIf="editMType!=1"
           [filter]="true" [options]="maintenanceTypeList"
          [showClear]="true" (onChange)='onSelectMaintenanceType($event)' formControlName="fmaintenaceType"></p-dropdown>
     </div>
@@ -41,7 +44,9 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
+          <input type="text" class="form-control"  [attr.disabled]="true" *ngIf="editMType==1" formControlName="fProgram" pInputText   />
+
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"*ngIf="editMType!=1"
           [filter]="true" [options]="programTypeList"
          [showClear]="true" (onChange)='onSelectProgrameType($event)' formControlName="fProgram"></p-dropdown>
     </div>
@@ -302,7 +307,7 @@
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction($event)"
+        (click)="onShowDialogAction()"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>

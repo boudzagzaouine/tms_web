@@ -175,13 +175,11 @@ export class DriverListComponent implements OnInit {
 
   loadDataOfBD(search: string = '') {
 
-    console.log('loading data');
 
     this.spinner.show();
 
     this.badgetypedriverService.sizeSearch(search).subscribe(
       data => {
-        console.log('data size : ' + data);
 
         this.collectionSize = data;
       }
@@ -213,9 +211,13 @@ export class DriverListComponent implements OnInit {
 
     this.page = 0;
     const searchQuery = buffer.getValue();
-    console.log('search ' + searchQuery);
 
     this.loadData(searchQuery);
+
+    // driverbadgeService.find('badgeType.code:' + ${this.badgeTypeSearch.code} ).
+    // subscribe(
+    // mergeMap
+    //)
 
   }
 
@@ -235,7 +237,6 @@ export class DriverListComponent implements OnInit {
 
     this.page = 0;
     const searchQuery = buffer.getValue();
-    console.log('search ' + searchQuery);
 
     this.loadDataOfBD(searchQuery);
 
@@ -278,7 +279,6 @@ export class DriverListComponent implements OnInit {
 
 
   onDeleteDriver(id: number) {
-    console.log('delete id : ' + id);
 
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',

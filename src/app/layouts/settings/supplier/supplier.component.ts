@@ -44,19 +44,16 @@ export class SupplierComponent implements OnInit {
     this.className = Supplier.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'description', header: 'Description', type: 'string' },
-       { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
-       { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
-       { field: 'contact', child: 'tel2', header: 'Telephone 2', type: 'object' },
-       { field: 'contact', child: 'fax', header: 'Fax', type: 'object' },
+      { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
+      { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
        { field: 'contact', child: 'email', header: 'Email', type: 'object' },
 
 
       { field: 'address', child: 'line1', header: 'Addresse 1', type: 'object' },
-      { field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
-      { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },
-      { field: 'address', child: 'city', header: 'Ville', type: 'object' },
-      { field: 'address', child: 'country', header: 'Pays', type: 'object' },
+     { field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
+     { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },
+     { field: 'address', child: 'city', header: 'Ville', type: 'object' },
+     { field: 'address', child: 'country', header: 'Pays', type: 'object' },
 
 
     ];
@@ -82,7 +79,7 @@ export class SupplierComponent implements OnInit {
       },
       error => {
         this.spinner.hide();
-        this.toastr.error('Erreur de connexion');
+        this.toastr.error(error.err.message + 'Erreur de connexion');
       },
       () => this.spinner.hide()
     );

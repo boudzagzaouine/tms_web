@@ -225,13 +225,15 @@ export class OrderEditComponent implements OnInit {
     this.selectedPurchaseOrder.supplier = event as Supplier;
   }
 
-  onShowDialogAction(line) {
+  onShowDialogAction(line = new PurchaseOrderLine) {
     this.showDialog = true;
     if (line !== undefined) {
       this.selectedPurchaseOrderLine = line;
       this.editMode = true;
     } else {
       this.editMode = false;
+
+
 
     }
   }

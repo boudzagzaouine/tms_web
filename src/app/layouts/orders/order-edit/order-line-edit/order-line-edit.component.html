@@ -24,7 +24,8 @@ showEffect="fade"
               {{"Obligatoire" | translate}}
             </span>
                     <input  type="text" class="form-control" formControlName="pdt" *ngIf="editMode" />
-                    <p-autoComplete formControlName="pdt" [suggestions]="productList" class="w-100" field="code" class="form-control border-0"
+                    <p-autoComplete formControlName="pdt" [suggestions]="productList"
+                    class="w-100" field="code" class="form-control border-0"
                         [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)" *ngIf="!editMode"
                         (onSelect)="onSelectProduct($event)"></p-autoComplete>
                 </div>
@@ -102,7 +103,7 @@ showEffect="fade"
             </div>
 
 
-          
+
 
 
         </div>

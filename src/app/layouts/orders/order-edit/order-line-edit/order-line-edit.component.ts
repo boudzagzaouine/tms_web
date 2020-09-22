@@ -26,7 +26,7 @@ import { OrderStatus } from './../../../../shared/models/order-status';
 export class OrderLineEditComponent implements OnInit {
 
     @Input()selectedPurchaseOrderLine: PurchaseOrderLine;
-    @Input() editMode: number;
+    @Input() editMode: boolean;
     @Output() showDialog = new EventEmitter<boolean>();
     @Output()purchaseOrderLineAdded = new EventEmitter<PurchaseOrderLine>();
     selectedProduct: Product;
@@ -56,6 +56,7 @@ export class OrderLineEditComponent implements OnInit {
   ngOnInit() {
 
     console.log(this.selectedPurchaseOrderLine);
+ console.log(this.editMode);
 
     this.vatService.findAll().subscribe(
       data=>{

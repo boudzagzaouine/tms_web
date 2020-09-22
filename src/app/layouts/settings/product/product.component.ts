@@ -122,6 +122,8 @@ export class ProductComponent implements OnInit {
     this.productService.findPagination(this.page, this.size,search).subscribe(
       data => {
         this.productList = data;
+        console.log(data);
+
         this.spinner.hide();
       },
       error => {

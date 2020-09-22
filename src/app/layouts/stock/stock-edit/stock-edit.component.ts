@@ -133,10 +133,7 @@ export class StockEditComponent implements OnInit {
           this.stockForm.patchValue({
             uom: data[0].uom.code
           });
-
-
           this.stockForm.updateValueAndValidity();
-
         }
       });
 

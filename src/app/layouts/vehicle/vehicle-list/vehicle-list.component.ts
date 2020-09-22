@@ -50,11 +50,11 @@ export class VehicleListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
 
-  vehicleExportList:Array<Vehicle> = [];
+  vehicleExportList: Array<Vehicle> = [];
 
 
   constructor(private vehicleService: VehicleService,
-    private patrimonyService : PatrimonyService,
+    private patrimonyService: PatrimonyService,
     private vehicleCategoryService: VehicleCategoryService,
     private globalService: GlobalService,
     private badgeTypeService: BadgeTypeService,

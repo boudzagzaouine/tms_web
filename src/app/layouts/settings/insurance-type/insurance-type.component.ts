@@ -1,21 +1,21 @@
-import { GlobalService } from "./../../../shared/services/api/global.service";
-import { EmsBuffer } from "./../../../shared/utils/ems-buffer";
-import { ToastrService } from "ngx-toastr";
-import { NgxSpinnerService } from "ngx-spinner";
-import { InsuranceTypeService } from "./../../../shared/services/api/insurance-type.service";
-import { MenuItem, ConfirmationService } from "primeng/api";
-import { InsuranceType } from "./../../../shared/models/insurance-Type";
-import { Component, OnInit } from "@angular/core";
+import { GlobalService } from './../../../shared/services/api/global.service';
+import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { InsuranceTypeService } from './../../../shared/services/api/insurance-type.service';
+import { MenuItem, ConfirmationService } from 'primeng/api';
+import { InsuranceType } from './../../../shared/models/insurance-Type';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-insurance-type",
-  templateUrl: "./insurance-type.component.html",
-  styleUrls: ["./insurance-type.component.css"]
+  selector: 'app-insurance-type',
+  templateUrl: './insurance-type.component.html',
+  styleUrls: ['./insurance-type.component.css']
 })
 export class InsuranceTypeComponent implements OnInit {
   page = 0;
   size = 10;
-  searchQuery = "";
+  searchQuery = '';
   codeSearch: string;
   descriptionSearch: string;
   codeList: Array<InsuranceType> = [];
@@ -26,9 +26,9 @@ export class InsuranceTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  title = "Modifier Type Assurance";
+  title = 'Modifier Type Assurance';
   insuranceTypeExportList: Array<InsuranceType> = [];
-  titleList = "Liste des types assurance";
+  titleList = 'Liste des types assurance';
 
   constructor(
     private insuranceTypeService: InsuranceTypeService,
@@ -36,18 +36,18 @@ export class InsuranceTypeComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private globalService: GlobalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.className = InsuranceType.name;
     this.cols = [
-      { field: "code", header: "Code", type: "string" },
-      { field: "description", header: "Description", type: "string" }
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' }
     ];
     this.loadData();
   }
 
-  loadData(search: string = "") {
+  loadData(search: string = '') {
     this.spinner.show();
     this.insuranceTypeService.sizeSearch(search).subscribe(data => {
       this.collectionSize = data;
@@ -66,6 +66,7 @@ export class InsuranceTypeComponent implements OnInit {
       );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
@@ -91,7 +92,7 @@ export class InsuranceTypeComponent implements OnInit {
         }
         this.spinner.hide();
       },
-      error => {
+      err => {
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -119,10 +120,10 @@ export class InsuranceTypeComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== "") {
+    if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-    if (this.descriptionSearch != null && this.descriptionSearch !== "") {
+    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
     this.page = 0;
@@ -131,7 +132,7 @@ export class InsuranceTypeComponent implements OnInit {
   }
   onCodeSearch(event: any) {
     this.insuranceTypeService
-      .find("code~" + event.query)
+      .find('code~' + event.query)
       .subscribe(data => (this.codeList = data.map(f => f.code)));
   }
 
@@ -139,7 +140,7 @@ export class InsuranceTypeComponent implements OnInit {
     this.codeSearch = null;
     this.descriptionSearch = null;
     this.page = 0;
-    this.searchQuery = "";
+    this.searchQuery = '';
     this.loadData(this.searchQuery);
   }
 
@@ -156,26 +157,26 @@ export class InsuranceTypeComponent implements OnInit {
   onDeleteAll() {
     if (this.selectedInsuranceTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: "Voulez vous vraiment Suprimer?",
+        message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedInsuranceTypes.map(x => x.id);
           this.insuranceTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success(
-                "Elément Supprimer avec Succés",
-                "Suppression"
+                'Elément Supprimer avec Succés',
+                'Suppression'
               );
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, "Erreur");
+              this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           );
         }
       });
     } else if (this.selectedInsuranceTypes.length < 1) {
-      this.toastr.warning("aucun ligne sélectionnée");
+      this.toastr.warning('aucun ligne sélectionnée');
     }
   }
 

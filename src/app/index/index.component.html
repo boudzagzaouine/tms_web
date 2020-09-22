@@ -15,7 +15,7 @@ style="background:url('./assets/img/imgArrierePlan.jpg'); width: 100%;height: 10
     class="btn btn float-right  btn-outline-primary m-5 "
     (click)="logout()"
   >
-    <i class="fa fa-sign-out"></i> Deconnexion
+    <i class="fa fa-sign-out"></i> {{'Deconnexion' | translate }}
   </button>
 </div>
 
@@ -27,7 +27,7 @@ style="background:url('./assets/img/imgArrierePlan.jpg'); width: 100%;height: 10
       <div class="text-center p-3"  style="border-radius:5px ;background-color:#253544;">
         <img src="./assets/img/chauffeur.png" style="width: 67px;height:67px;" class="mb-2"><br>
 
-         <span class="text-white">Chauffeur</span>
+         <span class="text-white">{{'Chauffeur' | translate }}</span>
 
       </div>
     </a>
@@ -36,7 +36,7 @@ style="background:url('./assets/img/imgArrierePlan.jpg'); width: 100%;height: 10
       <div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
         <img src="./assets/img/truck.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-         <span class="text-white">Véhicule</span>
+         <span class="text-white">{{'Véhicule' | translate }}</span>
 
       </div> </a>
 
@@ -44,18 +44,18 @@ style="background:url('./assets/img/imgArrierePlan.jpg'); width: 100%;height: 10
 
 
      <div class="col-md-4" >
-       <a routerLinkActive="active" routerLink="/core/maintenances/list">
+       <a routerLinkActive="active" routerLink="/core/maintenance/treatment">
         <div class="text-center p-4"  style="border-radius:5px ;background-color:#253544;">
             <img src="./assets/img/maintenance1.png" style="width: 65px;height:65;" class="mb-3"><br>
 
-             <span class="text-white">Maintenance</span>
+             <span class="text-white">{{'Maintenance' | translate }}</span>
 
           </div> </a>
     <a routerLinkActive="active" routerLink="/core/settings/badge-types">
           <div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
             <img src="./assets/img/1435085.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-            <span class="text-white">Badge</span>
+            <span class="text-white">{{'Badge' | translate }}</span>
 
           </div> </a>
 
@@ -65,14 +65,14 @@ style="background:url('./assets/img/imgArrierePlan.jpg'); width: 100%;height: 10
 <div class="text-center p-3"  style="border-radius:5px ;background-color:#253544;">
 <img src="./assets/img/assurance_auto.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-<span class="text-white">Assurance</span>
+<span class="text-white">{{'Assurance' | translate }}</span>
 
 </div></a>
 <a routerLinkActive="active" routerLink="/core/settings/suppliers">
 <div class="text-center p-3 mt-3"  style="border-radius:5px ;background-color:#253544;">
 <img src="./assets/img/supplier.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-<span class="text-white">Fournisseur</span>
+<span class="text-white">{{'Fournisseur' | translate }}</span>
 
 </div></a>
 

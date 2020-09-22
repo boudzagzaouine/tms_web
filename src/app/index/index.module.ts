@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +10,8 @@ import { IndexComponent } from './index.component';
   declarations: [IndexComponent],
   imports: [
     CommonModule,
-    IndexRoutingModule
+    IndexRoutingModule,
+    TranslateModule,
   ]
 })
 export class IndexModule { }

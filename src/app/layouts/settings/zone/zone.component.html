@@ -5,7 +5,7 @@
       <label class="font-weight-bold">{{'Code' |translate}}</label
       ><br />
       <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameList"
-      (completeMethod)="onNameSearch($event)"></p-autoComplete>
+      (completeMethod)="onNameSearch($event)" field='code'></p-autoComplete>
     </div>
 
 

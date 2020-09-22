@@ -18,7 +18,7 @@ export class ZoneComponent implements OnInit {
   size = 5;
   collectionSize: number;
   searchQuery = '';
-  nameSearch: string;
+  nameSearch: Zone;
   descriptionSearch = '';
   nameList: Array<Zone> = [];
   cols: any[];
@@ -40,7 +40,7 @@ export class ZoneComponent implements OnInit {
 
     this.className = Zone.name;
     this.cols = [
-      { field: 'code', header: 'Code' ,type:'string'},
+      { field: 'code', header: 'Code' , type:'string'},
       { field: 'description', header: 'Description' ,type:'string'},
 
 
@@ -117,8 +117,8 @@ export class ZoneComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.nameSearch != null && this.nameSearch !== '') {
-      buffer.append(`code~${this.nameSearch}`);
+    if (this.nameSearch != null && this.nameSearch.code !== '') {
+      buffer.append(`code~${this.nameSearch.code}`);
     }
 
     this.page = 0;
@@ -128,7 +128,7 @@ export class ZoneComponent implements OnInit {
   }
   onNameSearch(event: any) {
     this.zoneService.find('code~' + event.query).subscribe(
-      data => this.nameList = data.map(f => f.name)
+      data => this.nameList = data
     );
   }
   reset() {

@@ -77,6 +77,7 @@ import { ProductEditComponent } from './product/product-edit/product-edit.compon
 import { ProductTypeComponent } from './product-type/product-type.component';
 import { ProductTypeEditComponent } from './product-type/product-type-edit/product-type-edit.component';
 import { MenuProductComponent } from './menu-product/menu-product.component';
+import { InputNumber, InputNumberModule } from 'primeng/inputnumber';
 
 
 
@@ -163,7 +164,8 @@ import { MenuProductComponent } from './menu-product/menu-product.component';
     SplitButtonModule,
     DialogModule,
   PaginatorModule,
-  FieldsetModule
+  FieldsetModule,
+  InputNumberModule,
 
   ]
 })

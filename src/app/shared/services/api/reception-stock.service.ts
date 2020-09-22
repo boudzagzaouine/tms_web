@@ -29,20 +29,20 @@ private generateReceptionStocksFormReception(reception: Reception): ReceptionSto
   const receptionStocks: ReceptionStock[] = [];
   reception.receptionLines.forEach(line => {
       if (line.quantity > line.quantityReceived) {
-          receptionStocks.unshift(this.generateReceptionStockFomeReceptionLine(line));
+          receptionStocks.unshift(this.generateReceptionStockFomeReceptionLine(reception,line));
       }
   });
   return receptionStocks;
 }
 
 
-private generateReceptionStocksFormReceptionLines(lines: ReceptionLine[]): ReceptionStock[] {
+private generateReceptionStocksFormReceptionLines(reception: Reception, lines: ReceptionLine[]): ReceptionStock[] {
   const receptionStocks: ReceptionStock[] = [];
   console.log('generateReceptionStocksFormReception');
   if (lines != null) {
       lines.forEach(line => {
           if (line.quantity > line.quantityReceived) {
-              receptionStocks.unshift(this.generateReceptionStockFomeReceptionLine(line));
+              receptionStocks.unshift(this.generateReceptionStockFomeReceptionLine(reception, line));
           }
       });
       console.log(receptionStocks);
@@ -52,12 +52,14 @@ private generateReceptionStocksFormReceptionLines(lines: ReceptionLine[]): Recep
   }
 }
 
-private generateReceptionStockFomeReceptionLine(line): ReceptionStock {
+private generateReceptionStockFomeReceptionLine(reception: Reception, line: ReceptionLine): ReceptionStock {
   const rs = new ReceptionStock();
-  rs.reception = line.reception;
+  rs.reception = reception;
   rs.product = line.product;
   rs.quantityReceived = line.quantity - line.quantityReceived;
   rs.uom = line.uom;
+
+  rs.supplier = reception.supplier;
   //  rs.lineNumber = line.lineNumber;
   rs.receptionLine = line;
   rs.dlc = line.dlc;
@@ -68,6 +70,7 @@ private generateReceptionStockFomeReceptionLine(line): ReceptionStock {
   rs.weight = line.weight;
   rs.uom = line.uom;
   rs.uomReceived = line.uomReceived;
+  console.log("supplier rs");console.log(rs);
 
   return rs;
 }
@@ -75,8 +78,8 @@ receive(reception: Reception) {
 
   this.receptionLineService.find('reception.id:' + reception.id).subscribe(
       lines => {
-          const receptionStocks = this.generateReceptionStocksFormReceptionLines(lines);
-          
+          const receptionStocks = this.generateReceptionStocksFormReceptionLines(reception, lines);
+
           if (receptionStocks != null) {
               this.saveAll(receptionStocks).subscribe(
                   data => {

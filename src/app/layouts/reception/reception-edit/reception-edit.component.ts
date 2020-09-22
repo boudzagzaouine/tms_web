@@ -154,7 +154,7 @@ export class ReceptionEditComponent implements OnInit {
                   this.selectedReception.code != null
                       ? this.selectedReception.code
                       : null,
-              disabled: true
+              disabled: this.editMode
           },
           Validators.required
       ),
@@ -349,8 +349,10 @@ onSubmit() {
     this.selectedReception.supplier= event as Supplier;
   }
 
-  onShowDialogAction(line) {
+  onShowDialogAction(line = new ReceptionLine) {
     this.showDialog = true;
+    console.log(line);
+
     if (line !== undefined) {
       this.selectedReceptionLine = line;
       this.editMode = true;

@@ -17,7 +17,7 @@ showEffect="fade"
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-6">
-                    <label>{{'Produit' | translate}}*</label>
+                    <label class="font-weight-bold">{{'Produit' | translate}}*</label>
                     <span *ngIf="(receptionLineForm.get('pdt').touched && receptionLineForm.get('pdt').invalid) ||
             (isFormSubmitted && receptionLineForm.get('pdt').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -30,7 +30,7 @@ showEffect="fade"
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>{{'Descritpion' | translate}}</label>
+                    <label class="font-weight-bold">{{'Descritpion' | translate}}</label>
                     <input type="text" class="form-control mb-2" formControlName="description">
                 </div>
             </div>
@@ -40,7 +40,7 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                    <label>{{'Quantite' | translate}}*</label>
+                    <label class="font-weight-bold">{{'Quantite' | translate}}*</label>
                     <span *ngIf="(receptionLineForm.get('expectedQuantity').touched && receptionLineForm.get('expectedQuantity').invalid) ||
                     (isFormSubmitted && receptionLineForm.get('expectedQuantity').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
@@ -51,7 +51,7 @@ showEffect="fade"
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label>{{'UOM' | translate}}</label>
+                  <label class="font-weight-bold">{{'UOM' | translate}}</label>
                   <input type="text" class="form-control mb-2" formControlName="expectedUom" *ngIf="editMode">
 
                   <p-dropdown name="pdtPack" (onChange)="onSelectPdtPack($event)"
@@ -63,13 +63,13 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                  <label>{{' Prix.U HT' | translate}}</label>
+                  <label class="font-weight-bold">{{' Prix.U HT' | translate}}</label>
                   <input type="text" class="form-control mb-2" formControlName="price">
 
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label>{{' Prix.U TTC' | translate}}</label>
+                  <label class="font-weight-bold">{{' Prix.U TTC' | translate}}</label>
                     <input type="text" class="form-control mb-2" formControlName="priceTTC">
               </div>
             </div>
@@ -77,26 +77,26 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                  <label>{{'P.U  HT' | translate}} *</label>
+                  <label class="font-weight-bold">{{'P.U  HT' | translate}} *</label>
                     <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPrice"
                         (keyup)="onUnitPayedPriceChanged()">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label>{{'P.U TTC' | translate}} *</label>
+                  <label class="font-weight-bold">{{'P.U TTC' | translate}} *</label>
                   <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="payedPriceTTC"
                       (keyup)="onUnitPayedPriceTTCChanged()">   </div>
             </div>
 
             <div class="row  mt-3 justify-content-around">
                 <div class="form-group col-md-6">
-                  <label>{{'Total Price HT' | translate}} *</label>
+                  <label class="font-weight-bold">{{'Total Price HT' | translate}} *</label>
                     <input pInputText pKeyFilter="num" class="form-control mb-2" formControlName="totalPayedPrice"
                         (keyup)="onTotalPayedPriceChanged()">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label>{{'Total Price TTC' | translate}} *</label>
+                  <label class="font-weight-bold">{{'Total Price TTC' | translate}} *</label>
                   <input pInputText pKeyFilter="num" class="form-control mb-2"
                    formControlName="totalPayedPriceTTC"
                       (keyup)="onTotalPayedPriceTTCChanged()">

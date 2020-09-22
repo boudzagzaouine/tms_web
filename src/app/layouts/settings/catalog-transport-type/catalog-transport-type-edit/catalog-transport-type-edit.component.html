@@ -17,7 +17,7 @@
 
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
-                [showClear]="true" (onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory">
+                [showClear]="true" [disabled]="(editMode==2)"(onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory">
               </p-dropdown>
             </div>
 
@@ -33,7 +33,7 @@
 
               </span>
 
-              <p-autoComplete formControlName="fTransport" [suggestions]="transportList"
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fTransport" [suggestions]="transportList"
                 (onSelect)="onSelectTransport($event)" (completeMethod)="onTransportSearch($event)" field="code">
               </p-autoComplete>
 
@@ -53,7 +53,7 @@
               </span>
 
 
-              <p-autoComplete formControlName="fZoneSource" [suggestions]="zoneList"
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneSource" [suggestions]="zoneList"
                 (onSelect)="onSelectZoneSource($event)" (completeMethod)="onZoneSourceSearch($event)"
                  field="code">
               </p-autoComplete>
@@ -71,7 +71,7 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-autoComplete formControlName="fZoneDestination" [suggestions]="zoneList"
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneDestination" [suggestions]="zoneList"
                 (onSelect)="onSelectZoneDestination($event)" (completeMethod)="onZoneSourceSearch($event)"
                  field="code">
               </p-autoComplete>
@@ -107,6 +107,10 @@
               <br />
               <input type="text" class="form-control" (keyup)="onPriceHtChange()" pInputText
                 formControlName="fAmountHt"  />
+
+
+
+
             </div>
 
             <div class="form-group col-sm-6">

@@ -119,7 +119,7 @@ export class CatalogTransportTypeComponent implements OnInit {
         },
         error => {
           this.spinner.hide();
-          this.toastr.error('Erreur de connexion');
+          this.toastr.error(error.err.message + 'Erreur de connexion');
         },
         () => this.spinner.hide()
       );
@@ -189,13 +189,13 @@ export class CatalogTransportTypeComponent implements OnInit {
       buffer.append(`transport.code~${this.transportSearch.code}`);
     }
     if (this.zoneSourceSearch != null && this.zoneSourceSearch.code !== '') {
-      buffer.append(`zoneSource.name~${this.zoneSourceSearch.code}`);
+      buffer.append(`zoneSource.code~${this.zoneSourceSearch.code}`);
     }
     if (
       this.zoneDestinationSearch != null &&
       this.zoneDestinationSearch.code !== ''
     ) {
-      buffer.append(`zoneDestination.name~${this.zoneDestinationSearch.code}`);
+      buffer.append(`zoneDestination.code~${this.zoneDestinationSearch.code}`);
     }
 
     this.page = 0;

@@ -37,6 +37,10 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   displayDialog: boolean;
   isFormSubmitted = false;
   title = 'Modifier un Trajet';
+  transport : string;
+  catVehicle : string;
+  zoneSource : string;
+  zoneDestination : string ;
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -101,10 +105,54 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
     this.spinner.show();
 
+    if (this.editMode === 1) {
+
+
+       this.existTransport();
+    } else if (this.editMode === 2) {
+
+
+           this.insertcatalogTransport();
+    }
+
+
+    this.selectCatalogTransportType = new CatalogTransportType();
+
+
+  }
+
+  existTransport() {
+    this.catalogTransportTypeService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle},zoneSource.code~${this.zoneSource},zoneDestination.code~${this.zoneDestination}`).subscribe(
+      data => {
+
+        if (data > 0) {
+          this.toastr.error('Elément Existe Déja', 'Edition');
+        } else {
+          this.insertcatalogTransport();
+        }
+        this.spinner.hide();
+
+      },
+      error => {
+        this.toastr.error(error.error.message, 'Erreur');
+
+
+        this.spinner.hide();
+      },
+
+      () => this.spinner.hide()
+    );
+  }
+  insertcatalogTransport(){
+
     this.selectCatalogTransportType.amountHt = this.transportCatVehicleForm.value['fAmountHt'];
     this.selectCatalogTransportType.amountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
-
+    this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
+    this.selectCatalogTransportType.transport = this.transportCatVehicleForm.value['fTransport'];
+    this.selectCatalogTransportType.zoneDestination = this.transportCatVehicleForm.value['fZoneSource'];
+    this.selectCatalogTransportType.zoneSource = this.transportCatVehicleForm.value['fZoneDestination'];
+    this.selectCatalogTransportType.vat = this.transportCatVehicleForm.value['fVat'];
     this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
@@ -119,19 +167,15 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
       () => this.spinner.hide()
     );
-
-
-    this.selectCatalogTransportType = new CatalogTransportType();
-
-
   }
 
   onSelectVehicleCateory(event: any) {
     this.selectCatalogTransportType.vehicleCategory = event.value;
-
+    this.catVehicle=event.value.code;
   }
   onSelectTransport(event: any) {
     this.selectCatalogTransportType.transport = event;
+    this.transport=event.code;
   }
   onTransportSearch(event: any) {
     this.transportService
@@ -150,16 +194,22 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   }
   onSelectZoneSource(event: any) {
     this.selectCatalogTransportType.zoneSource = event;
+    this.zoneSource=event.code;
+
   }
   onSelectZoneDestination(event: any) {
     this.selectCatalogTransportType.zoneDestination = event;
+    this.zoneDestination = event.code;
 
   }
 
 
 
   onPriceHtChange() {
+
+
     const priceHt = +this.transportCatVehicleForm.value['fAmountHt'];
+
     let vat = 0;
     if (this.selectCatalogTransportType.vat != null) {
       vat = this.selectCatalogTransportType.vat.value;

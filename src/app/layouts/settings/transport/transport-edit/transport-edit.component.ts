@@ -33,7 +33,24 @@ export class TransportEditComponent implements OnInit {
     if (this.editMode === 1) {
       this.selectedtransport = new Transport();
       this.title = 'Ajouter un transport';
+
+      this.transportService.generateCode().subscribe(
+        code => {
+       this.selectedtransport.code = code;
+        this.initForm();
+    });
+
+    this.addressService.generateCode().subscribe(
+      code => {
+     this.selectAddress.code = code;
+     console.log("code addr ");
+     console.log(code);
+
+
+  });
+
     } else {
+
       if (this.selectedtransport.address){
       this.selectAddress = this.selectedtransport.address;}
     }
@@ -43,8 +60,9 @@ export class TransportEditComponent implements OnInit {
 
   initForm() {
     this.transportForm = new FormGroup({
-      code: new FormControl(this.selectedtransport.code, Validators.required),
+      code: new FormControl(this.selectedtransport.code),
       name: new FormControl(this.selectedtransport.name, Validators.required),
+      siret: new FormControl(this.selectedtransport.siret),
       description: new FormControl(this.selectedtransport.description),
       line1: new FormControl( this.selectAddress.line1,
 
@@ -63,14 +81,14 @@ export class TransportEditComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.selectedtransport.code = this.transportForm.value['code'];
+    this.selectedtransport.siret = this.transportForm.value['siret'];
     this.selectedtransport.name = this.transportForm.value['name'];
     this.selectedtransport.description = this.transportForm.value[
       'description'
     ];
     this.selectedtransport.active = true;
 
-    this.selectAddress.code = this.transportForm.value['code'];
+   // this.selectAddress.code = this.transportForm.value['code'];
     this.selectAddress.line1 = this.transportForm.value['line1'];
     this.selectAddress.line2 = this.transportForm.value['line2'];
     this.selectAddress.city = this.transportForm.value['city'];
@@ -93,7 +111,7 @@ export class TransportEditComponent implements OnInit {
         },
         () => this.spinner.hide()
       );
-    });
+  });
   }
   onShowDialog() {
     let a = false;

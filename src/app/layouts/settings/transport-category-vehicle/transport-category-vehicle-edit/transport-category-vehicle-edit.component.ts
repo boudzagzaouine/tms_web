@@ -27,18 +27,16 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une catégorie de véhicule';
-
+  catVehicle: string;
+  transport: string;
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
-    private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
-
 
     this.vehicleCategoryService.findAll().subscribe(
       data => {
@@ -76,7 +74,52 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
     this.spinner.show();
 
+
+    if (this.editMode === 1) {
+      console.log("ajouter");
+
+       this.existTransport();
+    } else if (this.editMode === 2) {
+      console.log("modifier");
+
+           this.insertTransportCategorieVehicule();
+    }
+
+
+      this.selectTransportCatVehicle = new TransportCategoryVehicle();
+  }
+
+  existTransport() {
+    this.transportCatVehicleService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle}`).subscribe(
+      data => {
+
+        if (data > 0) {
+          this.toastr.success('Elément Existe Déja', 'Edition');
+        } else {
+          console.log(this.selectTransportCatVehicle);
+
+          this.insertTransportCategorieVehicule();
+        }
+        this.spinner.hide();
+
+      },
+      error => {
+        this.toastr.error(error.error.message, 'Erreur');
+
+        this.spinner.hide();
+      },
+
+      () => this.spinner.hide()
+    );
+  }
+  insertTransportCategorieVehicule() {
     this.selectTransportCatVehicle.quantity = this.transportCatVehicleForm.value['fQuantity'];
+    this.selectTransportCatVehicle.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
+    this.selectTransportCatVehicle.transport = this.transportCatVehicleForm.value['fTransport'];
+
+    console.log(this.selectTransportCatVehicle);
+
+
     const s = this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
@@ -92,19 +135,20 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
       () => this.spinner.hide()
     );
-
-
-
-    this.selectTransportCatVehicle = new TransportCategoryVehicle();
   }
-
-  onSelectVehicleCateory(event: any) {
+  onSelectVehicleCateory(event) {
     this.selectTransportCatVehicle.vehicleCategory = event.value;
+    this.catVehicle = event.value.code;
 
   }
-  onSelectTransport(event: any) {
-    this.selectTransportCatVehicle.transport = event.value;
-
+  onSelectTransport(event : Transport) {
+    this.selectTransportCatVehicle.transport = event;
+ this.transport = event.code;
+  }
+  onTransportSearch(event: any) {
+    this.transportService
+      .find('code~' + event.query)
+      .subscribe(data => (this.transportList = data));
   }
 
 

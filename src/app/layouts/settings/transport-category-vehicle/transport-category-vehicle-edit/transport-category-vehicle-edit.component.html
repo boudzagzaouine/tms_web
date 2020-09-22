@@ -36,7 +36,7 @@
                 [filter]="true"
                 [showClear]="true"
                 (onChange)="onSelectVehicleCateory($event)"
-                formControlName="fVehicleCategory"
+                formControlName="fVehicleCategory" [disabled]="(editMode==2)"
               ></p-dropdown>
             </div>
 
@@ -56,15 +56,16 @@
               >
                 {{ "Obligatoire" | translate }} </span
               ><br />
-              <p-dropdown
-                [autoDisplayFirst]="false"
-                [options]="transportList"
-                optionLabel="code"
-                [filter]="true"
-                [showClear]="true"
-                (onChange)="onSelectTransport($event)"
-                formControlName="fTransport"
-              ></p-dropdown>
+              <p-autoComplete formControlName="fTransport" [suggestions]="transportList"
+              (onSelect)="onSelectTransport($event)"
+              (completeMethod)="onTransportSearch($event)" field="code"
+              [disabled]="(editMode==2)" >
+
+            </p-autoComplete>
+
+
+
+
             </div>
 
             <div class="form-group col-sm-12">

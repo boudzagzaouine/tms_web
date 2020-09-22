@@ -60,7 +60,7 @@ export class CommissionTypeComponent implements OnInit {
     );
     this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+     
         this.commissionTypeList = data;
 
         this.spinner.hide();

@@ -39,7 +39,7 @@ showEffect="fade"
               style="color: red; font-size: xx-small;">
               {{ 'Obligatoire' | translate}}
             </span>
-             <input type="text" class="form-control" formControlName="fMinDistance" pInputText  />
+             <input type="text" class="form-control"pKeyFilter="num" formControlName="fMinDistance" pInputText  />
 
            </div>
            <div class="form-group col-sm-6 ">
@@ -49,7 +49,7 @@ showEffect="fade"
               style="color: red; font-size: xx-small;">
               {{ 'Obligatoire' | translate}}
             </span>
-             <input type="text" class="form-control" formControlName="fMaxDistance" pInputText  />
+             <input type="text" class="form-control"pKeyFilter="num" formControlName="fMaxDistance" pInputText  />
 
            </div>
           <div class="form-group col-sm-6 ">
@@ -59,7 +59,11 @@ showEffect="fade"
               style="color: red; font-size: xx-small;">
               {{ 'Obligatoire' | translate}}
             </span>
-             <input type="text" class="form-control" formControlName="fAmount" pInputText  />
+
+
+            <p-inputNumber formControlName="fAmount" [showButtons]="true" mode="currency" currency="MAD">
+            </p-inputNumber>
+
 
            </div>
           <div class="col-md-6"></div>

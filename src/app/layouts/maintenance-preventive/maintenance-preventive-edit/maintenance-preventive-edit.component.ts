@@ -347,7 +347,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.showDialog = true;
     console.log(line);
 
-    if (line !== undefined) {
+    if (line.id > 0) {
       this.selectAction = line;
       this.editMode = true;
       console.log(this.editMode);

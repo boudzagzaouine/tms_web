@@ -1,3 +1,4 @@
+import { NgPipesModule } from 'ngx-pipes';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -30,6 +31,7 @@ registerLocaleData(localeFr, 'fr');
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    NgPipesModule,
     SharedModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot({

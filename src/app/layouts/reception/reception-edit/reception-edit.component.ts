@@ -353,7 +353,7 @@ onSubmit() {
     this.showDialog = true;
     console.log(line);
 
-    if (line !== undefined) {
+    if (line.id>=0) {
       this.selectedReceptionLine = line;
       this.editMode = true;
     } else {

@@ -32,9 +32,7 @@ export class GlobalService {
     objectExportList.forEach(e => {
       var tempObj = [];
       selectedColumns.forEach(c => {
-        if (c.type === 'object') {
-          tempObj.push(e[c.dataKey][c.child]);
-        } else if (c.type === 'number' || c.type === 'string') {
+        if (c.type === 'number' || c.type === 'string') {
           tempObj.push(e[c.dataKey]);
         } else if (c.type === 'date') {
           const d = new Date(e[c.dataKey]);
@@ -42,6 +40,8 @@ export class GlobalService {
           tempObj.push(d.getDate() + '-' + (d.getUTCMonth() + 1) + '-' + d.getFullYear());
         } else if (c.type === 'boolean') {
           tempObj.push(e[c.dataKey] ? 'oui' : 'non');
+        } else {
+          tempObj.push(e[c.dataKey][c.child]);
         }
 
       });

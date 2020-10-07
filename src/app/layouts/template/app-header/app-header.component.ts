@@ -1,6 +1,9 @@
 import { AuthenticationService } from '../../../shared/services/api/authentication.service';
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, DoCheck } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../../../shared/services/api/notification.service';
+import { Observable, Observer } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +11,26 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppHeaderComponent implements OnInit, AfterViewInit {
 
+  notificationSize: number =0;
+ notificationList : Array<Notification> = [];
   constructor(
+    private notificationService : NotificationService,
     private auth: AuthenticationService,
     private translate: TranslateService,
-  ) { }
+    private messageService: MessageService
+  ) {
+    
+  }
+  
+
+
 
   ngOnInit() {
+    this.loadData();
+    setInterval(()=> {
+      this.loadData();
+    },60000)
+   
     this.translate.addLangs([
       'en',
       'fr'
@@ -27,7 +44,9 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
     );
   }
   ngAfterViewInit() {
+
   }
+
 
   changeLang(language: string) {
     this.translate.use(language);
@@ -36,4 +55,42 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
   logout() {
     this.auth.logout();
   }
+
+ 
+
+ loadData(search: string = '') {
+
+  this.notificationService.findAll().subscribe(
+    data=>{
+      
+     this.notificationList=data;
+           
+    }
+
+  );
+
+  // this.notificationService.verify().subscribe(
+  //   data=>{
+      
+  //     console.log("notification size");
+      
+  //          console.log(data);
+           
+  //   }
+
+  // );
+  this.notificationService.sizeSearch(search).subscribe(
+    data => {
+      this.notificationSize = data;
+    }
+  );
+  
+}
+
+
+notification(){
+
+  
+}
+
 }

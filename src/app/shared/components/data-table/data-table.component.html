@@ -167,7 +167,7 @@
 
              <span *ngIf="(typeOf(col.type)===1 );">
 
-              {{rowData[col?.field] ? rowData[col?.field][col?.child] :'/*'}}
+              {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
                <!-- <span *ngIf="(rowData[col.field]!= null) else vide" >
              {{ rowData[col?.field][col?.child]}}
              {{''}}

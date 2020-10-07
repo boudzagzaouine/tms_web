@@ -12,6 +12,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 //  AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -30,6 +31,7 @@ registerLocaleData(localeFr, 'fr');
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    OverlayPanelModule,
     HttpClientModule,
     NgPipesModule,
     SharedModule.forRoot(),

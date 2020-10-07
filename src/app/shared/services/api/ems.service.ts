@@ -74,4 +74,10 @@ export class EmsService<T> {
 
   generateCode(): Observable<string> {
     return this.proxy.generateCode(this.controller);
-}}
+}
+
+verify() {
+  return this.proxy.verify(this.controller);
+}
+
+}

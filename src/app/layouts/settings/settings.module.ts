@@ -78,6 +78,8 @@ import { ProductTypeComponent } from './product-type/product-type.component';
 import { ProductTypeEditComponent } from './product-type/product-type-edit/product-type-edit.component';
 import { MenuProductComponent } from './menu-product/menu-product.component';
 import { InputNumber, InputNumberModule } from 'primeng/inputnumber';
+import { NotificationComponent } from './notification/notification.component';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 
@@ -134,7 +136,8 @@ import { InputNumber, InputNumberModule } from 'primeng/inputnumber';
     ProductEditComponent,
     ProductTypeComponent,
     ProductTypeEditComponent,
-    MenuProductComponent
+    MenuProductComponent,
+    NotificationComponent
 
 
 
@@ -166,6 +169,8 @@ import { InputNumber, InputNumberModule } from 'primeng/inputnumber';
   PaginatorModule,
   FieldsetModule,
   InputNumberModule,
+  ProgressBarModule,
+
 
   ]
 })

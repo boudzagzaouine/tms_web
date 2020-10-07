@@ -36,6 +36,7 @@ import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie
 import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.component';
 import { MenuDriverComponent } from './menu-driver/menu-driver.component';
 import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
       { path: 'zone', component: ZoneComponent },
       { path: 'transport', component: TransportComponent },
       { path: 'product', component: ProductComponent },
-      { path: 'product-type', component: ProductTypeComponent }
+      { path: 'product-type', component: ProductTypeComponent },
+      { path: 'notification', component: NotificationComponent }
 
 
 

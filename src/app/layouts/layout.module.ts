@@ -11,6 +11,8 @@ import { LayoutComponent } from './/layout.component';
 import { AppHeaderComponent } from './template/app-header/app-header.component';
 import { AppSidebarComponent as AppSidebarComponent } from './template/app-sidebar/app-sidebar.component';
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -33,7 +35,7 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
 
   ],
   imports: [
-    CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule
+    CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule,OverlayPanelModule,TableModule
   ],
 
   providers: [ ConfirmationService]

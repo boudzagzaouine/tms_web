@@ -95,6 +95,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { PatrimonyService } from './services/api/patrimony-service';
 import { PeriodicityTypeService } from './services/api/periodicity-type.service';
 import { UomService } from './services/api/uom.service';
+import { NotificationService } from './services/api/notification.service';
 
 
 @NgModule({
@@ -206,6 +207,8 @@ export class SharedModule {
         OrderStatusService,
         ReceptionStockService,
         MaintenanceStockService,
+        NotificationService,
+        MessageService
       ],
 
     };

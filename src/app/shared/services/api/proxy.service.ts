@@ -242,6 +242,15 @@ findByPatrimony(controller: string, idVehicle: number): Observable<any> {
   return this.http.get<any>(fullurl);
 }
 
+verify(controller: string) {
+    const fullurl = 
+        this.url +
+        controller +
+        '?token=' +
+        this.getToken();
+    return this.http.get(fullurl);
+}
+
 
 
 }

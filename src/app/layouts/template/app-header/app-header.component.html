@@ -3,11 +3,10 @@
   <div class="page-brand" style="background-color: #3581ad !important;">
     <a class="link" routerLink="/">
       <span class="brand">
-        <i class="sidebar-item-icon"><img src="./assets/img/Menu/ems.ico"
-          width="25px" height="25px" ></i>EMS-TMS
+        <i class="sidebar-item-icon"><img src="./assets/img/Menu/ems.ico" width="25px" height="25px"></i>EMS-TMS
       </span>
-      <span class="brand-mini">  <i class="sidebar-item-icon "><img src="./assets/img/Menu/ems.ico"
-        width="30px" height="30px"  ></i></span>
+      <span class="brand-mini"> <i class="sidebar-item-icon "><img src="./assets/img/Menu/ems.ico" width="30px"
+            height="30px"></i></span>
     </a>
   </div>
   <div class="flexbox flex-1 text-white" style="background-color: #3c8dbc; color: white;">
@@ -21,8 +20,91 @@
     <!-- END TOP-LEFT TOOLBAR-->
     <!-- START TOP-RIGHT TOOLBAR-->
     <ul class="nav navbar-toolbar text-white">
+
+
+
       <li class="dropdown dropdown-user">
-        <a class="nav-link dropdown-toggle link text-white " data-toggle="dropdown">
+        <a class="nav-link dropdown-toggle  text-white " (click)="op.toggle($event)">
+
+          <i class="fa fa-bell"><span class='badge-pill' style=" 
+            position: absolute;
+              font-size: xx-small;
+              margin-left: -5px;
+              margin-top: -10px;
+              background-color: var(--orange);
+              color: white;">{{notificationSize}}</span></i></a>
+      </li>
+
+
+      <p-overlayPanel #op [showCloseIcon]="true" 
+      [style]="{width: '350px' ,padding:'0em'}">
+        <ng-template pTemplate>
+          <div class="card m-0">
+            <div class="card-header p-3 mb-2 bg-primary text-white">
+              Notifications
+            </div>
+
+            <div class="card-body m-0">
+              <table style="border-collapse: separate;border-spacing : 8px;">
+
+                <tbody>
+                  <tr *ngFor="let notification of notificationList"
+                   >
+
+                    <td width='70%'>
+                      <span *ngIf="notification.type=='Maintenance'"> la Maintenace <b>{{notification.code}}</b></span>
+
+                      <span *ngIf="notification.type=='Produit'">le Produit <b>{{notification.code}}</b></span>
+                    </td>
+
+                    <td width='30%'>
+                      <span *ngIf="notification.notificationState.id==1">
+                        <span class="p-1 mb-1 text-dark bg-warning rounded-sm">
+                          {{notification.notificationState.code}}
+                        </span>
+                      </span>
+                      <span *ngIf="notification.notificationState.id==3">
+                        <span class="p-1 mb-1 text-white bg-danger rounded-sm">
+                          {{notification.notificationState.code}}
+                        </span></span>
+                      <span *ngIf="notification.notificationState.id==2">
+                        <span class="p-1 mb-1 text-white bg-warning rounded-sm">
+                          {{notification.notificationState.code}}
+                        </span></span>
+                    </td>
+
+                  </tr>
+
+                </tbody>
+
+
+              </table>
+
+
+
+
+            </div>
+
+            <div class="p-3 mb-1 ">
+              <span class="d-flex justify-content-center">
+                <a  routerLink="/core/settings/notification">
+
+                  voir tout</a></span>
+            </div>
+          </div>
+
+
+
+
+
+
+
+        </ng-template>
+      </p-overlayPanel>
+
+
+      <li class="dropdown dropdown-user">
+        <a class="nav-link dropdown-toggle  text-white " data-toggle="dropdown">
 
           <i class="fa fa-language m-l-5"></i></a>
         <ul class="dropdown-menu dropdown-menu-right">

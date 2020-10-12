@@ -96,6 +96,7 @@ import { PatrimonyService } from './services/api/patrimony-service';
 import { PeriodicityTypeService } from './services/api/periodicity-type.service';
 import { UomService } from './services/api/uom.service';
 import { NotificationService } from './services/api/notification.service';
+import { ActionPlanService } from './services/api/action-plan.service';
 
 
 @NgModule({
@@ -208,7 +209,8 @@ export class SharedModule {
         ReceptionStockService,
         MaintenanceStockService,
         NotificationService,
-        MessageService
+        MessageService,
+        ActionPlanService
       ],
 
     };

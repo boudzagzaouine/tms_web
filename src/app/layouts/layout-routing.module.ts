@@ -15,12 +15,7 @@ const routes: Routes = [
        .then(m => m.CommissionDriverModule) },
       // { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
 
-      {
-        path: 'maintenances',
-        loadChildren: () => import('./maintenance-plan/maintenance-plan.module')
-          .then(m => m.MaintenancePlanModule)
-      },
-
+    
       { path: 'turn', loadChildren: () => import('./turn/turn.module').then(m => m.TurnModule) },
       { path: 'machine', loadChildren: () => import('./machine/machine.module').then(m => m.MachineModule) },
 

@@ -11,28 +11,6 @@
 
 
 
-      <div class="col-md-3">
-        <label class="font-weight-bold ">{{'Patrimoine' |translate}}</label><br />
-        <p-autoComplete [(ngModel)]="patrimonySearch" [suggestions]="patrimonyList"
-        (completeMethod)="onPatrimonySearch($event)"></p-autoComplete>      </div>
-
-
-      <div class="col-md-3 ">
-
-
-        <label class="font-weight-bold ">{{'Type Maintenance' |translate}}</label><br />
-        <p-dropdown [autoDisplayFirst]="false" [filter]="true" [options]="maintenanceTypeList" optionLabel="code"
-          [showClear]="true" [(ngModel)]="typeMaintenanceSearch">
-        </p-dropdown>
-      </div>
-      <div class="col-md-3 ">
-        <label class="font-weight-bold ">{{'Status Maintenance' |translate}}</label><br />
-        <p-dropdown [autoDisplayFirst]="false" [options]="maintenanceStateList
-        " optionLabel="code" [filter]="true"
-          [showClear]="true" [(ngModel)]="statusMaintenanceSearch">
-        </p-dropdown>
-      </div>
-
     </div>
     <br />
     <br />

@@ -27,10 +27,13 @@ import { MaintenancePreventiveEditComponent } from './maintenance-preventive-edi
 import { ActionEditComponent } from './maintenance-preventive-edit/action-edit/action-edit.component';
 import { ProductEditComponent } from './maintenance-preventive-edit/action-edit/product-edit/product-edit.component';
 import { MaintenancePreventiveListComponent } from './maintenance-preventive-list/maintenance-preventive-list.component';
+import { PlanActionEditComponent } from './maintenance-preventive-edit/plan-action-edit/plan-action-edit.component';
 
 
 @NgModule({
-  declarations: [MaintenancePreventiveComponent, MaintenancePreventiveEditComponent, ActionEditComponent, ProductEditComponent, MaintenancePreventiveListComponent],
+  declarations: [MaintenancePreventiveComponent, MaintenancePreventiveEditComponent,
+     ActionEditComponent, ProductEditComponent, 
+    MaintenancePreventiveListComponent,PlanActionEditComponent],
   imports: [
     CommonModule,
     MaintenancePreventiveRoutingModule,

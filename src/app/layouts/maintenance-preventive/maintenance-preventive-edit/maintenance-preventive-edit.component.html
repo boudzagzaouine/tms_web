@@ -5,304 +5,42 @@
   <div class="card-body border-top-primary" >
     <form  [formGroup]="maintenacePlanForm">
 
-      <div formGroupName="general">
         <div class="row  mt-3 justify-content-around">
           <div class="form-group col-md-3 ">
             <label class="font-weight-bold ">{{'Code'| translate}} *</label>
-            <span *ngIf="(maintenacePlanForm.controls['general'].get('fcode').touched && maintenacePlanForm.controls['general'].get('fcode').invalid) ||
-            (isFormSubmitted && maintenacePlanForm.controls['general'].get('fcode').invalid)" class="text-lighter"
+            <span *ngIf="(maintenacePlanForm.get('fcode').touched && maintenacePlanForm.get('fcode').invalid) ||
+            (isFormSubmitted && maintenacePlanForm.get('fcode').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <input type="text" class="form-control" [attr.disabled]="true" formControlName="fcode" pInputText   />
+            <input type="text" class="form-control" [attr.disabled]="true"
+             formControlName="fcode" pInputText   />
           </div>
-      <div class="form-group col-md-9 ">
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Description'| translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.get('fdescription').touched && maintenacePlanForm.get('fdescription').invalid) ||
+            (isFormSubmitted && maintenacePlanForm.get('fdescription').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control"  formControlName="fdescription" pInputText   />
+          </div>
+      <div class="form-group col-md-4l ">
       </div>
         </div>
-      <div class="row  mt-3 justify-content-around">
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type de Maintenance'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fmaintenaceType').touched && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
-          <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-          [filter]="true" [options]="maintenanceTypeList"
-         [showClear]="true" (onChange)='onSelectMaintenanceType($event)' formControlName="fmaintenaceType"></p-dropdown>
-    </div>
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fProgram').touched && maintenacePlanForm.controls['general'].get('fProgram').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fProgram').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
-          <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-          [filter]="true" [options]="programTypeList"
-         [showClear]="true" (onChange)='onSelectProgrameType($event)' formControlName="fProgram"></p-dropdown>
-    </div>
-
-    <div class="form-group col-md-3 ">
-      <label class="font-weight-bold ">{{'patrimoine' | translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['general'].get('fPatrimony').touched && maintenacePlanForm.controls['general'].get('fPatrimony').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['general'].get('fPatrimony').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-autoComplete  [suggestions]="patrimonyList"
-      (completeMethod)="onPatrimonySearch($event)"
-      field='code'  formControlName="fPatrimony"
-      ></p-autoComplete>
-    </div>
-
-        <div class="form-group col-md-3">
-
-          <label class="font-weight-bold ">{{'Etat de Maintenance'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fState').touched && maintenacePlanForm.controls['general'].get('fState').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fState').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
-          <br />
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-          [filter]="true" [options]="MaintenancestateList"
-         [showClear]="true" (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown>
-
-
-        </div>
- </div>
+     
 
 
  <div class="row  mt-3 justify-content-around">
   <div class="form-group col-md-9 ">
   </div>
 </div>
-  </div>
 
 
 
-<hr>
-<div formGroupName="periodicity">
-
-<div *ngIf="this.selectMaintenancetype.id === 1" >
-
-
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'périodicité' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fPeriodicity').touched && maintenacePlanForm.controls['periodicity'].get('fPeriodicity').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fPeriodicity').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="false" [options]="periodicityTypeList" optionLabel="code"
-    [filter]="true"
-   [showClear]="true" (onChange)="onSelectPeriodicity($event)" formControlName="fPeriodicity"></p-dropdown>
-  </div>
-  <div class="form-group col-md-3 "*ngIf="periodicityMode===3">
-    <label class="font-weight-bold ">{{'Date d intervention' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fInterventionDate').touched && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-    yearRange="1970:2100"  formControlName="fInterventionDate" > </p-calendar>
-
-</div>
-<div class="form-group col-md-9 " *ngIf="periodicityMode!==3">
-</div>
-<div class="form-group col-md-6 ">
-</div>
-</div>
-  <div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===1">
-   <div class="form-group col-md-9" >
-
-        <label class="font-weight-bold ">{{'répéter le '| translate}} {{selectedTypes}}*</label>
-        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').touched && maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fhebdomadaire').invalid)" class="text-lighter"
-          style="color: red; font-size: xx-small;">
-          {{"Obligatoire" | translate}}
-        </span>
-        <br />
-        <p-multiSelect [options]="days"   [maxSelectedLabels]="7"   optionLabel="code"
-formControlName="fhebdomadaire">
-  <ng-template let-value pTemplate="selectedItems">
-      <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
-          <span>{{val.code}}</span>
-      </div>
-      <span *ngIf="!value || value.length === 0"
-       class="ui-multiselected-empty-token ui-corner-all">Choose</span>
-  </ng-template>
-
-</p-multiSelect>
-    <!-- <p-selectButton [options]="days"  optionLabel="code" formControlName="fhebdomadaire"  multiple="multiple"
-   ></p-selectButton> -->
-
-</div>
-<div class="form-group col-md-3" >
-
-
-</div>
-  </div>
-<div class="row  mt-3 justify-content-around" *ngIf="periodicityMode===2">
-
-<div class="form-group col-md-3" >
-  <label class="font-weight-bold ">{{'Le jour du mois '| translate}} *</label>
-  <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').touched && maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fdayOfMonth').invalid)" class="text-lighter"
-          style="color: red; font-size: xx-small;">
-          {{"Obligatoire" | translate}}
-        </span>
-<br />
-<!-- <p-dropdown [options]="daysOfMonth" formControlName="fdayOfMonth"  optionLabel="label" [showClear]="true"></p-dropdown> -->
-<p-inputNumber  mode="decimal"
-[showButtons]="true" [min]="1" [max]="31" formControlName="fdayOfMonth">
-</p-inputNumber>
-</div>
-<div class="form-group col-md-9" >
-
-  <label class="font-weight-bold ">{{'répéter le '| translate}} </label>
-  <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fmensuel').touched && maintenacePlanForm.controls['periodicity'].get('fmensuel').invalid) ||
-  (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fmensuel').invalid)" class="text-lighter"
-    style="color: red; font-size: xx-small;">
-    {{"Obligatoire" | translate}}
-  </span>
-  <br />
-
-
-<p-multiSelect [options]="monthList"   [maxSelectedLabels]="12"   optionLabel="code"
-formControlName="fmensuel">
-  <ng-template let-value pTemplate="selectedItems">
-      <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
-          <span>{{val.code}}</span>
-      </div>
-      <span *ngIf="!value || value.length === 0"
-       class="ui-multiselected-empty-token ui-corner-all">Choose</span>
-  </ng-template>
-
-</p-multiSelect>
-
-<!-- <p-selectButton [options]="monthList"   optionLabel="code"  formControlName="fmensuel"  multiple="multiple"
-></p-selectButton> -->
-
-</div>
-<div class="form-group col-md-6" >
-</div>
-  <div class="form-group col-md-9" ></div>
-</div>
-
-
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fTriggerDay').touched && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-inputNumber  mode="decimal"
-    [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDay">
-    </p-inputNumber>
-
-    </div>
-    <div class="form-group col-md-3 " *ngIf="periodicityMode!==3" >
-
-      <label class="font-weight-bold ">{{'Date debut' | translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-      yearRange="1970:2100"  formControlName="fDateStart" > </p-calendar>
-    </div>
-
-
-    <div class="form-group col-md-3 " *ngIf="periodicityMode!==3">
-      <label class="font-weight-bold ">{{'Date fin'| translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fDateStart').touched && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fDateStart').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-       yearRange="1970:2100" formControlName="fDateEnd" ></p-calendar>
-  </div>
-
-  <div class="form-group col-md-3" *ngIf="periodicityMode!==3">
-</div>
-<div class="form-group col-md-9" *ngIf="periodicityMode===3">
-</div>
-
-</div>
-<hr>
-
-</div>
-</div>
-
-
-
-
-<div formGroupName="responsability">
-
-<div class="row  mt-3 justify-content-around">
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Prestataire de service' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fServiceProvider').touched && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-        [filter]="true" [options]="serviceProviderList"
-       [showClear]="true" (onChange)="onSelectPServiceProvider($event)" formControlName="fServiceProvider"></p-dropdown>
-  </div>
-  <div class="form-group col-md-3">
-    <label class="font-weight-bold ">{{'Responsabilité' | translate}} *</label>
-
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fResponsability').touched && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-        [filter]="true" [options]="responsabilityList"
-       [showClear]="true"(onChange)="onSelectResponsability($event)" formControlName="fResponsability"></p-dropdown>
-  </div>
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Agent' | translate}} </label>
-
-
-    <input type="text" class="form-control" formControlName="fagent" pInputText   />
-  </div>
-  <div class="form-group col-md-3 ">
-  </div>
-</div>
-</div>
-
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
-    <br />
-    <input type="text" class="form-control" formControlName="price" pInputText   />
-  </div>
-<div class="form-group col-md-9 ">
-</div>
-</div>
       </form>
  </div>
 
@@ -329,19 +67,27 @@ formControlName="fmensuel">
   </div></div>
   <div class="card-body border-top-primary">
     <p-table
-    [value]=" this.selectedMaintenancePreventive?.actions" [lazy]="true" [rows]="size" [paginator]="true"
+    [value]=" this.selectedMaintenancePreventive?.actionPlans" [lazy]="true" [rows]="size" [paginator]="true"
     [totalRecords]=" this.selectedMaintenancePreventive
-    ?.actions?.length">
+    ?.actionPlans?.length">
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ "operation" | translate }}</th>
+          <th>{{ "Operation" | translate }}</th>
+          <th>{{ "Périodicité" | translate }}</th>
+          <th>{{ "Programme" | translate }}</th>
+          <th>{{ "Prestataire" | translate }}</th>
+          <th>{{ "Responsabilité" | translate }}</th>
+
           <th style="width: 15%;">{{ "Actions" | translate }}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-line>
         <tr>
           <td>{{line?.actionType?.code}}</td>
-
+          <td>{{line?.periodicityType?.code}}</td>
+          <td>{{line?.programType?.code}}</td>
+          <td>{{line?.serviceProvider?.code}}</td>
+          <td>{{line?.responsability?.code}}</td>
           <td>
             <button
 
@@ -384,12 +130,12 @@ formControlName="fmensuel">
 
 
 <div *ngIf="showDialog == true">
-  <app-action-edit
-    (showDialog)="onHideDialogAction($event)"
-    (lineActionEdited)="onLineEditedAction($event)"
-     [selectedAction]="selectAction"
-     [editMode]="editMode"
-    ></app-action-edit>
+  <app-plan-action-edit
+  [selectedActionPlan]="selectActionPlan"
+  (lineActionPlanEdited)="onLineEditedAction($event)"
+  (showDialog)="onHideDialogAction($event)"
+  [editMode]="editMode"
+    ></app-plan-action-edit>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

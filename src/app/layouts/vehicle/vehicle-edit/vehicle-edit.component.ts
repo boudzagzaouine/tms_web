@@ -29,8 +29,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ContractType, Supplier, InsuranceTerm } from '../../../shared/models';
+import { ContractType, Supplier, InsuranceTerm, MaintenancePlan } from '../../../shared/models';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
+import { MaintenancePlanService } from './../../../shared/services';
 
 @Component({
   selector: 'app-vehicle-edit',
@@ -65,6 +66,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   consumptionTypeList: ConsumptionType[] = [];
   selectInusuranceTypeTerm = new InsuranceTypeTerms();
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
+  maintenancePlanList: MaintenancePlan[] = [];
+
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
@@ -73,6 +76,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private maintenancePlanService :MaintenancePlanService,
     private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private badgeTypeService: BadgeTypeService,
@@ -222,6 +226,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fValeurVisiteTechnique': new FormControl(this.selectedVehicle.valueTechnicalVisit),
         'fVignette': new FormControl(dd),
         'fValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
+        'fMaintenancePlan': new FormControl(this.selectedVehicle.maintenancePlan),
       }),
       caracteristic: new FormGroup({
         'fGrayCard': new FormControl(this.selectedVehicle.grayCard),
@@ -405,6 +410,19 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedModInsurance = this.selectedInsurance;
     this.selectedInsurance = new Insurance();
 
+  }
+
+  onSelectMaintenancePlan(event: any) {
+    this.selectedVehicle.maintenancePlan = event;
+    console.log(event as MaintenancePlan);
+    
+   
+  }
+
+  onMaintenancePlanSearch(event: any) {
+    this.maintenancePlanService
+      .find('code~' + event.query)
+      .subscribe(data => (this.maintenancePlanList = data));
   }
 
 

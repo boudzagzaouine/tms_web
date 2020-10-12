@@ -12,6 +12,7 @@ import { Vehicle } from './vehicle';
 import { MaintenanceType } from './maintenance-type';
 import { MaintenanceState } from './maintenance-state';
 import { Patrimony } from './patrimony';
+import { ActionPlan } from './action-plan';
 
 
 
@@ -20,30 +21,7 @@ export class MaintenancePlan {
   id = 0;
   code: string;
   description: string;
-  startDate: Date = new Date();
-  endDate: Date = new Date();
-  maintenanceType: MaintenanceType;
-  maintenanceState: MaintenanceState;
-  programType: ProgramType;
-  operationType: OperationType;
-  serviceProvider: ServiceProvider;
-  responsability: Responsability;
-  service: Responsability;
-  periodicityType: PeriodicityType;
-  actions: Action[] = [];
-  patrimony: Patrimony;
-  mileage = 0.0;
-  totalPrice = 0;
-  agent: string;
-  employer: string;
-  triggerDay: number;
-  triggerDate: Date  = new Date();
-  interventionDate: Date  = new Date();
-  duration : number ;
-  declaredDate : Date = new Date();
-  observation : string;
-  days : Day[] = [];
-  months : Month[] = [];
-  dayOfMonth : number;
+  actionPlans: ActionPlan[] = [];
+
 
 }

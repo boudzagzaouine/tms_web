@@ -33,6 +33,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActionLine } from './../../../shared/models/action-line';
 import { Action } from './../../../shared/models/action';
 import { Component, OnInit, Input } from '@angular/core';
+import { ActionPlan } from './../../../shared/models/action-plan';
 
 @Component({
   selector: 'app-maintenance-preventive-edit',
@@ -67,7 +68,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MaintenancePreventiveEditComponent implements OnInit {
 
   @Input() actionEdited: Action = new Action();
-  selectAction = new Action();
+  selectActionPlan = new ActionPlan();
   page = 0;
   size = 8;
   editModeTitle = 'Inserer  Plan maintenance';
@@ -132,117 +133,6 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fr = {
-      firstDayOfWeek: 1,
-      dayNames: [
-        'dimanche',
-        'lundi',
-        'mardi ',
-        'mercredi',
-        'mercredi ',
-        'vendredi ',
-        'samedi ',
-      ],
-      dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
-      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-      monthNames: [
-        'janvier',
-        'février',
-        'mars',
-        'avril',
-        'mai',
-        'juin',
-        'juillet',
-        'août',
-        'septembre',
-        'octobre',
-        'novembre',
-        'décembre',
-      ],
-      monthNamesShort: [
-        'jan',
-        'fév',
-        'mar',
-        'avr',
-        'mai',
-        'jun',
-        'jui',
-        'aoû',
-        'sep',
-        'oct',
-        'nov',
-        'dec',
-      ],
-      today: 'Aujourd hui',
-      clear: 'Supprimer',
-    };
-
-    this.daysOfMonth = [
-      { label: '1', value: 1 }, { label: '2', value: 2 },
-      { label: '3', value: 3 }, { label: '4', value: 4 },
-      { label: '5', value: 5 }, { label: '6', value: 6 },
-      { label: '7', value: 7 }, { label: '8', value: 8 },
-      { label: '9', value: 9 }, { label: '10', value: 10 },
-      { label: '11', value: 11 }, { label: '12', value: 12 },
-      { label: '13', value: 13 }, { label: '14', value: 14 }, { label: '15', value: 15 },
-      { label: '16', value: 16 }, { label: '17', value: 17 },
-      { label: '18', value: 18 }, { label: '19', value: 19 },
-      { label: '20', value: 20 }, { label: '21', value: 21 },
-      { label: '22', value: 23 }, { label: '24', value: 24 },
-      { label: '25', value: 25 }, { label: '26', value: 26 },
-      { label: '18', value: 18 }, { label: '19', value: 19 },
-      { label: '20', value: 20 }, { label: '21', value: 21 },
-      { label: '22', value: 23 }, { label: '24', value: 24 },
-      { label: '25', value: 25 }, { label: '26', value: 26 },
-      { label: '27', value: 27 }, { label: '28', value: 28 },
-      { label: '29', value: 29 }, { label: '30', value: 30 },
-      { label: '31', value: 31 }
-    ];
-
-
-
-    this.subscrubtion.add(
-      this.dayService.findAll().subscribe((data) => {
-        this.days = data;
-      })
-    );
-
-    this.subscrubtion.add(
-      this.monthService.findAll().subscribe((data) => {
-        this.monthList = data;
-      })
-    );
-
-    this.subscrubtion.add(
-      this.periodicityTypeService.findAll().subscribe((data) => {
-        this.periodicityTypeList = data;
-      })
-    );
-
-    this.subscrubtion.add(
-      this.responsabilityService.findAll().subscribe((data) => {
-        this.responsabilityList = data;
-      })
-    );
-
-    this.subscrubtion.add(
-      this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data.filter(f=> f.id===1);
-      })
-    );
-
-    this.subscrubtion.add(
-      this.serviceProviderService.findAll().subscribe((data) => {
-        this.serviceProviderList = data;
-      })
-    );
-
-    this.subscrubtion.add(
-      this.maintenanceStateService.findAll().subscribe((data) => {
-        this.MaintenancestateList = data;
-      })
-    );
-
     // this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
@@ -253,18 +143,20 @@ export class MaintenancePreventiveEditComponent implements OnInit {
         this.subscriptions.push(this.maintenancePreventiveService.findById(id).subscribe(
           data => {
             this.selectedMaintenancePreventive = data;
-            if (this.selectedMaintenancePreventive.maintenanceType.id === 1) {
-              console.log("pariodicyt");
-              this.onSelectPeriodicity(this.selectedMaintenancePreventive.periodicityType);
-              this.editMType=true;
-            }
-            this.onSelectMaintenanceType(this.selectedMaintenancePreventive.maintenanceType);
-
             console.log(this.selectedMaintenancePreventive);
-    console.log(this.selectedMaintenancePreventive.months);
+            
+    //         if (this.selectedMaintenancePreventive.maintenanceType.id === 1) {
+    //           console.log("pariodicyt");
+    //           this.onSelectPeriodicity(this.selectedMaintenancePreventive.periodicityType);
+    //           this.editMType=true;
+    //         }
+    //         this.onSelectMaintenanceType(this.selectedMaintenancePreventive.maintenanceType);
+
+    //         console.log(this.selectedMaintenancePreventive);
+    // console.log(this.selectedMaintenancePreventive.months);
 
             this.initForm();
-            console.log(this.maintenacePlanForm.value['periodicity']['fmensuel']);
+    //         console.log(this.maintenacePlanForm.value['periodicity']['fmensuel']);
 
           },
           err => {
@@ -289,49 +181,12 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
 
   initForm() {
-    const dStart = new Date(this.selectedMaintenancePreventive.startDate);
-    const dEnd = new Date(this.selectedMaintenancePreventive.endDate);
-    const dTriggerDate = new Date(this.selectedMaintenancePreventive.triggerDate);
-    const dInterventionDate = new Date(this.selectedMaintenancePreventive.interventionDate);
-    const dDeclare = new Date(this.selectedMaintenancePreventive.declaredDate);
-
+    
     this.maintenacePlanForm = new FormGroup({
-      'price': new FormControl({
-        value: this.selectedMaintenancePreventive.totalPrice ?
-          this.roundPipe.transform(this.selectedMaintenancePreventive.totalPrice, 2) : 0, disabled: true
-      }),
-      general: new FormGroup({
-        'fcode': new FormControl(
-
-                this.selectedMaintenancePreventive.code,
-        Validators.required),
-        'fmaintenaceType': new FormControl(this.selectedMaintenancePreventive.maintenanceType, Validators.required),
-        'fProgram': new FormControl(this.selectedMaintenancePreventive.programType, Validators.required),
-        'fPatrimony': new FormControl(this.selectedMaintenancePreventive.patrimony, Validators.required),
-        'fState': new FormControl(this.selectedMaintenancePreventive.maintenanceState, Validators.required),
-
-      }),
-      periodicity: new FormGroup({
-        'fDateStart': new FormControl(dStart, Validators.required),
-        'fDateEnd': new FormControl(dEnd, Validators.required),
-        'fPeriodicity': new FormControl(this.selectedMaintenancePreventive.periodicityType, Validators.required),
-        'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
-        'fTriggerDay': new FormControl(this.selectedMaintenancePreventive.triggerDay, Validators.required),
-        'fhebdomadaire': new FormControl(this.selectedMaintenancePreventive.days),
-        'fmensuel': new FormControl(this.selectedMaintenancePreventive.months),
-        'fdayOfMonth': new FormControl(this.selectedMaintenancePreventive.dayOfMonth),
-
-      }),
-
-      responsability: new FormGroup({
-        'fServiceProvider': new FormControl(this.selectedMaintenancePreventive.serviceProvider, Validators.required),
-        'fResponsability': new FormControl(this.selectedMaintenancePreventive.responsability, Validators.required),
-        'fagent': new FormControl(this.selectedMaintenancePreventive.agent),
-
-      }),
-
-
-
+    
+        'fcode': new FormControl(this.selectedMaintenancePreventive.code, Validators.required),
+        'fdescription': new FormControl(this.selectedMaintenancePreventive.description),
+     
     });
 
   }
@@ -343,12 +198,12 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line = new Action) {
+  onShowDialogAction(line = new ActionPlan) {
     this.showDialog = true;
     console.log(line);
 
-    if (line.id > 0) {
-      this.selectAction = line;
+    if (line.actionType.id > 0) {
+      this.selectActionPlan = line;
       this.editMode = true;
       console.log(this.editMode);
     } else {
@@ -363,38 +218,26 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   onSubmit(close = false) {
     console.log(this.maintenacePlanForm);
     this.isFormSubmitted = true;
-    if (this.maintenacePlanForm.controls['general'].invalid &&
-      this.maintenacePlanForm.controls['responsability'].invalid) { return; }
+    if (this.maintenacePlanForm.invalid ) { return; }
 
-    if (this.selectMaintenancetype.id === 1) {
-      if (
-        this.maintenacePlanForm.controls['periodicity'].invalid) { return; }
+   
 
-    }
-
-    this.selectedMaintenancePreventive.code = this.maintenacePlanForm.value['general']['fcode'];
-    this.selectedMaintenancePreventive.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
-    this.selectedMaintenancePreventive.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
-    this.selectedMaintenancePreventive.agent = this.maintenacePlanForm.value['responsability']['fagent'];
-    this.selectedMaintenancePreventive.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
-      this.selectedMaintenancePreventive.startDate = new Date( this.maintenacePlanForm.value['periodicity']['fDateStart']);
-      this.selectedMaintenancePreventive.endDate = this.maintenacePlanForm.value['periodicity']['fDateEnd'];
-      this.selectedMaintenancePreventive.triggerDay = this.maintenacePlanForm.value['periodicity']['fTriggerDay'];
-      this.selectedMaintenancePreventive.days = this.maintenacePlanForm.value['periodicity']['fhebdomadaire'];
-      this.selectedMaintenancePreventive.dayOfMonth = this.maintenacePlanForm.value['periodicity']['fdayOfMonth'];
-      this.selectedMaintenancePreventive.months = this.maintenacePlanForm.value['periodicity']['fmensuel'];
+    this.selectedMaintenancePreventive.description = this.maintenacePlanForm.value['fdescription'];
 
  console.log(this.selectedMaintenancePreventive);
 
-      this.selectedMaintenancePreventive.months=this.selectedMaintenancePreventive.months.sort();
+    //  this.selectedMaintenancePreventive.months=this.selectedMaintenancePreventive.months.sort();
 
-      console.log(this.selectedMaintenancePreventive.months);
+    //  console.log(this.selectedMaintenancePreventive.months);
 
  // this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);
+ console.log(this.selectedMaintenancePreventive);
+ 
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
-
+ console.log(dataM);
+ 
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedMaintenancePreventive = new MaintenancePlan();
@@ -419,141 +262,50 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     );
   }
 
-  // listofperiodicityMensuel() {
-  //   let dtS = new Date(this.selectedMaintenancePlan.startDate);
-  //   let dtE = new Date(this.selectedMaintenancePlan.endDate);
-  //   let nbr = dtE.getFullYear() - dtS.getFullYear();
-  //   for (let i = 0; i <= nbr; i++) {
-  //     for (let j = 0; j < this.selectedMaintenancePlan.month.length; j++) {
-  //       let dat = new Date();
-  //       let days: number = this.selectedMaintenancePlan.dayOfMonth['value'];
-  //       let monthhh: number = this.selectedMaintenancePlan.month[j]['value'];
-  //       dat.setDate(days);
-  //       dat.setMonth(monthhh);
-  //       let fr = i;
-  //       if (i === 0) {
-  //         dat.setFullYear(dtS.getFullYear());
-  //       } else {
-  //         dat.setFullYear(dtS.getFullYear() + 1);
-  //       }
-  // if( dat > dtS  || dat > dtE){
-  //   console.log("superier");
-  //       this.periodicityTreatment.push(dat);
-  //     }}
-  //   }
-  //   console.log(this.periodicityTreatment);
-
-  //  for (let i =0 ; i< this.periodicityTreatment.length ;i++){
-  //            this.selectedMaintenancePlan.interventionDate =this.periodicityTreatment[i];
-  //            let dt = new Date(this.selectedMaintenancePlan.interventionDate);
-  //            let day = this.selectedMaintenancePlan.triggerDay;
-  //            dt.setDate(dt.getDate() - day);
-  //            this.selectedMaintenancePlan.triggerDate = dt;
-  //            this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
-
-  //  }
-  //  console.log(this.selectedMaintenancePlans);
+ 
 
 
-  // }
-
-
-  onSelectMaintenanceType(event) {
-    if (event.value === undefined) {
-      this.selectMaintenancetype = event;
-      this.selectedMaintenancePreventive.maintenanceType = event;
-    }
-    else {
-      this.selectMaintenancetype = event.value;
-      this.selectedMaintenancePreventive.maintenanceType = this.selectMaintenancetype;
-    }
-
-    this.subscrubtion.add(
-      this.programTypeService.findAll().subscribe((data) => {
-        this.programTypeList = data.filter(l =>
-          l.maintenanceType.id === this.selectMaintenancetype.id
-        );
-      })
-    );
-  }
-
-  onSelectProgrameType(event) {
-    this.selectedMaintenancePreventive.programType = event.value as ProgramType;
-  }
-  onSelectMaintenanceState(event) {
-    this.selectedMaintenancePreventive.maintenanceState = event.value as MaintenanceState;
-  }
-
-  onSelectPatrimony(event) {
-    console.log(event);
-    this.selectedMaintenancePreventive.patrimony = event.value as Patrimony;
-
-  }
-  onSelectPeriodicity(event) {
-    this.periodicityMode = 0;
-    if (event.value === undefined) {
-      this.selectedMaintenancePreventive.periodicityType = event;
-    } else {
-      this.selectedMaintenancePreventive.periodicityType = event.value as PeriodicityType;
-    }
-    this.periodicityMode = this.selectedMaintenancePreventive.periodicityType.id;
-
-    console.log(this.selectedMaintenancePreventive.periodicityType.id);
-
-  }
-  onSelectPServiceProvider(event) {
-
-    this.selectedMaintenancePreventive.serviceProvider = event.value as ServiceProvider;
-  }
-  onSelectResponsability(event) {
-    this.selectedMaintenancePreventive.responsability = event.value as Responsability;
-
-  }
-  onSelectService(event) {
-    this.selectedMaintenancePreventive.service = event.value as Responsability;
-
-  }
-  onHideDialogAction(event) {
+   onHideDialogAction(event) {
     this.showDialog = event;
-  }
+   }
 
-  onLineEditedAction(line: Action) {
-    this.selectedMaintenancePreventive.actions = this.selectedMaintenancePreventive.actions.filter(
+  onLineEditedAction(line: ActionPlan) {
+    this.selectedMaintenancePreventive.actionPlans = this.selectedMaintenancePreventive.actionPlans.filter(
       (l) => l.actionType.id !== line.actionType.id
     );
-    this.selectedMaintenancePreventive.actions.push(line);
-    this.updateTotalPrice();
+    this.selectedMaintenancePreventive.actionPlans.push(line);
+    //this.updateTotalPrice();
 
   }
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.selectedMaintenancePreventive.actions = this.selectedMaintenancePreventive.actions.filter(
+        this.selectedMaintenancePreventive.actionPlans = this.selectedMaintenancePreventive.actionPlans.filter(
           (l) => l.id !== id
         );
-        this.updateTotalPrice();
+        //this.updateTotalPrice();
       },
     });
   }
 
-  updateTotalPrice() {
-    this.selectedMaintenancePreventive.totalPrice = 0;
+  // updateTotalPrice() {
+  //   this.selectedMaintenancePreventive.totalPrice = 0;
 
-    if (this.selectedMaintenancePreventive.actions.length) {
-      this.selectedMaintenancePreventive.totalPrice =
-        this.selectedMaintenancePreventive.actions
-          .map(l => {
-            return l.actionLines.map(ls => ls.totalPriceTTC)
-              .reduce((acc = 0, curr) => acc + curr, 0);
-          })
-          .reduce((acc = 0, curr) => acc + curr, 0);
-    }
+  //   if (this.selectedMaintenancePreventive.actions.length) {
+  //     this.selectedMaintenancePreventive.totalPrice =
+  //       this.selectedMaintenancePreventive.actions
+  //         .map(l => {
+  //           return l.actionLines.map(ls => ls.totalPriceTTC)
+  //             .reduce((acc = 0, curr) => acc + curr, 0);
+  //         })
+  //         .reduce((acc = 0, curr) => acc + curr, 0);
+  //   }
 
-    console.log(this.selectedMaintenancePreventive.totalPrice);
+  //   console.log(this.selectedMaintenancePreventive.totalPrice);
 
-    this.maintenacePlanForm.patchValue({
-      'price': this.selectedMaintenancePreventive.totalPrice
-    });
-  }
+  //   this.maintenacePlanForm.patchValue({
+  //     'price': this.selectedMaintenancePreventive.totalPrice
+  //   });
+  // }
 }

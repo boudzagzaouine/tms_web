@@ -38,15 +38,13 @@ export class MaintenancePreventiveListComponent implements OnInit {
   showDialog: boolean;
   patrimonyList: Array<Patrimony> = [];
   patrimonySearch: string;
-  titleList = 'Liste Des Plan Maintenance';
+  titleList = 'Liste Des Plan Maintenances';
 
   maintenanceList: Array<MaintenancePlan> = [];
   maintenancecodeSearch: string;
   maintenancePreventiveExportList:Array<MaintenancePlan> = [];
 
-  constructor(private patrimonyService: PatrimonyService,
-    private maintenanceStatService: MaintenanceStateService,
-    private maintenanceTypeService: MaintenanceTypeService,
+  constructor(
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private maintenancePreventiveService: MaintenancePlanService,
@@ -60,22 +58,12 @@ export class MaintenancePreventiveListComponent implements OnInit {
 
     this.className = MaintenancePlan.name;
     this.cols = [
-      { field: 'code', header: 'Titre', type: 'string' },
-      { field: 'maintenanceType', child: 'code', header: 'Type Maintenance', type: 'object' },
-       { field: 'programType', child: 'code', header: 'Type De Programme', type: 'object' },
-      { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
-       { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
-
+      { field: 'code', header: 'Code', type: 'string' },
+      { field: 'description', header: 'Description', type: 'string' },
+     
     ];
 
-    this.maintenanceTypeService.findAll().subscribe((data) => {
-      this.maintenanceTypeList = data;
-    });
-
-    this.maintenanceStatService.findAll().subscribe((data) => {
-      this.maintenanceStateList = data;
-    });
-
+  
 
   }
 
@@ -169,16 +157,6 @@ export class MaintenancePreventiveListComponent implements OnInit {
     );
   }
 
-  onPatrimonySearch(event: any) {
-    this.patrimonyService.find('code~' + event.query).subscribe(
-      data => {
-
-        this.patrimonyList = data.map(f => f.code)
-        //  console.log(data);
-
-      }
-    );
-  }
 
   onMaintenanceSearch(event: any) {
     this.maintenancePreventiveService.find('code~' + event.query).subscribe(
@@ -194,18 +172,10 @@ export class MaintenancePreventiveListComponent implements OnInit {
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.patrimonySearch != null && this.patrimonySearch !== '') {
-      buffer.append(`patrimony.code~${this.patrimonySearch}`);
-    }
+
 
     if (this.maintenancecodeSearch != null && this.maintenancecodeSearch !== '') {
       buffer.append(`code~${this.maintenancecodeSearch}`);
-    }
-    if (this.typeMaintenanceSearch != null && this.typeMaintenanceSearch.code != null && this.typeMaintenanceSearch.code !== '') {
-      buffer.append(`maintenanceType.code~${this.typeMaintenanceSearch.code}`);
-    }
-    if (this.statusMaintenanceSearch != null && this.statusMaintenanceSearch.code != null && this.statusMaintenanceSearch.code !== '') {
-      buffer.append(`maintenanceState.code~${this.statusMaintenanceSearch.code}`);
     }
     this.page = 0;
     const searchQuery = buffer.getValue();
@@ -215,9 +185,6 @@ export class MaintenancePreventiveListComponent implements OnInit {
 
   reset() {
     this.maintenancecodeSearch = null;
-    this.typeMaintenanceSearch = null;
-    this.statusMaintenanceSearch = null;
-    this.patrimonySearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

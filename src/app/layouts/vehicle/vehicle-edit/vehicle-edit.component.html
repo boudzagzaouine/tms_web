@@ -46,31 +46,15 @@
                 formControlName="fVehicleCategory" (onChange)="onSelectVehicleCategory($event)" [filter]="true"
                  [showClear]="true"></p-dropdown>
             </div>
-          </div>
-
-          <div class="row justify-content-around">
-            <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{'Type de badge' | translate}} *</label>
-              <span *ngIf="(vehicleForm.controls['general'].get('fBadgeType').touched && vehicleForm.controls['general'].get('fBadgeType').invalid) ||
-              (isFormSubmitted && vehicleForm.controls['general'].get('fBadgeType').invalid)" class="text-lighter"
-                style="color: red; font-size: xx-small;">
-                {{"Obligatoire"| translate }}
-              </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="badgeTypeList" optionLabel="description" [filter]="true"
-                (onChange)="onSelectBadgeType($event)" formControlName="fBadgeType" [showClear]="true"></p-dropdown>
-            </div>
 
 
-            <div class="form-group col-md-3 ">
 
 
-            </div>
-
-            <div class="form-group col-md-3 ">
-
-            </div>
+            
 
           </div>
+
+         
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
@@ -100,7 +84,38 @@
             </div>
             <div class="form-group col-md-3 "></div>
           </div>
+
+           <div class="row   justify-content-around">
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
+          <span *ngIf="
+              (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
+              vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
+              (isFormSubmitted &&
+              vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
+            " class="text-lighter" style="color: red; font-size: xx-small;">
+            {{ 'Obligatoire' | translate}}
+
+          </span>
+
+          <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
+            (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="code">
+          </p-autoComplete>
+
+
         </div>
+        <div class="form-group col-md-7"></div>
+     
+          </div>
+        </div>
+
+
+       
+
+
+
+
 
         </p-tabPanel>
                <!--                     FIn Général                               -->
@@ -432,6 +447,12 @@
         </p-tabPanel>
 
               <!--             FIn Onglet  Contrat -->
+
+              <p-tabPanel header="{{'Maintenance' | translate}}" [disabled]="true" headerStyleClass="onglet-p-4" >
+            
+              </p-tabPanel>
+
+
 
   <div *ngIf="!(this.index==0)"  class="row pull-left ">
         <button type="button"  pButton icon="fa fa-chevron-left" (click)="openPrev()"></button>

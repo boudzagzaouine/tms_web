@@ -37,7 +37,7 @@
 
 
       <p-overlayPanel #op [showCloseIcon]="true" 
-      [style]="{width: '350px' ,padding:'0em'}">
+      [style]="{width: '350px' ,padding:'0em'}" >
         <ng-template pTemplate>
           <div class="card m-0">
             <div class="card-header p-3 mb-2 bg-primary text-white">
@@ -52,7 +52,12 @@
                    >
 
                     <td width='70%'>
-                      <span *ngIf="notification.type=='Maintenance'"> la Maintenace <b>{{notification.code}}</b></span>
+                      <span *ngIf="notification.type=='Maintenance'"> 
+                       <p>Maintenace:<b>{{notification.code}} </b></p>
+                       <p>Patrimoine : <b>{{notification.patimonyCode}}</b> </p>
+                       <p>Action :<b>{{notification.action}}</b></p>
+                       
+                      </span>
 
                       <span *ngIf="notification.type=='Produit'">le Produit <b>{{notification.code}}</b></span>
                     </td>

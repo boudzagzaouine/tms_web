@@ -51,7 +51,9 @@ export class ProductComponent implements OnInit {
     this.className = Supplier.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
+
       { field: 'desc', header: 'Description', type: 'string' },
+
       {
         field: 'productType',
         child: 'code',
@@ -62,47 +64,34 @@ export class ProductComponent implements OnInit {
         field: 'uomByProductUomBase',
         header: 'unité de mesure',
         child: 'code',
-        type: 'objet'
-      },
-      {
-        field: 'vat',
-        child: 'value',
-        header: 'TVA de vente',
         type: 'object'
       },
-
-
+    
+      {
+        field: 'purchaseVat',
+         child: 'value',
+         header: 'TVA',
+        type: 'object'
+      },
 
       {
         field: 'purshasePriceUB',
         header: 'Prix d achat HT',
         type: 'number'
       },
+
       {
         field: 'purshasePriceTTCUB',
         header: 'Prix d achat TTC',
         type: 'number'
       },
-      {
-        field: 'marginOfPurchase',
-        header: 'Marge',
-        type: 'number'
-      },
-      {
-        field: 'salePriceUB',
-        header: 'Prix de vente HT',
-        type: 'number'
-      },
-      {
-        field: 'salePriceTTCUB',
-        header: 'Prix de vente TTC',
-        type: 'number'
-      },
+     
       {
         field: 'stockQuantity',
         header: 'Quantity Stock',
         type: 'number'
       },
+
     ];
 
 

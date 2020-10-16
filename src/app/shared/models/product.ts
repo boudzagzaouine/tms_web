@@ -33,23 +33,13 @@ export class Product {
   reservedQuantity: number;
   blockedQuant0ity: number;
   orderedQuantity: number;
-  forBuying: boolean;
-  technicalSheet: string;
   productPack: ProductPack;
-  averageCost: number;
-  marginOfPurchase: number;
-  proMarginOfPurchase: number;
   stocked: boolean;
   stockManaged: boolean;
   supplierDelay: number;
-  professionalSalePrice: number;
-  materialABCCode: string;
-  salePriceTTCUB: number;
+ 
   purshasePriceTTCUB: number;
-  currency: Currency;
-  currencyPurshase: Currency;
-  professionalTTCSalePrice: number;
-  costsOfReturn: number;
+
 
     constructor() {
     }

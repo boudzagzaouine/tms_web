@@ -7,5 +7,9 @@ export class Notification {
   code: string;
   type: string;
   notificationState: NotificationState;
-  state :NotificationState
+  productId :number;
+  maintenanceId :number;
+  patimonyCode :String;
+  typePatrimony :String;
+  action :String;
 }

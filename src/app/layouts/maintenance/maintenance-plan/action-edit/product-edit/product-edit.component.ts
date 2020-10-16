@@ -51,7 +51,7 @@ export class ProductEditComponent implements OnInit {
 
       this.maintenanceStateService.findAll().subscribe((data) => {
        this.maintenanceStateList= data.filter(f => f.id === 2);
-       this.selectedActionLine.maintenanceState=this.maintenanceStateList[0];
+      // this.selectedActionLine.maintenanceState=this.maintenanceStateList[0];
       })
     }
     console.log(this.selectedActionLine);
@@ -120,7 +120,7 @@ export class ProductEditComponent implements OnInit {
     this.selectedActionLine.unitPrice = +this.lineForm.value['unitPrice'];
     this.selectedActionLine.quantity = +this.lineForm.value['quantity'];
     //this.selectedActionLine.quantityServed = +this.lineForm.value['quantity'];
-    console.log(this.selectedActionLine.maintenanceState);
+    //console.log(this.selectedActionLine.maintenanceState);
 
     this.actionLineEdited.emit(this.selectedActionLine);
     this.displayDialog = false;

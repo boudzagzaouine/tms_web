@@ -1,13 +1,14 @@
 <p-tabView >
-
+ <p-tabPanel header='{{"Produit"|translate }}' headerStyleClass="m-a-p">
+      <ng-template pTemplate="content">
+        <app-product></app-product>  
+      </ng-template>
+  </p-tabPanel>
+  
   <p-tabPanel header='{{"Type de produit"| translate }}'  headerStyleClass="m-a-p">
       <ng-template pTemplate="content">
                  <app-product-type></app-product-type>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel header='{{"Produit"|translate }}' headerStyleClass="m-a-p">
-      <ng-template pTemplate="content">
-        <app-product></app-product>  
-      </ng-template>
-  </p-tabPanel>
+ 
 </p-tabView>

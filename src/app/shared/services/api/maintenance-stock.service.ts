@@ -31,9 +31,8 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
   generateMaintenanceStockFromMaintenance(maintenance: Maintenance) {
 
     const list: MaintenanceStock[] = [];
-    for (const line of maintenance.actionMaintenances) {
-
-      for (const linee of line.actionLineMaintenances) {
+ 
+      for (const linee of maintenance.actionLineMaintenances) {
         const l  = new MaintenanceStock();
         l.maintenance = maintenance;
         l.product = linee.product;
@@ -47,7 +46,7 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
         list.push(l);
       }
 
-    }
+    
 
     return list;
 }
@@ -57,13 +56,12 @@ insert(maintenance : Maintenance){
 const maintenancestocks = this.generateMaintenanceStockFromMaintenance(maintenance)
   this.saveAll(maintenancestocks).subscribe(
     dataM => {
-      this.toastr.success('Order validé avec succés', 'Validation');
+      this.toastr.success('Ajouter avec succés', 'Validation');
 
     },
     err => {
       this.toastr.error(
-        'Erreur de livrer la ligne',
-        'Validation'
+        'Erreur '
     );
 
       return;

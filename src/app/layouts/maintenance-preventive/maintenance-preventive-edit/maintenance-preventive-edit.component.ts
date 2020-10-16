@@ -199,17 +199,19 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
 
   onShowDialogAction(line = new ActionPlan) {
-    this.showDialog = true;
     console.log(line);
+    
+     this.showDialog = true;
+    if (line.id ==0) {
+       this.editMode = false;
+       console.log("ajouter");
+  
+     } else {
+        this.selectActionPlan = line;
+       this.editMode = true;
+       console.log("modifier");
 
-    if (line.actionType.id > 0) {
-      this.selectActionPlan = line;
-      this.editMode = true;
-      console.log(this.editMode);
-    } else {
-      this.editMode = false;
-
-    }
+     }
 
 
     console.log(this.editMode);

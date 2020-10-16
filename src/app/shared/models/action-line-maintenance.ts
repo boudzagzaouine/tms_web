@@ -17,5 +17,5 @@ export class ActionLineMaintenance {
   totalPriceHT = 0;
   totalPriceTTC = 0;
   amountVat = 0;
-  maintenanceState:MaintenanceState;
+ // maintenanceState:MaintenanceState;
 }

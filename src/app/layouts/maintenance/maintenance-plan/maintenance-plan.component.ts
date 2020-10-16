@@ -33,6 +33,9 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { SelectItem, ConfirmationService } from 'primeng/api';
 import { Patrimony } from './../../../shared/models/patrimony';
 import { Maintenance } from './../../../shared/models/maintenance';
+import { ActionLineMaintenance } from './../../../shared/models/action-line-maintenance';
+import { ActionType } from './../../../shared/models/action-type';
+import { ActionTypeService } from './../../../shared/services/api/action-type.service';
 
 
 @Component({
@@ -47,7 +50,7 @@ export class MaintenancePlanComponent implements OnInit {
 
 
   @Input() actionEdited: ActionMaintenance = new ActionMaintenance();
-  selectAction = new ActionMaintenance();
+  selectActionLineMaintenance = new ActionLineMaintenance();
   page = 0;
   size = 8;
   editModeTitle = 'Inserer  maintenance';
@@ -59,8 +62,8 @@ export class MaintenancePlanComponent implements OnInit {
   value4: number;
   showDialog: boolean;
   selectedMaintenance: Maintenance = new Maintenance();
-  selectedMaintenanceAction: Array<ActionMaintenance> = [];
-  selectedMaintenanceActionLine: Array<ActionLine> = [];
+  //selectedMaintenanceAction: Array<ActionMaintenance> = [];
+  //selectedMaintenanceActionLine: Array<ActionLine> = [];
   searchQuery = '';
   maintenanceForm: FormGroup;
   selectedMaintenancePlanLine: Array<ActionMaintenance> = [];
@@ -71,6 +74,7 @@ export class MaintenancePlanComponent implements OnInit {
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
   patrimonyList: Array<Patrimony> = [];
+  actionTypeList: Array<ActionType> = [];
   patrimonySearch: Patrimony;
   subscrubtion = new Subscription();
   maintenacePlanForm: FormGroup;
@@ -88,6 +92,7 @@ export class MaintenancePlanComponent implements OnInit {
   editMType: number =2;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
+    private actionTypeService:ActionTypeService,
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
     private maintenanceStockService: MaintenanceStockService,
@@ -150,28 +155,7 @@ export class MaintenancePlanComponent implements OnInit {
       clear: 'Supprimer',
     };
 
-    this.daysOfMonth = [
-      { label: '1', value: 1 }, { label: '2', value: 2 },
-      { label: '3', value: 3 }, { label: '4', value: 4 },
-      { label: '5', value: 5 }, { label: '6', value: 6 },
-      { label: '7', value: 7 }, { label: '8', value: 8 },
-      { label: '9', value: 9 }, { label: '10', value: 10 },
-      { label: '11', value: 11 }, { label: '12', value: 12 },
-      { label: '13', value: 13 }, { label: '14', value: 14 },
-      { label: '15', value: 15 },
-      { label: '16', value: 16 }, { label: '17', value: 17 },
-      { label: '18', value: 18 }, { label: '19', value: 19 },
-      { label: '20', value: 20 }, { label: '21', value: 21 },
-      { label: '22', value: 23 }, { label: '24', value: 24 },
-      { label: '25', value: 25 }, { label: '26', value: 26 },
-      { label: '18', value: 18 }, { label: '19', value: 19 },
-      { label: '20', value: 20 }, { label: '21', value: 21 },
-      { label: '22', value: 23 }, { label: '24', value: 24 },
-      { label: '25', value: 25 }, { label: '26', value: 26 },
-      { label: '27', value: 27 }, { label: '28', value: 28 },
-      { label: '29', value: 29 }, { label: '30', value: 30 },
-      { label: '31', value: 31 }
-    ];
+
 
 
     this.subscrubtion.add(
@@ -189,11 +173,7 @@ export class MaintenancePlanComponent implements OnInit {
       })
     );
 
-    this.subscrubtion.add(
-      this.maintenanceTypeService.findAll().subscribe((data) => {
-        this.maintenanceTypeList = data.filter(f => f.id === 2);
-      })
-    );
+  
 
     this.subscrubtion.add(
       this.serviceProviderService.findAll().subscribe((data) => {
@@ -202,6 +182,11 @@ export class MaintenancePlanComponent implements OnInit {
     );
 
 
+    this.subscrubtion.add(
+      this.actionTypeService.findAll().subscribe((data) => {
+        this.actionTypeList = data;
+      })
+      );
 
 
     // this.initForm();
@@ -214,6 +199,11 @@ export class MaintenancePlanComponent implements OnInit {
         this.subscriptions.push(this.maintenanceService.findById(id).subscribe(
           data => {
             this.selectedMaintenance = data;
+            this.selectMaintenancetype=this.selectedMaintenance.maintenanceType;
+
+            
+
+            //this.selectMaintenancetype=this.se
             // if (this.selectedMaintenance.maintenanceType.id === 1) {
             //   console.log("pariodicyt");
             //   this.onSelectPeriodicity(this.selectedMaintenance.periodicityType);
@@ -249,6 +239,25 @@ export class MaintenancePlanComponent implements OnInit {
       })
       );
     } else {
+      this.subscrubtion.add(
+        this.maintenanceTypeService.findAll().subscribe((data) => {
+          this.maintenanceTypeList = data.filter(f => f.id === 2);
+          this.selectedMaintenance.maintenanceType=this.maintenanceTypeList[0];
+          this.selectMaintenancetype= this.maintenanceTypeList[0];
+        })
+      );
+
+      this.subscrubtion.add(
+        this.programTypeService.findAll().subscribe((data) => {
+          this.programTypeList = data.filter(l =>
+
+            l.maintenanceType.id === 2 //corrective
+         
+          );
+
+          
+        })
+      );
       this.maintenanceService.generateCode().subscribe(
         code => {
           this.selectedMaintenance.code = code;
@@ -310,7 +319,7 @@ export class MaintenancePlanComponent implements OnInit {
       periodicity: new FormGroup({
         'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
         'fTriggerDay': new FormControl(this.selectedMaintenance.triggerDay, Validators.required),
-
+        'fActionType': new FormControl( this.selectedMaintenance.actionType )
       }),
 
       responsability: new FormGroup({
@@ -341,17 +350,17 @@ export class MaintenancePlanComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line = new ActionMaintenance) {
+  onShowDialogAction(line = new ActionLineMaintenance) {
     this.showDialog = true;
-    console.log(line);
+  
 
-    if (line.id > 0) {
-      this.selectAction = line;
-      this.editMode = true;
-      console.log(this.editMode);
+    if (line.product.id > 0) {
+         this.selectActionLineMaintenance = line;
+         this.editMode = true;
+      
     } else {
       this.editMode = false;
-
+      
     }
 
 
@@ -434,43 +443,7 @@ export class MaintenancePlanComponent implements OnInit {
     );
   }
 
-  // listofperiodicityMensuel() {
-  //   let dtS = new Date(this.selectedMaintenancePlan.startDate);
-  //   let dtE = new Date(this.selectedMaintenancePlan.endDate);
-  //   let nbr = dtE.getFullYear() - dtS.getFullYear();
-  //   for (let i = 0; i <= nbr; i++) {
-  //     for (let j = 0; j < this.selectedMaintenancePlan.month.length; j++) {
-  //       let dat = new Date();
-  //       let days: number = this.selectedMaintenancePlan.dayOfMonth['value'];
-  //       let monthhh: number = this.selectedMaintenancePlan.month[j]['value'];
-  //       dat.setDate(days);
-  //       dat.setMonth(monthhh);
-  //       let fr = i;
-  //       if (i === 0) {
-  //         dat.setFullYear(dtS.getFullYear());
-  //       } else {
-  //         dat.setFullYear(dtS.getFullYear() + 1);
-  //       }
-  // if( dat > dtS  || dat > dtE){
-  //   console.log("superier");
-  //       this.periodicityTreatment.push(dat);
-  //     }}
-  //   }
-  //   console.log(this.periodicityTreatment);
-
-  //  for (let i =0 ; i< this.periodicityTreatment.length ;i++){
-  //            this.selectedMaintenancePlan.interventionDate =this.periodicityTreatment[i];
-  //            let dt = new Date(this.selectedMaintenancePlan.interventionDate);
-  //            let day = this.selectedMaintenancePlan.triggerDay;
-  //            dt.setDate(dt.getDate() - day);
-  //            this.selectedMaintenancePlan.triggerDate = dt;
-  //            this.selectedMaintenancePlans.push(this.selectedMaintenancePlan);
-
-  //  }
-  //  console.log(this.selectedMaintenancePlans);
-
-
-  // }
+ 
 
   onSelectMaintenanceType(event) {
     console.log(event.value);
@@ -484,14 +457,14 @@ export class MaintenancePlanComponent implements OnInit {
       this.selectedMaintenance.maintenanceType = this.selectMaintenancetype;
     }
 
-    this.subscrubtion.add(
-      this.programTypeService.findAll().subscribe((data) => {
-        this.programTypeList = data.filter(l =>
+    // this.subscrubtion.add(
+    //   this.programTypeService.findAll().subscribe((data) => {
+    //     this.programTypeList = data.filter(l =>
 
-          l.maintenanceType.id === this.selectMaintenancetype.id
-        );
-      })
-    );
+    //       l.maintenanceType.id === this.selectMaintenancetype.id
+    //     );
+    //   })
+    // );
   }
 
   onSelectProgrameType(event) {
@@ -534,11 +507,11 @@ export class MaintenancePlanComponent implements OnInit {
     this.showDialog = event;
   }
 
-  onLineEditedAction(line: ActionMaintenance) {
-    this.selectedMaintenance.actionMaintenances = this.selectedMaintenance.actionMaintenances.filter(
-      (l) => l.actionType.id !== line.actionType.id
+  onLineEditedAction(line: ActionLineMaintenance) {
+    this.selectedMaintenance.actionLineMaintenances = this.selectedMaintenance.actionLineMaintenances.filter(
+      (l) => l.product.id !== line.product.id
     );
-    this.selectedMaintenance.actionMaintenances.push(line);
+    this.selectedMaintenance.actionLineMaintenances.push(line);
     this.updateTotalPrice();
 
   }
@@ -546,7 +519,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        this.selectedMaintenance.actionMaintenances = this.selectedMaintenance.actionMaintenances.filter(
+        this.selectedMaintenance.actionLineMaintenances = this.selectedMaintenance.actionLineMaintenances.filter(
           (l) => l.id !== id
         );
         this.updateTotalPrice();
@@ -557,15 +530,13 @@ export class MaintenancePlanComponent implements OnInit {
   updateTotalPrice() {
     this.selectedMaintenance.totalPrice = 0;
 
-    if (this.selectedMaintenance.actionMaintenances.length) {
+    if (this.selectedMaintenance.actionLineMaintenances.length) {
       this.selectedMaintenance.totalPrice =
-        this.selectedMaintenance.actionMaintenances
-          .map(l => {
-            return l.actionLineMaintenances.map(ls => ls.totalPriceTTC)
-              .reduce((acc = 0, curr) => acc + curr, 0);
-          })
+        this.selectedMaintenance.actionLineMaintenances
+          .map(l => 
+            l.totalPriceTTC)
           .reduce((acc = 0, curr) => acc + curr, 0);
-    }
+    
 
     console.log(this.selectedMaintenance.totalPrice);
 
@@ -573,6 +544,6 @@ export class MaintenancePlanComponent implements OnInit {
       'price': this.selectedMaintenance.totalPrice
     });
   }
-
+}
 
 }

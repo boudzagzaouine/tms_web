@@ -13,6 +13,8 @@ import { Vehicle } from './vehicle';
 import { MaintenanceType } from './maintenance-type';
 import { MaintenanceState } from './maintenance-state';
 import { Patrimony } from './patrimony';
+import { ActionLineMaintenance } from './action-line-maintenance';
+import { ActionType } from './action-type';
 
 
 
@@ -31,7 +33,8 @@ export class Maintenance {
   responsability: Responsability;
   service: Responsability;
   periodicityType: PeriodicityType;
-  actionMaintenances: ActionMaintenance[] = [];
+  actionLineMaintenances: ActionLineMaintenance[] = [];
+  actionType :ActionType;
   patrimony: Patrimony;
   mileage = 0.0;
   totalPrice = 0;

@@ -141,7 +141,7 @@ export class PlanActionEditComponent implements OnInit {
     this.displayDialog = true;
 
     console.log(this.editMode);
- if(!this.editMode){
+ if(this.editMode ==false){
      this.selectedActionPlan = new ActionPlan();
    }else{
          this.selectProgrameType=this.selectedActionPlan.programType;
@@ -223,7 +223,7 @@ export class PlanActionEditComponent implements OnInit {
       general: new FormGroup({
       
         'fmaintenaceType': new FormControl(this.selectedActionPlan.maintenanceType),
-        'fProgram': new FormControl(this.selectedActionPlan.programType, Validators.required),
+        'fProgram': new FormControl( this.selectedActionPlan.programType, Validators.required),
         'FcodeType': new FormControl(this.selectedActionPlan.actionType, Validators.required),
       }),
       periodicity: new FormGroup({

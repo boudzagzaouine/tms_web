@@ -29,12 +29,19 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <input type="text" class="form-control" *ngIf="editMType==1"
+          <input type="text"  class="form-control" *ngIf="editMType==1"
           [attr.disabled]="true"  formControlName="fmaintenaceType" pInputText   />
 
-          <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"*ngIf="editMType!=1"
+
+          <p-autoComplete   [suggestions]="maintenanceTypeList" *ngIf="editMType!=1"
+          (onChange)='onSelectMaintenanceType($event)'
+          field='code'  formControlName="fmaintenaceType" [disabled]="true"
+          ></p-autoComplete>
+<!-- 
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"*ngIf="editMType!=1"
           [filter]="true" [options]="maintenanceTypeList"
-         [showClear]="true" (onChange)='onSelectMaintenanceType($event)' formControlName="fmaintenaceType"></p-dropdown>
+         [showClear]="true" (onChange)='onSelectMaintenanceType($event)' [disabled]="true"
+         formControlName="fmaintenaceType"></p-dropdown> -->
     </div>
         <div class="form-group col-md-3 ">
           <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
@@ -46,7 +53,9 @@
           <br />
           <input type="text" class="form-control"  [attr.disabled]="true" *ngIf="editMType==1" formControlName="fProgram" pInputText   />
 
-          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"*ngIf="editMType!=1"
+
+
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code" *ngIf="editMType!=1"
           [filter]="true" [options]="programTypeList"
          [showClear]="true" (onChange)='onSelectProgrameType($event)' formControlName="fProgram"></p-dropdown>
     </div>
@@ -101,6 +110,23 @@
 
   <div class="row  mt-3 justify-content-around">
 
+     <div class="form-group col-md-3 ">
+      <label class="font-weight-bold ">{{'Action' | translate}} *</label>
+      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+        {{"Obligatoire" | translate}}
+      </span>
+      <br />
+      <p-autoComplete  
+  
+      field='code'  formControlName="fActionType" [disabled]="true" 
+      ></p-autoComplete>
+
+
+    </div> 
+
+
       <div class="form-group col-md-3 "  >
 
         <label class="font-weight-bold ">{{'Date Intervention' | translate}} *</label>
@@ -127,7 +153,7 @@
         </p-inputNumber>
 
         </div>
-      <div class="form-group col-md-6 " >
+      <div class="form-group col-md-3 " >
 
     </div>
 
@@ -314,28 +340,39 @@
     </div>
     <div class=" col-xs-4 col-md-6 pull-center">
       <span style="font-size: 16px; color: #5f5b5b;">
-        <b> {{ "Liste des actions" | translate }}</b></span
+        <b> {{ "Liste des produits" | translate }}</b></span
       >
     </div>
   </div></div>
   <div class="card-body border-top-primary">
     <p-table
-    [value]=" this.selectedMaintenance?.actionMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
+    [value]=" this.selectedMaintenance?.actionLineMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
     [totalRecords]=" this.selectedMaintenance
-    ?.actionMaintenances?.length">
+    ?.actionLineMaintenances?.length">
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ "operation" | translate }}</th>
-          <th style="width: 15%;">{{ "Actions" | translate }}</th>
+        
+            <th>{{'produit' | translate}}</th>
+            <th>{{'Prix Un' | translate}}</th>
+            <th>{{'Quantite' | translate}}</th>
+            <th>{{'Prix HT '| translate}}</th>
+            <th>{{'Prix TTC' | translate}} </th>
+            <!-- <th>{{ "Prix" | translate }}</th> -->
+            <th style="width: 18%;">{{ "Actions" | translate }}</th>
+         
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-line>
         <tr>
-          <td>{{line?.actionType?.code}}</td>
-
+          <td>{{line?.product?.code}}</td>
+          <td>{{line?.unitPrice}}</td>
+          <td>{{line?.quantity}}</td>
+          <td>{{line?.totalPriceHT}}</td>
+          <td>{{line?.totalPriceTTC}}</td>
           <td>
-            <button
 
+            <button
+            [disabled]="editMode"
             type="button"
             class="btn btn-sm btn-primary mx-1"
             (click)="onShowDialogAction(line)"
@@ -343,14 +380,13 @@
             <i class="fa fa-pencil"></i>
           </button>
           <button
-
+          [disabled]="editMode"
           type="button"
           class="btn btn-sm btn-danger mx-1"
-          (click)="onDeleteMaintenanceLine(line.id)"
+          (click)="onDeleteMaintenanceLine(line.product.id)"
           ><!--ADD-->
           <i class="fa fa-trash"></i>
         </button>
-
           </td>
         </tr>
       </ng-template>
@@ -375,12 +411,12 @@
 
 
 <div *ngIf="showDialog == true">
-  <app-action-edit
+  <app-maintenance-product
     (showDialog)="onHideDialogAction($event)"
-    (lineActionEdited)="onLineEditedAction($event)"
-     [selectedAction]="selectAction"
+    (actionLineEdited)="onLineEditedAction($event)"
+    [selectedActionLine]="selectActionLineMaintenance"
      [editMode]="editMode"
-    ></app-action-edit>
+    ></app-maintenance-product>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

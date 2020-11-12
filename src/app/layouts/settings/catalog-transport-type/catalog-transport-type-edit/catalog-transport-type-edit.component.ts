@@ -88,7 +88,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.transportCatVehicleForm = new FormGroup({
 
       'fAmountHt': new FormControl(this.selectCatalogTransportType.amountHt, Validators.required),
-      'fAmountTtc': new FormControl(this.selectCatalogTransportType.amountTtc),
+      'fAmountTtc': new FormControl(this.selectCatalogTransportType.amountTtc, Validators.required),
       'fAmountTva': new FormControl(this.selectCatalogTransportType.amountTva, Validators.required),
       'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
       'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
@@ -190,7 +190,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
   onSelectVat(event: any) {
     this.selectCatalogTransportType.vat = event.value;
-
+    this.onPriceChange(1);
   }
   onSelectZoneSource(event: any) {
     this.selectCatalogTransportType.zoneSource = event;
@@ -205,29 +205,83 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
 
 
-  onPriceHtChange() {
+  // onPriceHtChange() {
 
 
-    const priceHt = +this.transportCatVehicleForm.value['fAmountHt'];
+  //   const priceHt = +this.transportCatVehicleForm.value['fAmountHt'];
 
-    let vat = 0;
-    if (this.selectCatalogTransportType.vat != null) {
-      vat = this.selectCatalogTransportType.vat.value;
+  //   let vat = 0;
+  //   if (this.selectCatalogTransportType.vat != null) {
+  //     vat = this.selectCatalogTransportType.vat.value;
+  //   }
+  //   const amountTva = (priceHt / 100) * vat;
+  //   const priceTTC = priceHt + amountTva;
+
+
+  //   this.selectCatalogTransportType.amountTtc = priceTTC;
+  //   this.selectCatalogTransportType.amountTva = amountTva;
+
+  //   this.transportCatVehicleForm.patchValue({
+  //     'fAmountTtc': this.selectCatalogTransportType.amountTtc.toFixed(2),
+  //     'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2),
+  //   });
+  // }
+
+
+  // onTTCPriceChange() {
+  //   let PriceHt = +this.transportCatVehicleForm.value['fAmountHt'];
+  //   let PriceTTC = +this.transportCatVehicleForm.value['fAmountTtc'];
+  //   const vat :Vat = this.transportCatVehicleForm.value['fVat'];
+  
+  
+    
+  //   PriceHt = PriceTTC / (1 + vat.value / 100);
+  //   const amountTva = (PriceHt / 100) * vat.value;
+  //   this.selectCatalogTransportType.amountHt = PriceHt;
+  //   this.selectCatalogTransportType.amountTva = amountTva;
+
+    
+  //       this.transportCatVehicleForm.patchValue({
+  //         'fAmountHt': this.selectCatalogTransportType.amountHt.toFixed(2),
+  //         'fAmountTva':  this.selectCatalogTransportType.amountTva.toFixed(2),
+  //       });
+  
+   
+  // }
+
+
+  onPriceChange(n: Number) {
+    let PriceHt = +this.transportCatVehicleForm.value['fAmountHt'];
+    let PriceTTC = +this.transportCatVehicleForm.value['fAmountTtc'];
+    const vat :Vat = this.transportCatVehicleForm.value['fVat'];
+    
+    
+    if (PriceHt === undefined || PriceHt == null) {
+      PriceHt = 0;
+    } if (PriceTTC === undefined || PriceTTC == null) {
+      PriceTTC = 0;
+    } if (vat.value === undefined || vat.value == null) {
+      vat.value = 0;
     }
-    const amountTva = (priceHt / 100) * vat;
-    const priceTTC = priceHt + amountTva;
-
-
-    this.selectCatalogTransportType.amountTtc = priceTTC;
-    this.selectCatalogTransportType.amountTva = amountTva;
-
+  
+    if (n === 1) {
+      const amountTva = (PriceHt / 100) * vat.value;
+    const priceTTC = PriceHt + amountTva;
     this.transportCatVehicleForm.patchValue({
-      'fAmountTtc': this.selectCatalogTransportType.amountTtc.toFixed(2),
-      'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2),
+      'fAmountTtc': priceTTC.toFixed(2),
+      'fAmountTva': amountTva.toFixed(2),
     });
+    }if (n === 2) {
+      
+    PriceHt = PriceTTC / (1 + vat.value / 100);
+    const amountTva = (PriceHt / 100) * vat.value;
+      this.transportCatVehicleForm.patchValue({
+        'fAmountHt': PriceHt.toFixed(2),
+        'fAmountTva':  amountTva.toFixed(2),
+      });
+    }
+   
   }
-
-
 
   onShowDialog() {
     let a = false;

@@ -17,7 +17,8 @@
 
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)"(onChange)="onSelectVehicleCateory($event)" formControlName="fVehicleCategory">
+                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectVehicleCateory($event)"
+                formControlName="fVehicleCategory" >
               </p-dropdown>
             </div>
 
@@ -54,8 +55,7 @@
 
 
               <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneSource" [suggestions]="zoneList"
-                (onSelect)="onSelectZoneSource($event)" (completeMethod)="onZoneSourceSearch($event)"
-                 field="code">
+                (onSelect)="onSelectZoneSource($event)" (completeMethod)="onZoneSourceSearch($event)" field="code">
               </p-autoComplete>
 
             </div>
@@ -72,9 +72,34 @@
 
               </span>
               <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneDestination" [suggestions]="zoneList"
-                (onSelect)="onSelectZoneDestination($event)" (completeMethod)="onZoneSourceSearch($event)"
-                 field="code">
+                (onSelect)="onSelectZoneDestination($event)" (completeMethod)="onZoneSourceSearch($event)" field="code">
               </p-autoComplete>
+
+            </div>
+
+           
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
+              <span *ngIf="
+                  (transportCatVehicleForm.get('fAmountHt').touched &&
+                    transportCatVehicleForm.get('fAmountHt').invalid) ||
+                  (isFormSubmitted &&
+                    transportCatVehicleForm.get('fAmountHt').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <br />
+              <!-- <input type="text" class="form-control" (keyup)="onPriceChange(1)" pInputText
+                formControlName="fAmountHt" /> -->
+                <div class="ui-inputgroup">
+                  <input type="text"  pInputText (keyup)="onPriceChange(1)" formControlName="fAmountHt">    
+                  <span class="ui-inputgroup-addon">DH</span> 
+  
+              </div>
+
+
 
             </div>
 
@@ -91,26 +116,6 @@
               <p-dropdown [autoDisplayFirst]="false" [options]="vatList" optionLabel="value" [filter]="true"
                 [showClear]="true" (onChange)="onSelectVat($event)" formControlName="fVat"></p-dropdown>
 
-              </div>
-
-            <div class="form-group col-sm-6">
-              <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
-              <span *ngIf="
-                  (transportCatVehicleForm.get('fAmountHt').touched &&
-                    transportCatVehicleForm.get('fAmountHt').invalid) ||
-                  (isFormSubmitted &&
-                    transportCatVehicleForm.get('fAmountHt').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
-              </span>
-              <br />
-              <input type="text" class="form-control" (keyup)="onPriceHtChange()" pInputText
-                formControlName="fAmountHt"  />
-
-
-
-
             </div>
 
             <div class="form-group col-sm-6">
@@ -125,8 +130,15 @@
 
               </span>
               <br />
-              <input type="text" class="form-control" pInputText formControlName="fAmountTtc"
-             />
+              <!-- <input type="text" class="form-control" (keyup)="onPriceChange(2)" pInputText
+                formControlName="fAmountTtc" /> -->
+
+                <div class="ui-inputgroup">
+                  <input type="text"  pInputText (keyup)="onPriceChange(2)" 
+                  formControlName="fAmountTtc">    
+                  <span class="ui-inputgroup-addon">DH</span>   
+              </div>
+
             </div>
             <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
@@ -140,8 +152,15 @@
 
               </span>
               <br />
-              <input type="text" class="form-control" pInputText formControlName="fAmountTva"
-                (keydown.space)="$event.preventDefault()" />
+              <!-- <input type="text" class="form-control" pInputText formControlName="fAmountTva"
+                (keydown.space)="$event.preventDefault()" /> -->
+
+                <div class="ui-inputgroup">
+                  <input type="text"  pInputText  
+                  formControlName="fAmountTva" (keydown.space)="$event.preventDefault()">    
+                  <span class="ui-inputgroup-addon">DH</span>   
+              </div>
+
             </div>
           </div>
         </form>

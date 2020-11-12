@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { ConsumptionType } from './../../../shared/models/consumption-type';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comsumption-type',
@@ -32,6 +33,8 @@ export class ComsumptionTypeComponent implements OnInit {
   className: string;
   consumptionTypeExportList: Array<ConsumptionType> = [];
   titleList = 'Liste des types de consommation';
+  subscriptions= new Subscription();
+
   constructor(private consumptionTypeService: ConsumptionTypeService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -54,12 +57,12 @@ export class ComsumptionTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.consumptionTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add( this.consumptionTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.consumptionTypeList = data;
@@ -70,7 +73,7 @@ export class ComsumptionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -80,7 +83,7 @@ export class ComsumptionTypeComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.consumptionTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.consumptionTypeExportList = data;
         if (event != null) {
@@ -95,13 +98,13 @@ export class ComsumptionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
   onExportPdf(event) {
-    this.consumptionTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.consumptionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.consumptionTypeExportList = data;
         this.globalService.generatePdf(event, this.consumptionTypeExportList, this.className, this.titleList);
@@ -111,7 +114,7 @@ export class ComsumptionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onSearchClicked() {
@@ -128,9 +131,9 @@ export class ComsumptionTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.consumptionTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.consumptionTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   } reset() {
     
     this.codeSearch = null;
@@ -158,7 +161,7 @@ export class ComsumptionTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedonsumptionTypes.map(x => x.id);
-          this.consumptionTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.consumptionTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -167,7 +170,7 @@ export class ComsumptionTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedonsumptionTypes.length < 1) {
@@ -180,6 +183,10 @@ export class ComsumptionTypeComponent implements OnInit {
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

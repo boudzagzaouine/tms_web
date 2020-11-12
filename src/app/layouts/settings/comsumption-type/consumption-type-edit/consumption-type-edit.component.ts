@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-consumption-type-edit',
@@ -20,6 +21,8 @@ export class ConsumptionTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de consommation';
+  subscriptions= new Subscription();
+
   constructor(
     private consumptionTypeService: ConsumptionTypeService,
     private toastr: ToastrService,
@@ -54,7 +57,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
     this.selectedConsumptionType.description = this.consumptionTypeForm.value['description'];
 
     console.log(this.selectedConsumptionType);
-    const s = this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
+    this.subscriptions.add( this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
       data => {
 
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
@@ -69,7 +72,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -78,6 +81,10 @@ export class ConsumptionTypeEditComponent implements OnInit {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

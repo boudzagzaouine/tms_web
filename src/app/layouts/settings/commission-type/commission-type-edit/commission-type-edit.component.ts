@@ -23,6 +23,8 @@ export class CommissionTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de commission';
+  subscriptions= new Subscription();
+
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -63,7 +65,7 @@ export class CommissionTypeEditComponent implements OnInit {
     this.selectedCommissionType.minDistance = this.commissionTypeForm.value['fMinDistance'];
     this.selectedCommissionType.maxDistance = this.commissionTypeForm.value['fMaxDistance'];
 
-     this.commissionTypeService.set(this.selectedCommissionType).subscribe(
+    this.subscriptions.add(this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         this.displayDialog = false;
@@ -75,7 +77,7 @@ export class CommissionTypeEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onShowDialog() {
@@ -83,5 +85,8 @@ export class CommissionTypeEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

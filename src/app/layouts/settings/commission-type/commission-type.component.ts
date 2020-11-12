@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-commission-type',
@@ -28,6 +29,8 @@ export class CommissionTypeComponent implements OnInit {
   className: string;
   commissionTypeExportList: Array<CommissionType> = [];
   titleList = 'Liste des types de commisions';
+  subscriptions= new Subscription();
+
   constructor(private commissionTypeService: CommissionTypeService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -53,12 +56,12 @@ export class CommissionTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.commissionTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.commissionTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.commissionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
      
         this.commissionTypeList = data;
@@ -70,12 +73,12 @@ export class CommissionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
 
   onExportExcel(event) {
 
-    this.commissionTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.commissionTypeExportList = data;
         if (event != null) {
@@ -90,12 +93,12 @@ export class CommissionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.commissionTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.commissionTypeService.find(this.searchQuery).subscribe(
       data => {
         this.commissionTypeExportList = data;
         this.globalService.generatePdf(event, this.commissionTypeExportList, this.className, this.titleList);
@@ -105,7 +108,7 @@ export class CommissionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -130,9 +133,9 @@ export class CommissionTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.commissionTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.commissionTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.codeSearch = null;
@@ -161,7 +164,7 @@ export class CommissionTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedCommissions.map(x => x.id);
-          this.commissionTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.commissionTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -170,7 +173,7 @@ export class CommissionTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedCommissions.length < 1) {
@@ -184,5 +187,7 @@ export class CommissionTypeComponent implements OnInit {
     this.showDialog = event;
     this.loadData();
   }
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

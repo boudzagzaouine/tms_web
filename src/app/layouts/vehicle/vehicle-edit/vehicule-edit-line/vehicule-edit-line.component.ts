@@ -31,7 +31,6 @@ export class VehiculeEditLineComponent implements OnInit {
   constructor( private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-   // private insuranceTermLineService:InsuranceTermLineService,
     private insuranceTermService: InsuranceTermService) { }
 
   ngOnInit() {

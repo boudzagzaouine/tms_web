@@ -17,6 +17,7 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleService } from './../../../shared/services';
 import { Component, OnInit } from '@angular/core';
 import { Patrimony } from './../../../shared/models/patrimony';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -49,8 +50,8 @@ export class VehicleListComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-
   vehicleExportList: Array<Vehicle> = [];
+  subscriptions= new Subscription ();
 
 
   constructor(private vehicleService: VehicleService,
@@ -96,40 +97,40 @@ export class VehicleListComponent implements OnInit {
       { field: 'transport', child: 'code', header: 'Transport', type: 'object' },
 
     ];
-    this.vehicleCategoryService.findAll().subscribe(
+    this.subscriptions.add( this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.vehicleCategoryList = data;
       }
-    );
+    ));
 
-    this.badgeTypeService.findAll().subscribe(
+    this.subscriptions.add(this.badgeTypeService.findAll().subscribe(
       data => {
         this.badgeTypeList = data;
       }
-    );
+    ));
 
-    this.contratTypeService.findAll().subscribe(
+    this.subscriptions.add(this.contratTypeService.findAll().subscribe(
       data => {
         this.contratTypeList = data;
       }
-    );
+    ));
 
-    this.transportService.findAll().subscribe(
+    this.subscriptions.add(this.transportService.findAll().subscribe(
       data => {
         this.transportList = data;
       }
-    );
+    ));
   }
 
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.vehicleService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.vehicleService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.vehicleService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.vehicleService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.vehicleList = data;
 
@@ -139,7 +140,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
@@ -149,7 +150,7 @@ export class VehicleListComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.vehicleService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleExportList = data;
 
@@ -165,14 +166,14 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
 
   onExportPdf(event) {
-    this.vehicleService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleExportList = data;
         this.globalService.generatePdf(event, this.vehicleExportList, this.className, this.titleList);
@@ -182,7 +183,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -236,9 +237,9 @@ export class VehicleListComponent implements OnInit {
   }
 
   onVehicleCodeSearch(event: any) {
-    this.patrimonyService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleCodeList = data ,
-    );
+    ));
   }
 
   reset() {
@@ -261,7 +262,7 @@ export class VehicleListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedVehicles.map(x => x.id);
-          this.vehicleService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.vehicleService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -270,7 +271,7 @@ export class VehicleListComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedVehicles.length < 1) {

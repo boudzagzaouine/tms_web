@@ -67,7 +67,6 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   selectInusuranceTypeTerm = new InsuranceTypeTerms();
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
   maintenancePlanList: MaintenancePlan[] = [];
-
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
@@ -117,10 +116,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
             .subscribe(
               data => {
                 if (data !== null) {
-
                   this.selectedInsurance = data;
-
-
                 } else {
                   this.selectedInsurance = new Insurance();
                   this.editModee=false;
@@ -133,10 +129,6 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
               }));
 
 
-          // if (this.selectedVehicle.insurance) {
-          //   this.selectedInsurance = this.selectedVehicle.insurance;
-
-          // }
           this.initForm();
         },
           err => {
@@ -147,11 +139,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       );
     } else {
 
-      this.vehicleService.generateCode().subscribe(
+      this.subscriptions.add(this.vehicleService.generateCode().subscribe(
         code => {
        this.selectedVehicle.code = code;
         this.initForm();
-    });
+    }));
     }
 
     this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
@@ -227,6 +219,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fVignette': new FormControl(dd),
         'fValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
         'fMaintenancePlan': new FormControl(this.selectedVehicle.maintenancePlan),
+
       }),
       caracteristic: new FormGroup({
         'fGrayCard': new FormControl(this.selectedVehicle.grayCard),
@@ -242,6 +235,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fAreaFilter': new FormControl(this.selectedVehicle.airFilter),
         'fGearBox': new FormControl(this.selectedVehicle.gearBox),
         'fDesiccantFilter': new FormControl(this.selectedVehicle.desiccantFilter),
+        'fInitialmileage': new FormControl(this.selectedVehicle.initialMileage,Validators.required),
+        'fCurrentmileage': new FormControl(this.selectedVehicle.currentMileage),
       }),
       insurance: new FormGroup({
         'fInsurance': new FormControl(),
@@ -258,6 +253,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fAquisition': new FormControl(ddd, Validators.required),
         'fAmountc': new FormControl(this.selectedVehicle.amount, Validators.required),
         'fTransport': new FormControl(this.selectedVehicle.transport, Validators.required),
+       
+
       }),
 
     });
@@ -276,6 +273,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.valueTechnicalVisit = formValue['general']['fValeurVisiteTechnique'];
     this.selectedVehicle.vignette = formValue['general']['fVignette'];
     this.selectedVehicle.valueVignette = formValue['general']['fValeurVignette'];
+    this.selectedVehicle.valueVignette = formValue['general']['fmileage'];
 
     this.selectedVehicle.grayCard = formValue['caracteristic']['fGrayCard'];
     this.selectedVehicle.chassisNumber = formValue['caracteristic']['fChassisNumber'];
@@ -289,20 +287,17 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.radiator = formValue['caracteristic']['fRadiator'];
     this.selectedVehicle.airFilter = formValue['caracteristic']['fAreaFilter'];
     this.selectedVehicle.gearBox = formValue['caracteristic']['fGearBox'];
-    this.selectedVehicle.desiccantFilter = formValue['caracteristic']['fDesiccantFilter']
+     this.selectedVehicle.initialMileage = formValue['caracteristic']['fInitialmileage'];
+    this.selectedVehicle.currentMileage = formValue['caracteristic']['fCurrentmileage']; 
+     this.selectedVehicle.desiccantFilter = formValue['caracteristic']['fDesiccantFilter']
     this.selectedInsurance.code = formValue['insurance']['fICode'];
     this.selectedInsurance.startDate = formValue['insurance']['fIStartDate'];
     this.selectedInsurance.endDate = formValue['insurance']['fIEndDate'];
     this.selectedInsurance.amount = formValue['insurance']['fIMontant'];
-    // this.selectedInsurance.vehicleCode = this.selectedVehicle.code;
     this.selectedInsurance.insuranceType = formValue['insurance']['fIType'];
     this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
-
-    // if (this.selectedInsurance.code) {
-    // this.selectedVehicle.insurance = this.selectedInsurance;
-    // }
-
+ 
     this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         if (this.selectedInsurance.code) {
@@ -315,14 +310,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           ));
 
         }
-        /* if (this.editInsuranceMode) {
-           this.subscriptions.push(this.insuranceService.set(this.selectedModInsurance).subscribe(
-             data => {
-
-             }
-
-           ));
-         }*/
+    
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         this.isFormSubmitted = false;
         this.spinner.hide();
@@ -406,6 +394,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.vehicleForm.controls['insurance'].get('fICode').setValue(null);
     this.vehicleForm.controls['insurance'].get('fISupplier').setValue(null);
     this.vehicleForm.controls['insurance'].get('fIMontant').setValue(null);
+    this.vehicleForm.controls['insurance'].get('fIStartDate').setValue(new Date(this.selectedInsurance.startDate));
+    this.vehicleForm.controls['insurance'].get('fIEndDate').setValue(new Date(this.selectedInsurance.endDate));
     this.editInsuranceMode = true;
     this.selectedModInsurance = this.selectedInsurance;
     this.selectedInsurance = new Insurance();
@@ -414,20 +404,20 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   onSelectMaintenancePlan(event: any) {
     this.selectedVehicle.maintenancePlan = event;
-    console.log(event as MaintenancePlan);
     
    
   }
 
   onMaintenancePlanSearch(event: any) {
-    this.maintenancePlanService
+    this.subscriptions.add( this.maintenancePlanService
       .find('code~' + event.query)
-      .subscribe(data => (this.maintenancePlanList = data));
+      .subscribe(data => (this.maintenancePlanList = data)));
   }
 
 
   openNext() {
     this.isFormSubmitted = true;
+    
     if (this.index === 0) {
       if
         (this.vehicleForm.controls['general'].invalid) {

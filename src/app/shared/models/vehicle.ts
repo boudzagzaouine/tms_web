@@ -6,7 +6,7 @@ import { ContractType } from './contract-type';
 import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
-import { MaintenancePlan } from '.';
+import { MaintenancePlan } from './maintenance-plan';
 
 export class Vehicle extends Patrimony {
 
@@ -45,5 +45,7 @@ export class Vehicle extends Patrimony {
  // insuranceTermVehicles: InsuranceTermsVehicle[] = [];
   transport: Transport;
   maintenancePlan :MaintenancePlan;
-
+  initialMileage:number;
+  currentMileage:number;
+  
 }

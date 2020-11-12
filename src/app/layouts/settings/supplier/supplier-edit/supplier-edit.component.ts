@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Supplier } from '../../../../shared/models';
 import { SupplierService } from '../../../../shared/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -29,6 +30,7 @@ export class SupplierEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Fournisseur';
+  subscriptions= new Subscription();
 
   constructor(
     private supplierService: SupplierService,
@@ -43,17 +45,17 @@ export class SupplierEditComponent implements OnInit {
       this.selectedContact = new Contact();
       this.selectedAddress = new Address();
       this.title = 'Ajouter un Fournisseur';
- this.supplierService.generateCode().subscribe(
+      this.subscriptions.add(this.supplierService.generateCode().subscribe(
         code => {
        this.selectedSupplier.code = code;
         this.initForm();
-    });
+    }));
 
-    this.addressService.generateCode().subscribe(
+    this.subscriptions.add(this.addressService.generateCode().subscribe(
       code => {
      this.selectedAddress.code = code;
       this.initForm();
-  });
+  }));
     } else {
 
 
@@ -114,7 +116,7 @@ export class SupplierEditComponent implements OnInit {
       this.selectedSupplier.address = this.selectedAddress;
     }
 
-    const s = this.supplierService.set(this.selectedSupplier).subscribe(
+    this.subscriptions.add( this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         console.log(this.selectedSupplier);
@@ -129,7 +131,7 @@ export class SupplierEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -139,5 +141,8 @@ export class SupplierEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

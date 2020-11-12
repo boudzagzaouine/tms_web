@@ -6,6 +6,7 @@ import { MenuItem, ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-supplier',
@@ -23,14 +24,13 @@ export class SupplierComponent implements OnInit {
   selectSuppliers: Array<Supplier> = [];
   suppplierList: Array<Supplier> = [];
   codesuppplierList: Array<Supplier> = [];
-
   cols: any[];
   showDialog: boolean;
   editMode: number;
   className: string;
-
   supplierExportList: Array<Supplier> = [];
   titleList = 'List des Fournisseurs';
+  subscriptions= new Subscription();
 
   constructor(private supplierService: SupplierService,
     private spinner: NgxSpinnerService,
@@ -67,12 +67,12 @@ export class SupplierComponent implements OnInit {
 
 
     this.spinner.show();
-    this.supplierService.sizeSearch(this.searchQuery).subscribe(
+    this.subscriptions.add(this.supplierService.sizeSearch(this.searchQuery).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.supplierService.findPagination(this.page, this.size, this.searchQuery).subscribe(
+    ));
+    this.subscriptions.add(this.supplierService.findPagination(this.page, this.size, this.searchQuery).subscribe(
       data => {
         this.suppplierList = data;
         this.spinner.hide();
@@ -82,21 +82,21 @@ export class SupplierComponent implements OnInit {
         this.toastr.error(error.err.message + 'Erreur de connexion');
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
     this.loadData();
   }
   onNameSearch(event: any) {
-    this.supplierService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.supplierService.find('code~' + event.query).subscribe(
       data => this.codesuppplierList = data.map(f => f.code)
-    );
+    ));
   }
 
   onExportExcel(event) {
 
-    this.supplierService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.supplierService.find(this.searchQuery).subscribe(
       data => {
         this.supplierExportList = data;
         if (event != null) {
@@ -111,12 +111,12 @@ export class SupplierComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.supplierService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.supplierService.find(this.searchQuery).subscribe(
       data => {
         this.supplierExportList = data;
         this.globalService.generatePdf(event, this.supplierExportList, this.className, this.titleList);
@@ -126,7 +126,7 @@ export class SupplierComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -177,7 +177,7 @@ export class SupplierComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectSuppliers.map(x => x.id);
-          this.supplierService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.supplierService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -186,7 +186,7 @@ export class SupplierComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectSuppliers.length < 1) {
@@ -199,7 +199,9 @@ export class SupplierComponent implements OnInit {
     this.loadData();
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 
 }

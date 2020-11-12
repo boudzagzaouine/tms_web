@@ -31,7 +31,7 @@ showEffect="fade"
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'Descritpion' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="description">
+                    <input type="text" pInputText class="form-control mb-2" formControlName="description">
                 </div>
             </div>
 
@@ -46,7 +46,7 @@ showEffect="fade"
                       style="color: red; font-size: xx-small;">
                       {{"Obligatoire" | translate}}
                     </span>
-                    <input type="text" class="form-control mb-2" formControlName="expectedQuantity"
+                    <input type="text" class="form-control mb-2" pInputText formControlName="expectedQuantity"
                     (keyup)="onUnitPayedPriceChanged()">
                 </div>
 
@@ -64,13 +64,13 @@ showEffect="fade"
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
                   <label class="font-weight-bold">{{' Prix.U HT' | translate}}</label>
-                  <input type="text" class="form-control mb-2" formControlName="price">
+                  <input type="text" pInputText class="form-control mb-2" formControlName="price">
 
                 </div>
 
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold">{{' Prix.U TTC' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="priceTTC">
+                    <input type="text" pInputText class="form-control mb-2" formControlName="priceTTC">
               </div>
             </div>
 
@@ -100,8 +100,9 @@ showEffect="fade"
                   <input pInputText pKeyFilter="num" class="form-control mb-2"
                    formControlName="totalPayedPriceTTC"
                       (keyup)="onTotalPayedPriceTTCChanged()">
-            </div>
 
+            </div>
+          
 </div>
 
 

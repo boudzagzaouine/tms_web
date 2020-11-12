@@ -47,7 +47,7 @@ export class ReceptionEditComponent implements OnInit {
   uomList: Uom[] = [];
   showDialog: boolean;
   editMode: boolean;
-
+  receptionLine=new ReceptionLine;
   constructor(private supplierService : SupplierService,
     private receptionStockService:ReceptionStockService,
     private stockSrvice :StockService,
@@ -349,11 +349,11 @@ onSubmit() {
     this.selectedReception.supplier= event as Supplier;
   }
 
-  onShowDialogAction(line = new ReceptionLine) {
+  onShowDialogAction(line ,mode) {
     this.showDialog = true;
     console.log(line);
 
-    if (line.id>=0) {
+    if (mode==true) {
       this.selectedReceptionLine = line;
       this.editMode = true;
     } else {

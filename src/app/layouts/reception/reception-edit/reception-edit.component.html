@@ -60,7 +60,7 @@
     </span>
     <br />
     <input
-                              type="text"
+                              type="text" pInputText
                               class="form-control"
                               formControlName="supplierBL"
                           />
@@ -95,8 +95,8 @@
 
 <div class="form-group col-md-3 ">
   <div class="form-group">
-      <label>{{ "Status" | translate }}</label>
-      <input type="text" class="form-control"
+      <label class="font-weight-bold ">{{ "Status" | translate }}</label>
+      <input type="text" pInputText class="form-control"
           formControlName="status" />
   </div>
 </div>
@@ -104,7 +104,7 @@
  <div class="form-group col-md-3 ">
 
   <div class="form-group">
-    <label>{{ "BL Date" | translate }}</label>
+    <label class="font-weight-bold ">{{ "BL Date" | translate }}</label>
     <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy"
   yearRange="1970:2100" formControlName="receptionDate"></p-calendar>
 
@@ -115,7 +115,7 @@
 
 <div class="form-group col-md-3">
   <div class="form-group">
-      <label>{{ "Remarks" | translate }}</label>
+      <label class="font-weight-bold ">{{ "Remarks" | translate }}</label>
       <div class="input-group">
           <input pInputText type="text" class="form-control"
               formControlName="remarks" />
@@ -137,7 +137,7 @@
       </span>
       <br />
       <input
-                                    type="text"
+                                    type="text" pInputText
                                     class="form-control"
                                     formControlName="totalPriceHT"
                                 />
@@ -153,7 +153,7 @@
           </span>
           <br />
           <input
-                                    type="text"
+                                    type="text" pInputText
                                     class="form-control"
                                     formControlName="vat"
                                 />
@@ -171,7 +171,7 @@
           </span>
           <br />
           <input
-                                    type="text"
+                                    type="text" pInputText
                                     class="form-control"
                                     formControlName="totalttc"
                                 />
@@ -203,7 +203,7 @@
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction()"
+        (click)="onShowDialogAction(receptionLine,false)"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>
@@ -254,7 +254,7 @@
 
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line)"
+            (click)="onShowDialogAction(line,true)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>

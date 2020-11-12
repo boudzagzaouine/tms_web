@@ -42,7 +42,7 @@ export class OrderLineEditComponent implements OnInit {
 
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier la ligne de commande';
+  title = 'Ajouter la ligne de commande';
 
   constructor(private purchaseOrderLineService: PurchaseOrderLineService,
     private productService :ProductService,
@@ -63,7 +63,25 @@ export class OrderLineEditComponent implements OnInit {
         this.vatList =data;
       }
     );
+if(this.editMode == false){
+    //this.selectedPurchaseOrderLine = new PurchaseOrderLine();
 
+    this.orderStatutService.findAll().subscribe(
+        data => {
+          this.orderStatutList = data.filter(f => f.id === 2);
+          this.selectedPurchaseOrderLine.orderStatus = this.orderStatutList[0];
+          console.log( this.selectedPurchaseOrderLine.orderStatus.code);
+          this.initForm();
+        }
+   
+      );  
+        this.initForm();
+
+    }
+    else{
+       this. title = 'Modifier une ligne de commande';
+
+    }
 
     this.displayDialog=true;
     this.initForm();
@@ -72,9 +90,7 @@ export class OrderLineEditComponent implements OnInit {
 
 
   initForm() {
-    if (!this.editMode) {
-        this.selectedPurchaseOrderLine = new PurchaseOrderLine();
-    }
+   
     this.selectedProduct = this.selectedPurchaseOrderLine.product;
     this.purchaseOrderLineForm = new FormGroup({
         pdt: new FormControl(

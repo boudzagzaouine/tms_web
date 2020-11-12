@@ -23,7 +23,7 @@ showEffect="fade"
               style="color: red; font-size: xx-small;">
               {{"Obligatoire" | translate}}
             </span>
-                    <input  type="text" class="form-control" formControlName="pdt" *ngIf="editMode" />
+                    <input  type="text" pInputText class="form-control" formControlName="pdt" *ngIf="editMode" />
                     <p-autoComplete formControlName="pdt" [suggestions]="productList"
                     class="w-100" field="code" class="form-control border-0"
                         [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)" *ngIf="!editMode"
@@ -31,15 +31,16 @@ showEffect="fade"
                 </div>
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold"> {{'Statut' | translate}}</label>
-                  <input type="text" class="form-control mb-2" formControlName="status"
+                  <input type="text" class="form-control mb-2"   pInputText formControlName="status"
                   >
+
               </div>
 
             </div>
             <div class="row  justify-content-around">
               <div class="form-group col-md-12">
                 <label class="font-weight-bold">{{'Descritpion' | translate}}</label>
-                <input type="text" class="form-control mb-2" formControlName="description">
+                <input type="text" class="mb-2" pInputText formControlName="description">
             </div>
 
 
@@ -47,32 +48,38 @@ showEffect="fade"
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
-                    <label class="font-weight-bold">{{'Price' | translate}} *</label>
+                    <label class="font-weight-bold">{{'Montant' | translate}} *</label>
                     <span *ngIf="(purchaseOrderLineForm.get('payedPrice').touched && purchaseOrderLineForm.get('payedPrice').invalid) ||
                     (isFormSubmitted && purchaseOrderLineForm.get('payedPrice').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
                       {{"Obligatoire" | translate}}
                     </span>
-                    <input pInputText type="number" class="form-control mb-2" formControlName="payedPrice" (keyup)="onNumberChanged()"
-                        step="1" pattern="[0-9]+" appNumber="true">
+                    <!-- <input pInputText type="number" class="form-control mb-2" formControlName="payedPrice" (keyup)="onNumberChanged()"
+                        step="1" pattern="[0-9]+" appNumber="true"> -->
+
+                          <input pInputText type="text" class="mb-2" formControlName="payedPrice" (keyup)="onNumberChanged()"
+                         >
+                       
+
+
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label class="font-weight-bold">{{'Quantity' | translate}} *</label>
+                    <label class="font-weight-bold">{{'Quantité' | translate}} *</label>
                     <span *ngIf="(purchaseOrderLineForm.get('quantity').touched && purchaseOrderLineForm.get('quantity').invalid) ||
                     (isFormSubmitted && purchaseOrderLineForm.get('quantity').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
                       {{"Obligatoire" | translate}}
                     </span>
-                    <input pInputText type="number" class="form-control mb-2" formControlName="quantity"
+                    <input pInputText type="text" class="form-control mb-2" formControlName="quantity"
                      (keyup)="onNumberChanged()"
-                        step="1" pattern="[0-9]+" appNumber="true">
+                       >
                 </div>
             </div>
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'UOM' | translate}}</label>
-                    <input  type="text" class="form-control" formControlName="pdtPack" *ngIf="editMode" />
+                    <input  type="text" class="form-control" pInputText formControlName="pdtPack" *ngIf="editMode" />
                     <p-dropdown   formControlName="pdtPack"
                     class="w-100" [options]="productPackList"
                         optionLabel="uom.code" [autoDisplayFirst]="true" *ngIf="!editMode" >
@@ -83,22 +90,31 @@ showEffect="fade"
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'Total HT' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="totalHT">
+                    <!-- <input type="text" class="form-control mb-2" formControlName="totalHT"> -->
+
+                      <input type="text" pInputText   class="form-control mb-2" formControlName="totalHT">
+
                 </div>
             </div>
 
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'VAT' | translate}}</label>
-                    <input type="text" class="form-control mb-2"
-                    formControlName="vat"  [attr.disabled]="true">
+                    <input type="text" pInputText class=" mb-2"
+                    formControlName="vat" class="form-control"  [attr.disabled]="true">
                 </div>
 
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'Total TTC' | translate}}</label>
-                    <input type="text" class="form-control mb-2" formControlName="totalTTC"
-                    >
+                    <!-- <input type="text" class="form-control mb-2" formControlName="totalTTC"
+                    > -->
+
+             
+                      <input type="text" pInputText class="form-control mb-2" formControlName="totalTTC">
+
+                    
+
                 </div>
             </div>
 

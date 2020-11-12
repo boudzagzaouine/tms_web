@@ -35,7 +35,7 @@ export class OrderEditComponent implements OnInit {
   supplierList: Supplier[] = [];
   orderTypeList: OrderType[] = [];
   orderStatutList: OrderStatus[] = [];
-
+  purchaseOrderLine=new PurchaseOrderLine;
   uomList: Uom[] = [];
   showDialog: boolean;
   editMode: boolean;
@@ -225,11 +225,11 @@ export class OrderEditComponent implements OnInit {
     this.selectedPurchaseOrder.supplier = event as Supplier;
   }
 
-  onShowDialogAction(line = new PurchaseOrderLine) {
+  onShowDialogAction(line,mode) {
     console.log(line);
 
     this.showDialog = true;
-    if (line.id>0) {
+    if (mode == true) {
       this.selectedPurchaseOrderLine = line;
       this.editMode = true;
     } else {

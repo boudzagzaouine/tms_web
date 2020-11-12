@@ -32,7 +32,7 @@
          <br />
          <input
          type="text"
-         class="form-control"
+        
                  pInputText
          formControlName="code"
          (keydown.space)="$event.preventDefault()"
@@ -45,7 +45,7 @@
 
            <input
            type="text"
-           class="form-control"
+     
                    pInputText
            formControlName="description"
 
@@ -66,14 +66,14 @@
             </span>
             <br />
             <p-autoComplete  formControlName="type"
-            [suggestions]="productTypeList" [showClear]="true"
+            [suggestions]="productTypeList" 
             field="code"  (completeMethod)="onSearchProduct($event)"
-            (onSelect)="onSelectProductType($event)" class="form-control">
+            (onSelect)="onSelectProductType($event)" >
         </p-autoComplete>
 
           </div>
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'UOM' | translate}}</label>
+            <label class="font-weight-bold">{{'UOM' | translate}} *</label>
             <span *ngIf="(productForm.get('uom').touched && productForm.get('uom').invalid) ||
             (isFormSubmitted && productForm.get('uom').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
@@ -91,17 +91,25 @@
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Prix achat HT' | translate}}</label>
+            <label class="font-weight-bold">{{'Prix achat HT' | translate}} *</label>
             <span *ngIf="(productForm.get('purchasePrice').touched && productForm.get('purchasePrice').invalid) ||
             (isFormSubmitted && productForm.get('purchasePrice').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
           {{"Obligatoire" | translate }}
         </span>
+        <!-- <input type="text" class="form-control" pInputText
+        (keyup)="onPriceChange(1)" formControlName="purchasePrice" /> -->
 
-            <input  class="form-control  mb-2" formControlName="purchasePrice"
-            (keyup)="onPriceOrMarginChange(1)" />          </div>
+        <div class="ui-inputgroup">
+          <input type="text"  pInputText
+          (keyup)="onPriceChange(1)" formControlName="purchasePrice" />
+          <span class="ui-inputgroup-addon">DH</span>      
+
+      </div>
+
+                </div>
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'TVA d achat' | translate}}</label>
+            <label class="font-weight-bold">{{'TVA d achat' | translate}} *</label>
             <span *ngIf="(productForm.get('purchaseVat').touched && productForm.get('purchaseVat').invalid) ||
             (isFormSubmitted && productForm.get('purchaseVat').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
@@ -111,7 +119,8 @@
             <p-dropdown   formControlName="purchaseVat"
              class="w-100" [options]="vats" [showClear]="true"
             (onChange)="onSelectPurchaseVat($event)" optionLabel="value"
-            [filter]="true">
+            [filter]="true"  
+            >
         </p-dropdown>
         </div>
 
@@ -122,22 +131,30 @@
        
 
           <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Prix d achat TTC' | translate}}</label>
+            <label class="font-weight-bold">{{'Prix d achat TTC' | translate}} *</label>
             <span *ngIf="(productForm.get('purchasePriceTTC').touched && productForm.get('purchasePriceTTC').invalid) ||
             (isFormSubmitted && productForm.get('purchasePriceTTC').invalid)" class="text-lighter"
           style="color: red; font-size: xx-small;">
           {{"Obligatoire" | translate }}
         </span>
-            <input  class="form-control  mb-2" formControlName="purchasePriceTTC"
-            (keyup)="onTTCPriceChange(2)">         
+        <!-- <input type="text" class="form-control" pInputText
+        (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" /> -->
+
+        <div class="ui-inputgroup">
+          <input type="text"  pInputText
+          (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" />
+          <span class="ui-inputgroup-addon">DH</span>      
+
+      </div>
+           
            </div>
 
            <div class="form-group col-sm-12 col-md-6">
             <label class="font-weight-bold">{{'Quantité stock' | translate}}</label><br />
 
            <input
-           type="text"
-           class="form-control" [attr.disabled]="true"
+           type="text" 
+            [attr.disabled]="true"
                    pInputText
            formControlName="qntStock"
 

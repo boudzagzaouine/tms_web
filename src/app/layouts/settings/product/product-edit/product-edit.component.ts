@@ -15,6 +15,7 @@ import { Supplier } from './../../../../shared/models/supplier';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from './../../../../shared/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-edit',
@@ -26,16 +27,14 @@ export class ProductEditComponent implements OnInit {
   @Input() selectedProduct: Product;
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un produit';
-
   productForm: FormGroup;
-
   vats: Vat[];
   uoms: Uom[];
   productTypeList: ProductType[];
+  subscriptions = new Subscription();
 
   constructor(
     private productTypeService: ProductTypeService,
@@ -48,16 +47,16 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit() {
 
-   this.productTypeService.findAll().subscribe((data: ProductType[]) => {
+    this.subscriptions.add(this.productTypeService.findAll().subscribe((data: ProductType[]) => {
       this.productTypeList = data;
-  });
-    this.vatService.findAll().subscribe((data: Vat[]) => {
+  }));
+  this.subscriptions.add(this.vatService.findAll().subscribe((data: Vat[]) => {
       this.vats = data;
-    });
+    }));
 
-    this.uomService.findAll().subscribe((data: Uom[]) => {
+    this.subscriptions.add(this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
-    });
+    }));
 
     if (this.editMode === 1) {
       this.selectedProduct = new Product();
@@ -109,7 +108,7 @@ export class ProductEditComponent implements OnInit {
 
      console.log(this.selectedProduct);
 
-    this.productService.set(this.selectedProduct).subscribe(
+     this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
       data => {
           this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
           this.displayDialog = false;
@@ -122,21 +121,20 @@ export class ProductEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
   onSearchProduct(event: any) {
-    this.productTypeService.find(`code~${event.query}`).subscribe(
+    this.subscriptions.add(this.productTypeService.find(`code~${event.query}`).subscribe(
         data => {
             this.productTypeList = data;
         }
-    );
+    ));
 }
 
 onSelectProductType(type: ProductType) {
- console.log(type);
 
   this.selectedProduct.productType = type as ProductType;
 
@@ -153,29 +151,36 @@ onSelectUom(event) {
 
 
 onSelectPurchaseVat(event) {
-  // console.log(event);
   this.selectedProduct.purchaseVat = event.value as Vat;
 
-
+  this.onPriceChange(1);
 
 }
-onTTCPriceChange(n: Number) {
+
+
+
+
+
+onPriceChange(n: Number) {
   let purchasePrice = +this.productForm.value['purchasePrice'];
   let purchasePriceTTC = +this.productForm.value['purchasePriceTTC'];
-  const vatPurchase: Vat = this.productForm.value['purchaseVat'];
-
+  let vatPurchase: Vat = this.productForm.value['purchaseVat'];
 
   if (purchasePrice === undefined || purchasePrice == null) {
-      purchasePrice = 0;
+    purchasePrice = 0;
+  } if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
+    purchasePriceTTC = 0;
+  } if (vatPurchase.value === undefined || vatPurchase.value == null) {
+    vatPurchase.value = 0;
   }
 
- 
-  if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
-      purchasePriceTTC = 0;
-  }
- 
- 
-  if (n === 2) {
+  if (n === 1) {
+    const amountTva = (purchasePrice / 100) * vatPurchase.value;
+    const priceTTC = purchasePrice + amountTva;
+    this.productForm.patchValue({
+      'purchasePriceTTC': priceTTC.toFixed(2),
+    });
+  }if (n === 2) {
       purchasePrice = purchasePriceTTC / (1 + vatPurchase.value / 100);
       this.productForm.patchValue({
           purchasePrice: purchasePrice.toFixed(2)
@@ -185,9 +190,13 @@ onTTCPriceChange(n: Number) {
 }
 
 
+
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

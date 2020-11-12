@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Supplier } from './../../../shared/models/supplier';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -25,18 +26,16 @@ export class ProductComponent implements OnInit {
   codeSearch: Product;
   ProductTypeSearch: ProductType;
   ProductTypeList: Array<ProductType> = [];
-
   selectProducts: Array<Product> = [];
   productList: Product[];
   codesuppplierList: Array<Product> = [];
-
   cols: any[];
   showDialog: boolean;
   editMode: number;
   className: string;
-
   productExportList: Array<Product> = [];
   titleList = 'List des Produit';
+  subscriptions = new Subscription();
 
   constructor(private productService: ProductService,
     private productTypeService: ProductTypeService,
@@ -66,11 +65,11 @@ export class ProductComponent implements OnInit {
         child: 'code',
         type: 'object'
       },
-    
+
       {
         field: 'purchaseVat',
-         child: 'value',
-         header: 'TVA',
+        child: 'value',
+        header: 'TVA',
         type: 'object'
       },
 
@@ -85,7 +84,7 @@ export class ProductComponent implements OnInit {
         header: 'Prix d achat TTC',
         type: 'number'
       },
-     
+
       {
         field: 'stockQuantity',
         header: 'Quantity Stock',
@@ -103,12 +102,12 @@ export class ProductComponent implements OnInit {
 
 
     this.spinner.show();
-    this.productService.sizeSearch(this.searchQuery).subscribe(
+    this.subscriptions.add( this.productService.sizeSearch(this.searchQuery).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.productService.findPagination(this.page, this.size,search).subscribe(
+    ));
+    this.subscriptions.add(this.productService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.productList = data;
         console.log(data);
@@ -120,7 +119,7 @@ export class ProductComponent implements OnInit {
         this.toastr.error('Erreur de connexion');
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -128,19 +127,19 @@ export class ProductComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onNameSearch(event: any) {
-    this.productService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.productService.find('code~' + event.query).subscribe(
       data => this.codesuppplierList = data
-    );
+    ));
   }
   oncodeProductTypeSearch(event: any) {
-    this.productTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.productTypeService.find('code~' + event.query).subscribe(
       data => this.ProductTypeList = data
-    );
+    ));
   }
 
   onExportExcel(event) {
 
-    this.productService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.productService.find(this.searchQuery).subscribe(
       data => {
         this.productExportList = data;
         if (event != null) {
@@ -155,12 +154,12 @@ export class ProductComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.productService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.productService.find(this.searchQuery).subscribe(
       data => {
         this.productExportList = data;
         this.globalService.generatePdf(event, this.productExportList, this.className, this.titleList);
@@ -170,7 +169,7 @@ export class ProductComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -194,8 +193,8 @@ export class ProductComponent implements OnInit {
 
 
   reset() {
- this.codeSearch = null;
- this.ProductTypeSearch=null;
+    this.codeSearch = null;
+    this.ProductTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();
@@ -225,7 +224,7 @@ export class ProductComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectProducts.map(x => x.id);
-          this.productService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.productService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -234,7 +233,7 @@ export class ProductComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectProducts.length < 1) {
@@ -247,5 +246,8 @@ export class ProductComponent implements OnInit {
     this.loadData();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

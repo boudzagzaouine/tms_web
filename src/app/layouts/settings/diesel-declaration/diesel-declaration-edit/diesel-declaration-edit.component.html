@@ -1,0 +1,118 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="dieselDeclarationForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(dieselDeclarationForm.get('code').touched && dieselDeclarationForm.get('code').invalid) ||
+            (isFormSubmitted && dieselDeclarationForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control"  pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()" [attr.disabled]="true"
+           />
+          </div>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Véhicule' | translate}} *</label>
+            <span *ngIf="(dieselDeclarationForm.get('vehicle').touched && dieselDeclarationForm.get('vehicle').invalid) ||
+            (isFormSubmitted && dieselDeclarationForm.get('vehicle').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <p-autoComplete  [suggestions]="vehicleList" (onSelect)='onSelectVehicle($event)'
+            (completeMethod)="onCodeVehicleSearch($event)" formControlName="vehicle"
+            field="code"></p-autoComplete>
+
+          </div>
+
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Montant' | translate}} *</label>
+            <span *ngIf="(dieselDeclarationForm.get('amount').touched && dieselDeclarationForm.get('amount').invalid) ||
+            (isFormSubmitted && dieselDeclarationForm.get('amount').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <!-- <input type="text" class="form-control" pInputText formControlName="amount"
+            (keydown.space)="$event.preventDefault()"
+           /> -->
+           <div class="ui-inputgroup">
+            <input type="text"  pInputText formControlName="amount"
+            (keydown.space)="$event.preventDefault()"
+           />
+            <span class="ui-inputgroup-addon">DH</span>      
+
+        </div>
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'kilométrage' | translate}} *</label>
+            <span *ngIf="(dieselDeclarationForm.get('km').touched && dieselDeclarationForm.get('km').invalid) ||
+            (isFormSubmitted && dieselDeclarationForm.get('km').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="km"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Date' | translate}} *</label>
+            <span *ngIf="(dieselDeclarationForm.get('date').touched && dieselDeclarationForm.get('date').invalid) ||
+            (isFormSubmitted && dieselDeclarationForm.get('date').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <p-calendar formControlName="date" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+            [yearNavigator]="true" yearRange="1970:2100"
+            [style]="{'width':'50px'}" [inputStyle]="{'width':'50px'}"></p-calendar>
+          </div>
+
+
+          <div class="form-group col-sm-6"></div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="ui-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="ui-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>

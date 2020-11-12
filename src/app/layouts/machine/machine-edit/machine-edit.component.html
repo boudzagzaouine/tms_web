@@ -1,15 +1,18 @@
-<div class="card mt-4">
+<div class="card mt-4"  >
   <div class="card-header">
     <span class="h4">{{ editModeTitle | translate }}</span>
   </div>
-  <div class="card-body border-top-primary">
+  <div class="card-body border-top-primary" >
+    
     <form [formGroup]="vehicleForm">
-      <p-tabView [activeIndex]="index">
+      
+      <p-tabView [activeIndex]="index"  >
+        
         <!-- Général -->
-        <p-tabPanel
+        <p-tabPanel 
           header="{{ 'Général' | translate }}"
           [disabled]="true"
-          headerStyleClass="onglet-p-4"
+          headerStyleClass="onglet-p-4" 
         >
           <div formGroupName="general">
             <!-- Form group imbriqué -->
@@ -17,7 +20,7 @@
             <div class="row mt-3 justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Code" | translate }}*</label
+                  >{{ "Code" | translate }} *</label
                 >
                 <span
                   *ngIf="
@@ -42,9 +45,20 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                >{{ "Référence" | translate }}</label
+                >{{ "Référence" | translate }} *</label
               >
-
+              <span
+              *ngIf="
+                (vehicleForm.controls['general'].get('fRef').touched &&
+                  vehicleForm.controls['general'].get('fRef').invalid) ||
+                (isFormSubmitted &&
+                  vehicleForm.controls['general'].get('fRef').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small;"
+            >
+              {{"Obligatoire" | translate}}
+            </span>
               <br />
               <input
                 type="text"
@@ -57,7 +71,7 @@
               <div class="form-group col-md-3">
                 <label class="font-weight-bold">{{
                   "Type consommation" | translate
-                }}*</label>
+                }} *</label>
                 <span
                   *ngIf="
                     (vehicleForm.controls['general'].get('fConsumptionType')
@@ -84,7 +98,33 @@
                 ></p-dropdown>
               </div>
 
+
+             
+
             </div>
+
+            <div class="row mt-3 justify-content-around">
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
+              <span *ngIf="
+                  (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
+                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
+                  (isFormSubmitted &&
+                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+    
+              </span>
+    
+              <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
+                (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="code">
+              </p-autoComplete>
+    
+    
+            </div>
+            <div class="form-group col-md-7 "></div>
+          </div>
+
 
 
           </div>
@@ -113,7 +153,7 @@
             <div class="row mt-3 justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Numero" | translate }} *</label
+                  >{{ "Numero" | translate }} </label
                 >
                 <span
                   *ngIf="
@@ -169,7 +209,7 @@
 
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Fournisseur" | translate }} *</label
+                  >{{ "Fournisseur" | translate }} </label
                 >
                 <span
                   *ngIf="
@@ -200,7 +240,7 @@
             </div>
             <div class="row justify-content-around">
               <div class="form-group col-md-3">
-                <label class="font-weight-bold">{{ "De" | translate }} *</label>
+                <label class="font-weight-bold">{{ "De" | translate }} </label>
                 <span
                   *ngIf="
                     (vehicleForm.controls['insurance'].get('fIStartDate')
@@ -229,7 +269,7 @@
               </div>
 
               <div class="form-group col-md-3">
-                <label class="font-weight-bold">{{ "à" | translate }} *</label>
+                <label class="font-weight-bold">{{ "à" | translate }} </label>
                 <span
                   *ngIf="
                     (vehicleForm.controls['insurance'].get('fIEndDate')
@@ -258,7 +298,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Montant" | translate }} *</label
+                  >{{ "Montant" | translate }} </label
                 >
                 <span
                   *ngIf="
@@ -356,7 +396,7 @@
             <div class="row mt-3 justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Type de contrat" | translate }}*</label
+                  >{{ "Type de contrat" | translate }} *</label
                 >
                 <span
                   *ngIf="
@@ -512,7 +552,7 @@
           ></button>
         </div>
 
-        <div *ngIf="!(this.index == 3)" class="row pull-right">
+        <div *ngIf="!(this.index == 2)" class="row pull-right">
           <button
             type="button"
             pButton

@@ -6,6 +6,7 @@ import { ContractType } from './contract-type';
 import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
+import { MaintenancePlan } from './maintenance-plan';
 
 export class Machine extends Patrimony {
 
@@ -19,5 +20,5 @@ export class Machine extends Patrimony {
   amount: number;
   patrimony_type = 'machine';
   transport: Transport;
-
+  maintenancePlan :MaintenancePlan;
 }

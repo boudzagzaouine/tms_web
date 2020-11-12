@@ -13,6 +13,7 @@ import { Machine } from './../../../shared/models/machine';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
 import { Patrimony } from './../../../shared/models/patrimony';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-machine-list',
@@ -41,6 +42,7 @@ export class MachineListComponent implements OnInit {
   machineCodeList: Array<Patrimony> = [];
   machineExportList: Array<Machine> = [];
   titleList = 'Liste des Machines';
+  subscriptions= new Subscription();
 
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
@@ -68,22 +70,22 @@ export class MachineListComponent implements OnInit {
 
     ];
 
-    this.contratTypeService.findAll().subscribe(
+    this.subscriptions.add(this.contratTypeService.findAll().subscribe(
       data => {
         this.contratTypeList = data;
       }
-    );
+    ));
 
-    this.transportService.findAll().subscribe(
+    this.subscriptions.add(this.transportService.findAll().subscribe(
       data => {
         this.transportList = data;
       }
-    );
+    ));
   }
 
   onExportExcel(event) {
 
-    this.machineService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(  this.machineService.find(this.searchQuery).subscribe(
       data => {
         this.machineExportList = data;
         if (event != null) {
@@ -98,12 +100,12 @@ export class MachineListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.machineService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.machineService.find(this.searchQuery).subscribe(
       data => {
         this.machineExportList = data;
         this.globalService.generatePdf(event, this.machineExportList, this.className, this.titleList);
@@ -113,17 +115,17 @@ export class MachineListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.machineService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.machineService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.machineService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add( this.machineService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
         this.maachineList = data;
@@ -133,7 +135,7 @@ export class MachineListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
@@ -164,9 +166,9 @@ export class MachineListComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.machineService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.machineService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
 
   onObjectEdited(event) {
@@ -192,9 +194,9 @@ export class MachineListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onMachineCodeSearch(event: any) {
-    this.patrimonyService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.machineCodeList = data ,
-    );
+    ));
   }
 
 
@@ -205,7 +207,7 @@ export class MachineListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedMachines.map(x => x.id);
-          this.machineService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.machineService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -214,12 +216,17 @@ export class MachineListComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedMachines.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
   }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
 
 }

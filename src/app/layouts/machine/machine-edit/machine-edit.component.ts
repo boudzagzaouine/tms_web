@@ -22,6 +22,8 @@ import { Insurance } from './../../../shared/models/insurance';
 import { Machine } from './../../../shared/models/machine';
 import { Component, OnInit } from '@angular/core';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
+import { MaintenancePlanService } from './../../../shared/services';
+import { MaintenancePlan } from './../../../shared/models';
 
 @Component({
   selector: 'app-machine-edit',
@@ -54,9 +56,9 @@ export class MachineEditComponent implements OnInit {
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
-  subscriptions: Subscription[] = [];
+  subscriptions= new Subscription ();
   isFormSubmitted = false;
-
+  maintenancePlanList: MaintenancePlan[] = [];
   fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -67,6 +69,7 @@ export class MachineEditComponent implements OnInit {
     private contractTypeService: ContractTypeService,
     private supplierService: SupplierService,
     private insuranceTermService: InsuranceTermService,
+    private maintenancePlanService:MaintenancePlanService,
     private router: Router,
     private toastr: ToastrService,
     private insuranceTypeService: InsuranceTypeService,
@@ -90,25 +93,21 @@ export class MachineEditComponent implements OnInit {
     if (id) {
       this.editModee = true;
       this.editModeTitle = 'Modifier une machine';
-      this.subscriptions.push(this.activatedRoute.params.subscribe(params => {
+      this.subscriptions.add(this.activatedRoute.params.subscribe(params => {
         id = params['id'];
-        this.subscriptions.push(this.machineService.findById(id).subscribe(data => {
+        this.subscriptions.add(this.machineService.findById(id).subscribe(data => {
           this.selectedMachine = data;
           // (`vehicle.type~${'vehicle'},vehicle.code~${this.selectedVehicle.code}`)
 
-          this.subscriptions.push(this.insuranceService.findByPatrimony(id)
+          this.subscriptions.add(this.insuranceService.findByPatrimony(id)
             .subscribe(
               data => {
                 if (data !== null) {
 
                   this.selectedInsurance = data;
-
-
                 } else {
                   this.selectedInsurance = new Insurance();
                   this.editModee=false;
-
-
                 }
                 this.initForm();
               },
@@ -117,11 +116,6 @@ export class MachineEditComponent implements OnInit {
                 this.spinner.hide();
               }));
 
-
-          // if (this.selectedVehicle.insurance) {
-          //   this.selectedInsurance = this.selectedVehicle.insurance;
-
-          // }
           this.initForm();
         },
           err => {
@@ -131,43 +125,43 @@ export class MachineEditComponent implements OnInit {
       })
       );
     } else {
-       this.machineService.generateCode().subscribe(
+      this.subscriptions.add(this.machineService.generateCode().subscribe(
       code => {
      this.selectedMachine.code = code;
       this.initForm();
-    });
+    }));
     }
 
-    this.subscriptions.push(this.consumptionTypeService.findAll().subscribe(
+    this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
       data => {
         this.consumptionTypeList = data;
       }
     ));
 
-    this.subscriptions.push(this.insuranceTermService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTermService.findAll().subscribe(
       data => {
         this.inssuranceTermList = data;
       }
     ));
 
 
-    this.subscriptions.push(this.contractTypeService.findAll().subscribe(
+    this.subscriptions.add(this.contractTypeService.findAll().subscribe(
       data => {
         this.contractTypeList = data;
       }
     ));
-    this.subscriptions.push(this.supplierService.findAll().subscribe(
+    this.subscriptions.add(this.supplierService.findAll().subscribe(
       data => {
         this.supplierList = data;
       }
     ));
-    this.subscriptions.push(this.insuranceTypeService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTypeService.findAll().subscribe(
       data => {
         this.insuranceTypeList = data;
       }
     ));
 
-    this.subscriptions.push(this.transportService.findAll().subscribe(
+    this.subscriptions.add(this.transportService.findAll().subscribe(
       data => {
         this.transportList = data;
       }
@@ -190,17 +184,20 @@ export class MachineEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       general: new FormGroup({
         'fCode': new FormControl(this.selectedMachine.code, Validators.required),
-        'fRef': new FormControl(this.selectedMachine.ref),
+        'fRef': new FormControl(this.selectedMachine.ref,Validators.required),
         'fConsumptionType': new FormControl(this.selectedMachine.consumptionType, Validators.required),
+        'fMaintenancePlan': new FormControl(this.selectedMachine.maintenancePlan),
+
+      
       }),
 
       insurance: new FormGroup({
         'fInsurance': new FormControl(),
-        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
-        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
-        'fIMontant': new FormControl(this.selectedInsurance.amount, Validators.required),
-        'fISupplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-        'fICode': new FormControl(this.selectedInsurance.code, Validators.required),
+        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate)),
+        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate)),
+        'fIMontant': new FormControl(this.selectedInsurance.amount, ),
+        'fISupplier': new FormControl(this.selectedInsurance.supplier, ),
+        'fICode': new FormControl(this.selectedInsurance.code, ),
         'fIType': new FormControl(this.selectedInsurance.insuranceType),
       }),
 
@@ -236,11 +233,11 @@ export class MachineEditComponent implements OnInit {
     // this.selectedVehicle.insurance = this.selectedInsurance;
     // }
 
-    this.subscriptions.push(this.machineService.set(this.selectedMachine).subscribe(
+    this.subscriptions.add(this.machineService.set(this.selectedMachine).subscribe(
       data => {
         if (this.selectedInsurance.code) {
           this.selectedInsurance.patrimony = data;
-          this.subscriptions.push(this.insuranceService.set(this.selectedInsurance).subscribe(
+          this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
 
             }
@@ -293,7 +290,7 @@ export class MachineEditComponent implements OnInit {
     if (this.editModee) {
       this.selectedInsurance.insuranceTermLignes = [];
     }
-    this.subscriptions.push(this.insuranceTypeTermsService.findAll().subscribe(
+    this.subscriptions.add(this.insuranceTypeTermsService.findAll().subscribe(
       data => {
         this.inssuranceTypeTermList = data;
         this.inssuranceTypeTermList = this.inssuranceTypeTermList.filter(p => p.insuranceType.id === idinsurancetype);
@@ -328,6 +325,21 @@ export class MachineEditComponent implements OnInit {
     this.selectedMachine.transport = event.value;
 
   }
+
+  onSelectMaintenancePlan(event: any) {
+    this.selectedMachine.maintenancePlan = event;
+  
+    
+   
+  }
+
+  onMaintenancePlanSearch(event: any) {
+    this.subscriptions.add(this.maintenancePlanService
+      .find('code~' + event.query)
+      .subscribe(data => (this.maintenancePlanList = data)));
+  }
+
+
 
   onNvclick() {
     this.vehicleForm.controls['insurance'].get('fICode').setValue(null);
@@ -368,7 +380,7 @@ export class MachineEditComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 
 }

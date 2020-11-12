@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transport',
@@ -29,6 +30,8 @@ export class TransportComponent implements OnInit {
   className: string;
   transportExportList: Array<Transport> = [];
   titleList = 'List des Transports';
+  subscriptions= new Subscription();
+
   constructor(private tranportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private globalService : GlobalService,
@@ -57,12 +60,12 @@ export class TransportComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.tranportService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.tranportService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.tranportService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.tranportService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.zoneList = data;
 
@@ -73,7 +76,7 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -83,7 +86,7 @@ export class TransportComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.tranportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.tranportService.find(this.searchQuery).subscribe(
       data => {
         this.transportExportList = data;
         if (event != null) {
@@ -98,12 +101,12 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.tranportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.tranportService.find(this.searchQuery).subscribe(
       data => {
         this.transportExportList = data;
         this.globalService.generatePdf(event, this.transportExportList, this.className, this.titleList);
@@ -113,7 +116,7 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -131,9 +134,9 @@ export class TransportComponent implements OnInit {
 
   }
   onNameSearch(event: any) {
-    this.tranportService.find('name~' + event.query).subscribe(
+    this.subscriptions.add( this.tranportService.find('name~' + event.query).subscribe(
       data => this.nameList = data.map(f => f.name)
-    );
+    ));
   }
   reset() {
     this.nameSearch = null;
@@ -161,7 +164,7 @@ export class TransportComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedTransports.map(x => x.id);
-          this.tranportService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.tranportService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -170,7 +173,7 @@ export class TransportComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedTransports.length < 1) {
@@ -185,5 +188,8 @@ export class TransportComponent implements OnInit {
     this.loadData();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

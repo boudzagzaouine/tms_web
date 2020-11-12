@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transport-edit',
@@ -21,6 +22,8 @@ export class TransportEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un transport';
   selectAddress = new Address();
+  subscriptions = new Subscription();
+
   constructor(
     private transportService: TransportServcie,
     private addressService: AddressService,
@@ -36,23 +39,21 @@ export class TransportEditComponent implements OnInit {
 
       this.transportService.generateCode().subscribe(
         code => {
-       this.selectedtransport.code = code;
-        this.initForm();
-    });
+          this.selectedtransport.code = code;
+          this.initForm();
+        });
 
-    this.addressService.generateCode().subscribe(
-      code => {
-     this.selectAddress.code = code;
-     console.log("code addr ");
-     console.log(code);
+      this.subscriptions.add(this.addressService.generateCode().subscribe(
+        code => {
+          this.selectAddress.code = code;
 
-
-  });
+        }));
 
     } else {
 
-      if (this.selectedtransport.address){
-      this.selectAddress = this.selectedtransport.address;}
+      if (this.selectedtransport.address) {
+        this.selectAddress = this.selectedtransport.address;
+      }
     }
     this.displayDialog = true;
     this.initForm();
@@ -64,7 +65,7 @@ export class TransportEditComponent implements OnInit {
       name: new FormControl(this.selectedtransport.name, Validators.required),
       siret: new FormControl(this.selectedtransport.siret),
       description: new FormControl(this.selectedtransport.description),
-      line1: new FormControl( this.selectAddress.line1,
+      line1: new FormControl(this.selectAddress.line1,
 
         Validators.required
       ),
@@ -88,14 +89,14 @@ export class TransportEditComponent implements OnInit {
     ];
     this.selectedtransport.active = true;
 
-   // this.selectAddress.code = this.transportForm.value['code'];
+    // this.selectAddress.code = this.transportForm.value['code'];
     this.selectAddress.line1 = this.transportForm.value['line1'];
     this.selectAddress.line2 = this.transportForm.value['line2'];
     this.selectAddress.city = this.transportForm.value['city'];
     this.selectAddress.country = this.transportForm.value['country'];
     this.selectAddress.zip = this.transportForm.value['zip'];
 
-    this.addressService.set(this.selectAddress).subscribe(dataA => {
+    this.subscriptions.add(this.addressService.set(this.selectAddress).subscribe(dataA => {
       this.selectedtransport.address = dataA;
 
       this.transportService.set(this.selectedtransport).subscribe(
@@ -111,10 +112,14 @@ export class TransportEditComponent implements OnInit {
         },
         () => this.spinner.hide()
       );
-  });
+    }));
   }
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

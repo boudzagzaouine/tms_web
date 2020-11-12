@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MaintenanceTypeService } from './../../../shared/services/api/maintenance-type.service';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -30,9 +31,9 @@ export class MaintenanceTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
   maintenanceTypeExportList: Array<MaintenanceType> = [];
   titleList = 'Liste des types de maintenance';
+  subscriptions= new Subscription();
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
     private spinner: NgxSpinnerService,
@@ -56,12 +57,12 @@ export class MaintenanceTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.maintenanceTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add( this.maintenanceTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.maintenanceTypeService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.maintenanceTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.maintenanceTypeList = data;
@@ -73,11 +74,11 @@ export class MaintenanceTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   onExportExcel(event) {
 
-    this.maintenanceTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.maintenanceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceTypeExportList = data;
         if (event != null) {
@@ -92,14 +93,14 @@ export class MaintenanceTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
 
   onExportPdf(event) {
-    this.maintenanceTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.maintenanceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceTypeExportList = data;
         this.globalService.generatePdf(event, this.maintenanceTypeExportList, this.className, this.titleList);
@@ -109,7 +110,7 @@ export class MaintenanceTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -141,9 +142,9 @@ export class MaintenanceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onCodeSearch(event: any) {
-    this.maintenanceTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.maintenanceTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   onObjectEdited(event) {
 
@@ -164,7 +165,7 @@ export class MaintenanceTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedMaintenanceTypes.map(x => x.id);
-          this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.maintenanceTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -173,7 +174,7 @@ export class MaintenanceTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedMaintenanceTypes.length < 1) {
@@ -188,6 +189,8 @@ export class MaintenanceTypeComponent implements OnInit {
     this.loadData();
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

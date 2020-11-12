@@ -5,6 +5,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceType } from './../../../../shared/models/maintenance-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-maintenance-type-edit',
@@ -20,6 +21,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de maintenance';
+  subscriptions= new Subscription();
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
@@ -48,7 +50,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
     this.selectedMaintenanceType.code = this.maintenanceTypeForm.value['code'];
     this.selectedMaintenanceType.description = this.maintenanceTypeForm.value['description'];
 
-      this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
+    this.subscriptions.add(this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
 
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
@@ -63,7 +65,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
   }
   initForm() {
     this.maintenanceTypeForm = new FormGroup({
@@ -79,5 +81,8 @@ export class MaintenanceTypeEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

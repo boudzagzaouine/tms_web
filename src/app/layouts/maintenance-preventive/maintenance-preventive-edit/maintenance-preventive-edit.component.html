@@ -28,7 +28,7 @@
             <br />
             <input type="text" class="form-control"  formControlName="fdescription" pInputText   />
           </div>
-      <div class="form-group col-md-4l ">
+      <div class="form-group col-md-4 ">
       </div>
         </div>
      
@@ -73,7 +73,6 @@
       <ng-template pTemplate="header">
         <tr>
           <th>{{ "Operation" | translate }}</th>
-          <th>{{ "Périodicité" | translate }}</th>
           <th>{{ "Programme" | translate }}</th>
           <th>{{ "Prestataire" | translate }}</th>
           <th>{{ "Responsabilité" | translate }}</th>
@@ -84,7 +83,6 @@
       <ng-template pTemplate="body" let-line>
         <tr>
           <td>{{line?.actionType?.code}}</td>
-          <td>{{line?.periodicityType?.code}}</td>
           <td>{{line?.programType?.code}}</td>
           <td>{{line?.serviceProvider?.code}}</td>
           <td>{{line?.responsability?.code}}</td>

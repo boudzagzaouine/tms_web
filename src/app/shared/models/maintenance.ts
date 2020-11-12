@@ -15,6 +15,10 @@ import { MaintenanceState } from './maintenance-state';
 import { Patrimony } from './patrimony';
 import { ActionLineMaintenance } from './action-line-maintenance';
 import { ActionType } from './action-type';
+import { ConditionalType } from './contional-Type';
+import { SaleOrder } from './sale-order';
+import { Supplier } from '.';
+import { PurchaseOrder } from './purchase-order';
 
 
 
@@ -42,11 +46,16 @@ export class Maintenance {
   employer: string;
   triggerDay: number;
   triggerDate: Date  = new Date();
-  interventionDate: Date  = new Date();
+  interventionDate: Date;
   duration : number ;
   declaredDate : Date = new Date();
   observation : string;
 
   dayOfMonth : number;
+  mileageNext:number;
+conditionalType :ConditionalType;
+valueconditionalType :number;
 
+purshaseOrder: PurchaseOrder;
+supplier :Supplier;
 }

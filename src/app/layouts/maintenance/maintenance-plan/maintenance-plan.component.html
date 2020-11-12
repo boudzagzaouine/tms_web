@@ -29,7 +29,7 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <input type="text"  class="form-control" *ngIf="editMType==1"
+          <input type="text"  class="form-control" *ngIf="editMType==1" 
           [attr.disabled]="true"  formControlName="fmaintenaceType" pInputText   />
 
 
@@ -83,7 +83,7 @@
             {{"Obligatoire" | translate}}
           </span>
           <br />
-          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
+          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"  [disabled]="true"
           [filter]="true" [options]="MaintenancestateList"
          [showClear]="true"
 
@@ -107,7 +107,7 @@
 
 <div *ngIf="(this.selectMaintenancetype.id === 1)" >
 
-
+<div *ngIf="(this.selectedMaintenance.programType.id === 1)"> 
   <div class="row  mt-3 justify-content-around">
 
      <div class="form-group col-md-3 ">
@@ -165,6 +165,81 @@
 
 
 <hr>
+</div>
+
+<div *ngIf="(this.selectedMaintenance.programType.id === 2)"> 
+  <div class="row  mt-3 justify-content-around">
+
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold ">{{'Action' | translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <p-autoComplete  
+
+    field='code'  formControlName="fActionType" [disabled]="true" 
+    ></p-autoComplete>
+
+
+  </div> 
+
+
+
+  <div class="form-group col-md-3">
+
+    <label class="font-weight-bold ">{{'Type'| translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fConditionalType').touched && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
+    [filter]="true" [options]="conditionalTypeList"
+   [showClear]="true"
+
+   (onChange)='onSelectConditionalType($event)' formControlName="fConditionalType"></p-dropdown>
+
+
+  </div>
+
+
+  <div class="form-group col-md-3">
+
+    <label class="font-weight-bold ">{{'Valeur'| translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').touched && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <input type="text" class="form-control" formControlName="fvaleurCOnditional" pInputText   />
+
+
+
+  </div>
+
+  <div class="form-group col-md-3">
+    <label class="font-weight-bold ">{{'Intervention'| translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('finterventionKm').touched && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <input type="text" class="form-control" formControlName="finterventionKm" pInputText   />
+
+
+</div>
+
+  </div>
+
+  </div>
+
+
 
 </div>
 </div>
@@ -216,16 +291,8 @@
 
 
   <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('fTriggerDayy').touched && maintenacePlanForm.controls['service'].get('fTriggerDay').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fTriggerDayy').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-inputNumber  mode="decimal"
-    [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDayy">
-    </p-inputNumber>
+    
+   
 </div>
 
 </div>
@@ -243,28 +310,9 @@
     <input type="text" class="form-control" formControlName="fObseravtion" pInputText   />
 
   </div>
-  <div class="form-group col-md-3 ">
-
-    <label class="font-weight-bold ">{{'Date intervention ' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('fIntervetionDate').touched && maintenacePlanForm.controls['service'].get('fIntervetionDate').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fIntervetionDate').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-calendar [monthNavigator]="true"  [showTime]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" [locale]="fr"
-    yearRange="1970:2100"  formControlName="fIntervetionDate" > </p-calendar>
+  <div class="form-group col-md-6 ">
   </div>
-  <div class="form-group col-md-3 ">
-
-    <label class="font-weight-bold ">{{'Durée' | translate}} </label>
-
-    <br />
-    <p-inputNumber  formControlName="fDuration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
-
-   </p-inputNumber>
-
-</div>
+ 
 </div>
 <hr>
 </div>
@@ -273,7 +321,7 @@
 
 <div formGroupName="responsability">
 
-<div class="row  mt-3 justify-content-around">
+<div class="row  mt-3 justify-content-arround">
 
   <div class="form-group col-md-3 ">
     <label class="font-weight-bold ">{{'Prestataire de service' | translate}} *</label>
@@ -287,7 +335,16 @@
         [filter]="true" [options]="serviceProviderList"
        [showClear]="true" (onChange)="onSelectPServiceProvider($event)" formControlName="fServiceProvider"></p-dropdown>
   </div>
-  <div class="form-group col-md-3">
+ 
+  
+  <div class="form-group col-md-3 ">
+  </div>
+
+
+</div>
+
+<div class="row  mt-3 justify-content-arround" *ngIf="this.selectedMaintenance.serviceProvider.id==1" >
+  <div class="form-group col-md-3" >
     <label class="font-weight-bold ">{{'Responsabilité' | translate}} *</label>
 
     <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fResponsability').touched && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid) ||
@@ -306,9 +363,43 @@
 
     <input type="text" class="form-control" formControlName="fagent" pInputText   />
   </div>
-  <div class="form-group col-md-3 ">
+
   </div>
-</div>
+
+  
+<div class="row  mt-3 justify-content-arround" *ngIf="this.selectedMaintenance.serviceProvider.id==2" >
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold ">{{'Fournisseur' | translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fSupplier').touched && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <p-autoComplete  [suggestions]="supplierList"
+    (completeMethod)="onSupplierSearch($event)"
+    field='code'  formControlName="fSupplier" (onSelect)="onSelectSupplier($event)"
+    ></p-autoComplete>
+  </div>
+
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold ">{{'Commande' | translate}} *</label>
+    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('order').touched && maintenacePlanForm.controls['responsability'].get('order').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('order').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+      {{"Obligatoire" | translate}}
+    </span>
+    <br />
+    <p-autoComplete  [suggestions]="purchaseOrderList"
+    (completeMethod)="onPurchaseOrderCodeSearch($event)"
+    field='code'  formControlName="order"  (onSelect)="onSelectPurchaseOrder($event)"
+    ></p-autoComplete>
+  </div>
+  
+  </div>
+
+
+
 </div>
 
 <div class="row  mt-3 justify-content-around">
@@ -317,7 +408,26 @@
     <br />
     <input type="text" class="form-control" formControlName="price" pInputText   />
   </div>
-<div class="form-group col-md-9 ">
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold ">{{'Kilométrage'| translate}} *</label>
+    <br />
+    <input type="text" class="form-control" formControlName="mileage" pInputText   />
+  </div>
+
+  <div class="form-group col-md-3 ">
+
+    <label class="font-weight-bold ">{{'Durée' | translate}} </label>
+
+    <br />
+    <p-inputNumber  formControlName="fDuration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
+
+   </p-inputNumber>
+
+</div>
+
+
+
+<div class="form-group col-md-3 ">
 </div>
 </div>
       </form>
@@ -333,8 +443,8 @@
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction()"
-        ><!--ADD-->
+        (click)="onShowDialogAction(actionLineM,false)"
+        >   
         <i class="fa fa-plus"></i>
       </button>
     </div>
@@ -375,7 +485,7 @@
             [disabled]="editMode"
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line)"
+            (click)="onShowDialogAction(line,true)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>
@@ -399,10 +509,10 @@
   <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
     {{'Fermer' | translate}}
   </a>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-    {{'Valider et continuer' | translate }}
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit(1)">
+    {{'Cloturer' | translate }}
   </button>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit(2)">
     {{ "Valider" | translate }}
   </button>
 </div>

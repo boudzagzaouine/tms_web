@@ -6,6 +6,7 @@ import { MenuItem, ConfirmationService } from 'primeng/api';
 import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { MaintenanceStateService } from './../../../shared/services/api/maintenance-states.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-maintenance-status',
@@ -30,9 +31,10 @@ export class MaintenanceStatusComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
   maintenanceStatusExportList: Array<MaintenanceState> = [];
   titleList = 'Liste des états de maintenance';
+  subscriptions= new Subscription();
+
   constructor(private maintenanceStatusService: MaintenanceStateService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
@@ -55,12 +57,12 @@ export class MaintenanceStatusComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.maintenanceStatusService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.maintenanceStatusService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.maintenanceStatusService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.maintenanceStatusService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.maintenanceStatusList = data;
@@ -72,7 +74,7 @@ export class MaintenanceStatusComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -82,7 +84,7 @@ export class MaintenanceStatusComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.maintenanceStatusService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.maintenanceStatusService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceStatusExportList = data;
         if (event != null) {
@@ -97,12 +99,12 @@ export class MaintenanceStatusComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.maintenanceStatusService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.maintenanceStatusService.find(this.searchQuery).subscribe(
       data => {
         this.maintenanceStatusExportList = data;
         this.globalService.generatePdf(event, this.maintenanceStatusExportList, this.className, this.titleList);
@@ -112,7 +114,7 @@ export class MaintenanceStatusComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onSearchClicked() {
@@ -138,9 +140,9 @@ export class MaintenanceStatusComponent implements OnInit {
   }
 
   onCodeSearch(event: any) {
-    this.maintenanceStatusService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.maintenanceStatusService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
 
   onObjectEdited(event) {
@@ -162,7 +164,7 @@ export class MaintenanceStatusComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedMaintenanceStatus.map(x => x.id);
-          this.maintenanceStatusService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.maintenanceStatusService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -171,7 +173,7 @@ export class MaintenanceStatusComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedMaintenanceStatus.length < 1) {
@@ -186,4 +188,7 @@ export class MaintenanceStatusComponent implements OnInit {
     this.loadData();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

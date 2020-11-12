@@ -6,6 +6,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-maintenance-status-edit',
@@ -21,6 +22,8 @@ export class MaintenanceStatusEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier état de maintenance';
+  subscriptions= new Subscription();
+
   constructor(
     private maintenanceStateService: MaintenanceStateService,
     private modalService: NgbModal,
@@ -51,7 +54,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
 
     console.log(this.selectedMaintenanceState);
-    const s = this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
+    this.subscriptions.add(this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
       data => {
         this.toastr.success('Elément est enregistré avec succès', 'Edition');
         this.displayDialog = false;
@@ -65,7 +68,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
@@ -80,6 +83,9 @@ export class MaintenanceStatusEditComponent implements OnInit {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }
 

@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BadgeType } from '../../../../shared/models';
 import { BadgeTypeService } from '../../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-badge-type-edit',
@@ -23,6 +24,7 @@ export class BadgeTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de badge';
+  subscriptions= new Subscription();
 
   constructor(private badgeTypeService: BadgeTypeService,
     private spinner: NgxSpinnerService,
@@ -31,7 +33,6 @@ export class BadgeTypeEditComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedBadgeType = new BadgeType();
@@ -59,7 +60,7 @@ export class BadgeTypeEditComponent implements OnInit {
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
 
-    const s = this.badgeTypeService.set(this.selectedBadgeType).subscribe(
+    this.subscriptions.add( this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
@@ -72,7 +73,7 @@ export class BadgeTypeEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onShowDialog() {
@@ -80,6 +81,8 @@ export class BadgeTypeEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

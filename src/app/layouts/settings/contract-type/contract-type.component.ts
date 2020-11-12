@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
 import { ContractType } from '../../../shared/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contract-type',
@@ -29,6 +30,8 @@ export class ContractTypeComponent implements OnInit {
   className: string;
   contractTypeExportList: Array<ContractType> = [];
   titleList = 'Liste des types de contrat';
+  subscriptions= new Subscription();
+
   constructor(private contractTypeService: ContractTypeService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -56,7 +59,7 @@ export class ContractTypeComponent implements OnInit {
         this.collectionSize = data;
       }
     );
-    this.contractTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.contractTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.contratTypeList = data;
@@ -68,7 +71,7 @@ export class ContractTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -78,7 +81,7 @@ export class ContractTypeComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.contractTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.contractTypeService.find(this.searchQuery).subscribe(
       data => {
         this.contractTypeExportList = data;
         if (event != null) {
@@ -93,11 +96,11 @@ export class ContractTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onExportPdf(event) {
-    this.contractTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.contractTypeService.find(this.searchQuery).subscribe(
       data => {
         this.contractTypeExportList = data;
         this.globalService.generatePdf(event, this.contractTypeExportList, this.className, this.titleList);
@@ -107,7 +110,7 @@ export class ContractTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onSearchClicked() {
@@ -124,9 +127,9 @@ export class ContractTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.contractTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.contractTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.codeSearch = null;
@@ -155,7 +158,7 @@ export class ContractTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedContratTypes.map(x => x.id);
-          this.contractTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.contractTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -164,7 +167,7 @@ export class ContractTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedContratTypes.length < 1) {
@@ -177,5 +180,9 @@ export class ContractTypeComponent implements OnInit {
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

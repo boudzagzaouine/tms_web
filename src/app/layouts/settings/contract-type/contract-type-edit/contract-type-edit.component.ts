@@ -5,6 +5,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ContractTypeService } from '../../../../shared/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contract-type-edit',
@@ -20,6 +21,7 @@ export class ContractTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de contrat';
+  subscriptions= new Subscription();
 
   constructor(
     private contractTypeService: ContractTypeService,
@@ -52,7 +54,7 @@ export class ContractTypeEditComponent implements OnInit {
     this.selectedContractType.code = this.contractTypeForm.value['code'];
     this.selectedContractType.description = this.contractTypeForm.value['description'];
 
-    this.contractTypeService.set(this.selectedContractType).subscribe(
+    this.subscriptions.add(this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré avec succès', 'Edition');
         this.displayDialog = false;
@@ -66,7 +68,7 @@ export class ContractTypeEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -76,6 +78,8 @@ export class ContractTypeEditComponent implements OnInit {
   }
 
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

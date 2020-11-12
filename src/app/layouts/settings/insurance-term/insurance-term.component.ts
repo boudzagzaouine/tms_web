@@ -40,9 +40,9 @@ export class InsuranceTermComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
   insuranceTermExportList: Array<InsuranceTerm> = [];
   titleList = 'Liste des termes assurance';
+  subscriptions= new Subscription ();
 
   constructor(private insuranceTermService: InsuranceTermService,
     private globalService: GlobalService,
@@ -67,12 +67,12 @@ export class InsuranceTermComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.insuranceTermService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.insuranceTermService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.insuranceTermService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.insuranceTermService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.insuranceTermList = data;
@@ -84,7 +84,7 @@ export class InsuranceTermComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -94,7 +94,7 @@ export class InsuranceTermComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.insuranceTermService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTermExportList = data;
         if (event != null) {
@@ -109,13 +109,13 @@ export class InsuranceTermComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
   onExportPdf(event) {
-    this.insuranceTermService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.insuranceTermService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTermExportList = data;
         this.globalService.generatePdf(event, this.insuranceTermExportList, this.className, this.titleList);
@@ -125,7 +125,7 @@ export class InsuranceTermComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -145,9 +145,9 @@ export class InsuranceTermComponent implements OnInit {
   }
 
   onCodeSearch(event: any) {
-    this.insuranceTermService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.insuranceTermService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
 
   reset() {
@@ -177,7 +177,7 @@ export class InsuranceTermComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedCommissionTerms.map(x => x.id);
-          this.insuranceTermService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.insuranceTermService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -186,7 +186,7 @@ export class InsuranceTermComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedCommissionTerms.length < 1) {
@@ -197,6 +197,10 @@ export class InsuranceTermComponent implements OnInit {
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

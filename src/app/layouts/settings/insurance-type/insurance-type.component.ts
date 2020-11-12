@@ -6,6 +6,7 @@ import { InsuranceTypeService } from './../../../shared/services/api/insurance-t
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { InsuranceType } from './../../../shared/models/insurance-Type';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-insurance-type',
@@ -13,6 +14,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./insurance-type.component.css']
 })
 export class InsuranceTypeComponent implements OnInit {
+ 
+  title = 'Modifier Type Assurance';  
+  titleList = 'Liste des types assurance';
   page = 0;
   size = 10;
   searchQuery = '';
@@ -26,9 +30,8 @@ export class InsuranceTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  title = 'Modifier Type Assurance';
   insuranceTypeExportList: Array<InsuranceType> = [];
-  titleList = 'Liste des types assurance';
+  subscriptions= new Subscription ();
 
   constructor(
     private insuranceTypeService: InsuranceTypeService,
@@ -49,10 +52,11 @@ export class InsuranceTypeComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.insuranceTypeService.sizeSearch(search).subscribe(data => {
+    this.subscriptions.add(this.insuranceTypeService.sizeSearch(search).subscribe(data => {
       this.collectionSize = data;
-    });
-    this.insuranceTypeService
+    }));
+
+   this.subscriptions.add( this.insuranceTypeService
       .findPagination(this.page, this.size, search)
       .subscribe(
         data => {
@@ -63,8 +67,9 @@ export class InsuranceTypeComponent implements OnInit {
           this.spinner.hide();
         },
         () => this.spinner.hide()
-      );
+      ));
   }
+
   loadDataLazy(event) {
     this.size = event.rows;
     this.page = event.first / this.size;
@@ -72,7 +77,7 @@ export class InsuranceTypeComponent implements OnInit {
   }
 
   onExportExcel(event) {
-    this.insuranceTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.insuranceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTypeExportList = data;
         if (event != null) {
@@ -96,11 +101,11 @@ export class InsuranceTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
 
   onExportPdf(event) {
-    this.insuranceTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.insuranceTypeService.find(this.searchQuery).subscribe(
       data => {
         this.insuranceTypeExportList = data;
         this.globalService.generatePdf(
@@ -115,7 +120,7 @@ export class InsuranceTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
 
   onSearchClicked() {
@@ -131,9 +136,9 @@ export class InsuranceTypeComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
   onCodeSearch(event: any) {
-    this.insuranceTypeService
+    this.subscriptions.add( this.insuranceTypeService
       .find('code~' + event.query)
-      .subscribe(data => (this.codeList = data.map(f => f.code)));
+      .subscribe(data => (this.codeList = data.map(f => f.code))));
   }
 
   reset() {
@@ -160,7 +165,7 @@ export class InsuranceTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedInsuranceTypes.map(x => x.id);
-          this.insuranceTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.insuranceTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success(
                 'Elément Supprimer avec Succés',
@@ -172,16 +177,19 @@ export class InsuranceTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
-    } else if (this.selectedInsuranceTypes.length < 1) {
-      this.toastr.warning('aucun ligne sélectionnée');
-    }
+    } 
   }
 
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

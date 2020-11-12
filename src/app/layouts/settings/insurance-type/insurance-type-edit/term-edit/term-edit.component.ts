@@ -7,6 +7,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceTerm } from './../../../../../shared/models/insurance-term';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-term-edit',
@@ -26,6 +27,7 @@ export class TermEditComponent implements OnInit {
   modal: NgbModalRef;
   isFormSubmitted = false;
   insuranceTermList: Array<InsuranceTerm> = [];
+  subscriptions= new Subscription ();
 
   constructor(
     private insuranceTermeService: InsuranceTermService,
@@ -35,11 +37,11 @@ export class TermEditComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.insuranceTermeService.findAll().subscribe(
+    this.subscriptions.add( this.insuranceTermeService.findAll().subscribe(
       data => {
         this.insuranceTermList = data;
       }
-    );
+    ));
 
   }
 
@@ -96,4 +98,7 @@ export class TermEditComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

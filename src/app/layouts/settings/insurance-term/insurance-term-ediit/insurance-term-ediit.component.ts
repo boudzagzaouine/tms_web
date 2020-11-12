@@ -5,6 +5,7 @@ import { InsuranceTermService } from './../../../../shared/services/api/insuranc
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceTerm } from './../../../../shared/models/insurance-term';
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, DoCheck } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-insurance-term-ediit',
@@ -15,11 +16,12 @@ export class InsuranceTermEdiitComponent implements OnInit {
 
   @Input() selectedInsuranceTerm = new InsuranceTerm();
   @Input() editMode: number;
-  @Output() showDialog = new EventEmitter<boolean>();
+  @Output() showDialog = new EventEmitter<boolean>(); 
+  title = 'Modifier un terme assurance';
   insuranceTermForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier un terme assurance';
+  subscriptions= new Subscription();
 
   constructor(private insuranceTermService: InsuranceTermService,
     private spinner: NgxSpinnerService,
@@ -55,7 +57,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
     } else {
       this.selectedInsuranceTerm.roofed = false;
     }
-    const s = this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(
+    this.subscriptions.add(  this.insuranceTermService.set(this.selectedInsuranceTerm).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         this.displayDialog = false;
@@ -67,7 +69,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onShowDialog() {
@@ -77,6 +79,10 @@ export class InsuranceTermEdiitComponent implements OnInit {
 
 
 
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 
 

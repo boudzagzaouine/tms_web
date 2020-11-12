@@ -12,6 +12,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceType } from './../../../../shared/models/insurance-Type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class InsuranceTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Input() insertOrUpdate: String;
   @Output() insuranceTypeAdded = new EventEmitter<InsuranceType>();
-  @Output() showDialog = new EventEmitter<boolean>();
+  @Output() showDialog = new EventEmitter<boolean>();  
+  title = 'Modifier un type assurance';
   page = 0;
   size = 5;
   collectionSize: number;
@@ -37,7 +39,8 @@ export class InsuranceTypeEditComponent implements OnInit {
   insuranceTypeTermsListC: Array<InsuranceTypeTerms> = [];
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier un type assurance';
+  subscriptions= new Subscription ();
+
   constructor(
     private confirmationService: ConfirmationService,
     private insuranceTypeService: InsuranceTypeService,
@@ -88,24 +91,24 @@ export class InsuranceTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedinsuranceType.code = this.insuranceTypeForm.value['code'];
     this.selectedinsuranceType.description = this.insuranceTypeForm.value['description'];
-    this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
+    this.subscriptions.add(this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
       dataIt => {
         this.insuranceTypeAdded.emit(dataIt);
         if (this.editMode) {
           this.insuranceTypeTermsListC.forEach(eleme => {
-            this.insuranceTypeTermsService.delete(eleme.id).subscribe(
+            this.subscriptions.add( this.insuranceTypeTermsService.delete(eleme.id).subscribe(
               d => {
               }
-            );
+            ));
           });
         }
         if (this.insuranceTypeTermsList.length) {
           this.insuranceTypeTermsList.forEach(
             elemen => {
               this.selectInsurannceTypeTerms = new InsuranceTypeTerms(dataIt, elemen.insuranceTerm, elemen.amount);
-              this.insuranceTypeTermsService.set(this.selectInsurannceTypeTerms).subscribe(
+              this.subscriptions.add( this.insuranceTypeTermsService.set(this.selectInsurannceTypeTerms).subscribe(
                 data => {
-                });
+                }));
             });
 
         }
@@ -120,7 +123,7 @@ export class InsuranceTypeEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
 
   open() {
@@ -130,14 +133,14 @@ export class InsuranceTypeEditComponent implements OnInit {
       this.title = 'Ajouter un type assurance';
     } else {
 
-      this.insuranceTypeTermsService.find('insuranceType.id:' + this.selectedinsuranceType.id).subscribe(
+      this.subscriptions.add(this.insuranceTypeTermsService.find('insuranceType.id:' + this.selectedinsuranceType.id).subscribe(
         data => {
           this.insuranceTypeTermsList = data;
 
           this.insuranceTypeTermsListC = this.insuranceTypeTermsList;
           this.spinner.hide();
         },
-      );
+      ));
 
     }
     this.initForm();
@@ -147,5 +150,9 @@ export class InsuranceTypeEditComponent implements OnInit {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

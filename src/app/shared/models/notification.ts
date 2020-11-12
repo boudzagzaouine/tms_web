@@ -1,4 +1,4 @@
-import { BadgeType } from './badge-Type';
+import { NotificationType} from './notificationType';
 import { NotificationState } from './notificationState';
 
 export class Notification {
@@ -11,5 +11,6 @@ export class Notification {
   maintenanceId :number;
   patimonyCode :String;
   typePatrimony :String;
+  notificationType : NotificationType;
   action :String;
 }

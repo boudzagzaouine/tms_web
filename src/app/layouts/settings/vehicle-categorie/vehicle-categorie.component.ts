@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -31,6 +32,10 @@ export class VehicleCategorieComponent implements OnInit {
   className: string;
   vehicleCategoyExportList: Array<VehicleCategory> = [];
   titleList = 'Liste des catégories de  véhicule';
+  subscriptions= new Subscription();
+
+
+
   constructor(private vehicleCategorieService: VehicleCategoryService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -59,12 +64,12 @@ export class VehicleCategorieComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.vehicleCategorieService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.vehicleCategorieService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.vehicleCategorieService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.vehicleCategorieService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.vehicleCategorieList = data;
         this.spinner.hide();
@@ -74,7 +79,7 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -84,7 +89,7 @@ export class VehicleCategorieComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.vehicleCategorieService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleCategorieService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleCategoyExportList = data;
         if (event != null) {
@@ -99,13 +104,13 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
   onExportPdf(event) {
-    this.vehicleCategorieService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.vehicleCategorieService.find(this.searchQuery).subscribe(
       data => {
         this.vehicleCategoyExportList = data;
         this.globalService.generatePdf(event, this.vehicleCategoyExportList, this.className, this.titleList);
@@ -115,7 +120,7 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onSearchClicked() {
@@ -133,9 +138,9 @@ export class VehicleCategorieComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.vehicleCategorieService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.vehicleCategorieService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.codeSearch = null;
@@ -164,7 +169,7 @@ export class VehicleCategorieComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedVehicleCategories.map(x => x.id);
-          this.vehicleCategorieService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.vehicleCategorieService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -173,7 +178,7 @@ export class VehicleCategorieComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedVehicleCategories.length < 1) {
@@ -186,6 +191,11 @@ export class VehicleCategorieComponent implements OnInit {
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

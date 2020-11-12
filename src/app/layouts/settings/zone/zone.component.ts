@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ZoneServcie } from './../../../shared/services/api/zone.service';
 import { Zone } from './../../../shared/models/Zone';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-zone',
@@ -29,6 +30,8 @@ export class ZoneComponent implements OnInit {
   className: string;
   zoneExportList: Array<Zone> = [];
   titleList = 'Liste des zones';
+  subscriptions= new Subscription();
+
   constructor(private zoneService: ZoneServcie,
     private spinner: NgxSpinnerService,
     private globalService :GlobalService,
@@ -52,12 +55,12 @@ export class ZoneComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.zoneService.sizeSearch(search).subscribe(
+    this.subscriptions.add( this.zoneService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.zoneService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.zoneService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.zoneList = data;
 
@@ -68,7 +71,7 @@ export class ZoneComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -79,7 +82,7 @@ export class ZoneComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.zoneService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.zoneService.find(this.searchQuery).subscribe(
       data => {
         this.zoneExportList = data;
         if (event != null) {
@@ -94,12 +97,12 @@ export class ZoneComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdfGlobal(event) {
-    this.zoneService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.zoneService.find(this.searchQuery).subscribe(
       data => {
         this.zoneExportList = data;
         this.globalService.generatePdf(event, this.zoneExportList, this.className, this.titleList);
@@ -109,7 +112,7 @@ export class ZoneComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -127,9 +130,9 @@ export class ZoneComponent implements OnInit {
 
   }
   onNameSearch(event: any) {
-    this.zoneService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
       data => this.nameList = data
-    );
+    ));
   }
   reset() {
     this.nameSearch = null;
@@ -157,7 +160,7 @@ export class ZoneComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedZones.map(x => x.id);
-          this.zoneService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.zoneService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -166,7 +169,7 @@ export class ZoneComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedZones.length < 1) {
@@ -179,6 +182,10 @@ export class ZoneComponent implements OnInit {
   onShowDialog(event) {
     this.showDialog = event;
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

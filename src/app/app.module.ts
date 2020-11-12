@@ -53,6 +53,7 @@ registerLocaleData(localeFr, 'fr');
       newestOnTop: true,
     }),
 
+
   ],
   bootstrap: [AppComponent]
 })

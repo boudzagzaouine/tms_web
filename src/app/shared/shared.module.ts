@@ -97,6 +97,10 @@ import { PeriodicityTypeService } from './services/api/periodicity-type.service'
 import { UomService } from './services/api/uom.service';
 import { NotificationService } from './services/api/notification.service';
 import { ActionPlanService } from './services/api/action-plan.service';
+import { NotificationTypeService } from './services/api/notificationType.service';
+import { TemplateService } from './services/api/template.service';
+import { DieselDeclarationService } from './services/api/dieselDeclaration.service';
+import { ConditionalTypeService } from './services/api/conditional-type.service';
 
 
 @NgModule({
@@ -210,7 +214,11 @@ export class SharedModule {
         MaintenanceStockService,
         NotificationService,
         MessageService,
-        ActionPlanService
+        ActionPlanService,
+        NotificationTypeService,
+        TemplateService,
+        DieselDeclarationService,
+        ConditionalTypeService
       ],
 
     };

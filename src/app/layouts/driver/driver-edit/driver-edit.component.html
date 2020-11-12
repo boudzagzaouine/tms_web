@@ -6,7 +6,7 @@
   <div class="card-body border-top-primary">
     <form [formGroup]="driverForm">
        <p-tabView [activeIndex]="index"  >
-        <p-tabPanel header="Général"   headerStyleClass="m-a-p">
+        <p-tabPanel header="Général"  [disabled]="true"  headerStyleClass="m-a-p">
       <div class="row justify-content-around">
 
         <div class="form-group col-md-3">
@@ -161,7 +161,7 @@
 
     </p-tabPanel>
 
-    <p-tabPanel header="Badges" headerStyleClass="m-a-p" >
+    <p-tabPanel header="Badges" [disabled]="true"[disabled]="true" headerStyleClass="m-a-p" >
       <ng-template pTemplate="content">
         <app-badge-driver-edit (badgeTypedriverListEdit)='onLoadBadge($event)' [badgeTypeDriverList]="this.selectedDriver.badgeTypeDrivers" [idDriver]='idDriver'></app-badge-driver-edit>
 

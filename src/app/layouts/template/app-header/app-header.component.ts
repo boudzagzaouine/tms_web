@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 })
 export class AppHeaderComponent implements OnInit, AfterViewInit {
 
-  notificationSize: number =0;
+  notificationSize: number ;
  notificationList : Array<Notification> = [];
   constructor(
     private notificationService : NotificationService,
@@ -27,9 +27,9 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadData();
-    setInterval(()=> {
-       this.loadData();
-     },60000)
+     setInterval(()=> {
+        this.loadData();
+      },60000)
    
     this.translate.addLangs([
       'en',

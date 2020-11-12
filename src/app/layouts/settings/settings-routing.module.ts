@@ -37,6 +37,8 @@ import { MenuMaintenanceComponent } from './menu-maintenance/menu-maintenance.co
 import { MenuDriverComponent } from './menu-driver/menu-driver.component';
 import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
 import { NotificationComponent } from './notification/notification.component';
+import { ConfigMessageComponent } from './configMessage/configMessage.component';
+import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
 
 const routes: Routes = [
   {
@@ -69,8 +71,9 @@ const routes: Routes = [
       { path: 'transport', component: TransportComponent },
       { path: 'product', component: ProductComponent },
       { path: 'product-type', component: ProductTypeComponent },
-      { path: 'notification', component: NotificationComponent }
-
+      { path: 'notification', component: NotificationComponent },
+      { path: 'config-mail', component: ConfigMessageComponent },
+      { path: 'diesel-declaration', component: DieselDeclarationComponent }
 
 
 

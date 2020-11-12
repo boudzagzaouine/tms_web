@@ -49,6 +49,9 @@ export class EmsService<T> {
   set(t: T): Observable<T> {
     return this.proxy.set(this.controller, t);
   }
+  close(t: T): Observable<T> {
+    return this.proxy.closeMaintenance(this.controller, t);
+  }
   setAll(t: T[]): Observable<T[]> {
     return this.proxy.setAll(this.controller, t);
   }

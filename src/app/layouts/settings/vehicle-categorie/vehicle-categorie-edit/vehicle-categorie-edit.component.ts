@@ -5,6 +5,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class VehicleCategorieEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une catégorie de véhicule';
+  subscriptions= new Subscription();
+
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private spinner: NgxSpinnerService,
@@ -71,7 +74,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     console.log(this.selectedVehicleCategory);
 
-      this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
+    this.subscriptions.add(this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
 
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
@@ -86,7 +89,7 @@ export class VehicleCategorieEditComponent implements OnInit {
       },
 
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
@@ -94,6 +97,11 @@ export class VehicleCategorieEditComponent implements OnInit {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

@@ -21,6 +21,13 @@
     <!-- START TOP-RIGHT TOOLBAR-->
     <ul class="nav navbar-toolbar text-white">
 
+      <li class="dropdown dropdown-user">
+        <a   routerLink="/core/settings/config-mail"  class="nav-link dropdown-toggle   text-white " >
+<i class="fa fa-cog"></i>
+        </a>
+      </li>
+
+
 
 
       <li class="dropdown dropdown-user">
@@ -52,14 +59,14 @@
                    >
 
                     <td width='70%'>
-                      <span *ngIf="notification.type=='Maintenance'"> 
+                      <span *ngIf="notification.notificationType.code=='Maintenance'"> 
                        <p>Maintenace:<b>{{notification.code}} </b></p>
                        <p>Patrimoine : <b>{{notification.patimonyCode}}</b> </p>
                        <p>Action :<b>{{notification.action}}</b></p>
                        
                       </span>
 
-                      <span *ngIf="notification.type=='Produit'">le Produit <b>{{notification.code}}</b></span>
+                      <span *ngIf="notification.notificationType.code=='Produit'">le Produit <b>{{notification.code}}</b></span>
                     </td>
 
                     <td width='30%'>

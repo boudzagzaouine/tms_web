@@ -4,6 +4,7 @@ import { ZoneServcie } from './../../../../shared/services/api/zone.service';
 import { Zone } from './../../../../shared/models/Zone';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-zone-edit',
@@ -19,6 +20,7 @@ export class ZoneEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une zone';
+  subscriptions= new Subscription();
 
   constructor(private zoneService: ZoneServcie,
     private spinner: NgxSpinnerService,
@@ -56,7 +58,7 @@ export class ZoneEditComponent implements OnInit {
     this.selectedzones.code = this.zoneForm.value['code'];
     this.selectedzones.description = this.zoneForm.value['description'];
 
-    const s = this.zoneService.set(this.selectedzones).subscribe(
+    this.subscriptions.add( this.zoneService.set(this.selectedzones).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
@@ -69,7 +71,7 @@ export class ZoneEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onShowDialog() {
@@ -77,5 +79,9 @@ export class ZoneEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

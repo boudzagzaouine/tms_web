@@ -15,6 +15,7 @@ import { Patrimony } from './patrimony';
 import { Day } from './day';
 import { Month } from './month';
 import { Action } from './action';
+import { ConditionalType } from './contional-Type';
 
 export class ActionPlan {
 
@@ -43,7 +44,9 @@ export class ActionPlan {
   days : Day[] = [];  
   maintenancePlan: MaintenancePlan;
   actionType: ActionType;
-  
+
+  conditionalType:ConditionalType;
+  valueconditionalType :number;
   
 
 }

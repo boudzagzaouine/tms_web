@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
 import { BadgeTypeService } from '../../../shared/services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-badge-type',
@@ -30,6 +31,7 @@ export class BadgeTypeComponent implements OnInit {
   className: string;
   titleList = 'Liste des types de badges';
   badgeTypeExportList: Array<BadgeType> = [];
+  subscriptions= new Subscription();
 
   constructor(private badgeTypeService: BadgeTypeService,
     private globalService: GlobalService,
@@ -52,7 +54,7 @@ export class BadgeTypeComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.badgeTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.badgeTypeService.find(this.searchQuery).subscribe(
       data => {
         this.badgeTypeExportList = data;
         if (event != null) {
@@ -67,12 +69,12 @@ export class BadgeTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.badgeTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.badgeTypeService.find(this.searchQuery).subscribe(
       data => {
         this.badgeTypeExportList = data;
         this.globalService.generatePdf(event, this.badgeTypeExportList, this.className, this.titleList);
@@ -82,17 +84,17 @@ export class BadgeTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.badgeTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.badgeTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add(this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.badgeTypeList = data;
@@ -104,7 +106,7 @@ export class BadgeTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -126,9 +128,9 @@ export class BadgeTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.badgeTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.badgeTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.codeSearch = null;
@@ -157,7 +159,7 @@ export class BadgeTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer  ?',
         accept: () => {
           const ids = this.selectedBadgeTypes.map(x => x.id);
-          this.badgeTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.badgeTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -166,7 +168,7 @@ export class BadgeTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedBadgeTypes.length < 1) {
@@ -181,6 +183,10 @@ export class BadgeTypeComponent implements OnInit {
     this.showDialog = event;
 
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

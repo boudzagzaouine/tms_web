@@ -80,6 +80,10 @@ import { MenuProductComponent } from './menu-product/menu-product.component';
 import { InputNumber, InputNumberModule } from 'primeng/inputnumber';
 import { NotificationComponent } from './notification/notification.component';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { ConfigMessageComponent } from './configMessage/configMessage.component';
+import { EditorModule } from 'primeng/editor';
+import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
+import { DieselDeclarationEditComponent } from './diesel-declaration/diesel-declaration-edit/diesel-declaration-edit.component';
 
 
 
@@ -137,8 +141,11 @@ import {ProgressBarModule} from 'primeng/progressbar';
     ProductTypeComponent,
     ProductTypeEditComponent,
     MenuProductComponent,
-    NotificationComponent
-
+    NotificationComponent,
+    ConfigMessageComponent,
+    DieselDeclarationComponent,
+    DieselDeclarationEditComponent
+    
 
 
   ],
@@ -170,7 +177,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
   FieldsetModule,
   InputNumberModule,
   ProgressBarModule,
-
+  EditorModule,
 
   ]
 })

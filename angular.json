@@ -42,6 +42,8 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeflex/primeflex.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
               "src/assets/css/main.css",
               "src/assets/css/ems-custom.scss",
               "node_modules/morris.js/morris.css"
@@ -82,6 +84,7 @@
               "src/assets/vendors/jquery-knob/dist/jquery.knob.min.js",
               "node_modules/select2/dist/js/select2.full.min.js",
               "node_modules/jquery-minicolors/jquery.minicolors.min.js",
+              "node_modules/quill/dist/quill.js",
               "src/assets/js/app.js"
 
             ]

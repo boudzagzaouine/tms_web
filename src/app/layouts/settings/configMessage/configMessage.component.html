@@ -1,0 +1,84 @@
+<br><br><br>
+
+
+
+<p-panel header="Message" >
+  <!-- <form [formGroup]="templatForm"> -->
+  <div class="card mt-3">
+    <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+          <div class="col-md-12 ">
+            <label class="font-weight-bold"> {{ "Type Notification :" | translate }}</label>
+    
+  
+  
+           <p-dropdown [autoDisplayFirst]="false" [options]="notificationTypeList" optionLabel="code"
+            [filter]="true" (onChange)="onSelectType($event)"
+           [showClear]="true" >
+         </p-dropdown>
+  
+          </div>
+          </div>
+  
+    </div>    
+  </div>
+
+  <!-- [ngModelOptions]="{standalone: true}"  -->
+  <div class="card mt-1">
+    <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+          <div class="col-md-12 ">
+            <label class="font-weight-bold"> {{ "À " | translate }}</label>
+
+          <input type="text" [(ngModel)]="sender"  [disabled]="true" pInputText />
+          </div>
+          <div class="col-md-12 ">
+            <label class="font-weight-bold"> {{ "Objet " | translate }}</label>
+      
+          <input type="text" [(ngModel)]="subject" pInputText />
+          </div>
+
+          <div class="col-md-12 ">
+
+            <button type="button" class="btn btn-outline-info m-2" (click)="add('code')">Code</button>
+            <button type="button" class="btn btn-outline-info m-2" (click)="add('statut')">Statut</button>
+            <button type="button" class="btn btn-outline-info m-2" (click)="add('action')">Action</button>
+            <button type="button" class="btn btn-outline-info m-2" (click)="add('vehicule')">vechicule</button>
+
+          
+          </div>
+
+
+
+          </div>
+
+    </div>    
+  </div>
+
+
+
+
+  <p-editor [(ngModel)]="texte"  [style]="{'height':'320px'}"></p-editor>
+
+
+
+
+  <div class="text-center mt-5">
+    <button type="button" class="btn btn-primary mr-2" >
+      <i class=" mr-2"></i>
+      {{ "Fermer" | translate }}
+    </button>
+
+    <button type="button" class="btn btn-success" (click)="onSubmit()" >
+      <i class=" mr-2"></i>
+
+      {{ "Valider" | translate }}
+    </button>
+  </div>
+  <!-- </form> -->
+</p-panel>
+
+
+
+
+

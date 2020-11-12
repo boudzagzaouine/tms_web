@@ -4,6 +4,7 @@ import { ProductTypeService } from './../../../../shared/services/api/product-ty
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductType } from './../../../../shared/models/product-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-type-edit',
@@ -19,6 +20,7 @@ export class ProductTypeEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de produit';
+  subscriptions = new Subscription();
 
   constructor(private productTypeService: ProductTypeService,
     private spinner: NgxSpinnerService,
@@ -55,7 +57,7 @@ export class ProductTypeEditComponent implements OnInit {
     this.selectedProductType.code = this.productTypeForm.value['code'];
     this.selectedProductType.description = this.productTypeForm.value['description'];
 
-    const s = this.productTypeService.set(this.selectedProductType).subscribe(
+    this.subscriptions.add( this.productTypeService.set(this.selectedProductType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
@@ -68,12 +70,16 @@ export class ProductTypeEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 }

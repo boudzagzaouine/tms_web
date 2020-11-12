@@ -6,6 +6,7 @@ import { GlobalService } from './../../../shared/services/api/global.service';
 import { ProductTypeService } from './../../../shared/services/api/product-type.service';
 import { ProductType } from './../../../shared/models/product-type';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-type',
@@ -29,6 +30,7 @@ export class ProductTypeComponent implements OnInit {
   className: string;
   titleList = 'Liste des types de produits';
   productTypeExportList: Array<ProductType> = [];
+  subscriptions = new Subscription();
 
   constructor(private productTypeService: ProductTypeService,
     private globalService: GlobalService,
@@ -51,7 +53,7 @@ export class ProductTypeComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.productTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.productTypeService.find(this.searchQuery).subscribe(
       data => {
         this.productTypeExportList = data;
         if (event != null) {
@@ -66,12 +68,12 @@ export class ProductTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.productTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.productTypeService.find(this.searchQuery).subscribe(
       data => {
         this.productTypeExportList = data;
         this.globalService.generatePdf(event, this.productTypeExportList, this.className, this.titleList);
@@ -81,17 +83,17 @@ export class ProductTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.productTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.productTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.productTypeService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add( this.productTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
         console.log(data);
         this.productTypeList = data;
@@ -103,7 +105,7 @@ export class ProductTypeComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -125,9 +127,9 @@ export class ProductTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.productTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.productTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.codeSearch = null;
@@ -156,7 +158,7 @@ export class ProductTypeComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
           const ids = this.selectedproductTypes.map(x => x.id);
-          this.productTypeService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.productTypeService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -165,7 +167,7 @@ export class ProductTypeComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedproductTypes.length < 1) {
@@ -180,5 +182,9 @@ export class ProductTypeComponent implements OnInit {
     this.showDialog = event;
 
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

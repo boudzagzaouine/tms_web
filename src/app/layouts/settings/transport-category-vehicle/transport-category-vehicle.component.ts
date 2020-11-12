@@ -10,6 +10,7 @@ import { MenuItem, ConfirmationService } from 'primeng/api';
 import { TransportCategoryVehicle } from './../../../shared/models/transport-category-vehicle';
 import { Component, OnInit } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transport-category-vehicle',
@@ -33,9 +34,10 @@ export class TransportCategoryVehicleComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-
   transportCategoryVehicleExportList: Array<VehicleCategory> = [];
   titleList: 'List des catégories de transport';
+  subscriptions= new Subscription();
+
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -58,23 +60,23 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
     this.loadData();
 
-    this.vehicleCategoryService.findAll().subscribe(
+    this.subscriptions.add( this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.categorieVehicleList = data;
       }
-    );
+    ));
 
-    this.transportService.findAll().subscribe(
+    this.subscriptions.add( this.transportService.findAll().subscribe(
       data => {
         this.transportList = data;
       }
-    );
+    ));
 
   }
 
   onExportExcel(event) {
 
-    this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
       data => {
         this.transportCategoryVehicleExportList = data;
         if (event != null) {
@@ -89,12 +91,12 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.transportCategoryVehicleService.find(this.searchQuery).subscribe(
       data => {
         this.transportCategoryVehicleExportList = data;
         this.globalService.generatePdf(event, this.transportCategoryVehicleExportList, this.className, this.titleList);
@@ -104,7 +106,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -112,12 +114,12 @@ export class TransportCategoryVehicleComponent implements OnInit {
 
 
     this.spinner.show();
-    this.transportCategoryVehicleService.sizeSearch(this.searchQuery).subscribe(
+    this.subscriptions.add( this.transportCategoryVehicleService.sizeSearch(this.searchQuery).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.transportCategoryVehicleService.findPagination(this.page, this.size, this.searchQuery).subscribe(
+    ));
+    this.subscriptions.add(this.transportCategoryVehicleService.findPagination(this.page, this.size, this.searchQuery).subscribe(
       data => {
         this.transportCatVehicleList = data;
         this.spinner.hide();
@@ -127,7 +129,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
@@ -186,7 +188,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
         message: 'Voulez vous vraiment Supprimer ? ',
         accept: () => {
           const ids = this.selectTransportCatVehicles.map(x => x.id);
-          this.transportCategoryVehicleService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.transportCategoryVehicleService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -195,7 +197,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectTransportCatVehicles.length < 1) {
@@ -214,5 +216,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
     this.loadData();
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

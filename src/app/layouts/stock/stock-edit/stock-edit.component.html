@@ -30,7 +30,7 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold"> {{'Unité de Mesure' | translate}} *</label><br />
+            <label class="font-weight-bold"> {{'Unité de Mesure' | translate}} *</label>
             <span *ngIf="(stockForm.get('uom').touched && stockForm.get('uom').invalid) ||
             (isFormSubmitted && stockForm.get('uom').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

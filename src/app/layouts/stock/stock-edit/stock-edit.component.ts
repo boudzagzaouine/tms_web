@@ -12,6 +12,7 @@ import { Stock } from './../../../shared/models/stock';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from './../../../shared/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-stock-edit',
@@ -33,6 +34,7 @@ export class StockEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un stock';
   productPackList: ProductPack[];
+  subscriptions= new Subscription ();
 
   constructor(private stockService: StockService,
     private productService: ProductService,
@@ -44,19 +46,20 @@ export class StockEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.uomService.findAll().subscribe((data: Uom[]) => {
+   
+   /* this.subscriptions.add(this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
-    });
+    }));*/
 
     if (this.editMode === 1) {
       this.selectedStock = new Stock();
       this.title = 'Ajouter un stock';
 
     } else {
-    this.productPackService.findAll().subscribe(
+      this.subscriptions.add(this.productPackService.findAll().subscribe(
       d =>
         this.productPackList = d
-    );
+    ));
     }
     this.displayDialog = true;
     this.initForm();
@@ -88,7 +91,7 @@ export class StockEditComponent implements OnInit {
     this.selectedStock.product = this.stockForm.value['product'];
     this.selectedStock.supplier = this.stockForm.value['supplier'];
 
-    const s = this.stockService.set(this.selectedStock).subscribe(
+    this.subscriptions.add( this.stockService.set(this.selectedStock).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
@@ -101,19 +104,19 @@ export class StockEditComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   onCodeSupplierSearch(event: any) {
-    this.supplierService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierList = data
-    );
+    ));
   }
 
   onCodeProductSearch(event: any) {
-    this.productService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.productService.find('code~' + event.query).subscribe(
       data => this.productList = data
-    );
+    ));
   }
 
   onSelectUom(event) {
@@ -123,7 +126,7 @@ export class StockEditComponent implements OnInit {
 
 
     this.selectedStock.product = event;
-    this.productPackService
+    this.subscriptions.add(this.productPackService
       .find('product.id:' + this.selectedStock.product.id)
       .subscribe(data => {
         if (data && data.length) {
@@ -135,7 +138,7 @@ export class StockEditComponent implements OnInit {
           });
           this.stockForm.updateValueAndValidity();
         }
-      });
+      }));
 
   }
   onSelectSupplier(event) {
@@ -148,4 +151,7 @@ export class StockEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

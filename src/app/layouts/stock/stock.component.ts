@@ -13,6 +13,7 @@ import { GlobalService } from './../../shared/services/api/global.service';
 import { StockService } from './../../shared/services/api/stock.service';
 import { Stock } from './../../shared/models/stock';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-stock',
@@ -42,6 +43,7 @@ export class StockComponent implements OnInit {
   className: string;
   titleList = 'Liste du Stock';
   stockExportList: Array<Stock> = [];
+  subscriptions= new Subscription ();
 
   constructor(private stockService: StockService,
     private productService : ProductService,
@@ -55,20 +57,21 @@ export class StockComponent implements OnInit {
 
   ngOnInit() {
 
-    this.productTypeService.findAll().subscribe(
+    this.subscriptions.add(this.productTypeService.findAll().subscribe(
       data => this.productTypeCodeList = data ,
-    );
+    ));
     this.className = Stock.name;
     this.cols = [
       {
         field: 'product',child: 'code',   header: 'Produit',    type: 'object'
       },
+  
       {
         field: 'uom',child: 'code',   header: 'Unité de mesure',    type: 'object'
       },
-      // {
-      //   field: 'supplier',child: 'code',   header: 'Fournisseur',    type: 'object'
-      // },
+       {
+         field: 'supplier',child: 'code',   header: 'Fournisseur',    type: 'object'
+       },
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'
       },
@@ -83,7 +86,7 @@ export class StockComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.stockService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.stockService.find(this.searchQuery).subscribe(
       data => {
         this.stockExportList = data;
         if (event != null) {
@@ -98,12 +101,12 @@ export class StockComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.stockService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.stockService.find(this.searchQuery).subscribe(
       data => {
         this.stockExportList = data;
         this.globalService.generatePdf(event, this.stockExportList, this.className, this.titleList);
@@ -113,17 +116,17 @@ export class StockComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.stockService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.stockService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.stockService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscriptions.add( this.stockService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
 
@@ -135,7 +138,7 @@ export class StockComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.size = event.rows;
@@ -161,9 +164,9 @@ export class StockComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.stockService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.stockService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    );
+    ));
   }
   reset() {
     this.productSearch = null;
@@ -194,7 +197,7 @@ export class StockComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedStock.map(x => x.id);
-          this.stockService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.stockService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -203,7 +206,7 @@ export class StockComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedStock.length < 1) {
@@ -215,24 +218,28 @@ export class StockComponent implements OnInit {
 
 
   onProductCodeSearch(event: any) {
-    this.productService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.productService.find('code~' + event.query).subscribe(
       data => this.productCodeList = data ,
-    );
+    ));
   }
   onProductTypeCodeSearch(event: any) {
-    this.productTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.productTypeService.find('code~' + event.query).subscribe(
       data => this.productTypeCodeList = data ,
-    );
+    ));
   }
   onSupplierCodeSearch(event: any) {
-    this.supplierService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierCodeList = data ,
-    );
+    ));
   }
   onShowDialog(event) {
 
     this.showDialog = event;
 
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

@@ -101,10 +101,12 @@ import { NotificationTypeService } from './services/api/notificationType.service
 import { TemplateService } from './services/api/template.service';
 import { DieselDeclarationService } from './services/api/dieselDeclaration.service';
 import { ConditionalTypeService } from './services/api/conditional-type.service';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { HasPermissionDirective } from './directive/hasPermission.directive';
 
 
 @NgModule({
-  declarations: [DataTableComponent],
+  declarations: [DataTableComponent,HasPermissionDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -130,11 +132,12 @@ import { ConditionalTypeService } from './services/api/conditional-type.service'
     PaginatorModule,
     PanelModule,
     FieldsetModule,
-    RadioButtonModule
+    RadioButtonModule,
+    NgxPermissionsModule.forChild(),
 
   ],
   exports: [
-    DataTableComponent
+    DataTableComponent,NgxPermissionsModule,HasPermissionDirective
   ]
 })
 export class SharedModule {

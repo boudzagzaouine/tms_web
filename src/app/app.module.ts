@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { HasPermissionDirective } from './shared/directive/hasPermission.directive';
 
 //  AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -25,7 +26,7 @@ registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +36,9 @@ registerLocaleData(localeFr, 'fr');
     HttpClientModule,
     NgPipesModule,
     SharedModule.forRoot(),
-    NgxPermissionsModule.forRoot(),
+    NgxPermissionsModule.forRoot({
+     // permissionsIsolate: false
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

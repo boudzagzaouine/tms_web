@@ -13,6 +13,7 @@ import { AppSidebarComponent as AppSidebarComponent } from './template/app-sideb
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -35,7 +36,13 @@ import { TableModule } from 'primeng/table';
 
   ],
   imports: [
-    CommonModule, AppLayoutRoutingModule, TranslateModule, SharedModule,OverlayPanelModule,TableModule
+    CommonModule,
+     AppLayoutRoutingModule, 
+     TranslateModule, 
+     SharedModule,
+     NgxPermissionsModule.forChild(),
+     OverlayPanelModule,TableModule
+
   ],
 
   providers: [ ConfirmationService]

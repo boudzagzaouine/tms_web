@@ -11,6 +11,7 @@ import { REST_URL, CURRENT_USER } from '../../utils/constants';
 import { Md5 } from 'ts-md5';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PermissionsService } from '../permissions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,10 @@ export class AuthenticationService implements OnDestroy{
         private http: HttpClient,
         private router: Router,
         private toast: ToastrService,
-        private permissionService: NgxPermissionsService,
+       // private permissionService: NgxPermissionsService,
         private translate: TranslateService,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private permissionService :PermissionsService,
     ) {
         //  set token if saved in local storage
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -67,11 +69,13 @@ export class AuthenticationService implements OnDestroy{
                         ) {
                             for (const gh of user.userGroup
                                 .groupHabilitations) {
-                                // console.log(gh.habilitation.code);
-                                permissions.push(gh.habilitation.code);
+                                 console.log(gh.habilitation.code);
+                                 permissions.push(gh.habilitation.code);
                             }
                         }
                         this.permissionService.loadPermissions(permissions);
+                        console.log(this.permissionService.getPermissions());
+                        
                        // this.currentUser.columns = '';
                         // this.currentUser.agency = null;
                       //  this.currentUser.saleOrders = null;
@@ -117,21 +121,22 @@ export class AuthenticationService implements OnDestroy{
         const user: User = JSON.parse(sessionStorage.getItem('currentUser'));
 
         if (user !== undefined && user !== null) {
-            //
-            if (loadPermissions) {
-                const permissions: string[] = [];
-                if (
-                    user.userGroup &&
-                    user.userGroup.groupHabilitations &&
-                    user.userGroup.groupHabilitations.length
-                ) {
-                    for (const gh of user.userGroup.groupHabilitations) {
-                        // console.log(gh.habilitation.code);
-                        permissions.push(gh.habilitation.code);
-                    }
-                }
-                this.permissionService.loadPermissions(permissions);
-            }
+           // console.log(loadPermissions);
+            
+            // if (loadPermissions) {
+            //     const permissions: string[] = [];
+            //     if (
+            //         user.userGroup &&
+            //         user.userGroup.groupHabilitations &&
+            //         user.userGroup.groupHabilitations.length
+            //     ) {
+            //         for (const gh of user.userGroup.groupHabilitations) {
+            //              console.log(gh.habilitation.code);
+            //             permissions.push(gh.habilitation.code);
+            //         }
+            //     }
+            //     this.permissionService.loadPermissions(permissions);
+            // }
             return user;
         }
         return null;
@@ -149,7 +154,9 @@ export class AuthenticationService implements OnDestroy{
                 permissions.push(gh.habilitation.code);
             }
         }
-        this.permissionService.loadPermissions(permissions);
+        return permissions
+       // this.permissionService.loadPermissions(permissions);
+
     }
 
     getDefaultOwner(): Owner {

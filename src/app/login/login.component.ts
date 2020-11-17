@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmit(f: NgForm) {
     this.spinner.show();
     // sessionStorage.removeItem('currentUser');
-    sessionStorage.setItem('currentUser', 'coco');
+    //sessionStorage.setItem('currentUser', 'coco');
       // console.log(f);
       const email = f.controls['email'].value;
       const password = f.controls['password'].value;

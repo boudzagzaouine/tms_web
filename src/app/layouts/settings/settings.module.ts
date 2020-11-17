@@ -84,6 +84,7 @@ import { ConfigMessageComponent } from './configMessage/configMessage.component'
 import { EditorModule } from 'primeng/editor';
 import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
 import { DieselDeclarationEditComponent } from './diesel-declaration/diesel-declaration-edit/diesel-declaration-edit.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 
@@ -178,6 +179,8 @@ import { DieselDeclarationEditComponent } from './diesel-declaration/diesel-decl
   InputNumberModule,
   ProgressBarModule,
   EditorModule,
+
+  NgxPermissionsModule.forChild(),
 
   ]
 })

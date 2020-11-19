@@ -25,9 +25,12 @@ import {
   styleUrls: ["./data-table.component.css"]
 })
 export class DataTableComponent implements OnInit {
-  @Input() tableId;
+  @Input() permissionCreate :string[]=[];
+  @Input() permissionEdit :string[]=[];
+  @Input() permissionDelete :string[]=[];
+
   @Input() page = 0;
-  @Input() size;
+  @Input() size=0;
   @Input() collectionSize: number;
   @Input() objectList: Array<any> = [];
   @Input() objectExportList: Array<any> = [];
@@ -53,7 +56,7 @@ export class DataTableComponent implements OnInit {
   user = new User();
   updateBtnDisable = false;
   deleteBtnDisable = false;
-
+  items: MenuItem[];
   constructor(
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -63,6 +66,24 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit() {
     this.loadColumns();
+
+    this.items = [
+      {label: 'Enregistrer la vue', icon: 'pi pi-eye-slash', command: () => {
+          this.onSaveView();
+      }},
+      {label: 'Télécharger en PDF', icon: 'pi pi-file-pdf', command: () => {
+          this.exportPdf();
+      }},
+      {label: 'Export EXCEL de vue', icon: 'pi pi-file-excel', command: () => {
+        this.exportExcelVue();
+     }},
+     {label: 'Export EXCEL  Globale', icon: 'pi pi-file-excel', command: () => {
+      this.exportExcelGlobal();
+     }},
+    
+  ];
+
+
   }
 
   @Input() get selectedColumns(): any[] {
@@ -169,16 +190,13 @@ export class DataTableComponent implements OnInit {
   }
 
   onSaveView() {
-    console.log(this.className);
-
-    console.log(this.columnsAdded);
 
     this.spinner.show();
 
     this.columnsAdded = this.columnsAdded.filter(
       col => col.classe !== this.className
     );
-    console.log(this.columnsAdded);
+
 
     for (let i = 0; i < this.selectedColumns.length; i++) {
       let c = new Columns();
@@ -190,7 +208,7 @@ export class DataTableComponent implements OnInit {
       c.child = this.selectedColumns[i].child;
       this.columnsAdded.push(c);
     }
-    console.log(this.columnsAdded);
+
 
     this.user = this.authUser.getCurrentUser();
     this.user.columns = JSON.stringify(this.columnsAdded);

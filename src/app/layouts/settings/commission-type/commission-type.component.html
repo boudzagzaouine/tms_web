@@ -39,6 +39,9 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
   [viewBtnVisible]="'false'"
+  [permissionCreate]="['COMMISSION_TYPE_CREATE']"
+  [permissionDelete]="['COMMISSION_TYPE_DELETE']"
+  [permissionEdit]="['COMMISSION_TYPE_EDIT']"
 
 ></app-data-table>
 

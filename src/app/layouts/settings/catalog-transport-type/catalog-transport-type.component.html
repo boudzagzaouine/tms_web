@@ -77,6 +77,10 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
   [viewBtnVisible]="'false'"
+
+  [permissionCreate]="['CATALOG_TRANSPORT_CREATE']"
+  [permissionDelete]="['CATALOG_TRANSPORT_DELETE']"
+  [permissionEdit]="['CATALOG_TRANSPORT_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

@@ -42,6 +42,9 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
   [viewBtnVisible]="'false'"
+  [permissionCreate]="['INSURANCETYPE_CREATE']"
+  [permissionDelete]="['INSURANCETYPE_DELETE']"
+  [permissionEdit]="['INSURANCETYPE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

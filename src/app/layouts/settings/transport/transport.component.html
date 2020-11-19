@@ -36,6 +36,11 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
 
+
+  
+  [permissionCreate]="['TRANSPORT_CREATE']"
+  [permissionDelete]="['TRANSPORT_DELETE']"
+  [permissionEdit]="['TRANSPORT_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

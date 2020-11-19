@@ -28,7 +28,7 @@ export class HasPermissionDirective implements OnInit {
       // this.currentUserPermission=this.authentificationService.loadPermissions(this.currentUser)
       // console.log(this.currentUserPermission);
       
-      this.updateView();
+      //this.updateView();
     }
 
     @Input()
@@ -44,6 +44,8 @@ export class HasPermissionDirective implements OnInit {
   // }
 
   private updateView() {
+   
+   console.log(this.permissions);
    
     
     this.viewContainer.clear();

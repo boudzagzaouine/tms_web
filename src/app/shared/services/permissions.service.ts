@@ -25,6 +25,7 @@ export class PermissionsService {
 
   hasPermissions(permissions: string[]) {
   
+    console.log(permissions);
     
     // TODO: To be refactored
     let permissionExist = false;

@@ -39,6 +39,10 @@
   [listName]="titleList"
   [viewBtnVisible]="'false'"
 
+
+  [permissionCreate]="['PRODUCT_TYPE_CREATE']"
+  [permissionDelete]="['PRODUCT_TYPE_DELETE']"
+  [permissionEdit]="['PRODUCT_TYPE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

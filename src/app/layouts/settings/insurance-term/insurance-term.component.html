@@ -38,7 +38,9 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]='titleList'
   [viewBtnVisible]="'false'"
-
+  [permissionCreate]="['INSURANCETERM_CREATE']"
+  [permissionDelete]="['INSURANCETERM_DELETE']"
+  [permissionEdit]="['INSURANCETERM_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

@@ -17,7 +17,7 @@
               {{'Badge' | translate}}</a>
           </li> -->
 
-          <li>
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
@@ -30,15 +30,15 @@
             <a routerLink="/core/settings/suppliers"><i class="fa fa-circle-o"></i>
               {{'Fournisseur' | translate}}</a>
           </li> -->
-          <li>
+          <li *hasPermission="['CATEGORY_VEHICLE_VIEW','CONTRACT_TYPE_VIEW','CONSUMPTION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['MAINTENANCE_TERM_VIEW','MAINTENANCE_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-maintenance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Maintenance ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['BADGE_TYPE_VIEW','COMMISSION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-driver" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Conducteur ' | translate}}</a>
           </li>
@@ -70,11 +70,11 @@
               {{'Type Commission ' | translate}}</a>
           </li> -->
 
-          <li>
+          <li *hasPermission="['CATEGORY_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/transport-category-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Catégorie de Transport  ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/path" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Trajet ' | translate}}</a>
           </li>
@@ -88,19 +88,19 @@
               {{'Type consomation ' | translate}}</a>
           </li> -->
 
-          <li>
+          <li *hasPermission="['ZONE_VIEW']">
             <a routerLink="/core/settings/zone" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Zone  ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['SUPPLIER_VIEW']">
             <a routerLink="/core/settings/suppliers" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Fournisseur ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['TRANSPORT_VIEW']">
             <a routerLink="/core/settings/transport" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Transport ' | translate}}</a>
           </li>
-          <li>
+          <li *hasPermission="['PRODUCT_VIEW','PRODUCT_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-product" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Produit ' | translate}}</a>
           </li>

@@ -1,11 +1,13 @@
-<div class="container-fluid "
-style="background:url(./assets/img/imgArrierePlan6.jpg); width: 100%;height: 100%;background-size:100%;position: fixed;">
+<div class="container-fluid cadr"
+>
 <div class="content" style="margin-top: 10%;">
   <div class="brand" >
-    <a class="link" routerLink="/index" style="color: white;">EMS-TMS</a>
+    <img src="./assets/img/Menu/ems.ico" style="width: 80px;height:80px;" ><br>
+
+    <a class="link" routerLink="/index" style="color: #414848;">EMS-TMS</a>
   </div>
   <form id="login-form" (ngSubmit)="onSubmit(form)" #form="ngForm">
-    <h2 class="login-title">{{'Authentification' | translate}}</h2>
+    <h2 class="login-title" style="color: #414848;">{{'Authentification' | translate}}</h2>
     <div class="form-group">
       <div class="input-group-icon right">
         <div class="input-icon"><i class="fa fa-envelope"></i></div>

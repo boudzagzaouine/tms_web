@@ -9,10 +9,11 @@ import { MessageService } from 'primeng/api';
   selector: 'app-header',
   templateUrl: './app-header.component.html',
 })
-export class AppHeaderComponent implements OnInit, AfterViewInit {
+export class AppHeaderComponent implements OnInit {
 
   notificationSize: number ;
  notificationList : Array<Notification> = [];
+ user :string ;
   constructor(
     private notificationService : NotificationService,
     private auth: AuthenticationService,
@@ -26,6 +27,9 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    this.user=this.auth.getCurrentUser().code;
+    console.log(this.user);
+    
     this.loadData();
      setInterval(()=> {
         this.loadData();
@@ -43,9 +47,7 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
         : 'fr'
     );
   }
-  ngAfterViewInit() {
-
-  }
+  
 
 
   changeLang(language: string) {

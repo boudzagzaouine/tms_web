@@ -16,12 +16,18 @@
             <a routerLink="/core/settings/badges"><i class="fa fa-circle-o"></i>
               {{'Badge' | translate}}</a>
           </li> -->
-
+          <li *hasPermission="['CONFIG_MAIL']">
+            <a routerLink="/core/settings/config-mail" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Configuration Mail ' | translate}}</a>
+          </li>
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
-
+          <li *hasPermission="['ACTION_TYPE_VIEW']">
+            <a routerLink="/core/settings/action-type" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Type action' | translate}}</a>
+          </li>
           <!-- <li>
             <a routerLink="/core/settings/contract-types"><i class="fa fa-circle-o"></i>
               {{'Type Contrat' | translate}}</a>
@@ -30,6 +36,7 @@
             <a routerLink="/core/settings/suppliers"><i class="fa fa-circle-o"></i>
               {{'Fournisseur' | translate}}</a>
           </li> -->
+          
           <li *hasPermission="['CATEGORY_VEHICLE_VIEW','CONTRACT_TYPE_VIEW','CONSUMPTION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>

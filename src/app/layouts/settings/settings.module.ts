@@ -85,6 +85,8 @@ import { EditorModule } from 'primeng/editor';
 import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
 import { DieselDeclarationEditComponent } from './diesel-declaration/diesel-declaration-edit/diesel-declaration-edit.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { ActionTypeComponent } from './actionType/actionType.component';
+import { ActionTypeEditComponent } from './actionType/action-type-edit/action-type-edit.component';
 
 
 
@@ -145,9 +147,9 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     NotificationComponent,
     ConfigMessageComponent,
     DieselDeclarationComponent,
-    DieselDeclarationEditComponent
-    
-
+    DieselDeclarationEditComponent,
+    ActionTypeComponent,
+    ActionTypeEditComponent,
 
   ],
   imports: [

@@ -40,6 +40,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { ConfigMessageComponent } from './configMessage/configMessage.component';
 import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
 import { RoleComponent } from './role/role.component';
+import { ActionTypeComponent } from './actionType/actionType.component';
 
 const routes: Routes = [
   {
@@ -75,6 +76,7 @@ const routes: Routes = [
       { path: 'notification', component: NotificationComponent },
       { path: 'config-mail', component: ConfigMessageComponent },
       { path: 'diesel-declaration', component: DieselDeclarationComponent },
+      { path: 'action-type', component: ActionTypeComponent },
 
 
 

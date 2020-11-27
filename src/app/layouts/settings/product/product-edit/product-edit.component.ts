@@ -14,8 +14,9 @@ import { Contact } from './../../../../shared/models/contact';
 import { Supplier } from './../../../../shared/models/supplier';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { Product } from './../../../../shared/models';
+import { Product, ProductPack } from './../../../../shared/models';
 import { Subscription } from 'rxjs';
+import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -27,6 +28,8 @@ export class ProductEditComponent implements OnInit {
   @Input() selectedProduct: Product;
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
+  selectProductPack = new ProductPack()
+
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un produit';
@@ -35,9 +38,10 @@ export class ProductEditComponent implements OnInit {
   uoms: Uom[];
   productTypeList: ProductType[];
   subscriptions = new Subscription();
-
+  editMd :boolean;
   constructor(
     private productTypeService: ProductTypeService,
+    private productPackService: ProductPackService,
     private productService: ProductService,
     private vatService: VatService,
     private uomService: UomService,
@@ -56,18 +60,22 @@ export class ProductEditComponent implements OnInit {
 
     this.subscriptions.add(this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
+  
+      
     }));
+    this.editMd=true;
 
     if (this.editMode === 1) {
       this.selectedProduct = new Product();
       this.title = 'Ajouter un produit';
+      this.editMd=false;
 
     } 
 
     this.displayDialog = true;
     this.initForm();
 
- console.log(this.productForm.value);
+ 
  
   }
 
@@ -102,14 +110,25 @@ export class ProductEditComponent implements OnInit {
   ];
   this.selectedProduct.uomByProductUomBase = this.productForm.value[
     'uom'
-];
+  ];
 
     this.selectedProduct.active = true;
 
-     console.log(this.selectedProduct);
+ 
+    this.selectProductPack.uom=this.selectedProduct.uomByProductUomBase;
+    this.selectProductPack.quantity=1;
+    
+
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
-      data => {
+      dataP => {
+              this.selectProductPack.product=dataP;
+        this.subscriptions.add(this.productPackService.set(this.selectProductPack).subscribe(
+          dataPpack => {
+            
+            this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+          }));
+
           this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
           this.displayDialog = false;
           this.isFormSubmitted = false;
@@ -144,15 +163,16 @@ onSelectUom(event) {
   this.selectedProduct.uomByProductUomPurshase = event.value as Uom;
   this.selectedProduct.uomByProductUomSale = event.value as Uom;
 
-  this.productForm.patchValue({
+ /* this.productForm.patchValue({
       uom: this.selectedProduct.uomByProductUomBase
-  });
+  });*/
+
 }
 
 
 onSelectPurchaseVat(event) {
   this.selectedProduct.purchaseVat = event.value as Vat;
-
+ 
   this.onPriceChange(1);
 
 }

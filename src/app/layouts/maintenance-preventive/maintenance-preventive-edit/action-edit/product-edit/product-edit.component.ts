@@ -43,10 +43,8 @@ export class ProductEditComponent implements OnInit {
 
     if (!this.editMode) {
       this.selectedActionLine = new ActionLine();
-      console.log(this.selectedActionLine);
 
     }
-    console.log(this.selectedActionLine);
     this.initForm();
 
 

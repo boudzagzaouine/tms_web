@@ -45,14 +45,12 @@ export class MaintenanceProductComponent implements OnInit {
 
     if (!this.editMode) {
       this.selectedActionLine = new ActionLineMaintenance();
-      console.log(this.selectedActionLine);
 
       // this.maintenanceStateService.findAll().subscribe((data) => {
       //  this.maintenanceStateList= data.filter(f => f.id === 2);
       //  this.selectedActionLine.maintenanceState=this.maintenanceStateList[0];
       // })
     }
-    console.log(this.selectedActionLine);
     this.initForm();
 
 

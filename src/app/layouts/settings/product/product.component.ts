@@ -34,7 +34,7 @@ export class ProductComponent implements OnInit {
   editMode: number;
   className: string;
   productExportList: Array<Product> = [];
-  titleList = 'List des Produit';
+  titleList = 'Liste des Produits';
   subscriptions = new Subscription();
 
   constructor(private productService: ProductService,
@@ -110,7 +110,6 @@ export class ProductComponent implements OnInit {
     this.subscriptions.add(this.productService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.productList = data;
-        console.log(data);
 
         this.spinner.hide();
       },

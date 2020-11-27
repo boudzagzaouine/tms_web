@@ -65,7 +65,7 @@ export class NotificationComponent implements OnInit {
       );
       this.notificationService.findPagination(this.page, this.size, search).subscribe(
         data => {
-          console.log(data);
+         
           this.notificationList = data;
   
           this.spinner.hide();

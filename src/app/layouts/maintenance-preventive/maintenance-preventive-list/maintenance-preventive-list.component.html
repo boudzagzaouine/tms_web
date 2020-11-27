@@ -39,11 +39,13 @@
 (objectEdited)="onObjectEdited($event)"
 (lazyLoadData)="loadDataLazy($event)"
 [listName]="titleList"
-[addBtnVisible]="'true'"
-[viewBtnVisible]="'false'"
+
 (exportBtnExcelGlobal)="onExportExcel($event)"
  (exportBtnPdf)="onExportPdf($event)"
 (exportBtnExcelVue)="onExportExcel($event)"
+
+  [permissionDelete]="['MAINTENANCEPLAN_DELETE']"
+  [permissionEdit]="['MAINTENANCEPLAN_EDIT']"
 ></app-data-table>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

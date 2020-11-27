@@ -95,7 +95,7 @@ export class ActionTypeComponent implements OnInit {
     ));
     this.subscriptions.add(this.actionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         this.actionTypeList = data;
 
         this.spinner.hide();

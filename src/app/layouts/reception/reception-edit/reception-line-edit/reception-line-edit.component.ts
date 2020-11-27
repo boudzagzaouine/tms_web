@@ -206,8 +206,7 @@ export class ReceptionLineEditComponent implements OnInit {
 onSelectProduct(event) {
   this.selectedReceptionLine.product = event as Product;
   this.selectedReceptionLine.productPack = this.selectedReceptionLine.product.productPack;
- // console.log(event);
-  // console.log(event.value);
+
   this.selectedReceptionLine.description = this.selectedReceptionLine.product.shortDesc;
   this.selectedReceptionLine.vat = this.selectedReceptionLine.product.purchaseVat;
   this.receptionLineForm.patchValue({
@@ -228,10 +227,9 @@ onSelectProduct(event) {
               });
 
               this.receptionLineForm.updateValueAndValidity();
-             // console.log(data);
+           
           }
       });
-  // console.log('purchase price : ' + this.selectedReceptionLine.product.purshasePriceUB);
 }
 onUnitPayedPriceChanged() {
     if (this.selectedReceptionLine.product == null) {
@@ -275,7 +273,6 @@ onUnitPayedPriceChanged() {
 }
 
 onSelectPdtPack(pdt) {
-  // console.log(pdt);
 
   this.selectedReceptionLine.productPack = pdt.value;
   this.selectedReceptionLine.uom = pdt.value.uom;
@@ -326,8 +323,7 @@ onTotalPayedPriceTTCChanged() {
   onNumberChanged() {
     const price = +this.receptionLineForm.value['payedPrice'];
     const quantity = +this.receptionLineForm.value['quantity'];
-    // console.log(price);
-    // console.log(quantity);
+ 
 
     if (!isNaN(price) && !isNaN(quantity)) {
       this.receptionLineForm.patchValue(

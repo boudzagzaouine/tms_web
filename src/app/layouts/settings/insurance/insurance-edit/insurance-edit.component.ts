@@ -48,12 +48,11 @@ export class InsuranceEditComponent implements OnInit {
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private insuranceType: InsuranceTypeService,
     private patrimonyService: PatrimonyService,
-    private vehicleService: VehicleService,
-    private machineService: MachineService,
+
     private supplierService: SupplierService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal) { }
+    ) { }
 
   ngOnInit() {
 
@@ -70,11 +69,11 @@ export class InsuranceEditComponent implements OnInit {
     if (this.editMode === 1) {
       this.selectedInsurance = new Insurance();
       this.title = 'Ajouter une assurance';
-
-    }
-    if(this.editMode === 4){
       this.editModee = false;
     }
+    // if(this.editMode === 4){
+    //   this.editModee = false;
+    // }
 
     this.displayDialog = true;
     this.initForm();
@@ -108,7 +107,7 @@ export class InsuranceEditComponent implements OnInit {
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'];
     this.selectedInsurance.amount = this.insuranceForm.value['amount'];
 
-  console.log(this.selectedInsurance);
+
 
 
     const s = this.insuranceService.set(this.selectedInsurance).subscribe(

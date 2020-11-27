@@ -195,7 +195,7 @@ export class MachineListComponent implements OnInit {
   }
   onMachineCodeSearch(event: any) {
     this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.machineCodeList = data ,
+      data => this.machineCodeList = data .filter(f=> f.patrimony_type=='vehicule'),
     ));
   }
 

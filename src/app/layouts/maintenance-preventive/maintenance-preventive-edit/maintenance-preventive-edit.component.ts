@@ -143,20 +143,9 @@ export class MaintenancePreventiveEditComponent implements OnInit {
         this.subscriptions.push(this.maintenancePreventiveService.findById(id).subscribe(
           data => {
             this.selectedMaintenancePreventive = data;
-            console.log(this.selectedMaintenancePreventive);
             
-    //         if (this.selectedMaintenancePreventive.maintenanceType.id === 1) {
-    //           console.log("pariodicyt");
-    //           this.onSelectPeriodicity(this.selectedMaintenancePreventive.periodicityType);
-    //           this.editMType=true;
-    //         }
-    //         this.onSelectMaintenanceType(this.selectedMaintenancePreventive.maintenanceType);
-
-    //         console.log(this.selectedMaintenancePreventive);
-    // console.log(this.selectedMaintenancePreventive.months);
-
+   
             this.initForm();
-    //         console.log(this.maintenacePlanForm.value['periodicity']['fmensuel']);
 
           },
           err => {
@@ -169,7 +158,6 @@ export class MaintenancePreventiveEditComponent implements OnInit {
       this.maintenancePreventiveService.generateCode().subscribe(
         code => {
        this.selectedMaintenancePreventive.code = code;
-       console.log(this.selectedMaintenancePreventive.code);
 
        this.initForm();
         });
@@ -199,26 +187,21 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
 
   onShowDialogAction(line = new ActionPlan) {
-    console.log(line);
     
      this.showDialog = true;
     if (line.id ==0) {
        this.editMode = false;
-       console.log("ajouter");
   
      } else {
         this.selectActionPlan = line;
        this.editMode = true;
-       console.log("modifier");
 
      }
 
 
-    console.log(this.editMode);
 
   }
   onSubmit(close = false) {
-    console.log(this.maintenacePlanForm);
     this.isFormSubmitted = true;
     if (this.maintenacePlanForm.invalid ) { return; }
 
@@ -226,19 +209,11 @@ export class MaintenancePreventiveEditComponent implements OnInit {
 
     this.selectedMaintenancePreventive.description = this.maintenacePlanForm.value['fdescription'];
 
- console.log(this.selectedMaintenancePreventive);
 
-    //  this.selectedMaintenancePreventive.months=this.selectedMaintenancePreventive.months.sort();
-
-    //  console.log(this.selectedMaintenancePreventive.months);
-
- // this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);
- console.log(this.selectedMaintenancePreventive);
  
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
- console.log(dataM);
  
         this.isFormSubmitted = false;
         this.spinner.hide();
@@ -291,23 +266,4 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     });
   }
 
-  // updateTotalPrice() {
-  //   this.selectedMaintenancePreventive.totalPrice = 0;
-
-  //   if (this.selectedMaintenancePreventive.actions.length) {
-  //     this.selectedMaintenancePreventive.totalPrice =
-  //       this.selectedMaintenancePreventive.actions
-  //         .map(l => {
-  //           return l.actionLines.map(ls => ls.totalPriceTTC)
-  //             .reduce((acc = 0, curr) => acc + curr, 0);
-  //         })
-  //         .reduce((acc = 0, curr) => acc + curr, 0);
-  //   }
-
-  //   console.log(this.selectedMaintenancePreventive.totalPrice);
-
-  //   this.maintenacePlanForm.patchValue({
-  //     'price': this.selectedMaintenancePreventive.totalPrice
-  //   });
-  // }
 }

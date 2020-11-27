@@ -97,15 +97,14 @@ export class DieselDeclarationComponent implements OnInit {
     this.dieselDeclarationService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
-        console.log(data);
         
       }
     );
     this.dieselDeclarationService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+        
         this.DieselDeclarationList = data;
-        console.log(data);
+     
 
         this.spinner.hide();
       },

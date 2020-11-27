@@ -148,20 +148,16 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   }
   loadDataLazy(event) {
-    console.log('evnt' + event.first);
     this.page = event.first / this.size;
-    console.log('lazy load data');
     this.loadData(this.searchQuery);
 
   }
 
   loadData(search: string = '') {
 
-    console.log('loading data');
     this.spinner.show();
     this.maintenanceService.sizeSearch(search).subscribe(
       data => {
-        console.log('data size : ' + data);
 
         this.collectionSize = data;
       }
@@ -172,7 +168,6 @@ export class MaintenanceTraitementComponent implements OnInit {
       data => {
 
         this.maintenanceList = data;
-        console.log(this.maintenanceList);
 
         this.spinner.hide();
       },
@@ -196,7 +191,6 @@ export class MaintenanceTraitementComponent implements OnInit {
       data => {
 
         this.maintenanceList = data.map(f => f.code)
-        //  console.log(data);
 
       }
     );
@@ -223,7 +217,6 @@ export class MaintenanceTraitementComponent implements OnInit {
     }
     this.page = 0;
     const searchQuery = buffer.getValue();
-    console.log('search ' + searchQuery);
     this.loadData(searchQuery);
   }
 

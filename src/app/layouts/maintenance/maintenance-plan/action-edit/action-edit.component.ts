@@ -61,7 +61,6 @@ export class ActionEditComponent implements OnInit {
     this.title = 'Ajouter une action';
     this.displayDialog = true;
 
-    console.log(this.editMode);
     this.maintenanceStateService.findAll().subscribe((data) => {
       this.MaintenancestateList =  data ; })
 
@@ -69,10 +68,8 @@ export class ActionEditComponent implements OnInit {
      this.selectedAction = new ActionMaintenance();
 
    }
-    console.log(this.selectedAction);
 
     this.initForm();
-    console.log(this.actionForm);
 
   }
   initForm() {
@@ -109,7 +106,6 @@ export class ActionEditComponent implements OnInit {
       return;
     }
 
-    console.log(this.selectedAction);
     this.selectedAction.actionType = this.actionForm.value['FcodeType'];
 
     this.lineActionEdited.emit(this.selectedAction);

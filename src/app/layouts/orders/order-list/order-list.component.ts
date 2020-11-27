@@ -72,7 +72,6 @@ export class OrderListComponent implements OnInit {
     );
     this.purchaseOrderService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.orderList = data;
 
         this.spinner.hide();

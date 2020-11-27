@@ -6,10 +6,10 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '500px' }"
+[style]="{ width: '500px'}"
 (onHide)='onShowDialog()'
 >
-<div>
+<div style="height:'100vh' ">
   <div class="modal-body">
     <div class="card-body">
       <form [formGroup]="dieselDeclarationForm">
@@ -53,13 +53,11 @@ showEffect="fade"
             <!-- <input type="text" class="form-control" pInputText formControlName="amount"
             (keydown.space)="$event.preventDefault()"
            /> -->
-           <div class="ui-inputgroup">
-            <input type="text"  pInputText formControlName="amount"
+         
+            <input type="text" class="form-control" pInputText formControlName="amount"
             (keydown.space)="$event.preventDefault()"
            />
-            <span class="ui-inputgroup-addon">DH</span>      
-
-        </div>
+           
           </div>
 
           <div class="form-group col-sm-6">
@@ -85,7 +83,8 @@ showEffect="fade"
             <br />
             <p-calendar formControlName="date" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
             [yearNavigator]="true" yearRange="1970:2100"
-            [style]="{'width':'50px'}" [inputStyle]="{'width':'50px'}"></p-calendar>
+            [style]="{'width':'50px'}" [inputStyle]="{'width':'50px'}"
+            [appendTo]="body"	></p-calendar>
           </div>
 
 

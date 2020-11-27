@@ -64,7 +64,7 @@ export class ComsumptionTypeComponent implements OnInit {
     ));
     this.subscriptions.add(this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+        
         this.consumptionTypeList = data;
         this.spinner.hide();
       },

@@ -28,7 +28,7 @@ export class AppHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user=this.auth.getCurrentUser().code;
-    console.log(this.user);
+  //  console.log(this.user);
     
     this.loadData();
      setInterval(()=> {
@@ -74,9 +74,9 @@ export class AppHeaderComponent implements OnInit {
    this.notificationService.verify().subscribe(
      data=>{
       
-      console.log("notification size");
+  //   console.log("notification size");
       
-           console.log(data);
+        //   console.log(data);
            
     }
 

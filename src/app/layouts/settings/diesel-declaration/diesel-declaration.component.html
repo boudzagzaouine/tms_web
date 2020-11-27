@@ -37,7 +37,10 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [viewBtnVisible]="'false'"
+
+  [permissionCreate]="['DIESELDECLARATION_DELETE']"
+  [permissionDelete]="['DIESELDECLARATION_DELETE']"
+  [permissionEdit]="['DIESELDECLARATION_EDIT']"
 
 ></app-data-table>
 

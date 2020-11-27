@@ -56,7 +56,10 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [viewBtnVisible]="'false'"
+
+  [permissionCreate]="['STOCK_DELETE']"
+  [permissionDelete]="['STOCK_DELETE']"
+  [permissionEdit]="['STOCK_EDIT']"
 
 ></app-data-table>
 

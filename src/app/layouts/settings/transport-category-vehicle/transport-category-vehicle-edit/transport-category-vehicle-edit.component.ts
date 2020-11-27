@@ -79,11 +79,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
 
     if (this.editMode === 1) {
-      console.log("ajouter");
 
        this.existTransport();
     } else if (this.editMode === 2) {
-      console.log("modifier");
 
            this.insertTransportCategorieVehicule();
     }
@@ -99,7 +97,6 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
         if (data > 0) {
           this.toastr.error('Elément Existe Déja', 'Edition');
         } else {
-          console.log(this.selectTransportCatVehicle);
 
           this.insertTransportCategorieVehicule();
         }
@@ -120,7 +117,6 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     this.selectTransportCatVehicle.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
     this.selectTransportCatVehicle.transport = this.transportCatVehicleForm.value['fTransport'];
 
-    console.log(this.selectTransportCatVehicle);
 
 
     this.subscriptions.add( this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(

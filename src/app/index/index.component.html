@@ -31,13 +31,17 @@ class="container-fluid cadr"
       </div>
     </a>
 
- <a routerLinkActive="active" routerLink="/core/vehicles/list">
+     <a routerLinkActive="active" routerLink="/core/vehicles/list">
       <div class="text-center p-3 mt-3 menu"  >
         <img src="./assets/img/truck.png" style="width: 70px;height:70px;" class="mb-2"><br>
-
          <span class="text-white">{{'Véhicule' | translate }}</span>
-
       </div> </a>
+
+      <a routerLinkActive="active" routerLink="/core/settings/insurances">
+        <div class="text-center p-3 mt-3 menu"  >
+          <img src="./assets/img/assurance_auto.png" style="width: 70px;height:70px;" class="mb-2"><br>
+           <span class="text-white">{{'Assurance' | translate }}</span>
+        </div> </a>
 
      </div>
 
@@ -47,33 +51,50 @@ class="container-fluid cadr"
         <div class="text-center p-4 menu"  >
             <img src="./assets/img/maintenance1.png" style="width: 65px;height:65;" class="mb-3"><br>
 
-             <span class="text-white">{{'Maintenance' | translate }}</span>
+             <span class="text-white">{{'Maintenance Corrective' | translate }}</span>
 
           </div> </a>
-    <a routerLinkActive="active" routerLink="/core/settings/badge-types">
+    <a routerLinkActive="active" routerLink="/core/maintenance-plan/list">
           <div class="text-center p-3 mt-3 menu"  >
-            <img src="./assets/img/1435085.png" style="width: 70px;height:70px;" class="mb-2"><br>
+            <img src="./assets/img/plan.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-            <span class="text-white">{{'Badge' | translate }}</span>
+            <span class="text-white">{{'Maintenance Préventive' | translate }}</span>
 
           </div> </a>
+
+          <a routerLinkActive="active" routerLink="/core/settings/diesel-declaration">
+            <div class="text-center p-3 mt-3 menu"  >
+              <img src="./assets/img/gasoil.png" style="width: 70px;height:70px;" class="mb-2"><br>
+  
+              <span class="text-white">{{'Déclaration Gasoil' | translate }}</span>
+  
+            </div> </a>
 
    </div>
 <div class="col-md-4" >
-<a routerLinkActive="active" routerLink="/core/settings/insurances">
+<a routerLinkActive="active" routerLink="/core/order/list">
 <div class="text-center p-3 menu"  >
-<img src="./assets/img/assurance_auto.png" style="width: 70px;height:70px;" class="mb-2"><br>
+<img src="./assets/img/order.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-<span class="text-white">{{'Assurance' | translate }}</span>
+<span class="text-white">{{'Commande' | translate }}</span>
 
 </div></a>
-<a routerLinkActive="active" routerLink="/core/settings/suppliers">
+<a routerLinkActive="active" routerLink="/core/reception/list">
 <div class="text-center p-3 mt-3 menu"  >
 <img src="./assets/img/supplier.png" style="width: 70px;height:70px;" class="mb-2"><br>
 
-<span class="text-white">{{'Fournisseur' | translate }}</span>
+<span class="text-white">{{'Reception' | translate }}</span>
 
 </div></a>
+
+
+<a routerLinkActive="active" routerLink="/core/stock">
+  <div class="text-center p-3 mt-3 menu"  >
+  <img src="./assets/img/stock.png" style="width: 70px;height:70px;" class="mb-2"><br>
+  
+  <span class="text-white">{{'Stock' | translate }}</span>
+  
+  </div></a>
 
 </div>
 

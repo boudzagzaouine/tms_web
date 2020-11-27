@@ -61,7 +61,6 @@ export class ContractTypeComponent implements OnInit {
     );
     this.subscriptions.add(this.contractTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.contratTypeList = data;
 
         this.spinner.hide();

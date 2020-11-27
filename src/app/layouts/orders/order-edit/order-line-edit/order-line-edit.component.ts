@@ -228,6 +228,11 @@ searchProduct(event) {
 
 public onSelectProduct(value: Product): void {
   this.selectedProduct = value;
+  // console.log(this.selectedProduct.purshasePriceUB);
+  // console.log(this.selectedProduct.purshasePriceUB);
+  // console.log(this.selectedProduct.purchaseVat.value);
+  // console.log(this.selectedProduct.shortDesc);
+
   this.productPackService
       .find('product.id:' + this.selectedProduct.id)
       .subscribe(data => {
@@ -236,7 +241,7 @@ public onSelectProduct(value: Product): void {
 
           this.purchaseOrderLineForm.patchValue({
               price: this.selectedProduct.purshasePriceUB,
-              vat: this.selectedProduct.vat.value,
+              vat: this.selectedProduct.purchaseVat.value,
               description: this.selectedProduct.shortDesc,
               pdtPack: data[0]
           });

@@ -72,7 +72,6 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
 
-    console.log(this.selectedVehicleCategory);
 
     this.subscriptions.add(this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {

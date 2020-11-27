@@ -61,7 +61,6 @@ export class OrderEditComponent implements OnInit {
         id = params['id'];
         this.purchaseOrderService.findById(id).subscribe(data => {
           this.selectedPurchaseOrder = data;
-          console.log(this.selectedPurchaseOrder);
 
           this.initForm();
         },
@@ -169,12 +168,10 @@ export class OrderEditComponent implements OnInit {
     if (this.purchaseOrderForm.invalid) {
       return;
     }
-    console.log("submit");
 
     this.selectedPurchaseOrder.notes = this.purchaseOrderForm.value['notes'];
     //this.selectedPurchaseOrder.code = this.purchaseOrderForm.value['code'];
     //this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
-    console.log(this.selectedPurchaseOrder);
 
     // this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
 
@@ -217,16 +214,13 @@ export class OrderEditComponent implements OnInit {
   }
 
   onSelectOrderType(event) {
-    console.log(event);
     this.selectedPurchaseOrder.orderType = event.value as OrderType;
   }
   onSelectSupplier(event) {
-    console.log(event);
     this.selectedPurchaseOrder.supplier = event as Supplier;
   }
 
   onShowDialogAction(line,mode) {
-    console.log(line);
 
     this.showDialog = true;
     if (mode == true) {
@@ -254,7 +248,6 @@ export class OrderEditComponent implements OnInit {
   }
 
   onLineEditedAction(purchaseOrderLine: PurchaseOrderLine) {
-    console.log(purchaseOrderLine);
 
     const orderline = this.selectedPurchaseOrder.purshaseOrderLines.find(
       line => line.product.id === purchaseOrderLine.product.id

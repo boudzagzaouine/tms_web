@@ -1,22 +1,22 @@
 :host ::ng-deep .customer-badge {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
 
     border-radius: 2px;
     padding: .25em .5em;
-    text-transform: uppercase;
+   // text-transform: uppercase;
     font-weight: 700;
     font-size: 12px;
     letter-spacing: .3px;
 
-    &.status-Retard {
-        background-color: #C8E6C9;
-        color: #256029;
+
+    &.status-EnRetard {
+        background-color: #f39c12;
+        color: #f1f1f1;
     }
 
-    &.status-ÉPUISÉ {
-        background-color: #FFCDD2;
-        color: #C63737;
+    &.status-Épuisé {
+        background-color: #dc3545;
+        color: #f1f1f1;
     }
 
    

@@ -46,13 +46,11 @@ export class DieselDeclarationEditComponent implements OnInit {
     });
 
     }else if (this.editMode === 2){
-      console.log("modifier");
       
           this.editModee=true;
           this.title = 'Modifier ';
     }
 
- console.log(this.editModee);
  
     this.displayDialog = true;
     this.initForm();
@@ -99,12 +97,14 @@ export class DieselDeclarationEditComponent implements OnInit {
 
   onCodeVehicleSearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.vehicleList = data
+      data => this.vehicleList = data.filter(f=> f.patrimony_type=='vehicule')
     );
   }
 
   onSelectVehicle(event) {
     this.selectedDieselDeclaration.vehicle = event;
+    console.log(event);
+    
   }
 
   onShowDialog() {

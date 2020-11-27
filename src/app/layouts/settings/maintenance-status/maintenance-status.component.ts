@@ -64,7 +64,6 @@ export class MaintenanceStatusComponent implements OnInit {
     ));
     this.subscriptions.add(this.maintenanceStatusService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.maintenanceStatusList = data;
 
         this.spinner.hide();

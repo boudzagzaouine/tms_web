@@ -145,7 +145,6 @@ export class PlanActionEditComponent implements OnInit {
     this.title = 'Ajouter une action';
     this.displayDialog = true;
 
-    console.log(this.editMode);
  if(this.editMode ==false){
      this.selectedActionPlan = new ActionPlan();
    }else{
@@ -272,7 +271,6 @@ export class PlanActionEditComponent implements OnInit {
 
 
   onSubmit(close = false) {
-    console.log(this.actionPlanForm);
     this.isFormSubmitted = true;
     if (this.actionPlanForm.controls['general'].invalid) { return; }
 
@@ -293,11 +291,9 @@ export class PlanActionEditComponent implements OnInit {
     this.selectedActionPlan.dayOfMonth = this.actionPlanForm.value['periodicity']['fdayOfMonth'];
     this.selectedActionPlan.months = this.actionPlanForm.value['periodicity']['fmensuel'];
 
-    console.log(this.selectedActionPlan);
 
     this.selectedActionPlan.months = this.selectedActionPlan.months.sort();
 
-    console.log(this.selectedActionPlan.months);
 
     //this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);
 
@@ -340,12 +336,10 @@ export class PlanActionEditComponent implements OnInit {
     }
     this.periodicityMode = this.selectedActionPlan.periodicityType.id;
 
-    console.log(this.selectedActionPlan.periodicityType.id);
 
   }
 
   onSelectConditionalType(event) {
-  console.log(event.value);
   
       this.selectedActionPlan.conditionalType = event.value;
     
@@ -379,7 +373,6 @@ export class PlanActionEditComponent implements OnInit {
         this.activeIndex = this.activeIndex + 1;
         this.isFormSubmitted = false;
       }
-      console.log("periodcity");
       
     }
     if(this.selectedActionPlan.programType.id==2){
@@ -390,7 +383,6 @@ export class PlanActionEditComponent implements OnInit {
       this.activeIndex = this.activeIndex + 1;
       this.isFormSubmitted = false;
     }
-    console.log("contional");
 
   }
 

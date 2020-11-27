@@ -29,7 +29,7 @@ export class TransportComponent implements OnInit {
   editMode: number;
   className: string;
   transportExportList: Array<Transport> = [];
-  titleList = 'List des Transports';
+  titleList = 'Liste des Transports';
   subscriptions= new Subscription();
 
   constructor(private tranportService: TransportServcie,

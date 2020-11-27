@@ -59,7 +59,10 @@ export class StockEditComponent implements OnInit {
       this.subscriptions.add(this.productPackService.findAll().subscribe(
       d =>
         this.productPackList = d
+        
     ));
+   
+
     }
     this.displayDialog = true;
     this.initForm();
@@ -93,6 +96,7 @@ export class StockEditComponent implements OnInit {
 
     this.subscriptions.add( this.stockService.set(this.selectedStock).subscribe(
       data => {
+
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;

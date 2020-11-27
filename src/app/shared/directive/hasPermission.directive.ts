@@ -8,10 +8,9 @@ import { PermissionsService } from '../services/permissions.service';
 })
 export class HasPermissionDirective implements OnInit {
 
-  private currentUserPermission;
-  private currentUser;
+
   private permissions : string[]=[];
-  private operation = 'AND';
+
   // private isHidden = true;
 
   constructor( 
@@ -45,7 +44,7 @@ export class HasPermissionDirective implements OnInit {
 
   private updateView() {
    
-   console.log(this.permissions);
+   //console.log(this.permissions);
    
     
     this.viewContainer.clear();

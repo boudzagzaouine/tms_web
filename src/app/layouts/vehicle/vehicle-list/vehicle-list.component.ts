@@ -238,7 +238,7 @@ export class VehicleListComponent implements OnInit {
 
   onVehicleCodeSearch(event: any) {
     this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.vehicleCodeList = data ,
+      data => this.vehicleCodeList = data.filter(f=> f.patrimony_type=='vehicule')
     ));
   }
 

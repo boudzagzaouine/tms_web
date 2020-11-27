@@ -35,7 +35,7 @@ export class TransportCategoryVehicleComponent implements OnInit {
   editMode: number;
   className: string;
   transportCategoryVehicleExportList: Array<VehicleCategory> = [];
-  titleList: 'List des catégories de transport';
+  titleList= 'Liste des catégories de transport';
   subscriptions= new Subscription();
 
 

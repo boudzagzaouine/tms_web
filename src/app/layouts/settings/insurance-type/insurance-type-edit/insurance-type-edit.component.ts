@@ -119,7 +119,7 @@ export class InsuranceTypeEditComponent implements OnInit {
       },
       error => {
         this.toastr.error(error.error.message);
-        console.log(error);
+        //console.log(error);
         this.spinner.hide();
       },
       () => this.spinner.hide()

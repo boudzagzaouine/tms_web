@@ -257,7 +257,6 @@ export class MaintenancePlanComponent implements OnInit {
       this.maintenanceService.generateCode().subscribe(
         code => {
           this.selectedMaintenance.code = code;
-          console.log(this.selectedMaintenance.code);
 
           this.initForm();
         });
@@ -380,7 +379,6 @@ export class MaintenancePlanComponent implements OnInit {
 
   onShowDialogAction(line, mode) {
     this.showDialog = true;
-    console.log(mode);
 
 
     if (mode == true) {
@@ -397,7 +395,6 @@ export class MaintenancePlanComponent implements OnInit {
 
   }
   onSubmit(close) {
-    console.log(this.maintenacePlanForm);
     this.isFormSubmitted = true;
     if (this.maintenacePlanForm.controls['general'].invalid &&
       this.maintenacePlanForm.controls['responsability'].invalid) { return; }
@@ -439,10 +436,8 @@ export class MaintenancePlanComponent implements OnInit {
 
     }
     if (close == 2) {
-      console.log("save");
       this.save();
     } else if (close == 1) {
-      console.log("save close ");
       this.saveClose();
     }
 
@@ -506,7 +501,6 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   onSelectMaintenanceType(event) {
-    console.log(event.value);
 
     if (event.value === undefined) {
       this.selectMaintenancetype = event;
@@ -539,7 +533,6 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   onSelectPatrimony(event) {
-    console.log(event);
     this.selectedMaintenance.patrimony = event.value as Patrimony;
 
   }
@@ -552,7 +545,6 @@ export class MaintenancePlanComponent implements OnInit {
     }
     this.periodicityMode = this.selectedMaintenance.periodicityType.id;
 
-    console.log(this.selectedMaintenance.periodicityType.id);
 
   }
   onSelectPServiceProvider(event) {
@@ -602,7 +594,6 @@ export class MaintenancePlanComponent implements OnInit {
           .reduce((acc = 0, curr) => acc + curr, 0);
 
 
-      console.log(this.selectedMaintenance.totalPrice);
 
       this.maintenacePlanForm.patchValue({
         'price': this.selectedMaintenance.totalPrice

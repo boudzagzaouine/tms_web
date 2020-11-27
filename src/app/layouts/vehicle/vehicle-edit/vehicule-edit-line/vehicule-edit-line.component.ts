@@ -63,9 +63,7 @@ export class VehiculeEditLineComponent implements OnInit {
 
    this.insuranceTermLineAdded.emit(this.selectedTermLigne);
 
-   console.log('term assurance');
-
-   console.log(this.selectedTermLigne.insuranceTerm.code);
+  
 
 
 
@@ -108,24 +106,20 @@ export class VehiculeEditLineComponent implements OnInit {
 
   onSelectChangeTermInsurance(event) {
    this.selectedTermLigne.insuranceTerm = event.value;
-console.log(event.value);
 if (this.selectedTermLigne.insuranceTerm.roofed) {
   this.insuranceTermLineForm.controls['Famount'].enable();
 } else {
   this.insuranceTermLineForm.controls['Famount'].disable();
 }
 
-   console.log('term assurance Selectionee ');
-   console.log(this.selectedTermLigne.insuranceTerm);
+   
   }
 
   loadTermInsurance() {
-    console.log('chargement term insurance');
 
     this.insuranceTermService.findAll().subscribe(
       data => {
         this.insuranceTermList = data;
-        console.log(this.insuranceTermList);
 
       }
     );

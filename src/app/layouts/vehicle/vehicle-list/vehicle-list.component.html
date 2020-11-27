@@ -116,9 +116,8 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [addBtnVisible]="'true'"
-  [viewBtnVisible]="'false'"
-
+  [permissionDelete]="['VEHICLE_DELETE']"
+  [permissionEdit]="['VEHICLE_EDIT']"
 ></app-data-table>
 
 <ngx-spinner

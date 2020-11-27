@@ -63,7 +63,7 @@ export class ContractTypeEditComponent implements OnInit {
       },
       error => {
         this.toastr.error(error.error.message);
-        console.log(error);
+       
         this.spinner.hide();
       },
 

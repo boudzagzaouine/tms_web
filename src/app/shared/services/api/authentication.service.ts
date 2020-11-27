@@ -121,22 +121,22 @@ export class AuthenticationService implements OnDestroy{
         const user: User = JSON.parse(sessionStorage.getItem('currentUser'));
 
         if (user !== undefined && user !== null) {
-           // console.log(loadPermissions);
+           //console.log(loadPermissions);
             
-            // if (loadPermissions) {
-            //     const permissions: string[] = [];
-            //     if (
-            //         user.userGroup &&
-            //         user.userGroup.groupHabilitations &&
-            //         user.userGroup.groupHabilitations.length
-            //     ) {
-            //         for (const gh of user.userGroup.groupHabilitations) {
-            //              console.log(gh.habilitation.code);
-            //             permissions.push(gh.habilitation.code);
-            //         }
-            //     }
-            //     this.permissionService.loadPermissions(permissions);
-            // }
+            if (loadPermissions) {
+                const permissions: string[] = [];
+                if (
+                    user.userGroup &&
+                    user.userGroup.groupHabilitations &&
+                    user.userGroup.groupHabilitations.length
+                ) {
+                    for (const gh of user.userGroup.groupHabilitations) {
+                     //    console.log(gh.habilitation.code);
+                        permissions.push(gh.habilitation.code);
+                    }
+                }
+                this.permissionService.loadPermissions(permissions);
+            }
             return user;
         }
         return null;

@@ -7,7 +7,7 @@
 
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+              <label class="font-weight-bold ">{{'Numero' | translate}} *</label>
               <span
                 *ngIf="
                   (insuranceForm.get('code').touched &&
@@ -74,7 +74,7 @@
             >
               {{ "Obligatoire" | translate }}
             </span>
-              <p-dropdown [options]="insuranceTypeList" optionLabel="code" [autoDisplayFirst]="false"
+              <p-dropdown [options]="insuranceTypeList" optionLabel="code" [autoDisplayFirst]="editModee"
                 (onChange)="onSelectInsuranceType($event)" formControlName="typeinsurance" filter="true"
                 [showClear]='true'>
               </p-dropdown>
@@ -129,14 +129,9 @@
             >
               {{ "Obligatoire" | translate }}
             </span>
-              <!-- <input type="text" class="form-control" pInputText formControlName="amount" pKeyFilter="num"> -->
+               <input type="text" class="form-control" pInputText formControlName="amount" pKeyFilter="num"> 
            
-              <div class="ui-inputgroup">
-                <input type="text"  pInputText formControlName="amount" pKeyFilter="num">
-
-                <span class="ui-inputgroup-addon">DH </span>      
-    
-            </div>
+            
            
            
             </div>

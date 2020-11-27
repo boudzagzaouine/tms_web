@@ -65,19 +65,18 @@ export class DataTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.loadColumns();
 
     this.items = [
-      {label: 'Enregistrer la vue', icon: 'pi pi-eye-slash', command: () => {
-          this.onSaveView();
-      }},
+     
       {label: 'Télécharger en PDF', icon: 'pi pi-file-pdf', command: () => {
           this.exportPdf();
       }},
-      {label: 'Export EXCEL de vue', icon: 'pi pi-file-excel', command: () => {
+      {label: 'Exporter EXCEL de vue', icon: 'pi pi-file-excel', command: () => {
         this.exportExcelVue();
      }},
-     {label: 'Export EXCEL  Globale', icon: 'pi pi-file-excel', command: () => {
+     {label: 'Exporter EXCEL Globale', icon: 'pi pi-file-excel', command: () => {
       this.exportExcelGlobal();
      }},
     
@@ -97,8 +96,7 @@ export class DataTableComponent implements OnInit {
 
   loadColumns() {
     this.user = this.authUser.getCurrentUser();
-    console.log("user colm");
-    console.log(this.user.columns);
+  
 
     if (this.user.columns != null && this.user.columns !== "") {
       this.columnsAdded = JSON.parse(this.user.columns);
@@ -156,7 +154,6 @@ export class DataTableComponent implements OnInit {
   }
 
   onEdit(event) {
-    console.log(event);
     this.objectEdited.emit({
       object: this.selectedObjects,
       operationMode: event
@@ -177,7 +174,6 @@ export class DataTableComponent implements OnInit {
     } else {
       this.updateBtnDisable = false;
     }
-    console.log(event);
 
   }
   onRowUnselect(event) {

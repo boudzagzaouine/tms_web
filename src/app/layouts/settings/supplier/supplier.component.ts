@@ -29,7 +29,7 @@ export class SupplierComponent implements OnInit {
   editMode: number;
   className: string;
   supplierExportList: Array<Supplier> = [];
-  titleList = 'List des Fournisseurs';
+  titleList = 'Liste des Fournisseurs';
   subscriptions= new Subscription();
 
   constructor(private supplierService: SupplierService,
@@ -47,8 +47,6 @@ export class SupplierComponent implements OnInit {
       { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
       { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
        { field: 'contact', child: 'email', header: 'Email', type: 'object' },
-
-
       { field: 'address', child: 'line1', header: 'Addresse 1', type: 'object' },
      { field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
      { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },

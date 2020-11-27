@@ -57,8 +57,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [viewBtnVisible]="'false'"
-  [addBtnVisible]="'false'"
+
+  [permissionDelete]="['DRIVER_DELETE']"
+  [permissionEdit]="['DRIVER_EDIT']"
 
 ></app-data-table>
 

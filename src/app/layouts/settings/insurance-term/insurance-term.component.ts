@@ -74,7 +74,7 @@ export class InsuranceTermComponent implements OnInit {
     ));
     this.subscriptions.add(this.insuranceTermService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+
         this.insuranceTermList = data;
 
         this.spinner.hide();

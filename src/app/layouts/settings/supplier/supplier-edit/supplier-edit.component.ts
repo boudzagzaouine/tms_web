@@ -102,7 +102,6 @@ export class SupplierEditComponent implements OnInit {
     this.selectedContact.email = this.supplierForm.value['email'];
 
     this.selectedAddress.line1 =this.supplierForm.value['line1'];
-    console.log(this.supplierForm.value['line1']);
 
     this.selectedAddress.line2 = this.supplierForm.value['line2'];
     this.selectedAddress.zip = this.supplierForm.value['zipCode'];
@@ -119,7 +118,6 @@ export class SupplierEditComponent implements OnInit {
     this.subscriptions.add( this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-        console.log(this.selectedSupplier);
 
         this.displayDialog = false;
         this.isFormSubmitted = false;

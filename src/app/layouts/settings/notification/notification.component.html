@@ -81,13 +81,14 @@
     </p-table>
   </div> -->
    <p-panel header="{{ 'Notifications' | translate }}" >
+   <br><br>
 
-
-    <p-table
+    <p-table 
     [value]="notificationList"
     [rows]="size"
     [paginator]="true"
     [totalRecords]="notificationList?.length"
+   
   >
     <ng-template pTemplate="header">
       <tr>
@@ -99,11 +100,13 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-notification>
-      <tr>
+      <tr  class="ui-selectable-row">
  
         <td>{{notification.code}}</td>
         <td>{{notification.notificationType.code }}</td>
-        <td [class]="'customer-badge status-'+ notification.notificationState.code">{{notification.notificationState.code}}</td>
+        <td>
+        <span [class]="'customer-badge status-' + notification.notificationState.code">{{notification.notificationState.code}}</span>
+      </td>
       </tr>
     </ng-template>
   </p-table>

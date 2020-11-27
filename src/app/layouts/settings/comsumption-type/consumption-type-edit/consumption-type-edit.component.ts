@@ -56,7 +56,6 @@ export class ConsumptionTypeEditComponent implements OnInit {
     this.selectedConsumptionType.code = this.consumptionTypeForm.value['code'];
     this.selectedConsumptionType.description = this.consumptionTypeForm.value['description'];
 
-    console.log(this.selectedConsumptionType);
     this.subscriptions.add( this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
       data => {
 

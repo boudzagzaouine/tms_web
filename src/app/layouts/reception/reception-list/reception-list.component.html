@@ -70,8 +70,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [addBtnVisible]="'true'"
-  [viewBtnVisible]="'false'"
+
+  [permissionDelete]="['RECEPTION_DELETE']"
+  [permissionEdit]="['RECEPTION_EDIT']"
 
 ></app-data-table>
 

@@ -11,6 +11,7 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Supplier } from './../../../shared/models/supplier';
 import { Reception } from './../../../shared/models/reception';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reception-list',
@@ -37,8 +38,8 @@ export class ReceptionListComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-
   receptionExportList:Array<Reception> = [];
+  subscrubtion = new Subscription();
 
 
   constructor(private receptionService: ReceptionService,
@@ -75,14 +76,14 @@ export class ReceptionListComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.receptionService.sizeSearch(search).subscribe(
+    this.subscrubtion.add(this.receptionService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.receptionService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscrubtion.add(this.receptionService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
+       
         this.receptionList = data;
 
         this.spinner.hide();
@@ -91,7 +92,7 @@ export class ReceptionListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
@@ -101,7 +102,7 @@ export class ReceptionListComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.receptionService.find(this.searchQuery).subscribe(
+    this.subscrubtion.add(this.receptionService.find(this.searchQuery).subscribe(
       data => {
         this.receptionExportList = data;
 
@@ -117,14 +118,14 @@ export class ReceptionListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
 
   onExportPdf(event) {
-    this.receptionService.find(this.searchQuery).subscribe(
+    this.subscrubtion.add(this.receptionService.find(this.searchQuery).subscribe(
       data => {
         this.receptionExportList = data;
         this.globalService.generatePdf(event, this.receptionExportList, this.className, this.titleList);
@@ -134,7 +135,7 @@ export class ReceptionListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -176,19 +177,19 @@ export class ReceptionListComponent implements OnInit {
   }
 
   onReceptionCodeSearch(event: any) {
-    this.receptionService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add(this.receptionService.find('code~' + event.query).subscribe(
       data => this.receptionCodeList = data ,
-    );
+    ));
   }
   onSupplierCodeSearch(event: any) {
-    this.supplierService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add( this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierList = data ,
-    );
+    ));
   }
   onOrderCodeSearch(event: any) {
-    this.purchaseOrderService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add(this.purchaseOrderService.find('code~' + event.query).subscribe(
       data => this.orderList = data ,
-    );
+    ));
   }
 
   reset() {
@@ -209,7 +210,7 @@ export class ReceptionListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedReception.map(x => x.id);
-          this.receptionService.deleteAllByIds(ids).subscribe(
+          this.subscrubtion.add( this.receptionService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -218,7 +219,7 @@ export class ReceptionListComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedReception.length < 1) {
@@ -226,5 +227,8 @@ export class ReceptionListComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscrubtion.unsubscribe();
+  }
 
 }

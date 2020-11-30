@@ -52,13 +52,8 @@
 
   <div class="form-group col-md-3">
 
-    <label class="font-weight-bold ">{{'BL'| translate}} *</label>
-    <span *ngIf="(receptionForm.get('supplierBL').touched && receptionForm.get('supplierBL').invalid) ||
-    (isFormSubmitted && receptionForm.get('supplierBL').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
+    <label class="font-weight-bold ">{{'BL'| translate}} </label>
+  
     <input
                               type="text" pInputText
                               class="form-control"

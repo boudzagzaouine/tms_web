@@ -13,6 +13,7 @@ import { ReceptionLine } from './../../../../shared/models/reception-line';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Reception } from './../../../../shared/models';
 import { VatService } from './../../../../shared/services/api/vat.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reception-line-edit',
@@ -28,33 +29,28 @@ export class ReceptionLineEditComponent implements OnInit {
   selectedProduct: Product;
   productList: Product[];
   vatList: Vat[];
-
   productPackList: ProductPack[] = [];
   uomList: Uom[] = [];
-
-
   selectedReception: Reception;
   receptionLineForm: FormGroup;
-
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier la ligne de reception';
+  subscrubtion = new Subscription();
 
-  constructor(private receptionLineService: ReceptionLineService,
+  constructor(
     private productService: ProductService,
     private productPackService: ProductPackService,
-    private uomService: UomService,
     private vatService: VatService,
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+) { }
 
   ngOnInit() {
 
-    this.vatService.findAll().subscribe(
+    this.subscrubtion.add(this.vatService.findAll().subscribe(
       data => {
         this.vatList = data;
       }
-    );
+    ));
 
     this.displayDialog = true;
     this.initForm();
@@ -195,9 +191,9 @@ export class ReceptionLineEditComponent implements OnInit {
   }
 
   searchProduct(event) {
-    this.productService.find('code~' + event.query).subscribe(data => {
+    this.subscrubtion.add(this.productService.find('code~' + event.query).subscribe(data => {
       this.productList = data;
-    });
+    }));
   }
 
 
@@ -215,7 +211,7 @@ onSelectProduct(event) {
       price: this.selectedReceptionLine.product.purshasePriceUB,
       priceTTC: this.selectedReceptionLine.product.purshasePriceTTCUB
   });
-  this.productPackService
+  this.subscrubtion.add(this.productPackService
       .find('product.id:' + this.selectedReceptionLine.product.id)
       .subscribe(data => {
           if (data && data.length) {
@@ -229,7 +225,7 @@ onSelectProduct(event) {
               this.receptionLineForm.updateValueAndValidity();
            
           }
-      });
+      }));
 }
 onUnitPayedPriceChanged() {
     if (this.selectedReceptionLine.product == null) {
@@ -345,6 +341,11 @@ onTotalPayedPriceTTCChanged() {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+
+
+  ngOnDestroy() {
+    this.subscrubtion.unsubscribe();
   }
 
 }

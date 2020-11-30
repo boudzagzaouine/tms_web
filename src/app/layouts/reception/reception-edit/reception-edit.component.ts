@@ -26,6 +26,7 @@ import { VatService } from './../../../shared/services/api/vat.service';
 import { ReceptionService } from './../../../shared/services/api/reception.service';
 import { OrderType } from './../../../shared/models/order-type';
 import { logging } from 'protractor';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reception-edit',
@@ -48,9 +49,10 @@ export class ReceptionEditComponent implements OnInit {
   showDialog: boolean;
   editMode: boolean;
   receptionLine=new ReceptionLine;
+  subscrubtion = new Subscription();
+
   constructor(private supplierService : SupplierService,
     private receptionStockService:ReceptionStockService,
-    private stockSrvice :StockService,
     private purchcaseOrderService : PurchaseOrderService,
     private receptionService: ReceptionService,
     private orderStatusService : OrderStatusService,
@@ -66,11 +68,11 @@ export class ReceptionEditComponent implements OnInit {
 
   ngOnInit() {
 
-    this.orderTypeService.findAll().subscribe(
+    this.subscrubtion.add(this.orderTypeService.findAll().subscribe(
       data => {
           this.orderTypeList = data.filter(f => f.id === 1);
       }
-    );
+    ));
 
 
     let id = this.activatedRoute.snapshot.params['id'];
@@ -78,7 +80,7 @@ export class ReceptionEditComponent implements OnInit {
       this.editModeTitle = 'Modifier une Reception';
       this.activatedRoute.params.subscribe(params => {
         id = params['id'];
-        this.receptionService.findById(id).subscribe(data => {
+        this.subscrubtion.add(this.receptionService.findById(id).subscribe(data => {
           this.selectedReception = data;
           this.selectedPurchaseOrder = data.purshaseOrder;
 
@@ -89,26 +91,26 @@ export class ReceptionEditComponent implements OnInit {
           err => {
             this.toastr.error(err.error.message);
             this.spinner.hide();
-          });
+          }));
       });
 
     } else {
 
-      this.receptionService.generateCode().subscribe(
+      this.subscrubtion.add( this.receptionService.generateCode().subscribe(
         code => {
        this.selectedReception.code = code;
         this.initForm();
-    });
+    }));
 
 
-      this.orderStatusService.findById(5).subscribe(order => {
+    this.subscrubtion.add(this.orderStatusService.findById(5).subscribe(order => {
         this.receptionForm.patchValue({
             status: order.code
         });
         this.selectedReception.orderStatus = order;
    
 
-    });
+    }));
 
     
 
@@ -243,7 +245,7 @@ onSubmit() {
         }
         this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate'];
 // this.selectedReception.orderType = this.purchaseOrderForm.value['orderType'];
- this.receptionService.set(this.selectedReception).subscribe(
+this.subscrubtion.add(this.receptionService.set(this.selectedReception).subscribe(
   dataM => {
     if (this.selectedReception.purshaseOrder !== null) {
       this.receptionStockService.receive(dataM);
@@ -271,19 +273,19 @@ onSubmit() {
   () => {
     this.spinner.hide();
   }
-);
+));
 }
   onSupplierCodeSearch(event: any) {
 
-    this.supplierService.find('code~' + event.query).subscribe((data) => {
+    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe((data) => {
       this.supplierList = data;
-    });
+    }));
   }
 
   onPurchaseOrderCodeSearch(event: any) {
-    this.purchcaseOrderService.find('code~' + event.query).subscribe((data) => {
+    this.subscrubtion.add( this.purchcaseOrderService.find('code~' + event.query).subscribe((data) => {
       this.purchaseOrderList = data.filter(data =>  data.orderStatus.id != 1);
-    });
+    }));
   }
 
   onSelectOrderType(event){
@@ -410,6 +412,11 @@ if (orderline == null) {
 
   onHideDialogAction(event) {
     this.showDialog = event;
+  }
+
+
+  ngOnDestroy() {
+    this.subscrubtion.unsubscribe();
   }
 
 

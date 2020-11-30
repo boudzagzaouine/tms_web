@@ -42,7 +42,7 @@ import { MaintenancePlanService } from './../../../shared/services';
 export class VehicleEditComponent implements OnInit, OnDestroy {
 
   page = 0;
-  size = 8;
+  size = 5;
   collectionSize: number;
   selectedVehicle: Vehicle = new Vehicle();
   selectedVehicleCategory = new VehicleCategory();

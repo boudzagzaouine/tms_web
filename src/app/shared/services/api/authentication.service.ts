@@ -56,7 +56,7 @@ export class AuthenticationService implements OnDestroy{
 
                 user => {
                     this.currentUser = user;
-
+ 
                     if (
                         this.currentUser !== undefined &&
                         this.currentUser !== null
@@ -69,12 +69,12 @@ export class AuthenticationService implements OnDestroy{
                         ) {
                             for (const gh of user.userGroup
                                 .groupHabilitations) {
-                                 console.log(gh.habilitation.code);
+                               //  console.log(gh.habilitation.code);
                                  permissions.push(gh.habilitation.code);
                             }
                         }
                         this.permissionService.loadPermissions(permissions);
-                        console.log(this.permissionService.getPermissions());
+                       // console.log(this.permissionService.getPermissions());
                         
                        // this.currentUser.columns = '';
                         // this.currentUser.agency = null;

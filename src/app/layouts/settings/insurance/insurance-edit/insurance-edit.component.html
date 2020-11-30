@@ -151,11 +151,14 @@
 
            </div>
           </div>
+          <!-- [scrollable]="true"
+                scrollHeight="150px" -->
             <div class="card-body mt-2 border-top-primary">
 
               <p-table [value]="this.selectedInsurance?.insuranceTermLignes"
-                [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" [scrollable]="true"
-                scrollHeight="150px">
+                [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" 
+                [rows]="5"
+                [paginator]="true">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{"Terme assurance" | translate}}</th>

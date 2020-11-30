@@ -110,24 +110,13 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   editMType : boolean =false ;
 
   constructor(
-    private maintenanceTypeService: MaintenanceTypeService,
-    private programTypeService: ProgramTypeService,
-    private responsabilityService: ResponsabilityService,
-    private operationTypeService: OperationTypeService,
-    private actionLineService: ActionLineService,
-    private actionService: ActionService,
-    private serviceProviderService: ServiceProviderService,
-    private periodicityTypeService: PeriodicityTypeService,
+
     private patrimonyService: PatrimonyService,
     private confirmationService: ConfirmationService,
     private maintenancePreventiveService: MaintenancePlanService,
-    private maintenanceStateService: MaintenanceStateService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private monthService :MonthService,
-    private dayService :DayService,
     private activatedRoute: ActivatedRoute,
-    private roundPipe: RoundPipe,
     private router: Router,
 
   ) { }
@@ -186,15 +175,16 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     });
   }
 
-  onShowDialogAction(line = new ActionPlan) {
+  onShowDialogAction(line,mode) {
     
      this.showDialog = true;
-    if (line.id ==0) {
-       this.editMode = false;
-  
+    if (mode== true) {
+      this.selectActionPlan = line;
+      this.editMode = true;
+
      } else {
-        this.selectActionPlan = line;
-       this.editMode = true;
+             this.selectActionPlan = new ActionPlan();
+             this.editMode = false;
 
      }
 

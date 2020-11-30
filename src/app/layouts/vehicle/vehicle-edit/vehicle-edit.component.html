@@ -360,7 +360,8 @@
             <div class="card-body mt-2 border-top-primary">
 
 <!-- selectedInsurance?.insuranceTermLignes -->
-              <p-table [value]="this.selectedInsurance?.insuranceTermLignes" [lazy]="true" [rows]="size" [paginator]="true"
+              <p-table [value]="this.selectedInsurance?.insuranceTermLignes"  [rows]="5"
+              [paginator]="true"
                 [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" >
                 <ng-template pTemplate="header">
                   <tr>

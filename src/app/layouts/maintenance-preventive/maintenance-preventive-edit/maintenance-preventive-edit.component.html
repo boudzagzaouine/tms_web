@@ -54,7 +54,7 @@
 
         type="button"
         class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction()"
+        (click)="onShowDialogAction(selectActionPlan,false)"
         ><!--ADD-->
         <i class="fa fa-plus"></i>
       </button>
@@ -91,7 +91,7 @@
 
             type="button"
             class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line)"
+            (click)="onShowDialogAction(line,true)"
             ><!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>

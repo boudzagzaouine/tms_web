@@ -14,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-driver-list',
@@ -43,6 +44,7 @@ export class DriverListComponent implements OnInit {
   editMode: number;
   driverExportList: Array<Driver> = [];
   titleList = 'Liste des chauffeurs';
+  subscriptions= new Subscription ();
 
 
   constructor(private driverService: DriverService,
@@ -89,7 +91,7 @@ export class DriverListComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.driverService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.driverService.find(this.searchQuery).subscribe(
       data => {
         this.driverExportList = data;
         if (event != null) {
@@ -104,12 +106,12 @@ export class DriverListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
   onExportPdf(event) {
-    this.driverService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.driverService.find(this.searchQuery).subscribe(
       data => {
         this.driverExportList = data;
         this.globalService.generatePdf(event, this.driverExportList, this.className, this.titleList);
@@ -119,23 +121,23 @@ export class DriverListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
   ondriverCodeSearch(event: any) {
-    this.driverService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.driverService.find('code~' + event.query).subscribe(
       data => this.drivercodeList = data.map(f => f.code)
-    );
+    ));
   }
   loadBadge() {
 
-    this.badgeTypeService.findAll().subscribe(
+    this.subscriptions.add(this.badgeTypeService.findAll().subscribe(
 
       data => {
 
         this.badgesTypeList = data;
       }
-    );
+    ));
 
   }
 
@@ -155,14 +157,14 @@ export class DriverListComponent implements OnInit {
 
     this.spinner.show();
 
-    this.driverService.sizeSearch(search).subscribe(
+    this.subscriptions.add( this.driverService.sizeSearch(search).subscribe(
       data => {
 
         this.collectionSize = data;
       }
-    );
+    ));
 
-    this.driverService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add( this.driverService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.driverList = data;
         this.spinner.hide();
@@ -170,7 +172,7 @@ export class DriverListComponent implements OnInit {
       error => { this.spinner.hide(); },
       () => this.spinner.hide()
 
-    );
+    ));
   }
 
   loadDataOfBD(search: string = '') {
@@ -178,21 +180,21 @@ export class DriverListComponent implements OnInit {
 
     this.spinner.show();
 
-    this.badgetypedriverService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.badgetypedriverService.sizeSearch(search).subscribe(
       data => {
 
         this.collectionSize = data;
       }
-    );
+    ));
 
-    this.badgetypedriverService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.badgetypedriverService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.driverList = data.map(b => b.driver);
         this.spinner.hide();
       },
       error => { this.spinner.hide(); },
       () => this.spinner.hide()
-    );
+    ));
   }
 
   onSearchClicked() {
@@ -260,7 +262,7 @@ export class DriverListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedDrivers.map(x => x.id);
-          this.driverService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.driverService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -269,7 +271,7 @@ export class DriverListComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedDrivers.length < 1) {
@@ -284,7 +286,7 @@ export class DriverListComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
 
-        this.driverService.delete(id).subscribe(
+        this.subscriptions.add( this.driverService.delete(id).subscribe(
 
           data => {
             this.toastr.success('Elément est Supprimé Avec Succès', 'Suppression');
@@ -293,7 +295,7 @@ export class DriverListComponent implements OnInit {
           error => {
             this.toastr.error(error.error.message);
           }
-        );
+        ));
 
       }
     });
@@ -301,6 +303,8 @@ export class DriverListComponent implements OnInit {
 
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }

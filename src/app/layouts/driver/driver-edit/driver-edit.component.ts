@@ -1,6 +1,6 @@
 import { CommissionDriver } from './../../../shared/models/commission-driver';
 import { BadgeTypeDriver } from './../../../shared/models/badge-Type-Driver';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -11,6 +11,8 @@ import { Badge, Driver, Contact } from './../../../shared/models';
 import { DriverService } from '../../../shared/services/api/driver.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { BadgeTypeDriverService } from '../../../shared/services/api/badge-type-driver.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -28,7 +30,6 @@ export class DriverEditComponent implements OnInit {
   isFormSubmitted = false;
   fr: any;
   idDriver: number;
-
   badgeDriverListEdited: BadgeTypeDriver[] = [];
   commissionDriverListEdited: CommissionDriver[] = [];
   items: MenuItem[];
@@ -40,14 +41,23 @@ export class DriverEditComponent implements OnInit {
   size = 8;
   valid = false;
   collectionSize: number;
-
   editModeTitle = 'Ajouter un Chaufeur';
+  BadgeDriverList : BadgeTypeDriver[] = [];
+  selectedBadgeDriver = new  BadgeTypeDriver();
+  showDialog: boolean;
+  editMode: boolean;
+  subscriptions= new Subscription ();
+
+
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
+    private badgeTypeDriverService : BadgeTypeDriverService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private confirmationService: ConfirmationService,
+    ) { }
 
   ngOnInit() {
 
@@ -66,29 +76,30 @@ export class DriverEditComponent implements OnInit {
 
     this.initForm();
 
-    /*this.badgeService.findAll().subscribe(
-      data => {
-        this.badgesList = data;
-      }
-    );*/
+  
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
-      this.driverService.findById(this.idDriver).subscribe(
+      this.subscriptions.add(this.driverService.findById(this.idDriver).subscribe(
         data => {
           this.selectedDriver = data;
           this.editModeTitle = 'Modifier un chaufeur';
 
           this.initForm();
         }
-      );
+      ));
+      this.subscriptions.add(this.badgeTypeDriverService.find('driver.id:' + this.idDriver).subscribe(
+        data => {
+          this.BadgeDriverList = data;
+   
+        }))
     }else{
 
-      this.driverService.generateCode().subscribe(
+      this.subscriptions.add( this.driverService.generateCode().subscribe(
         code => {
        this.selectedDriver.code = code;
         this.initForm();
-      });
+      }));
     }
 
 
@@ -105,67 +116,36 @@ export class DriverEditComponent implements OnInit {
         'code': new FormControl(this.selectedDriver.code, Validators.required),
         'dateNaissance': new FormControl(d),
         'visiteMedicale': new FormControl(dd),
-        // 'comission': new FormControl(this.selectedDriver.commission),
         'nom': new FormControl(this.selectedDriver.name, Validators.required),
         'tele': new FormControl(this.selectedDriver.tele1),
         'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
         'carte': new FormControl(this.selectedDriver.carte),
 
-        //'badge': new FormControl(this.selectedDriver.badge, Validators.required),
       }
     );
   }
-  loadBadge(search: string = '') {
+  // loadBadge(search: string = '') {
 
-  }
+  // }
   loadDataLazy(event) {
-    //  this.loading = true;
-
-    // this.page = this.drivers.slice(event.first, (event.first + event.rows));
-    // this.loading = false;
+ 
     this.page = event.first / this.size;
 
-    this.loadBadge(this.searchQuery);
-
-  }
-  openNext() {
-    this.isFormSubmitted = true;
-
-    if (this.index == 0 && this.driverForm.invalid) {
-      return;
-    }
-
-
-    else {
-      this.index = (this.index === 2) ? 0 : this.index + 1;
-
-
-
-    }
-
-  }
-  /*onLoadCommission(commission:CommissionDriver[]){
-
-  this.commissionDriverListEdited=commission;
-  this.selectedDriver.commissions=this.commissionDriverListEdited;
-
-
-  }*/
-  onLoadBadge(badge: BadgeTypeDriver[]) {
-
-    this.badgeDriverListEdited = badge;
-
-    this.selectedDriver.badgeTypeDrivers = this.badgeDriverListEdited;
+   // this.loadBadge(this.searchQuery);
 
   }
 
-  openPrev() {
-    this.index = (this.index === 0) ? 2 : this.index - 1;
-  }
+  // onLoadBadge(badge: BadgeTypeDriver[]) {
+
+  //   this.badgeDriverListEdited = badge;
+
+  //   this.selectedDriver.badgeTypeDrivers = this.badgeDriverListEdited;
+
+  // }
+
+ 
   onSubmitForm() {
-
-
 
     this.isFormSubmitted = true;
 
@@ -189,14 +169,12 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.fax = formValue['fax'];
     this.selectedDriver.carte = formValue['carte'];
 
-
-
-
-
+   this.selectedDriver.badgeTypeDrivers=this.BadgeDriverList;
 
 
     this.driverService.set(this.selectedDriver).subscribe(
       data => {
+        
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
 
         if (close) {
@@ -221,10 +199,53 @@ export class DriverEditComponent implements OnInit {
 
 
 
+  onLineEditedBadge(line: BadgeTypeDriver) {
+    this.BadgeDriverList = this.BadgeDriverList.filter(
+      (l) => l.badgeType.id !== line.badgeType.id
+    );
+    this.BadgeDriverList.push(line);
+    
+
+  }
+
+  onDeleteBadge(id: number) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+
+        this.BadgeDriverList = this.BadgeDriverList.filter(
+          (l) => l.id !== id
+        );
+       
+      },
+    });
+  }
+
+  onShowDialogBadge(line, mode) {
+
+    this.showDialog = true;
+
+    if (mode == true) {
+      this.selectedBadgeDriver = line;
+      this.editMode = true;
+
+    } else {
+      this.selectedBadgeDriver= new BadgeTypeDriver();
+      this.editMode = false;
+
+    }
 
 
 
 
+  }
+  onHideDialogBadge(event) {
+    this.showDialog = event;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
 }
 

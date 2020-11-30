@@ -23,12 +23,14 @@ import { DriverEditComponent } from './driver-edit/driver-edit.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
 import { BadgeDriverEditComponent } from './driver-edit/badge-driver-edit/badge-driver-edit.component';
 import { DriverCommissionEditComponent } from './driver-edit/driver-commission-edit/driver-commission-edit.component';
+import { DriverBadgeEditComponent } from './driver-edit/driver-badge-edit/driver-badge-edit.component';
+import { DialogModule } from 'primeng/dialog';
 
 
 
 
 @NgModule({
-  declarations: [DriverComponent , DriverListComponent, DriverEditComponent, BadgeDriverEditComponent, DriverCommissionEditComponent],
+  declarations: [DriverComponent , DriverListComponent, DriverEditComponent, BadgeDriverEditComponent, DriverCommissionEditComponent,DriverBadgeEditComponent],
   imports: [
     CommonModule,
     DriverRoutingModule,
@@ -47,7 +49,8 @@ import { DriverCommissionEditComponent } from './driver-edit/driver-commission-e
      ContextMenuModule,
      NgbModalModule,
      TabViewModule,
-     PanelModule
+     PanelModule,
+     DialogModule
 
 
   ]

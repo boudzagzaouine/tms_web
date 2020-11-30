@@ -17,6 +17,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { OrderStatusService } from './../../../../shared/services/api/order-status.service';
 import { OrderStatus } from './../../../../shared/models/order-status';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-line-edit',
@@ -43,38 +44,33 @@ export class OrderLineEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Ajouter la ligne de commande';
+  subscrubtion = new Subscription();
 
-  constructor(private purchaseOrderLineService: PurchaseOrderLineService,
+  constructor(
     private productService :ProductService,
     private orderStatutService :OrderStatusService,
     private productPackService: ProductPackService,
-    private uomService :UomService,
+
     private vatService :VatService,
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+  ) { }
 
   ngOnInit() {
 
-    console.log(this.selectedPurchaseOrderLine);
- console.log(this.editMode);
-
-    this.vatService.findAll().subscribe(
+    this.subscrubtion.add(this.vatService.findAll().subscribe(
       data=>{
         this.vatList =data;
       }
-    );
+    ));
 if(this.editMode == false){
-    //this.selectedPurchaseOrderLine = new PurchaseOrderLine();
 
-    this.orderStatutService.findAll().subscribe(
+  this.subscrubtion.add(this.orderStatutService.findAll().subscribe(
         data => {
           this.orderStatutList = data.filter(f => f.id === 2);
           this.selectedPurchaseOrderLine.orderStatus = this.orderStatutList[0];
-          console.log( this.selectedPurchaseOrderLine.orderStatus.code);
           this.initForm();
         }
    
-      );  
+      ));  
         this.initForm();
 
     }
@@ -196,8 +192,7 @@ onSubmit() {
           price * quantity * (1 + this.selectedProduct.vat.value / 100);
   }
 
-  console.log (this.purchaseOrderLineForm.value['vat']);
-  console.log(this.selectedProduct.purchaseVat);
+
 
   this.selectedPurchaseOrderLine.vat =  this.selectedProduct.vat;
   this.selectedPurchaseOrderLine.purshasePrice = price;
@@ -212,7 +207,6 @@ onSubmit() {
       this.selectedPurchaseOrderLine.uom = pdtPack.uom;
   }
 
-   console.log(this.selectedPurchaseOrderLine);
   this.purchaseOrderLineAdded.emit(this.selectedPurchaseOrderLine);
   this.displayDialog=false;
 
@@ -220,48 +214,40 @@ onSubmit() {
 }
 
 searchProduct(event) {
-  this.productService.find('code~' + event.query).subscribe(data => {
+  this.subscrubtion.add(this.productService.find('code~' + event.query).subscribe(data => {
       this.productList = data;
-  });
+  }));
 }
 
 
 public onSelectProduct(value: Product): void {
   this.selectedProduct = value;
-  // console.log(this.selectedProduct.purshasePriceUB);
-  // console.log(this.selectedProduct.purshasePriceUB);
-  // console.log(this.selectedProduct.purchaseVat.value);
-  // console.log(this.selectedProduct.shortDesc);
-
-  this.productPackService
+  this.subscrubtion.add(this.productPackService
       .find('product.id:' + this.selectedProduct.id)
       .subscribe(data => {
           this.productPackList = data;
-          console.log(data);
 
           this.purchaseOrderLineForm.patchValue({
-              price: this.selectedProduct.purshasePriceUB,
-              vat: this.selectedProduct.purchaseVat.value,
-              description: this.selectedProduct.shortDesc,
+            payedPrice: this.selectedProduct.purshasePriceUB,
+              vat: this.selectedProduct.vat.value,
+              description: this.selectedProduct.desc,
               pdtPack: data[0]
           });
 
           this.purchaseOrderLineForm.updateValueAndValidity();
-           console.log( this.purchaseOrderLineForm);
 
-      });
+      }));
 
-      this.orderStatutService.findById(5).subscribe(
+      this.subscrubtion.add(this.orderStatutService.findById(5).subscribe(
         data=>{
           this.selectedPurchaseOrderLine.orderStatus = data;
-          console.log("new");
-          console.log(this.selectedPurchaseOrderLine.orderStatus);
+        
           this.purchaseOrderLineForm.patchValue({
             status: this.selectedPurchaseOrderLine.orderStatus.code,
 
         });
         }
-      );
+      ));
 
 }
 
@@ -290,5 +276,7 @@ onShowDialog() {
   this.showDialog.emit(a);
 }
 
-
+ngOnDestroy() {
+  this.subscrubtion.unsubscribe();
+}
 }

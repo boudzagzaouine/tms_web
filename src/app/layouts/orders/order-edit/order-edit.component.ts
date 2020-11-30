@@ -17,6 +17,7 @@ import { PurchaseOrder } from './../../../shared/models/purchase-order';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { VatService } from './../../../shared/services/api/vat.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-edit',
@@ -39,6 +40,7 @@ export class OrderEditComponent implements OnInit {
   uomList: Uom[] = [];
   showDialog: boolean;
   editMode: boolean;
+  subscrubtion = new Subscription();
 
   constructor(private supplierService: SupplierService,
     private purchaseOrderService: PurchaseOrderService,
@@ -59,7 +61,7 @@ export class OrderEditComponent implements OnInit {
       this.editModeTitle = 'Modifier une Commande';
       this.activatedRoute.params.subscribe(params => {
         id = params['id'];
-        this.purchaseOrderService.findById(id).subscribe(data => {
+        this.subscrubtion.add( this.purchaseOrderService.findById(id).subscribe(data => {
           this.selectedPurchaseOrder = data;
 
           this.initForm();
@@ -67,27 +69,27 @@ export class OrderEditComponent implements OnInit {
           err => {
             this.toastr.error(err.error.message);
             this.spinner.hide();
-          });
+          }));
       });
     } else {
-      this.orderTypeService.findAll().subscribe(
+      this.subscrubtion.add( this.orderTypeService.findAll().subscribe(
         data => {
           this.orderTypeList = data.filter(f => f.id === 1);
           this.selectedPurchaseOrder.orderType = this.orderTypeList[0];
         }
-      );
-      this.orderStatutService.findAll().subscribe(
+      ));
+      this.subscrubtion.add( this.orderStatutService.findAll().subscribe(
         data => {
           this.orderStatutList = data.filter(f => f.id === 2);
           this.selectedPurchaseOrder.orderStatus = this.orderStatutList[0];
         }
-      );
+      ));
 
-      this.purchaseOrderService.generateCode().subscribe(
+      this.subscrubtion.add( this.purchaseOrderService.generateCode().subscribe(
         code => {
           this.selectedPurchaseOrder.code = code;
           this.initForm();
-        });
+        }))
       this.initForm();
     }
 
@@ -208,9 +210,9 @@ export class OrderEditComponent implements OnInit {
 
   onSupplierCodeSearch(event: any) {
 
-    this.supplierService.find('code~' + event.query).subscribe((data) => {
+    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe((data) => {
       this.supplierList = data;
-    });
+    }));
   }
 
   onSelectOrderType(event) {
@@ -281,5 +283,9 @@ export class OrderEditComponent implements OnInit {
 
   onHideDialogAction(event) {
     this.showDialog = event;
+  }
+
+  ngOnDestroy() {
+    this.subscrubtion.unsubscribe();
   }
 }

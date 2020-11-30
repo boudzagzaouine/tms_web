@@ -9,6 +9,7 @@ import { PurchaseOrderService } from './../../../shared/services/api/purchase-or
 import { Supplier } from './../../../shared/models/supplier';
 import { PurchaseOrder } from './../../../shared/models/purchase-order';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-list',
@@ -34,6 +35,7 @@ export class OrderListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   orderExportList:Array<PurchaseOrder> = [];
+  subscrubtion = new Subscription();
 
 
   constructor(private purchaseOrderService: PurchaseOrderService,
@@ -65,12 +67,12 @@ export class OrderListComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.purchaseOrderService.sizeSearch(search).subscribe(
+    this.subscrubtion.add(this.purchaseOrderService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
-    );
-    this.purchaseOrderService.findPagination(this.page, this.size, search).subscribe(
+    ));
+    this.subscrubtion.add(this.purchaseOrderService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.orderList = data;
 
@@ -80,7 +82,7 @@ export class OrderListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
@@ -90,7 +92,7 @@ export class OrderListComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.purchaseOrderService.find(this.searchQuery).subscribe(
+    this.subscrubtion.add(this.purchaseOrderService.find(this.searchQuery).subscribe(
       data => {
         this.orderExportList = data;
 
@@ -106,14 +108,14 @@ export class OrderListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
 
   }
 
 
   onExportPdf(event) {
-    this.purchaseOrderService.find(this.searchQuery).subscribe(
+    this.subscrubtion.add(this.purchaseOrderService.find(this.searchQuery).subscribe(
       data => {
         this.orderExportList = data;
         this.globalService.generatePdf(event, this.orderExportList, this.className, this.titleList);
@@ -123,7 +125,7 @@ export class OrderListComponent implements OnInit {
         this.spinner.hide();
       },
       () => this.spinner.hide()
-    );
+    ));
 
   }
 
@@ -163,14 +165,14 @@ export class OrderListComponent implements OnInit {
   }
 
   onPurchaseOrderCodeSearch(event: any) {
-    this.purchaseOrderService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add( this.purchaseOrderService.find('code~' + event.query).subscribe(
       data => this.orderCodeList = data ,
-    );
+    ));
   }
   onSupplierCodeSearch(event: any) {
-    this.supplierService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierList = data ,
-    );
+    ));
   }
 
   reset() {
@@ -191,7 +193,7 @@ export class OrderListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedOrders.map(x => x.id);
-          this.purchaseOrderService.deleteAllByIds(ids).subscribe(
+          this.subscrubtion.add(this.purchaseOrderService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -200,12 +202,16 @@ export class OrderListComponent implements OnInit {
               this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
-          );
+          ));
         }
       });
     } else if (this.selectedOrders.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
+  }
+
+  ngOnDestroy() {
+    this.subscrubtion.unsubscribe();
   }
 
 }

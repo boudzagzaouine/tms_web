@@ -71,16 +71,16 @@ export class AppHeaderComponent implements OnInit {
 
   );
 
-   this.notificationService.verify().subscribe(
-     data=>{
+  //  this.notificationService.verify().subscribe(
+  //    data=>{
       
-  //   console.log("notification size");
+  // //   console.log("notification size");
       
-        //   console.log(data);
+  //       //   console.log(data);
            
-    }
+  //   }
 
-   );
+  //  );
    
   this.notificationService.sizeSearch(search).subscribe(
     data => {

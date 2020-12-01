@@ -272,6 +272,7 @@ export class MaintenancePlanComponent implements OnInit {
     // const dEnd = new Date(this.selectedMaintenance.endDate);
     // const dTriggerDate = new Date(this.selectedMaintenance.triggerDate);
     const dInterventionDate = new Date(this.selectedMaintenance.interventionDate);
+    const dMaintenancenDate = new Date(this.selectedMaintenance.maintenanceDate);
     const dDeclare = new Date(this.selectedMaintenance.declaredDate);
 
     this.maintenacePlanForm = new FormGroup({
@@ -281,6 +282,7 @@ export class MaintenancePlanComponent implements OnInit {
       }),
       'mileage': new FormControl(this.selectedMaintenance.mileage),
       'fDuration': new FormControl(this.selectedMaintenance.duration),
+      'fMaintenanceDate': new FormControl(dMaintenancenDate),
 
       general: new FormGroup({
         'fcode': new FormControl(
@@ -410,12 +412,14 @@ export class MaintenancePlanComponent implements OnInit {
 
     //this.selectedMaintenance.code = this.maintenacePlanForm.value['general']['fcode'];
     this.selectedMaintenance.mileage = this.maintenacePlanForm.value['mileage'];
+    this.selectedMaintenance.maintenanceDate = this.maintenacePlanForm.value['fMaintenanceDate'];
+    this.selectedMaintenance.duration = this.maintenacePlanForm.value['fDuration'];
 
     this.selectedMaintenance.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
     this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['general']['fvaleurCOnditional'];
     this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
-    this.selectedMaintenance.duration = this.maintenacePlanForm.value['responsability']['fDuration'];
+    
 
 
     this.selectedMaintenance.employer = this.maintenacePlanForm.value['service']['femplyer'];

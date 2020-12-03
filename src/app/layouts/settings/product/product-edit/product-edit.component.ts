@@ -122,12 +122,12 @@ export class ProductEditComponent implements OnInit {
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
       dataP => {
-              this.selectProductPack.product=dataP;
-        this.subscriptions.add(this.productPackService.set(this.selectProductPack).subscribe(
-          dataPpack => {
+        //       this.selectProductPack.product=dataP;
+        // this.subscriptions.add(this.productPackService.set(this.selectProductPack).subscribe(
+        //   dataPpack => {
             
-            this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-          }));
+        //     this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        //   }));
 
           this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
           this.displayDialog = false;

@@ -86,7 +86,8 @@ export class MaintenancePlanComponent implements OnInit {
   periodicityMode: number;
   editMType: number = 2;
   actionLineM = new ActionLineMaintenance;
-
+   maintenancestateMode: number = 1;
+   serviceProviderMode : number = 1;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private conditionalTypeService: ConditionalTypeService,
@@ -224,8 +225,15 @@ export class MaintenancePlanComponent implements OnInit {
             } else if (this.selectedMaintenance.maintenanceType.id === 2) {
               this.editMType = 2;
             }
-
-
+            if (this.selectedMaintenance.serviceProvider.id===1 ) {
+              this.serviceProviderMode = 1;
+            } else if (this.selectedMaintenance.serviceProvider.id === 2) {
+              this.serviceProviderMode = 2;
+            }
+            if (this.selectedMaintenance.maintenanceState.id===4 ) {
+              this.maintenancestateMode = 4;
+            } 
+            
 
             this.initForm();
           },
@@ -264,6 +272,7 @@ export class MaintenancePlanComponent implements OnInit {
 
     }
     this.initForm();
+  
 
   }
 

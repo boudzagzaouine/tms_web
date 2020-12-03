@@ -87,6 +87,9 @@ import { DieselDeclarationEditComponent } from './diesel-declaration/diesel-decl
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ActionTypeComponent } from './actionType/actionType.component';
 import { ActionTypeEditComponent } from './actionType/action-type-edit/action-type-edit.component';
+import { NotificationTypeComponent } from './notification-type/notification-type.component';
+import { MenuNotificationComponent } from './menu-notification/menu-notification.component';
+import { NotificationTypeEditComponent } from './notification-type/notification-type-edit/notification-type-edit.component';
 
 
 
@@ -150,7 +153,9 @@ import { ActionTypeEditComponent } from './actionType/action-type-edit/action-ty
     DieselDeclarationEditComponent,
     ActionTypeComponent,
     ActionTypeEditComponent,
-
+    NotificationTypeComponent,
+     MenuNotificationComponent,
+     NotificationTypeEditComponent
   ],
   imports: [
     CommonModule,

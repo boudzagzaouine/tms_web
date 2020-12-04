@@ -15,6 +15,7 @@ import { InsuranceTerm } from '../../models/insurance-term';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class MaintenanceStockService extends EmsService<MaintenanceStock> {
@@ -22,6 +23,7 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
 
 
   constructor(proxy: ProxyService,
+    private authentificationService:AuthenticationService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) {
     super(proxy, 'maintenanceStocks');
@@ -36,7 +38,7 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
         const l  = new MaintenanceStock();
         l.maintenance = maintenance;
         l.product = linee.product;
-        l.owner = null;
+        l.owner = this.authentificationService.getDefaultOwner();;
         l.dlc = null;
         l.productPack = linee.product.productPack;
         l.uom = linee.product.uomByProductUomBase;

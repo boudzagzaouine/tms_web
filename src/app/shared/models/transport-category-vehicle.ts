@@ -1,6 +1,7 @@
 import { Transport } from './transport';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleCategory } from './vehicle-category';
+import { Owner } from './owner';
 
 
 export class TransportCategoryVehicle {
@@ -9,5 +10,5 @@ export class TransportCategoryVehicle {
   vehicleCategory: VehicleCategory;
   transport: Transport;
   quantity: number;
-
+  owner:Owner;
 }

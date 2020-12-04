@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
+    private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -71,7 +73,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['fTonnage'];
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
-
+    this.selectedVehicleCategory.owner=this.authentificationService.getDefaultOwner();
 
     this.subscriptions.add(this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {

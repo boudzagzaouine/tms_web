@@ -13,6 +13,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceType } from './../../../../shared/models/insurance-Type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class InsuranceTypeEditComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
+    private authentificationService:AuthenticationService,
     private insuranceTypeService: InsuranceTypeService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private spinner: NgxSpinnerService,
@@ -91,6 +93,8 @@ export class InsuranceTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedinsuranceType.code = this.insuranceTypeForm.value['code'];
     this.selectedinsuranceType.description = this.insuranceTypeForm.value['description'];
+    this.selectedinsuranceType.owner=this.authentificationService.getDefaultOwner();
+
     this.subscriptions.add(this.insuranceTypeService.set(this.selectedinsuranceType).subscribe(
       dataIt => {
         this.insuranceTypeAdded.emit(dataIt);

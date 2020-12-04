@@ -1,6 +1,7 @@
 import { NotificationType} from './notificationType';
 import { NotificationState } from './notificationState';
 import { Vehicle } from './vehicle';
+import { Owner } from './owner';
 
 export class DieselDeclaration {
 
@@ -12,5 +13,5 @@ export class DieselDeclaration {
   mileage :number;
   dieselDeclarationDate :Date=new Date();
 
-
+ owner:Owner;
 }

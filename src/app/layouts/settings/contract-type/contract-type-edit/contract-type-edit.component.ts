@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ContractTypeService } from '../../../../shared/services';
+import { AuthenticationService, ContractTypeService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -25,6 +25,7 @@ export class ContractTypeEditComponent implements OnInit {
 
   constructor(
     private contractTypeService: ContractTypeService,
+    private authentificationService :AuthenticationService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) { }
@@ -53,7 +54,7 @@ export class ContractTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedContractType.code = this.contractTypeForm.value['code'];
     this.selectedContractType.description = this.contractTypeForm.value['description'];
-
+  this.selectedContractType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add(this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré avec succès', 'Edition');

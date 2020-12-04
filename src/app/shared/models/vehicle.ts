@@ -7,6 +7,7 @@ import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
 import { MaintenancePlan } from './maintenance-plan';
+import { Owner } from './owner';
 
 export class Vehicle extends Patrimony {
 
@@ -47,5 +48,6 @@ export class Vehicle extends Patrimony {
   maintenancePlan :MaintenancePlan;
   initialMileage:number;
   currentMileage:number;
+  owner:Owner;
   
 }

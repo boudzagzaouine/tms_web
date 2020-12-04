@@ -3,6 +3,7 @@ import { BadgeTypeDriver } from './badge-Type-Driver';
 import { Badge } from './badge';
 import { Contact } from './contact';
 import { User } from './user';
+import { Owner } from './owner';
 
 
 export class Driver {
@@ -33,5 +34,5 @@ export class Driver {
 
   badgeTypeDrivers : BadgeTypeDriver[]=[];
   commissions : CommissionDriver[]=[];
-
+ owner:Owner;
 }

@@ -1,4 +1,5 @@
 import { InsuranceType } from './insurance-Type';
+import { Owner } from './owner';
 
 export class VehicleCategory {
 
@@ -14,5 +15,5 @@ export class VehicleCategory {
   totalWeight: number;
 
   insuranceType: InsuranceType;
-
+ owner :Owner;
 }

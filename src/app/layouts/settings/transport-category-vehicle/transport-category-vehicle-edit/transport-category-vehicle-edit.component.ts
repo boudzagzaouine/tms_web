@@ -10,6 +10,7 @@ import { TransportCategoryVehicle } from './../../../../shared/models/transport-
 import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
   constructor(
     private transportCatVehicleService: TransportCategoryVehicleService,
+    private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private toastr: ToastrService,
@@ -116,7 +118,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     this.selectTransportCatVehicle.quantity = this.transportCatVehicleForm.value['fQuantity'];
     this.selectTransportCatVehicle.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
     this.selectTransportCatVehicle.transport = this.transportCatVehicleForm.value['fTransport'];
-
+    this.selectTransportCatVehicle.owner=this.authentificationService.getDefaultOwner();
 
 
     this.subscriptions.add( this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(

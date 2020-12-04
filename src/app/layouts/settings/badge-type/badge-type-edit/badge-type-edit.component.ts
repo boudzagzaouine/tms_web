@@ -5,7 +5,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BadgeType } from '../../../../shared/models';
-import { BadgeTypeService } from '../../../../shared/services';
+import { AuthenticationService, BadgeTypeService } from '../../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 
@@ -27,6 +27,7 @@ export class BadgeTypeEditComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private badgeTypeService: BadgeTypeService,
+    private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -59,7 +60,11 @@ export class BadgeTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedBadgeType.code = this.badgeTypeForm.value['code'];
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
-
+ this.selectedBadgeType.owner=this.authentificationService.getDefaultOwner();
+ console.log("owner");
+ 
+ console.log(this.selectedBadgeType.owner);
+ 
     this.subscriptions.add( this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

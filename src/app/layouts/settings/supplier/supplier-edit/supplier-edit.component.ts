@@ -7,7 +7,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Supplier } from '../../../../shared/models';
-import { SupplierService } from '../../../../shared/services';
+import { AuthenticationService, SupplierService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -34,6 +34,7 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(
     private supplierService: SupplierService,
+    private authentificationService:AuthenticationService,
     private addressService :AddressService,
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -96,7 +97,7 @@ export class SupplierEditComponent implements OnInit {
     if (this.supplierForm.invalid) { return; }
     this.spinner.show();
     this.selectedSupplier.code = this.supplierForm.value['code'];
-
+   this.selectedSupplier.owner=this.authentificationService.getDefaultOwner();
     this.selectedContact.name = this.supplierForm.value['name'];
     this.selectedContact.tel1 = this.supplierForm.value['tel1'];
     this.selectedContact.email = this.supplierForm.value['email'];
@@ -109,9 +110,11 @@ export class SupplierEditComponent implements OnInit {
     this.selectedAddress.country = this.supplierForm.value['country'];
 
     if (this.selectedContact.name) {
+      this.selectedContact.owner=this.authentificationService.getDefaultOwner();
       this.selectedSupplier.contact = this.selectedContact;
     }
     if (this.selectedAddress.line1) {
+      this.selectedAddress.owner=this.authentificationService.getDefaultOwner();
       this.selectedSupplier.address = this.selectedAddress;
     }
 

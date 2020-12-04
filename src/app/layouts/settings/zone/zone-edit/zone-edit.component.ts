@@ -5,6 +5,7 @@ import { Zone } from './../../../../shared/models/Zone';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-zone-edit',
@@ -23,6 +24,7 @@ export class ZoneEditComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private zoneService: ZoneServcie,
+       private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -57,7 +59,7 @@ export class ZoneEditComponent implements OnInit {
     this.spinner.show();
     this.selectedzones.code = this.zoneForm.value['code'];
     this.selectedzones.description = this.zoneForm.value['description'];
-
+   this.selectedzones.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.zoneService.set(this.selectedzones).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

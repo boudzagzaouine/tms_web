@@ -13,6 +13,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BadgeTypeDriverService } from '../../../shared/services/api/badge-type-driver.service';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../shared/services';
 
 
 
@@ -57,6 +58,7 @@ export class DriverEditComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private authentificationService:AuthenticationService,
     ) { }
 
   ngOnInit() {
@@ -168,7 +170,7 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
     this.selectedDriver.carte = formValue['carte'];
-
+  this.selectedDriver.owner=this.authentificationService.getDefaultOwner();
    this.selectedDriver.badgeTypeDrivers=this.BadgeDriverList;
 
 

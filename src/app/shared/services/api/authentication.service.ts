@@ -163,7 +163,9 @@ export class AuthenticationService implements OnDestroy{
         const user = this.getCurrentUser(false);
         if (user != null) {
             return user.owner;
+
         }
+        
         return null;
     }
 

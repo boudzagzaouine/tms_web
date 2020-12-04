@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-maintenance-status-edit',
@@ -26,6 +27,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
   constructor(
     private maintenanceStateService: MaintenanceStateService,
+    private authentificationService : AuthenticationService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) { }
@@ -51,7 +53,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
     this.selectedMaintenanceState.code = this.maintenanceStateForm.value['code'];
     this.selectedMaintenanceState.description = this.maintenanceStateForm.value['description'];
-
+  this.selectedMaintenanceState.owner=this.authentificationService.getDefaultOwner();
 
     console.log(this.selectedMaintenanceState);
     this.subscriptions.add(this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(

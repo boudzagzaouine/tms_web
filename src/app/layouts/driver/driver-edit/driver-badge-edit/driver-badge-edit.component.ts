@@ -4,7 +4,7 @@ import { RoundPipe } from 'ngx-pipes';
 import { Subscription } from 'rxjs';
 import { BadgeType } from './../../../../shared/models/badge-Type';
 import { BadgeTypeDriver } from './../../../../shared/models/badge-Type-Driver';
-import { BadgeTypeService } from './../../../../shared/services';
+import { AuthenticationService, BadgeTypeService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-driver-badge-edit',
@@ -28,7 +28,7 @@ export class DriverBadgeEditComponent implements OnInit {
   fr: any;
 
   constructor(
-  
+  private authentificationService:AuthenticationService,
     private badgeTypeService: BadgeTypeService,
    
   ) { }
@@ -88,7 +88,7 @@ export class DriverBadgeEditComponent implements OnInit {
     this.selectedBadgeDriver.badgeNumber = this.badgeTypeDriverForm.value['fNumBadge'];
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
-
+ this.selectedBadgeDriver.owner=this.authentificationService.getDefaultOwner();
     this.badgeDriverEdited.emit(this.selectedBadgeDriver);
     this.displayDialog = false;
 

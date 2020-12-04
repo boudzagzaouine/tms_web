@@ -95,7 +95,6 @@ export class ProductTypeComponent implements OnInit {
     ));
     this.subscriptions.add( this.productTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        console.log(data);
         this.productTypeList = data;
 
         this.spinner.hide();

@@ -5,6 +5,7 @@ import { Supplier } from './supplier';
 import { InsuranceTerm } from './insurance-term';
 import { Vehicle } from './vehicle';
 import { Patrimony } from './patrimony';
+import { Owner } from './owner';
 
 
 export class Insurance {
@@ -23,7 +24,7 @@ export class Insurance {
  // vehicleCode: string;
   insuranceType :InsuranceType;
   insuranceTermLignes: InsuranceTermsVehicle[] = [];
-
+ owner:Owner;
   
 
 }

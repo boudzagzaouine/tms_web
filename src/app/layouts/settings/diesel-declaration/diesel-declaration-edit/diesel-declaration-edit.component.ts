@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Vehicle } from './../../../../shared/models';
-import { VehicleService } from './../../../../shared/services';
+import { AuthenticationService, VehicleService } from './../../../../shared/services';
 import { DieselDeclaration } from './../../../../shared/models/diesel-declaration';
 import { DieselDeclarationService } from './../../../../shared/services/api/dieselDeclaration.service';
 import { PatrimonyService } from './../../../../shared/services/api/patrimony-service';
@@ -27,6 +27,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   title = '';
 
   constructor(private dieselDeclarationService: DieselDeclarationService,
+    private authentificationService:AuthenticationService,
     private patrimonyService :PatrimonyService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -77,7 +78,7 @@ export class DieselDeclarationEditComponent implements OnInit {
     this.selectedDieselDeclaration.amount = this.dieselDeclarationForm.value['amount'];
     this.selectedDieselDeclaration.dieselDeclarationDate = this.dieselDeclarationForm.value['date'];
     this.selectedDieselDeclaration.mileage = this.dieselDeclarationForm.value['km'];
-
+   this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
     const s = this.dieselDeclarationService.set(this.selectedDieselDeclaration).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

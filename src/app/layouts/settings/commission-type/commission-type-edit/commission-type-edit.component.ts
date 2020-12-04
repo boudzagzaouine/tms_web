@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-commission-type-edit',
@@ -26,6 +27,7 @@ export class CommissionTypeEditComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private commissionTypeService: CommissionTypeService,
+    private authentificationService :AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService) { }
@@ -64,7 +66,7 @@ export class CommissionTypeEditComponent implements OnInit {
     this.selectedCommissionType.percentage = this.commissionTypeForm.value['fAmount'];
     this.selectedCommissionType.minDistance = this.commissionTypeForm.value['fMinDistance'];
     this.selectedCommissionType.maxDistance = this.commissionTypeForm.value['fMaxDistance'];
-
+  this.selectedCommissionType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add(this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

@@ -1,3 +1,5 @@
+import { Owner } from './owner';
+
 export class Contact {
     id: number;
     name: string;
@@ -11,4 +13,5 @@ export class Contact {
     email: String;
     comment: String;
     active: boolean;
+    owner:Owner;
 }

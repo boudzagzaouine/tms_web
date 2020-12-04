@@ -1,3 +1,4 @@
+import { Owner } from './owner';
 
 
 export class Template {
@@ -6,5 +7,11 @@ export class Template {
   code: string;
   text: string;
   subject: string;
+  ownOwner:Owner;
+
+
+
+
+
 
 }

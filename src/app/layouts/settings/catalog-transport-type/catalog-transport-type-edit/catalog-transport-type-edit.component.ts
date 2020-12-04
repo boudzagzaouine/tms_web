@@ -14,6 +14,7 @@ import { CatalogTransportType } from './../../../../shared/models/CatalogTranspo
 import { CatalogTransportTypeServcie } from './../../../../shared/services/api/Catalog-Transport-Type.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AuthenticationService } from './../../../../shared/services';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   zoneDestination : string ;
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private vatService: VatService,
@@ -153,6 +155,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.selectCatalogTransportType.zoneDestination = this.transportCatVehicleForm.value['fZoneSource'];
     this.selectCatalogTransportType.zoneSource = this.transportCatVehicleForm.value['fZoneDestination'];
     this.selectCatalogTransportType.vat = this.transportCatVehicleForm.value['fVat'];
+    this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
     this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
         this.toastr.success('Elément Enregistré Avec Succès', 'Edition');

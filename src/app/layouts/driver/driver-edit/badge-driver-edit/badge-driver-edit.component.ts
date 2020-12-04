@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BadgeTypeDriver } from './../../../../shared/models/badge-Type-Driver';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { BadgeType } from './../../../../shared/models/badge-Type';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-badge-driver-edit',
@@ -37,8 +38,7 @@ export class BadgeDriverEditComponent implements OnInit {
   constructor(private badgeTypeService: BadgeTypeService,
     private badgeTypeDriverService:BadgeTypeDriverService,
     private confirmationService: ConfirmationService,
-    private toastr: ToastrService,
-    private spinner: NgxSpinnerService) { }
+   private authentificationService:AuthenticationService) { }
 
   ngOnInit() {
     this.initForm();
@@ -78,7 +78,6 @@ export class BadgeDriverEditComponent implements OnInit {
   }
 
   OnSubmitForm() {
-console.log('debut');
 
     this.isFormSubmitted = true;
     if (this.badgeTypeDriverForm.invalid) { return; }
@@ -88,9 +87,8 @@ console.log('debut');
     this.selectedBadgeDriver.badgeNumber = this.badgeTypeDriverForm.value['fNumBadge'];
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
-
-    console.log(this.selectedBadgeDriver);
-    console.log(this.badgeTypeDriverList);
+   this.selectedBadgeType.owner=this.authentificationService.getDefaultOwner();
+   
 
 
     this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
@@ -100,7 +98,6 @@ console.log('debut');
 
    this.badgeTypedriverListEdit.emit(this.badgeTypeDriverList);
 
-     console.log( this.badgeTypedriverListEdit);
 
         this.isFormSubmitted = false;
     this.selectedBadgeDriver= new BadgeTypeDriver();

@@ -1,3 +1,4 @@
+import { Owner } from './owner';
 
 export class CommissionType {
 
@@ -7,6 +8,6 @@ export class CommissionType {
   percentage: number;
   minDistance: number;
   maxDistance: number;
-
+ owner :Owner;
 
 }

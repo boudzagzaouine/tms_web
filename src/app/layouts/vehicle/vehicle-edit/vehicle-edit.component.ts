@@ -31,7 +31,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractType, Supplier, InsuranceTerm, MaintenancePlan } from '../../../shared/models';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
-import { MaintenancePlanService } from './../../../shared/services';
+import { AuthenticationService, MaintenancePlanService } from './../../../shared/services';
 
 @Component({
   selector: 'app-vehicle-edit',
@@ -90,6 +90,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     private insuranceTypeService: InsuranceTypeService,
     private transportService: TransportServcie,
     private consumptionTypeService: ConsumptionTypeService,
+    private authentificationService:AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -295,9 +296,10 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedInsurance.endDate = formValue['insurance']['fIEndDate'];
     this.selectedInsurance.amount = formValue['insurance']['fIMontant'];
     this.selectedInsurance.insuranceType = formValue['insurance']['fIType'];
+    this.selectedInsurance.owner=this.authentificationService.getDefaultOwner();
     this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
- 
+  this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         if (this.selectedInsurance.code) {

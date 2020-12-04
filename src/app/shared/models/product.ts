@@ -9,6 +9,7 @@ import {Currency} from './currency';
 import { Image } from 'exceljs';
 
 export class Product {
+  
   id: number;
   code: string;
   desc: string;
@@ -37,7 +38,6 @@ export class Product {
   stocked: boolean;
   stockManaged: boolean;
   supplierDelay: number;
- 
   purshasePriceTTCUB: number;
 
 

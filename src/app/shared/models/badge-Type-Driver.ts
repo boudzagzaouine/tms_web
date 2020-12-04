@@ -1,5 +1,6 @@
 import { BadgeType } from './badge-Type';
 import { Driver } from './driver';
+import { Owner } from './owner';
 
 export class BadgeTypeDriver {
 
@@ -9,5 +10,5 @@ export class BadgeTypeDriver {
   badgeNumber : String;
   deliveranceDate : Date = new Date();
   validityEndDate : Date = new Date();
-
+   owner:Owner;
 }

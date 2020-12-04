@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InsuranceTerm } from './../../../../shared/models/insurance-term';
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, DoCheck } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-insurance-term-ediit',
@@ -24,6 +25,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private insuranceTermService: InsuranceTermService,
+    private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     ) { }
@@ -52,6 +54,8 @@ export class InsuranceTermEdiitComponent implements OnInit {
     this.spinner.show();
     this.selectedInsuranceTerm.code = this.insuranceTermForm.value['code'];
     this.selectedInsuranceTerm.description = this.insuranceTermForm.value['description'];
+       this.selectedInsuranceTerm.owner=this.authentificationService.getDefaultOwner();
+
     if (this.insuranceTermForm.value['isvalue'] === true) {
       this.selectedInsuranceTerm.roofed = true;
     } else {

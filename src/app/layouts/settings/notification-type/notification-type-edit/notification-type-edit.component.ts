@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 import { NotificationType } from './../../../../shared/models/notificationType';
 import { NotificationTypeService } from './../../../../shared/services/api/notificationType.service';
 
@@ -24,6 +25,7 @@ export class NotificationTypeEditComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private notificationTypeService: NotificationTypeService,
+    private athentificationService : AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -56,7 +58,9 @@ export class NotificationTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedNotificationType.code = this.notificationTypeForm.value['code'];
     this.selectedNotificationType.email = this.notificationTypeForm.value['mail'];
-
+    this.selectedNotificationType.owner =this.athentificationService.getDefaultOwner();
+    console.log(this.selectedNotificationType.owner);
+    
     this.subscriptions.add( this.notificationTypeService.set(this.selectedNotificationType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

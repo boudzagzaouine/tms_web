@@ -22,7 +22,7 @@ import { Insurance } from './../../../shared/models/insurance';
 import { Machine } from './../../../shared/models/machine';
 import { Component, OnInit } from '@angular/core';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
-import { MaintenancePlanService } from './../../../shared/services';
+import { AuthenticationService, MaintenancePlanService } from './../../../shared/services';
 import { MaintenancePlan } from './../../../shared/models';
 
 @Component({
@@ -75,6 +75,7 @@ export class MachineEditComponent implements OnInit {
     private insuranceTypeService: InsuranceTypeService,
     private transportService: TransportServcie,
     private consumptionTypeService: ConsumptionTypeService,
+    private authentificationService:AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -228,6 +229,8 @@ export class MachineEditComponent implements OnInit {
     this.selectedInsurance.insuranceType = formValue['insurance']['fIType'];
     this.selectedMachine.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedMachine.amount = formValue['contract']['fAmountc'];
+  this.selectedInsurance.owner=this.authentificationService.getDefaultOwner();
+  this.selectedMachine.owner=this.authentificationService.getDefaultOwner();
 
     // if (this.selectedInsurance.code) {
     // this.selectedVehicle.insurance = this.selectedInsurance;

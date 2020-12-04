@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaintenanceType } from './../../../../shared/models/maintenance-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-maintenance-type-edit',
@@ -25,7 +26,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
 
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
-
+   private authentificationservice:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) { }
 
@@ -49,7 +50,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
 
     this.selectedMaintenanceType.code = this.maintenanceTypeForm.value['code'];
     this.selectedMaintenanceType.description = this.maintenanceTypeForm.value['description'];
-
+  this.selectedMaintenanceType.owner=this.authentificationservice.getDefaultOwner();
     this.subscriptions.add(this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
 

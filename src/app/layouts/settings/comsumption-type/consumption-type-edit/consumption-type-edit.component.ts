@@ -6,6 +6,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-consumption-type-edit',
@@ -25,6 +26,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
 
   constructor(
     private consumptionTypeService: ConsumptionTypeService,
+    private auhtentificationService:AuthenticationService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
@@ -55,7 +57,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
 
     this.selectedConsumptionType.code = this.consumptionTypeForm.value['code'];
     this.selectedConsumptionType.description = this.consumptionTypeForm.value['description'];
-
+  this.selectedConsumptionType.owner=this.auhtentificationService.getDefaultOwner();
     this.subscriptions.add( this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
       data => {
 

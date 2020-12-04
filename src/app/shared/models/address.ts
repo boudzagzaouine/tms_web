@@ -1,3 +1,5 @@
+import { Owner } from './owner';
+
 export class Address {
   id: number;
   code: string;
@@ -10,4 +12,6 @@ export class Address {
   country: string;
   creationDate: Date;
   updateDate: Date;
+
+  owner:Owner;
 }

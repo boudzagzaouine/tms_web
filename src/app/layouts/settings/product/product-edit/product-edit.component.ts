@@ -17,6 +17,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Product, ProductPack } from './../../../../shared/models';
 import { Subscription } from 'rxjs';
 import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-product-edit',
@@ -41,6 +42,7 @@ export class ProductEditComponent implements OnInit {
   editMd :boolean;
   constructor(
     private productTypeService: ProductTypeService,
+    private authentificationService:AuthenticationService,
     private productPackService: ProductPackService,
     private productService: ProductService,
     private vatService: VatService,
@@ -114,7 +116,7 @@ export class ProductEditComponent implements OnInit {
 
     this.selectedProduct.active = true;
 
- 
+    this.selectedProduct.owner=this.authentificationService.getDefaultOwner();
     this.selectProductPack.uom=this.selectedProduct.uomByProductUomBase;
     this.selectProductPack.quantity=1;
     
@@ -122,13 +124,7 @@ export class ProductEditComponent implements OnInit {
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
       dataP => {
-        //       this.selectProductPack.product=dataP;
-        // this.subscriptions.add(this.productPackService.set(this.selectProductPack).subscribe(
-        //   dataPpack => {
-            
-        //     this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
-        //   }));
-
+  
           this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
           this.displayDialog = false;
           this.isFormSubmitted = false;

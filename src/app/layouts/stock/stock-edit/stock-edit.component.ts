@@ -13,6 +13,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from './../../../shared/models';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../shared/services';
 
 @Component({
   selector: 'app-stock-edit',
@@ -43,6 +44,7 @@ export class StockEditComponent implements OnInit {
     private productPackService: ProductPackService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private authentificationService:AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -93,7 +95,7 @@ export class StockEditComponent implements OnInit {
     this.selectedStock.quantity = this.stockForm.value['quantity'];
     this.selectedStock.product = this.stockForm.value['product'];
     this.selectedStock.supplier = this.stockForm.value['supplier'];
-
+    this.selectedStock.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.stockService.set(this.selectedStock).subscribe(
       data => {
 

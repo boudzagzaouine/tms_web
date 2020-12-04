@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { Owner } from './owner';
 
 
 export class Transport {
@@ -12,5 +13,6 @@ export class Transport {
   description: number;
    address:Address;
   active:Boolean;
+  owner:Owner;
 
 }

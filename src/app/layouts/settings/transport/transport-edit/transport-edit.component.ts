@@ -7,6 +7,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-transport-edit',
@@ -26,6 +27,7 @@ export class TransportEditComponent implements OnInit {
 
   constructor(
     private transportService: TransportServcie,
+    private authentificationService:AuthenticationService,
     private addressService: AddressService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
@@ -95,6 +97,9 @@ export class TransportEditComponent implements OnInit {
     this.selectAddress.city = this.transportForm.value['city'];
     this.selectAddress.country = this.transportForm.value['country'];
     this.selectAddress.zip = this.transportForm.value['zip'];
+    this.selectAddress.owner=this.authentificationService.getDefaultOwner();
+    this.selectedtransport.owner=this.authentificationService.getDefaultOwner();
+
 
     this.subscriptions.add(this.addressService.set(this.selectAddress).subscribe(dataA => {
       this.selectedtransport.address = dataA;

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ActionType } from './../../../../shared/models/action-type';
 import { ActionTypeService } from '../../../../shared/services/api/action-type.service';
+import { AuthenticationService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-action-type-edit',
@@ -24,6 +25,7 @@ export class ActionTypeEditComponent implements OnInit {
   subscriptions= new Subscription();
 
   constructor(private actionTypeService: ActionTypeService,
+    private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
   ) { }
@@ -56,7 +58,7 @@ export class ActionTypeEditComponent implements OnInit {
     this.spinner.show();
     this.selectedActionType.code = this.actionTypeForm.value['code'];
     this.selectedActionType.description = this.actionTypeForm.value['description'];
-
+  this.selectedActionType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.actionTypeService.set(this.selectedActionType).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');

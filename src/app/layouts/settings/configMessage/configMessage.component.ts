@@ -6,6 +6,7 @@ import { Template } from './../../../shared/models/template';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TemplateService } from './../../../shared/services/api/template.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from './../../../shared/services';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ConfigMessageComponent implements OnInit {
    isFormSubmitted=false;
 
   constructor(private notificationTypeService:NotificationTypeService,
+              private authentificationService : AuthenticationService,
                private templateService : TemplateService,
                private toastr: ToastrService,) { }
 
@@ -57,6 +59,9 @@ export class ConfigMessageComponent implements OnInit {
 
     this.selectedTemplate.subject=this.subject;
     this.selectedTemplate.text=this.texte;
+  //  this.selectedTemplate.ownOwner=this.authentificationService.getDefaultOwner();
+  //  console.log(this.selectedTemplate.ownOwner);
+    
   this.templateService.set(this.selectedTemplate).subscribe(
 
     data=>{

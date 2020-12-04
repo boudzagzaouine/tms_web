@@ -4,6 +4,7 @@ import { Uom } from './uom';
 //import { Product, Uom } from '.';
 
 import { Product } from './product';
+import { Owner } from './owner';
 
 export class Stock {
   
@@ -16,5 +17,5 @@ export class Stock {
     supplier:Supplier;
     productPack : ProductPack;
     active : Boolean= true;
-
+    owner:Owner;
 }

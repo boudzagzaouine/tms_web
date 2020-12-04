@@ -7,6 +7,7 @@ import { Insurance } from './insurance';
 import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
 import { MaintenancePlan } from './maintenance-plan';
+import { Owner } from './owner';
 
 export class Machine extends Patrimony {
 
@@ -21,4 +22,5 @@ export class Machine extends Patrimony {
   patrimony_type = 'machine';
   transport: Transport;
   maintenancePlan :MaintenancePlan;
+  owner:Owner;
 }

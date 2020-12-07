@@ -18,6 +18,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { VatService } from './../../../shared/services/api/vat.service';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../shared/services';
 
 @Component({
   selector: 'app-order-edit',
@@ -51,6 +52,7 @@ export class OrderEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private authentificationService :AuthenticationService,
 
 
   ) { }
@@ -176,7 +178,7 @@ export class OrderEditComponent implements OnInit {
     //this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
 
     // this.selectedPurchaseOrder.orderType = this.purchaseOrderForm.value['orderType'];
-
+ this.selectedPurchaseOrder.owner=this.authentificationService.getDefaultOwner();
     this.purchaseOrderService.set(this.selectedPurchaseOrder).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');

@@ -19,6 +19,7 @@ import { ConditionalType } from './contional-Type';
 import { SaleOrder } from './sale-order';
 import { Supplier } from '.';
 import { PurchaseOrder } from './purchase-order';
+import { Owner } from './owner';
 
 
 
@@ -60,4 +61,6 @@ valueconditionalType :number;
 
 purshaseOrder: PurchaseOrder;
 supplier :Supplier;
+
+owner: Owner;
 }

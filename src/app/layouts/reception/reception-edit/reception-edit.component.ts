@@ -27,6 +27,7 @@ import { ReceptionService } from './../../../shared/services/api/reception.servi
 import { OrderType } from './../../../shared/models/order-type';
 import { logging } from 'protractor';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../shared/services';
 
 @Component({
   selector: 'app-reception-edit',
@@ -62,6 +63,7 @@ export class ReceptionEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private authentificationService :AuthenticationService,
 
 
      ) { }
@@ -245,6 +247,7 @@ onSubmit() {
         }
         this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate'];
 // this.selectedReception.orderType = this.purchaseOrderForm.value['orderType'];
+this.selectedReception.owner=this.authentificationService.getDefaultOwner();
 this.subscrubtion.add(this.receptionService.set(this.selectedReception).subscribe(
   dataM => {
     if (this.selectedReception.purshaseOrder !== null) {

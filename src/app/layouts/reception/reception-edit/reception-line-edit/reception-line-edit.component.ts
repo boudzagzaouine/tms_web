@@ -14,6 +14,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Reception } from './../../../../shared/models';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-reception-line-edit',
@@ -42,6 +43,7 @@ export class ReceptionLineEditComponent implements OnInit {
     private productService: ProductService,
     private productPackService: ProductPackService,
     private vatService: VatService,
+    private authentificationService:AuthenticationService,
 ) { }
 
   ngOnInit() {
@@ -183,7 +185,7 @@ export class ReceptionLineEditComponent implements OnInit {
       this.selectedReceptionLine.totalPriceTTC = +this.receptionLineForm
       .value['totalPayedPriceTTC'];
 
-
+ this.selectedReceptionLine.owner=this.authentificationService.getDefaultOwner();
   this.receptionLineAdded.emit(this.selectedReceptionLine);
     this.displayDialog = false;
 

@@ -18,6 +18,7 @@ import { VatService } from './../../../../shared/services/api/vat.service';
 import { OrderStatusService } from './../../../../shared/services/api/order-status.service';
 import { OrderStatus } from './../../../../shared/models/order-status';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-order-line-edit',
@@ -50,7 +51,7 @@ export class OrderLineEditComponent implements OnInit {
     private productService :ProductService,
     private orderStatutService :OrderStatusService,
     private productPackService: ProductPackService,
-
+   private authentificationService:AuthenticationService,
     private vatService :VatService,
   ) { }
 
@@ -206,6 +207,7 @@ onSubmit() {
       this.selectedPurchaseOrderLine.productPack = pdtPack;
       this.selectedPurchaseOrderLine.uom = pdtPack.uom;
   }
+this.selectedPurchaseOrderLine.owner=this.authentificationService.getDefaultOwner();
 
   this.purchaseOrderLineAdded.emit(this.selectedPurchaseOrderLine);
   this.displayDialog=false;

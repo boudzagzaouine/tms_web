@@ -16,6 +16,7 @@ import { Day } from './day';
 import { Month } from './month';
 import { Action } from './action';
 import { ConditionalType } from './contional-Type';
+import { Owner } from './owner';
 
 export class ActionPlan {
 
@@ -47,6 +48,6 @@ export class ActionPlan {
 
   conditionalType:ConditionalType;
   valueconditionalType :number;
-  
+  owner : Owner;
 
 }

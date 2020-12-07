@@ -34,6 +34,7 @@ import { ActionLine } from './../../../shared/models/action-line';
 import { Action } from './../../../shared/models/action';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActionPlan } from './../../../shared/models/action-plan';
+import { AuthenticationService } from './../../../shared/services';
 
 @Component({
   selector: 'app-maintenance-preventive-edit',
@@ -118,6 +119,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private authentificationService:AuthenticationService,
 
   ) { }
 
@@ -198,7 +200,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
    
 
     this.selectedMaintenancePreventive.description = this.maintenacePlanForm.value['fdescription'];
-
+ this.selectedMaintenancePreventive.owner=this.authentificationService.getDefaultOwner();
 
  
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(

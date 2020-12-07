@@ -4,7 +4,7 @@ import { ActionLine } from './../../../../shared/models/action-line';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MaintenanceTypeService, MaintenancePlanService, MaintenanceStateService } from './../../../../shared/services';
+import { MaintenanceTypeService, MaintenancePlanService, MaintenanceStateService, AuthenticationService } from './../../../../shared/services';
 import { ProgramTypeService } from './../../../../shared/services/api/program-type.service';
 import { ResponsabilityService } from './../../../../shared/services/api/responsability.service';
 import { OperationTypeService } from './../../../../shared/services/api/operation-type.service';
@@ -100,23 +100,16 @@ export class PlanActionEditComponent implements OnInit {
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
     private actionTpeService: ActionTypeService,
-    private operationTypeService: OperationTypeService,
-    private actionLineService: ActionLineService,
-    private actionService: ActionService,
+
     private serviceProviderService: ServiceProviderService,
     private periodicityTypeService: PeriodicityTypeService,
-    private patrimonyService: PatrimonyService,
-    private confirmationService: ConfirmationService,
-    private actionPlanService: ActionPlanService,
+
     private maintenanceStateService: MaintenanceStateService,
-    private toastr: ToastrService,
-    private spinner: NgxSpinnerService,
+
     private monthService: MonthService,
     private dayService: DayService,
-
-    private activatedRoute: ActivatedRoute,
-    private roundPipe: RoundPipe,
-    private router: Router,) { }
+    private authentificationService:AuthenticationService,
+) { }
 
   ngOnInit() {
 
@@ -290,7 +283,7 @@ export class PlanActionEditComponent implements OnInit {
     this.selectedActionPlan.days = this.actionPlanForm.value['periodicity']['fhebdomadaire'];
     this.selectedActionPlan.dayOfMonth = this.actionPlanForm.value['periodicity']['fdayOfMonth'];
     this.selectedActionPlan.months = this.actionPlanForm.value['periodicity']['fmensuel'];
-
+this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
 
     this.selectedActionPlan.months = this.selectedActionPlan.months.sort();
 

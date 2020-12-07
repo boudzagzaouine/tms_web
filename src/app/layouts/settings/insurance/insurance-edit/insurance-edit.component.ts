@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
+import { AuthenticationService, InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
 import { Insurance, InsuranceTerm, Supplier, Vehicle } from '../../../../shared/models';
 import { ToastrService } from 'ngx-toastr';
 import { InsuranceTermsVehicle } from '../../../../shared/models/insurance-terms-vehicle';
@@ -42,13 +42,13 @@ export class InsuranceEditComponent implements OnInit {
   subscriptions = new Subscription();
   inssuranceTypeTermList: InsuranceTypeTerms[] = [];
 
-  title = 'Modifier assurance';
+  title = 'Modifier une assurance';
   constructor(
     private insuranceService: InsuranceService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private insuranceType: InsuranceTypeService,
     private patrimonyService: PatrimonyService,
-
+    private authentifiactionService : AuthenticationService, 
     private supplierService: SupplierService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -106,7 +106,7 @@ export class InsuranceEditComponent implements OnInit {
     this.selectedInsurance.startDate = this.insuranceForm.value['startDate'];
     this.selectedInsurance.endDate = this.insuranceForm.value['endDate'];
     this.selectedInsurance.amount = this.insuranceForm.value['amount'];
-
+   this.selectedInsurance.owner=this.authentifiactionService.getDefaultOwner();
 
 
 

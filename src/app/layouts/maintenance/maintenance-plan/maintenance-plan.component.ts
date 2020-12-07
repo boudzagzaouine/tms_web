@@ -41,7 +41,8 @@ import { ConditionalType } from './../../../shared/models/contional-Type';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { SaleOrderService } from './../../../shared/services/api/sale-order.service';
 import { PurchaseOrder, Supplier } from './../../../shared/models';
-import { PurchaseOrderService } from './../../..//shared/services/api/purchase-order.service';
+import { PurchaseOrderService } from './../../../shared/services/api/purchase-order.service';
+import { AuthenticationService } from './../../../shared/services';
 
 
 
@@ -107,6 +108,7 @@ export class MaintenancePlanComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private roundPipe: RoundPipe,
     private router: Router,
+    private authentificationService:AuthenticationService,
 
   ) { }
 
@@ -437,7 +439,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.selectedMaintenance.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['periodicity']['fvaleurCOnditional'];
 
-
+ this.selectedMaintenance.owner=this.authentificationService.getDefaultOwner();
 
 
     if (this.selectedMaintenance.programType.id == 1) {

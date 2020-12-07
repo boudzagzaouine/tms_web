@@ -11,6 +11,7 @@ import { MaintenanceState } from './../../../../shared/models/maintenance-state'
 import { ActionLine } from './../../../../shared/models/action-line';
 import { Action } from './../../../../shared/models/action';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AuthenticationService } from './../../../../shared/services';
 
 @Component({
   selector: 'app-action-edit',
@@ -40,15 +41,13 @@ export class ActionEditComponent implements OnInit {
   actionSearch: Action;
 
   constructor(
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService,
+  
     private actionTpeService: ActionTypeService,
     private confirmationService: ConfirmationService,
     private maintenanceStateService : MaintenanceStateService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private roundPipe: RoundPipe
+    private authentificationService:AuthenticationService,
+
   ) { }
 
   ngOnInit() {
@@ -99,7 +98,7 @@ export class ActionEditComponent implements OnInit {
     }
 
     this.selectedAction.actionType = this.actionForm.value['FcodeType'];
-
+ 
     this.lineActionEdited.emit(this.selectedAction);
 
     this.displayDialog = false;

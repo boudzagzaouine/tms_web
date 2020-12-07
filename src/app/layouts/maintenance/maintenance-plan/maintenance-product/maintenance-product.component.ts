@@ -5,7 +5,7 @@ import { RoundPipe } from 'ngx-pipes';
 import { ActionLineMaintenance } from './../../../../shared/models/action-line-maintenance';
 import { MaintenanceState, Product } from './../../../../shared/models';
 import { ActionMaintenance } from './../../../../shared/models/action-maintenance';
-import { MaintenanceStateService } from './../../../../shared/services';
+import { AuthenticationService, MaintenanceStateService } from './../../../../shared/services';
 import { ProductService } from './../../../../shared/services/api/product.service';
 
 @Component({
@@ -35,6 +35,8 @@ export class MaintenanceProductComponent implements OnInit {
     private roundPipe: RoundPipe,
     private productService: ProductService,
     private maintenanceStateService : MaintenanceStateService,
+    private authentificationService:AuthenticationService,
+
   ) { }
 
   ngOnInit() {
@@ -116,7 +118,7 @@ export class MaintenanceProductComponent implements OnInit {
     this.selectedActionLine.unitPrice = +this.lineForm.value['unitPrice'];
     this.selectedActionLine.quantity = +this.lineForm.value['quantity'];
     //this.selectedActionLine.quantityServed = +this.lineForm.value['quantity'];
-  
+  this.selectedActionLine.owner=this.authentificationService.getDefaultOwner();
     this.actionLineEdited.emit(this.selectedActionLine);
     this.displayDialog = false;
 

@@ -8,11 +8,12 @@ import {Stock} from './stock';
 //import {Owner, Warehouse, Product, Uom, ReceptionLine} from '.';
 
 import {Reception} from './reception';
+import { Owner } from './owner';
 
 export class ReceptionStock {
     id: number;
     lineNumber: number;
-   // owner: Owner;
+    owner: Owner;
     updateDate: Date;
     creationDate: Date;
    // warehouse: Warehouse;

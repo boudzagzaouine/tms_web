@@ -4,6 +4,7 @@ import { MaintenanceState } from './maintenance-state';
 import { MaintenancePlan } from './maintenance-plan';
 import { Product } from './product';
 import { Uom } from './uom';
+import { Owner } from './owner';
 
 export class ActionLineMaintenance {
 
@@ -17,5 +18,6 @@ export class ActionLineMaintenance {
   totalPriceHT = 0;
   totalPriceTTC = 0;
   amountVat = 0;
+  owner :Owner;
  // maintenanceState:MaintenanceState;
 }

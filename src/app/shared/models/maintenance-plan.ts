@@ -13,6 +13,7 @@ import { MaintenanceType } from './maintenance-type';
 import { MaintenanceState } from './maintenance-state';
 import { Patrimony } from './patrimony';
 import { ActionPlan } from './action-plan';
+import { Owner } from './owner';
 
 
 
@@ -22,6 +23,7 @@ export class MaintenancePlan {
   code: string;
   description: string;
   actionPlans: ActionPlan[] = [];
-
+   
+  owner:Owner;
 
 }

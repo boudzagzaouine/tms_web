@@ -7,6 +7,7 @@ import { OrderStatus } from './order-status';
 import {PurchaseOrderLine } from './purchase-order-line';
 //import { Owner, User, Warehouse, Supplier, DeliveryMethod, SupplierInvoice } from '.';
 import { OrderType } from './order-type';
+import { Owner } from './owner';
 //implements IOption
 export class PurchaseOrder {
 
@@ -20,7 +21,7 @@ export class PurchaseOrder {
     creationDate: Date;
     updateDate: Date;
     account: Account;
-   // owner: Owner;
+    owner: Owner;
     //user: User;
    // warehouse: Warehouse;
     notes: string;

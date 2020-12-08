@@ -55,17 +55,18 @@ export class ConfigMessageComponent implements OnInit {
 
     // this.isFormSubmitted = true;
     // if (this.templatForm.invalid) { return; }
-
+ 
 
     this.selectedTemplate.subject=this.subject;
     this.selectedTemplate.text=this.texte;
-  //  this.selectedTemplate.ownOwner=this.authentificationService.getDefaultOwner();
+   this.selectedTemplate.owner=this.authentificationService.getDefaultOwner();
   //  console.log(this.selectedTemplate.ownOwner);
     
   this.templateService.set(this.selectedTemplate).subscribe(
 
     data=>{
       this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+
     }
 
   );
@@ -78,8 +79,7 @@ export class ConfigMessageComponent implements OnInit {
     this.texte = this.texte.trimRight() + ' {' + event + '} ';
   }
   onSelectType(event){
-
-
+    this.selectedTemplate = new Template();
 this.selectedNotificationType=event.value
    this.sender=this.selectedNotificationType.email;
 

@@ -164,14 +164,10 @@ export class MaintenancePlanComponent implements OnInit {
     this.subscrubtion.add(
       this.maintenanceStateService.findAll().subscribe((data) => {
         this.MaintenancestateList = data;
-        this.selectedMaintenance.maintenanceState = data.filter(f => f.id == 3)[0];
-
-
+        this.selectedMaintenance.maintenanceState = data.filter(f => f.id == 3)[0]; 
+        this.initForm();  
       }),
-
     );
-
-
 
     this.subscrubtion.add(
       this.responsabilityService.findAll().subscribe((data) => {
@@ -232,6 +228,7 @@ export class MaintenancePlanComponent implements OnInit {
             } else if (this.selectedMaintenance.serviceProvider.id === 2) {
               this.serviceProviderMode = 2;
             }
+        
             if (this.selectedMaintenance.maintenanceState.id===4 ) {
               this.maintenancestateMode = 4;
             } 
@@ -267,15 +264,11 @@ export class MaintenancePlanComponent implements OnInit {
       this.maintenanceService.generateCode().subscribe(
         code => {
           this.selectedMaintenance.code = code;
-
           this.initForm();
         });
 
-
     }
     this.initForm();
-  
-
   }
 
   initForm() {
@@ -283,7 +276,7 @@ export class MaintenancePlanComponent implements OnInit {
     // const dEnd = new Date(this.selectedMaintenance.endDate);
     // const dTriggerDate = new Date(this.selectedMaintenance.triggerDate);
     const dInterventionDate = new Date(this.selectedMaintenance.interventionDate);
-    const dMaintenancenDate = new Date(this.selectedMaintenance.maintenanceDate);
+   // const dMaintenancenDate = new Date(this.selectedMaintenance.maintenanceDate);
     const dDeclare = new Date(this.selectedMaintenance.declaredDate);
 
     this.maintenacePlanForm = new FormGroup({
@@ -291,9 +284,9 @@ export class MaintenancePlanComponent implements OnInit {
         value: this.selectedMaintenance.totalPrice ?
           this.roundPipe.transform(this.selectedMaintenance.totalPrice, 2) : 0, disabled: true
       }),
-      'mileage': new FormControl(this.selectedMaintenance.mileage),
+      'mileage': new FormControl(this.selectedMaintenance.mileage,Validators.required),
       'fDuration': new FormControl(this.selectedMaintenance.duration),
-      'fMaintenanceDate': new FormControl(dMaintenancenDate),
+      'fMaintenanceDate': new FormControl(this.selectedMaintenance.maintenanceDate),
 
       general: new FormGroup({
         'fcode': new FormControl(
@@ -326,7 +319,17 @@ export class MaintenancePlanComponent implements OnInit {
 
 
         'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
-        'fState': new FormControl(this.selectedMaintenance.maintenanceState, Validators.required),
+        'fState': new FormControl(
+          {
+            value:
+              this.selectedMaintenance != null &&
+                this.selectedMaintenance.maintenanceState != null
+                ? this.selectedMaintenance.maintenanceState.code
+                : null,
+            disabled: true
+          },Validators.required)
+          
+         // this.selectedMaintenance.maintenanceState.code, Validators.required),
 
       }),
       periodicity: new FormGroup({
@@ -408,6 +411,7 @@ export class MaintenancePlanComponent implements OnInit {
 
   }
   onSubmit(close) {
+    
     this.isFormSubmitted = true;
     if (this.maintenacePlanForm.controls['general'].invalid &&
       this.maintenacePlanForm.controls['responsability'].invalid) { return; }
@@ -421,13 +425,15 @@ export class MaintenancePlanComponent implements OnInit {
         this.maintenacePlanForm.controls['service'].invalid) { return; }
     }
 
+   if( this.maintenacePlanForm.controls['mileage'].invalid){ return };
+
     //this.selectedMaintenance.code = this.maintenacePlanForm.value['general']['fcode'];
     this.selectedMaintenance.mileage = this.maintenacePlanForm.value['mileage'];
     this.selectedMaintenance.maintenanceDate = this.maintenacePlanForm.value['fMaintenanceDate'];
     this.selectedMaintenance.duration = this.maintenacePlanForm.value['fDuration'];
 
     this.selectedMaintenance.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
-    this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
+    //this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['general']['fvaleurCOnditional'];
     this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
     
@@ -439,7 +445,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.selectedMaintenance.observation = this.maintenacePlanForm.value['service']['fObseravtion'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['periodicity']['fvaleurCOnditional'];
 
- this.selectedMaintenance.owner=this.authentificationService.getDefaultOwner();
+    this.selectedMaintenance.owner=this.authentificationService.getDefaultOwner();
 
 
     if (this.selectedMaintenance.programType.id == 1) {
@@ -464,7 +470,7 @@ export class MaintenancePlanComponent implements OnInit {
       dataM => {
 
         this.maintenanceStockService.insert(dataM);
-        this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
+        this.toastr.success('Elément Maintenance est Enregistré Avec Succès', 'Edition');
 
         this.isFormSubmitted = false;
         this.spinner.hide();

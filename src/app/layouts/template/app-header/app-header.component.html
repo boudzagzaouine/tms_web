@@ -59,14 +59,16 @@
                    >
 
                     <td width='70%'>
-                      <span *ngIf="notification.notificationType.code=='Maintenance'"> 
+                      <!-- id=1 => maintenance -->
+                      <span *ngIf="notification.notificationType.id==1"> 
                        <p>Maintenace:<b>{{notification.code}} </b></p>
                        <p>Patrimoine : <b>{{notification.patimonyCode}}</b> </p>
                        <p>Action :<b>{{notification.action}}</b></p>
                        
                       </span>
-
-                      <span *ngIf="notification.notificationType.code=='Produit'">le Produit <b>{{notification.code}}</b></span>
+                      <!-- id=2 => produit -->
+                      <span *ngIf="notification.notificationType.id==2">
+                        le Produit <b>{{notification.code}}</b></span>
                     </td>
 
                     <td width='30%'>

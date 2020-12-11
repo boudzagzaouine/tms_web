@@ -94,6 +94,8 @@
       <tr>
         <th>{{ "Code" | translate }}</th>
         <th>{{ "Type" | translate }}</th>
+        <th>{{ "Action" | translate }}</th>
+        <th>{{ "Patrimoine" | translate }}</th>
         <th>{{ "Statut" | translate }}</th>
 
 
@@ -104,6 +106,9 @@
  
         <td>{{notification.code}}</td>
         <td>{{notification.notificationType.code }}</td>
+        <td>{{notification?.action}}</td>
+        <td>{{notification?.patimonyCode}}</td>
+
         <td>
         <span [class]="'customer-badge status-' + notification.notificationState.code">{{notification.notificationState.code}}</span>
       </td>

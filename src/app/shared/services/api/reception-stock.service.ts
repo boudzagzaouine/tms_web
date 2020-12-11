@@ -63,7 +63,7 @@ private generateReceptionStockFomeReceptionLine(reception: Reception, line: Rece
   //  rs.lineNumber = line.lineNumber;
   rs.receptionLine = line;
   rs.dlc = line.dlc;
-  //rs.owner = line.owner;
+  rs.owner = line.owner;
   rs.productPack = line.productPack;
   //rs.warehouse = this.cashRegisterService.selectedPOS.agency.warehouse;
   //rs.color = line.color;

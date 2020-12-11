@@ -39,7 +39,7 @@ export class Product {
   stockManaged: boolean;
   supplierDelay: number;
   purshasePriceTTCUB: number;
-
+  minStock: number;
 
     constructor() {
     }

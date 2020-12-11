@@ -38,7 +38,7 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
         const l  = new MaintenanceStock();
         l.maintenance = maintenance;
         l.product = linee.product;
-        l.owner = this.authentificationService.getDefaultOwner();;
+        l.owner = this.authentificationService.getDefaultOwner();
         l.dlc = null;
         l.productPack = linee.product.productPack;
         l.uom = linee.product.uomByProductUomBase;
@@ -57,9 +57,12 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
 insert(maintenance : Maintenance){
 const maintenancestocks = this.generateMaintenanceStockFromMaintenance(maintenance)
   this.saveAll(maintenancestocks).subscribe(
+   
     dataM => {
-      this.toastr.success('Ajouter avec succés', 'Validation');
-
+      this.toastr.success('Elément Stock est Enregistré Avec Succès', 'Validation');
+       console.log(dataM);
+       console.log(maintenancestocks);
+    
     },
     err => {
       this.toastr.error(

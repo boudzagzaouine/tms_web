@@ -84,10 +84,14 @@ export class ProductComponent implements OnInit {
         header: 'Prix d achat TTC',
         type: 'number'
       },
-
+      {
+        field: 'minStock',
+        header: 'Quantité minimale',
+        type: 'number'
+      },
       {
         field: 'stockQuantity',
-        header: 'Quantity Stock',
+        header: 'Quantité Stock',
         type: 'number'
       },
 

@@ -41,14 +41,14 @@ export class Maintenance {
   actionLineMaintenances: ActionLineMaintenance[] = [];
   actionType :ActionType;
   patrimony: Patrimony;
-  mileage = 0.0;
+  mileage :number;
   totalPrice = 0;
   agent: string;
   employer: string;
   triggerDay: number;
   triggerDate: Date  = new Date();
-  interventionDate: Date= new Date();;
-  maintenanceDate: Date= new Date();;
+  interventionDate: Date= new Date();
+  maintenanceDate: Date= new Date();
 
   duration : number ;
   declaredDate : Date = new Date();

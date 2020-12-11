@@ -92,6 +92,7 @@ export class ProductEditComponent implements OnInit {
       purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
       purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
       qntStock: new FormControl(this.selectedProduct.stockQuantity),
+      qntMin: new FormControl(this.selectedProduct.minStock),
 
   });
 
@@ -113,7 +114,9 @@ export class ProductEditComponent implements OnInit {
   this.selectedProduct.uomByProductUomBase = this.productForm.value[
     'uom'
   ];
-
+  this.selectedProduct.minStock = this.productForm.value[
+    'qntMin'
+  ];
     this.selectedProduct.active = true;
 
     this.selectedProduct.owner=this.authentificationService.getDefaultOwner();

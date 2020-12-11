@@ -152,7 +152,7 @@ export class ReceptionEditComponent implements OnInit {
           disabled: true
       }),
        order: new FormControl(
-        this.selectedReception.purshaseOrder
+        this.selectedReception.purshaseOrder,Validators.required
       //     value:
       //         this.selectedReception != null &&
       //         this.selectedReception.purshaseOrder != null

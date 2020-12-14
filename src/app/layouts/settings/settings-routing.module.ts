@@ -39,7 +39,6 @@ import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.componen
 import { NotificationComponent } from './notification/notification.component';
 import { ConfigMessageComponent } from './configMessage/configMessage.component';
 import { DieselDeclarationComponent } from './diesel-declaration/diesel-declaration.component';
-import { RoleComponent } from './role/role.component';
 import { ActionTypeComponent } from './actionType/actionType.component';
 import { NotificationTypeComponent } from './notification-type/notification-type.component';
 import { MenuNotificationComponent } from './menu-notification/menu-notification.component';

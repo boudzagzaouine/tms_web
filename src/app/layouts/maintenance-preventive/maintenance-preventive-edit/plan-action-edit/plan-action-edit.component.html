@@ -1,5 +1,5 @@
 <p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [position]="right" [style]="{ width: '60vw' }" (onHide)='onHideDialog()'>
+  showEffect="fade" [modal]="true"  [style]="{ width: '60vw' }" (onHide)='onHideDialog()'>
   <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
 
   <div style="height: 50vh;">

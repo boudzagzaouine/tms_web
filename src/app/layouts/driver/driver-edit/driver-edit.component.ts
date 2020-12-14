@@ -147,7 +147,7 @@ export class DriverEditComponent implements OnInit {
   // }
 
  
-  onSubmitForm() {
+  onSubmitForm(close = false) {
 
     this.isFormSubmitted = true;
 

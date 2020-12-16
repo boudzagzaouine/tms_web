@@ -43,6 +43,61 @@
                   (keydown.space)="$event.preventDefault()"[attr.disabled]="true"
                 />
               </div>
+
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Désignation " | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['general'].get('fName').touched &&
+                      vehicleForm.controls['general'].get('fName').invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['general'].get('fName').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fName"
+                  (keydown.space)="$event.preventDefault()"
+                />
+              </div>
+
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
+                  >{{ "Machine mére" | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['general'].get('fResource').touched &&
+                      vehicleForm.controls['general'].get('fResource').invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['general'].get('fResource').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-autoComplete  formControlName="fResource" [suggestions]="machineMotherList"
+                (onSelect)="onSelectMachineMother($event)" (completeMethod)="onMachineMotherSearch($event)" field="name">
+              </p-autoComplete>
+            
+              </div>
+
+            </div>
+            <div class="row mt-3 justify-content-around">
+
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
                 >{{ "Référence" | translate }} *</label
@@ -99,32 +154,28 @@
               </div>
 
 
-             
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
+                <span *ngIf="
+                    (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
+                    vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
+                    (isFormSubmitted &&
+                    vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
+                  " class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{ 'Obligatoire' | translate}}
+      
+                </span>
+      
+                <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
+                  (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="code">
+                </p-autoComplete>
+      
+      
+              </div>
 
             </div>
 
-            <div class="row mt-3 justify-content-around">
-            <div class="form-group col-md-3 ">
-              <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
-              <span *ngIf="
-                  (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
-                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
-                  (isFormSubmitted &&
-                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-    
-              </span>
-    
-              <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
-                (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="code">
-              </p-autoComplete>
-    
-    
-            </div>
-            <div class="form-group col-md-7 "></div>
-          </div>
-
+           
 
 
           </div>

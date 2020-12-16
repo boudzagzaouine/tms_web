@@ -23,4 +23,6 @@ export class Machine extends Patrimony {
   transport: Transport;
   maintenancePlan :MaintenancePlan;
   owner:Owner;
+  resource:Machine;
+  name:string;
 }

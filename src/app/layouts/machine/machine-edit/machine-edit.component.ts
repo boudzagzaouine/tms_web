@@ -59,6 +59,8 @@ export class MachineEditComponent implements OnInit {
   subscriptions= new Subscription ();
   isFormSubmitted = false;
   maintenancePlanList: MaintenancePlan[] = [];
+  machineMotherList: Machine[] = [];
+
   fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -188,7 +190,8 @@ export class MachineEditComponent implements OnInit {
         'fRef': new FormControl(this.selectedMachine.ref,Validators.required),
         'fConsumptionType': new FormControl(this.selectedMachine.consumptionType, Validators.required),
         'fMaintenancePlan': new FormControl(this.selectedMachine.maintenancePlan),
-
+        'fName': new FormControl(this.selectedMachine.name),
+        'fResource': new FormControl(this.selectedMachine.resource),
       
       }),
 
@@ -221,6 +224,8 @@ export class MachineEditComponent implements OnInit {
 
     this.selectedMachine.code = formValue['general']['fCode'];
     this.selectedMachine.ref = formValue['general']['fRef'];
+    this.selectedMachine.name = formValue['general']['fName'];
+
     this.selectedInsurance.code = formValue['insurance']['fICode'];
     this.selectedInsurance.startDate = formValue['insurance']['fIStartDate'];
     this.selectedInsurance.endDate = formValue['insurance']['fIEndDate'];
@@ -336,10 +341,23 @@ export class MachineEditComponent implements OnInit {
    
   }
 
+  onSelectMachineMother(event: any) {
+    this.selectedMachine.resource = event;
+  
+    
+   
+  }
+
   onMaintenancePlanSearch(event: any) {
     this.subscriptions.add(this.maintenancePlanService
       .find('code~' + event.query)
       .subscribe(data => (this.maintenancePlanList = data)));
+  }
+
+  onMachineMotherSearch(event: any) {
+    this.subscriptions.add(this.machineService
+      .find('name~' + event.query)
+      .subscribe(data => (this.machineMotherList = data)));
   }
 
 

@@ -74,20 +74,9 @@
 
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Machine mére" | translate }} *</label
+                  >{{ "Machine mére" | translate }} </label
                 >
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['general'].get('fResource').touched &&
-                      vehicleForm.controls['general'].get('fResource').invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['general'].get('fResource').invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                  {{"Obligatoire" | translate}}
-                </span>
+               
                 <br />
                 <p-autoComplete  formControlName="fResource" [suggestions]="machineMotherList"
                 (onSelect)="onSelectMachineMother($event)" (completeMethod)="onMachineMotherSearch($event)" field="name">
@@ -100,21 +89,9 @@
 
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                >{{ "Référence" | translate }} *</label
+                >{{ "Référence" | translate }} </label
               >
-              <span
-              *ngIf="
-                (vehicleForm.controls['general'].get('fRef').touched &&
-                  vehicleForm.controls['general'].get('fRef').invalid) ||
-                (isFormSubmitted &&
-                  vehicleForm.controls['general'].get('fRef').invalid)
-              "
-              class="text-lighter"
-              style="color: red; font-size: xx-small;"
-            >
-              {{"Obligatoire" | translate}}
-            </span>
-              <br />
+           
               <input
                 type="text"
                 class="form-control"
@@ -125,23 +102,10 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="font-weight-bold">{{
-                  "Type consommation" | translate
-                }} *</label>
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['general'].get('fConsumptionType')
-                      .touched &&
-                      vehicleForm.controls['general'].get('fConsumptionType')
-                        .invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['general'].get('fConsumptionType')
-                        .invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                {{"Obligatoire" | translate}}
-                              </span>
+                  "Type consommation" | translate}} </label>
+
+              
+
                 <p-dropdown
                   [autoDisplayFirst]="false"
                   [options]="consumptionTypeList"
@@ -374,11 +338,11 @@
                 />
               </div>
             </div>
-
+             
             <div class="card mt-2">
               <div class="card-header" style="background-color: #f7f7f7;">
                 <div class="row">
-  <div class="col-xs-4 col-md-4 pull-left">
+                  <div class="col-xs-4 col-md-4 pull-left">
                   <app-machine-insurance-edit
                     [editMode]="false"
                     (insuranceTermLineAdded)="onLineEdited($event)"
@@ -447,23 +411,9 @@
             <div class="row mt-3 justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Type de contrat" | translate }} *</label
+                  >{{ "Type de contrat" | translate }} </label
                 >
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['contract'].get('fContractType')
-                      .touched &&
-                      vehicleForm.controls['contract'].get('fContractType')
-                        .invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['contract'].get('fContractType')
-                        .invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                {{"Obligatoire" | translate}} </span
-                ><br />
+              
                 <p-dropdown
                   [autoDisplayFirst]="false"
                   [options]="contractTypeList"
@@ -473,26 +423,13 @@
                   formControlName="fContractType"
                   [showClear]="true"
                 ></p-dropdown>
-              </div>
+                 </div>
+
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Date aquisition" | translate }} *</label
+                  >{{ "Date aquisition" | translate }}</label
                 >
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['contract'].get('fAquisition')
-                      .touched &&
-                      vehicleForm.controls['contract'].get('fAquisition')
-                        .invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['contract'].get('fAquisition')
-                        .invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                {{"Obligatoire" | translate}}
-                </span>
+              
                 <br />
                 <p-calendar
                   formControlName="fAquisition"
@@ -505,21 +442,9 @@
               </div>
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Mantant" | translate }} *</label
+                  >{{ "Mantant" | translate }} </label
                 >
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['contract'].get('fAmountc').touched &&
-                      vehicleForm.controls['contract'].get('fAmountc')
-                        .invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['contract'].get('fAmountc').invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                {{"Obligatoire" | translate}}
-                </span>
+              
                 <input
                   type="text"
                   class="form-control"
@@ -533,23 +458,9 @@
             <div class="row mt-3 justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
-                  >{{ "Transport" | translate }} *</label
+                  >{{ "Transport" | translate }} </label
                 >
-                <span
-                  *ngIf="
-                    (vehicleForm.controls['contract'].get('fTransport')
-                      .touched &&
-                      vehicleForm.controls['contract'].get('fTransport')
-                        .invalid) ||
-                    (isFormSubmitted &&
-                      vehicleForm.controls['contract'].get('fTransport')
-                        .invalid)
-                  "
-                  class="text-lighter"
-                  style="color: red; font-size: xx-small;"
-                >
-                {{"Obligatoire" | translate}}
-                </span>
+             
                 <p-dropdown
                   [autoDisplayFirst]="false"
                   [options]="transportList"

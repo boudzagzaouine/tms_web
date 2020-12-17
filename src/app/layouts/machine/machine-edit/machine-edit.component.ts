@@ -187,10 +187,10 @@ export class MachineEditComponent implements OnInit {
     this.vehicleForm = new FormGroup({
       general: new FormGroup({
         'fCode': new FormControl(this.selectedMachine.code, Validators.required),
-        'fRef': new FormControl(this.selectedMachine.ref,Validators.required),
-        'fConsumptionType': new FormControl(this.selectedMachine.consumptionType, Validators.required),
+        'fRef': new FormControl(this.selectedMachine.ref),
+        'fConsumptionType': new FormControl(this.selectedMachine.consumptionType),
         'fMaintenancePlan': new FormControl(this.selectedMachine.maintenancePlan),
-        'fName': new FormControl(this.selectedMachine.name),
+        'fName': new FormControl(this.selectedMachine.name,Validators.required),
         'fResource': new FormControl(this.selectedMachine.resource),
       
       }),
@@ -206,10 +206,10 @@ export class MachineEditComponent implements OnInit {
       }),
 
       contract: new FormGroup({
-        'fContractType': new FormControl(this.selectedMachine.contractType, Validators.required),
-        'fAquisition': new FormControl(ddd, Validators.required),
-        'fAmountc': new FormControl(this.selectedMachine.amount, Validators.required),
-        'fTransport': new FormControl(this.selectedMachine.transport, Validators.required),
+        'fContractType': new FormControl(this.selectedMachine.contractType),
+        'fAquisition': new FormControl(ddd),
+        'fAmountc': new FormControl(this.selectedMachine.amount),
+        'fTransport': new FormControl(this.selectedMachine.transport),
       }),
 
     });

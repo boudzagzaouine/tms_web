@@ -90,6 +90,8 @@ import { ActionTypeEditComponent } from './actionType/action-type-edit/action-ty
 import { NotificationTypeComponent } from './notification-type/notification-type.component';
 import { MenuNotificationComponent } from './menu-notification/menu-notification.component';
 import { NotificationTypeEditComponent } from './notification-type/notification-type-edit/notification-type-edit.component';
+import { ConditionalTypeComponent } from './conditional-type/conditional-type.component';
+import { ConditionalTypeEditComponent } from './conditional-type/conditional-type-edit/conditional-type-edit.component';
 
 
 
@@ -155,7 +157,9 @@ import { NotificationTypeEditComponent } from './notification-type/notification-
     ActionTypeEditComponent,
     NotificationTypeComponent,
      MenuNotificationComponent,
-     NotificationTypeEditComponent
+     NotificationTypeEditComponent,
+     ConditionalTypeComponent,
+     ConditionalTypeEditComponent,
   ],
   imports: [
     CommonModule,

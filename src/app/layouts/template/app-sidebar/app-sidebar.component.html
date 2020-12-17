@@ -50,6 +50,10 @@
               {{'Conducteur ' | translate}}</a>
           </li>
 
+          <li *hasPermission="['CONDITIONAL_TYPE_VIEW']">
+            <a routerLink="/core/settings/conditional-type" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'type condition ' | translate}}</a>
+          </li>
           <!-- <li>
             <a routerLink="/core/settings/badge-types"><i class="fa fa-circle-o"></i>
               {{'Type Badge ' | translate}}</a>

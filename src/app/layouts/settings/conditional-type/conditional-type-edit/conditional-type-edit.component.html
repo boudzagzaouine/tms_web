@@ -6,19 +6,19 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '550px' }"
+[style]="{ width: '350px' }"
 (onHide)='onShowDialog()'
 >
 <div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="actionTypeForm">
+      <form [formGroup]="conditionalTypeForm">
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
             <label class="font-weight-bold">{{'Code' | translate}} *</label>
-            <span *ngIf="(actionTypeForm.get('code').touched && actionTypeForm.get('code').invalid) ||
-            (isFormSubmitted && actionTypeForm.get('code').invalid)" class="text-lighter"
+            <span *ngIf="(conditionalTypeForm.get('code').touched && conditionalTypeForm.get('code').invalid) ||
+            (isFormSubmitted && conditionalTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>

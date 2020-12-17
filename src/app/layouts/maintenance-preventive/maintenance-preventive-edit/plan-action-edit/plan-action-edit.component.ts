@@ -149,13 +149,17 @@ export class PlanActionEditComponent implements OnInit {
 
     this.subscrubtion.add(
       this.dayService.findAll().subscribe((data) => {
-        this.days = data;
+        this.days = data.sort(function(a, b){
+          return (Number(a.value)-Number(b.value))
+      });
       })
     );
 
     this.subscrubtion.add(
       this.monthService.findAll().subscribe((data) => {
-        this.monthList = data;
+        this.monthList = data.sort(function(a, b){
+          return (Number(a.value)-Number(b.value))
+      })
       })
     );
 
@@ -203,14 +207,7 @@ export class PlanActionEditComponent implements OnInit {
         this.conditionalTypeList = data;
       })
     );
-
-
     this.initForm();
-
-
-
-
-
   }
 
 

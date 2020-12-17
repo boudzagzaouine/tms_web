@@ -1,3 +1,4 @@
+import { Owner } from './owner';
 
 
 export class ConditionalType {
@@ -5,5 +6,5 @@ export class ConditionalType {
   id: number;
   code: string;
   description: string;
-
+  owner :Owner;
 }

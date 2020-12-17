@@ -42,6 +42,7 @@ import { DieselDeclarationComponent } from './diesel-declaration/diesel-declarat
 import { ActionTypeComponent } from './actionType/actionType.component';
 import { NotificationTypeComponent } from './notification-type/notification-type.component';
 import { MenuNotificationComponent } from './menu-notification/menu-notification.component';
+import { ConditionalTypeComponent } from './conditional-type/conditional-type.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,7 @@ const routes: Routes = [
       { path: 'action-type', component: ActionTypeComponent },
       { path: 'notification-type', component: NotificationTypeComponent },
       { path: 'menu-mail', component: MenuNotificationComponent },
+      { path: 'conditional-type', component: ConditionalTypeComponent },
 
 
 

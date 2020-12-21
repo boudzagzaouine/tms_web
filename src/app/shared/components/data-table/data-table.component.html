@@ -4,36 +4,57 @@
 
         <div class="col-md-4 pull-left ">
       <span *hasPermission= "permissionCreate" >
-            <button 
+
+        <!-- <p-button icon="pi pi-plus" 
+        styleClass="p-button-info mx-1"
+        [hidden]="addBtnVisible" 
+        (click)="onEdit(1)"
+        ></p-button> -->
+
+             <button  
             [hidden]="addBtnVisible" 
               type="button"
               class="btn btn-sm btn-primary mx-1"
-              (click)="onEdit(1)"
-              ><!--ADD-->
-              <i class="fa fa-plus"></i>
-            </button>
+              (click)="onEdit(1)"   >
+            <!--ADD-->
+               <i class="fa fa-plus"></i>
+      </button> 
             </span>
             <span *hasPermission= "permissionEdit" >
-            <button
+              <!-- <p-button icon="pi pi-pencil" 
+              styleClass="p-button-success mx-1"
+              [hidden]="updateBtnVisible" 
+              (click)="onEdit(2)"
+              [disabled]="updateBtnDisable == false"></p-button> -->
+          
+             <button
              [hidden]="updateBtnVisible"
              type="button"
               class="btn btn-sm btn-success mx-1"
               (click)="onEdit(2)"
-              [disabled]="updateBtnDisable == false"
-            ><!--UPDATE-->
-              <i class="fa fa-pencil"></i>
-            </button>
+              [disabled]="updateBtnDisable == false" > 
+           <!--UPDATE-->
+               <i class="fa fa-pencil"></i>
+            </button> 
             </span>
             <span *hasPermission= "permissionDelete" >
-            <button
+              <!-- <p-button icon="pi pi-trash" 
+              [hidden]="deleteBtnVisible"
+              [disabled]="deleteBtnDisable == false"
+              styleClass="p-button-danger mx-1"
+              [hidden]="addBtnVisible" 
+              (click)="onEdit(1)"
+              ></p-button> -->
+
+             <button
             [hidden]="deleteBtnVisible"
               type="button"
               class="btn btn-sm btn-danger mx-1"
               (click)="onEdit(3)"
-              [disabled]="deleteBtnDisable == false"
-            > <!--DELETE-->
-              <i class="fa fa-trash-o"></i>
-            </button>
+              [disabled]="deleteBtnDisable == false" > 
+            <!--DELETE-->
+               <i class="fa fa-trash-o"></i>
+            </button> 
         </span>
         </div>
 
@@ -43,11 +64,12 @@
           >
         </div>
         <div class="d-flex col-md-5 justify-content-end ">
-
+<div>
           <p-splitButton label="Exportation" 
-          
-           [model]="items" styleClass="ui-button-warning"></p-splitButton>
-
+          styleClass="p-button-secondary "
+        id="button-icon-only"
+           [model]="items" ></p-splitButton>
+ </div>
  
             <button
               type="button"

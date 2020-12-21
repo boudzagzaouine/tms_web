@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OrderLineEditComponent } from './order-line-edit.component';
 
@@ -6,7 +6,7 @@ describe('OrderLineEditComponent', () => {
   let component: OrderLineEditComponent;
   let fixture: ComponentFixture<OrderLineEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OrderLineEditComponent ]
     })

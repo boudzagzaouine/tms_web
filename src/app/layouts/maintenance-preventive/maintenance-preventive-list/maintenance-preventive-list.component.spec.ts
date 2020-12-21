@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MaintenancePreventiveListComponent } from './maintenance-preventive-list.component';
 
@@ -6,7 +6,7 @@ describe('MaintenancePreventiveListComponent', () => {
   let component: MaintenancePreventiveListComponent;
   let fixture: ComponentFixture<MaintenancePreventiveListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MaintenancePreventiveListComponent ]
     })

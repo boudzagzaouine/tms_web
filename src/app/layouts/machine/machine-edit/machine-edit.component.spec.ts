@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MachineEditComponent } from './machine-edit.component';
 
@@ -6,7 +6,7 @@ describe('MachineEditComponent', () => {
   let component: MachineEditComponent;
   let fixture: ComponentFixture<MachineEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MachineEditComponent ]
     })

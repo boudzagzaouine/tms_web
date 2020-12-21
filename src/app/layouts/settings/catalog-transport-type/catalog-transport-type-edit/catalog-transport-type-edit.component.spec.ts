@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CatalogTransportTypeEditComponent } from './catalog-transport-type-edit.component';
 
@@ -6,7 +6,7 @@ describe('CatalogTransportTypeEditComponent', () => {
   let component: CatalogTransportTypeEditComponent;
   let fixture: ComponentFixture<CatalogTransportTypeEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CatalogTransportTypeEditComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TurnListComponent } from './turn-list.component';
 
@@ -6,7 +6,7 @@ describe('TurnListComponent', () => {
   let component: TurnListComponent;
   let fixture: ComponentFixture<TurnListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TurnListComponent ]
     })

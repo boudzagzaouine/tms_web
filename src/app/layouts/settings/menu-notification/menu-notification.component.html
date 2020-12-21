@@ -1,11 +1,11 @@
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['CONFIG_MAIL']" header="{{ 'configuration Mail' | translate }}">
+  <p-tabPanel *hasPermission="['CONFIG_MAIL']" header="{{ 'configuration Mail' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-configMessage></app-configMessage>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['NOTIFICATION_TYPE_VIEW']" header="{{ 'Type de Notification' | translate }}">
+  <p-tabPanel *hasPermission="['NOTIFICATION_TYPE_VIEW']" header="{{ 'Type de Notification' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <app-notification-type></app-notification-type>
       </ng-template>

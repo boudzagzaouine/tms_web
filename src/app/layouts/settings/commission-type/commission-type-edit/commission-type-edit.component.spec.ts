@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CommissionTypeEditComponent } from './commission-type-edit.component';
 
@@ -6,7 +6,7 @@ describe('CommissionTypeEditComponent', () => {
   let component: CommissionTypeEditComponent;
   let fixture: ComponentFixture<CommissionTypeEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CommissionTypeEditComponent ]
     })

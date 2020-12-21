@@ -115,7 +115,11 @@
                       {{"Obligatoire" | translate}}
                     </span>
                     <br />
-                    <p-multiSelect [options]="days" [maxSelectedLabels]="7" optionLabel="code"
+                     <p-multiSelect [options]="days"
+                    formControlName="fhebdomadaire"
+                     defaultLabel="Select a City"
+                      optionLabel="code" display="chip"></p-multiSelect>
+                    <!-- <p-multiSelect [options]="days" [maxSelectedLabels]="7" optionLabel="code"
                       formControlName="fhebdomadaire">
                       <ng-template let-value pTemplate="selectedItems">
                         <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
@@ -125,7 +129,9 @@
                           class="ui-multiselected-empty-token ui-corner-all">Choisir</span>
                       </ng-template>
 
-                    </p-multiSelect>
+                    </p-multiSelect> -->
+
+                   
 
 
                   </div>
@@ -146,8 +152,12 @@
                     </span>
                     <br />
 
+                    <p-multiSelect [options]="monthList"
+                    formControlName="fmensuel"
+                     defaultLabel="Select a City"
+                      optionLabel="code" display="chip"></p-multiSelect>
 
-                    <p-multiSelect [options]="monthList" [maxSelectedLabels]="12" optionLabel="code"
+                    <!-- <p-multiSelect [options]="monthList" [maxSelectedLabels]="12" optionLabel="code"
                       formControlName="fmensuel">
                       <ng-template let-value pTemplate="selectedItems">
                         <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
@@ -157,7 +167,7 @@
                           class="ui-multiselected-empty-token ui-corner-all">Choose</span>
                       </ng-template>
 
-                    </p-multiSelect>
+                    </p-multiSelect> -->
 
 
 

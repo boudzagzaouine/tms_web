@@ -1,11 +1,11 @@
 <p-tabView >
- <p-tabPanel *hasPermission="['PRODUCT_VIEW']"  header='{{"Produit"|translate }}' headerStyleClass="m-a-p">
+ <p-tabPanel *hasPermission="['PRODUCT_VIEW']"  header='{{"Produit"|translate }}'  headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <app-product></app-product>  
       </ng-template>
   </p-tabPanel>
   
-  <p-tabPanel *hasPermission="['PRODUCT_TYPE_VIEW']"  header='{{"Type de produit"| translate }}'  headerStyleClass="m-a-p">
+  <p-tabPanel *hasPermission="['PRODUCT_TYPE_VIEW']"  header='{{"Type de produit"| translate }}'   headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-product-type></app-product-type>
       </ng-template>

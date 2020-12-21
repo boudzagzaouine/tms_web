@@ -36,8 +36,8 @@ export class PurchaseOrder {
     currency: Currency;
     payedAmount: number;
     remarks: string;
-    value: string = this.code;
-    label: string = this.code;
+    //value: string = this.code;
+   // label: string = this.code;
     disabled?: boolean;
     expectedDate: Date;
     receptionDate: Date;

@@ -92,12 +92,12 @@
     width: 150px;
 }
 
-.ui-calendar,
-.ui-dropdown,
-.ui-dropdown.ui-dropdown-label,
-.ui-autocomplete,
-.ui-dropdown-label,
-.ui-inputtext {
+.p-calendar,
+.p-dropdown,
+.p-dropdown.ui-dropdown-label,
+.p-autocomplete,
+.p-dropdown-label,
+.p-inputtext {
    margin: 0px !important;
     width: 100% !important;
 }
@@ -107,6 +107,13 @@ p-autocomplete {
     margin: 0px !important;
 }
 
+.p-splitbutton{
+  height: 32px !important;
+}
+
+.p-button.p-button-success{
+  background-color: #27ad60;
+}
 
 .ui-state-disabled, .ui-widget:disabled {
     opacity: 100 !important;
@@ -241,8 +248,8 @@ p-autocomplete {
   flex: 1;
 }
 .m-a-p ,li a,
-  .ui-tabview.ui-tabview-left .ui-tabview-nav li a,
-   .ui-tabview.ui-tabview-right .ui-tabview-nav li a{
+  .p-tabview.p-tabview-left .p-tabview-nav li a,
+   .p-tabview.p-tabview-right .p-tabview-nav li a{
   color: #5A738E !important;
   }
 
@@ -276,7 +283,11 @@ p-autocomplete {
 
   .onglet-p-3{
     width: 33.1% !important;
-  background-color: #fafbfc !important;
+   background-color: #fafbfc !important;
+  }
+  .onglet-p-2{
+    width: 50% !important;
+   background-color: #fafbfc !important;
   }
   .onglet-p-4{
     width: 24.3% !important;

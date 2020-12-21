@@ -1,11 +1,11 @@
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['MAINTENANCE_TYPE_VIEW']" header="{{ 'Type de Maintenance' | translate }}">
+  <p-tabPanel *hasPermission="['MAINTENANCE_TYPE_VIEW']" header="{{ 'Type de Maintenance' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-maintenance-type></app-maintenance-type>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['MAINTENANCE_TERM_VIEW']" header="{{ 'Etat de Maintenance' | translate }}">
+  <p-tabPanel *hasPermission="['MAINTENANCE_TERM_VIEW']" header="{{ 'Etat de Maintenance' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <app-maintenance-status></app-maintenance-status>
       </ng-template>

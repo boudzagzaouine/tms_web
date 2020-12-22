@@ -1,6 +1,5 @@
 
 <p-dialog
-header="{{ title | translate }}"
 [(visible)]="displayDialog"
 [focusOnShow]="false"
 [responsive]="true"
@@ -9,6 +8,9 @@ showEffect="fade"
 [style]="{ width: '550px' }"
 (onHide)='onShowDialog()'
 >
+<p-header>
+  {{ title | translate }}
+</p-header>
 <div>
   <div class="modal-body">
     <div class="card-body">
@@ -46,14 +48,14 @@ showEffect="fade"
     type="button"
     pButton
     (click)="onShowDialog()"
-    class="ui-button-primary"
+    class="p-button-primary"
     label="{{'Annuler' | translate }}"
   ></button>
   <button
       type="button"
       pButton
       (click)="onSubmit()"
-      class="ui-button-success"
+      class="p-button-success"
       label="{{ 'Valider' | translate }}"
     ></button>
   </div>

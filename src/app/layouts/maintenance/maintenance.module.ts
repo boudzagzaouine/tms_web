@@ -26,15 +26,15 @@ import {DialogModule} from 'primeng/dialog';
 import { ProductEditComponent } from './maintenance-plan/action-edit/product-edit/product-edit.component';
 import { MaintenanceTraitementComponent } from './maintenance-traitement/maintenance-traitement.component';
 import { MaintenanceProductComponent } from './maintenance-plan/maintenance-product/maintenance-product.component';
-//import {FullCalendarModule} from '@fullcalendar/angular';
+import {FullCalendarModule} from '@fullcalendar/angular';
 import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance-calendar.component';
-// import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-// import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 
-// FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-//   dayGridPlugin,
-//   interactionPlugin
-// ]);
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 
 @NgModule({
@@ -67,8 +67,7 @@ import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance
    SelectButtonModule,
    InputNumberModule,
    DialogModule,
-   //FullCalendarModule,
-
+FullCalendarModule,
 
 
     ]

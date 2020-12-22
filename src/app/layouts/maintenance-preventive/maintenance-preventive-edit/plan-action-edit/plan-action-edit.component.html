@@ -1,5 +1,9 @@
-<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true"  [style]="{ width: '60vw' }" (onHide)='onHideDialog()'>
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true"  [style]="{ width: '75vw' }"
+  [position]="'right'"
+  (onHide)='onHideDialog()'>
+  <br>
   <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
 
   <div style="height: 50vh;">
@@ -117,7 +121,7 @@
                     <br />
                      <p-multiSelect [options]="days"
                     formControlName="fhebdomadaire"
-                     defaultLabel="Select a City"
+                     defaultLabel="sélectionner jours"
                       optionLabel="code" display="chip"></p-multiSelect>
                     <!-- <p-multiSelect [options]="days" [maxSelectedLabels]="7" optionLabel="code"
                       formControlName="fhebdomadaire">
@@ -154,7 +158,7 @@
 
                     <p-multiSelect [options]="monthList"
                     formControlName="fmensuel"
-                     defaultLabel="Select a City"
+                     defaultLabel="sélectionner mois"
                       optionLabel="code" display="chip"></p-multiSelect>
 
                     <!-- <p-multiSelect [options]="monthList" [maxSelectedLabels]="12" optionLabel="code"
@@ -354,9 +358,9 @@
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-      <button type="button" pButton (click)="onHideDialog()" class="ui-button-primary"
+      <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
         label="{{'Annuler' | translate }}"></button>
-      <button type="button" pButton (click)="onSubmit()" class="ui-button-success"
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
         label="{{ 'Valider' | translate }}"></button>
     </div>
   </p-footer>

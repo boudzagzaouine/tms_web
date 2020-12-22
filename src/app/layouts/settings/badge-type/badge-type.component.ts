@@ -1,7 +1,7 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { BadgeType } from './../../../shared/models/badge-Type';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, PrimeNGConfig } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
@@ -38,10 +38,11 @@ export class BadgeTypeComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private primengConfig: PrimeNGConfig
   ) { }
 
   ngOnInit() {
-
+    this.primengConfig.ripple = true;
     this.className = BadgeType.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
@@ -155,7 +156,7 @@ export class BadgeTypeComponent implements OnInit {
 
     if (this.selectedBadgeTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Supprimer  ?',
+        message: ' Voulez vous vraiment Supprimer  ?',
         accept: () => {
           const ids = this.selectedBadgeTypes.map(x => x.id);
           this.subscriptions.add(this.badgeTypeService.deleteAllByIds(ids).subscribe(

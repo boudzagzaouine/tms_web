@@ -14,6 +14,9 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { HasPermissionDirective } from './shared/directive/hasPermission.directive';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 
 //  AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -23,6 +26,11 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 registerLocaleData(localeFr, 'fr');
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+])
 
 @NgModule({
   declarations: [
@@ -35,6 +43,7 @@ registerLocaleData(localeFr, 'fr');
     OverlayPanelModule,
     HttpClientModule,
     NgPipesModule,
+    FullCalendarModule, // register FullCalendar with you app
     SharedModule.forRoot(),
     NgxPermissionsModule.forRoot({
      // permissionsIsolate: false

@@ -6,7 +6,7 @@ import { ProductService } from './../../shared/services/api/product.service';
 import { Supplier } from './../../shared/models/supplier';
 import { Product } from './../../shared/models/product';
 import { EmsBuffer } from './../../shared/utils/ems-buffer';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../shared/services/api/global.service';
@@ -44,7 +44,9 @@ export class StockComponent implements OnInit {
   titleList = 'Liste du Stock';
   stockExportList: Array<Stock> = [];
   subscriptions= new Subscription ();
-
+  items: MenuItem[];
+    
+  home: MenuItem;
   constructor(private stockService: StockService,
     private productService : ProductService,
   private supplierService : SupplierService,
@@ -56,6 +58,14 @@ export class StockComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Stock'},
+      {label: 'Lister'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
     this.subscriptions.add(this.productTypeService.findAll().subscribe(
       data => this.productTypeCodeList = data ,

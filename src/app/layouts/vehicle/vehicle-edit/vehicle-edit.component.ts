@@ -32,6 +32,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractType, Supplier, InsuranceTerm, MaintenancePlan } from '../../../shared/models';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
 import { AuthenticationService, MaintenancePlanService } from './../../../shared/services';
+import frLocale from '@fullcalendar/core/locales/fr';
 
 @Component({
   selector: 'app-vehicle-edit',
@@ -73,6 +74,10 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   subscriptions= new Subscription ();
   isFormSubmitted = false;
   fr: any;
+  items: MenuItem[];
+    
+  home: MenuItem;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private maintenancePlanService :MaintenancePlanService,
@@ -94,7 +99,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.fr = {
+ this.fr = {
       firstDayOfWeek: 1,
       dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],
       dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
@@ -104,6 +109,15 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       today: 'Aujourd hui',
       clear: 'Supprimer'
     };
+    this.items = [
+      {label: 'Véhicule'},
+      {label: 'Editer' ,routerLink:'/core/vehicles/edit'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+
+   
     this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {

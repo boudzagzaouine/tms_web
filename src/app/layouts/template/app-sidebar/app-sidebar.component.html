@@ -1,6 +1,7 @@
 <nav class="page-sidebar">
-  <div id="sidebar-collapse" style="background-color: #222d32 !important;">
-    <ul class="side-menu metismenu fixed" style="background-color: #222d32 !important;">
+  <!-- 222d32 -->
+  <div id="sidebar-collapse" style="background-color: #2c3941 !important;">
+    <ul class="side-menu metismenu fixed" style="background-color: #2c3941 !important;">
       <li>
 
         <a class="text-white "><i class="sidebar-item-icon "><img src="./assets/img/Menu/Parametre.png" width="20px"
@@ -242,14 +243,14 @@
 
           <li>
             <a routerLink="/core/maintenance/calendar" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Calendar' | translate}}</a>
+                height="15px"> {{'Calendrier' | translate}}</a>
           </li> 
 
         </ul>
       </li>
 
       <li *hasPermission="['INSURANCE_VIEW']">
-        <a class="text-white" class="m-a"><i class="sidebar-item-icon fa ">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/assurance_auto1.png" width="20px" height="20px">
           </i>
           <span class="nav-label">{{'Assurance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
@@ -258,8 +259,10 @@
             <a routerLink="/core/settings/insurances" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Lister' | translate}} </a>
           </li>
+       
         </ul>
       </li>
+
 
       <li *hasPermission="['PURCHASEORDER_CREATE','PURCHASEORDER_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">

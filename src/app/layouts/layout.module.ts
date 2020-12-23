@@ -14,6 +14,7 @@ import { AppFooter as AppFooterComponent } from './template/app-footer/app-foote
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 
 
@@ -41,7 +42,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
      TranslateModule, 
      SharedModule,
      NgxPermissionsModule.forChild(),
-     OverlayPanelModule,TableModule
+     OverlayPanelModule,TableModule,
+     BreadcrumbModule,
 
   ],
 

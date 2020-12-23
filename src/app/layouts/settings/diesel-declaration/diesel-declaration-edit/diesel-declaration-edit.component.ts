@@ -24,7 +24,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = '';
+  title = 'Modifier déclaration Gasoil';
 
   constructor(private dieselDeclarationService: DieselDeclarationService,
     private authentificationService:AuthenticationService,
@@ -38,7 +38,7 @@ export class DieselDeclarationEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedDieselDeclaration = new DieselDeclaration();
-      this.title = 'Ajouter ';
+      this.title = 'Ajouter déclaration Gasoil';
       this.editModee=false;
       this.dieselDeclarationService.generateCode().subscribe(
         code => {

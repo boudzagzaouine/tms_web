@@ -33,7 +33,6 @@ export class DriverEditComponent implements OnInit {
   idDriver: number;
   badgeDriverListEdited: BadgeTypeDriver[] = [];
   commissionDriverListEdited: CommissionDriver[] = [];
-  items: MenuItem[];
   searchQuery = '';
   commissionForm: FormGroup;
   badgeForm: FormGroup;
@@ -49,7 +48,9 @@ export class DriverEditComponent implements OnInit {
   editMode: boolean;
   subscriptions= new Subscription ();
 
-
+  items: MenuItem[];
+    
+  home: MenuItem;
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
     private badgeTypeDriverService : BadgeTypeDriverService,
@@ -63,6 +64,13 @@ export class DriverEditComponent implements OnInit {
 
   ngOnInit() {
 
+    this.items = [
+      {label: 'Chauffeur'},
+      {label: 'Editer'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
 
     this.fr = {

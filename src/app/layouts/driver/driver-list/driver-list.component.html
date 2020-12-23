@@ -1,8 +1,9 @@
-<br />
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
     <div class="row">
-       <div class="col-md-3">
+       <div class="col-md-2">
         <label class="font-weight-bold ">{{"Code" | translate}}</label><br />
         <p-autoComplete
         [(ngModel)]="codeSearch"
@@ -10,7 +11,7 @@
         (completeMethod)="ondriverCodeSearch($event)"
       ></p-autoComplete>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold"> {{"Cin" | translate}}</label><br />
 
         <input type="text" pInputText [(ngModel)]="cinSearch" />
@@ -18,7 +19,7 @@
 
 
 
-      <div class="col-md-3 ">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{"Badge" | translate}}</label><br />
         <p-dropdown
           [options]="badgesTypeList"

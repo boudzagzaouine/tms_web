@@ -29,7 +29,7 @@
 }
 
 .border-top-primary {
-    border-top: #3c8dbc 2px solid !important;
+    border-top: #2196F3  2px solid !important;
 }
 
 .border-top-secondary {
@@ -123,6 +123,19 @@ p-autocomplete {
   color: #ffffff;
 
 }
+.p-breadcrumb{
+  margin-top: -0.7rem!important;
+  margin-bottom: 0.2rem!important;
+  padding: 0.2rem;
+}
+.p-disabled, .p-component:disabled {
+  opacity: 1;
+  background-color: #f3f6f7;
+}
+.p-dialog .p-dialog-footer .p-button-icon-only{
+
+  width: 3rem !important;
+}
 .p-dialog{
   width: 30em;
 }
@@ -130,6 +143,9 @@ p-autocomplete {
 //   width: 30em;
 // }
 
+.p-datepicker td>span{
+  display: initial !important;
+}
 .ui-state-disabled, .ui-widget:disabled {
     opacity: 100 !important;
 }

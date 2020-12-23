@@ -27,6 +27,7 @@ import { CommonModule } from '@angular/common';
 import { StockRoutingModule } from './stock-routing.module';
 import { StockComponent } from './stock.component';
 import { StockEditComponent } from './stock-edit/stock-edit.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { StockEditComponent } from './stock-edit/stock-edit.component';
     SplitButtonModule,
     DialogModule,
   PaginatorModule,
-  FieldsetModule
+  FieldsetModule,
+  BreadcrumbModule
   ]
 })
 export class StockModule { }

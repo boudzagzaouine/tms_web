@@ -22,6 +22,7 @@ import { MachineComponent } from './machine.component';
 import { MachineListComponent } from './machine-list/machine-list.component';
 import { MachineEditComponent } from './machine-edit/machine-edit.component';
 import { MachineInsuranceEditComponent } from './machine-edit/machine-insurance-edit/machine-insurance-edit.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 
 @NgModule({
@@ -47,7 +48,9 @@ import { MachineInsuranceEditComponent } from './machine-edit/machine-insurance-
     ConfirmDialogModule,
     ContextMenuModule,
     StepsModule,
-    PanelModule
+    PanelModule,
+    BreadcrumbModule,
+
   ]
 })
 export class MachineModule { }

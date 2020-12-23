@@ -24,6 +24,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
 import { AuthenticationService, MaintenancePlanService } from './../../../shared/services';
 import { MaintenancePlan } from './../../../shared/models';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-machine-edit',
@@ -60,7 +61,9 @@ export class MachineEditComponent implements OnInit {
   isFormSubmitted = false;
   maintenancePlanList: MaintenancePlan[] = [];
   machineMotherList: Machine[] = [];
-
+  items: MenuItem[];
+    
+  home: MenuItem;
   fr: any;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -81,6 +84,15 @@ export class MachineEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Machine'},
+      {label: 'Editer'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+
     this.fr = {
       firstDayOfWeek: 1,
       dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],

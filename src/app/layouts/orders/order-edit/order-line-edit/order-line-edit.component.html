@@ -31,7 +31,7 @@ showEffect="fade"
                 </div>
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold"> {{'Statut' | translate}}</label>
-                  <input type="text" class="form-control mb-2"   pInputText formControlName="status"
+                  <input type="text" class="mb-2"   pInputText formControlName="status"
                   >
 
               </div>
@@ -71,7 +71,7 @@ showEffect="fade"
                       style="color: red; font-size: xx-small;">
                       {{"Obligatoire" | translate}}
                     </span>
-                    <input pInputText type="text" class="form-control mb-2" formControlName="quantity"
+                    <input pInputText type="text" class=" mb-2" formControlName="quantity"
                      (keyup)="onNumberChanged()"
                        >
                 </div>
@@ -79,7 +79,7 @@ showEffect="fade"
             <div class="row  mt-3 justify-content-around">
               <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'UOM' | translate}}</label>
-                    <input  type="text" class="form-control" pInputText formControlName="pdtPack" *ngIf="editMode" />
+                    <input  type="text" class="mn-2" pInputText formControlName="pdtPack" *ngIf="editMode" />
                     <p-dropdown   formControlName="pdtPack"
                     class="w-100" [options]="productPackList"
                         optionLabel="uom.code" [autoDisplayFirst]="true" *ngIf="!editMode" >
@@ -92,7 +92,7 @@ showEffect="fade"
                     <label class="font-weight-bold">{{'Total HT' | translate}}</label>
                     <!-- <input type="text" class="form-control mb-2" formControlName="totalHT"> -->
 
-                      <input type="text" pInputText   class="form-control mb-2" formControlName="totalHT">
+                      <input type="text" pInputText   class="mb-2" formControlName="totalHT">
 
                 </div>
             </div>
@@ -101,7 +101,7 @@ showEffect="fade"
               <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'VAT' | translate}}</label>
                     <input type="text" pInputText class=" mb-2"
-                    formControlName="vat" class="form-control"  [attr.disabled]="true">
+                    formControlName="vat" class="mb-2"  [attr.disabled]="true">
                 </div>
 
 
@@ -111,7 +111,7 @@ showEffect="fade"
                     > -->
 
              
-                      <input type="text" pInputText class="form-control mb-2" formControlName="totalTTC">
+                      <input type="text" pInputText class=" mb-2" formControlName="totalTTC">
 
                     
 
@@ -137,14 +137,14 @@ showEffect="fade"
   type="button"
   pButton
   (click)="onShowDialog()"
-  class="ui-button-primary"
+  class="p-button-primary"
   label="{{'Annuler' | translate }}"
 ></button>
 <button
     type="button"
     pButton
     (click)="onSubmit()"
-    class="ui-button-success"
+    class="p-button-success"
     label="{{ 'Valider' | translate }}"
   ></button>
 </div>

@@ -25,6 +25,7 @@ import { BadgeDriverEditComponent } from './driver-edit/badge-driver-edit/badge-
 import { DriverCommissionEditComponent } from './driver-edit/driver-commission-edit/driver-commission-edit.component';
 import { DriverBadgeEditComponent } from './driver-edit/driver-badge-edit/driver-badge-edit.component';
 import { DialogModule } from 'primeng/dialog';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 
 
@@ -50,7 +51,9 @@ import { DialogModule } from 'primeng/dialog';
      NgbModalModule,
      TabViewModule,
      PanelModule,
-     DialogModule
+     DialogModule,
+     BreadcrumbModule,
+
 
 
   ]

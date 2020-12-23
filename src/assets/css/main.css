@@ -210,7 +210,8 @@ pre code {
 
 .btn-primary {
   color: #fff;
-  background-color: #2196F3;
+  /* 2196F3 */
+  background-color: #4084bd;
   border-color: #2196F3;
 }
 .btn-primary:focus,
@@ -230,7 +231,7 @@ pre code {
 
 .btn-success {
   color: #fff;
-  background-color: #27ad60;
+  background-color: #3caea3;
   border-color: #27ad60;
 }
 .btn-success:focus,
@@ -4150,7 +4151,7 @@ a.text-danger:focus {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 56px;
+  height: 45px;
   position: relative;
   background-color: #fff;
   margin: 0;
@@ -4336,8 +4337,8 @@ a.text-danger:focus {
   width: 220px;
   min-height: 100%;
   position: fixed;
-  top: 0;
-  margin-top: 50px;
+  /* top: -11px; */
+  margin-top: 40px;
   padding-top: 10px;
   -webkit-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
@@ -4813,7 +4814,8 @@ body.has-backdrop .backdrop {
 }
 
 .page-sidebar {
-  background-color: #222d32;
+  /* 222d32 */
+  background-color: #2c3941;
 }
 .page-sidebar .admin-block .admin-info {
   color: #fff;

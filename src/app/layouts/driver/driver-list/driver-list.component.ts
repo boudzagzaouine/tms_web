@@ -13,7 +13,7 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -46,7 +46,9 @@ export class DriverListComponent implements OnInit {
   titleList = 'Liste des chauffeurs';
   subscriptions= new Subscription ();
 
-
+  items: MenuItem[];
+    
+  home: MenuItem;
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
     private badgeTypeService: BadgeTypeService,
@@ -57,6 +59,15 @@ export class DriverListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Chauffeur'},
+      {label: 'Lister'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+
     this.className = Driver.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },

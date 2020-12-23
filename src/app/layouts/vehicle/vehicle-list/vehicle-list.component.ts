@@ -11,7 +11,7 @@ import { Vehicle } from './../../../shared/models/vehicle';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeTypeService } from './../../../shared/services/api/badge-type.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { VehicleService } from './../../../shared/services';
@@ -52,7 +52,9 @@ export class VehicleListComponent implements OnInit {
   showDialog: boolean;
   vehicleExportList: Array<Vehicle> = [];
   subscriptions= new Subscription ();
-
+  items: MenuItem[];
+    
+  home: MenuItem;
 
   constructor(private vehicleService: VehicleService,
     private patrimonyService: PatrimonyService,
@@ -68,6 +70,14 @@ export class VehicleListComponent implements OnInit {
 
   ngOnInit() {
 
+    this.items = [
+      {label: 'Véhicule'},
+      {label: 'Lister',routerLink:'/core/vehicles/list'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+    
     this.className = Vehicle.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },

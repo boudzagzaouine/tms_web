@@ -5,7 +5,7 @@ import { ContractType } from './../../../shared/models/contract-type';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { ContractTypeService } from './../../../shared/services/api/contract-type.service';
 import { Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MachineService } from './../../../shared/services/api/machine.service';
@@ -44,6 +44,9 @@ export class MachineListComponent implements OnInit {
   titleList = 'Liste des Machines';
   subscriptions= new Subscription();
 
+  items: MenuItem[];
+    
+  home: MenuItem;
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
     private patrimonyService : PatrimonyService,
@@ -56,6 +59,14 @@ export class MachineListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Machine'},
+      {label: 'Lister'},
+   
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
     this.className = Machine.name;
     this.cols = [

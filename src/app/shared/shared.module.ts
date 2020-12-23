@@ -103,6 +103,7 @@ import { DieselDeclarationService } from './services/api/dieselDeclaration.servi
 import { ConditionalTypeService } from './services/api/conditional-type.service';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HasPermissionDirective } from './directive/hasPermission.directive';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 
 @NgModule({
@@ -134,7 +135,7 @@ import { HasPermissionDirective } from './directive/hasPermission.directive';
     FieldsetModule,
     RadioButtonModule,
     NgxPermissionsModule.forChild(),
-
+    BreadcrumbModule
   ],
   exports: [
     DataTableComponent,NgxPermissionsModule,HasPermissionDirective

@@ -6,6 +6,8 @@
   <br>
   <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
 
+
+
   <div style="height: 50vh;">
     <div class="modal-body">
       <div class="card-body">
@@ -338,6 +340,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </form>
 
@@ -345,23 +348,34 @@
       </div>
     </div>
   </div>
-  <div>
-    <div *ngIf="!(this.activeIndex==0)" class="row pull-left m-2">
-      <button type="button" pButton icon="fa fa-chevron-left" (click)="openPrev()"></button>
-    </div>
 
 
-    <div *ngIf="!(this.activeIndex==2)" class="row pull-right m-2">
-      <button type="button" pButton icon="fa fa-chevron-right" (click)="openNext()"></button>
-    </div>
-  </div>
+               <!-- button -->
+         
+
+
+
   <p-footer>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <div >
+      <div *ngIf="!(this.activeIndex==0)" class="row pull-left m-2">
+        <button type="button" pButton icon="fa fa-chevron-left" (click)="openPrev()"></button>
+      </div>
+  
+  
+      <div *ngIf="!(this.activeIndex==2)" class="row pull-right m-2">
+        <button type="button" pButton icon="fa fa-chevron-right" (click)="openNext()"></button>
+      </div>
+
+
+   
+    </div>
+    <div *ngIf="(this.activeIndex==2)" class="ui-dialog-buttonpane ui-helper-clearfix">
 
       <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
         label="{{'Annuler' | translate }}"></button>
       <button type="button" pButton (click)="onSubmit()" class="p-button-success"
         label="{{ 'Valider' | translate }}"></button>
     </div>
+   
   </p-footer>
 </p-dialog>

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ActionType } from './../../../../shared/models/action-type';
 import { ActionTypeService } from '../../../../shared/services/api/action-type.service';
 import { AuthenticationService } from '../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-action-type-edit',
@@ -28,6 +29,7 @@ export class ActionTypeEditComponent implements OnInit {
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -61,14 +63,18 @@ export class ActionTypeEditComponent implements OnInit {
   this.selectedActionType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.actionTypeService.set(this.selectedActionType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+        //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

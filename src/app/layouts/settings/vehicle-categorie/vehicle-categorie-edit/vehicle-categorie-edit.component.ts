@@ -7,6 +7,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class VehicleCategorieEditComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService,
   ) { }
   ngOnInit() {
@@ -47,7 +49,7 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     this.vehicleCategoryForm = new FormGroup({
       'fCode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
-      'fDescription': new FormControl(this.selectedVehicleCategory.description, Validators.required),
+      'fDescription': new FormControl(this.selectedVehicleCategory.description),
       'fLength': new FormControl((this.selectedVehicleCategory.length), Validators.required),
       'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
@@ -77,15 +79,18 @@ export class VehicleCategorieEditComponent implements OnInit {
 
     this.subscriptions.add(this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(
       data => {
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès'});
 
-        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+        //this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
 
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 

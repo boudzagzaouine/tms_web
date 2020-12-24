@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 
 import { ConditionalType } from './../../../../shared/models/contional-Type';
@@ -28,6 +29,7 @@ export class ConditionalTypeEditComponent implements OnInit {
   constructor(private conditionalTypeService: ConditionalTypeService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService,
   ) { }
 
@@ -60,20 +62,22 @@ export class ConditionalTypeEditComponent implements OnInit {
     this.selectedConditionalType.code = this.conditionalTypeForm.value['code'];
     this.selectedConditionalType.description = this.conditionalTypeForm.value['description'];
  this.selectedConditionalType.owner=this.authentificationService.getDefaultOwner();
- console.log("owner");
  
- console.log(this.selectedConditionalType.owner);
  
     this.subscriptions.add( this.conditionalTypeService.set(this.selectedConditionalType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+       // this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

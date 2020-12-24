@@ -1,4 +1,4 @@
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { element } from 'protractor';
 import { Driver } from './../../../../shared/models/driver';
 import { InsuranceTypeTerms } from './../../../../shared/models/insurance-type-terms';
@@ -48,6 +48,7 @@ export class InsuranceTypeEditComponent implements OnInit {
     private insuranceTypeService: InsuranceTypeService,
     private insuranceTypeTermsService: InsuranceTypeTermsService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -116,13 +117,17 @@ export class InsuranceTypeEditComponent implements OnInit {
             });
 
         }
-        this.toastr.success('Elément Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+       // this.toastr.success('Elément Enregistré avec succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message);
         //console.log(error);
         this.spinner.hide();
       },

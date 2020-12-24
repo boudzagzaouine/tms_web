@@ -1,4 +1,4 @@
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Badge } from './../../../../shared/models/badge';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -30,6 +30,7 @@ export class BadgeTypeEditComponent implements OnInit {
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -67,14 +68,18 @@ export class BadgeTypeEditComponent implements OnInit {
  
     this.subscriptions.add( this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

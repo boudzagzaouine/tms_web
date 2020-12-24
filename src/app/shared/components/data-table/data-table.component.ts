@@ -70,13 +70,13 @@ export class DataTableComponent implements OnInit {
 
     this.items = [
      
-      {label: 'Télécharger en PDF', icon: 'pi pi-file-pdf', command: () => {
+      {label: 'En PDF', icon: 'pi pi-file-pdf', command: () => {
           this.exportPdf();
       }},
-      {label: 'Exporter EXCEL de vue', icon: 'pi pi-file-excel', command: () => {
+      {label: 'En EXCEL Vue', icon: 'pi pi-file-excel', command: () => {
         this.exportExcelVue();
      }},
-     {label: 'Exporter EXCEL Globale', icon: 'pi pi-file-excel', command: () => {
+     {label: 'En EXCEL Globale', icon: 'pi pi-file-excel', command: () => {
       this.exportExcelGlobal();
      }},
     

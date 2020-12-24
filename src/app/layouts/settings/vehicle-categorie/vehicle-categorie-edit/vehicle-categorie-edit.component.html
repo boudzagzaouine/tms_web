@@ -39,17 +39,7 @@
 
             <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{ "Description" | translate }} </label>
-              <span
-                *ngIf="
-                  (vehicleCategoryForm.get('fDescription').touched &&
-                    vehicleCategoryForm.get('fDescription').invalid) ||
-                  (isFormSubmitted && vehicleCategoryForm.get('fDescription').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small;"
-              >
-               {{ 'Obligatoire'  | translate }}
-              </span>
+             
               <br />
               <input
                 type="text"
@@ -256,3 +246,4 @@
     </div>
   </p-footer>
 </p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

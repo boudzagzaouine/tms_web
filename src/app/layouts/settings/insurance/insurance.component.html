@@ -2,18 +2,18 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{"Code"|translate}}</label><br />
         <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="insuranceCodeList"
         (completeMethod)="onCodeSearch($event)"></p-autoComplete>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{'Fournisseur' | translate}}</label><br />
         <p-autoComplete [(ngModel)]="supplierSearch" [suggestions]="supplierList"
           (completeMethod)="onSupplierearch($event)" ></p-autoComplete>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold">{{
           "Type assurance" | translate
         }}</label
@@ -27,7 +27,7 @@
       </p-dropdown>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold">{{
           "Patrimoine" | translate
         }}</label

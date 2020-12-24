@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService, ContractTypeService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-contract-type-edit',
@@ -27,7 +28,9 @@ export class ContractTypeEditComponent implements OnInit {
     private contractTypeService: ContractTypeService,
     private authentificationService :AuthenticationService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private messageService: MessageService,
+
   ) { }
 
   ngOnInit() {
@@ -57,13 +60,17 @@ export class ContractTypeEditComponent implements OnInit {
   this.selectedContractType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add(this.contractTypeService.set(this.selectedContractType).subscribe(
       data => {
-        this.toastr.success('Elément Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré avec succès'});
+
+       // this.toastr.success('Elément Enregistré avec succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message);
        
         this.spinner.hide();
       },

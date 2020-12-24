@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ConditionalType } from './../../../shared/models/contional-Type';
 import { ConditionalTypeService } from './../../../shared/services/api/conditional-type.service';
@@ -31,15 +31,25 @@ export class ConditionalTypeComponent implements OnInit {
   titleList = 'Liste des types de badges';
   conditionalTypeExportList: Array<ConditionalType> = [];
   subscriptions= new Subscription();
-
+  items: MenuItem[];
+  home: MenuItem;
   constructor(private conditionalTypeService: ConditionalTypeService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Type condition' ,routerLink:'/core/settings/conditional-type'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
     this.className = ConditionalType.name;
     this.cols = [
@@ -65,6 +75,7 @@ export class ConditionalTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -80,6 +91,8 @@ export class ConditionalTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -100,7 +113,9 @@ export class ConditionalTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+      //  this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -159,11 +174,15 @@ export class ConditionalTypeComponent implements OnInit {
           const ids = this.selectedConditionalTypes.map(x => x.id);
           this.subscriptions.add(this.conditionalTypeService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+             // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

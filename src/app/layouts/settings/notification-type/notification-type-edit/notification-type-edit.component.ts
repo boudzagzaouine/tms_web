@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
 import { NotificationType } from './../../../../shared/models/notificationType';
 import { NotificationTypeService } from './../../../../shared/services/api/notificationType.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-notification-type-edit',
@@ -28,6 +29,8 @@ export class NotificationTypeEditComponent implements OnInit {
     private athentificationService : AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService
+
   ) { }
 
   ngOnInit() {
@@ -63,14 +66,18 @@ export class NotificationTypeEditComponent implements OnInit {
     
     this.subscriptions.add( this.notificationTypeService.set(this.selectedNotificationType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+       // this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

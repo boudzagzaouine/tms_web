@@ -4,14 +4,14 @@
 <br />
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">{{ "Code" | translate }}</label
       ><br />
       <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codesuppplierList"
       (completeMethod)="onNameSearch($event)" field="code"></p-autoComplete>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">{{ "Type" | translate }}</label
       ><br />
       <p-autoComplete [(ngModel)]="ProductTypeSearch" [suggestions]="ProductTypeList"

@@ -1,12 +1,12 @@
-<br>
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <p-tabView > 
 
-  <p-tabPanel *hasPermission="['CONFIG_MAIL']" header="{{ 'configuration Mail' | translate }}" headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['CONFIG_MAIL']" header="{{ 'Configuration email' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-configMessage></app-configMessage>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['NOTIFICATION_TYPE_VIEW']" header="{{ 'Type de Notification' | translate }}" headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['NOTIFICATION_TYPE_VIEW']" header="{{ 'Type de notification' | translate }}" headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <app-notification-type></app-notification-type>
       </ng-template>

@@ -1,7 +1,8 @@
-<br />
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">{{ "Transport" | translate }}</label
       ><br />
       <p-autoComplete [(ngModel)]="transportSearch" [suggestions]="transportList"
@@ -10,7 +11,7 @@
 
 
 
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">{{
         "Catégorie de véhicule" | translate
       }}</label
@@ -77,3 +78,4 @@
   [rejectLabel]="'Non'"
 >
 </p-confirmDialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

@@ -58,7 +58,7 @@ FullCalendarModule.registerPlugins([
     AppRoutingModule,
     ToastrModule.forRoot({
       preventDuplicates: false,
-      timeOut: 700,
+      timeOut: 2000,
       autoDismiss: true,
       closeButton: true,
       maxOpened: 2,

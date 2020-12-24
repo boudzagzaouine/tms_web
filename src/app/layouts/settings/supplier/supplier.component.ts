@@ -31,6 +31,8 @@ export class SupplierComponent implements OnInit {
   supplierExportList: Array<Supplier> = [];
   titleList = 'Liste des Fournisseurs';
   subscriptions= new Subscription();
+  items: MenuItem[];
+  home: MenuItem;
 
   constructor(private supplierService: SupplierService,
     private spinner: NgxSpinnerService,
@@ -40,6 +42,12 @@ export class SupplierComponent implements OnInit {
 
   ngOnInit() {
 
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Fournisseur' ,routerLink:'/core/settings/suppliers'},
+  
+  ];
+  this.home = {icon: 'pi pi-home'};
 
     this.className = Supplier.name;
     this.cols = [

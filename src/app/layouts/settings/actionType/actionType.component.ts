@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ActionTypeService } from '../../../shared/services/api/action-type.service';
 import { GlobalService } from '../../../shared/services/api/global.service';
@@ -32,14 +32,26 @@ export class ActionTypeComponent implements OnInit {
   actionTypeExportList: Array<ActionType> = [];
   subscriptions= new Subscription();
 
+  items: MenuItem[];
+  home: MenuItem;
+  
   constructor(private actionTypeService: ActionTypeService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Type action' ,routerLink:'/core/settings/action-type'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
     this.className = ActionType.name;
     this.cols = [
@@ -65,6 +77,8 @@ export class ActionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -80,6 +94,8 @@ export class ActionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -101,7 +117,9 @@ export class ActionTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        ///this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -160,11 +178,15 @@ export class ActionTypeComponent implements OnInit {
           const ids = this.selectedActionTypes.map(x => x.id);
           this.subscriptions.add(this.actionTypeService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+              // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

@@ -88,7 +88,8 @@
               <br />
               <input
                 type="text"
-                class="form-control"
+                
+                pKeyFilter="num"
                 pInputText
                 formControlName="fQuantity"
                 (keydown.space)="$event.preventDefault()"
@@ -118,3 +119,4 @@
     </div>
   </p-footer>
 </p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

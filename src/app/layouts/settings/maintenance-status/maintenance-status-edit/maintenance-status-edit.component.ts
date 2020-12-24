@@ -8,6 +8,7 @@ import { MaintenanceState } from './../../../../shared/models/maintenance-state'
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-maintenance-status-edit',
@@ -30,6 +31,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
     private authentificationService : AuthenticationService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -58,13 +60,16 @@ export class MaintenanceStatusEditComponent implements OnInit {
     console.log(this.selectedMaintenanceState);
     this.subscriptions.add(this.maintenanceStateService.set(this.selectedMaintenanceState).subscribe(
       data => {
-        this.toastr.success('Elément est enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est enregistré avec succès'});
+        //this.toastr.success('Elément est enregistré avec succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message);
         console.log(error);
         this.spinner.hide();
       },

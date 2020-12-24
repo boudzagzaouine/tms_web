@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-menu-vehicle',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuVehicleComponent implements OnInit {
 
+  items: MenuItem[];
+  home: MenuItem;
+
   constructor() { }
 
   ngOnInit() {
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Véhicule' ,routerLink:'/core/settings/menu-vehicle'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+
   }
 
 }

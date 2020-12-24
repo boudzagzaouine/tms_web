@@ -1,7 +1,7 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { BadgeType } from './../../../shared/models/badge-Type';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem, ConfirmationService, PrimeNGConfig } from 'primeng/api';
+import { MenuItem, ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
@@ -38,7 +38,8 @@ export class BadgeTypeComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -102,7 +103,9 @@ export class BadgeTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+      //  this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -161,11 +164,15 @@ export class BadgeTypeComponent implements OnInit {
           const ids = this.selectedBadgeTypes.map(x => x.id);
           this.subscriptions.add(this.badgeTypeService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

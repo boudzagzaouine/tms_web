@@ -4,7 +4,7 @@ import { VehicleCategoryService } from './../../../shared/services/api/vehicle-c
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -40,6 +40,7 @@ export class VehicleCategorieComponent implements OnInit {
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
   ) { }
 
@@ -75,7 +76,9 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -101,6 +104,8 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -117,6 +122,8 @@ export class VehicleCategorieComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -171,11 +178,15 @@ export class VehicleCategorieComponent implements OnInit {
           const ids = this.selectedVehicleCategories.map(x => x.id);
           this.subscriptions.add(this.vehicleCategorieService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+              // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+              // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

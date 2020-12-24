@@ -6,7 +6,7 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { TransportCategoryVehicle } from './../../../shared/models/transport-category-vehicle';
 import { Component, OnInit } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
@@ -37,7 +37,8 @@ export class TransportCategoryVehicleComponent implements OnInit {
   transportCategoryVehicleExportList: Array<VehicleCategory> = [];
   titleList= 'Liste des catégories de transport';
   subscriptions= new Subscription();
-
+  items: MenuItem[];
+  home: MenuItem;
 
   constructor(private transportCategoryVehicleService: TransportCategoryVehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -45,10 +46,18 @@ export class TransportCategoryVehicleComponent implements OnInit {
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
 
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Catégorie Transport' ,routerLink:'/core/settings/transport-category-vehicle'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
     this.className = TransportCategoryVehicle.name;
     this.cols = [
@@ -88,6 +97,8 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -103,6 +114,8 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -125,7 +138,9 @@ export class TransportCategoryVehicleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -190,11 +205,15 @@ export class TransportCategoryVehicleComponent implements OnInit {
           const ids = this.selectTransportCatVehicles.map(x => x.id);
           this.subscriptions.add(this.transportCategoryVehicleService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+              //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

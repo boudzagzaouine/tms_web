@@ -112,13 +112,25 @@ p-autocomplete {
 }
 
 .p-button.p-button-success{
-  background-color: #27ad60;
+  background-color: #3caea3;
+  border-color: #48aaa0;
 }
 .p-dialog .p-dialog-header{
   background-color: #3c8dbc;
   color: white;
 }
-
+.p-button.p-button-success:enabled:active, .p-buttonset.p-button-success 
+> .p-button:enabled:active, .p-splitbutton.p-button-success > .p-button:enabled:active {
+  background: #3caea3;
+  color: #ffffff;
+  border-color: #3caea3;
+}
+.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success 
+> .p-button:enabled:hover, .p-splitbutton.p-button-success > .p-button:enabled:hover {
+  background: #20c997;
+  color: #ffffff;
+  border-color: #20c997;
+}
 .p-dialog .p-dialog-header .p-dialog-header-icon{
   color: #ffffff;
 
@@ -127,6 +139,8 @@ p-autocomplete {
   margin-top: -0.7rem!important;
   margin-bottom: 0.2rem!important;
   padding: 0.2rem;
+  background: #f1f1f1;
+  border: 1px solid #f1f1f1;
 }
 .p-disabled, .p-component:disabled {
   opacity: 1;
@@ -136,12 +150,37 @@ p-autocomplete {
 
   width: 3rem !important;
 }
+.p-button:enabled:active {
+  background:#4084bd;
+  color: #ffffff;
+  border-color: #2196F3;
+}
+.p-button{
+  background:#4084bd;
+  color: #ffffff;
+  border-color: #2196F3;
+}
 .p-dialog{
   width: 30em;
 }
 // .p-confirmdialog {
 //   width: 30em;
 // }
+
+.p-button.p-button-secondary, .p-buttonset.p-button-secondary 
+> .p-button, .p-splitbutton.p-button-secondary > .p-button{
+ 
+  background: #fbfeff;
+  color: #020202;
+  border-color: #ced4da
+}
+.p-button.p-button-secondary:enabled:hover, .p-buttonset.p-button-secondary 
+> .p-button:enabled:hover, .p-splitbutton.p-button-secondary > .p-button:enabled:hover {
+  background: #ffffff;
+  color: #101010;
+  border-color: #56717d;
+}
+
 
 .p-datepicker td>span{
   display: initial !important;

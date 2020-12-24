@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TemplateService } from './../../../shared/services/api/template.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class ConfigMessageComponent implements OnInit {
   constructor(private notificationTypeService:NotificationTypeService,
               private authentificationService : AuthenticationService,
                private templateService : TemplateService,
-               private toastr: ToastrService,) { }
+               private toastr: ToastrService,
+               private messageService: MessageService) { }
 
   ngOnInit() {
 
@@ -65,13 +67,15 @@ export class ConfigMessageComponent implements OnInit {
   this.templateService.set(this.selectedTemplate).subscribe(
 
     data=>{
-      this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+      this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+      //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
 
     }
 
   );
 
-    console.log(this.selectedTemplate);
+
     
   }
 
@@ -89,9 +93,14 @@ this.selectedNotificationType=event.value
        this.subject=this.selectedTemplate.subject;
        this.texte=this.selectedTemplate.text;
        //this.initForm();
-     }
-   );
-   console.log(this.sender);
+     },
+     error => {
+      this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+      //this.toastr.error(error.error.message, 'Erreur');
+    },
+  );
+
+  
 
   }
 }

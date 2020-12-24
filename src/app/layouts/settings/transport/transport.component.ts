@@ -1,7 +1,7 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Transport } from './../../../shared/models/transport';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
@@ -31,7 +31,8 @@ export class TransportComponent implements OnInit {
   transportExportList: Array<Transport> = [];
   titleList = 'Liste des Transports';
   subscriptions= new Subscription();
-
+  items: MenuItem[];
+  home: MenuItem;
   constructor(private tranportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private globalService : GlobalService,
@@ -41,6 +42,14 @@ export class TransportComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Transport' ,routerLink:'/core/settings/transport'},
+  
+  ];
+  this.home = {icon: 'pi pi-home'};
+
 
     this.className = Transport.name;
     this.cols = [

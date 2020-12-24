@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-consumption-type-edit',
@@ -28,6 +29,8 @@ export class ConsumptionTypeEditComponent implements OnInit {
     private consumptionTypeService: ConsumptionTypeService,
     private auhtentificationService:AuthenticationService,
     private toastr: ToastrService,
+    private messageService: MessageService,
+
     private spinner: NgxSpinnerService) { }
 
 
@@ -60,14 +63,17 @@ export class ConsumptionTypeEditComponent implements OnInit {
   this.selectedConsumptionType.owner=this.auhtentificationService.getDefaultOwner();
     this.subscriptions.add( this.consumptionTypeService.set(this.selectedConsumptionType).subscribe(
       data => {
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
 
-        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+     //   this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+ 
+        //this.toastr.error(error.error.message);
 
         this.spinner.hide();
       },

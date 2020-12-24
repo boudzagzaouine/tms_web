@@ -9,13 +9,19 @@ import { Component, OnInit } from '@angular/core';
 export class MenuInsuranceComponent implements OnInit {
 
   items: MenuItem[];
-  activeItem: MenuItem;
+  home: MenuItem;
 
 
   constructor() { }
 
   ngOnInit() {
-
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Assurance' ,routerLink:'/core/settings/menu-insurance'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
 
   }
 

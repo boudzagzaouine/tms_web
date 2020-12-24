@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
@@ -42,7 +42,8 @@ export class CatalogTransportTypeComponent implements OnInit {
   className: string;
   titleList = 'Liste des trajets';
   catalogTransportTypeExportList: Array<CatalogTransportType> = [];
-
+  items: MenuItem[];
+  home: MenuItem;
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -51,10 +52,21 @@ export class CatalogTransportTypeComponent implements OnInit {
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
+
     private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
+
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Catégorie Transport' ,routerLink:'/core/settings/path'},
+  
+  ];
+  
+  this.home = {icon: 'pi pi-home'};
+
     this.className = CatalogTransportType.name;
     this.cols = [
       {
@@ -119,7 +131,9 @@ export class CatalogTransportTypeComponent implements OnInit {
         },
         error => {
           this.spinner.hide();
-          this.toastr.error(error.err.message + 'Erreur de connexion');
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+         // this.toastr.error(error.err.message + 'Erreur de connexion');
         },
         () => this.spinner.hide()
       );
@@ -150,6 +164,7 @@ export class CatalogTransportTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -168,6 +183,8 @@ export class CatalogTransportTypeComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -247,14 +264,18 @@ export class CatalogTransportTypeComponent implements OnInit {
           const ids = this.selectCatalogTransportTypes.map(x => x.id);
           this.catalogTransportTypeService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success(
-                'Elément Supprimer avec Succés',
-                'Suppression'
-              );
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+              // this.toastr.success(
+              //   'Elément Supprimer avec Succés',
+              //   'Suppression'
+              // );
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+              //this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           );

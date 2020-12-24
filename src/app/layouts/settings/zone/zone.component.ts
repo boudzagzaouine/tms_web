@@ -1,6 +1,6 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ZoneServcie } from './../../../shared/services/api/zone.service';
@@ -31,7 +31,8 @@ export class ZoneComponent implements OnInit {
   zoneExportList: Array<Zone> = [];
   titleList = 'Liste des zones';
   subscriptions= new Subscription();
-
+  items: MenuItem[];
+  home: MenuItem;
   constructor(private zoneService: ZoneServcie,
     private spinner: NgxSpinnerService,
     private globalService :GlobalService,
@@ -40,6 +41,13 @@ export class ZoneComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Zone' ,routerLink:'/core/settings/zone'},
+  
+  ];
+  this.home = {icon: 'pi pi-home'};
+
 
     this.className = Zone.name;
     this.cols = [

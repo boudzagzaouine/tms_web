@@ -7,6 +7,7 @@ import { MaintenanceType } from './../../../../shared/models/maintenance-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-maintenance-type-edit',
@@ -28,6 +29,7 @@ export class MaintenanceTypeEditComponent implements OnInit {
   constructor(private maintenanceTypeService: MaintenanceTypeService,
    private authentificationservice:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -53,15 +55,18 @@ export class MaintenanceTypeEditComponent implements OnInit {
   this.selectedMaintenanceType.owner=this.authentificationservice.getDefaultOwner();
     this.subscriptions.add(this.maintenanceTypeService.set(this.selectedMaintenanceType).subscribe(
       data => {
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
 
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message );
-        console.log(error);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message );
+       // console.log(error);
         this.spinner.hide();
       },
 

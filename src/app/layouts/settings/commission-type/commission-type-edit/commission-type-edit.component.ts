@@ -1,4 +1,4 @@
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { CommissionTypeService } from './../../../../shared/services/api/commisionType.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
@@ -30,6 +30,7 @@ export class CommissionTypeEditComponent implements OnInit {
     private authentificationService :AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -69,13 +70,17 @@ export class CommissionTypeEditComponent implements OnInit {
   this.selectedCommissionType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add(this.commissionTypeService.set(this.selectedCommissionType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+       // this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

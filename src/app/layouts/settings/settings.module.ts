@@ -92,6 +92,8 @@ import { MenuNotificationComponent } from './menu-notification/menu-notification
 import { NotificationTypeEditComponent } from './notification-type/notification-type-edit/notification-type-edit.component';
 import { ConditionalTypeComponent } from './conditional-type/conditional-type.component';
 import { ConditionalTypeEditComponent } from './conditional-type/conditional-type-edit/conditional-type-edit.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import {ToastModule} from 'primeng/toast';
 
 
 
@@ -190,7 +192,8 @@ import { ConditionalTypeEditComponent } from './conditional-type/conditional-typ
   InputNumberModule,
   ProgressBarModule,
   EditorModule,
-
+  BreadcrumbModule,
+  ToastModule,
   NgxPermissionsModule.forChild(),
 
   ]

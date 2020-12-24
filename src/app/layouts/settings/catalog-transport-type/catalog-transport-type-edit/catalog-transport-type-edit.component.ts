@@ -15,6 +15,7 @@ import { CatalogTransportTypeServcie } from './../../../../shared/services/api/C
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -51,6 +52,8 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     private zoneService: ZoneServcie,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
+
     ) { }
 
   ngOnInit() {
@@ -128,7 +131,9 @@ export class CatalogTransportTypeEditComponent implements OnInit {
       data => {
 
         if (data > 0) {
-          this.toastr.error('Elément Existe Déja', 'Edition');
+          this.messageService.add({severity:'error', summary: 'Edition', detail: 'Elément Existe Déja'});
+
+          //this.toastr.error('Elément Existe Déja', 'Edition');
         } else {
           this.insertcatalogTransport();
         }
@@ -136,7 +141,8 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+       // this.toastr.error(error.error.message, 'Erreur');
+       this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
 
 
         this.spinner.hide();
@@ -158,13 +164,17 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
     this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
-        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
+
+        //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 

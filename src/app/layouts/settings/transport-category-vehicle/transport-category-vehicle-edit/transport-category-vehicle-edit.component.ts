@@ -11,6 +11,7 @@ import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -97,7 +99,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
       data => {
 
         if (data > 0) {
-          this.toastr.error('Elément Existe Déja', 'Edition');
+          this.messageService.add({severity:'error', summary: 'Edition', detail: 'Elément Existe Déja'});
+
+         // this.toastr.error('Elément Existe Déja', 'Edition');
         } else {
 
           this.insertTransportCategorieVehicule();
@@ -106,7 +110,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
 
         this.spinner.hide();
       },
@@ -123,13 +129,17 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
 
     this.subscriptions.add( this.transportCatVehicleService.set(this.selectTransportCatVehicle).subscribe(
       data => {
-        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
+
+        //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message);
 
         this.spinner.hide();
       },

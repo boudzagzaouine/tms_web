@@ -7,7 +7,6 @@
   [modal]="true"
   [style]="{ width: '800px' }"
   (onHide)="onShowDialog()"
-  [position]="'right'"
 >
   <div>
     <div class="modal-body">
@@ -126,3 +125,4 @@
     </div>
   </p-footer>
 </p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

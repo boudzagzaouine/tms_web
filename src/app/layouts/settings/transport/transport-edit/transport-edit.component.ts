@@ -8,6 +8,7 @@ import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-transport-edit',
@@ -30,6 +31,7 @@ export class TransportEditComponent implements OnInit {
     private authentificationService:AuthenticationService,
     private addressService: AddressService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
     private toastr: ToastrService
   ) { }
 
@@ -106,13 +108,17 @@ export class TransportEditComponent implements OnInit {
 
       this.transportService.set(this.selectedtransport).subscribe(
         data => {
-          this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+          this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+          //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
           this.displayDialog = false;
           this.isFormSubmitted = false;
           this.spinner.hide();
         },
         error => {
-          this.toastr.error(error.error.message, 'Erreur');
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+          //this.toastr.error(error.error.message, 'Erreur');
           this.spinner.hide();
         },
         () => this.spinner.hide()

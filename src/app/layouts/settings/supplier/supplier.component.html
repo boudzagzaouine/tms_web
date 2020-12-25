@@ -6,9 +6,14 @@
       <label class="font-weight-bold">{{ "Code" | translate }}</label
       ><br />
       <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codesuppplierList"
+      (completeMethod)="onCodeSearch($event)"></p-autoComplete>
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Nom" | translate }}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameSuppplierList"
       (completeMethod)="onNameSearch($event)"></p-autoComplete>
     </div>
-
   </div>
   <br />
 
@@ -68,5 +73,6 @@
 
 
 
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 
 

@@ -9,6 +9,7 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { Supplier } from '../../../../shared/models';
 import { AuthenticationService, SupplierService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -38,6 +39,8 @@ export class SupplierEditComponent implements OnInit {
     private addressService :AddressService,
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private messageService: MessageService,
+
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -120,14 +123,18 @@ export class SupplierEditComponent implements OnInit {
 
     this.subscriptions.add( this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
-        this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
+
+        //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
 
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 

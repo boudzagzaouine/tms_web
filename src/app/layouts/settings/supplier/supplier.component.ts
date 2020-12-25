@@ -2,7 +2,7 @@ import { GlobalService } from './../../../shared/services/api/global.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { Supplier } from './../../../shared/models/supplier';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from '../../../shared/utils';
@@ -21,9 +21,13 @@ export class SupplierComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  nameSearch: string;
+
   selectSuppliers: Array<Supplier> = [];
   suppplierList: Array<Supplier> = [];
   codesuppplierList: Array<Supplier> = [];
+  nameSuppplierList: Array<Supplier> = [];
+
   cols: any[];
   showDialog: boolean;
   editMode: number;
@@ -38,6 +42,7 @@ export class SupplierComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -85,7 +90,9 @@ export class SupplierComponent implements OnInit {
       },
       error => {
         this.spinner.hide();
-        this.toastr.error(error.err.message + 'Erreur de connexion');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.err.message + 'Erreur de connexion');
       },
       () => this.spinner.hide()
     ));
@@ -94,9 +101,14 @@ export class SupplierComponent implements OnInit {
     this.page = event.first / this.size;
     this.loadData();
   }
-  onNameSearch(event: any) {
+  onCodeSearch(event: any) {
     this.subscriptions.add(this.supplierService.find('code~' + event.query).subscribe(
       data => this.codesuppplierList = data.map(f => f.code)
+    ));
+  }
+  onNameSearch(event: any) {
+    this.subscriptions.add(this.supplierService.find('contact.name~' + event.query).subscribe(
+      data => this.nameSuppplierList = data.map(f => f.contact.name)
     ));
   }
 
@@ -114,6 +126,8 @@ export class SupplierComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -129,6 +143,8 @@ export class SupplierComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -143,6 +159,9 @@ export class SupplierComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
+    if (this.nameSearch != null && this.nameSearch !== '') {
+      buffer.append(`contact.name~${this.nameSearch}`);
+    }
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -156,6 +175,8 @@ export class SupplierComponent implements OnInit {
 
     this.page = 0;
     this.searchQuery = '';
+    this.codeSearch='';
+    this.nameSearch='';
     this.loadData();
   }
 
@@ -185,11 +206,15 @@ export class SupplierComponent implements OnInit {
           const ids = this.selectSuppliers.map(x => x.id);
           this.subscriptions.add(this.supplierService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+             // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

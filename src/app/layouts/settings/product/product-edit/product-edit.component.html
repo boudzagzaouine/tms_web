@@ -116,7 +116,10 @@
           {{"Obligatoire" | translate }}
         </span>
             <br />
-            <p-dropdown   formControlName="vat"
+            <p-dropdown  
+            [autoDisplayFirst]="false" 
+
+            formControlName="vat"
              class="w-100" [options]="vats" [showClear]="true"
             (onChange)="onSelectVat($event)" optionLabel="value"
             [filter]="true"  
@@ -205,4 +208,5 @@
   </div>
 </p-footer>
 </p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 

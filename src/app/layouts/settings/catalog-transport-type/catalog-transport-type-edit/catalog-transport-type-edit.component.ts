@@ -36,6 +36,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   transportList: Transport[] = [];
   zoneList: Zone[] = [];
   vatList: Vat[] = [];
+  vat = new Vat();
   displayDialog: boolean;
   isFormSubmitted = false;
   title = 'Modifier un Trajet';
@@ -76,6 +77,10 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.vatService.findAll().subscribe(
       data => {
         this.vatList = data;
+        console.log("List Vat");
+        
+        console.log(this.vatList);
+        
       }
     );
     if (this.editMode === 1) {
@@ -99,7 +104,11 @@ export class CatalogTransportTypeEditComponent implements OnInit {
       'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
       'fZoneSource': new FormControl(this.selectCatalogTransportType.zoneSource, Validators.required),
       'fZoneDestination': new FormControl(this.selectCatalogTransportType.zoneDestination, Validators.required),
-      'fVat': new FormControl(this.selectCatalogTransportType.vat, Validators.required)
+      'fVat': new FormControl(
+      
+         this.editMode!=1 ?this.selectCatalogTransportType.vat.value:this.selectCatalogTransportType.vat,
+       
+         Validators.required)
 
 
     });
@@ -129,6 +138,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   existTransport() {
     this.catalogTransportTypeService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle},zoneSource.code~${this.zoneSource},zoneDestination.code~${this.zoneDestination}`).subscribe(
       data => {
+console.log(data);
 
         if (data > 0) {
           this.messageService.add({severity:'error', summary: 'Edition', detail: 'Elément Existe Déja'});
@@ -158,14 +168,17 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
     this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
     this.selectCatalogTransportType.transport = this.transportCatVehicleForm.value['fTransport'];
-    this.selectCatalogTransportType.zoneDestination = this.transportCatVehicleForm.value['fZoneSource'];
-    this.selectCatalogTransportType.zoneSource = this.transportCatVehicleForm.value['fZoneDestination'];
-    this.selectCatalogTransportType.vat = this.transportCatVehicleForm.value['fVat'];
+    this.selectCatalogTransportType.zoneDestination = this.transportCatVehicleForm.value['fZoneDestination'];
+    this.selectCatalogTransportType.zoneSource = this.transportCatVehicleForm.value['fZoneSource'];
+    this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];;
     this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
+    console.log(this.selectCatalogTransportType);
+
     this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
       data => {
         this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
-
+ console.log(this.selectCatalogTransportType);
+ 
         //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
@@ -201,8 +214,9 @@ export class CatalogTransportTypeEditComponent implements OnInit {
       .subscribe(data => (this.zoneList = data));
   }
 
-  onSelectVat(event: any) {
-    this.selectCatalogTransportType.vat = event.value;
+  onSelectVat(event) {
+  
+    this.vat= this.vatList.filter(f=> f.value== event.value)[0];
     this.onPriceChange(1);
   }
   onSelectZoneSource(event: any) {
@@ -218,76 +232,36 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
 
 
-  // onPriceHtChange() {
 
-
-  //   const priceHt = +this.transportCatVehicleForm.value['fAmountHt'];
-
-  //   let vat = 0;
-  //   if (this.selectCatalogTransportType.vat != null) {
-  //     vat = this.selectCatalogTransportType.vat.value;
-  //   }
-  //   const amountTva = (priceHt / 100) * vat;
-  //   const priceTTC = priceHt + amountTva;
-
-
-  //   this.selectCatalogTransportType.amountTtc = priceTTC;
-  //   this.selectCatalogTransportType.amountTva = amountTva;
-
-  //   this.transportCatVehicleForm.patchValue({
-  //     'fAmountTtc': this.selectCatalogTransportType.amountTtc.toFixed(2),
-  //     'fAmountTva': this.selectCatalogTransportType.amountTva.toFixed(2),
-  //   });
-  // }
-
-
-  // onTTCPriceChange() {
-  //   let PriceHt = +this.transportCatVehicleForm.value['fAmountHt'];
-  //   let PriceTTC = +this.transportCatVehicleForm.value['fAmountTtc'];
-  //   const vat :Vat = this.transportCatVehicleForm.value['fVat'];
-  
-  
-    
-  //   PriceHt = PriceTTC / (1 + vat.value / 100);
-  //   const amountTva = (PriceHt / 100) * vat.value;
-  //   this.selectCatalogTransportType.amountHt = PriceHt;
-  //   this.selectCatalogTransportType.amountTva = amountTva;
-
-    
-  //       this.transportCatVehicleForm.patchValue({
-  //         'fAmountHt': this.selectCatalogTransportType.amountHt.toFixed(2),
-  //         'fAmountTva':  this.selectCatalogTransportType.amountTva.toFixed(2),
-  //       });
-  
-   
-  // }
 
 
   onPriceChange(n: Number) {
     let PriceHt = +this.transportCatVehicleForm.value['fAmountHt'];
     let PriceTTC = +this.transportCatVehicleForm.value['fAmountTtc'];
-    const vat :Vat = this.transportCatVehicleForm.value['fVat'];
+    let vat = this.transportCatVehicleForm.value['fVat'];
+    console.log(vat);
     
     
     if (PriceHt === undefined || PriceHt == null) {
       PriceHt = 0;
     } if (PriceTTC === undefined || PriceTTC == null) {
       PriceTTC = 0;
-    } if (vat.value === undefined || vat.value == null) {
-      vat.value = 0;
+    } if (vat === undefined || vat == null) {
+      vat = 0;
     }
   
     if (n === 1) {
-      const amountTva = (PriceHt / 100) * vat.value;
+      const amountTva = (PriceHt / 100) * vat;
     const priceTTC = PriceHt + amountTva;
     this.transportCatVehicleForm.patchValue({
       'fAmountTtc': priceTTC.toFixed(2),
       'fAmountTva': amountTva.toFixed(2),
     });
+
     }if (n === 2) {
       
-    PriceHt = PriceTTC / (1 + vat.value / 100);
-    const amountTva = (PriceHt / 100) * vat.value;
+    PriceHt = PriceTTC / (1 + vat / 100);
+    const amountTva = (PriceHt / 100) * vat;
       this.transportCatVehicleForm.patchValue({
         'fAmountHt': PriceHt.toFixed(2),
         'fAmountTva':  amountTva.toFixed(2),

@@ -15,7 +15,7 @@
 
         <div class="row  justify-content-around">
 
- <div class="form-group col-sm-12 col-md-12">
+            <div class="form-group col-sm-12 col-md-12">
             <label class="font-weight-bold">{{'Nom' | translate}} *</label>
             <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
                 (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
@@ -27,7 +27,9 @@
               [ngClass]="{'is-invalid': supplierForm.get('name').touched && supplierForm.get('name').invalid}" />
           </div>
 
-          <div class="col-sm-12 col-md-4"></div>
+          <div class="col-sm-12 col-md-4">
+
+          </div>
         </div>
 
         <div class="row  justify-content-around">
@@ -112,3 +114,4 @@
 </p-footer>
 </p-dialog>
 
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

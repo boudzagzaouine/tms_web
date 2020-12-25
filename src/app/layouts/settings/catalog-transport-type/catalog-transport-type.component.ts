@@ -127,6 +127,8 @@ export class CatalogTransportTypeComponent implements OnInit {
       .subscribe(
         data => {
           this.transportCatVehicleList = data;
+          console.log(data);
+          
           this.spinner.hide();
         },
         error => {

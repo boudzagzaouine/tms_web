@@ -23,6 +23,8 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import { VehiculeEditLineComponent } from './vehicle-edit/vehicule-edit-line/vehicule-edit-line.component';
 import {StepsModule} from 'primeng/steps';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent, VehiculeEditLineComponent, ],
@@ -49,7 +51,10 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     StepsModule,
     PanelModule,
     BreadcrumbModule,
+    ToastModule,
+
   ],
+  providers:[MessageService],
 
 })
 export class VehicleModule { }

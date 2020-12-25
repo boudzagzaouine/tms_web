@@ -25,7 +25,7 @@ import { BadgeTypeService } from '../../../shared/services/api/badge-type.servic
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -96,6 +96,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     private transportService: TransportServcie,
     private consumptionTypeService: ConsumptionTypeService,
     private authentificationService:AuthenticationService,
+    private messageService: MessageService,
+    
+
   ) { }
 
   ngOnInit() {
@@ -139,7 +142,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
                 this.initForm();
               },
               err => {
-                this.toastr.error(err.error.message);
+                this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+                //this.toastr.error(err.error.message);
                 this.spinner.hide();
               }));
 
@@ -147,7 +152,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           this.initForm();
         },
           err => {
-            this.toastr.error(err.error.message);
+            this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+         //   this.toastr.error(err.error.message);
             this.spinner.hide();
           }));
       })
@@ -320,14 +327,19 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           this.selectedInsurance.patrimony = data;
           this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
-
+              this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès'});
+            },
+            err =>{
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});           
             }
-
           ));
 
         }
-    
-        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+           console.log("ajouter avec succes ");
+           
+      this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès',sticky:true});
+
+       //this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedVehicle = new Vehicle();
@@ -341,7 +353,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
       },
       err => {
-        this.toastr.error(err.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(err.error.message);
         this.spinner.hide();
         return;
       },
@@ -367,6 +381,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   }
 
   onloadByTypeTermInsurance(idinsurancetype: number) {
+    console.log(idinsurancetype);
+    
     if (this.editModee) {
       this.selectedInsurance.insuranceTermLignes = [];
     }

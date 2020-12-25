@@ -18,6 +18,7 @@ import { Product, ProductPack } from './../../../../shared/models';
 import { Subscription } from 'rxjs';
 import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-product-edit',
@@ -40,6 +41,7 @@ export class ProductEditComponent implements OnInit {
   productTypeList: ProductType[];
   subscriptions = new Subscription();
   editMd :boolean;
+  vat = new Vat();
   constructor(
     private productTypeService: ProductTypeService,
     private authentificationService:AuthenticationService,
@@ -47,6 +49,7 @@ export class ProductEditComponent implements OnInit {
     private productService: ProductService,
     private vatService: VatService,
     private uomService: UomService,
+    private messageService: MessageService,
 
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
@@ -88,7 +91,8 @@ export class ProductEditComponent implements OnInit {
       description: new FormControl(this.selectedProduct.desc),
       type: new FormControl(this.selectedProduct.productType,Validators.required),
       uom: new FormControl( this.selectedProduct.uomByProductUomBase,Validators.required),
-      vat: new FormControl(this.selectedProduct.vat,Validators.required ),
+      vat: new FormControl(this.editMode!=1 ?this.selectedProduct.vat.value
+        :this.selectedProduct.vat,Validators.required ),
       purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
       purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
       qntStock: new FormControl(this.selectedProduct.stockQuantity),
@@ -118,7 +122,7 @@ export class ProductEditComponent implements OnInit {
     'qntMin'
   ];
     this.selectedProduct.active = true;
-
+ this.selectedProduct.vat== this.vats.filter(f=> f.value== this.productForm.value['vat'])[0];;
     this.selectedProduct.owner=this.authentificationService.getDefaultOwner();
     this.selectProductPack.uom=this.selectedProduct.uomByProductUomBase;
     this.selectProductPack.quantity=1;
@@ -127,14 +131,17 @@ export class ProductEditComponent implements OnInit {
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
       dataP => {
-  
-          this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
+
+         // this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
           this.displayDialog = false;
           this.isFormSubmitted = false;
           this.spinner.hide();
         },
       error => {
-        this.toastr.error(error.error.message);
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+      //  this.toastr.error(error.error.message);
         this.spinner.hide();
       },
 
@@ -171,9 +178,12 @@ onSelectUom(event) {
 
 
 onSelectVat(event) {
-  this.selectedProduct.vat = event.value as Vat;
- 
-  this.onPriceChange(1);
+  this.vat= this.vats.filter(f=> f.value== event.value)[0];
+
+  //this.selectedProduct.vat = event.value as Vat;
+  console.log(this.vat);
+  
+  //this.onPriceChange(1);
 
 }
 
@@ -184,24 +194,24 @@ onSelectVat(event) {
 onPriceChange(n: Number) {
   let purchasePrice = +this.productForm.value['purchasePrice'];
   let purchasePriceTTC = +this.productForm.value['purchasePriceTTC'];
-  let vat: Vat = this.productForm.value['vat'];
+  let vat = this.productForm.value['vat'];
 
   if (purchasePrice === undefined || purchasePrice == null) {
     purchasePrice = 0;
   } if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
     purchasePriceTTC = 0;
-  } if (vat.value === undefined || vat.value == null) {
-    vat.value = 0;
+  } if (vat === undefined || vat == null) {
+    vat = 0;
   }
 
   if (n === 1) {
-    const amountTva = (purchasePrice / 100) * vat.value;
+    const amountTva = (purchasePrice / 100) * vat;
     const priceTTC = purchasePrice + amountTva;
     this.productForm.patchValue({
       'purchasePriceTTC': priceTTC.toFixed(2),
     });
   }if (n === 2) {
-      purchasePrice = purchasePriceTTC / (1 + vat.value / 100);
+      purchasePrice = purchasePriceTTC / (1 + vat / 100);
       this.productForm.patchValue({
           purchasePrice: purchasePrice.toFixed(2)
       });

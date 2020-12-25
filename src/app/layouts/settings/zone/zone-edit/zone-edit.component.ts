@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-zone-edit',
@@ -26,6 +27,8 @@ export class ZoneEditComponent implements OnInit {
   constructor(private zoneService: ZoneServcie,
        private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private messageService: MessageService,
+
     private toastr: ToastrService,
   ) { }
 
@@ -62,14 +65,18 @@ export class ZoneEditComponent implements OnInit {
    this.selectedzones.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.zoneService.set(this.selectedzones).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+        //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

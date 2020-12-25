@@ -5,7 +5,7 @@ import { ProductService } from './../../../shared/services/api/product.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { Supplier } from './../../../shared/models/supplier';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
@@ -42,6 +42,8 @@ export class ProductComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
+    private messageService: MessageService,
+
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -119,7 +121,9 @@ export class ProductComponent implements OnInit {
       },
       error => {
         this.spinner.hide();
-        this.toastr.error('Erreur de connexion');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+       //this.toastr.error('Erreur de connexion');
       },
       () => this.spinner.hide()
     ));
@@ -154,6 +158,8 @@ export class ProductComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -169,6 +175,8 @@ export class ProductComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -229,11 +237,15 @@ export class ProductComponent implements OnInit {
           const ids = this.selectProducts.map(x => x.id);
           this.subscriptions.add(this.productService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+
+             // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+              //this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

@@ -1,6 +1,6 @@
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { SharedModule } from './../shared/shared.module';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -44,10 +45,11 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
      NgxPermissionsModule.forChild(),
      OverlayPanelModule,TableModule,
      BreadcrumbModule,
+     ToastModule,
 
   ],
 
-  providers: [ ConfirmationService]
+  providers: [ ConfirmationService,MessageService]
 })
 export class LayoutModule {
 }

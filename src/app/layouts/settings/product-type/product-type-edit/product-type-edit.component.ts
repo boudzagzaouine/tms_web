@@ -6,6 +6,7 @@ import { ProductType } from './../../../../shared/models/product-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-product-type-edit',
@@ -26,6 +27,8 @@ export class ProductTypeEditComponent implements OnInit {
   constructor(private productTypeService: ProductTypeService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private messageService: MessageService,
+
     private authentificationService: AuthenticationService,
   ) { }
 
@@ -61,14 +64,18 @@ export class ProductTypeEditComponent implements OnInit {
     this.selectedProductType.owner=this.authentificationService.getDefaultOwner();
     this.subscriptions.add( this.productTypeService.set(this.selectedProductType).subscribe(
       data => {
-        this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+
+       // this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()

@@ -1,7 +1,7 @@
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Transport } from './../../../shared/models/transport';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
@@ -20,8 +20,10 @@ export class TransportComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   nameSearch: string;
+  codeSearch: string;
   descriptionSearch = '';
   nameList: Array<Transport> = [];
+  codeList: Array<Transport> = [];
   cols: any[];
   zoneList: Array<Transport> = [];
   selectedTransports: Array<Transport> = [];
@@ -36,6 +38,7 @@ export class TransportComponent implements OnInit {
   constructor(private tranportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private globalService : GlobalService,
+    private messageService: MessageService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -81,7 +84,9 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+        //this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -107,6 +112,8 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -122,6 +129,8 @@ export class TransportComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -136,12 +145,22 @@ export class TransportComponent implements OnInit {
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);
     }
+    if (this.codeSearch != null && this.codeSearch !== '') {
+      buffer.append(`code~${this.codeSearch}`);
+    }
+
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
+  onCodeSearch(event: any) {
+    this.subscriptions.add( this.tranportService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    ));
+  }
+
   onNameSearch(event: any) {
     this.subscriptions.add( this.tranportService.find('name~' + event.query).subscribe(
       data => this.nameList = data.map(f => f.name)
@@ -149,6 +168,7 @@ export class TransportComponent implements OnInit {
   }
   reset() {
     this.nameSearch = null;
+    this.codeSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -175,11 +195,14 @@ export class TransportComponent implements OnInit {
           const ids = this.selectedTransports.map(x => x.id);
           this.subscriptions.add( this.tranportService.deleteAllByIds(ids).subscribe(
             data => {
-              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+             // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+             // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

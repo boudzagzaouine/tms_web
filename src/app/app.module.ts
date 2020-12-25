@@ -17,6 +17,8 @@ import { HasPermissionDirective } from './shared/directive/hasPermission.directi
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 //  AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -43,6 +45,7 @@ FullCalendarModule.registerPlugins([
     OverlayPanelModule,
     HttpClientModule,
     NgPipesModule,
+    ToastModule,
     FullCalendarModule, // register FullCalendar with you app
     SharedModule.forRoot(),
     NgxPermissionsModule.forRoot({
@@ -67,6 +70,8 @@ FullCalendarModule.registerPlugins([
 
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers:[MessageService],
+
 })
 export class AppModule { }

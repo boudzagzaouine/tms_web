@@ -337,9 +337,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         }
            console.log("ajouter avec succes ");
            
-      this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès',sticky:true});
+      this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès',life:30000});
 
-       //this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+       this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedVehicle = new Vehicle();

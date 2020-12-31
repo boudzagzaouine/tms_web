@@ -1,120 +1,125 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 
 
-<!-- <div >
-    <p-table
-      [value]="notificationList"
-      [rows]="size"
-      [paginator]="true"
-      [rowsPerPageOptions]="[5,10, 20, 50, 100, 1000]"
-      [totalRecords]="collectionSize"
-      [columns]="cols"
-      [lazy]="true"
-      (onLazyLoad)="loadDataLazy($event)"
-      [resizableColumns]="true"
-      [reorderableColumns]="true"
-      [(selection)]="selectedObjects"
-      selectionMode="multiple"
-      [reorderableColumns]="true"
-      (onRowSelect)="onRowSelect($event)"
-      (onRowUnselect)="onRowUnselect($event)"
-      sortMode="multiple"
-      [scrollable]="true"
 
-    >
-
-
-
-      <ng-template pTemplate="header" let-columns >
-        <tr>
-       
-          <th *ngFor="let col of columns" pReorderableColumn style="width:160px;font-size:13px">
-            {{ col.header | translate}}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template
-        pTemplate="body"
-        let-rowData
-        let-columns="columns"
-        let-rowIndex="rowIndex"
-      >
-        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-          
-
-          <td *ngFor="let col of columns; let i = index" style="width:160px">
-
-             <span *ngIf="(typeOf(col.type)===1 );">
-
-              <span *ngIf="rowData[col?.field][col?.childid]==1" 
-              class="p-1 mb-1 text-dark bg-warning rounded-sm">
-              {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
-             </span>
-
-             <span *ngIf="rowData[col?.field][col?.childid]==3" 
-             class="p-1 mb-1 text-white bg-danger rounded-sm">
-             {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
-            </span>
-
-            <span *ngIf="rowData[col?.field][col?.childid]==2" 
-            class="p-1 mb-1 text-white bg-warning rounded-sm">
-            {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
-           </span>
-
-
-            </span>
-            <span  *ngIf="(typeOf(col.type)===2 );">
-            {{rowData[col?.field] ? rowData[col?.field]  :'' }}
-            </span>
-
-            <span  *ngIf="(typeOf(col.type)===3 );">
-              {{rowData[col?.field]  | date: 'dd-MM-yyyy'}}
-              </span>
-             
-            
-          </td>
- -->
-
-          <!-- <p-checkbox binary="true"></p-checkbox> -->
-        <!-- </tr>
-      </ng-template>
-    </p-table>
-  </div> -->
    <p-panel header="{{ 'Notifications' | translate }}" >
-   <br><br>
-
-    <p-table 
-    [value]="notificationList"
-    [rows]="size"
-    [paginator]="true"
-    [totalRecords]="notificationList?.length"
-   
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th>{{ "Code" | translate }}</th>
-        <th>{{ "Type" | translate }}</th>
-        <th>{{ "Action" | translate }}</th>
-        <th>{{ "Patrimoine" | translate }}</th>
-        <th>{{ "Statut" | translate }}</th>
+   <br>
 
 
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-notification>
-      <tr  class="ui-selectable-row">
- 
-        <td>{{notification.code}}</td>
-        <td>{{notification.notificationType.code }}</td>
-        <td>{{notification?.action}}</td>
-        <td>{{notification?.patimonyCode}}</td>
 
-        <td>
-        <span [class]="'customer-badge status-' + notification.notificationState.code">{{notification.notificationState.code}}</span>
-      </td>
-      </tr>
-    </ng-template>
-  </p-table>
+
+
+
+   <div class="card">
+
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel  >
+
+          <ng-template pTemplate = "header">
+          
+            <span>{{'Maintenance' | translate }}</span> 
+            <i class=" ml-2 badge badge-dark">{{notificationMaintenanceList?.length}}</i>
+          </ng-template>
+
+          <div class="card-header " style=" background-color:#f7f7f7;">
+            <div class="row">
+
+            <div class=" col-xs-4 col-md-6 pull-center">{{ "Liste des Notification de Maintenance" | translate }}</div>
+
+
+         </div>
+        </div>
+          <div class="card-body  border-top-primary">
+          <p-table 
+          [value]="notificationMaintenanceList"
+          [rows]="sizeMaintenance"
+          [paginator]="true"
+          [totalRecords]="notificationMaintenanceList?.length">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ "Code" | translate }}</th>
+              <th>{{ "Type" | translate }}</th>
+              <th>{{ "Action" | translate }}</th>
+              <th>{{ "Patrimoine" | translate }}</th>
+              <th>{{ "Statut" | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-notificationM>
+            <tr  class="ui-selectable-row">
+       
+              <td>{{notificationM.code}}</td>
+              <td>{{notificationM.notificationType.code }}</td>
+              <td>{{notificationM?.action}}</td>
+              <td>{{notificationM?.patimonyCode}}</td>
+      
+              <td>
+              <span [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.code}}</span>
+            </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        </div>
+            </p-tabPanel>
+
+
+        <p-tabPanel  >
+          <ng-template pTemplate = "header">
+            
+            <span>{{'Produit' | translate }}</span>
+            <i class=" ml-2 badge badge-dark">{{notificationProductList?.length}}</i>
+          </ng-template>
+          <div class="card-header " style=" background-color:#f7f7f7;">
+            <div class="row">
+            <div class=" col-xs-4 col-md-6 pull-center">
+              {{"Liste des Notification de Produit" | translate }}
+            </div>
+         </div>
+        </div>
+          
+          <div class="card-body  border-top-primary">
+          <p-table 
+          [value]="notificationProductList"
+          [rows]="sizeProduct"
+          [paginator]="true"
+          [totalRecords]="notificationProductList?.length"
+         
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ "Code" | translate }}</th>
+              <th>{{ "Type" | translate }}</th>
+              <th>{{ "Statut" | translate }}</th>
+      
+      
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-notificationP>
+            <tr  class="ui-selectable-row">
+       
+              <td>{{notificationP.code}}</td>
+              <td>{{notificationP.notificationType.code }}</td>
+      
+              <td>
+              <span [class]="'customer-badge status-' + notificationP.notificationState.code">{{notificationP.notificationState.code}}</span>
+            </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+                </p-tabPanel>
+       
+    </p-tabView>
+  </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,29 +127,13 @@
 
 
     
-<!--<div class="card">
-   <div class="card-body">
 
-  <table class="table">
-    <thead>
-      <tr>
-        
-        <th scope="col">Code </th>
-        <th scope="col">Type</th>
-        <th scope="col">Statut</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let notification of notificationList" >
-        <td>{{notification.code}}</td>
-        <td>{{notification.notificationType.code }}</td>
-        <td>{{notification.notificationState.code}}</td>
-      </tr>
-  
-    </tbody>
-  </table>
-</div>
-</div> -->
+
+
+
+
+    
+
  </p-panel>
 
  <p-toast position="top-right" [baseZIndex]="5000"></p-toast>

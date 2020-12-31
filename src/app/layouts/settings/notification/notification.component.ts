@@ -15,15 +15,21 @@ import { Notification } from './../../../shared/models/notification';
 })
 export class NotificationComponent implements OnInit {
   
-  page = 0;
-  size = 10;
+  pageProduct = 0;
+  sizeProduct = 10;
+  pageMaintenance= 0;
+  sizeMaintenance = 10;
+
   searchQuery = '';
   className: string;
   cols: any[];
   collectionSize: number;
-  notificationList: Array<Notification> = [];
+  notificationProductList: Array<Notification> = [];
+  notificationMaintenanceList: Array<Notification> = [];
+
   items: MenuItem[];
   home: MenuItem;
+
   constructor(private notificationService:NotificationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -39,49 +45,50 @@ export class NotificationComponent implements OnInit {
     
     this.home = {icon: 'pi pi-home'};
 
-      this.className = Notification.name;
-    this.cols = [
-      { field: 'notificationState', child:'code',childid:'id' ,header: 'Statut', type: 'object' },
-      { field: 'code', header: 'Code', type: 'string' },
-      { field: 'type',header: 'Type', type: 'string' },
+    //   this.className = Notification.name;
+    // this.cols = [
+    //   { field: 'notificationState', child:'code',childid:'id' ,header: 'Statut', type: 'object' },
+    //   { field: 'code', header: 'Code', type: 'string' },
+    //   { field: 'type',header: 'Type', type: 'string' },
 
-    ];
-    this.loadData();
+    // ];
+    this.loadMaintenanceData();
+    this.loadProductData();
     }
 
 
-    typeOf(event) {
-      let res: number;
+    // typeOf(event) {
+    //   let res: number;
   
-      if (event === "object") {
-        res = 1;
-      } else if (event === "number" || event === "string") {
-        res = 2;
-      } else if (event === "date") {
-        res = 3;
-      } else if (event === "boolean") {
-        res = 4;
-      }
+    //   if (event === "object") {
+    //     res = 1;
+    //   } else if (event === "number" || event === "string") {
+    //     res = 2;
+    //   } else if (event === "date") {
+    //     res = 3;
+    //   } else if (event === "boolean") {
+    //     res = 4;
+    //   }
   
-      return res;
-    }
+    //   return res;
+    // }
 
-    loadData(search: string = '') {
+    loadProductData(search: string = '') {
       this.spinner.show();
       this.notificationService.sizeSearch(search).subscribe(
         data => {
           this.collectionSize = data;
         }
       );
-      this.notificationService.findPagination(this.page, this.size, search).subscribe(
+      this.notificationService.findPagination(this.pageProduct, this.sizeProduct, search).subscribe(
         data => {
          
-          this.notificationList = data;
+          this.notificationProductList = data.filter(f=> f.notificationType.id== 2);
   
           this.spinner.hide();
         },
         error => {
-          this.messageService.add({severity:'error', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
 
           //this.toastr.error(error.error.message, 'Erreur');
           this.spinner.hide();
@@ -89,11 +96,52 @@ export class NotificationComponent implements OnInit {
         () => this.spinner.hide()
       );
     }
-    loadDataLazy(event) {
-      this.size = event.rows;
-      this.page = event.first / this.size;
-      this.loadData(this.searchQuery);
+    loadProductDataLazy(event) {
+      this.sizeProduct = event.rows;
+      this.pageProduct = event.first / this.sizeProduct;
+      this.loadProductData(this.searchQuery);
     }
     
+
+
+
+
+
+
+
+    loadMaintenanceData(search: string = '') {
+      this.spinner.show();
+      this.notificationService.sizeSearch(search).subscribe(
+        data => {
+          this.collectionSize = data;
+        }
+      );
+      this.notificationService.findPagination(this.pageMaintenance, this.sizeMaintenance, search).subscribe(
+        data => {
+         
+          this.notificationMaintenanceList = data.filter(f=> f.notificationType.id== 1);
+  
+          this.spinner.hide();
+        },
+        error => {
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+
+          //this.toastr.error(error.error.message, 'Erreur');
+          this.spinner.hide();
+        },
+        () => this.spinner.hide()
+      );
+    }
+    loadMaintenanceDataLazy(event) {
+
+      this.sizeMaintenance = event.rows;
+      this.pageMaintenance = event.first / this.sizeMaintenance;
+      this.loadMaintenanceData(this.searchQuery);
+
+    }
+
+
+
+
 
 }

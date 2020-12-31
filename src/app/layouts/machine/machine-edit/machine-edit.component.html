@@ -14,7 +14,7 @@
         <p-tabPanel 
           header="{{ 'Général' | translate }}"
           [disabled]="true"
-          headerStyleClass="onglet-p-4" 
+          headerStyleClass="onglet-p-3" 
         >
           <div formGroupName="general">
             <!-- Form group imbriqué -->
@@ -133,10 +133,12 @@
                 </span>
       
                 <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
-                  (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="code">
+                  (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="description">
                 </p-autoComplete>
       
-      
+       
+
+                
               </div>
 
             </div>
@@ -154,7 +156,7 @@
         <p-tabPanel
           header="{{ 'Assurance' | translate }}"
           [disabled]="true"
-          headerStyleClass="onglet-p-4"
+          headerStyleClass="onglet-p-3"
         >
           <div formGroupName="insurance">
             <div [style.visibility]="editModee ? 'visible' : 'hidden'">
@@ -277,8 +279,6 @@
                 <p-calendar
                   formControlName="fIStartDate"
                   dateFormat="dd-mm-yy"
-                  showButtonBar="true"
-                  [locale]="fr"
                   [monthNavigator]="true"
                   [yearNavigator]="true"
                   yearRange="1970:2100"
@@ -306,11 +306,9 @@
                 <p-calendar
                   formControlName="fIEndDate"
                   dateFormat="dd-mm-yy"
-                  showButtonBar="true"
                   [monthNavigator]="true"
                   [yearNavigator]="true"
                   yearRange="1970:2100"
-                  [locale]="fr"
                 ></p-calendar>
               </div>
               <div class="form-group col-md-3">
@@ -357,7 +355,7 @@
                 </div>
 
               </div>
-              <div class="card-body mt-2 border-top-primary">
+              <div class="card-body  border-top-primary">
                 <!-- selectedInsurance?.insuranceTermLignes -->
                 <p-table
                   [value]="this.selectedInsurance?.insuranceTermLignes"
@@ -407,7 +405,7 @@
         <p-tabPanel
           header="{{ 'Contrat' | translate }}"
           [disabled]="true"
-          headerStyleClass="onglet-p-4"
+          headerStyleClass="onglet-p-3"
         >
           <div formGroupName="contract">
             <div class="row mt-3 justify-content-around">

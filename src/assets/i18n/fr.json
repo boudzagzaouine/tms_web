@@ -162,5 +162,48 @@
   "Y": "Y",
   "Z": "Z",
   "Zone Source": "Zone source",
-  "Zone Distination": "Zone distination"
+  "Zone Distination": "Zone distination",
+
+
+
+
+
+  "primeng": {
+ 
+    "startsWith": "Starts with",
+    "contains": "Contains",
+    "notContains": "Not contains",
+    "endsWith": "Ends with",
+    "equals": "Equals",
+    "notEquals": "Not equals",
+    "lt": "Less than",
+    "lte": "Less than or equal to",
+    "gt": "Greater than",
+    "gte": "Great then or equals",
+    "is": "Is",
+    "isNot": "Is not",
+    "before": "Before",
+    "after": "After",
+    "clear": "Clear",
+    "apply": "Apply",
+    "matchAll": "Match All",
+    "matchAny": "Match Any",
+    "addRule": "Add Rule",
+    "removeRule": "Remove Rule",
+    "accept": "Yes",
+    "reject": "No",
+    "choose": "Choose",
+    "upload": "Upload",
+    "cancel": "Cancel",
+    "dayNames":["dimanche", "lundi", "mardi", "mercredi", "mercredi", "vendredi", "samedi"],
+    "dayNamesShort": ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+    "dayNamesMin": ["D", "L", "M", "M", "J", "V", "S"],
+    "monthNames": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"] ,
+    "monthNamesShort":  ["jan", "fév", "mar", "avr", "mai", "jun", "jui", "aoû", "sep", "oct", "nov", "dec"],
+    "today": "Aujourd hui",
+    "weekHeader": "Wk"
+
+}
+
+
 }

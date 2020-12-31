@@ -78,7 +78,7 @@ export class VehicleListComponent implements OnInit {
    
   ];
   
-  this.home = {icon: 'pi pi-home'};
+    this.home = {icon: 'pi pi-home'};
     
     this.className = Vehicle.name;
     this.cols = [
@@ -149,7 +149,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.toastr.error(error.error.message, 'Erreur');
 
         this.spinner.hide();
       },
@@ -157,6 +157,7 @@ export class VehicleListComponent implements OnInit {
     ));
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
@@ -177,7 +178,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.toastr.error(error.error.message, 'Erreur');
 
         this.spinner.hide();
       },
@@ -196,7 +197,7 @@ export class VehicleListComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.toastr.error(error.error.message, 'Erreur');
 
         this.spinner.hide();
       },
@@ -282,15 +283,11 @@ export class VehicleListComponent implements OnInit {
           const ids = this.selectedVehicles.map(x => x.id);
           this.subscriptions.add(this.vehicleService.deleteAllByIds(ids).subscribe(
             data => {
-              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
-
-             // this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+             this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-
-             // this.toastr.error(error.error.message, 'Erreur');
+              this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

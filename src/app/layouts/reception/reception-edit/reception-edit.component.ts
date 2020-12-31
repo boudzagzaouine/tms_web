@@ -305,6 +305,8 @@ export class ReceptionEditComponent implements OnInit {
     this.receptionForm.patchValue({
       supplier: this.selectedPurchaseOrder.supplier,
       type: this.selectedPurchaseOrder.orderType.code,
+    
+      
       //status: this.selectedReception.orderStatus.code
     });
 

@@ -2,6 +2,9 @@
 <p-panel header="Calendrier">
 
 
-<full-calendar [options]="calendarOptions" id='fullcalendar'></full-calendar>
+<full-calendar [options]="calendarOptions"   id='fullcalendar'></full-calendar>
 
 </p-panel>
+
+<p-toast position="top-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+

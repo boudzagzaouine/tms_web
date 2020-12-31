@@ -1,5 +1,5 @@
 <p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" 
-[focusOnShow]="false" [responsive]="true" [position]="'right'"
+[focusOnShow]="false" [responsive]="true" 
   showEffect="fade" [modal]="true" [style]="{ width: '850px' }" (onHide)='onShowDialog()'>
   <div>
     <div class="modal-body">
@@ -40,8 +40,6 @@
 
               <p-autoComplete formControlName="supplier" [suggestions]="supplierList"
               (completeMethod)="onSupplierSearch($event)" field="code"></p-autoComplete>
-
-
             </div>
             <div class="form-group col-sm-3 ">
 
@@ -96,8 +94,10 @@
             >
               {{ "Obligatoire" | translate }}
             </span>
-              <p-calendar formControlName="startDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
-                [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+              <p-calendar formControlName="startDate" 
+              dateFormat="dd-mm-yy" [monthNavigator]="true"
+                [yearNavigator]="true"
+                appendTo="body"  yearRange="1970:2100"></p-calendar>
             </div>
 
             <div class="form-group col-sm-3">
@@ -114,7 +114,8 @@
               {{ "Obligatoire" | translate }}
             </span>
               <br />
-              <p-calendar formControlName="endDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
+              <p-calendar formControlName="endDate" dateFormat="dd-mm-yy" 
+              appendTo="body" [monthNavigator]="true"
                 [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-sm-3">
@@ -154,7 +155,7 @@
           </div>
           <!-- [scrollable]="true"
                 scrollHeight="150px" -->
-            <div class="card-body mt-2 border-top-primary">
+            <div class="card-body  border-top-primary">
 
               <p-table [value]="this.selectedInsurance?.insuranceTermLignes"
                 [totalRecords]="this.selectedInsurance?.insuranceTermLignes?.length" 

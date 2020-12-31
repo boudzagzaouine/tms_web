@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../shared/services/api/notification.service';
 import { Observable, Observer } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { Notification } from './../../../shared/models/notification';
 
 @Component({
   selector: 'app-header',
@@ -13,16 +14,19 @@ import { MessageService } from 'primeng/api';
 export class AppHeaderComponent implements OnInit {
 
   notificationSize: number ;
- notificationList : Array<Notification> = [];
- user :string ;
+  notificationMaintenanceList : Array<Notification> = [];
+  notificationProductList : Array<Notification> = [];
+
+  user :string ;
+  maintenanceCount:number=0;
+  productCount:number=0;
+
   constructor(
     private notificationService : NotificationService,
     private auth: AuthenticationService,
     private translate: TranslateService,
     private messageService: MessageService
-  ) {
-    
-  }
+  ) {}
   
 
 
@@ -65,23 +69,16 @@ export class AppHeaderComponent implements OnInit {
 
   this.notificationService.findAll().subscribe(
     data=>{
-      
-     this.notificationList=data;
-           
+    
+      this.notificationMaintenanceList=data.filter(f=> f.notificationType.id== 1); //Maintenance
+      this.notificationProductList=data.filter(f=> f.notificationType.id== 2); //Product
+     this.maintenanceCount=this.notificationMaintenanceList.length;
+     this.productCount=this.notificationProductList.length;
     }
 
   );
 
-  //  this.notificationService.verify().subscribe(
-  //    data=>{
-      
-  // //   console.log("notification size");
-      
-  //       //   console.log(data);
-           
-  //   }
-
-  //  );
+ 
    
   this.notificationService.sizeSearch(search).subscribe(
     data => {

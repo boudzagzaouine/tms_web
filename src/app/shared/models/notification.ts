@@ -13,4 +13,6 @@ export class Notification {
   typePatrimony :String;
   notificationType : NotificationType;
   action :String;
+  
+
 }

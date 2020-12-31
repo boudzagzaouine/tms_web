@@ -97,6 +97,8 @@ import {ToastModule} from 'primeng/toast';
 
 
 
+
+
 @NgModule({
   declarations: [
     SupplierComponent,
@@ -195,7 +197,6 @@ import {ToastModule} from 'primeng/toast';
   BreadcrumbModule,
   ToastModule,
   NgxPermissionsModule.forChild(),
-
   ]
 })
 export class SettingsModule { }

@@ -95,6 +95,7 @@ export class ReceptionListComponent implements OnInit {
     ));
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }

@@ -1,5 +1,5 @@
 <div class="header" style="height:20pxpx;">
-<!-- 3581ad -->
+  <!-- 3581ad -->
   <div class="page-brand" style="background-color: #4084bd !important;">
     <a class="link" routerLink="/">
       <span class="brand">
@@ -49,67 +49,44 @@
       </li>
 
 
-      <p-overlayPanel #op [showCloseIcon]="true" 
-      [style]="{width: '350px' }" >
+      <p-overlayPanel #op  [style]="{width: '200px' }">
         <ng-template pTemplate>
           <div class="card m-0">
-            <div class="card-header p-3 mb-2 bg-primary text-white">
-              Notifications
+            <div class="card-header p-3 mb-2  text-black">
+              <label class="font-weight-bold "> {{ "Notifications" | translate }} </label>
             </div>
 
             <div class="card-body m-0">
-              <table style="border-collapse: separate;border-spacing : 8px;">
 
-                <tbody>
-                  <tr *ngFor="let notification of notificationList"
-                   >
+              <!-- id=1 => maintenance -->
+              <div class="row">
 
-                    <td width='70%'>
-                      <!-- id=1 => maintenance -->
-                      <span *ngIf="notification.notificationType.id==1"> 
-                       <p>Maintenace:<b>{{notification.code}} </b></p>
-                       <p>Patrimoine : <b>{{notification.patimonyCode}}</b> </p>
-                       <p>Action :<b>{{notification.action}}</b></p>
-                       
-                      </span>
-                      <!-- id=2 => produit -->
-                      <span *ngIf="notification.notificationType.id==2">
-                        le Produit <b>{{notification.code}}</b></span>
-                    </td>
+                <div class="col-md-6">
+                  <label class="font-weight-bold "> {{ "Maintenaces" | translate }}</label>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                  <span class="p-1 mb-1 text-white bg-dark rounded-sm">{{maintenanceCount}} </span>
+                </div>
+              </div>
 
-                    <td width='30%'>
-                      <span *ngIf="notification.notificationState.id==1">
-                        <span class="p-1 mb-1 text-dark bg-warning rounded-sm">
-                          {{notification.notificationState.code}}
-                        </span>
-                      </span>
-                      <span *ngIf="notification.notificationState.id==3">
-                        <span class="p-1 mb-1 text-white bg-danger rounded-sm">
-                          {{notification.notificationState.code}}
-                        </span></span>
-                      <span *ngIf="notification.notificationState.id==2">
-                        <span class="p-1 mb-1 text-white bg-warning rounded-sm">
-                          {{notification.notificationState.code}}
-                        </span></span>
-                    </td>
-
-                  </tr>
-
-                </tbody>
-
-
-              </table>
-
-
-
-
+              <div class="row">
+                <!-- id=2 => produit -->
+                <div class="col-md-6">
+                  <label class="font-weight-bold ">{{ "Produits" | translate }}</label>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <span class="p-1 mb-1 text-white bg-dark rounded-sm"> {{productCount}} </span> 
+                </div>
+              </div>
             </div>
 
             <div class="p-3 mb-1 ">
               <span class="d-flex justify-content-center">
-                <a  routerLink="/core/settings/notification">
+                <a routerLink="/core/settings/notification">
 
-                  voir tout</a></span>
+                 {{ "Voir Tout" | translate }}</a></span>
             </div>
           </div>
 

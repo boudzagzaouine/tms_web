@@ -41,7 +41,11 @@ export class MaintenancePreventiveListComponent implements OnInit {
   titleList = 'Liste Des Plan Maintenances';
 
   maintenanceList: Array<MaintenancePlan> = [];
+  maintenanceDesList: Array<MaintenancePlan> = [];
+
   maintenancecodeSearch: string;
+  maintenanceDescriptionSearch: string;
+
   maintenancePreventiveExportList:Array<MaintenancePlan> = [];
 
   constructor(
@@ -124,9 +128,9 @@ export class MaintenancePreventiveListComponent implements OnInit {
 
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
-
   }
 
   loadData(search: string = '') {
@@ -138,7 +142,6 @@ export class MaintenancePreventiveListComponent implements OnInit {
         this.collectionSize = data;
       }
     );
-
 
     this.maintenancePreventiveService.findPagination(this.page, this.size, search).subscribe(
       data => {
@@ -163,6 +166,16 @@ export class MaintenancePreventiveListComponent implements OnInit {
     );
   }
 
+  onMaintenanceDesSearch(event: any) {
+    this.maintenancePreventiveService.find('description~' + event.query).subscribe(
+      data => {
+
+        this.maintenanceDesList = data.map(f => f.description)
+
+      }
+    );
+  }
+
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
@@ -170,6 +183,10 @@ export class MaintenancePreventiveListComponent implements OnInit {
 
     if (this.maintenancecodeSearch != null && this.maintenancecodeSearch !== '') {
       buffer.append(`code~${this.maintenancecodeSearch}`);
+    }
+
+    if (this.maintenanceDescriptionSearch != null && this.maintenanceDescriptionSearch !== '') {
+      buffer.append(`description~${this.maintenanceDescriptionSearch}`);
     }
     this.page = 0;
     const searchQuery = buffer.getValue();

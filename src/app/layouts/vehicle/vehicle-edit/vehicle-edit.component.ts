@@ -102,16 +102,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
- this.fr = {
-      firstDayOfWeek: 1,
-      dayNames: ['dimanche', 'lundi', 'mardi ', 'mercredi', 'mercredi ', 'vendredi ', 'samedi '],
-      dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
-      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-      monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-      monthNamesShort: ['jan', 'fév', 'mar', 'avr', 'mai', 'jun', 'jui', 'aoû', 'sep', 'oct', 'nov', 'dec'],
-      today: 'Aujourd hui',
-      clear: 'Supprimer'
-    };
+
     this.items = [
       {label: 'Véhicule'},
       {label: 'Editer' ,routerLink:'/core/vehicles/edit'},
@@ -142,8 +133,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
                 this.initForm();
               },
               err => {
-                this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-
+                this.toastr.error(err.error.message,"Erreur");
                 //this.toastr.error(err.error.message);
                 this.spinner.hide();
               }));
@@ -152,8 +142,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           this.initForm();
         },
           err => {
-            this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-
+            this.toastr.error(err.error.message,"Erreur");
          //   this.toastr.error(err.error.message);
             this.spinner.hide();
           }));
@@ -321,26 +310,24 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
   this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
+  
     this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         if (this.selectedInsurance.code) {
           this.selectedInsurance.patrimony = data;
           this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
-              this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès'});
             },
             err =>{
-              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});           
+              this.toastr.error(err.error.message,"Erreur");
             }
           ));
 
         }
-           console.log("ajouter avec succes ");
-           
-      this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré Avec Succès',life:30000});
-
-       this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-        this.isFormSubmitted = false;
+        
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+     
+       this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedVehicle = new Vehicle();
         this.vehicleForm.reset();
@@ -353,9 +340,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
       },
       err => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
 
-        //this.toastr.error(err.error.message);
+        this.toastr.error(err.error.message,"Erreur");
         this.spinner.hide();
         return;
       },
@@ -442,7 +428,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   onMaintenancePlanSearch(event: any) {
     this.subscriptions.add( this.maintenancePlanService
-      .find('code~' + event.query)
+      .find('description~' + event.query)
       .subscribe(data => (this.maintenancePlanList = data)));
   }
 

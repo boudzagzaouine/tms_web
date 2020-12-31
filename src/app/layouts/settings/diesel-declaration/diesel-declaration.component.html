@@ -12,6 +12,17 @@
       <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
       <input type="text" pInputText [(ngModel)]="descriptionSearch" />
     </div>
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Date de declaration" | translate }}</label><br />
+      <p-calendar  dateFormat="dd-mm-yy"  [monthNavigator]="true"
+      [yearNavigator]="true" yearRange="1970:2100"
+      appendTo="body"
+      [(ngModel)]="dateSearch"></p-calendar>
+
+      <!-- <input type="text" pInputText [(ngModel)]="refSearch" /> -->
+
+    </div>
   </div>
   <br />
 

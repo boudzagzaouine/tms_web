@@ -10,7 +10,7 @@ showEffect="fade"
 [style]="{ width: '50vw' }"
 (onHide)='onHideDialog()'
 >
-<div>
+<div >
   <div class="modal-body">
     <div class="card-body">
       <form [formGroup]="badgeTypeDriverForm">
@@ -56,8 +56,8 @@ showEffect="fade"
             <p-calendar
               [monthNavigator]="true"
               [yearNavigator]="true"
-              dateFormat="dd/mm/yy"
-              [locale]="fr"
+              dateFormat="dd-mm-yy"
+              appendTo="body"
               formControlName="fDateDelivrance"
               yearRange="1970:2100"
             ></p-calendar>
@@ -76,9 +76,9 @@ showEffect="fade"
             <p-calendar
               [monthNavigator]="true"
               [yearNavigator]="true"
-              dateFormat="dd/mm/yy"
-              [locale]="fr"
-  formControlName="DateFin"
+              dateFormat="dd-mm-yy"
+              appendTo="body"
+              formControlName="DateFin"
               yearRange="1970:2100"
             ></p-calendar>
           </div>
@@ -98,14 +98,14 @@ showEffect="fade"
     type="button"
     pButton
     (click)="onHideDialog()"
-    class="ui-button-primary"
+    class="p-button-primary"
     label="{{'Annuler' | translate }}"
   ></button>
   <button
       type="button"
       pButton
       (click)="onSubmit()"
-      class="ui-button-success"
+      class="p-button-success"
       label="{{ 'Valider' | translate }}"
     ></button>
   </div>

@@ -191,6 +191,29 @@ p-autocomplete {
     opacity: 100 !important;
 }
 
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: #ffffff;
+  border: solid #456a98;
+  border-width: 0 0 0 6px;
+  color: #0f0e0e;
+}
+.fc .fc-daygrid-event-harness {
+  position: relative;
+  background: #2196F3;
+}
+
+.fc-event {
+  padding: 4px 6px;
+  background-color: #2196F3;
+  color: #fff !important;
+  border: 0;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0rem;
+}
+
+
 .h-3 {
   height: 3vh !important;
 }

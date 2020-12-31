@@ -28,6 +28,7 @@ export class StockComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   productSearch: Product;
+  dateSearch :Date;
   supplierSearch: Supplier;
   productCodeList: Array<Product> = [];
   supplierCodeList: Array<Supplier> = [];
@@ -161,9 +162,13 @@ export class StockComponent implements OnInit {
     if (this.productSearch != null && this.productSearch.code !== '') {
       buffer.append(`product.code~${this.productSearch.code}`);
     }
-    if (this.productTypeSearch != null && this.productTypeSearch.code !== '') {
-      buffer.append(`productType.code~${this.productTypeSearch.code}`);
+   
+    console.log(this.dateSearch.toISOString());
+    
+    if (this.dateSearch != null) {
+      buffer.append('receptionDate>'+ this.dateSearch.toISOString());
     }
+
     if (this.supplierSearch != null && this.supplierSearch.code !== '') {
       buffer.append(`supplier.code~${this.supplierSearch.code}`);
     }
@@ -173,16 +178,18 @@ export class StockComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
+
   onCodeSearch(event: any) {
     this.subscriptions.add( this.stockService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     ));
   }
+  
   reset() {
     this.productSearch = null;
     this.productTypeSearch = null;
     this.supplierSearch = null;
-
+ this.dateSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

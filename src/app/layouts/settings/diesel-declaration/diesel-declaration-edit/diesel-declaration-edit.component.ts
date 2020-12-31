@@ -7,6 +7,8 @@ import { AuthenticationService, VehicleService } from './../../../../shared/serv
 import { DieselDeclaration } from './../../../../shared/models/diesel-declaration';
 import { DieselDeclarationService } from './../../../../shared/services/api/dieselDeclaration.service';
 import { PatrimonyService } from './../../../../shared/services/api/patrimony-service';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-diesel-declaration-edit',
@@ -20,7 +22,6 @@ export class DieselDeclarationEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   editModee :Boolean;
   vehicleList: Vehicle[] = [];
-
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -31,10 +32,13 @@ export class DieselDeclarationEditComponent implements OnInit {
     private patrimonyService :PatrimonyService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private config: PrimeNGConfig, private translateService: TranslateService
   ) { }
+
 
   ngOnInit() {
 
+    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
 
     if (this.editMode === 1) {
       this.selectedDieselDeclaration = new DieselDeclaration();
@@ -49,7 +53,7 @@ export class DieselDeclarationEditComponent implements OnInit {
     }else if (this.editMode === 2){
       
           this.editModee=true;
-          this.title = 'Modifier ';
+          this.title = 'Modifier déclaration Gasoil';
     }
 
  

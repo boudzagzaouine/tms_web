@@ -153,10 +153,7 @@ export class DriverListComponent implements OnInit {
   }
 
   loadDataLazy(event) {
-    //  this.loading = true;
-
-    // this.page = this.drivers.slice(event.first, (event.first + event.rows));
-    // this.loading = false;
+    this.size = event.rows;
     this.page = event.first / this.size;
 
     this.loadData(this.searchQuery);

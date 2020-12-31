@@ -30,6 +30,7 @@ import {FullCalendarModule} from '@fullcalendar/angular';
 import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance-calendar.component';
  import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import { ToastModule } from 'primeng/toast';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -68,6 +69,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
    InputNumberModule,
    DialogModule,
 FullCalendarModule,
+ToastModule
 
 
     ]

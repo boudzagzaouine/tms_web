@@ -2,7 +2,7 @@
 
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
-  <div class="row  mt-1 justify-content-around">
+  <div class="row  mt-1 ">
     <!-- <div class="col-md-3">
         <label class="font-weight-bold">
           {{"Code" | translate}}</label><br />
@@ -10,7 +10,7 @@
           (completeMethod)="onCodeSearch($event)"></p-autoComplete>
       </div> -->
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold"> {{ "Code" | translate }}</label
         ><br />
         <p-autoComplete
@@ -20,22 +20,27 @@
           field="code"
         ></p-autoComplete>
 
-       <!-- <p-dropdown
-        [options]="vehicleCodeList"
-        optionLabel="code"
-        [autoDisplayFirst]="false"
-        [(ngModel)]="codeSearch"
-        filter="true"
-      >
-      </p-dropdown> -->
+     
       </div>
-      <div class="col-md-3">
+
+      <div class="col-md-2">
+        <label class="font-weight-bold"> {{ "Désignation" | translate }}</label
+        ><br />
+        <p-autoComplete
+          [(ngModel)]="desSearch"
+          [suggestions]="machineDesList"
+          (completeMethod)="onMachineDesSearch($event)"
+          field="name"
+        ></p-autoComplete>
+      </div>
+
+      <div class="col-md-2">
         <label class="font-weight-bold">
           {{"référence" | translate}}</label><br />
         <input type="text" pInputText [(ngModel)]="refSearch" />
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{"Type de contrat" | translate}}</label><br />
         <p-dropdown
         [options]="contratTypeList"
@@ -46,7 +51,7 @@
       </p-dropdown>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label class="font-weight-bold ">{{"Transport" | translate}}</label><br />
         <p-dropdown
         [options]="transportList"
@@ -57,7 +62,7 @@
       </p-dropdown>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
 
       </div>
     </div>

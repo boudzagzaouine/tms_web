@@ -29,6 +29,7 @@ export class DieselDeclarationComponent implements OnInit {
   className: string;
   titleList = 'Liste des declarations gasoil';
   DieselDeclarationExportList: Array<DieselDeclaration> = [];
+  dateSearch : Date;
 
   constructor(private dieselDeclarationService: DieselDeclarationService,
     private globalService: GlobalService,
@@ -38,7 +39,6 @@ export class DieselDeclarationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.className = DieselDeclaration.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
@@ -53,9 +53,7 @@ export class DieselDeclarationComponent implements OnInit {
       { field: 'dieselDeclarationDate', header: 'Date Declaration', type: 'date' },
 
     ];
-
     this.loadData();
-
   }
   onExportExcel(event) {
 
@@ -129,6 +127,11 @@ export class DieselDeclarationComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
+
+    if (this.dateSearch != null ) {
+      buffer.append('dieselDeclarationDate>'+ this.dateSearch.toISOString());
+    }
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -142,6 +145,7 @@ export class DieselDeclarationComponent implements OnInit {
   reset() {
     this.codeSearch = null;
     this.descriptionSearch = null;
+    this.dateSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

@@ -27,7 +27,9 @@ export class MachineListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: Machine;
+  desSearch: Machine;
   codeList: Array<Machine> = [];
+  desList: Array<Machine> = [];
   refSearch: string;
   transportSearch: Transport;
   contratTypeSearch: ContractType;
@@ -40,6 +42,7 @@ export class MachineListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   machineCodeList: Array<Patrimony> = [];
+  machineDesList: Array<Machine> = [];
   machineExportList: Array<Machine> = [];
   titleList = 'Liste des Machines';
   subscriptions= new Subscription();
@@ -151,6 +154,7 @@ export class MachineListComponent implements OnInit {
     ));
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
   }
@@ -159,8 +163,13 @@ export class MachineListComponent implements OnInit {
 
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch.code !== '') {
-      buffer.append(`ref~${this.codeSearch.ref}`);
+      buffer.append(`name~${this.codeSearch.name}`);
     }
+
+    if (this.desSearch != null && this.desSearch.name !== '') {
+      buffer.append(`name~${this.desSearch.name}`);
+    }
+
     if (this.refSearch != null && this.refSearch !== '') {
       buffer.append(`ref~${this.refSearch}`);
     }
@@ -202,16 +211,23 @@ export class MachineListComponent implements OnInit {
     this.codeSearch = null;
     this.transportSearch = null;
     this.contratTypeSearch = null;
+    this.desSearch=null;
+    this.refSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
   }
+
   onMachineCodeSearch(event: any) {
     this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.machineCodeList = data .filter(f=> f.patrimony_type=='vehicule'),
+      data => this.machineCodeList = data .filter(f=> f.patrimony_type=='machine'),
     ));
   }
 
+  onMachineDesSearch(event: any) {
+    this.subscriptions.add(this.machineService.find('name~' + event.query).subscribe(
+      data => this.machineDesList = data ));
+  }
 
   onDeleteAll() {
 

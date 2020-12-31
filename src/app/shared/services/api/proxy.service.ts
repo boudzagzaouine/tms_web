@@ -29,6 +29,8 @@ export class ProxyService {
           this.url + controller + '/' + id + '?token=' + this.getToken();
     //  console.log(fullurl);
       return this.http.get<any>(fullurl);
+
+      //....users/2
   }
 
   findByCode(controller: string, code: string): Observable<any> {

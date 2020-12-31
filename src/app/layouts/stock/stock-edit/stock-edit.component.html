@@ -1,123 +1,98 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '550px' }" (onHide)='onShowDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="stockForm">
 
-<p-dialog
-header="{{ title | translate }}"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '550px' }"
-(onHide)='onShowDialog()'
->
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="stockForm">
-
-        <div class="row  justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Produit' | translate}} *</label>
-            <span *ngIf="(stockForm.get('product').touched && stockForm.get('product').invalid) ||
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Produit' | translate}} *</label>
+              <span *ngIf="(stockForm.get('product').touched && stockForm.get('product').invalid) ||
             (isFormSubmitted && stockForm.get('product').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
-            <br />
-            <p-autoComplete  [suggestions]="productList" (onSelect)='onSelectProduct($event)'
-            (completeMethod)="onCodeProductSearch($event)"formControlName="product"
-            field="code"></p-autoComplete>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-autoComplete [suggestions]="productList" (onSelect)='onSelectProduct($event)'
+                (completeMethod)="onCodeProductSearch($event)" formControlName="product" field="code"></p-autoComplete>
 
-          </div>
+            </div>
 
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold"> {{'Unité de Mesure' | translate}} *</label>
-            <span *ngIf="(stockForm.get('uom').touched && stockForm.get('uom').invalid) ||
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"> {{'Unité de Mesure' | translate}} *</label>
+              <span *ngIf="(stockForm.get('uom').touched && stockForm.get('uom').invalid) ||
             (isFormSubmitted && stockForm.get('uom').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
 
-            <p-dropdown  formControlName="uom"
-        [options]="productPackList" [autoDisplayFirst]="false"
-         (onChange)="onSelectUom($event)"
-        optionLabel="uom.code"  [filter]="true" >
-    </p-dropdown>
+              <p-dropdown formControlName="uom" [options]="productPackList" [autoDisplayFirst]="false"
+                (onChange)="onSelectUom($event)" optionLabel="uom.code" [filter]="true">
+              </p-dropdown>
+
+            </div>
+            <div class="col-md-3"></div>
 
           </div>
-          <div class="col-md-3"></div>
-
-        </div>
-        <div class="row  justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Quantite' | translate}} *</label>
-            <span *ngIf="(stockForm.get('quantity').touched && stockForm.get('quantity').invalid) ||
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Quantite' | translate}} *</label>
+              <span *ngIf="(stockForm.get('quantity').touched && stockForm.get('quantity').invalid) ||
             (isFormSubmitted && stockForm.get('quantity').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="quantity"
-            (keydown.space)="$event.preventDefault()"
-           />
-          </div>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="quantity"
+                (keydown.space)="$event.preventDefault()" />
+            </div>
 
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold"> {{'Fournisseur' | translate}} *</label><br />
-            <span *ngIf="(stockForm.get('supplier').touched && stockForm.get('supplier').invalid) ||
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"> {{'Fournisseur' | translate}} *</label><br />
+              <span *ngIf="(stockForm.get('supplier').touched && stockForm.get('supplier').invalid) ||
             (isFormSubmitted && stockForm.get('supplier').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
-            <p-autoComplete  [suggestions]="supplierList"
-            (completeMethod)="onCodeSupplierSearch($event)" field="code" formControlName="supplier"
-            ></p-autoComplete>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <p-autoComplete [suggestions]="supplierList" (completeMethod)="onCodeSupplierSearch($event)" field="code"
+                formControlName="supplier"></p-autoComplete>
+
+            </div>
+            <div class="col-md-3"></div>
 
           </div>
-          <div class="col-md-3"></div>
-
-        </div>
-        <div class="row  justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Date de Reception' | translate}} *</label>
-            <span *ngIf="(stockForm.get('receptionDate').touched && stockForm.get('receptionDate').invalid) ||
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Date de Reception' | translate}} *</label>
+              <span *ngIf="(stockForm.get('receptionDate').touched && stockForm.get('receptionDate').invalid) ||
             (isFormSubmitted && stockForm.get('receptionDate').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
-            <br />
-            <p-calendar formControlName="receptionDate" dateFormat="dd-mm-yy" showButtonBar="true" [monthNavigator]="true"
-            [yearNavigator]="true" yearRange="1970:2100"
-            [style]="{'width':'50px'}" [inputStyle]="{'width':'50px'}"></p-calendar>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-calendar formControlName="receptionDate" dateFormat="dd-mm-yy" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1970:2100" appendTo="body"></p-calendar>
+
+            </div>
+
+            <div class="form-group col-sm-6">
+
+            </div>
+            <div class="col-md-3"></div>
 
           </div>
-
-          <div class="form-group col-sm-6">
-
-          </div>
-          <div class="col-md-3"></div>
-
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-    <button
-    type="button"
-    pButton
-    (click)="onShowDialog()"
-    class="p-button-primary"
-    label="{{'Annuler' | translate }}"
-  ></button>
-  <button
-      type="button"
-      pButton
-      (click)="onSubmit()"
-      class="p-button-success"
-      label="{{ 'Valider' | translate }}"
-    ></button>
-  </div>
-</p-footer>
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
 </p-dialog>

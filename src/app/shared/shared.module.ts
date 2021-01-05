@@ -104,6 +104,7 @@ import { ConditionalTypeService } from './services/api/conditional-type.service'
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { HasPermissionDirective } from './directive/hasPermission.directive';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { SubscriptionCardService } from './services/api/subscription-card.service';
 
 
 @NgModule({
@@ -222,7 +223,8 @@ export class SharedModule {
         NotificationTypeService,
         TemplateService,
         DieselDeclarationService,
-        ConditionalTypeService
+        ConditionalTypeService,
+        SubscriptionCardService
       ],
 
     };

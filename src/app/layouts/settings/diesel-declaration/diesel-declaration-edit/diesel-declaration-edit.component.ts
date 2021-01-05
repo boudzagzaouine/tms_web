@@ -2,13 +2,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Vehicle } from './../../../../shared/models';
-import { AuthenticationService, VehicleService } from './../../../../shared/services';
+import { Driver, Vehicle } from './../../../../shared/models';
+import { AuthenticationService, DriverService, VehicleService } from './../../../../shared/services';
 import { DieselDeclaration } from './../../../../shared/models/diesel-declaration';
 import { DieselDeclarationService } from './../../../../shared/services/api/dieselDeclaration.service';
 import { PatrimonyService } from './../../../../shared/services/api/patrimony-service';
 import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { SubscriptionCard } from './../../../../shared/models/subscription-card';
+import { SubscriptionCardService } from './../../../../shared/services/api/subscription-card.service';
 
 @Component({
   selector: 'app-diesel-declaration-edit',
@@ -22,12 +24,20 @@ export class DieselDeclarationEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   editModee :Boolean;
   vehicleList: Vehicle[] = [];
+  driverList: Driver[] = [];
+
+  subscriptionCardList: SubscriptionCard[] = [];
+  type: any;
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier déclaration Gasoil';
-
+  types: any[];
+  selectType:number;
+  
   constructor(private dieselDeclarationService: DieselDeclarationService,
+    private  subscriptionCardService:SubscriptionCardService,
+    private driverService:DriverService,
     private authentificationService:AuthenticationService,
     private patrimonyService :PatrimonyService,
     private spinner: NgxSpinnerService,
@@ -56,11 +66,14 @@ export class DieselDeclarationEditComponent implements OnInit {
           this.title = 'Modifier déclaration Gasoil';
     }
 
- 
+ this.types=[
+
+        {name:'Carte abonnement',code:1},
+        {name:'Bon',code:2},
+ ]
     this.displayDialog = true;
     this.initForm();
-
-
+    this.selectType=this.selectedDieselDeclaration.typeDeclaration;
   }
 
   initForm() {
@@ -70,6 +83,11 @@ export class DieselDeclarationEditComponent implements OnInit {
       'amount': new FormControl(this.selectedDieselDeclaration.amount, Validators.required),
       'date': new FormControl(new Date(this.selectedDieselDeclaration.dieselDeclarationDate), Validators.required),
       'km': new FormControl(this.selectedDieselDeclaration.mileage, Validators.required),
+      'driver': new FormControl(this.selectedDieselDeclaration.driver, Validators.required),
+      'card': new FormControl(this.selectedDieselDeclaration.subscriptionCard),
+      'bon': new FormControl(this.selectedDieselDeclaration.bon),
+      'type': new FormControl(this.selectedDieselDeclaration.typeDeclaration),
+
     });
   }
 
@@ -82,6 +100,19 @@ export class DieselDeclarationEditComponent implements OnInit {
     this.selectedDieselDeclaration.amount = this.dieselDeclarationForm.value['amount'];
     this.selectedDieselDeclaration.dieselDeclarationDate = this.dieselDeclarationForm.value['date'];
     this.selectedDieselDeclaration.mileage = this.dieselDeclarationForm.value['km'];
+    if(this.selectType==1){
+      this.selectedDieselDeclaration.subscriptionCard = this.dieselDeclarationForm.value['card'];
+      this.selectedDieselDeclaration.typeDeclaration=1;
+
+    }
+    else if(this.selectType==2){
+     this.selectedDieselDeclaration.bon = this.dieselDeclarationForm.value['bon'];
+     this.selectedDieselDeclaration.typeDeclaration=2;
+
+    }
+
+    console.log(this.selectedDieselDeclaration);
+    
    this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
     const s = this.dieselDeclarationService.set(this.selectedDieselDeclaration).subscribe(
       data => {
@@ -106,10 +137,29 @@ export class DieselDeclarationEditComponent implements OnInit {
     );
   }
 
+
+  onCodeCardSearch(event: any) {
+    this.subscriptionCardService.find('code~' + event.query).subscribe(
+      data => this.subscriptionCardList = data
+    );
+  }
+
+  onCodeDriverSearch(event: any) {
+    this.driverService.find('code~' + event.query).subscribe(
+      data => this.driverList = data
+    );
+  }
+
   onSelectVehicle(event) {
-    this.selectedDieselDeclaration.vehicle = event;
-    console.log(event);
-    
+    this.selectedDieselDeclaration.vehicle = event;    
+  }
+
+  onSelectDriver(event) {
+    this.selectedDieselDeclaration.driver = event;    
+  }
+
+  onSelectCard(event) {
+    this.selectedDieselDeclaration.subscriptionCard = event;    
   }
 
   onShowDialog() {
@@ -117,6 +167,11 @@ export class DieselDeclarationEditComponent implements OnInit {
     this.showDialog.emit(a);
   }
 
+  onselectType(event){
+  this.selectType=(event.option.code) as number;
+  console.log(this.selectType);
+  
+  }
 
 
 }

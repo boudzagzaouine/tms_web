@@ -72,6 +72,11 @@ export class MaintenanceCalendarComponent implements OnInit {
 
     console.log(arg.event.title);
   }
+
+  onReject(){
+    console.log("test");
+    
+  }
  /* handleDateClick(arg) {
     alert('date click! ' + arg.dateStr)
   }*/

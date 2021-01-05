@@ -5,6 +5,7 @@ var gulp = require('gulp')
     , runSequence = require('run-sequence');
 const distWar='./distwar';
 const warFileName='TMS';
+// version gulp 3.9.1
 // This will run in this order:
 // * build-clean
 // * build-scripts and build-styles in parallel

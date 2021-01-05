@@ -3,7 +3,7 @@
 
 
    <p-panel header="{{ 'Notifications' | translate }}" >
-   <br>
+   <br> <br>
 
 
 
@@ -13,7 +13,7 @@
    <div class="card">
 
     <p-tabView styleClass="tabview-custom">
-        <p-tabPanel  >
+        <p-tabPanel  headerStyleClass="onglet-pn-2">
 
           <ng-template pTemplate = "header">
           
@@ -23,8 +23,9 @@
 
           <div class="card-header " style=" background-color:#f7f7f7;">
             <div class="row">
-
-            <div class=" col-xs-4 col-md-6 pull-center">{{ "Liste des Notification de Maintenance" | translate }}</div>
+              <div class="col-xs-4 col-md-4 pull-left">
+              </div>
+            <div class=" col-xs-4 col-md-6 pull-center"><b>{{ "Liste des Notifications de Maintenance" | translate }} </b></div>
 
 
          </div>
@@ -38,7 +39,7 @@
           <ng-template pTemplate="header">
             <tr>
               <th>{{ "Code" | translate }}</th>
-              <th>{{ "Type" | translate }}</th>
+              <!-- <th>{{ "Type" | translate }}</th> -->
               <th>{{ "Action" | translate }}</th>
               <th>{{ "Patrimoine" | translate }}</th>
               <th>{{ "Statut" | translate }}</th>
@@ -48,12 +49,12 @@
             <tr  class="ui-selectable-row">
        
               <td>{{notificationM.code}}</td>
-              <td>{{notificationM.notificationType.code }}</td>
+              <!-- <td>{{notificationM.notificationType.code }}</td> -->
               <td>{{notificationM?.action}}</td>
               <td>{{notificationM?.patimonyCode}}</td>
       
               <td>
-              <span [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.code}}</span>
+              <span [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.description}}</span>
             </td>
             </tr>
           </ng-template>
@@ -62,7 +63,7 @@
             </p-tabPanel>
 
 
-        <p-tabPanel  >
+        <p-tabPanel  headerStyleClass="onglet-pn-2">
           <ng-template pTemplate = "header">
             
             <span>{{'Produit' | translate }}</span>
@@ -70,8 +71,10 @@
           </ng-template>
           <div class="card-header " style=" background-color:#f7f7f7;">
             <div class="row">
+              <div class="col-xs-4 col-md-4 pull-left">
+              </div>
             <div class=" col-xs-4 col-md-6 pull-center">
-              {{"Liste des Notification de Produit" | translate }}
+             <b> {{"Liste des Notifications du Produit" | translate }}</b>
             </div>
          </div>
         </div>
@@ -87,7 +90,7 @@
           <ng-template pTemplate="header">
             <tr>
               <th>{{ "Code" | translate }}</th>
-              <th>{{ "Type" | translate }}</th>
+             <!-- // <th>{{ "Type" | translate }}</th> -->
               <th>{{ "Statut" | translate }}</th>
       
       
@@ -97,10 +100,10 @@
             <tr  class="ui-selectable-row">
        
               <td>{{notificationP.code}}</td>
-              <td>{{notificationP.notificationType.code }}</td>
+            <!-- //  <td>{{notificationP.notificationType.code }}</td> -->
       
               <td>
-              <span [class]="'customer-badge status-' + notificationP.notificationState.code">{{notificationP.notificationState.code}}</span>
+              <span [class]="'customer-badge status-' + notificationP.notificationState.code">{{notificationP.notificationState.description}}</span>
             </td>
             </tr>
           </ng-template>

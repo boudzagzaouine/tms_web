@@ -94,7 +94,11 @@ import { ConditionalTypeComponent } from './conditional-type/conditional-type.co
 import { ConditionalTypeEditComponent } from './conditional-type/conditional-type-edit/conditional-type-edit.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {ToastModule} from 'primeng/toast';
+import { SubscriptionCardComponent } from './subscriptionCard/subscriptionCard.component';
+import { SubscriptionCardEditComponent } from './subscriptionCard/subscription-card-edit/subscription-card-edit.component';
 
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 
 
@@ -164,6 +168,8 @@ import {ToastModule} from 'primeng/toast';
      NotificationTypeEditComponent,
      ConditionalTypeComponent,
      ConditionalTypeEditComponent,
+     SubscriptionCardComponent,
+     SubscriptionCardEditComponent
   ],
   imports: [
     CommonModule,
@@ -196,6 +202,8 @@ import {ToastModule} from 'primeng/toast';
   EditorModule,
   BreadcrumbModule,
   ToastModule,
+  RadioButtonModule,
+  SelectButtonModule,
   NgxPermissionsModule.forChild(),
   ]
 })

@@ -53,8 +53,14 @@
 
           <li *hasPermission="['CONDITIONAL_TYPE_VIEW']">
             <a routerLink="/core/settings/conditional-type" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'type condition ' | translate}}</a>
+              {{'Type condition ' | translate}}</a>
           </li>
+
+          <li *hasPermission="['SUBSCRIPTION_CARD_VIEW']">
+            <a routerLink="/core/settings/subscription-card" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Carte Abonnement ' | translate}}</a>
+          </li>
+
           <!-- <li>
             <a routerLink="/core/settings/badge-types"><i class="fa fa-circle-o"></i>
               {{'Type Badge ' | translate}}</a>

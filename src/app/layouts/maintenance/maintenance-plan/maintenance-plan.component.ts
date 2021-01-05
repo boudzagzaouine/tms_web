@@ -113,51 +113,7 @@ export class MaintenancePlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fr = {
-      firstDayOfWeek: 1,
-      dayNames: [
-        'dimanche',
-        'lundi',
-        'mardi ',
-        'mercredi',
-        'mercredi ',
-        'vendredi ',
-        'samedi ',
-      ],
-      dayNamesShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
-      dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-      monthNames: [
-        'janvier',
-        'février',
-        'mars',
-        'avril',
-        'mai',
-        'juin',
-        'juillet',
-        'août',
-        'septembre',
-        'octobre',
-        'novembre',
-        'décembre',
-      ],
-      monthNamesShort: [
-        'jan',
-        'fév',
-        'mar',
-        'avr',
-        'mai',
-        'jun',
-        'jui',
-        'aoû',
-        'sep',
-        'oct',
-        'nov',
-        'dec',
-      ],
-      today: 'Aujourd hui',
-      clear: 'Supprimer',
-    };
-
+ 
 
 
 
@@ -269,6 +225,8 @@ export class MaintenancePlanComponent implements OnInit {
 
     }
     this.initForm();
+    console.log(this.selectedMaintenance);
+    
   }
 
   initForm() {
@@ -324,7 +282,7 @@ export class MaintenancePlanComponent implements OnInit {
             value:
               this.selectedMaintenance != null &&
                 this.selectedMaintenance.maintenanceState != null
-                ? this.selectedMaintenance.maintenanceState.code
+                ? this.selectedMaintenance.maintenanceState.description
                 : null,
             disabled: true
           },Validators.required)
@@ -387,15 +345,38 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   onSelectPurchaseOrder(event){
-  this.selectedMaintenance.purshaseOrder=event;
+    this.selectedMaintenance.purshaseOrder=event;
+    this.selectedMaintenance.supplier = this.selectedMaintenance.purshaseOrder.supplier;
+    console.log(this.selectedMaintenance.supplier);
+    
+    this.selectedMaintenance.totalPrice = this.selectedMaintenance.purshaseOrder.totalPriceHT;
+    //this.selectedMaintenance.totalPriceTTC = this.selectedMaintenance.purshaseOrder.totalPriceTTC;
+    this.selectedMaintenance.actionLineMaintenances = this.maintenanceService.generateProductsFromPurchaseOrderLines(
+      this.selectedMaintenance.purshaseOrder.purshaseOrderLines
+    );
+    //  this.initForm();
+    this.maintenacePlanForm.patchValue({
+      'fSupplier': this.selectedMaintenance.supplier,
+       price:this.selectedMaintenance.totalPrice,
+      //status: this.selectedReception.orderStatus.code
+    });
+    this.maintenacePlanForm.controls['responsability'].patchValue({
+      'fSupplier': this.selectedMaintenance.supplier,
+     //  price:this.selectedMaintenance.totalPrice,
+      //status: this.selectedReception.orderStatus.code
+    });
+
+    this.maintenacePlanForm.updateValueAndValidity();
+  
   }
+
   onSelectSupplier(event){
   this.selectedMaintenance.supplier=event;
   }
 
+
   onShowDialogAction(line, mode) {
     this.showDialog = true;
-
 
     if (mode == true) {
       this.selectActionLineMaintenance = line;
@@ -456,6 +437,7 @@ export class MaintenancePlanComponent implements OnInit {
       this.selectedMaintenance.triggerDate = dt;
 
     }
+
     if (close == 2) {
       this.save();
     } else if (close == 1) {
@@ -469,7 +451,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.maintenanceService.set(this.selectedMaintenance).subscribe(
       dataM => {
 
-        this.maintenanceStockService.insert(dataM);
+     //   this.maintenanceStockService.insert(dataM);
         this.toastr.success('Elément Maintenance est Enregistré Avec Succès', 'Edition');
 
         this.isFormSubmitted = false;
@@ -495,6 +477,7 @@ export class MaintenancePlanComponent implements OnInit {
       }
     );
   }
+
   saveClose() {
     this.maintenanceService.close(this.selectedMaintenance).subscribe(
       dataM => {
@@ -506,7 +489,6 @@ export class MaintenancePlanComponent implements OnInit {
         this.spinner.hide();
         this.selectedMaintenance = new Maintenance();
         this.maintenacePlanForm.reset();
-
         this.router.navigate(['/core/maintenance/treatment']);
 
       },
@@ -571,6 +553,12 @@ export class MaintenancePlanComponent implements OnInit {
   onSelectPServiceProvider(event) {
 
     this.selectedMaintenance.serviceProvider = event.value as ServiceProvider;
+
+    if (this.selectedMaintenance.serviceProvider.id===1 ) {
+      this.serviceProviderMode = 1;
+    } else if (this.selectedMaintenance.serviceProvider.id === 2) {
+      this.serviceProviderMode = 2;
+    }
   }
   onSelectResponsability(event) {
     this.selectedMaintenance.responsability = event.value as Responsability;

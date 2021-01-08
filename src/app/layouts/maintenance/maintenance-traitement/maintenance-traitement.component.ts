@@ -72,7 +72,7 @@ export class MaintenanceTraitementComponent implements OnInit {
        { field: 'serviceProvider', child: 'code', header: 'Prestataire', type: 'object' },
        { field: 'responsability', child: 'code', header: 'Responsablité', type: 'object' },
      // { field: 'maintenanceState', child: 'code', header: 'Statut' , type: 'object'},
-       { field: 'interventionDate', header: 'Date intervention', type: 'date' },
+       { field: 'interventionDate', header: 'Date intervention Planifié', type: 'date' },
        { field: 'triggerDate', header: 'Date declanchement', type: 'date' },
        { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
 
@@ -96,16 +96,12 @@ export class MaintenanceTraitementComponent implements OnInit {
 
     this.editMode = event.operationMode;
     this.selectMaintenances = event.object;
-
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
       this.showDialog = true;
       this.router.navigate(['/core/maintenance/edit', this.selectMaintenances[0].id]);
-
-
     }
-
   }
 
 

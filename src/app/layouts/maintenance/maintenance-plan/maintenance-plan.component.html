@@ -2,8 +2,8 @@
   <div class="card-header">
     <span class="h4">{{ editModeTitle | translate }}</span>
   </div>
-  <div class="card-body border-top-primary" >
-    <form  [formGroup]="maintenacePlanForm">
+  <div class="card-body border-top-primary">
+    <form [formGroup]="maintenacePlanForm">
 
       <div formGroupName="general">
         <div class="row  mt-3 justify-content-around">
@@ -15,469 +15,442 @@
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <input type="text" class="form-control" formControlName="fcode" pInputText   />
+            <input type="text" class="form-control" formControlName="fcode" pInputText />
           </div>
-      <div class="form-group col-md-9 ">
-      </div>
+          <div class="form-group col-md-9 ">
+          </div>
         </div>
+        <div class="row  mt-3 justify-content-around">
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Type de Maintenance'| translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['general'].get('fmaintenaceType').touched && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid) ||
+          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid)"
+              class="text-lighter" style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <input type="text"  *ngIf="editMType==1"
+              formControlName="fmaintenaceType" pInputText /> 
+              <!-- [attr.disabled]="true" -->
+<!--  -->
+
+            <p-autoComplete [suggestions]="maintenanceTypeList" *ngIf="editMType!=1"
+              (onChange)='onSelectMaintenanceType($event)' field='code' formControlName="fmaintenaceType"
+              [attr.disabled]="true"></p-autoComplete>
+
+          </div>
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['general'].get('fProgram').touched && maintenacePlanForm.controls['general'].get('fProgram').invalid) ||
+          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fProgram').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control"  *ngIf="editMType==1"
+              formControlName="fProgram" pInputText />
+              <!-- [attr.disabled]="true" -->
+
+
+
+            <p-dropdown [autoDisplayFirst]="true" optionLabel="code" *ngIf="editMType!=1" [filter]="true"
+              [options]="programTypeList" [showClear]="true" (onChange)='onSelectProgrameType($event)'
+              formControlName="fProgram"></p-dropdown>
+          </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'patrimoine' | translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['general'].get('fPatrimony').touched && maintenacePlanForm.controls['general'].get('fPatrimony').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['general'].get('fPatrimony').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete [suggestions]="patrimonyList" (completeMethod)="onPatrimonySearch($event)" field='code'
+              formControlName="fPatrimony"></p-autoComplete>
+          </div>
+
+          <div class="form-group col-md-3">
+
+            <label class="font-weight-bold ">{{'Etat de Maintenance'| translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['general'].get('fState').touched && maintenacePlanForm.controls['general'].get('fState').invalid) ||
+          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fState').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+
+            <input type="text" class="form-control"  formControlName="fState" pInputText />
+            <!-- [attr.disabled]="true" -->
+ 
+
+
+          </div>
+        </div>
+
+
+        <div class="row  mt-3 justify-content-around">
+          <div class="form-group col-md-9 ">
+          </div>
+        </div>
+      </div>
+
+
+
+      <hr>
+      <div formGroupName="periodicity">
+
+        <div *ngIf="(this.selectMaintenancetype.id === 1)">
+
+          <div *ngIf="(this.selectedMaintenance.programType.id === 1)">
+            <div class="row  mt-3 justify-content-around">
+
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold ">{{'Action' | translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
+                  style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-autoComplete field='description' formControlName="fActionType" ></p-autoComplete>
+                <!-- [disabled]="true" -->
+
+              </div>
+
+
+              <div class="form-group col-md-3 ">
+
+                <label class="font-weight-bold ">{{'Date Intervention planifiée' | translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fInterventionDate').touched && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid) ||
+        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid)"
+                  class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy" yearRange="1970:2100"
+                  formControlName="fInterventionDate"> </p-calendar>
+              </div>
+
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fTriggerDay').touched && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid) ||
+        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid)"
+                  class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDay">
+                </p-inputNumber>
+
+              </div>
+              <div class="form-group col-md-3 ">
+
+              </div>
+
+
+
+            </div>
+
+
+
+
+            <hr>
+          </div>
+
+          <div *ngIf="(this.selectedMaintenance.programType.id === 2)">
+            <div class="row  mt-3 justify-content-around">
+
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold ">{{'Action' | translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
+                  style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-autoComplete field='description' formControlName="fActionType" ></p-autoComplete>
+<!-- [disabled]="true" -->
+
+              </div>
+
+
+
+              <div class="form-group col-md-3">
+
+                <label class="font-weight-bold ">{{'Type'| translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fConditionalType').touched && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid)"
+                  class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <p-dropdown [autoDisplayFirst]="true" optionLabel="description" [filter]="true" [options]="conditionalTypeList"
+                  [showClear]="true" (onChange)='onSelectConditionalType($event)' formControlName="fConditionalType">
+                </p-dropdown>
+
+
+              </div>
+
+
+              <div class="form-group col-md-3">
+
+                <label class="font-weight-bold ">{{'Valeur'| translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').touched && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid)"
+                  class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <input type="text" class="form-control" formControlName="fvaleurCOnditional" pInputText />
+
+
+
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold ">{{'intervention planifiée'| translate}} *</label>
+                <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('finterventionKm').touched && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid)"
+                  class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{"Obligatoire" | translate}}
+                </span>
+                <br />
+                <input type="text" class="form-control" formControlName="finterventionKm" pInputText />
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+      <div formGroupName="service">
+
+        <div *ngIf="this.selectMaintenancetype.id === 2">
+
+          <div class="row  mt-3 justify-content-around">
+
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Service' | translate}} *</label>
+              <span *ngIf="(maintenacePlanForm.controls['service'].get('fService').touched && maintenacePlanForm.controls['service'].get('fService').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fService').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{"Obligatoire" | translate}}
+              </span>
+              <br />
+              <p-dropdown [autoDisplayFirst]="false" optionLabel="code" [filter]="true" [options]="responsabilityList"
+                [showClear]="true" (onChange)="onSelectService($event)" formControlName="fService"></p-dropdown>
+            </div>
+
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold ">{{'Nom' | translate}} *</label>
+              <span *ngIf="(maintenacePlanForm.controls['service'].get('femplyer').touched && maintenacePlanForm.controls['service'].get('femplyer').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['service'].get('femplyer').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{"Obligatoire" | translate}}
+              </span>
+              <br />
+              <input type="text" class="form-control" formControlName="femplyer" pInputText />
+
+            </div>
+
+            <div class="form-group col-md-3 ">
+
+              <label class="font-weight-bold ">{{'Date de déclaration ' | translate}} *</label>
+              <span *ngIf="(maintenacePlanForm.controls['service'].get('fDeclareDate').touched && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{"Obligatoire" | translate}}
+              </span>
+              <br />
+              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
+                formControlName="fDeclareDate"> </p-calendar>
+            </div>
+
+
+            <div class="form-group col-md-3 ">
+
+
+            </div>
+
+          </div>
+          <div class="row  mt-3 justify-content-around">
+
+            <div class="form-group col-md-6 ">
+              <label class="font-weight-bold ">{{'Constat' | translate}} *</label>
+              <span *ngIf="(maintenacePlanForm.controls['service'].get('fObseravtion').touched && maintenacePlanForm.controls['service'].get('fObseravtion').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fObseravtion').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{"Obligatoire" | translate}}
+              </span>
+              <br />
+
+              <input type="text" class="form-control" formControlName="fObseravtion" pInputText />
+
+            </div>
+            <div class="form-group col-md-6 ">
+            </div>
+
+          </div>
+          <hr>
+        </div>
+
+      </div>
+
+      <div formGroupName="responsability">
+
+        <div class="row  mt-3 justify-content-arround">
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Prestataire de service' | translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fServiceProvider').touched && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid)"
+              class="text-lighter" style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-dropdown [autoDisplayFirst]="false" optionLabel="description" [filter]="true"
+              [options]="serviceProviderList" [showClear]="true" (onChange)="onSelectPServiceProvider($event)"
+              formControlName="fServiceProvider"></p-dropdown>
+          </div>
+
+
+          <div class="form-group col-md-3 ">
+          </div>
+        </div>
+
+
+        <div class="row  mt-3 justify-content-arround" *ngIf="serviceProviderMode==1">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{'Responsabilité' | translate}} *</label>
+
+            <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fResponsability').touched && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid)"
+              class="text-lighter" style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <p-dropdown [autoDisplayFirst]="false" optionLabel="description" [filter]="true"
+              [options]="responsabilityList" [showClear]="true" (onChange)="onSelectResponsability($event)"
+              formControlName="fResponsability"></p-dropdown>
+          </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Agent' | translate}} </label>
+
+
+            <input type="text" class="form-control" formControlName="fagent" pInputText />
+          </div>
+
+        </div>
+
+
+        <div class="row  mt-3 justify-content-arround" *ngIf="serviceProviderMode==2">
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Fournisseur' | translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fSupplier').touched && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete [suggestions]="supplierList" (completeMethod)="onSupplierSearch($event)" field='code'
+              formControlName="fSupplier" (onSelect)="onSelectSupplier($event)"></p-autoComplete>
+          </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Commande' | translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['responsability'].get('order').touched && maintenacePlanForm.controls['responsability'].get('order').invalid) ||
+    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('order').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete [suggestions]="purchaseOrderList" (completeMethod)="onPurchaseOrderCodeSearch($event)"
+              field='code' formControlName="order" (onSelect)="onSelectPurchaseOrder($event)"></p-autoComplete>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
       <div class="row  mt-3 justify-content-around">
         <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type de Maintenance'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fmaintenaceType').touched && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fmaintenaceType').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
+          <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
           <br />
-          <input type="text"  class="form-control" *ngIf="editMType==1" 
-          [attr.disabled]="true"  formControlName="fmaintenaceType" pInputText   />
-
-
-          <p-autoComplete   [suggestions]="maintenanceTypeList" *ngIf="editMType!=1"
-          (onChange)='onSelectMaintenanceType($event)'
-          field='code'  formControlName="fmaintenaceType" [disabled]="true"
-          ></p-autoComplete>
-<!-- 
-          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"*ngIf="editMType!=1"
-          [filter]="true" [options]="maintenanceTypeList"
-         [showClear]="true" (onChange)='onSelectMaintenanceType($event)' [disabled]="true"
-         formControlName="fmaintenaceType"></p-dropdown> -->
-    </div>
+          <input type="text"  formControlName="price" pInputText />
+        </div>
         <div class="form-group col-md-3 ">
-          <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fProgram').touched && maintenacePlanForm.controls['general'].get('fProgram').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fProgram').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
-          <br />
-          <input type="text" class="form-control"  [attr.disabled]="true" *ngIf="editMType==1" formControlName="fProgram" pInputText   />
-
-
-
-          <p-dropdown [autoDisplayFirst]="true"  optionLabel="code" *ngIf="editMType!=1"
-          [filter]="true" [options]="programTypeList"
-         [showClear]="true" (onChange)='onSelectProgrameType($event)' formControlName="fProgram"></p-dropdown>
-    </div>
-
-    <div class="form-group col-md-3 ">
-      <label class="font-weight-bold ">{{'patrimoine' | translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['general'].get('fPatrimony').touched && maintenacePlanForm.controls['general'].get('fPatrimony').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['general'].get('fPatrimony').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-autoComplete  [suggestions]="patrimonyList"
-      (completeMethod)="onPatrimonySearch($event)"
-      field='code'  formControlName="fPatrimony"
-      ></p-autoComplete>
-    </div>
-
-        <div class="form-group col-md-3">
-
-          <label class="font-weight-bold ">{{'Etat de Maintenance'| translate}} *</label>
-          <span *ngIf="(maintenacePlanForm.controls['general'].get('fState').touched && maintenacePlanForm.controls['general'].get('fState').invalid) ||
-          (isFormSubmitted && maintenacePlanForm.controls['general'].get('fState').invalid)" class="text-lighter"
-            style="color: red; font-size: xx-small;">
-            {{"Obligatoire" | translate}}
-          </span>
-          <br />
-
-          <input type="text" class="form-control" [attr.disabled]="true"
-           formControlName="fState" pInputText   />
-
-         <!-- <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"  [disabled]="true"
-          [filter]="true" [options]="MaintenancestateList"
-         [showClear]="true"
-
-         (onChange)='onSelectMaintenanceState($event)' formControlName="fState"></p-dropdown> -->
-
-
-        </div>
- </div>
-
-
- <div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-9 ">
-  </div>
-</div>
-  </div>
-
-
-
-<hr>
-<div formGroupName="periodicity">
-
-<div *ngIf="(this.selectMaintenancetype.id === 1)" >
-
-<div *ngIf="(this.selectedMaintenance.programType.id === 1)"> 
-  <div class="row  mt-3 justify-content-around">
-
-     <div class="form-group col-md-3 ">
-      <label class="font-weight-bold ">{{'Action' | translate}} *</label>
-      <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
-      (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
-        style="color: red; font-size: xx-small;">
-        {{"Obligatoire" | translate}}
-      </span>
-      <br />
-      <p-autoComplete  
-  
-      field='description'  formControlName="fActionType" [disabled]="true" 
-      ></p-autoComplete>
-
-
-    </div> 
-
-
-      <div class="form-group col-md-3 "  >
-
-        <label class="font-weight-bold ">{{'Date Intervention planifiée' | translate}} *</label>
-        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fInterventionDate').touched && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fInterventionDate').invalid)" class="text-lighter"
-          style="color: red; font-size: xx-small;">
-          {{"Obligatoire" | translate}}
-        </span>
-        <br />
-        <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" 
-        yearRange="1970:2100"  formControlName="fInterventionDate" > </p-calendar>
-      </div>
-
-      <div class="form-group col-md-3 ">
-        <label class="font-weight-bold ">{{'Déclanchement' | translate}} *</label>
-        <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fTriggerDay').touched && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid) ||
-        (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fTriggerDay').invalid)" class="text-lighter"
-          style="color: red; font-size: xx-small;">
-          {{"Obligatoire" | translate}}
-        </span>
-        <br />
-        <p-inputNumber  mode="decimal"
-        [showButtons]="true" [min]="0" [max]="5" formControlName="fTriggerDay">
-        </p-inputNumber>
-
-        </div>
-      <div class="form-group col-md-3 " >
-
-    </div>
-
-
-
-  </div>
-
-
-
-
-<hr>
-</div>
-
-<div *ngIf="(this.selectedMaintenance.programType.id === 2)"> 
-  <div class="row  mt-3 justify-content-around">
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Action' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fActionType').touched && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fActionType').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-autoComplete  
-
-    field='description'  formControlName="fActionType" [disabled]="true" 
-    ></p-autoComplete>
-
-
-  </div> 
-
-
-
-  <div class="form-group col-md-3">
-
-    <label class="font-weight-bold ">{{'Type'| translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fConditionalType').touched && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fConditionalType').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="true"  optionLabel="code"
-    [filter]="true" [options]="conditionalTypeList"
-   [showClear]="true"
-
-   (onChange)='onSelectConditionalType($event)' formControlName="fConditionalType"></p-dropdown>
-
-
-  </div>
-
-
-  <div class="form-group col-md-3">
-
-    <label class="font-weight-bold ">{{'Valeur'| translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').touched && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('fvaleurCOnditional').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <input type="text" class="form-control" formControlName="fvaleurCOnditional" pInputText   />
-
-
-
-  </div>
-
-  <div class="form-group col-md-3">
-    <label class="font-weight-bold ">{{'intervention planifiée'| translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['periodicity'].get('finterventionKm').touched && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['periodicity'].get('finterventionKm').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <input type="text" class="form-control" formControlName="finterventionKm" pInputText   />
-
-
-</div>
-
-  </div>
-
-  </div>
-
-
-
-</div>
-</div>
-
-
-<div formGroupName="service">
-
-<div *ngIf="this.selectMaintenancetype.id === 2" >
-
-  <div class="row  mt-3 justify-content-around">
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Service' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('fService').touched && maintenacePlanForm.controls['service'].get('fService').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fService').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="code"
-        [filter]="true" [options]="responsabilityList"
-       [showClear]="true"(onChange)="onSelectService($event)" formControlName="fService"></p-dropdown>
-  </div>
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Nom' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('femplyer').touched && maintenacePlanForm.controls['service'].get('femplyer').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('femplyer').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <input type="text" class="form-control" formControlName="femplyer" pInputText   />
-
-  </div>
-
-  <div class="form-group col-md-3 ">
-
-    <label class="font-weight-bold ">{{'Date de déclaration ' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('fDeclareDate').touched && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fDeclareDate').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" 
-    yearRange="1970:2100"  formControlName="fDeclareDate" > </p-calendar>
-  </div>
-
-
-  <div class="form-group col-md-3 ">
-    
-   
-</div>
-
-</div>
-<div class="row  mt-3 justify-content-around">
-
-  <div class="form-group col-md-6 ">
-    <label class="font-weight-bold ">{{'Constat' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['service'].get('fObseravtion').touched && maintenacePlanForm.controls['service'].get('fObseravtion').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['service'].get('fObseravtion').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-
-    <input type="text" class="form-control" formControlName="fObseravtion" pInputText   />
-
-  </div>
-  <div class="form-group col-md-6 ">
-  </div>
- 
-</div>
-<hr>
-</div>
-
-</div>
-
-<div formGroupName="responsability">
-
-<div class="row  mt-3 justify-content-arround">
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Prestataire de service' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fServiceProvider').touched && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fServiceProvider').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="description"
-        [filter]="true" [options]="serviceProviderList"
-       [showClear]="true" (onChange)="onSelectPServiceProvider($event)" formControlName="fServiceProvider"></p-dropdown>
-  </div>
- 
-  
-  <div class="form-group col-md-3 ">
-  </div>
-</div>
-
-
-<div class="row  mt-3 justify-content-arround"  *ngIf="serviceProviderMode==1" >
-  <div class="form-group col-md-3" >
-    <label class="font-weight-bold ">{{'Responsabilité' | translate}} *</label>
-
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fResponsability').touched && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fResponsability').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <p-dropdown [autoDisplayFirst]="false"  optionLabel="description"
-        [filter]="true" [options]="responsabilityList"
-       [showClear]="true"(onChange)="onSelectResponsability($event)" formControlName="fResponsability"></p-dropdown>
-  </div>
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Agent' | translate}} </label>
-
-
-    <input type="text" class="form-control" formControlName="fagent" pInputText   />
-  </div>
-
-  </div>
-
-  
-<div class="row  mt-3 justify-content-arround" *ngIf="serviceProviderMode==2" >
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Fournisseur' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('fSupplier').touched && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('fSupplier').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-autoComplete  [suggestions]="supplierList"
-    (completeMethod)="onSupplierSearch($event)"
-    field='code'  formControlName="fSupplier" (onSelect)="onSelectSupplier($event)"
-    ></p-autoComplete>
-  </div>
-
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Commande' | translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.controls['responsability'].get('order').touched && maintenacePlanForm.controls['responsability'].get('order').invalid) ||
-    (isFormSubmitted && maintenacePlanForm.controls['responsability'].get('order').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <p-autoComplete  [suggestions]="purchaseOrderList"
-    (completeMethod)="onPurchaseOrderCodeSearch($event)"
-    field='code'  formControlName="order"  (onSelect)="onSelectPurchaseOrder($event)"
-    ></p-autoComplete>
-  </div>
-  
-  </div>
-
-
-
-</div>
-
-<div class="row  mt-3 justify-content-around">
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Montant'| translate}} *</label>
-    <br />
-    <input type="text" class="form-control" formControlName="price" pInputText   />
-  </div>
-  <div class="form-group col-md-3 ">
-    <label class="font-weight-bold ">{{'Kilométrage Intervention'| translate}} *</label>
-    <span *ngIf="(maintenacePlanForm.get('mileage').touched && maintenacePlanForm.get('mileage').invalid) ||
+          <label class="font-weight-bold ">{{'Kilométrage Intervention'| translate}} *</label>
+          <span *ngIf="(maintenacePlanForm.get('mileage').touched && maintenacePlanForm.get('mileage').invalid) ||
     (isFormSubmitted && maintenacePlanForm.get('mileage').invalid)" class="text-lighter"
-      style="color: red; font-size: xx-small;">
-      {{"Obligatoire" | translate}}
-    </span>
-    <br />
-    <input type="text" class="form-control" formControlName="mileage" pInputText   />
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+          </span>
+          <br />
+          <input type="text"  formControlName="mileage" pInputText />
+        </div>
+
+
+        <div class="form-group col-md-3 ">
+
+          <label class="font-weight-bold ">{{'Date Intervention' | translate}}</label>
+
+          <br />
+
+
+          <p-calendar [monthNavigator]="true" showButtonBar="true" [yearNavigator]="true" dateFormat="dd-mm-yy" yearRange="1970:2100"
+            formControlName="fDateMaintenance"> </p-calendar>
+        </div>
+
+        <div class="form-group col-md-3 ">
+
+          <label class="font-weight-bold ">{{'Durée' | translate}} </label>
+
+          <br />
+          <p-inputNumber formControlName="fDuration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
+
+          </p-inputNumber>
+
+        </div>
+
+
+
+      </div>
+    </form>
   </div>
 
 
-  <div class="form-group col-md-3 "  >
+  <div class="card m-5 ">
+    <div class="card-header" style="background-color: #f7f7f7;">
+      <div class="row">
 
-    <label class="font-weight-bold ">{{'Date Intervention' | translate}}</label>
-    
-    <br />
-    <p-calendar [monthNavigator]="true"  [yearNavigator]="true" dateFormat="dd/mm/yy" 
-    yearRange="1970:2100"  formControlName="fMaintenanceDate" > </p-calendar>
-  </div>
-
-  <div class="form-group col-md-3 ">
-
-    <label class="font-weight-bold ">{{'Durée' | translate}} </label>
-
-    <br />
-    <p-inputNumber  formControlName="fDuration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
-
-   </p-inputNumber>
-
-</div>
-
-
-
-</div>
-      </form>
- </div>
-
-
- <div class="card m-5 ">
-  <div class="card-header" style="background-color: #f7f7f7;">
-   <div class="row">
-
-    <div class="col-xs-4 col-md-4 pull-left">
-      <button
-
-        type="button"
-        class="btn btn-sm btn-primary mx-1"
-        (click)="onShowDialogAction(actionLineM,false)"
-        >   
-        <i class="fa fa-plus"></i>
-      </button>
+        <div class="col-xs-4 col-md-4 pull-left">
+          <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogAction(actionLineM,false)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <div class=" col-xs-4 col-md-6 pull-center">
+          <span style="font-size: 16px; color: #5f5b5b;">
+            <b> {{ "Liste des produits" | translate }}</b></span>
+        </div>
+      </div>
     </div>
-    <div class=" col-xs-4 col-md-6 pull-center">
-      <span style="font-size: 16px; color: #5f5b5b;">
-        <b> {{ "Liste des produits" | translate }}</b></span
-      >
-    </div>
-  </div></div>
-  <div class="card-body border-top-primary">
-    <p-table
-    [value]=" this.selectedMaintenance?.actionLineMaintenances" [lazy]="true" [rows]="size" [paginator]="true"
-    [totalRecords]=" this.selectedMaintenance
+    <div class="card-body border-top-primary">
+      <p-table [value]=" this.selectedMaintenance?.actionLineMaintenances" [lazy]="true" [rows]="size"
+        [paginator]="true" [totalRecords]=" this.selectedMaintenance
     ?.actionLineMaintenances?.length">
-      <ng-template pTemplate="header">
-        <tr>
-        
+        <ng-template pTemplate="header">
+          <tr>
+
             <th>{{'produit' | translate}}</th>
             <th>{{'Prix Un' | translate}}</th>
             <th>{{'Quantite' | translate}}</th>
@@ -485,66 +458,55 @@
             <th>{{'Prix TTC' | translate}} </th>
             <!-- <th>{{ "Prix" | translate }}</th> -->
             <th style="width: 18%;">{{ "Actions" | translate }}</th>
-         
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-line>
-        <tr>
-          <td>{{line?.product?.code}}</td>
-          <td>{{line?.unitPrice}}</td>
-          <td>{{line?.quantity}}</td>
-          <td>{{line?.totalPriceHT}}</td>
-          <td>{{line?.totalPriceTTC}}</td>
-          <td>
 
-            <button
-            [disabled]="editMode"
-            type="button"
-            class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogAction(line,true)"
-            ><!--ADD-->
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button
-          [disabled]="editMode"
-          type="button"
-          class="btn btn-sm btn-danger mx-1"
-          (click)="onDeleteMaintenanceLine(line.product.id)"
-          ><!--ADD-->
-          <i class="fa fa-trash"></i>
-        </button>
-          </td>
-        </tr>
-      </ng-template>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-line>
+          <tr>
+            <td>{{line?.product?.code}}</td>
+            <td>{{line?.unitPrice}}</td>
+            <td>{{line?.quantity}}</td>
+            <td>{{line?.totalPriceHT}}</td>
+            <td>{{line?.totalPriceTTC}}</td>
+            <td>
 
-    </p-table>
+              <button [disabled]="editMode" type="button" class="btn btn-sm btn-primary mx-1"
+                (click)="onShowDialogAction(line,true)">
+                <!--ADD-->
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button [disabled]="editMode" type="button" class="btn btn-sm btn-danger mx-1"
+                (click)="onDeleteMaintenanceLine(line.product.id)">
+                <!--ADD-->
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
   </div>
-</div>
 
-<div class="text-center mt-3 mr-3 ml-3" >
-  <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
-    {{'Fermer' | translate}}
-  </a>
-  <!-- disabled si maintenance statut= fermer -->
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit(1)"
-    [disabled]="(maintenancestateMode==4)">
-    {{'Cloturer' | translate }}
-  </button>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit(2)">
-    {{ "Valider" | translate }}
-  </button>
-</div>
+  <div class="text-center mt-3 mr-3 ml-3">
+    <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
+      {{'Fermer' | translate}}
+    </a>
+    <!-- disabled si maintenance statut= fermer -->
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(1)" [disabled]="(maintenancestateMode==4)">
+      {{'Cloturer' | translate }}
+    </button>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(2)">
+      {{ "Valider" | translate }}
+    </button>
+  </div>
 
 </div>
 
 
 <div *ngIf="showDialog == true">
-  <app-maintenance-product
-    (showDialog)="onHideDialogAction($event)"
-    (actionLineEdited)="onLineEditedAction($event)"
-    [selectedActionLine]="selectActionLineMaintenance"
-     [editMode]="editMode"
-    ></app-maintenance-product>
+  <app-maintenance-product (showDialog)="onHideDialogAction($event)" (actionLineEdited)="onLineEditedAction($event)"
+    [selectedActionLine]="selectActionLineMaintenance" [editMode]="editMode"></app-maintenance-product>
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

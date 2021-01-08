@@ -225,7 +225,6 @@ export class MaintenancePlanComponent implements OnInit {
 
     }
     this.initForm();
-    console.log(this.selectedMaintenance);
     
   }
 
@@ -236,16 +235,18 @@ export class MaintenancePlanComponent implements OnInit {
     const dInterventionDate = new Date(this.selectedMaintenance.interventionDate);
    // const dMaintenancenDate = new Date(this.selectedMaintenance.maintenanceDate);
     const dDeclare = new Date(this.selectedMaintenance.declaredDate);
-
+    const dDateMaintenance = new Date (this.selectedMaintenance.maintenanceDate);
     this.maintenacePlanForm = new FormGroup({
+      'fDateMaintenance': new FormControl(new Date(dDateMaintenance)), 
       'price': new FormControl({
         value: this.selectedMaintenance.totalPrice ?
           this.roundPipe.transform(this.selectedMaintenance.totalPrice, 2) : 0, disabled: true
       }),
-      'mileage': new FormControl(this.selectedMaintenance.mileage,Validators.required),
-      'fDuration': new FormControl(this.selectedMaintenance.duration),
-      'fMaintenanceDate': new FormControl(this.selectedMaintenance.maintenanceDate),
+      
 
+      'mileage': new FormControl(this.selectedMaintenance.mileage),
+      'fDuration': new FormControl(this.selectedMaintenance.duration),
+     
       general: new FormGroup({
         'fcode': new FormControl(
           {
@@ -259,21 +260,21 @@ export class MaintenancePlanComponent implements OnInit {
           Validators.required),
 
         'fmaintenaceType': new FormControl(
-
-          this.editMType === 2
+      {
+        value: this.editMType === 2
             ? this.selectedMaintenance.maintenanceType
-            : this.selectedMaintenance.maintenanceType.code,
-
+            : this.selectedMaintenance.maintenanceType.description,disabled:true
+      },
           Validators.required),
 
         'fProgram': new FormControl(
-
-          this.editMType === 2
+  {
+         value: this.editMType === 2
             ? this.selectedMaintenance.programType
-            : this.selectedMaintenance.programType.code,
-          //  disabled : true
+            : this.selectedMaintenance.programType.description,
+            disabled : true
 
-          Validators.required),
+   }, Validators.required),
 
 
         'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
@@ -286,31 +287,23 @@ export class MaintenancePlanComponent implements OnInit {
                 : null,
             disabled: true
           },Validators.required)
-          
          // this.selectedMaintenance.maintenanceState.code, Validators.required),
-
       }),
       periodicity: new FormGroup({
         'fInterventionDate': new FormControl(dInterventionDate),
         'fTriggerDay': new FormControl(this.selectedMaintenance.triggerDay),
-        'fActionType': new FormControl(this.selectedMaintenance.actionType),
+        'fActionType': new FormControl({value :this.selectedMaintenance.actionType,disabled:true}),
         'fConditionalType': new FormControl(this.selectedMaintenance.conditionalType),
         'fvaleurCOnditional': new FormControl(this.selectedMaintenance.valueconditionalType),
         'finterventionKm': new FormControl(this.selectedMaintenance.mileageNext),
-
       }),
-
       responsability: new FormGroup({
         'fServiceProvider': new FormControl(this.selectedMaintenance.serviceProvider, Validators.required),
         'fResponsability': new FormControl(this.selectedMaintenance.responsability, Validators.required),
         'fagent': new FormControl(this.selectedMaintenance.agent),
         'fSupplier': new FormControl(this.selectedMaintenance.supplier),
         'order': new FormControl(this.selectedMaintenance.purshaseOrder),
-
-
         //'fIntervetionDate': new FormControl(new Date(this.selectedMaintenance.interventionDate)),
-
-
       }),
       service: new FormGroup({
         'fService': new FormControl(this.selectedMaintenance.service, Validators.required),
@@ -318,11 +311,8 @@ export class MaintenancePlanComponent implements OnInit {
         'fTriggerDayy': new FormControl(this.selectedMaintenance.triggerDay),
         'fDeclareDate': new FormControl(dDeclare, Validators.required),
         'fObseravtion': new FormControl(this.selectedMaintenance.observation, Validators.required),
-
       }),
-
     });
-
   }
 
 
@@ -410,7 +400,7 @@ export class MaintenancePlanComponent implements OnInit {
 
     //this.selectedMaintenance.code = this.maintenacePlanForm.value['general']['fcode'];
     this.selectedMaintenance.mileage = this.maintenacePlanForm.value['mileage'];
-    this.selectedMaintenance.maintenanceDate = this.maintenacePlanForm.value['fMaintenanceDate'];
+    this.selectedMaintenance.maintenanceDate = this.maintenacePlanForm.value['fDateMaintenance'];
     this.selectedMaintenance.duration = this.maintenacePlanForm.value['fDuration'];
 
     this.selectedMaintenance.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
@@ -428,14 +418,15 @@ export class MaintenancePlanComponent implements OnInit {
 
     this.selectedMaintenance.owner=this.authentificationService.getDefaultOwner();
 
+    console.log(this.selectedMaintenance);
+    
 
     if (this.selectedMaintenance.programType.id == 1) {
       this.selectedMaintenance.interventionDate = this.maintenacePlanForm.value['periodicity']['fInterventionDate'];
       let dt = new Date(this.selectedMaintenance.interventionDate);
       let day = this.selectedMaintenance.triggerDay;
-      dt.setDate(dt.getDate() - day);
+     dt.setDate(dt.getDate() - day);
       this.selectedMaintenance.triggerDate = dt;
-
     }
 
     if (close == 2) {
@@ -479,9 +470,13 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   saveClose() {
+    
+    
+    
     this.maintenanceService.close(this.selectedMaintenance).subscribe(
       dataM => {
-
+    console.log("maintenance Stock");
+    console.log(dataM);
         this.maintenanceStockService.insert(dataM);
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
 
@@ -585,7 +580,7 @@ export class MaintenancePlanComponent implements OnInit {
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.selectedMaintenance.actionLineMaintenances = this.selectedMaintenance.actionLineMaintenances.filter(
-          (l) => l.id !== id
+          (l) => l.product.id !== id
         );
         this.updateTotalPrice();
       },

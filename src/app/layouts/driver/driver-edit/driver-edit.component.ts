@@ -14,6 +14,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { BadgeTypeDriverService } from '../../../shared/services/api/badge-type-driver.service';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../shared/services';
+import { SubscriptionCard } from './../../../shared/models/subscription-card';
+import { SubscriptionCardService } from './../../../shared/services/api/subscription-card.service';
 
 
 
@@ -47,6 +49,7 @@ export class DriverEditComponent implements OnInit {
   showDialog: boolean;
   editMode: boolean;
   subscriptions= new Subscription ();
+  subscriptionCardList: SubscriptionCard[] = [];
 
   items: MenuItem[];
     
@@ -60,6 +63,7 @@ export class DriverEditComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private authentificationService:AuthenticationService,
+    private subscriptionCardService:SubscriptionCardService,
     ) { }
 
   ngOnInit() {
@@ -131,6 +135,7 @@ export class DriverEditComponent implements OnInit {
         'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
         'carte': new FormControl(this.selectedDriver.carte),
+        'card': new FormControl(this.selectedDriver.subscriptionCard),
 
       }
     );
@@ -172,15 +177,15 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.code = formValue['code'];
     this.selectedDriver.birthDate = formValue['dateNaissance'];
     this.selectedDriver.lastMedicalVisit = formValue['visiteMedicale'];
-    //   this.selectedDriver.commission = formValue['comission'];
+    //this.selectedDriver.commission = formValue['comission'];
     this.selectedDriver.name = formValue['nom'];
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
     this.selectedDriver.carte = formValue['carte'];
-  this.selectedDriver.owner=this.authentificationService.getDefaultOwner();
+    this.selectedDriver.owner=this.authentificationService.getDefaultOwner();
    this.selectedDriver.badgeTypeDrivers=this.BadgeDriverList;
-
+ 
 
     this.driverService.set(this.selectedDriver).subscribe(
       data => {
@@ -216,6 +221,17 @@ export class DriverEditComponent implements OnInit {
     this.BadgeDriverList.push(line);
     
 
+  }
+
+  onSelectCard(event) {
+    this.selectedDriver.subscriptionCard = event;    
+  }
+
+
+  onCodeCardSearch(event: any) {
+    this.subscriptionCardService.find('code~' + event.query).subscribe(
+      data => this.subscriptionCardList = data
+    );
   }
 
   onDeleteBadge(id: number) {

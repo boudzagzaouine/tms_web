@@ -47,6 +47,10 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
         l.warehouse = null;
         list.push(l);
       }
+console.log("generate M");
+
+console.log(list);
+
 
     
 
@@ -62,7 +66,6 @@ const maintenancestocks = this.generateMaintenanceStockFromMaintenance(maintenan
       this.toastr.success('Elément Stock est Enregistré Avec Succès', 'Validation');
        console.log(dataM);
        console.log(maintenancestocks);
-    
     },
     err => {
       this.toastr.error(

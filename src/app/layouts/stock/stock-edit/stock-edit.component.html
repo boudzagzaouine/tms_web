@@ -55,7 +55,7 @@
                 style="color: red; font-size: xx-small;">
                 {{'Obligatoire' | translate }}
               </span>
-              <p-autoComplete [suggestions]="supplierList" (completeMethod)="onCodeSupplierSearch($event)" field="code"
+              <p-autoComplete [suggestions]="supplierList" (completeMethod)="onCodeSupplierSearch($event)" field="contact.name"
                 formControlName="supplier"></p-autoComplete>
 
             </div>

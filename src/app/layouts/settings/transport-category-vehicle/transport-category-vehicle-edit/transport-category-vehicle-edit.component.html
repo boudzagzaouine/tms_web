@@ -58,7 +58,7 @@
               ><br />
               <p-autoComplete formControlName="fTransport" [suggestions]="transportList"
               (onSelect)="onSelectTransport($event)"
-              (completeMethod)="onTransportSearch($event)" field="code"
+              (completeMethod)="onTransportSearch($event)" field="name"
               [disabled]="(editMode==2)" >
 
             </p-autoComplete>

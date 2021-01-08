@@ -317,6 +317,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           this.selectedInsurance.patrimony = data;
           this.subscriptions.add(this.insuranceService.set(this.selectedInsurance).subscribe(
             data => {
+              this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+
             },
             err =>{
               this.toastr.error(err.error.message,"Erreur");

@@ -48,7 +48,7 @@ export class Maintenance {
   triggerDay: number;
   triggerDate: Date  = new Date();
   interventionDate: Date= new Date();
-  maintenanceDate: Date= new Date();
+  maintenanceDate: Date = new Date();
 
   duration : number ;
   declaredDate : Date = new Date();

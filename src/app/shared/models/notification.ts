@@ -1,5 +1,7 @@
 import { NotificationType} from './notificationType';
 import { NotificationState } from './notificationState';
+import { Maintenance } from './maintenance';
+import { Product } from '.';
 
 export class Notification {
 
@@ -7,6 +9,8 @@ export class Notification {
   code: string;
   type: string;
   notificationState: NotificationState;
+  product:Product;
+  maintenance:Maintenance;
   productId :number;
   maintenanceId :number;
   patimonyCode :String;

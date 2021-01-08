@@ -38,6 +38,7 @@ export class NotificationComponent implements OnInit {
 
     ngOnInit() {
       this.items = [
+        
         {label: 'Paramétrage'},
         {label: 'Notification' ,routerLink:'/core/settings/notification'},
     

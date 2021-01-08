@@ -4,6 +4,7 @@ import { Badge } from './badge';
 import { Contact } from './contact';
 import { User } from './user';
 import { Owner } from './owner';
+import { SubscriptionCard } from './subscription-card';
 
 
 export class Driver {
@@ -13,6 +14,8 @@ export class Driver {
   birthDate: Date = new Date();
   badge: Badge;
   lastMedicalVisit: Date = new Date();
+  subscriptionCard :SubscriptionCard;
+
   //  workArea: Zone;
   commission: number;
   //contact: Contact;

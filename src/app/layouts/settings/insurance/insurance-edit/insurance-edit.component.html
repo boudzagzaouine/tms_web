@@ -73,7 +73,7 @@
             >
               {{ "Obligatoire" | translate }}
             </span>
-              <p-dropdown [options]="insuranceTypeList" optionLabel="code" [autoDisplayFirst]="editModee"
+              <p-dropdown [options]="insuranceTypeList" optionLabel="description" [autoDisplayFirst]="editModee"
                 (onChange)="onSelectInsuranceType($event)" formControlName="typeinsurance" filter="true"
                 [showClear]='true'>
               </p-dropdown>

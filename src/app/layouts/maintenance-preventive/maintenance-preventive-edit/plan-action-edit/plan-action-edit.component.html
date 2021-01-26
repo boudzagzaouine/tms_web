@@ -121,10 +121,15 @@
                       {{"Obligatoire" | translate}}
                     </span>
                     <br />
-                     <p-multiSelect [options]="days"
+                     <p-multiSelect [options]="dayList"
                     formControlName="fhebdomadaire"
                      defaultLabel="sélectionner jours"
                       optionLabel="code" display="chip"></p-multiSelect>
+
+
+                      <!-- <p-autoComplete  formControlName="fhebdomadaire" [suggestions]="days" (completeMethod)="onDaySearch($event)" field="code" [multiple]="true">
+                      </p-autoComplete> -->
+
                     <!-- <p-multiSelect [options]="days" [maxSelectedLabels]="7" optionLabel="code"
                       formControlName="fhebdomadaire">
                       <ng-template let-value pTemplate="selectedItems">
@@ -152,16 +157,19 @@
 
                     <label class="font-weight-bold ">{{'répéter le '| translate}} * </label>
                     <span *ngIf="(actionPlanForm.controls['periodicity'].get('fmensuel').touched && actionPlanForm.controls['periodicity'].get('fmensuel').invalid) ||
-(isFormSubmitted && actionPlanForm.controls['periodicity'].get('fmensuel').invalid)" class="text-lighter"
+                      (isFormSubmitted && actionPlanForm.controls['periodicity'].get('fmensuel').invalid)" class="text-lighter"
                       style="color: red; font-size: xx-small;">
                       {{"Obligatoire" | translate}}
                     </span>
                     <br />
 
-                    <p-multiSelect [options]="monthList"
+                    <p-multiSelect [options]="monthList" 
                     formControlName="fmensuel"
-                     defaultLabel="sélectionner mois"
-                      optionLabel="code" display="chip"></p-multiSelect>
+                     defaultLabel="sélectionner mois" 
+                    optionLabel="code"  display="chip"></p-multiSelect>
+
+                      <!-- <p-autoComplete  formControlName="fmensuel" [suggestions]="monthList" (completeMethod)="onMonthSearch($event)" field="code" [multiple]="true">
+                      </p-autoComplete> -->
 
                     <!-- <p-multiSelect [options]="monthList" [maxSelectedLabels]="12" optionLabel="code"
                       formControlName="fmensuel">

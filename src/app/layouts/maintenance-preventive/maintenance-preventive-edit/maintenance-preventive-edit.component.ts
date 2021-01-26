@@ -202,7 +202,6 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.selectedMaintenancePreventive.description = this.maintenacePlanForm.value['fdescription'];
  this.selectedMaintenancePreventive.owner=this.authentificationService.getDefaultOwner();
 
- 
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');

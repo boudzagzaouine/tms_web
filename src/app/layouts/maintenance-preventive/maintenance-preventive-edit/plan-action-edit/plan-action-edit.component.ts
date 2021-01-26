@@ -66,7 +66,7 @@ import { ConditionalTypeService } from './../../../../shared/services/api/condit
   providers: [RoundPipe]
 })
 export class PlanActionEditComponent implements OnInit {
- 
+
   @Input() selectedActionPlan = new ActionPlan();
   @Input() editMode = false;
   @Output() showDialog = new EventEmitter<boolean>();
@@ -74,14 +74,17 @@ export class PlanActionEditComponent implements OnInit {
 
   actionPlanForm: FormGroup;
   subscrubtion = new Subscription();
-  days: Array<Day> = [];
+  dayList: Array<Day> = [];
+  daysInit: Array<any> = [];
+  days: Array<any> = [];
   monthList: Array<Month> = [];
+  months: Array<any> = [];
+  monthsInit: Array<any> = [];
   MaintenancestateList: Array<MaintenanceState> = [];
   responsabilityList: Array<Responsability> = [];
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
   conditionalTypeList: Array<ConditionalType> = [];
-
   maintenanceTypeList: Array<MaintenanceType> = [];
   programTypeList: Array<ProgramType> = [];
   actionTypeList: Array<ProgramType> = [];
@@ -96,7 +99,7 @@ export class PlanActionEditComponent implements OnInit {
   activeIndex: number = 0;
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
-     private conditionalTypeService : ConditionalTypeService,
+    private conditionalTypeService: ConditionalTypeService,
     private programTypeService: ProgramTypeService,
     private responsabilityService: ResponsabilityService,
     private actionTpeService: ActionTypeService,
@@ -108,8 +111,8 @@ export class PlanActionEditComponent implements OnInit {
 
     private monthService: MonthService,
     private dayService: DayService,
-    private authentificationService:AuthenticationService,
-) { }
+    private authentificationService: AuthenticationService,
+  ) { }
 
   ngOnInit() {
 
@@ -131,37 +134,40 @@ export class PlanActionEditComponent implements OnInit {
         this.activeIndex = 2;
       }
     },
-   
+
     ];
 
 
     this.title = 'Ajouter une action';
     this.displayDialog = true;
 
- if(this.editMode ==false){
-     this.selectedActionPlan = new ActionPlan();
-   }else{
-         this.selectProgrameType=this.selectedActionPlan.programType;
-         if(this.selectedActionPlan.programType.id==1){
-         this.periodicityMode = this.selectedActionPlan.periodicityType.id;
-         }
-   }
+    if (this.editMode == false) {
+      this.selectedActionPlan = new ActionPlan();
+    } else {
+      this.selectProgrameType = this.selectedActionPlan.programType;
+      if (this.selectedActionPlan.programType.id == 1) {
+        this.periodicityMode = this.selectedActionPlan.periodicityType.id;
+      }
+    }
 
     this.subscrubtion.add(
       this.dayService.findAll().subscribe((data) => {
-        this.days = data.sort(function(a, b){
-          return (Number(a.value)-Number(b.value))
-      });
+        this.dayList = data.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        });
       })
     );
 
+
     this.subscrubtion.add(
       this.monthService.findAll().subscribe((data) => {
-        this.monthList = data.sort(function(a, b){
-          return (Number(a.value)-Number(b.value))
-      })
+        this.monthList = data.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        })
       })
     );
+
+
 
     this.subscrubtion.add(
       this.periodicityTypeService.findAll().subscribe((data) => {
@@ -178,8 +184,8 @@ export class PlanActionEditComponent implements OnInit {
     this.subscrubtion.add(
       this.maintenanceTypeService.findAll().subscribe((data) => {
         this.maintenanceTypeList = data.filter(f => f.id === 1);
-      this.selectedActionPlan.maintenanceType=this.maintenanceTypeList[0];
-      this.initForm();
+        this.selectedActionPlan.maintenanceType = this.maintenanceTypeList[0];
+        this.initForm();
 
       }),
     );
@@ -207,7 +213,23 @@ export class PlanActionEditComponent implements OnInit {
         this.conditionalTypeList = data;
       })
     );
+
+        this.selectedActionPlan.months.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        }).forEach((f)=>{
+          this.monthsInit.push(f.value)
+        })
+        this.selectedActionPlan.days.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        }).forEach((f)=>{
+          this.daysInit.push(f.value)
+        })
+  
+        
+        
     this.initForm();
+
+    
   }
 
 
@@ -221,9 +243,9 @@ export class PlanActionEditComponent implements OnInit {
     this.actionPlanForm = new FormGroup({
 
       general: new FormGroup({
-      
+
         'fmaintenaceType': new FormControl(this.selectedActionPlan.maintenanceType),
-        'fProgram': new FormControl( this.selectedActionPlan.programType, Validators.required),
+        'fProgram': new FormControl(this.selectedActionPlan.programType, Validators.required),
         'FcodeType': new FormControl(this.selectedActionPlan.actionType, Validators.required),
       }),
       periodicity: new FormGroup({
@@ -232,20 +254,19 @@ export class PlanActionEditComponent implements OnInit {
         'fPeriodicity': new FormControl(this.selectedActionPlan.periodicityType, Validators.required),
         'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
         'fTriggerDay': new FormControl(this.selectedActionPlan.triggerDay, Validators.required),
-        'fhebdomadaire': new FormControl(this.selectedActionPlan.days),
-        'fmensuel': new FormControl(this.selectedActionPlan.months),
+        'fhebdomadaire': new FormControl(this.daysInit),
+        'fmensuel': new FormControl(this.monthsInit),
         'fdayOfMonth': new FormControl(this.selectedActionPlan.dayOfMonth),
 
-        
       }),
 
-      conditionalType :new FormGroup({
+      conditionalType: new FormGroup({
         'fConditionalType': new FormControl(this.selectedActionPlan.conditionalType, Validators.required),
         'fValueConditionalType': new FormControl(this.selectedActionPlan.valueconditionalType, Validators.required),
 
       }),
-     
-       
+
+
       responsability: new FormGroup({
         'fServiceProvider': new FormControl(this.selectedActionPlan.serviceProvider, Validators.required),
         'fResponsability': new FormControl(this.selectedActionPlan.responsability, Validators.required),
@@ -266,12 +287,12 @@ export class PlanActionEditComponent implements OnInit {
 
     if (this.actionPlanForm.controls['responsability'].invalid) { return; }
 
-         if(this.selectedActionPlan.programType.id==1){
-         if(this.actionPlanForm.controls['periodicity'].invalid) return;
-         } else  if(this.selectedActionPlan.programType.id==2){
-          if(this.actionPlanForm.controls['conditionalType'].invalid) return;
-          }
-          this.selectedActionPlan.valueconditionalType = this.actionPlanForm.value['conditionalType']['fValueConditionalType'];
+    if (this.selectedActionPlan.programType.id == 1) {
+      if (this.actionPlanForm.controls['periodicity'].invalid) return;
+    } else if (this.selectedActionPlan.programType.id == 2) {
+      if (this.actionPlanForm.controls['conditionalType'].invalid) return;
+    }
+    this.selectedActionPlan.valueconditionalType = this.actionPlanForm.value['conditionalType']['fValueConditionalType'];
     this.selectedActionPlan.agent = this.actionPlanForm.value['responsability']['fagent'];
     this.selectedActionPlan.interventionDate = this.actionPlanForm.value['periodicity']['fInterventionDate'];
     this.selectedActionPlan.startDate = new Date(this.actionPlanForm.value['periodicity']['fDateStart']);
@@ -279,10 +300,34 @@ export class PlanActionEditComponent implements OnInit {
     this.selectedActionPlan.triggerDay = this.actionPlanForm.value['periodicity']['fTriggerDay'];
     this.selectedActionPlan.days = this.actionPlanForm.value['periodicity']['fhebdomadaire'];
     this.selectedActionPlan.dayOfMonth = this.actionPlanForm.value['periodicity']['fdayOfMonth'];
-    this.selectedActionPlan.months = this.actionPlanForm.value['periodicity']['fmensuel'];
-this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
+    this.selectedActionPlan.owner = this.authentificationService.getDefaultOwner();
+  
+    this.months= this.actionPlanForm.value['periodicity']['fmensuel'];
+     this.selectedActionPlan.months=[];
+    this.months.forEach((f) => {
+          this.monthList.forEach((fm)=>{
+             if(f == fm.value){
+              this.selectedActionPlan.months.push(fm as Month);
+             }
+          });    
+    });
 
-    this.selectedActionPlan.months = this.selectedActionPlan.months.sort();
+    this.days= this.actionPlanForm.value['periodicity']['fhebdomadaire'];
+    this.selectedActionPlan.days=[];
+   this.days.forEach((f) => {
+         this.dayList.forEach((fm)=>{
+            if(f == fm.value){
+             this.selectedActionPlan.days.push(fm as Day);
+            }
+         });    
+   });
+       
+
+
+
+
+    //this.selectedActionPlan.months=this.months;
+    //this.selectedActionPlan.months = this.selectedActionPlan.months.sort();
 
 
     //this.selectedMaintenancePlans.push(this.selectedMaintenancePreventive);
@@ -292,24 +337,37 @@ this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
     this.displayDialog = false;
   }
 
+
+
   onActionCodeSearch(event) {
     this.actionTpeService.find(`code~${event.query}`).subscribe((data) => {
       this.actionTypeList = data;
     });
   }
 
- 
+  onMonthSearch(event) {
+    this.monthService.find(`code~${event.query}`).subscribe((data) => {
+      this.monthList = data;
+    });
+  }
+
+  onDaySearch(event) {
+    this.dayService.find(`code~${event.query}`).subscribe((data) => {
+      this.dayList = data;
+    });
+  }
+
   onSelectPServiceProvider(event) {
 
-      this.selectedActionPlan.serviceProvider = event.value as ServiceProvider;
-    }
-    onSelectResponsability(event) {
-      this.selectedActionPlan.responsability = event.value as Responsability;
-  
-    }
+    this.selectedActionPlan.serviceProvider = event.value as ServiceProvider;
+  }
+  onSelectResponsability(event) {
+    this.selectedActionPlan.responsability = event.value as Responsability;
+
+  }
 
   onSelect(event) {
-   // this.selectedActionType = event;
+    // this.selectedActionType = event;
     this.selectedActionPlan.actionType = event;
   }
   onSelectProgrameType(event) {
@@ -330,9 +388,9 @@ this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
   }
 
   onSelectConditionalType(event) {
-  
-      this.selectedActionPlan.conditionalType = event.value;
-    
+
+    this.selectedActionPlan.conditionalType = event.value;
+
   }
 
 
@@ -343,6 +401,7 @@ this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
     this.displayDialog = false;
   }
 
+ 
   openNext() {
     this.isFormSubmitted = true;
     if (this.activeIndex === 0) {
@@ -355,35 +414,35 @@ this.selectedActionPlan.owner=this.authentificationService.getDefaultOwner();
       }
 
     } else if (this.activeIndex === 1) {
-      if(this.selectedActionPlan.programType.id==1){
-      if
-        (this.actionPlanForm.controls['periodicity'].invalid) {
-        return;
-      } else if (this.actionPlanForm.controls['periodicity'].valid) {
-        this.activeIndex = this.activeIndex + 1;
-        this.isFormSubmitted = false;
+      if (this.selectedActionPlan.programType.id == 1) {
+        if
+          (this.actionPlanForm.controls['periodicity'].invalid) {
+          return;
+        } else if (this.actionPlanForm.controls['periodicity'].valid) {
+          this.activeIndex = this.activeIndex + 1;
+          this.isFormSubmitted = false;
+        }
+
       }
-      
+      if (this.selectedActionPlan.programType.id == 2) {
+        if
+          (this.actionPlanForm.controls['conditionalType'].invalid) {
+          return;
+        } else if (this.actionPlanForm.controls['conditionalType'].valid) {
+          this.activeIndex = this.activeIndex + 1;
+          this.isFormSubmitted = false;
+        }
+
+      }
+
     }
-    if(this.selectedActionPlan.programType.id==2){
-      if
-      (this.actionPlanForm.controls['conditionalType'].invalid) {
-      return;
-    } else if (this.actionPlanForm.controls['conditionalType'].valid) {
+    else if (this.activeIndex === 2) {
       this.activeIndex = this.activeIndex + 1;
       this.isFormSubmitted = false;
+
+
+
     }
-
-  }
-
-}
-      else if (this.activeIndex === 2) {
-        this.activeIndex = this.activeIndex + 1;
-        this.isFormSubmitted = false;
-
-
-
-     }
 
   }
   openPrev() {

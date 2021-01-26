@@ -25,7 +25,7 @@ export class MaintenanceTraitementComponent implements OnInit {
 
 
   page = 0;
-  size = 8;
+  size = 10;
   collectionSize: number;
   typeMaintenanceSearch: MaintenanceType;
   statusMaintenanceSearch: MaintenanceState;
@@ -144,6 +144,8 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   }
   loadDataLazy(event) {
+  
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
 

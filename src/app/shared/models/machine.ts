@@ -25,4 +25,5 @@ export class Machine extends Patrimony {
   owner:Owner;
   resource:Machine;
   name:string;
+  
 }

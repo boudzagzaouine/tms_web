@@ -10,17 +10,22 @@
 
 
     &.status-EnRetard {
-        background-color: #f39c12;
-        color: #000000;
+        background-color: #ffc107;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #212529;
     }
     &.status-EnAttente {
-        background-color: #f39c12;
-        color: #000000;
+        background-color: #ffc107;
+        font-weight: 600;
+
+       font-size: 1rem;
+        color: #212529;
     }
 
     &.status-Épuisé {
         background-color: #dc3545;
-        color: #000000;
+        color: #ffffff;
     }
 
    

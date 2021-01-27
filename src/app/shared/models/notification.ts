@@ -16,6 +16,7 @@ export class Notification {
   patimonyCode :String;
   typePatrimony :String;
   notificationType : NotificationType;
+  patrimonyType:String;
   action :String;
   
 

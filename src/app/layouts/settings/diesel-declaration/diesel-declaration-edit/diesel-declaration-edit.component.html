@@ -55,7 +55,7 @@ showEffect="fade"
             <br />
             <p-autoComplete  [suggestions]="driverList" (onSelect)='onSelectDriver($event)'
             (completeMethod)="onCodeDriverSearch($event)" formControlName="driver"
-            field="code"></p-autoComplete>
+            field="name"></p-autoComplete>
           </div>
 
           <div class="form-group col-sm-12">
@@ -74,13 +74,87 @@ showEffect="fade"
             field="code"></p-autoComplete>
           </div>
 
-          <div class="form-group col-sm-12" *ngIf="(selectType==2)" >
+          <div class="form-group col-sm-6" *ngIf="(selectType==2)" >
 
             <label class="font-weight-bold">{{'Bon' | translate}} *</label>
-            <input type="text" class="form-control" pInputText formControlName="bon"
-            
-           />
+
+            <p-autoComplete  [suggestions]="purchaseOrderList" (onSelect)='onSelectPurchaseOrder($event)'
+            (completeMethod)="onCodePurchaseOrderSearch($event)" formControlName="bon"
+            field="code"></p-autoComplete>
+            <!-- <input type="text" class="form-control" pInputText formControlName="bon"/> -->
           </div>
+
+          <div class="form-group col-sm-6" *ngIf="(selectType==2)" >
+
+           <br>
+            <button  
+              type="button"
+              (click)="onShowDialogBon(true)"
+              class="btn btn-md btn-primary mt-2"
+                > <i class="fa fa-plus"></i>
+      </button> 
+      <!-- <p-button [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)" styleClass="p-button-text" label="Ajouter"></p-button> -->
+
+           
+          </div>
+
+          <!-- <div  class="form-group col-sm-12" *ngIf="(selectType==2)">
+
+            <p-accordion>
+              <p-accordionTab  [(selected)]="activeState[0]">
+                 
+                <div class="row  justify-content-around">
+
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{'Produit' | translate}} *</label>
+                  <span *ngIf="(dieselDeclarationForm.get('vehicle').touched && dieselDeclarationForm.get('vehicle').invalid) ||
+                  (isFormSubmitted && dieselDeclarationForm.get('vehicle').invalid)" class="text-lighter"
+                    style="color: red; font-size: xx-small;">
+                     {{'Obligatoire' | translate }}
+                  </span>
+                  <br />
+                  <p-autoComplete  [suggestions]="vehicleList" (onSelect)='onSelectVehicle($event)'
+                  (completeMethod)="onCodeVehicleSearch($event)" formControlName="vehicle"
+                  field="code"></p-autoComplete>
+      
+                </div>
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{'Fournisseur' | translate}} *</label>
+                  <span *ngIf="(dieselDeclarationForm.get('vehicle').touched && dieselDeclarationForm.get('vehicle').invalid) ||
+                  (isFormSubmitted && dieselDeclarationForm.get('vehicle').invalid)" class="text-lighter"
+                    style="color: red; font-size: xx-small;">
+                     {{'Obligatoire' | translate }}
+                  </span>
+                  <br />
+                  <p-autoComplete  [suggestions]="vehicleList" (onSelect)='onSelectVehicle($event)'
+                  (completeMethod)="onCodeVehicleSearch($event)" formControlName="vehicle"
+                  field="code"></p-autoComplete>
+      
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{'Montant' | translate}} *</label>
+                  <span *ngIf="(dieselDeclarationForm.get('amount').touched && dieselDeclarationForm.get('amount').invalid) ||
+                  (isFormSubmitted && dieselDeclarationForm.get('amount').invalid)" class="text-lighter"
+                    style="color: red; font-size: xx-small;">
+                     {{'Obligatoire' | translate }}
+                  </span>
+                  <br />
+              
+               
+                  <input type="text" class="form-control" pInputText formControlName="amount"
+                  (keydown.space)="$event.preventDefault()"
+                 />
+                 
+                </div>
+
+                </div>
+
+              </p-accordionTab>
+           
+          </p-accordion>
+          
+          </div> -->
 
           <div class="form-group col-sm-6">
             <label class="font-weight-bold">{{'Montant' | translate}} *</label>
@@ -126,10 +200,7 @@ showEffect="fade"
               formControlName="date" yearRange="1970:2100"
               ></p-calendar>
 
-            <!-- <p-calendar formControlName="date" dateFormat="dd-mm-yy"  [monthNavigator]="true"
-            [yearNavigator]="true" yearRange="1970:2100"
-            [style]="{'width':'50px'}" [inputStyle]="{'width':'50px'}"
-            	></p-calendar> -->
+       
           </div>
 
 
@@ -160,3 +231,11 @@ showEffect="fade"
   </div>
 </p-footer>
 </p-dialog>
+
+<div *ngIf="showDialogBon == true">
+  <app-bon-edit
+    (showDialog)="onShowDialogBon($event)"
+    (purchaseOrderCode)="onCodePurchaseOrder($event)"
+  ></app-bon-edit>
+</div>
+

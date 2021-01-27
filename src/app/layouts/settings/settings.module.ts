@@ -99,6 +99,8 @@ import { SubscriptionCardEditComponent } from './subscriptionCard/subscription-c
 
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import {AccordionModule, AccordionTab} from 'primeng/accordion';
+import { BonEditComponent } from './diesel-declaration/bon-edit/bon-edit.component';
 
 
 
@@ -169,7 +171,8 @@ import {SelectButtonModule} from 'primeng/selectbutton';
      ConditionalTypeComponent,
      ConditionalTypeEditComponent,
      SubscriptionCardComponent,
-     SubscriptionCardEditComponent
+     SubscriptionCardEditComponent,
+     BonEditComponent,
   ],
   imports: [
     CommonModule,
@@ -204,6 +207,8 @@ import {SelectButtonModule} from 'primeng/selectbutton';
   ToastModule,
   RadioButtonModule,
   SelectButtonModule,
+  AccordionModule,
+
   NgxPermissionsModule.forChild(),
   ]
 })

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Driver, Vehicle } from './../../../../shared/models';
+import { Driver, PurchaseOrder, Vehicle } from './../../../../shared/models';
 import { AuthenticationService, DriverService, VehicleService } from './../../../../shared/services';
 import { DieselDeclaration } from './../../../../shared/models/diesel-declaration';
 import { DieselDeclarationService } from './../../../../shared/services/api/dieselDeclaration.service';
@@ -11,6 +11,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { SubscriptionCard } from './../../../../shared/models/subscription-card';
 import { SubscriptionCardService } from './../../../../shared/services/api/subscription-card.service';
+import { PurchaseOrderService } from './../../../../shared/services/api/purchase-order.service';
 
 @Component({
   selector: 'app-diesel-declaration-edit',
@@ -25,8 +26,10 @@ export class DieselDeclarationEditComponent implements OnInit {
   editModee :Boolean;
   vehicleList: Vehicle[] = [];
   driverList: Driver[] = [];
-
+  showDialogBon: boolean;
   subscriptionCardList: SubscriptionCard[] = [];
+  purchaseOrderList: PurchaseOrder[] = [];
+
   type: any;
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
@@ -34,9 +37,11 @@ export class DieselDeclarationEditComponent implements OnInit {
   title = 'Modifier déclaration Gasoil';
   types: any[];
   selectType:number;
+  activeState: boolean[] = [false, false, false];
   
   constructor(private dieselDeclarationService: DieselDeclarationService,
     private  subscriptionCardService:SubscriptionCardService,
+    private purchaseOrderService:PurchaseOrderService,
     private driverService:DriverService,
     private authentificationService:AuthenticationService,
     private patrimonyService :PatrimonyService,
@@ -85,7 +90,7 @@ export class DieselDeclarationEditComponent implements OnInit {
       'km': new FormControl(this.selectedDieselDeclaration.mileage, Validators.required),
       'driver': new FormControl(this.selectedDieselDeclaration.driver, Validators.required),
       'card': new FormControl(this.selectedDieselDeclaration.subscriptionCard),
-      'bon': new FormControl(this.selectedDieselDeclaration.bon),
+      'bon': new FormControl(this.selectedDieselDeclaration.purshaseOrder),
       'type': new FormControl(this.selectedDieselDeclaration.typeDeclaration),
 
     });
@@ -106,12 +111,11 @@ export class DieselDeclarationEditComponent implements OnInit {
 
     }
     else if(this.selectType==2){
-     this.selectedDieselDeclaration.bon = this.dieselDeclarationForm.value['bon'];
+     this.selectedDieselDeclaration.purshaseOrder = this.dieselDeclarationForm.value['bon'];
      this.selectedDieselDeclaration.typeDeclaration=2;
 
     }
 
-    console.log(this.selectedDieselDeclaration);
     
    this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
     const s = this.dieselDeclarationService.set(this.selectedDieselDeclaration).subscribe(
@@ -131,6 +135,16 @@ export class DieselDeclarationEditComponent implements OnInit {
 
   }
 
+  onCodePurchaseOrder(event: PurchaseOrder){
+       console.log(event);
+
+       this.dieselDeclarationForm.patchValue({
+        bon: event,
+        amount:event.totalPriceHT,
+      });
+       
+  }
+
   onCodeVehicleSearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleList = data.filter(f=> f.patrimony_type=='vehicule')
@@ -144,8 +158,14 @@ export class DieselDeclarationEditComponent implements OnInit {
     );
   }
 
+  onCodePurchaseOrderSearch(event: any) {
+    this.purchaseOrderService.find('code~' + event.query).subscribe(
+      data => this.purchaseOrderList = data
+    );
+  }
+
   onCodeDriverSearch(event: any) {
-    this.driverService.find('code~' + event.query).subscribe(
+    this.driverService.find('name~' + event.query).subscribe(
       data => this.driverList = data
     );
   }
@@ -162,6 +182,12 @@ export class DieselDeclarationEditComponent implements OnInit {
     this.selectedDieselDeclaration.subscriptionCard = event;    
   }
 
+  onSelectPurchaseOrder(event) {
+    this.selectedDieselDeclaration.purshaseOrder = event;  
+   // console.log(this.selectedDieselDeclaration.purshaseOrder);
+      
+  }
+
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
@@ -169,9 +195,17 @@ export class DieselDeclarationEditComponent implements OnInit {
 
   onselectType(event){
   this.selectType=(event.option.code) as number;
-  console.log(this.selectType);
-  
+  this.selectedDieselDeclaration.typeDeclaration=this.selectType;
   }
 
+  toggle(index: number) {
+    this.activeState[index] = !this.activeState[index];
+}
+
+onShowDialogBon(event) {
+
+  this.showDialogBon = event;
+
+}
 
 }

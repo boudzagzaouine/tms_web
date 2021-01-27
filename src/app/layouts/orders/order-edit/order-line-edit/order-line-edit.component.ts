@@ -30,7 +30,7 @@ export class OrderLineEditComponent implements OnInit {
     @Input()selectedPurchaseOrderLine: PurchaseOrderLine;
     @Input() editMode: boolean;
     @Output() showDialog = new EventEmitter<boolean>();
-    @Output()purchaseOrderLineAdded = new EventEmitter<PurchaseOrderLine>();
+    @Output() purchaseOrderLineAdded = new EventEmitter<PurchaseOrderLine>();
     selectedProduct: Product;
     productList: Product[];
     vatList: Vat[];

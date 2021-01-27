@@ -4,6 +4,8 @@ import { Vehicle } from './vehicle';
 import { Owner } from './owner';
 import { Driver } from './driver';
 import { SubscriptionCard } from './subscription-card';
+import { PurchaseOrderService } from '../services/api/purchase-order.service';
+import { PurchaseOrder } from './purchase-order';
 
 export class DieselDeclaration {
 
@@ -14,6 +16,7 @@ export class DieselDeclaration {
   driver:Driver;
   typeDeclaration:number;
   subscriptionCard :SubscriptionCard;
+  purshaseOrder :PurchaseOrder;
   bon:string;
   amount: number;
   mileage :number;

@@ -2,13 +2,14 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ProductService } from './../../../../shared/services/api/product.service';
 import { Product } from './../../../../shared/models/product';
 import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
-import { OrderType, ProductPack, PurchaseOrder, PurchaseOrderLine, Supplier } from './../../../../shared/models';
+import { OrderStatus, OrderType, ProductPack, PurchaseOrder, PurchaseOrderLine, Supplier } from './../../../../shared/models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService, SupplierService } from './../../../../shared/services';
 import { PurchaseOrderService } from './../../../../shared/services/api/purchase-order.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OrderTypeService } from './../../../../shared/services/api/order-type.service';
+import { OrderStatusService } from './../../../../shared/services/api/order-status.service';
 
 
 
@@ -30,12 +31,14 @@ export class BonEditComponent implements OnInit {
   productList: Product[];
   selectedProduct: Product;
   productPackList:ProductPack[];
+  orderStatutList: OrderStatus[] = [];
   supplierList:Supplier[];
   purchaseOrderLineForm: FormGroup;
   constructor(private productService:ProductService,
     private  productPackService :ProductPackService,
     private purchaseOrderService :PurchaseOrderService,
     private supplierService:SupplierService,
+    private orderStatutService: OrderStatusService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private orderTypeService: OrderTypeService,
@@ -54,6 +57,17 @@ export class BonEditComponent implements OnInit {
         this.selectedPurchaseOrder.orderType = this.orderTypeList[0];
       }
     );
+
+    this.orderStatutService.findAll().subscribe(
+      data => {
+        this.orderStatutList = data.filter(f => f.id === 1);
+        this.selectedPurchaseOrderLine.orderStatus = this.orderStatutList[0];
+        this.selectedPurchaseOrder.orderStatus=this.orderStatutList[0];
+      
+      }
+ 
+    )
+
     this.displayDialog=true;
     this.initForm();
   }

@@ -7,7 +7,7 @@ import { AuthenticationService, DriverService, VehicleService } from './../../..
 import { DieselDeclaration } from './../../../../shared/models/diesel-declaration';
 import { DieselDeclarationService } from './../../../../shared/services/api/dieselDeclaration.service';
 import { PatrimonyService } from './../../../../shared/services/api/patrimony-service';
-import { PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { SubscriptionCard } from './../../../../shared/models/subscription-card';
 import { SubscriptionCardService } from './../../../../shared/services/api/subscription-card.service';
@@ -38,7 +38,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   types: any[];
   selectType:number;
   activeState: boolean[] = [false, false, false];
-  
+  showGenerateBon : boolean =false;
   constructor(private dieselDeclarationService: DieselDeclarationService,
     private  subscriptionCardService:SubscriptionCardService,
     private purchaseOrderService:PurchaseOrderService,
@@ -46,6 +46,7 @@ export class DieselDeclarationEditComponent implements OnInit {
     private authentificationService:AuthenticationService,
     private patrimonyService :PatrimonyService,
     private spinner: NgxSpinnerService,
+    private confirmationService: ConfirmationService,
     private toastr: ToastrService,
     private config: PrimeNGConfig, private translateService: TranslateService
   ) { }
@@ -100,12 +101,14 @@ export class DieselDeclarationEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.dieselDeclarationForm.invalid) { return; }
-    this.spinner.show();
+ 
     this.selectedDieselDeclaration.code = this.dieselDeclarationForm.value['code'];
     this.selectedDieselDeclaration.amount = this.dieselDeclarationForm.value['amount'];
     this.selectedDieselDeclaration.dieselDeclarationDate = this.dieselDeclarationForm.value['date'];
     this.selectedDieselDeclaration.mileage = this.dieselDeclarationForm.value['km'];
-    if(this.selectType==1){
+      this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
+ 
+      if(this.selectType==1){
       this.selectedDieselDeclaration.subscriptionCard = this.dieselDeclarationForm.value['card'];
       this.selectedDieselDeclaration.typeDeclaration=1;
 
@@ -116,8 +119,15 @@ export class DieselDeclarationEditComponent implements OnInit {
 
     }
 
+    this.insertDieselDeclaration();
+
     
-   this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
+  
+  }
+
+
+  insertDieselDeclaration(){
+    this.spinner.show();
     const s = this.dieselDeclarationService.set(this.selectedDieselDeclaration).subscribe(
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
@@ -132,9 +142,7 @@ export class DieselDeclarationEditComponent implements OnInit {
       },
       () => this.spinner.hide()
     );
-
   }
-
   onCodePurchaseOrder(event: PurchaseOrder){
        console.log(event);
 
@@ -142,6 +150,7 @@ export class DieselDeclarationEditComponent implements OnInit {
         bon: event,
         amount:event.totalPriceHT,
       });
+      this.selectedDieselDeclaration.purshaseOrder=event;
        
   }
 
@@ -195,7 +204,7 @@ export class DieselDeclarationEditComponent implements OnInit {
 
   onselectType(event){
   this.selectType=(event.option.code) as number;
-  this.selectedDieselDeclaration.typeDeclaration=this.selectType;
+  //this.selectedDieselDeclaration.typeDeclaration=this.selectType;
   }
 
   toggle(index: number) {

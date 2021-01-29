@@ -89,6 +89,7 @@ export class MaintenancePlanComponent implements OnInit {
   actionLineM = new ActionLineMaintenance;
    maintenancestateMode: number = 1;
    serviceProviderMode : number = 1;
+   patrimonyType :number;
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private conditionalTypeService: ConditionalTypeService,
@@ -189,7 +190,13 @@ export class MaintenancePlanComponent implements OnInit {
               this.maintenancestateMode = 4;
             } 
             
+     if(this.selectedMaintenance.patrimony.patrimony_type== 'machine'){
+                     this.patrimonyType=2;
+           }
+           else if(this.selectedMaintenance.patrimony.patrimony_type== 'vehicule'){
+            this.patrimonyType=1;
 
+           }
             this.initForm();
           },
           err => {
@@ -225,10 +232,12 @@ export class MaintenancePlanComponent implements OnInit {
 
     }
     this.initForm();
+  
     
   }
 
   initForm() {
+
     // const dStart = new Date(this.selectedMaintenance.startDate);
     // const dEnd = new Date(this.selectedMaintenance.endDate);
     // const dTriggerDate = new Date(this.selectedMaintenance.triggerDate);

@@ -214,6 +214,15 @@ showEffect="fade"
 <p-footer>
   <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
+    <button *ngIf="this.selectedDieselDeclaration.purshaseOrder !=null" 
+    type="button"
+    pButton 
+    [useExistingCss]="true"
+    printSectionId="print-section" ngxPrint
+    class="p-button-warning"
+    label="{{'Générer Bon' | translate }}"
+  ></button>
+
     <button
     type="button"
     pButton
@@ -239,3 +248,20 @@ showEffect="fade"
   ></app-bon-edit>
 </div>
 
+<div  id="print-section" *ngIf="this.selectedDieselDeclaration.purshaseOrder !=null" 
+  style=" visibility: hidden;">
+
+   <app-generateBon
+   [selectedpurchaseOrder]="this.selectedDieselDeclaration.purshaseOrder"
+   [selectedDieselDeclaration]="this.selectedDieselDeclaration" >
+
+ </app-generateBon>
+
+</div>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

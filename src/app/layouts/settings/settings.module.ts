@@ -101,6 +101,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {AccordionModule, AccordionTab} from 'primeng/accordion';
 import { BonEditComponent } from './diesel-declaration/bon-edit/bon-edit.component';
+import {NgxPrintModule} from 'ngx-print';
+import { GenerateBonComponent } from './diesel-declaration/generateBon/generateBon.component';
 
 
 
@@ -173,6 +175,7 @@ import { BonEditComponent } from './diesel-declaration/bon-edit/bon-edit.compone
      SubscriptionCardComponent,
      SubscriptionCardEditComponent,
      BonEditComponent,
+     GenerateBonComponent
   ],
   imports: [
     CommonModule,
@@ -208,7 +211,7 @@ import { BonEditComponent } from './diesel-declaration/bon-edit/bon-edit.compone
   RadioButtonModule,
   SelectButtonModule,
   AccordionModule,
-
+  NgxPrintModule,
   NgxPermissionsModule.forChild(),
   ]
 })

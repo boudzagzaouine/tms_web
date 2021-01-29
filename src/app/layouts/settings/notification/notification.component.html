@@ -77,10 +77,16 @@
 
           <div class="card-header " style=" background-color:#f7f7f7;">
             <div class="row">
-              <div class="col-xs-4 col-md-4 pull-left">
+              <div class="col-md-4 pull-left">
               </div>
-            <div class=" col-xs-4 col-md-6 pull-center"><b>{{ "Liste des Notifications de Maintenance" | translate }} </b></div>
+            <div class=" ccol-md-6 "><b>{{ "Liste des Notifications de Maintenance" | translate }} </b></div>
 
+            <div class=" d-flex col-md-5 justify-content-end">
+            <p-splitButton label="Exportation" 
+            styleClass="p-button-secondary "
+          id="button-icon-only"
+             [model]="itemss" ></p-splitButton>
+</div>
 
          </div>
         </div>
@@ -98,10 +104,12 @@
        >
           <ng-template pTemplate="header">
             <tr>
-              <th>{{ "Code" | translate }}</th>
-              <!-- <th>{{ "Type" | translate }}</th> -->
+              <th>{{ "Code Maintenance" | translate }}</th>
+              <th>{{ "Type Programme " | translate }}</th>
               <th>{{ "Action" | translate }}</th>
+              <th>{{ "intervention planifiée " | translate }}</th>
               <th>{{ "Patrimoine" | translate }}</th>
+              <th>{{ "Type" | translate }}</th>
               <th>{{ "Statut" | translate }}</th>
             </tr>
           </ng-template>
@@ -109,10 +117,11 @@
             <tr  class="ui-selectable-row">
        
               <td>{{notificationM.code}}</td>
-              <!-- <td>{{notificationM.notificationType.code }}</td> -->
+              <td>{{notificationM.programeType }}</td> 
               <td>{{notificationM?.action}}</td>
+              <td>{{notificationM?.intervention}}</td>
               <td>{{notificationM?.patimonyCode}}</td>
-      
+              <td>{{notificationM?.patrimonyType}}</td>
               <td>
               <span [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.description}}</span>
             </td>
@@ -157,7 +166,8 @@
           <ng-template pTemplate="header">
             <tr>
               <th>{{ "Code" | translate }}</th>
-             <!-- // <th>{{ "Type" | translate }}</th> -->
+              <th>{{ "Type" | translate }}</th>
+              <th>{{ "Quantité en Stock" | translate }}</th>
               <th>{{ "Statut" | translate }}</th>
       
       
@@ -167,6 +177,8 @@
             <tr  class="ui-selectable-row">
        
               <td>{{notificationP.code}}</td>
+              <td>{{notificationP.patrimonyType}}</td>
+              <td>{{notificationP.intervention?notificationP.intervention:0}}</td>
             <!-- //  <td>{{notificationP.notificationType.code }}</td> -->
       
               <td>

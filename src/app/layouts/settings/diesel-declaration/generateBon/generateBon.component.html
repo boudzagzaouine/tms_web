@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between  mb-3">
+  <div class="p-2 "> <label class="font-weight-bold" style="font-size: 1rem;">TRANSPORT</label></div>
+  <div class="p-2 "></div>
+  <div class="p-2 "> <label class="font-weight-bold" style="font-size: 1rem;">Le :{{this.selectedDieselDeclaration.dieselDeclarationDate | date: 'dd/MM/yyyy'}}</label></div>
+</div>
+<div class="d-flex justify-content-between  mb-3">
+  <div class="p-2 "></div>
+  <div class="p-2 "> <label class="font-weight-normal" style="font-size: 2rem;">
+    <u>Bon d'achat N°:
+      {{this.selectedDieselDeclaration.purshaseOrder.code}}
+    </u></label></div>
+  <div class="p-2 "></div>
+</div>
+
+<table class="table ">
+  <thead>
+    <tr>
+      <th scope="col">DESIGNATION</th>
+      <th scope="col">FOURNISSEUR</th>
+      <th scope="col">VEHICULE</th>
+      <th scope="col">QTE</th>
+      <th scope="col">P.U</th>
+      <th scope="col">MONTANT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+  
+      <td>{{this.selectedDieselDeclaration.purshaseOrder.purshaseOrderLines[0].product.code}}</td>
+      <td>{{this.selectedDieselDeclaration.driver.code}}</td>
+      <td>{{this.selectedDieselDeclaration.vehicle.registrationNumber}}</td>
+      <td>{{this.selectedDieselDeclaration.purshaseOrder.purshaseOrderLines[0].quantity}}</td>
+      <td>{{this.selectedDieselDeclaration.purshaseOrder.purshaseOrderLines[0].purshasePrice}}</td>
+      <td>{{this.selectedDieselDeclaration.purshaseOrder.purshaseOrderLines[0].totalPriceHT}}</td>
+    </tr>
+   
+  </tbody>
+   <tr>
+      
+      <td colspan="5"></td>
+      <td>{{this.selectedDieselDeclaration.purshaseOrder.totalPriceHT}}</td>
+    </tr>
+</table>

@@ -61,6 +61,7 @@
     "ngx-barcode": "^0.2.4",
     "ngx-permissions": "^7.0.3",
     "ngx-pipes": "^2.6.0",
+    "ngx-print": "^1.2.0-beta.5",
     "ngx-spinner": "^8.1.0",
     "ngx-toastr": "^11.3.3",
     "ngx-validators": "^5.1.1",

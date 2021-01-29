@@ -17,6 +17,7 @@ export class Notification {
   typePatrimony :String;
   notificationType : NotificationType;
   patrimonyType:String;
+  intervention:String;
   action :String;
   
 

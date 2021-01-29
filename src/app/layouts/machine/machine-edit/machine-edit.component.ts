@@ -362,7 +362,7 @@ export class MachineEditComponent implements OnInit {
 
   onMaintenancePlanSearch(event: any) {
     this.subscriptions.add(this.maintenancePlanService
-      .find('code~' + event.query)
+      .find('description~' + event.query)
       .subscribe(data => (this.maintenancePlanList = data)));
   }
 

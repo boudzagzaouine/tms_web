@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
       },
 
       {
-        field: 'purchaseVat',
+        field: 'vat',
         child: 'value',
         header: 'TVA',
         type: 'object'

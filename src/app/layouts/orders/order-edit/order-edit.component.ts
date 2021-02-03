@@ -31,7 +31,7 @@ export class OrderEditComponent implements OnInit {
   purchaseOrderForm: FormGroup;
   selectedPurchaseOrder: PurchaseOrder = new PurchaseOrder();
   selectedPurchaseOrderLine: PurchaseOrderLine = new PurchaseOrderLine();
-
+ validate :number =0;
   isFormSubmitted = false;
   editModeTitle = 'Inserer une Commande';
   supplierList: Supplier[] = [];
@@ -66,6 +66,7 @@ export class OrderEditComponent implements OnInit {
         this.subscrubtion.add( this.purchaseOrderService.findById(id).subscribe(data => {
           this.selectedPurchaseOrder = data;
 
+
           this.initForm();
         },
           err => {
@@ -96,6 +97,8 @@ export class OrderEditComponent implements OnInit {
     }
 
     this.initForm();
+
+
   }
 
   initForm() {
@@ -167,7 +170,7 @@ export class OrderEditComponent implements OnInit {
 
 
   }
-  onSubmit() {
+  onSubmit(close = false) {
     this.isFormSubmitted = true;
     if (this.purchaseOrderForm.invalid) {
       return;
@@ -185,14 +188,16 @@ export class OrderEditComponent implements OnInit {
 
         this.isFormSubmitted = false;
         this.spinner.hide();
-        this.selectedPurchaseOrder = new PurchaseOrder();
-        this.purchaseOrderForm.reset();
+        this.validate=1;
+     
 
         if (close) {
-          this.router.navigate(['/core/order/list']);
+         // this.router.navigate(['/core/order/list']);
         } else {
 
-          this.router.navigate(['/core/order/edit']);
+          this.router.navigate(['/core/order/edit']);  
+           this.selectedPurchaseOrder = new PurchaseOrder();
+        this.purchaseOrderForm.reset();
         }
 
       },
@@ -212,7 +217,7 @@ export class OrderEditComponent implements OnInit {
 
   onSupplierCodeSearch(event: any) {
 
-    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe((data) => {
+    this.subscrubtion.add(this.supplierService.find('contact.name~' + event.query).subscribe((data) => {
       this.supplierList = data;
     }));
   }

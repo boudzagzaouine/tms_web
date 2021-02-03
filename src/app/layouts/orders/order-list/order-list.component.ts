@@ -51,7 +51,7 @@ export class OrderListComponent implements OnInit {
     this.className = PurchaseOrder.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'supplier', child: 'code', header: 'Fournisseur', type: 'object' },
+      { field: 'supplier', child: 'contact',child2:'name', header: 'Fournisseur', type: 'object2' },
       { field: 'orderType', child: 'code', header: 'Type', type: 'object' },
       { field: 'totalPriceHT', header: 'Prix HT', type: 'number' },
       { field: 'vat', header: 'TVA', type: 'number' },

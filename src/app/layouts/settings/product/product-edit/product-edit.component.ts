@@ -91,7 +91,8 @@ export class ProductEditComponent implements OnInit {
       description: new FormControl(this.selectedProduct.desc),
       type: new FormControl(this.selectedProduct.productType,Validators.required),
       uom: new FormControl( this.selectedProduct.uomByProductUomBase,Validators.required),
-      vat: new FormControl(this.editMode!=1 ?this.selectedProduct.vat.value
+      vat: new FormControl(
+        this.editMode!=1 ?this.selectedProduct.vat.value
         :this.selectedProduct.vat,Validators.required ),
       purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
       purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
@@ -122,12 +123,12 @@ export class ProductEditComponent implements OnInit {
     'qntMin'
   ];
     this.selectedProduct.active = true;
- this.selectedProduct.vat== this.vats.filter(f=> f.value== this.productForm.value['vat'])[0];;
+  //this.selectedProduct.vat== this.vats.filter(f=> f.value== this.productForm.value['vat'])[0];;
     this.selectedProduct.owner=this.authentificationService.getDefaultOwner();
     this.selectProductPack.uom=this.selectedProduct.uomByProductUomBase;
     this.selectProductPack.quantity=1;
     
-
+    //console.log(this.selectedProduct);
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
       dataP => {
@@ -177,13 +178,13 @@ onSelectUom(event) {
 }
 
 
-onSelectVat(event) {
+onSelectVat(event : Vat) {
   this.vat= this.vats.filter(f=> f.value== event.value)[0];
 
-  //this.selectedProduct.vat = event.value as Vat;
-  console.log(this.vat);
+  this.selectedProduct.vat = this.vat;
+  //console.log(this.vat);
   
-  //this.onPriceChange(1);
+  this.onPriceChange(1);
 
 }
 

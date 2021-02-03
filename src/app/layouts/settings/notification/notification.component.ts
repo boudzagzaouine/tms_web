@@ -11,6 +11,8 @@ import { NotificationType } from './../../../shared/models/notificationType';
 import { NotificationTypeService } from './../../../shared/services/api/notificationType.service';
 import { EmsBuffer } from './../../../shared/utils';
 import { GlobalService } from './../../../shared/services/api/global.service';
+import { NotificationStateService } from './../../../shared/services/api/notificationState.service';
+import { NotificationState } from './../../../shared/models/notificationState';
 
 @Component({
   selector: 'app-notification',
@@ -34,13 +36,17 @@ export class NotificationComponent implements OnInit {
   maintenanceExportList: Array<Notification> = [];
   notificationProductList: Array<Notification> = [];
   notificationMaintenanceList: Array<Notification> = [];
+  notificationStateList: Array<NotificationState> = [];
+  notificationStateSearch: NotificationState;
+
   patrimonyTypeList: Array<{ code: string }> = [];
   typeSearch: string;
-  titleListMaintenance :string='Liste des  Maintenances';
+  titleListMaintenance :string='Liste des notification  de la Maintenance';
   items: MenuItem[];
   home: MenuItem;
 
   constructor(private notificationService: NotificationService,
+           private notificationStateService:NotificationStateService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
@@ -55,18 +61,23 @@ export class NotificationComponent implements OnInit {
           this.onExportPdf();
       }},
     
-     {label: 'En EXCEL Globale', icon: 'pi pi-file-excel', command: () => {
+     {label: 'En EXCEL', icon: 'pi pi-file-excel', command: () => {
      this.onExportExcel();
      }},
     
   ];
   this.className = Notification.name;
+  this.notificationStateService.findAll().subscribe(
+    data => {
+      this.notificationStateList = data;
 
+    }
+  )
   this.cols = [
     { field: 'code', header: 'Code', type: 'string' },
     { field: 'programeType', header: 'Type de programme', type: 'string' },
     { field: 'action', header: 'Type action', type: 'string' },
-    { field: 'intervention', header: 'Intervention planifieé', type: 'string' },
+    { field: 'intervention', header: 'Intervention planifiée', type: 'string' },
     { field: 'patimonyCode', header: 'Patrimoine', type: 'string' },
     { field: 'patrimonyType', header: 'Type', type: 'string' },
   ];
@@ -175,14 +186,19 @@ export class NotificationComponent implements OnInit {
 
 
     if (this.typeSearch != null && this.typeSearch !== '') {
-      buffer.append(`notificationType.id:1,patrimonyType~${this.typeSearch}`);
+      buffer.append(`patrimonyType~${this.typeSearch}`);
+    }
+    if (this.notificationStateSearch != null && this.notificationStateSearch.code !== '') {
+      buffer.append(`notificationState.code~${this.notificationStateSearch.code}`);
     }
 
 
 
 
     this.pageMaintenance = 0;
-    this.searchMaintenanceQuery = buffer.getValue();
+    this.searchMaintenanceQuery ='notificationType.id:1,'+ buffer.getValue();
+   // console.log(this.searchMaintenanceQuery);
+    
     this.loadMaintenanceData(this.searchMaintenanceQuery);
 
   }
@@ -190,6 +206,7 @@ export class NotificationComponent implements OnInit {
 
   reset() {
     this.typeSearch = null;
+    this.notificationStateSearch = null;
     this.searchMaintenanceQuery = 'notificationType.id:1';
     this.loadMaintenanceData(this.searchMaintenanceQuery);
   }

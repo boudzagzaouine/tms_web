@@ -230,7 +230,7 @@ onSubmit() {
 
   onSupplierCodeSearch(event: any) {
 
-    this.supplierService.find('code~' + event.query).subscribe((data) => {
+    this.supplierService.find('contact.name~' + event.query).subscribe((data) => {
       this.supplierList = data;
     });
   }

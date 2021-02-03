@@ -137,6 +137,9 @@ export class DataTableComponent implements OnInit {
     } else if (event === "boolean") {
       res = 4;
     }
+    else if (event === "object2") {
+      res = 5;
+    }
 
     return res;
   }

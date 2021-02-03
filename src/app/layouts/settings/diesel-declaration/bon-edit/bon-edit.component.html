@@ -36,7 +36,7 @@ showEffect="fade"
             <br />
             <p-autoComplete [suggestions]="supplierList" 
              formControlName="supplier" (completeMethod)="onSupplierCodeSearch($event)" 
-             field='code'
+             field='contact.name'
              (onSelect)="onSelectSupplier($event)"></p-autoComplete>
 
           </div>

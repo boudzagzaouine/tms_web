@@ -270,7 +270,7 @@ export class ReceptionEditComponent implements OnInit {
   }
   onSupplierCodeSearch(event: any) {
 
-    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe((data) => {
+    this.subscrubtion.add(this.supplierService.find('contact.name~' + event.query).subscribe((data) => {
       this.supplierList = data;
     }));
   }

@@ -81,7 +81,7 @@ export class StockComponent implements OnInit {
         field: 'uom',child: 'code',   header: 'Unité de mesure',    type: 'object'
       },
        {
-         field: 'supplier',child: 'code',   header: 'Fournisseur',    type: 'object'
+         field: 'supplier',child: 'contact',child2:'name',   header: 'Fournisseur',    type: 'object2'
        },
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'

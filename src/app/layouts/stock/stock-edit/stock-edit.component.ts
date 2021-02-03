@@ -114,7 +114,7 @@ export class StockEditComponent implements OnInit {
 
   }
   onCodeSupplierSearch(event: any) {
-    this.subscriptions.add( this.supplierService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.supplierService.find('contact.name~' + event.query).subscribe(
       data => this.supplierList = data
     ));
   }

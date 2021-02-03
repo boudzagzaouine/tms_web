@@ -26,14 +26,15 @@
               {{"Obligatoire" | translate}}
             </span>
             <br />
-            <p-autoComplete [suggestions]="supplierList" (completeMethod)="onSupplierCodeSearch($event)" field='code'
+            <p-autoComplete [suggestions]="supplierList" (completeMethod)="onSupplierCodeSearch($event)" 
+            field='contact.name'
               formControlName="supplier" (onSelect)="onSelectSupplier($event)"></p-autoComplete>
           </div>
 
           <div class="form-group col-md-3 ">
             <label class="font-weight-bold ">{{'Type'| translate}} *</label>
             <span *ngIf="(purchaseOrderForm.get('orderType').touched && purchaseOrderForm.get('orderType').invalid) ||
-        (isFormSubmitted && purchaseOrderForm.get('orderType').invalid)" class="text-lighter"
+              (isFormSubmitted && purchaseOrderForm.get('orderType').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               {{"Obligatoire" | translate}}
             </span>
@@ -193,14 +194,32 @@
   </div>
 
   <div class="text-center mt-3 mr-3 ml-3">
-    <a class="btn btn-primary m-1" [routerLink]="['/core/order/list']">
-      {{'Fermer' | translate}}
-    </a>
-    <button type="button" class="btn btn-success m-1">
-      {{'Valider et continuer' | translate }}
+
+   
+
+    <a  type="button"
+    pButton   class="p-button-primary m-1" [routerLink]="['/core/order/list']"
+    label="  {{'Fermer' | translate}}">
+    
+    </a> 
+    <button  
+    *ngIf="this.validate==1" 
+    type="button"
+    pButton 
+    [useExistingCss]="true"
+    printSectionId="print-section" ngxPrint
+    class="p-button-warning m-1"
+    label="{{'Générer Bon' | translate }}"
+  ></button>
+
+    <button     type="button"
+    pButton class="p-button-success m-1" (click)="onSubmit()"
+    label=" {{'Valider et continuer' | translate }}">
+     
     </button>
-    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-      {{ "Valider" | translate }}
+    <button    pButton  type="button" class="p-button-success m-1" (click)="onSubmit(true)"
+    label=" {{ 'Valider' | translate }}">
+     
     </button>
   </div>
 
@@ -213,3 +232,13 @@
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+
+
+
+<div  id="print-section" 
+  style=" visibility: hidden;">
+   <app-generate-Bon
+   [selectedpurchaseOrder]="this.selectedPurchaseOrder"
+   >
+ </app-generate-Bon>
+</div>

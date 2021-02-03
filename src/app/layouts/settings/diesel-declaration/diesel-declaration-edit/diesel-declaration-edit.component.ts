@@ -29,7 +29,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   showDialogBon: boolean;
   subscriptionCardList: SubscriptionCard[] = [];
   purchaseOrderList: PurchaseOrder[] = [];
-
+   validate :number=0;
   type: any;
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
@@ -119,7 +119,9 @@ export class DieselDeclarationEditComponent implements OnInit {
 
     }
 
-    this.insertDieselDeclaration();
+        this.insertDieselDeclaration();
+   
+ 
 
     
   
@@ -132,9 +134,10 @@ export class DieselDeclarationEditComponent implements OnInit {
       data => {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
-        this.displayDialog = false;
+       // this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
+        this.validate=1;
       },
       error => {
         this.toastr.error(error.error.message, 'Erreur');
@@ -193,6 +196,9 @@ export class DieselDeclarationEditComponent implements OnInit {
 
   onSelectPurchaseOrder(event) {
     this.selectedDieselDeclaration.purshaseOrder = event;  
+    this.dieselDeclarationForm.patchValue({
+      amount:this.selectedDieselDeclaration.purshaseOrder.totalPriceHT,
+    });
    // console.log(this.selectedDieselDeclaration.purshaseOrder);
       
   }

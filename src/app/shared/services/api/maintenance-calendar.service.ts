@@ -13,7 +13,7 @@ constructor() { }
 
 
 createCalendar(maintenances :Maintenance[]){
- console.log(maintenances);
+// console.log(maintenances);
  
   const mCL: MaintenanceCalendar[]=[];
 

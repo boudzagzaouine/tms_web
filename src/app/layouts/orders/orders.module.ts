@@ -23,10 +23,12 @@ import { OrdersComponent } from './orders.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderLineEditComponent } from './order-edit/order-line-edit/order-line-edit.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { GenerateBonComponent } from './generate-Bon/generate-Bon.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
-  declarations: [OrdersComponent, OrderEditComponent, OrderLineEditComponent, OrderListComponent],
+  declarations: [OrdersComponent, OrderEditComponent, OrderLineEditComponent, OrderListComponent,GenerateBonComponent],
   imports: [
     CommonModule,
     OrdersRoutingModule,
@@ -49,7 +51,8 @@ import { OrderListComponent } from './order-list/order-list.component';
     ContextMenuModule,
     StepsModule,
     PanelModule,
-    DialogModule
+    DialogModule,
+    NgxPrintModule,
   ]
 })
 export class OrdersModule { }

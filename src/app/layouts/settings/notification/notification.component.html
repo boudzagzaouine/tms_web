@@ -40,7 +40,20 @@
               >
               </p-dropdown>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-2">
+              <label class="font-weight-bold">{{ "Status " | translate }}</label
+              ><br />
+              <p-dropdown
+                [options]="notificationStateList"
+               
+                optionLabel="code"
+                [autoDisplayFirst]="false"
+                [(ngModel)]="notificationStateSearch"
+                filter="true"
+              >
+              </p-dropdown>
+            </div>
+            <div class="col-md-8">
 </div>
         
        </div>
@@ -119,7 +132,9 @@
               <td>{{notificationM.code}}</td>
               <td>{{notificationM.programeType }}</td> 
               <td>{{notificationM?.action}}</td>
-              <td>{{notificationM?.intervention}}</td>
+           
+              <td >{{ notificationM?.intervention}} </td>
+           
               <td>{{notificationM?.patimonyCode}}</td>
               <td>{{notificationM?.patrimonyType}}</td>
               <td>

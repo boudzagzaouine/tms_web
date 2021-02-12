@@ -56,7 +56,9 @@ export class AppHeaderComponent implements OnInit {
 
 
   changeLang(language: string) {
+   // console.log(language);
     this.translate.use(language);
+    
   }
 
   logout() {

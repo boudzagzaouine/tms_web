@@ -14,8 +14,6 @@ const routes: Routes = [
        loadChildren: () => import('./commission-driver/commission-driver.module')
        .then(m => m.CommissionDriverModule) },
       // { path: 'insurances', loadChildren: () => import('./insurance/insurance.module').then(m => m.InsuranceModule) },
-
-    
       { path: 'turn', loadChildren: () => import('./turn/turn.module').then(m => m.TurnModule) },
       { path: 'machine', loadChildren: () => import('./machine/machine.module').then(m => m.MachineModule) },
 
@@ -39,7 +37,8 @@ const routes: Routes = [
        { path: 'reception',
        loadChildren: () => import('./reception/reception.module').then(m => m.ReceptionModule) },
 
-       
+        { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) },
+
   
     ],
   }];

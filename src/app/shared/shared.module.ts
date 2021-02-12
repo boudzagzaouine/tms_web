@@ -105,6 +105,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { HasPermissionDirective } from './directive/hasPermission.directive';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { SubscriptionCardService } from './services/api/subscription-card.service';
+import { NotificationStateService } from './services/api/notificationState.service';
 
 
 @NgModule({
@@ -224,7 +225,8 @@ export class SharedModule {
         TemplateService,
         DieselDeclarationService,
         ConditionalTypeService,
-        SubscriptionCardService
+        SubscriptionCardService,
+        NotificationStateService 
       ],
 
     };

@@ -1,0 +1,188 @@
+<div class="page-content fade-in-up">
+    <p-panel header="Filters" [toggleable]="true">
+
+        <div class="row  mt-1 ">
+          <!-- <div class="col-md-3">
+              <label class="font-weight-bold">
+                {{"Code" | translate}}</label><br />
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
+                (completeMethod)="onCodeSearch($event)"></p-autoComplete>
+            </div> -->
+      
+            <div class="col-md-3">
+              <label class="font-weight-bold"> Code </label
+              ><br />
+              <p-autoComplete
+             
+              ></p-autoComplete>
+      
+           
+            </div>
+      
+            <div class="col-md-3">
+              <label class="font-weight-bold ">Catégorie</label><br />
+              <p-dropdown
+          
+            >
+            </p-dropdown>
+            </div>
+      
+            <div class="col-md-3">
+                <label class="font-weight-bold"> Date </label
+                ><br />
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon" [readonlyInput]="true"></p-calendar>
+             
+              </div>
+
+              <div class="col-md-3">
+                <label class="font-weight-bold ">Ancienneté par tranche</label><br />
+                <p-dropdown
+            
+              >
+              </p-dropdown>
+              </div>
+      
+          
+          </div>
+      
+          <br />
+          <br />
+          <div class="text-center">
+            <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+              <i class="fa fa-refresh mr-2"></i>
+              Réinitialiser
+            </button>
+      
+            <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+              <i class="fa fa-search mr-2"></i>
+      
+              Rechercher
+            </button>
+          </div>
+      
+      </p-panel>
+      <br />
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox  color-dark widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">201</h2>
+                    <div class="m-b-5">Consommation moyenne</div>
+                    <i class="ti-shopping-cart widget-stat-icon bg-primary"  ></i>
+                    <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox  color-dark widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">1250</h2>
+                    <div class="m-b-5">Kilométrage parcouru</div>
+                    <i class="ti-bar-chart widget-stat-icon bg-success"></i>
+                    <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox  color-dark widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">$1570</h2>
+                    <div class="m-b-5">Coûts de maintenance corrective</div>
+                    <i class="fa fa-money widget-stat-icon bg-danger"></i>
+                    <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox  color-dark widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">108</h2>
+                    <div class="m-b-5"> Coût de maintenance préventive</div>
+                    <i class="ti-user widget-stat-icon bg-primary bg-warning"></i>
+                    <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox  color-dark widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">108</h2>
+                    <div class="m-b-5"> Nombre total de problèmes</div>
+                    <i class="ti-user widget-stat-icon bg-primary"></i>
+                    <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Consommation moyenne</div>
+                  
+                </div>
+                <div class="ibox-body">
+                    <p-table >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Véhicule</th>
+                                <th>Catégorie</th>
+                                <th>Kilométrage parcouru</th>
+                              
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-product>
+                            <tr>
+                                <td>15A2530</td>
+                                <td>25</td>
+                                <td>20</td>
+                                <td>420</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">.</div>
+                </div>
+                <div class="ibox-body">
+                  
+                </div>
+                <div class="ibox-footer text-center">
+                    <a href="javascript:;">View All Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .visitors-table tbody tr td:last-child {
+            display: flex;
+            align-items: center;
+        }
+
+        .visitors-table .progress {
+            flex: 1;
+        }
+
+        .visitors-table .progress-parcent {
+            text-align: right;
+            margin-left: 10px;
+        }
+    </style>
+</div> -->

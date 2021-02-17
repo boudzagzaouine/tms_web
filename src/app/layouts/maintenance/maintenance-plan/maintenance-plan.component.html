@@ -39,7 +39,7 @@
               [attr.disabled]="true"></p-autoComplete>
 
           </div>
-          <div class="form-group col-md-3 ">
+          <!-- <div class="form-group col-md-3 ">
             <label class="font-weight-bold ">{{'Type de programme'| translate}} *</label>
             <span *ngIf="(maintenacePlanForm.controls['general'].get('fProgram').touched && maintenacePlanForm.controls['general'].get('fProgram').invalid) ||
           (isFormSubmitted && maintenacePlanForm.controls['general'].get('fProgram').invalid)" class="text-lighter"
@@ -49,14 +49,14 @@
             <br />
             <input type="text" class="form-control"  *ngIf="editMType==1"
               formControlName="fProgram" pInputText />
-              <!-- [attr.disabled]="true" -->
+         
 
 
 
             <p-dropdown [autoDisplayFirst]="true" optionLabel="code" *ngIf="editMType!=1" [filter]="true"
               [options]="programTypeList" [showClear]="true" (onChange)='onSelectProgrameType($event)'
               formControlName="fProgram"></p-dropdown>
-          </div>
+          </div> -->
 
           <div class="form-group col-md-3 ">
             <label class="font-weight-bold ">{{'patrimoine' | translate}} *</label>
@@ -69,6 +69,19 @@
             <p-autoComplete [suggestions]="patrimonyList" (completeMethod)="onPatrimonySearch($event)" field='code'
               formControlName="fPatrimony"></p-autoComplete>
           </div>
+
+          <div class="form-group col-md-3 ">
+            <label class="font-weight-bold ">{{'Conducteur' | translate}} *</label>
+            <span *ngIf="(maintenacePlanForm.controls['general'].get('fPatrimony').touched && maintenacePlanForm.controls['general'].get('fPatrimony').invalid) ||
+      (isFormSubmitted && maintenacePlanForm.controls['general'].get('fPatrimony').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+            </span>
+            <br />
+            <p-autoComplete [suggestions]="driverList" (completeMethod)="onDriverSearch($event)" field='name'
+              formControlName="fDriver"></p-autoComplete>
+          </div>
+
 
           <div class="form-group col-md-3">
 

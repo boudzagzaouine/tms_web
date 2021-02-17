@@ -40,9 +40,9 @@ import { ConditionalTypeService } from './../../../shared/services/api/condition
 import { ConditionalType } from './../../../shared/models/contional-Type';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { SaleOrderService } from './../../../shared/services/api/sale-order.service';
-import { PurchaseOrder, Supplier } from './../../../shared/models';
+import { Driver, PurchaseOrder, Supplier } from './../../../shared/models';
 import { PurchaseOrderService } from './../../../shared/services/api/purchase-order.service';
-import { AuthenticationService } from './../../../shared/services';
+import { AuthenticationService, DriverService } from './../../../shared/services';
 
 
 
@@ -75,6 +75,8 @@ export class MaintenancePlanComponent implements OnInit {
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
   patrimonyList: Array<Patrimony> = [];
+  driverList: Array<Driver> = [];
+
   supplierList: Array<Supplier> = [];
   purchaseOrderList :PurchaseOrder[] = [];
     actionTypeList: Array<ActionType> = [];
@@ -93,6 +95,7 @@ export class MaintenancePlanComponent implements OnInit {
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private conditionalTypeService: ConditionalTypeService,
+    private driverService : DriverService,
     private supplierService :SupplierService,
     private purchcaseOrderService : PurchaseOrderService,
     private actionTypeService: ActionTypeService,
@@ -276,15 +279,16 @@ export class MaintenancePlanComponent implements OnInit {
       },
           Validators.required),
 
-        'fProgram': new FormControl(
-  {
-         value: this.editMType === 2
-            ? this.selectedMaintenance.programType
-            : this.selectedMaintenance.programType.description,
-            disabled : true
+  //       'fProgram': new FormControl(
+  // {
+  //        value: this.editMType === 2
+  //           ? this.selectedMaintenance.programType
+  //           : this.selectedMaintenance.programType.description,
+           
 
-   }, Validators.required),
+  //  }, Validators.required),
 
+  'fDriver': new FormControl(this.selectedMaintenance.driver, Validators.required),
 
         'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
         'fState': new FormControl(
@@ -328,6 +332,12 @@ export class MaintenancePlanComponent implements OnInit {
   onPatrimonySearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe((data) => {
       this.patrimonyList = data;
+    });
+  }
+
+  onDriverSearch(event: any) {
+    this.driverService.find('name~' + event.query).subscribe((data) => {
+      this.driverList = data;
     });
   }
 
@@ -413,6 +423,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.selectedMaintenance.duration = this.maintenacePlanForm.value['fDuration'];
 
     this.selectedMaintenance.patrimony = this.maintenacePlanForm.value['general']['fPatrimony'];
+    this.selectedMaintenance.driver = this.maintenacePlanForm.value['general']['fDriver'];
     //this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['general']['fvaleurCOnditional'];
     this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];

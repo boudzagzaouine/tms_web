@@ -20,6 +20,7 @@ import { SaleOrder } from './sale-order';
 import { Supplier } from '.';
 import { PurchaseOrder } from './purchase-order';
 import { Owner } from './owner';
+import { Driver } from './driver';
 
 
 
@@ -63,4 +64,6 @@ purshaseOrder: PurchaseOrder;
 supplier :Supplier;
 
 owner: Owner;
+
+driver:Driver;
 }

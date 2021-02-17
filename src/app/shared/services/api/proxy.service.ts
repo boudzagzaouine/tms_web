@@ -20,7 +20,7 @@ export class ProxyService {
   findAll(controller: string): Observable<any[]> {
       //  httpOptions.headers.append('token', this.getToken());
       const fullurl = this.url + controller + '/list?token=' + this.getToken();
-    //  console.log(fullurl);
+      console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
 
@@ -54,7 +54,7 @@ export class ProxyService {
           this.getToken();
           //console.log("fullurl");
 
-     // console.log(fullurl);
+      console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
 
@@ -107,7 +107,9 @@ export class ProxyService {
           size +
           '&token=' +
           this.getToken();
-    //  console.log(fullurl);
+          console.log("pagination");
+          
+      console.log(fullurl);
 
       return this.http.get<any[]>(fullurl);
   }

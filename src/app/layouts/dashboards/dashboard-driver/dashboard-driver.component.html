@@ -2,36 +2,23 @@
     <p-panel header="Filters" [toggleable]="true">
 
         <div class="row  mt-1 ">
-          <!-- <div class="col-md-3">
-              <label class="font-weight-bold">
-                {{"Code" | translate}}</label><br />
-                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
-                (completeMethod)="onCodeSearch($event)"></p-autoComplete>
-            </div> -->
-      
+          
+
+
             <div class="col-md-3">            
-              <label class="font-weight-bold">{{'Véhicule' | translate}}  </label
-              ><br />
-              <p-autoComplete
-              [(ngModel)]="codeSearch"
-              [suggestions]="vehicleCodeList"
-              (completeMethod)="onVehicleCodeSearch($event)"
-              field="code"
-            ></p-autoComplete>
+                <label class="font-weight-bold">{{'Conducteur' | translate}}  </label
+                ><br />
+                <p-autoComplete
+                [(ngModel)]="codeSearch"
+                [suggestions]="driverList"
+                (completeMethod)="onDriverCodeSearch($event)"
+                field="name"
+              ></p-autoComplete>
+             
+              </div>
            
-            </div>
       
-            <div class="col-md-3">
-              <label class="font-weight-bold ">{{'Catégorie' | translate}}</label><br />
-              <p-dropdown
-              [options]="vehicleCategoryList"
-              optionLabel="code"
-              [autoDisplayFirst]="false"
-              [(ngModel)]="categorySearch"
-              filter="true"
-            >
-            </p-dropdown>
-            </div>
+         
       
             <div class="col-md-3">
                 <label class="font-weight-bold"> {{'Date' | translate}} </label
@@ -41,17 +28,16 @@
              
               </div>
 
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
                 <label class="font-weight-bold ">{{'Ancienneté par tranche'| translate}}</label><br />
                 <p-dropdown
                 [options]="seniorityList"
                 optionLabel="header"
                 [autoDisplayFirst]="false"
-                [(ngModel)]="senioritySearch"
-                [showClear]="true"
+                [(ngModel)]="categorySearch"
               >
               </p-dropdown>
-              </div>
+              </div> -->
       
           
           </div>

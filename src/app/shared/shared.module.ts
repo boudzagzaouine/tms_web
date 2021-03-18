@@ -107,6 +107,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { SubscriptionCardService } from './services/api/subscription-card.service';
 import { NotificationStateService } from './services/api/notificationState.service';
 import { DashboardService } from './services/api/dashboard.service';
+import { AgentService } from './services/api/agent.service';
 
 
 @NgModule({
@@ -228,7 +229,8 @@ export class SharedModule {
         ConditionalTypeService,
         SubscriptionCardService,
         NotificationStateService ,
-        DashboardService
+        DashboardService,
+        AgentService
       ],
 
     };

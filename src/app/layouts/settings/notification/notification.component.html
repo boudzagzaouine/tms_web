@@ -2,62 +2,64 @@
 
 
 
-   <p-panel header="{{ 'Notifications' | translate }}" >
-   <br> <br>
+<p-panel header="{{ 'Notifications' | translate }}">
+  <br> <br>
 
 
 
 
 
 
-   <div class="card">
+  <div class="card">
 
     <p-tabView styleClass="tabview-custom">
-        <p-tabPanel  headerStyleClass="onglet-pn-2">
+      <p-tabPanel headerStyleClass="onglet-pn-2">
 
-          <ng-template pTemplate = "header">
-          
-            <span>{{'Maintenance' | translate }}</span> 
-            <i class=" ml-2 badge badge-dark">{{collectionMaintenanceSize}}</i>
-          </ng-template>
+        <ng-template pTemplate="header">
+
+          <span>{{'Maintenance' | translate }}</span>
+          <i class=" ml-2 badge badge-dark">{{collectionMaintenanceSize}}</i>
+        </ng-template>
 
 
 
-          <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
-            <div class="row  mt-1 justify-content-around">
-           
-        
+        <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+          <div class="row  mt-1 justify-content-around">
+
+
             <div class="col-md-2">
-              <label class="font-weight-bold">{{ "Type " | translate }}</label
-              ><br />
-              <p-dropdown
-                [options]="patrimonyTypeList"
-                optionValue="code"
-                optionLabel="code"
-                [autoDisplayFirst]="false"
-                [(ngModel)]="typeSearch"
-                filter="true"
-              >
+              <label class="font-weight-bold">{{ "Type " | translate }}</label><br />
+              <p-dropdown [options]="patrimonyTypeList" optionValue="code" optionLabel="code" [autoDisplayFirst]="false"
+                [(ngModel)]="typeSearch" filter="true">
               </p-dropdown>
             </div>
+
             <div class="col-md-2">
-              <label class="font-weight-bold">{{ "Status " | translate }}</label
-              ><br />
-              <p-dropdown
-                [options]="notificationStateList"
-               
-                optionLabel="code"
-                [autoDisplayFirst]="false"
-                [(ngModel)]="notificationStateSearch"
-                filter="true"
-              >
+              <label class="font-weight-bold">{{ "Responsable " | translate }}</label><br />
+              <p-dropdown [options]="responsabilityList" optionLabel="code" [autoDisplayFirst]="false"
+                [(ngModel)]="responsabilitySearch" filter="true">
               </p-dropdown>
             </div>
-            <div class="col-md-8">
-</div>
-        
-       </div>
-         
+
+
+            <div class="col-md-2">
+              <label class="font-weight-bold">{{ "Agent " | translate }}</label><br />
+              <p-dropdown [options]="agentList" optionLabel="name" [autoDisplayFirst]="false"
+                [(ngModel)]="agentSearch" filter="true">
+              </p-dropdown>
+            </div>
+
+            <div class="col-md-2">
+              <label class="font-weight-bold">{{ "Status " | translate }}</label><br />
+              <p-dropdown [options]="notificationStateList" optionLabel="code" [autoDisplayFirst]="false"
+                [(ngModel)]="notificationStateSearch" filter="true">
+              </p-dropdown>
+            </div>
+            <div class="col-md-4">
+            </div>
+
+          </div>
+
           <br />
           <br />
           <div class="text-center">
@@ -65,10 +67,10 @@
               <i class="fa fa-refresh mr-2"></i>
               {{ "Réinitialiser" | translate }}
             </button>
-        
+
             <button type="button" class="btn btn-success" (click)="onSearchClicked()">
               <i class="fa fa-search mr-2"></i>
-        
+
               {{ "Rechercher" | translate }}
             </button>
           </div>
@@ -88,123 +90,111 @@
 
 
 
-          <div class="card-header " style=" background-color:#f7f7f7;">
-            <div class="row">
-              <div class="col-md-4 pull-left">
-              </div>
+        <div class="card-header " style=" background-color:#f7f7f7;">
+          <div class="row">
+            <div class="col-md-4 pull-left">
+            </div>
             <div class=" ccol-md-6 "><b>{{ "Liste des Notifications de Maintenance" | translate }} </b></div>
 
             <div class=" d-flex col-md-5 justify-content-end">
-            <p-splitButton label="Exportation" 
-            styleClass="p-button-secondary "
-          id="button-icon-only"
-             [model]="itemss" ></p-splitButton>
-</div>
-
-         </div>
-        </div>
-          <div class="card-body  border-top-primary">
-          <p-table 
-          [value]="notificationMaintenanceList"
-          [responsive]="true"
-          [rows]="sizeMaintenance"   
-           [lazy]="true"
-          (onLazyLoad)="loadMaintenanceDataLazy($event)"
-          [totalRecords]="collectionMaintenanceSize"
-          [paginator]="true"
-          [rowsPerPageOptions]="[5,10, 20, 50, 100]"
-
-       >
-          <ng-template pTemplate="header">
-            <tr>
-              <th>{{ "Code Maintenance" | translate }}</th>
-              <th>{{ "Type Programme " | translate }}</th>
-              <th>{{ "Action" | translate }}</th>
-              <th>{{ "intervention planifiée " | translate }}</th>
-              <th>{{ "Patrimoine" | translate }}</th>
-              <th>{{ "Type" | translate }}</th>
-              <th>{{ "Statut" | translate }}</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-notificationM>
-            <tr  class="ui-selectable-row">
-       
-              <td>{{notificationM.code}}</td>
-              <td>{{notificationM.programeType }}</td> 
-              <td>{{notificationM?.action}}</td>
-           
-              <td >{{ notificationM?.intervention}} </td>
-           
-              <td>{{notificationM?.patimonyCode}}</td>
-              <td>{{notificationM?.patrimonyType}}</td>
-              <td>
-              <span [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.description}}</span>
-            </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        </div>
-            </p-tabPanel>
-
-
-        <p-tabPanel  headerStyleClass="onglet-pn-2">
-          <ng-template pTemplate = "header">
-            
-            <span>{{'Produit' | translate }}</span>
-            <i class=" ml-2 badge badge-dark">{{collectionProductSize}}</i>
-          </ng-template>
-          <div class="card-header " style=" background-color:#f7f7f7;">
-            <div class="row">
-              <div class="col-xs-4 col-md-4 pull-left">
-              </div>
-            <div class=" col-xs-4 col-md-6 pull-center">
-             <b> {{"Liste des Notifications du Produit" | translate }}</b>
+              <p-splitButton label="Exportation" styleClass="p-button-secondary " id="button-icon-only"
+                [model]="itemss"></p-splitButton>
             </div>
-         </div>
+
+          </div>
         </div>
-          
-          <div class="card-body  border-top-primary">
-          <p-table 
-       
-          [value]="notificationProductList"
-          [responsive]="true"
-          [rows]="sizeProduct"   
-           [lazy]="true"
-          (onLazyLoad)="loadProductDataLazy($event)"
-          [totalRecords]="collectionProductSize"
-          [paginator]="true"
-          [rowsPerPageOptions]="[5,10, 20, 50, 100]"
+        <div class="card-body  border-top-primary">
+          <p-table [value]="notificationMaintenanceList" [responsive]="true" [rows]="sizeMaintenance" [lazy]="true"
+            (onLazyLoad)="loadMaintenanceDataLazy($event)" [totalRecords]="collectionMaintenanceSize" [paginator]="true"
+            [rowsPerPageOptions]="[5,10, 20, 50, 100]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ "Code Maintenance" | translate }}</th>
+                <th>{{ "Type Programme " | translate }}</th>
+                <th>{{ "Responsabilité " | translate }}</th>
+
+                <th>{{ "Prestataire de service " | translate }}</th>
+                <th>{{ "Agent" | translate }}</th>
+                <th>{{ "Action" | translate }}</th>
+                <th>{{ "intervention planifiée " | translate }}</th>
+                <th>{{ "Patrimoine" | translate }}</th>
+                <th>{{ "Type" | translate }}</th>
+                <th>{{ "Statut" | translate }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-notificationM>
+              <tr class="ui-selectable-row">
+
+                <td>{{notificationM?.code}}</td>
+                <td>{{notificationM?.programeType }}</td>
+                <td>{{notificationM?.responsability?.code }}</td>
+                <td>{{notificationM?.serviceProvider?.code }}</td>
+                <td>{{notificationM?.agent?.name }}</td>
+                <td>{{notificationM?.action}}</td>
+
+                <td>{{ notificationM?.intervention}} </td>
+
+                <td>{{notificationM?.patimonyCode}}</td>
+                <td>{{notificationM?.patrimonyType}}</td>
+                <td>
+                  <span
+                    [class]="'customer-badge status-' + notificationM.notificationState.code">{{notificationM.notificationState.description}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
 
 
+      <p-tabPanel headerStyleClass="onglet-pn-2">
+        <ng-template pTemplate="header">
 
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th>{{ "Code" | translate }}</th>
-              <th>{{ "Type" | translate }}</th>
-              <th>{{ "Quantité en Stock" | translate }}</th>
-              <th>{{ "Statut" | translate }}</th>
-      
-      
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-notificationP>
-            <tr  class="ui-selectable-row">
-       
-              <td>{{notificationP.code}}</td>
-              <td>{{notificationP.patrimonyType}}</td>
-              <td>{{notificationP.intervention?notificationP.intervention:0}}</td>
-            <!-- //  <td>{{notificationP.notificationType.code }}</td> -->
-      
-              <td>
-              <span [class]="'customer-badge status-' + notificationP.notificationState.code">{{notificationP.notificationState.description}}</span>
-            </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-                </p-tabPanel>
-       
+          <span>{{'Produit' | translate }}</span>
+          <i class=" ml-2 badge badge-dark">{{collectionProductSize}}</i>
+        </ng-template>
+        <div class="card-header " style=" background-color:#f7f7f7;">
+          <div class="row">
+            <div class="col-xs-4 col-md-4 pull-left">
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <b> {{"Liste des Notifications du Produit" | translate }}</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body  border-top-primary">
+          <p-table [value]="notificationProductList" [responsive]="true" [rows]="sizeProduct" [lazy]="true"
+            (onLazyLoad)="loadProductDataLazy($event)" [totalRecords]="collectionProductSize" [paginator]="true"
+            [rowsPerPageOptions]="[5,10, 20, 50, 100]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ "Code" | translate }}</th>
+                <th>{{ "Type" | translate }}</th>
+                <th>{{ "Quantité en Stock" | translate }}</th>
+                <th>{{ "Statut" | translate }}</th>
+
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-notificationP>
+              <tr class="ui-selectable-row">
+
+                <td>{{notificationP.code}}</td>
+                <td>{{notificationP.patrimonyType}}</td>
+                <td>{{notificationP.intervention?notificationP.intervention:0}}</td>
+                <!-- //  <td>{{notificationP.notificationType.code }}</td> -->
+
+                <td>
+                  <span
+                    [class]="'customer-badge status-' + notificationP.notificationState.code">{{notificationP.notificationState.description}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
     </p-tabView>
   </div>
 
@@ -223,14 +213,14 @@
 
 
 
-    
 
 
 
 
 
-    
 
- </p-panel>
 
- <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
+</p-panel>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

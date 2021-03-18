@@ -43,6 +43,8 @@ import { SaleOrderService } from './../../../shared/services/api/sale-order.serv
 import { Driver, PurchaseOrder, Supplier } from './../../../shared/models';
 import { PurchaseOrderService } from './../../../shared/services/api/purchase-order.service';
 import { AuthenticationService, DriverService } from './../../../shared/services';
+import { AgentService } from './../../../shared/services/api/agent.service';
+import { Agent } from './../../../shared/models/agent';
 
 
 
@@ -76,7 +78,7 @@ export class MaintenancePlanComponent implements OnInit {
   periodicityTypeList: Array<PeriodicityType> = [];
   patrimonyList: Array<Patrimony> = [];
   driverList: Array<Driver> = [];
-
+  agentList: Array<Agent> = [];
   supplierList: Array<Supplier> = [];
   purchaseOrderList :PurchaseOrder[] = [];
     actionTypeList: Array<ActionType> = [];
@@ -113,6 +115,7 @@ export class MaintenancePlanComponent implements OnInit {
     private roundPipe: RoundPipe,
     private router: Router,
     private authentificationService:AuthenticationService,
+    private agentService : AgentService,
 
   ) { }
 
@@ -160,6 +163,9 @@ export class MaintenancePlanComponent implements OnInit {
     // this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
+
+    
+
       this.editModee = true;
       this.editModeTitle = 'Modifier Maintenance';
       this.subscrubtion.add(this.activatedRoute.params.subscribe(params => {
@@ -177,6 +183,7 @@ export class MaintenancePlanComponent implements OnInit {
                 );
               })
             );
+         
 
             if (this.selectedMaintenance.maintenanceType.id === 1) {
               this.editMType = 1;
@@ -192,6 +199,7 @@ export class MaintenancePlanComponent implements OnInit {
             if (this.selectedMaintenance.maintenanceState.id===4 ) {
               this.maintenancestateMode = 4;
             } 
+          
             
      if(this.selectedMaintenance.patrimony.patrimony_type== 'machine'){
                      this.patrimonyType=2;
@@ -200,6 +208,13 @@ export class MaintenancePlanComponent implements OnInit {
             this.patrimonyType=1;
 
            }
+
+           this.subscrubtion.add(
+            this.agentService.find('responsability.id:'+this.selectedMaintenance.responsability.id).subscribe((data) => {
+              this.agentList = data;
+            })
+          );
+
             this.initForm();
           },
           err => {
@@ -208,6 +223,8 @@ export class MaintenancePlanComponent implements OnInit {
           }));
       })
       );
+   
+
     } else {
       this.subscrubtion.add(
         this.maintenanceTypeService.findAll().subscribe((data) => {
@@ -216,6 +233,8 @@ export class MaintenancePlanComponent implements OnInit {
           this.selectMaintenancetype = this.maintenanceTypeList[0];
         })
       );
+     
+   
 
       this.subscrubtion.add(
         this.programTypeService.findAll().subscribe((data) => {
@@ -236,6 +255,7 @@ export class MaintenancePlanComponent implements OnInit {
     }
     this.initForm();
   
+    console.log(this.selectedMaintenance);
     
   }
 
@@ -290,8 +310,8 @@ export class MaintenancePlanComponent implements OnInit {
 
   'fDriver': new FormControl(this.selectedMaintenance.driver, Validators.required),
 
-        'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
-        'fState': new FormControl(
+      'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
+      'fState': new FormControl(
           {
             value:
               this.selectedMaintenance != null &&
@@ -426,7 +446,7 @@ export class MaintenancePlanComponent implements OnInit {
     this.selectedMaintenance.driver = this.maintenacePlanForm.value['general']['fDriver'];
     //this.selectedMaintenance.maintenanceState = this.maintenacePlanForm.value['general']['fState'];
     this.selectedMaintenance.valueconditionalType = this.maintenacePlanForm.value['general']['fvaleurCOnditional'];
-    this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
+    // this.selectedMaintenance.agent = this.maintenacePlanForm.value['responsability']['fagent'];
     
 
 
@@ -577,6 +597,18 @@ export class MaintenancePlanComponent implements OnInit {
   }
   onSelectResponsability(event) {
     this.selectedMaintenance.responsability = event.value as Responsability;
+
+    this.subscrubtion.add(
+      this.agentService.find('responsability.id:'+this.selectedMaintenance.responsability.id).subscribe((data) => {
+        this.agentList = data;
+      })
+    );
+
+
+  }
+
+  onSelectAgent(event){
+    this.selectedMaintenance.agent = event.value as Agent;
 
   }
   onSelectService(event) {

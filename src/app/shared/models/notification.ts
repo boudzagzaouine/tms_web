@@ -2,6 +2,8 @@ import { NotificationType} from './notificationType';
 import { NotificationState } from './notificationState';
 import { Maintenance } from './maintenance';
 import { Product } from '.';
+import { Responsability } from './responsability';
+import { ServiceProvider } from './service-provider';
 
 export class Notification {
 
@@ -19,6 +21,8 @@ export class Notification {
   patrimonyType:String;
   intervention:String;
   action :String;
-  
+  responsability: Responsability ;
+  serviceProvider: ServiceProvider ;
+   agent:String;
 
 }

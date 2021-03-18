@@ -1,0 +1,129 @@
+
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="agentForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(agentForm.get('fcode').touched && agentForm.get('fcode').invalid) ||
+            (isFormSubmitted && agentForm.get('fcode').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fcode"
+            (keydown.space)="$event.preventDefault()" [attr.disabled]="true"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+            <span *ngIf="(agentForm.get('fname').touched && agentForm.get('fname').invalid) ||
+            (isFormSubmitted && agentForm.get('fname').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fname"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Cin' | translate}} *</label>
+            <span *ngIf="(agentForm.get('fcin').touched && agentForm.get('fcin').invalid) ||
+            (isFormSubmitted && agentForm.get('fcin').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fcin"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Date Naissance' | translate}} *</label>
+            <span *ngIf="(agentForm.get('fbirthdate').touched && agentForm.get('fbirthdate').invalid) ||
+            (isFormSubmitted && agentForm.get('fbirthdate').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <p-calendar [monthNavigator]="true"  [yearNavigator]="true" 
+            dateFormat="dd-mm-yy"   appendTo="body"
+              formControlName="fbirthdate" yearRange="1970:2100"
+              ></p-calendar>
+           
+          
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Téléphone' | translate}} *</label>
+            <span *ngIf="(agentForm.get('ftele').touched && agentForm.get('ftele').invalid) ||
+            (isFormSubmitted && agentForm.get('ftele').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="ftele"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Responsabilité' | translate}} *</label>
+            <span *ngIf="(agentForm.get('fresponsability').touched && agentForm.get('fresponsability').invalid) ||
+            (isFormSubmitted && agentForm.get('fresponsability').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <p-dropdown [options]="responsabilityList" appendTo="body" 
+            (onChange)="onSelectAgent($event)" optionLabel="code" 
+            [autoDisplayFirst]="false" formControlName="fresponsability"
+                filter="true">
+            </p-dropdown>
+          </div>
+
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="p-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

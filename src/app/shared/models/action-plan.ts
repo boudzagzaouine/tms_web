@@ -17,6 +17,7 @@ import { Month } from './month';
 import { Action } from './action';
 import { ConditionalType } from './contional-Type';
 import { Owner } from './owner';
+import { Agent } from './agent';
 
 export class ActionPlan {
 
@@ -35,7 +36,7 @@ export class ActionPlan {
   interventionDate: Date  = new Date();
  // mileage = 0.0;
  // totalPrice = 0;
-  agent: string;
+  agent: Agent;
   employer: string;
   observation : string;
   declaredDate : Date = new Date();

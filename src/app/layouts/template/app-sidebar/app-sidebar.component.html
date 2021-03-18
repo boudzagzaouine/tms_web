@@ -68,7 +68,10 @@
             <a routerLink="/core/settings/suppliers"><i class="fa fa-circle-o"></i>
               {{'Fournisseur' | translate}}</a>
           </li> -->
-          
+          <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
+            <a routerLink="/core/settings/agents" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Agent ' | translate}}</a>
+          </li>
           <li *hasPermission="['CATEGORY_VEHICLE_VIEW','CONTRACT_TYPE_VIEW','CONSUMPTION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>

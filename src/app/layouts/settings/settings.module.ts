@@ -103,6 +103,8 @@ import {AccordionModule, AccordionTab} from 'primeng/accordion';
 import { BonEditComponent } from './diesel-declaration/bon-edit/bon-edit.component';
 import {NgxPrintModule} from 'ngx-print';
 import { GenerateBonComponent } from './diesel-declaration/generateBon/generateBon.component';
+import { AgentComponent } from './agent/agent.component';
+import { AgentEditComponent } from './agent/agent-edit/agent-edit.component';
 
 
 
@@ -175,7 +177,9 @@ import { GenerateBonComponent } from './diesel-declaration/generateBon/generateB
      SubscriptionCardComponent,
      SubscriptionCardEditComponent,
      BonEditComponent,
-     GenerateBonComponent
+     GenerateBonComponent,
+     AgentComponent,
+     AgentEditComponent
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,7 @@ import { ToastModule } from 'primeng/toast';
     LayoutComponent,
     AppHeaderComponent,
     AppSidebarComponent,
-    AppFooterComponent,
+    AppFooterComponent
  
 
 
@@ -34,7 +34,7 @@ import { ToastModule } from 'primeng/toast';
     LayoutComponent,
     AppHeaderComponent,
     AppSidebarComponent,
-    AppFooterComponent,
+    AppFooterComponent
 
   ],
   imports: [

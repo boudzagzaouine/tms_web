@@ -311,6 +311,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
   this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
   
+   
+
     this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
         if (this.selectedInsurance.code) {

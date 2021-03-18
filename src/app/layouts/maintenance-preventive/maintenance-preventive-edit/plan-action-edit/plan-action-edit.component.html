@@ -341,8 +341,12 @@
                 <div class="form-group col-md-6">
                   <label class="font-weight-bold ">{{'Agent' | translate}} </label>
 
+                  <p-dropdown [autoDisplayFirst]="false" optionLabel="name" [filter]="true"
+                  [options]="agentList" [showClear]="true"
+                   (onChange)="onSelectAgent($event)"
+                  formControlName="fagent"></p-dropdown>
 
-                  <input type="text" class="form-control" formControlName="fagent" pInputText />
+                  <!-- <input type="text" class="form-control" formControlName="fagent" pInputText /> -->
                 </div>
                 <div class="form-group col-md-6">
                 </div>

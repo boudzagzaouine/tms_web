@@ -44,7 +44,7 @@ export class DieselDeclarationEditComponent implements OnInit {
     private purchaseOrderService:PurchaseOrderService,
     private driverService:DriverService,
     private authentificationService:AuthenticationService,
-    private patrimonyService :PatrimonyService,
+    private vehicleService :VehicleService,
     private spinner: NgxSpinnerService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrService,
@@ -153,13 +153,13 @@ export class DieselDeclarationEditComponent implements OnInit {
         bon: event,
         amount:event.totalPriceHT,
       });
-      this.selectedDieselDeclaration.purshaseOrder=event;
+      this.selectedDieselDeclaration.purshaseOrder=event as PurchaseOrder;
        
   }
 
   onCodeVehicleSearch(event: any) {
-    this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.vehicleList = data.filter(f=> f.patrimony_type=='vehicule')
+    this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+      data => this.vehicleList = data
     );
   }
 

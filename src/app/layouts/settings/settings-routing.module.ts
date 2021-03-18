@@ -44,6 +44,7 @@ import { NotificationTypeComponent } from './notification-type/notification-type
 import { MenuNotificationComponent } from './menu-notification/menu-notification.component';
 import { ConditionalTypeComponent } from './conditional-type/conditional-type.component';
 import { SubscriptionCardComponent } from './subscriptionCard/subscriptionCard.component';
+import { AgentComponent } from './agent/agent.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,7 @@ const routes: Routes = [
       { path: 'menu-mail', component: MenuNotificationComponent },
       { path: 'conditional-type', component: ConditionalTypeComponent },
       { path: 'subscription-card', component: SubscriptionCardComponent},
+      { path: 'agents', component: AgentComponent},
 
 
 

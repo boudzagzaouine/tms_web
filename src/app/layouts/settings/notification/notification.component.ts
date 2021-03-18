@@ -13,6 +13,10 @@ import { EmsBuffer } from './../../../shared/utils';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { NotificationStateService } from './../../../shared/services/api/notificationState.service';
 import { NotificationState } from './../../../shared/models/notificationState';
+import { Responsability } from './../../../shared/models/responsability';
+import { ResponsabilityService } from './../../../shared/services/api/responsability.service';
+import { Agent } from './../../../shared/models/agent';
+import { AgentService } from './../../../shared/services/api/agent.service';
 
 @Component({
   selector: 'app-notification',
@@ -35,23 +39,33 @@ export class NotificationComponent implements OnInit {
   collectionMaintenanceSize: number = 0;
   maintenanceExportList: Array<Notification> = [];
   notificationProductList: Array<Notification> = [];
+  responsabilityList: Array<Responsability> = [];
+
   notificationMaintenanceList: Array<Notification> = [];
   notificationStateList: Array<NotificationState> = [];
   notificationStateSearch: NotificationState;
+  responsabilitySearch: Responsability;
+  agentSearch: Agent;
+  agentList: Array<Agent> = [];
 
   patrimonyTypeList: Array<{ code: string }> = [];
   typeSearch: string;
+ 
+
   titleListMaintenance :string='Liste des notification  de la Maintenance';
   items: MenuItem[];
   home: MenuItem;
 
   constructor(private notificationService: NotificationService,
            private notificationStateService:NotificationStateService,
-    private spinner: NgxSpinnerService,
-    private globalService: GlobalService,
-    private toastr: ToastrService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,) { }
+           private responsabilityService :ResponsabilityService,
+           private agentService :AgentService,
+
+           private spinner: NgxSpinnerService,
+           private globalService: GlobalService,
+           private toastr: ToastrService,
+           private messageService: MessageService,
+           private confirmationService: ConfirmationService,) { }
 
   ngOnInit() {
 
@@ -73,9 +87,31 @@ export class NotificationComponent implements OnInit {
 
     }
   )
+
+  this.responsabilityService.findAll().subscribe(
+    data => {
+      this.responsabilityList = data;
+
+    }
+  )
+
+  this.agentService.findAll().subscribe(
+    data => {
+      this.agentList = data;
+
+    }
+  )
+
+
   this.cols = [
     { field: 'code', header: 'Code', type: 'string' },
     { field: 'programeType', header: 'Type de programme', type: 'string' },
+
+    { field: 'responsability',child:'code', header: 'Responsabilité', type: 'object' },
+    { field: 'serviceProvider',child:'code', header: 'Prestataire de service', type: 'object' },
+    { field: 'agent', header: 'Agent',child:'name', type: 'object' },
+
+
     { field: 'action', header: 'Type action', type: 'string' },
     { field: 'intervention', header: 'Intervention planifiée', type: 'string' },
     { field: 'patimonyCode', header: 'Patrimoine', type: 'string' },
@@ -191,7 +227,11 @@ export class NotificationComponent implements OnInit {
     if (this.notificationStateSearch != null && this.notificationStateSearch.code !== '') {
       buffer.append(`notificationState.code~${this.notificationStateSearch.code}`);
     }
-
+    if (this.responsabilitySearch != null && this.responsabilitySearch.code !== '') {
+      buffer.append(`responsability.code~${this.responsabilitySearch.code}`);
+    } if (this.agentSearch != null && this.agentSearch.code !== '') {
+      buffer.append(`agent.code~${this.agentSearch.code}`);
+    }
 
 
 
@@ -207,6 +247,9 @@ export class NotificationComponent implements OnInit {
   reset() {
     this.typeSearch = null;
     this.notificationStateSearch = null;
+    this.responsabilitySearch=null;
+    this.agentSearch=null;
+
     this.searchMaintenanceQuery = 'notificationType.id:1';
     this.loadMaintenanceData(this.searchMaintenanceQuery);
   }

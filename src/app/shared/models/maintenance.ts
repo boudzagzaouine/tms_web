@@ -21,6 +21,7 @@ import { Supplier } from '.';
 import { PurchaseOrder } from './purchase-order';
 import { Owner } from './owner';
 import { Driver } from './driver';
+import { Agent } from './agent';
 
 
 
@@ -44,7 +45,7 @@ export class Maintenance {
   patrimony: Patrimony;
   mileage :number;
   totalPrice = 0;
-  agent: string;
+  agent: Agent;
   employer: string;
   triggerDay: number;
   triggerDate: Date  = new Date();

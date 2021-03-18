@@ -30,6 +30,8 @@ import { ProgramType } from './../../../../shared/models/program-type';
 import { ActionTypeService } from './../../../../shared/services/api/action-type.service';
 import { ConditionalType } from './../../../../shared/models/contional-Type';
 import { ConditionalTypeService } from './../../../../shared/services/api/conditional-type.service';
+import { AgentService } from './../../../../shared/services/api/agent.service';
+import { Agent } from './../../../../shared/models/agent';
 
 @Component({
   selector: 'app-plan-action-edit',
@@ -82,6 +84,8 @@ export class PlanActionEditComponent implements OnInit {
   monthsInit: Array<any> = [];
   MaintenancestateList: Array<MaintenanceState> = [];
   responsabilityList: Array<Responsability> = [];
+  agentList: Array<Agent> = [];
+
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
   conditionalTypeList: Array<ConditionalType> = [];
@@ -108,7 +112,7 @@ export class PlanActionEditComponent implements OnInit {
     private periodicityTypeService: PeriodicityTypeService,
 
     private maintenanceStateService: MaintenanceStateService,
-
+ private agentService:AgentService,
     private monthService: MonthService,
     private dayService: DayService,
     private authentificationService: AuthenticationService,
@@ -148,6 +152,13 @@ export class PlanActionEditComponent implements OnInit {
       if (this.selectedActionPlan.programType.id == 1) {
         this.periodicityMode = this.selectedActionPlan.periodicityType.id;
       }
+
+      this.subscrubtion.add(
+        this.agentService.find('responsability.id:'+this.selectedActionPlan.responsability.id).subscribe((data) => {
+          this.agentList = data;
+        })
+      );
+
     }
 
     this.subscrubtion.add(
@@ -166,7 +177,7 @@ export class PlanActionEditComponent implements OnInit {
         })
       })
     );
-
+   
 
 
     this.subscrubtion.add(
@@ -293,7 +304,7 @@ export class PlanActionEditComponent implements OnInit {
       if (this.actionPlanForm.controls['conditionalType'].invalid) return;
     }
     this.selectedActionPlan.valueconditionalType = this.actionPlanForm.value['conditionalType']['fValueConditionalType'];
-    this.selectedActionPlan.agent = this.actionPlanForm.value['responsability']['fagent'];
+    // this.selectedActionPlan.agent = this.actionPlanForm.value['responsability']['fagent'];
     this.selectedActionPlan.interventionDate = this.actionPlanForm.value['periodicity']['fInterventionDate'];
     this.selectedActionPlan.startDate = new Date(this.actionPlanForm.value['periodicity']['fDateStart']);
     this.selectedActionPlan.endDate = this.actionPlanForm.value['periodicity']['fDateEnd'];
@@ -363,6 +374,17 @@ export class PlanActionEditComponent implements OnInit {
   }
   onSelectResponsability(event) {
     this.selectedActionPlan.responsability = event.value as Responsability;
+    this.subscrubtion.add(
+      this.agentService.find('responsability.id:'+this.selectedActionPlan.responsability.id).subscribe((data) => {
+        this.agentList = data;
+      })
+    );
+  }
+
+  onSelectAgent(event){
+    this.selectedActionPlan.agent = event.value as Agent;
+    console.log( this.selectedActionPlan.agent);
+    
 
   }
 

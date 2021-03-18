@@ -72,6 +72,7 @@ if(this.editMode == false){
         }
    
       ));  
+      this.selectedPurchaseOrderLine = new PurchaseOrderLine();
         this.initForm();
 
     }

@@ -34,6 +34,21 @@
       field="code"
     ></p-autoComplete>
     </div>
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Date Reception" | translate }}</label
+      ><br />
+      <p-calendar [(ngModel)]="dateSearch" 
+      [monthNavigator]="true" 
+      [yearNavigator]="true" 
+      yearRange="2000:2030" dateFormat="dd/mm/yy"
+      selectionMode="range" [readonlyInput]="true" (onSelect)="selectDateReception($event)"
+      inputId="navigators"
+      ></p-calendar>
+
+    </div>
+
+
     </div>
 
   <br />

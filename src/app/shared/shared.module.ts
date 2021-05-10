@@ -108,6 +108,7 @@ import { SubscriptionCardService } from './services/api/subscription-card.servic
 import { NotificationStateService } from './services/api/notificationState.service';
 import { DashboardService } from './services/api/dashboard.service';
 import { AgentService } from './services/api/agent.service';
+import { StockViewService } from './services/api/stock-view.service';
 
 
 @NgModule({
@@ -230,7 +231,8 @@ export class SharedModule {
         SubscriptionCardService,
         NotificationStateService ,
         DashboardService,
-        AgentService
+        AgentService,
+        StockViewService
       ],
 
     };

@@ -41,6 +41,7 @@ export class ReceptionEditComponent implements OnInit {
   editMode: boolean;
   receptionLine = new ReceptionLine;
   subscrubtion = new Subscription();
+  validate :number =0;
 
   constructor(private supplierService: SupplierService,
     private receptionStockService: ReceptionStockService,
@@ -63,7 +64,10 @@ export class ReceptionEditComponent implements OnInit {
     this.subscrubtion.add(this.orderTypeService.findAll().subscribe(
       data => {
         this.orderTypeList = data.filter(f => f.id === 1);
+        this.selectedReception.orderType=this.orderTypeList[0];
+        this.initForm();
       }
+    
     ));
 
 
@@ -76,7 +80,8 @@ export class ReceptionEditComponent implements OnInit {
           this.selectedReception = data;
           this.selectedPurchaseOrder = data.purshaseOrder;
 
-
+          console.log(this.selectedReception);
+     
 
           this.initForm();
         },
@@ -142,7 +147,7 @@ export class ReceptionEditComponent implements OnInit {
         disabled: true
       }),
       order: new FormControl(
-        this.selectedReception.purshaseOrder, Validators.required
+        this.selectedReception.purshaseOrder
         //     value:
         //         this.selectedReception != null &&
         //         this.selectedReception.purshaseOrder != null
@@ -160,15 +165,15 @@ export class ReceptionEditComponent implements OnInit {
       }),
 
       supplier: new FormControl(
-        {
-          value:
-            this.selectedReception != null &&
-              this.selectedReception.supplier != null
-              ? this.selectedReception.supplier
-              : null,
-          disabled: this.editMode
-        },
-        Validators.required
+        // {
+        //   value:
+        //     this.selectedReception != null &&
+        //       this.selectedReception.supplier != null
+        //       ? this.selectedReception.supplier
+        //       : null,
+        
+        // },
+        this.selectedReception.supplier, Validators.required
       ),
 
       status: new FormControl(
@@ -184,15 +189,15 @@ export class ReceptionEditComponent implements OnInit {
       ),
 
       type: new FormControl(
-        {
-          value:
-            this.selectedReception != null &&
-              this.selectedReception.orderType != null
-              ? this.selectedReception.orderType.code
-              : null,
-          disabled: this.editMode
-        },
-        Validators.required
+        // {
+        //   value:
+        //     this.selectedReception != null &&
+        //       this.selectedReception.orderType != null
+        //       ? this.selectedReception.orderType.code
+        //       : null,
+        //   disabled: this.editMode
+        // },
+        this.selectedReception.orderType ,Validators.required
       ),
 
       receptionDate: new FormControl(
@@ -225,7 +230,7 @@ export class ReceptionEditComponent implements OnInit {
     });
 
   }
-  onSubmit() {
+  onSubmit(close = false) {
     this.isFormSubmitted = true;
     if (this.receptionForm.invalid) {
       return;
@@ -236,7 +241,9 @@ export class ReceptionEditComponent implements OnInit {
       this.selectedReception.receptionDate = this.receptionForm.value['receptionDate'];
     }
     this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate'];
-    // this.selectedReception.orderType = this.purchaseOrderForm.value['orderType'];
+     this.selectedReception.orderType = this.receptionForm.value['type'];
+     console.log(this.selectedReception.orderType);
+     
     this.selectedReception.owner = this.authentificationService.getDefaultOwner();
     this.subscrubtion.add(this.receptionService.set(this.selectedReception).subscribe(
       dataM => {
@@ -244,18 +251,19 @@ export class ReceptionEditComponent implements OnInit {
           this.receptionStockService.receive(dataM);
         }
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
-
+        this.validate=1;
         this.isFormSubmitted = false;
         this.spinner.hide();
-        this.selectedReception = new Reception();
-        this.receptionForm.reset();
+      
 
         if (close) {
-          this.router.navigate(['/core/reception/list']);
+        //  this.router.navigate(['/core/reception/list']);
         } else {
 
           this.router.navigate(['/core/reception/edit']);
-        }
+          this.selectedReception = new Reception();
+        this.receptionForm.reset();
+      }
 
       },
       err => {
@@ -276,9 +284,13 @@ export class ReceptionEditComponent implements OnInit {
   }
 
   onPurchaseOrderCodeSearch(event: any) {
-    this.subscrubtion.add(this.purchcaseOrderService.find('code~' + event.query).subscribe((data) => {
-      this.purchaseOrderList = data.filter(data => data.orderStatus.id != 1);
+    // .filter(data => data.orderStatus.id != 1);
+    this.subscrubtion.add(this.purchcaseOrderService.find('code~' + event.query+',orderStatus.id!1').subscribe((data) => {
+      this.purchaseOrderList = data;  
+      console.log(this.purchaseOrderList);
     }));
+  
+    
   }
 
   onSelectOrderType(event) {

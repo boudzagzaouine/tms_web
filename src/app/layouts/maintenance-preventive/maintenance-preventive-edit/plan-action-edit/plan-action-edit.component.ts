@@ -85,7 +85,6 @@ export class PlanActionEditComponent implements OnInit {
   MaintenancestateList: Array<MaintenanceState> = [];
   responsabilityList: Array<Responsability> = [];
   agentList: Array<Agent> = [];
-
   serviceProviderList: Array<ServiceProvider> = [];
   periodicityTypeList: Array<PeriodicityType> = [];
   conditionalTypeList: Array<ConditionalType> = [];

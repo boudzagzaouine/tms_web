@@ -23,10 +23,12 @@ import { ReceptionComponent } from './reception.component';
 import { ReceptionEditComponent } from './reception-edit/reception-edit.component';
 import { ReceptionListComponent } from './reception-list/reception-list.component';
 import { ReceptionLineEditComponent } from './reception-edit/reception-line-edit/reception-line-edit.component';
+import { ReceptionGenerateBonComponent } from './reception-generate-bon/reception-generate-bon.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
-  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent, ReceptionLineEditComponent],
+  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent, ReceptionLineEditComponent,ReceptionGenerateBonComponent],
   imports: [
     CommonModule,
     ReceptionRoutingModule,
@@ -49,7 +51,8 @@ import { ReceptionLineEditComponent } from './reception-edit/reception-line-edit
     ContextMenuModule,
     StepsModule,
     PanelModule,
-    DialogModule
+    DialogModule,
+    NgxPrintModule,
 
   ]
 })

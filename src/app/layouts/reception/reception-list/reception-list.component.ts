@@ -25,6 +25,7 @@ export class ReceptionListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: Reception;
+  dateSearch: Date[];
   matSearch: string;
   supplierSearch: Supplier;
   orderSearch: PurchaseOrder;
@@ -38,13 +39,13 @@ export class ReceptionListComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-  receptionExportList:Array<Reception> = [];
+  receptionExportList: Array<Reception> = [];
   subscrubtion = new Subscription();
 
 
   constructor(private receptionService: ReceptionService,
     private globalService: GlobalService,
-    private purchaseOrderService:PurchaseOrderService,
+    private purchaseOrderService: PurchaseOrderService,
     private supplierService: SupplierService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -60,9 +61,9 @@ export class ReceptionListComponent implements OnInit {
       { field: 'remarks', header: 'Remarque', type: 'string' },
       { field: 'supplier', child: 'code', header: 'Fournisseur', type: 'object' },
       { field: 'orderType', child: 'code', header: 'Type', type: 'object' },
-      { field: 'totalPriceHT',  header: 'Total HT', type: 'number' },
+      { field: 'totalPriceHT', header: 'Total HT', type: 'number' },
       { field: 'vat', header: 'TVA', type: 'number' },
-      { field: 'totalPriceTTC',  header: 'Total TTC', type: 'number' },
+      { field: 'totalPriceTTC', header: 'Total TTC', type: 'number' },
       { field: 'orderStatus', child: 'code', header: 'Statut', type: 'object' },
       { field: 'receptionDate', header: 'Date Reception', type: 'date' },
 
@@ -83,7 +84,7 @@ export class ReceptionListComponent implements OnInit {
     ));
     this.subscrubtion.add(this.receptionService.findPagination(this.page, this.size, search).subscribe(
       data => {
-       
+
         this.receptionList = data;
 
         this.spinner.hide();
@@ -157,6 +158,15 @@ export class ReceptionListComponent implements OnInit {
     if (this.orderSearch != null && this.orderSearch.code !== '') {
       buffer.append(`purshaseOrder.code~${this.orderSearch.code}`);
     }
+    if (this.dateSearch != null) {
+      if (this.dateSearch[0] != null && this.dateSearch[1] != null) {
+        buffer.append('receptionDate>' + this.dateSearch[0].toISOString() + ',receptionDate<' + this.dateSearch[1].toISOString());
+      } else if (this.dateSearch[0] != null && this.dateSearch[1] == null) {
+        buffer.append('receptionDate>' + this.dateSearch[0].toISOString());
+
+      }
+    }
+
 
 
     this.page = 0;
@@ -177,13 +187,20 @@ export class ReceptionListComponent implements OnInit {
 
   }
 
+  selectDateReception(event) {
+
+    console.log(event);
+    console.log(this.dateSearch[0]);
+
+  }
+
   onReceptionCodeSearch(event: any) {
     this.subscrubtion.add(this.receptionService.find('code~' + event.query).subscribe(
       data => this.receptionCodeList = data ,
     ));
   }
   onSupplierCodeSearch(event: any) {
-    this.subscrubtion.add( this.supplierService.find('code~' + event.query).subscribe(
+    this.subscrubtion.add(this.supplierService.find('code~' + event.query).subscribe(
       data => this.supplierList = data ,
     ));
   }
@@ -194,9 +211,10 @@ export class ReceptionListComponent implements OnInit {
   }
 
   reset() {
+    this.dateSearch = null;
     this.codeSearch = null;
     this.matSearch = null;
-    this.orderSearch=null;
+    this.orderSearch = null;
     this.supplierSearch = null;
     this.page = 0;
     this.searchQuery = '';
@@ -211,7 +229,7 @@ export class ReceptionListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedReception.map(x => x.id);
-          this.subscrubtion.add( this.receptionService.deleteAllByIds(ids).subscribe(
+          this.subscrubtion.add(this.receptionService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();

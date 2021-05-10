@@ -19,7 +19,7 @@
           </div>
 
           <div class="form-group col-md-3 ">
-            <label class="font-weight-bold ">{{'Commande d achat'| translate}} *</label>
+            <label class="font-weight-bold ">{{'Commande d achat'| translate}} </label>
             <span *ngIf="(receptionForm.get('order').touched && receptionForm.get('order').invalid) ||
             (isFormSubmitted && receptionForm.get('order').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -72,7 +72,12 @@
       {{"Obligatoire" | translate}}
     </span>
     <br />
-    <div class="input-group">
+
+    <p-dropdown name="order-type"  formControlName="type" class="w-100"
+    [options]="orderTypeList" optionLabel="code" [autoDisplayFirst]="true" 
+    (onChange)="onSelectOrderType($event)">
+</p-dropdown>
+    <!-- <div class="input-group">
       <input type="text" class="form-control" pInputText name="type" id="type" formControlName="type"
           *ngIf="
               editMode ||
@@ -85,7 +90,7 @@
           !editMode &&
           !selectedReception?.purshaseOrder?.id
       " (onChange)="onSelectOrderType($event)">
-  </p-dropdown>
+  </p-dropdown> -->
 </div>
 
 <div class="form-group col-md-3 ">
@@ -274,12 +279,27 @@
   <a class="btn btn-primary m-1" [routerLink]="['/core/order/list']">
     {{'Fermer' | translate}}
   </a>
-  <button type="button" class="btn btn-success m-1" >
-    {{'Valider et continuer' | translate }}
-  </button>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-    {{ "Valider" | translate }}
-  </button>
+
+  <button  
+  *ngIf="this.validate==1" 
+  type="button"
+  pButton 
+  [useExistingCss]="true"
+  printSectionId="print-section" ngxPrint
+  class="p-button-warning m-1"
+  label="{{'Générer Bon' | translate }}"
+></button>
+
+
+<button     type="button"
+pButton class="p-button-success m-1" (click)="onSubmit()"
+label=" {{'Valider et continuer' | translate }}">
+ 
+</button>
+<button    pButton  type="button" class="p-button-success m-1" (click)="onSubmit(true)"
+label=" {{ 'Valider' | translate }}">
+ 
+</button>
 </div>
 
 </div>
@@ -295,3 +315,14 @@
 </div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+
+
+
+
+<div  id="print-section" 
+  style=" visibility: hidden;">
+   <app-reception-generate-bon
+   [selectedReception]="this.selectedReception"
+   >
+ </app-reception-generate-bon>
+</div>

@@ -229,11 +229,25 @@
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/stock.png" width="20px" height="20px">
           </i>
-          <span class="nav-label">{{'Stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+          <span class="nav-label">{{'mouvement de stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
 
           <li *hasPermission="['STOCK_VIEW']">
             <a routerLink="/core/stock" class="m-a"><img src="./assets/img/Menu/list.png" width="15px" height="15px">
+              {{'Lister' | translate}}</a>
+          </li>
+        </ul>
+      </li>
+
+      <li *hasPermission="['STOCK_CREATE','STOCK_VIEW']">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/stock.png" width="20px" height="20px">
+          </i>
+          <span class="nav-label">{{'Stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
+
+          <li *hasPermission="['STOCK_VIEW']">
+            <a routerLink="/core/stock-view" class="m-a"><img src="./assets/img/Menu/list.png" width="15px" height="15px">
               {{'Lister' | translate}}</a>
           </li>
         </ul>

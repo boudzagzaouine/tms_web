@@ -10,17 +10,17 @@ import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../shared/services/api/global.service';
-import { StockService } from './../../shared/services/api/stock.service';
-import { Stock } from './../../shared/models/stock';
+import { StockViewService } from './../../shared/services/api/stock-view.service';
+import { StockView } from './../../shared/models/stock-view';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.css']
+  selector: 'app-stock-view',
+  templateUrl: './stock-view.component.html',
+  styleUrls: ['./stock-view.component.scss']
 })
-export class StockComponent implements OnInit {
+export class StockViewComponent implements OnInit {
 
   page = 0;
   size = 5;
@@ -35,20 +35,20 @@ export class StockComponent implements OnInit {
   productTypeSearch: ProductType;
   productTypeCodeList: Array<ProductType> = [];
   descriptionSearch = '';
-  codeList: Array<Stock> = [];
+  codeList: Array<StockView> = [];
   cols: any[];
-  stockList: Array<Stock> = [];
-  selectedStock: Array<Stock> = [];
+  stockList: Array<StockView> = [];
+  selectedStock: Array<StockView> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des mouvements de stock';
-  stockExportList: Array<Stock> = [];
+  titleList = 'Liste du Stock';
+  stockExportList: Array<StockView> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
     
   home: MenuItem;
-  constructor(private stockService: StockService,
+  constructor(private stockViewService: StockViewService,
     private productService : ProductService,
   private supplierService : SupplierService,
   private productTypeService :ProductTypeService,
@@ -61,7 +61,7 @@ export class StockComponent implements OnInit {
   ngOnInit() {
 
     this.items = [
-      {label: 'Stock'},
+      {label: 'StockView'},
       {label: 'Lister'},
    
   ];
@@ -71,23 +71,23 @@ export class StockComponent implements OnInit {
     this.subscriptions.add(this.productTypeService.findAll().subscribe(
       data => this.productTypeCodeList = data ,
     ));
-    this.className = Stock.name;
+    this.className = StockView.name;
     this.cols = [
       {
-        field: 'product',child: 'code',   header: 'Produit',    type: 'object'
+        field: 'product',child: 'code',   header: 'Code',    type: 'object'
+      },
+
+      {
+        field: 'product',child: 'description',   header: 'Description',    type: 'object'
       },
   
-      {
-        field: 'uom',child: 'code',   header: 'Unité de mesure',    type: 'object'
-      },
-       {
-         field: 'supplier',child: 'contact',child2:'name',   header: 'Fournisseur',    type: 'object2'
-       },
+    
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'
       },
+    
       {
-        field: 'receptionDate',   header: 'Date de reception',    type: 'date'
+        field: 'price',   header: 'Prix HT',    type: 'number'
       },
 
     ];
@@ -97,7 +97,7 @@ export class StockComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.subscriptions.add( this.stockService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.stockViewService.find(this.searchQuery).subscribe(
       data => {
         this.stockExportList = data;
         if (event != null) {
@@ -117,7 +117,7 @@ export class StockComponent implements OnInit {
 
   }
   onExportPdf(event) {
-    this.subscriptions.add(this.stockService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.stockViewService.find(this.searchQuery).subscribe(
       data => {
         this.stockExportList = data;
         this.globalService.generatePdf(event, this.stockExportList, this.className, this.titleList);
@@ -132,16 +132,18 @@ export class StockComponent implements OnInit {
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.stockService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.stockViewService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add( this.stockService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add( this.stockViewService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
 
-        this.stockList = data.filter(f => f.active === true);
+        this.stockList = data
+        console.log(this.stockList);
+        
         this.spinner.hide();
       },
       error => {
@@ -163,17 +165,6 @@ export class StockComponent implements OnInit {
       buffer.append(`product.code~${this.productSearch.code}`);
     }
    
-    
-    if (this.dateSearch != null) {
-      console.log(this.dateSearch);
-
-      buffer.append('receptionDate>'+ this.dateSearch.toISOString());
-    }
-
-    if (this.supplierSearch != null && this.supplierSearch.code !== '') {
-      buffer.append(`supplier.code~${this.supplierSearch.code}`);
-    }
-   buffer.append('active:true');
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -181,7 +172,7 @@ export class StockComponent implements OnInit {
   }
 
   onCodeSearch(event: any) {
-    this.subscriptions.add( this.stockService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.stockViewService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     ));
   }
@@ -215,7 +206,7 @@ export class StockComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedStock.map(x => x.id);
-          this.subscriptions.add(this.stockService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.stockViewService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
@@ -260,4 +251,5 @@ export class StockComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
 }

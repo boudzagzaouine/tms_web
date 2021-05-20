@@ -84,6 +84,8 @@ showEffect="fade"
             <!-- <input type="text" class="form-control" pInputText formControlName="bon"/> -->
           </div>
 
+
+
           <div class="form-group col-sm-6" *ngIf="(selectType==2)" >
 
            <br>
@@ -97,6 +99,27 @@ showEffect="fade"
 
            
           </div>
+
+
+          <div class="form-group col-sm-6" *ngIf="(selectType==3)" >
+
+            <label class="font-weight-bold">{{'Pompe' | translate}} *</label>
+
+            <p-autoComplete  [suggestions]="fuelPumpList" (onSelect)='onSelectFuelpump($event)'
+            (completeMethod)="onFuelPumpSearch($event)" formControlName="fuelpump"
+            field="pump.code"></p-autoComplete>
+            <!-- <input type="text" class="form-control" pInputText formControlName="bon"/> -->
+          </div>
+
+          <div class="form-group col-sm-6" *ngIf="(selectType==3)" >
+
+            <label class="font-weight-bold">{{'Quantité' | translate}} *</label>
+
+            <input type="text" class="form-control"
+            (keyup)="onQuantityChanged()"  pInputText formControlName="quantity"/>
+          </div>
+
+
 
           <!-- <div  class="form-group col-sm-12" *ngIf="(selectType==2)">
 
@@ -171,7 +194,6 @@ showEffect="fade"
             <input type="text" class="form-control" pInputText formControlName="amount"
             (keydown.space)="$event.preventDefault()"
            />
-           
           </div>
 
           <div class="form-group col-sm-6">

@@ -6,6 +6,7 @@ import { Driver } from './driver';
 import { SubscriptionCard } from './subscription-card';
 import { PurchaseOrderService } from '../services/api/purchase-order.service';
 import { PurchaseOrder } from './purchase-order';
+import { FuelPump } from './fuel-pump';
 
 export class DieselDeclaration {
 
@@ -22,4 +23,6 @@ export class DieselDeclaration {
   mileage :number;
   dieselDeclarationDate :Date=new Date();
   owner:Owner;
+  fuelPump:FuelPump;
+  quantity:number;
 }

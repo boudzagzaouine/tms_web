@@ -12,6 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { SubscriptionCard } from './../../../../shared/models/subscription-card';
 import { SubscriptionCardService } from './../../../../shared/services/api/subscription-card.service';
 import { PurchaseOrderService } from './../../../../shared/services/api/purchase-order.service';
+import { FuelPump } from './../../../../shared/models/fuel-pump';
+import { FuelPumpService } from './../../../../shared/services/api/fuel-pump.service';
+import { MaintenanceStockService } from './../../../../shared/services/api/maintenance-stock.service';
 
 @Component({
   selector: 'app-diesel-declaration-edit',
@@ -29,7 +32,8 @@ export class DieselDeclarationEditComponent implements OnInit {
   showDialogBon: boolean;
   subscriptionCardList: SubscriptionCard[] = [];
   purchaseOrderList: PurchaseOrder[] = [];
-   validate :number=0;
+  fuelPumpList: FuelPump[] = [];
+  validate :number=0;
   type: any;
   dieselDeclarationForm: FormGroup;
   isFormSubmitted = false;
@@ -39,7 +43,10 @@ export class DieselDeclarationEditComponent implements OnInit {
   selectType:number;
   activeState: boolean[] = [false, false, false];
   showGenerateBon : boolean =false;
+
   constructor(private dieselDeclarationService: DieselDeclarationService,
+      private maintenanceStockService :MaintenanceStockService,
+    private fuelPumpService :FuelPumpService,
     private  subscriptionCardService:SubscriptionCardService,
     private purchaseOrderService:PurchaseOrderService,
     private driverService:DriverService,
@@ -70,12 +77,15 @@ export class DieselDeclarationEditComponent implements OnInit {
       
           this.editModee=true;
           this.title = 'Modifier déclaration Gasoil';
+          console.log(this.selectedDieselDeclaration);
+          
     }
 
  this.types=[
 
         {name:'Carte abonnement',code:1},
         {name:'Bon',code:2},
+        {name:'Gasoil Interne',code:3},
  ]
     this.displayDialog = true;
     this.initForm();
@@ -93,6 +103,8 @@ export class DieselDeclarationEditComponent implements OnInit {
       'card': new FormControl(this.selectedDieselDeclaration.subscriptionCard),
       'bon': new FormControl(this.selectedDieselDeclaration.purshaseOrder),
       'type': new FormControl(this.selectedDieselDeclaration.typeDeclaration),
+      'fuelpump': new FormControl(this.selectedDieselDeclaration.fuelPump),
+      'quantity': new FormControl(this.selectedDieselDeclaration.quantity),
 
     });
   }
@@ -111,15 +123,36 @@ export class DieselDeclarationEditComponent implements OnInit {
       if(this.selectType==1){
       this.selectedDieselDeclaration.subscriptionCard = this.dieselDeclarationForm.value['card'];
       this.selectedDieselDeclaration.typeDeclaration=1;
+      this.insertDieselDeclaration(); 
+
 
     }
     else if(this.selectType==2){
      this.selectedDieselDeclaration.purshaseOrder = this.dieselDeclarationForm.value['bon'];
      this.selectedDieselDeclaration.typeDeclaration=2;
+     this.insertDieselDeclaration(); 
+
 
     }
 
-        this.insertDieselDeclaration();
+    else if(this.selectType==3){
+      this.selectedDieselDeclaration.fuelPump = this.dieselDeclarationForm.value['fuelpump'];
+      this.selectedDieselDeclaration.quantity=this.dieselDeclarationForm.value['quantity'];
+      this.selectedDieselDeclaration.typeDeclaration=3;
+
+      if(this.selectedDieselDeclaration.quantity <= this.selectedDieselDeclaration.fuelPump.quantity){
+    
+this.insertDieselDeclaration(); 
+      }
+   else {
+    this.toastr.error('Erreur Quantité', 'Erreur');
+
+   }
+  
+  
+     }
+
+ 
    
  
 
@@ -135,6 +168,11 @@ export class DieselDeclarationEditComponent implements OnInit {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
        // this.displayDialog = false;
+       if(this.selectType==3){
+         this.selectedDieselDeclaration=data;
+        this.maintenanceStockService.insertMaintenanceStockFromDeclarationGasoialInternal(this.selectedDieselDeclaration);
+
+       }
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.validate=1;
@@ -176,6 +214,12 @@ export class DieselDeclarationEditComponent implements OnInit {
     );
   }
 
+  onFuelPumpSearch(event: any) {
+    this.fuelPumpService.find('pump.code~' + event.query).subscribe(
+      data => this.fuelPumpList = data
+    );
+  }
+
   onCodeDriverSearch(event: any) {
     this.driverService.find('name~' + event.query).subscribe(
       data => this.driverList = data
@@ -194,6 +238,26 @@ export class DieselDeclarationEditComponent implements OnInit {
     this.selectedDieselDeclaration.subscriptionCard = event;    
   }
 
+  onSelectFuelpump(event) {
+    this.selectedDieselDeclaration.fuelPump = event;  
+     
+   
+    
+  }
+
+
+  onQuantityChanged(){
+     const quantity = +this.dieselDeclarationForm.value['quantity'];
+    const price = +this.selectedDieselDeclaration.fuelPump.product.purshasePriceUB;
+    console.log(quantity + "" + price);
+    
+ console.log(quantity*price);
+ 
+    this.dieselDeclarationForm.patchValue({
+      amount: quantity*price,
+      
+  });
+  }
   onSelectPurchaseOrder(event) {
     this.selectedDieselDeclaration.purshaseOrder = event;  
     this.dieselDeclarationForm.patchValue({

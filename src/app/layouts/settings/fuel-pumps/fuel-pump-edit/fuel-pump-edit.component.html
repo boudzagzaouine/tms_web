@@ -1,0 +1,155 @@
+<p-dialog
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '380px' }"
+  (onHide)="onShowDialog()"
+>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="fuelPumpForm">
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold"
+                >{{ "Code" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (fuelPumpForm.get('fCode').touched &&
+                    fuelPumpForm.get('fCode').invalid) ||
+                  (isFormSubmitted &&
+                    fuelPumpForm.get('fCode').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{'Obligatoire' |translate }}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                
+                pInputText
+                formControlName="fCode"
+              />
+            </div>
+
+
+
+
+
+
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold"
+                >{{ "Pompe de station " | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (fuelPumpForm.get('fPump').touched &&
+                    fuelPumpForm.get('fPump').invalid) ||
+                  (isFormSubmitted &&
+                    fuelPumpForm.get('fPump').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="pumpList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectPump($event)"
+                formControlName="fPump" [disabled]="(editMode==2)"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold"
+                >{{ "Produit" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (fuelPumpForm.get('fProduct').touched &&
+                    fuelPumpForm.get('fProduct').invalid) ||
+                  (isFormSubmitted &&
+                    fuelPumpForm.get('fProduct').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+                {{ "Obligatoire" | translate }} </span
+              ><br />
+              <p-autoComplete formControlName="fProduct" [suggestions]="productList"
+              (onSelect)="onSelectProduct($event)"
+              (completeMethod)="onProductSearch($event)" field="code"
+              >
+
+            </p-autoComplete>
+
+
+
+
+            </div>
+
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold"
+                >{{ "Quantité" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (fuelPumpForm.get('fQuantity').touched &&
+                    fuelPumpForm.get('fQuantity').invalid) ||
+                  (isFormSubmitted &&
+                    fuelPumpForm.get('fQuantity').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{'Obligatoire' |translate }}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                
+                pKeyFilter="num"
+                pInputText
+                formControlName="fQuantity"
+                disabled="true"
+                (keydown.space)="$event.preventDefault()"
+              
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        (click)="onShowDialog()"
+        class="p-button-primary"
+        label="{{'Annuler' | translate }}"
+      ></button>
+      <button
+        type="button"
+        pButton
+        (click)="onSubmit()"
+        class="p-button-success"
+        label="{{'Valider' | translate }}"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

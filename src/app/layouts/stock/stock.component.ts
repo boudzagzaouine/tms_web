@@ -246,7 +246,7 @@ export class StockComponent implements OnInit {
     ));
   }
   onSupplierCodeSearch(event: any) {
-    this.subscriptions.add( this.supplierService.find('code~' + event.query).subscribe(
+    this.subscriptions.add( this.supplierService.find('contact.name~' + event.query).subscribe(
       data => this.supplierCodeList = data ,
     ));
   }

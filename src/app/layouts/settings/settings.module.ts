@@ -105,6 +105,10 @@ import {NgxPrintModule} from 'ngx-print';
 import { GenerateBonComponent } from './diesel-declaration/generateBon/generateBon.component';
 import { AgentComponent } from './agent/agent.component';
 import { AgentEditComponent } from './agent/agent-edit/agent-edit.component';
+import { PumpsComponent } from './pumps/pumps.component';
+import { PumpEditComponent } from './pumps/pump-edit/pump-edit.component';
+import { FuelPumpEditComponent } from './fuel-pumps/fuel-pump-edit/fuel-pump-edit.component';
+import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
 
 
 
@@ -179,7 +183,11 @@ import { AgentEditComponent } from './agent/agent-edit/agent-edit.component';
      BonEditComponent,
      GenerateBonComponent,
      AgentComponent,
-     AgentEditComponent
+     AgentEditComponent,
+     PumpsComponent,
+     PumpEditComponent,
+     FuelPumpsComponent,
+     FuelPumpEditComponent
   ],
   imports: [
     CommonModule,

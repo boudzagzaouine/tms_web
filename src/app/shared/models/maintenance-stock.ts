@@ -9,6 +9,7 @@ import { Delivery } from "./delivery";
 import { Product } from "./product";
 import { Warehouse } from "./warehouse";
 import { Owner } from "./owner";
+import { DieselDeclaration } from './diesel-declaration';
 export class MaintenanceStock {
   id: number;
   lineNumber: number;
@@ -28,6 +29,7 @@ export class MaintenanceStock {
   productPack: ProductPack;
   warehouse: Warehouse;
   maintenanceState:MaintenanceState;
+  dieselDeclaration:DieselDeclaration;
 
 
 

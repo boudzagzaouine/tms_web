@@ -130,6 +130,15 @@
             <a routerLink="/core/settings/path" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Trajet ' | translate}}</a>
           </li>
+          <li *hasPermission="['PUMP_VIEW']">
+            <a routerLink="/core/settings/pumps" class="m-a"><i class="fa fa-circle-o"></i>
+              {{' Pompe carburant' | translate}}</a>
+          </li>
+
+          <li *hasPermission="['FUEL_PUMP_VIEW']">
+            <a routerLink="/core/settings/fuel-pumps" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Station' | translate}}</a>
+          </li>
           <!-- <li>
             <a routerLink="/core/settings/patrimony" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Type Patrimoine  ' | translate}}</a>
@@ -262,6 +271,20 @@
 
           <li *hasPermission="['DIESELDECLARATION_VIEW']">
             <a routerLink="/core/settings/diesel-declaration" class="m-a"><img src="./assets/img/Menu/list.png"
+                width="15px" height="15px"> {{'Lister' | translate}}</a>
+          </li>
+        </ul>
+      </li>
+
+      <li *hasPermission="['ALIMENTATION_PUMP_VIEW']"> 
+        <a class="text-white"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/gasoil.png" width="20px" height="20px">
+          </i>
+          <span class="nav-label">{{'Alimentation Pompe' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
+
+          <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
+            <a routerLink="/core/alimentation-pumps" class="m-a"><img src="./assets/img/Menu/list.png"
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>

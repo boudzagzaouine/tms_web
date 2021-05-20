@@ -45,6 +45,8 @@ import { MenuNotificationComponent } from './menu-notification/menu-notification
 import { ConditionalTypeComponent } from './conditional-type/conditional-type.component';
 import { SubscriptionCardComponent } from './subscriptionCard/subscriptionCard.component';
 import { AgentComponent } from './agent/agent.component';
+import { PumpsComponent } from './pumps/pumps.component';
+import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
 
 const routes: Routes = [
   {
@@ -86,6 +88,8 @@ const routes: Routes = [
       { path: 'conditional-type', component: ConditionalTypeComponent },
       { path: 'subscription-card', component: SubscriptionCardComponent},
       { path: 'agents', component: AgentComponent},
+      { path: 'pumps', component: PumpsComponent},
+      { path: 'fuel-pumps', component: FuelPumpsComponent},
 
 
 

@@ -42,6 +42,12 @@ const routes: Routes = [
 
         { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) },
 
+        {
+          path: 'alimentation-pumps',
+          loadChildren: () => import('./alimentation-pumps/alimentation-pumps.module')
+            .then(m => m.AlimentationPumpsModule)
+        },
+
   
     ],
   }];

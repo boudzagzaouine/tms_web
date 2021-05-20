@@ -109,6 +109,10 @@ import { NotificationStateService } from './services/api/notificationState.servi
 import { DashboardService } from './services/api/dashboard.service';
 import { AgentService } from './services/api/agent.service';
 import { StockViewService } from './services/api/stock-view.service';
+import { PumpService } from './services/api/pump.service';
+import { FuelPumpService } from './services/api/fuel-pump.service';
+import { AlimentationPumpService } from './services/api/alimentation-pump.service';
+import { WarehouseServcie } from './services/api/warehouse.service';
 
 
 @NgModule({
@@ -232,7 +236,11 @@ export class SharedModule {
         NotificationStateService ,
         DashboardService,
         AgentService,
-        StockViewService
+        StockViewService,
+        PumpService,
+        FuelPumpService,
+        AlimentationPumpService,
+        WarehouseServcie
       ],
 
     };

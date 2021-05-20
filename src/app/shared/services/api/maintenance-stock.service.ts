@@ -16,6 +16,8 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
 import { AuthenticationService } from './authentication.service';
+import { DieselDeclaration } from '../../models/diesel-declaration';
+import { WarehouseServcie } from './warehouse.service';
 
 @Injectable()
 export class MaintenanceStockService extends EmsService<MaintenanceStock> {
@@ -25,7 +27,8 @@ export class MaintenanceStockService extends EmsService<MaintenanceStock> {
   constructor(proxy: ProxyService,
     private authentificationService:AuthenticationService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private warehouseService :WarehouseServcie) {
     super(proxy, 'maintenanceStocks');
   }
 
@@ -82,6 +85,48 @@ const maintenancestocks = this.generateMaintenanceStockFromMaintenance(maintenan
 }
 
 
+
+generateMaintenanceStockFromDeclarationGasoialInternal(dieselDeclaration: DieselDeclaration) {
+
+
+      const maintenanceStock  = new MaintenanceStock();
+    
+      maintenanceStock.product = dieselDeclaration.fuelPump.product;
+      maintenanceStock.owner = this.authentificationService.getDefaultOwner();
+      maintenanceStock.dlc = null;
+      maintenanceStock.productPack =  dieselDeclaration.fuelPump.product.productPack;
+      maintenanceStock.uom =  dieselDeclaration.fuelPump.product.uomByProductUomBase;
+      maintenanceStock.quantityServed = dieselDeclaration.quantity;
+      maintenanceStock.dieselDeclaration = dieselDeclaration;
+      maintenanceStock.warehouse = this.warehouseService.getDefaultWarehouse();
+  
+    
+  return maintenanceStock;
+}
+
+
+insertMaintenanceStockFromDeclarationGasoialInternal(dieselDeclaration : DieselDeclaration){
+const maintenancestocks = this.generateMaintenanceStockFromDeclarationGasoialInternal(dieselDeclaration)
+this.set(maintenancestocks).subscribe(
+ 
+  dataM => {
+    this.toastr.success('Elément Stock est Enregistré Avec Succès', 'Validation');
+     console.log(dataM);
+     console.log(maintenancestocks);
+  },
+  err => {
+    this.toastr.error(
+      'Erreur '
+  );
+
+    return;
+  },
+  () => {
+     console.log();
+
+  }
+);
+}
 
 
 

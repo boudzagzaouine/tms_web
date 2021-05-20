@@ -72,11 +72,13 @@
       {{"Obligatoire" | translate}}
     </span>
     <br />
+    <input type="text" class="form-control" pInputText name="type" id="type" formControlName="type"
+  />
 
-    <p-dropdown name="order-type"  formControlName="type" class="w-100"
+    <!-- <p-dropdown name="order-type"  formControlName="type" class="w-100"
     [options]="orderTypeList" optionLabel="code" [autoDisplayFirst]="true" 
     (onChange)="onSelectOrderType($event)">
-</p-dropdown>
+</p-dropdown> -->
     <!-- <div class="input-group">
       <input type="text" class="form-control" pInputText name="type" id="type" formControlName="type"
           *ngIf="

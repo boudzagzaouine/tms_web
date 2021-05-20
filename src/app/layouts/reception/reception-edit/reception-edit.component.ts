@@ -189,15 +189,15 @@ export class ReceptionEditComponent implements OnInit {
       ),
 
       type: new FormControl(
-        // {
-        //   value:
-        //     this.selectedReception != null &&
-        //       this.selectedReception.orderType != null
-        //       ? this.selectedReception.orderType.code
-        //       : null,
-        //   disabled: this.editMode
-        // },
-        this.selectedReception.orderType ,Validators.required
+        {
+          value:
+            this.selectedReception != null &&
+              this.selectedReception.orderType != null
+              ? this.selectedReception.orderType.code
+              : null,
+          disabled: true
+        },
+       // this.selectedReception.orderType ,Validators.required
       ),
 
       receptionDate: new FormControl(
@@ -240,8 +240,9 @@ export class ReceptionEditComponent implements OnInit {
     if (this.selectedReception.receptionDate == null) {
       this.selectedReception.receptionDate = this.receptionForm.value['receptionDate'];
     }
+
     this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate'];
-     this.selectedReception.orderType = this.receptionForm.value['type'];
+    // this.selectedReception.orderType = this.receptionForm.value['type'];
      console.log(this.selectedReception.orderType);
      
     this.selectedReception.owner = this.authentificationService.getDefaultOwner();

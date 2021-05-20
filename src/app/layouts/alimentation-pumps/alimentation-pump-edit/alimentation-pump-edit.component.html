@@ -1,0 +1,109 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '450px' }" (onHide)='onShowDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="alimentationPumpForm">
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Pompe à carburant ' | translate}} *</label>
+              <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
+            (isFormSubmitted && alimentationPumpForm.get('fuelPump').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-autoComplete [suggestions]="fuelPumpList" (onSelect)='onSelectFuelPump($event)'
+                (completeMethod)="onCodeFuelPumpSearch($event)" formControlName="fuelPump" field="pump.code"></p-autoComplete>
+
+            </div>
+            <div class="form-group col-sm-6"></div>
+
+          
+
+          </div>
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Réception' | translate}} *</label>
+              <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
+            (isFormSubmitted && alimentationPumpForm.get('fuelPump').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-autoComplete [suggestions]="receptionList" (onSelect)='onSelectReception($event)'
+                (completeMethod)="onReceptionSearch($event)"
+                 formControlName="reception" field="code"></p-autoComplete>
+
+            </div>
+
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Line' | translate}} *</label>
+              <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
+            (isFormSubmitted && alimentationPumpForm.get('fuelPump').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-dropdown [autoDisplayFirst]="!editModeB" [options]="receptionLineList" optionLabel="product.code"
+              formControlName="line" (onChange)="onSelectReceptionLine($event)" [filter]="true"
+               [showClear]="true"></p-dropdown>
+            </div>
+          </div>
+
+        
+         
+         
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Quantite' | translate}} *</label>
+              <span *ngIf="(alimentationPumpForm.get('quantity').touched && alimentationPumpForm.get('quantity').invalid) ||
+            (isFormSubmitted && alimentationPumpForm.get('quantity').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="quantity"
+                (keydown.space)="$event.preventDefault()" />
+            </div>
+
+            
+            <div class="col-sm-6"></div>
+
+          </div>
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{'Date Alimentation' | translate}} *</label>
+              <span *ngIf="(alimentationPumpForm.get('alimentationDate').touched && alimentationPumpForm.get('alimentationDate').invalid) ||
+            (isFormSubmitted && alimentationPumpForm.get('alimentationDate').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
+              <br />
+              <p-calendar formControlName="alimentationDate" dateFormat="dd-mm-yy" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1970:2100" appendTo="body"></p-calendar>
+
+            </div>
+            <div class="form-group col-sm-6">
+</div>
+          
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>

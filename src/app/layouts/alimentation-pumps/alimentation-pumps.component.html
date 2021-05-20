@@ -1,0 +1,90 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+  <div class="row">
+    <div class="col-md-2" >
+      <label class="font-weight-bold">{{'Pompe à carburant' |translate}}</label
+      ><br />
+      <p-autoComplete
+        [(ngModel)]="fuelPumpSearch"
+        [suggestions]="fuelPumpCodeList"
+        (completeMethod)="onFuelPumpCodeSearch($event)"
+        field="pump.code"
+      ></p-autoComplete>
+    </div>
+
+    <!-- <div class="col-md-3">
+      <label class="font-weight-bold">{{ "Type de produit" | translate }}</label><br />
+      <p-autoComplete
+      [(ngModel)]="productTypeSearch"
+      [suggestions]="productTypeCodeList"
+      (completeMethod)="onProductTypeCodeSearch($event)"
+      field="code"
+    ></p-autoComplete>
+
+    </div> -->
+  
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Date de reception" | translate }}</label><br />
+      <p-calendar  dateFormat="dd-mm-yy"  [monthNavigator]="true"
+      [yearNavigator]="true" yearRange="1970:2100"
+      appendTo="body"
+      [(ngModel)]="dateSearch"></p-calendar>
+
+      <!-- <input type="text" pInputText [(ngModel)]="refSearch" /> -->
+
+    </div>
+  </div>
+  <br />
+
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
+    </button>
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
+    </button>
+  </div>
+</p-panel>
+
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="alimentationPumpList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdf($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
+  [listName]="titleList"
+
+  [permissionCreate]="['ALIMENTATION_PUMP_DELETE']"
+  [permissionDelete]="['ALIMENTATION_PUMP_DELETE']"
+  [permissionEdit]="['ALIMENTATION_PUMP_EDIT']"
+
+></app-data-table>
+
+ <div *ngIf="showDialog == true">
+  <app-alimentation-pump-edit
+    [editMode]="editMode"
+    [selectedAlimentationPump]="selectedAlimentationPumps[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-alimentation-pump-edit>
+</div> 
+
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

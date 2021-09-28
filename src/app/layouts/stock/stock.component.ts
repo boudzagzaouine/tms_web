@@ -173,7 +173,7 @@ export class StockComponent implements OnInit {
     if (this.supplierSearch != null && this.supplierSearch.code !== '') {
       buffer.append(`supplier.code~${this.supplierSearch.code}`);
     }
-   buffer.append('active:true');
+  // buffer.append('active:true');
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);

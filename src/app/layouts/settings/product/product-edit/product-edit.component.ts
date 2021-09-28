@@ -80,6 +80,8 @@ export class ProductEditComponent implements OnInit {
     this.displayDialog = true;
     this.initForm();
 
+    console.log(this.selectedProduct);
+    
  
  
   }

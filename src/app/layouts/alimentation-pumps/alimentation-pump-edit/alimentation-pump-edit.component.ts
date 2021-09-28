@@ -62,11 +62,11 @@ this.editModeB=true;
       this.selectFuelPump=this.selectedAlimentationPump.fuelPump;
       console.log(this.selectedAlimentationPump);
 
-      this.subscriptions.add(this.receptionLineService.find('reception.code~'+ this.selectedAlimentationPump.reception.code).subscribe(
-        data => {
-          this.receptionLineList = data.filter(f=>f.product.code === this.selectFuelPump.product.code);
-        }
-      ));
+      // this.subscriptions.add(this.receptionLineService.find('reception.code~'+ this.selectedAlimentationPump.reception.code).subscribe(
+      //   data => {
+      //     this.receptionLineList = data.filter(f=>f.product.code === this.selectFuelPump.product.code);
+      //   }
+      // ));
 
     }
     this.displayDialog = true;
@@ -82,9 +82,9 @@ this.editModeB=true;
       'fuelPump': new FormControl(this.selectedAlimentationPump.fuelPump, Validators.required),
       'quantity': new FormControl(this.selectedAlimentationPump.quantity, Validators.required),
       'alimentationDate': new FormControl(d, Validators.required),
-      'reception': new FormControl(this.selectedAlimentationPump.reception, Validators.required),
+     // 'reception': new FormControl(this.selectedAlimentationPump.reception, Validators.required),
 
-      'line': new FormControl(this.selectedAlimentationPump.receptionLine, Validators.required),
+    //'line': new FormControl(this.selectedAlimentationPump.receptionLine, Validators.required),
 
 
     });
@@ -113,18 +113,19 @@ console.log(this.alimentationPumpForm);
 this.pumpService.findById(this.selectFuelPump.pump.id).subscribe(
   data =>{
 pump=data;
+  this.insertAlimentationPump();
 
-if(pump.capacity>res){
-  this.insertAlimentationPump();
-}
-else if(pump.capacity < res){
-  console.log(pump.capacity +"+++" +res);
+// if(pump.capacity>res){
+//   this.insertAlimentationPump();
+// }
+// else if(pump.capacity < res){
+//   console.log(pump.capacity +"+++" +res);
   
-  this.toastr.error('Erreur Quantité ', 'Erreur');
-}
-else if(pump.capacity=res){
-  this.insertAlimentationPump();
-}
+//   this.toastr.error('Erreur Quantité ', 'Erreur');
+// }
+// else if(pump.capacity=res){
+//   this.insertAlimentationPump();
+// }
 this.spinner.hide();
   }
 )

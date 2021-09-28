@@ -44,12 +44,15 @@ export class TransportEditComponent implements OnInit {
       this.transportService.generateCode().subscribe(
         code => {
           this.selectedtransport.code = code;
+          console.log(this.selectedtransport.code);
+          
           this.initForm();
         });
 
       this.subscriptions.add(this.addressService.generateCode().subscribe(
         code => {
           this.selectAddress.code = code;
+          console.log(this.selectAddress.code);
 
         }));
 
@@ -105,7 +108,8 @@ export class TransportEditComponent implements OnInit {
 
     this.subscriptions.add(this.addressService.set(this.selectAddress).subscribe(dataA => {
       this.selectedtransport.address = dataA;
-
+      console.log(this.selectedtransport);
+      
       this.transportService.set(this.selectedtransport).subscribe(
         data => {
           this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});

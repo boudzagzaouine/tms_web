@@ -142,7 +142,7 @@ export class DieselDeclarationEditComponent implements OnInit {
 
       if(this.selectedDieselDeclaration.quantity <= this.selectedDieselDeclaration.fuelPump.quantity){
     
-this.insertDieselDeclaration(); 
+    this.insertDieselDeclaration(); 
       }
    else {
     this.toastr.error('Erreur Quantité', 'Erreur');
@@ -178,7 +178,7 @@ this.insertDieselDeclaration();
         this.validate=1;
       },
       error => {
-        this.toastr.error(error.error.message, 'Erreur');
+        this.toastr.error(error.error.message, error.error.message);
         this.spinner.hide();
       },
       () => this.spinner.hide()

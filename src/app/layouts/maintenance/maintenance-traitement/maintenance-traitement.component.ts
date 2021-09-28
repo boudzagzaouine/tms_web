@@ -75,6 +75,8 @@ export class MaintenanceTraitementComponent implements OnInit {
        { field: 'interventionDate', header: 'Date intervention Planifié', type: 'date' },
        { field: 'triggerDate', header: 'Date declanchement', type: 'date' },
        { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
+       { field: 'maintenanceState', child: 'code', header: 'Status', type: 'object' },
+
 
     ];
 

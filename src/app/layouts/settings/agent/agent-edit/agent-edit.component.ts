@@ -52,6 +52,8 @@ responsabilityList:Array<Responsability>= [];
 
       this.agentService.generateCode().subscribe(
         code => {
+          console.log(code);
+          
        this.selectedAgent.code = code;
        
         this.initForm();

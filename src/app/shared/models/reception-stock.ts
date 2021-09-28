@@ -9,6 +9,7 @@ import {Stock} from './stock';
 
 import {Reception} from './reception';
 import { Owner } from './owner';
+import { Warehouse } from './warehouse';
 
 export class ReceptionStock {
     id: number;
@@ -16,7 +17,7 @@ export class ReceptionStock {
     owner: Owner;
     updateDate: Date;
     creationDate: Date;
-   // warehouse: Warehouse;
+    warehouse: Warehouse;
     product: Product;
     dlc: Date;
     dluo: Date;

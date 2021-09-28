@@ -1,12 +1,12 @@
 <p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{ width: '450px' }" (onHide)='onShowDialog()'>
+  showEffect="fade" [modal]="true" (onHide)='onShowDialog()'>
   <div>
     <div class="modal-body">
       <div class="card-body">
         <form [formGroup]="alimentationPumpForm">
 
           <div class="row  justify-content-around">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-12">
               <label class="font-weight-bold">{{'Pompe à carburant ' | translate}} *</label>
               <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
             (isFormSubmitted && alimentationPumpForm.get('fuelPump').invalid)" class="text-lighter"
@@ -18,13 +18,13 @@
                 (completeMethod)="onCodeFuelPumpSearch($event)" formControlName="fuelPump" field="pump.code"></p-autoComplete>
 
             </div>
-            <div class="form-group col-sm-6"></div>
+            <!-- <div class="form-group col-sm-6"></div> -->
 
           
 
           </div>
 
-          <div class="row  justify-content-around">
+          <!-- <div class="row  justify-content-around">
             <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{'Réception' | translate}} *</label>
               <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
@@ -40,7 +40,7 @@
             </div>
 
 
-            <div class="form-group col-sm-6">
+             <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{'Line' | translate}} *</label>
               <span *ngIf="(alimentationPumpForm.get('fuelPump').touched && alimentationPumpForm.get('fuelPump').invalid) ||
             (isFormSubmitted && alimentationPumpForm.get('fuelPump').invalid)" class="text-lighter"
@@ -51,15 +51,16 @@
               <p-dropdown [autoDisplayFirst]="!editModeB" [options]="receptionLineList" optionLabel="product.code"
               formControlName="line" (onChange)="onSelectReceptionLine($event)" [filter]="true"
                [showClear]="true"></p-dropdown>
-            </div>
-          </div>
+            </div> 
+
+          </div> -->
 
         
          
          
 
           <div class="row  justify-content-around">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-12">
               <label class="font-weight-bold">{{'Quantite' | translate}} *</label>
               <span *ngIf="(alimentationPumpForm.get('quantity').touched && alimentationPumpForm.get('quantity').invalid) ||
             (isFormSubmitted && alimentationPumpForm.get('quantity').invalid)" class="text-lighter"
@@ -72,11 +73,11 @@
             </div>
 
             
-            <div class="col-sm-6"></div>
+            <!-- <div class="col-sm-6"></div> -->
 
           </div>
           <div class="row  justify-content-around">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-12">
               <label class="font-weight-bold">{{'Date Alimentation' | translate}} *</label>
               <span *ngIf="(alimentationPumpForm.get('alimentationDate').touched && alimentationPumpForm.get('alimentationDate').invalid) ||
             (isFormSubmitted && alimentationPumpForm.get('alimentationDate').invalid)" class="text-lighter"
@@ -88,8 +89,8 @@
                 [yearNavigator]="true" yearRange="1970:2100" appendTo="body"></p-calendar>
 
             </div>
-            <div class="form-group col-sm-6">
-</div>
+            <!-- <div class="form-group col-sm-6">
+</div> -->
           
 
           </div>

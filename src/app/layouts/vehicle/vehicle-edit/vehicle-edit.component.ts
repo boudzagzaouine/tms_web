@@ -121,11 +121,21 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         id = params['id'];
         this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
+          console.log("vehicule");
+          console.log(this.selectedVehicle);
+
           this.subscriptions.add(this.insuranceService.findByPatrimony(id)
             .subscribe(
-              data => {
-                if (data !== null) {
-                  this.selectedInsurance = data;
+              dataInsurance => {
+                console.log(dataInsurance);
+                if (dataInsurance !== null) {
+
+                  this.selectedInsurance = dataInsurance;
+                  
+                  
+                  console.log("insurance");
+                  console.log(this.selectedInsurance);
+
                 } else {
                   this.selectedInsurance = new Insurance();
                   this.editModee=false;
@@ -152,9 +162,14 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
       this.subscriptions.add(this.vehicleService.generateCode().subscribe(
         code => {
+          console.log("code");
+          
+          console.log(code);
+          
        this.selectedVehicle.code = code;
         this.initForm();
-    }));
+    }
+    ));
     }
 
     this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
@@ -328,7 +343,12 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
           ));
 
         }
+        console.log("vehicule");
         
+        console.log(this.selectedVehicle);
+        console.log("insurance");
+        
+        console.log(this.selectedInsurance);
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
      
        this.isFormSubmitted = false;

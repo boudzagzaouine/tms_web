@@ -4,6 +4,7 @@ import { Vehicle, VehicleCategory } from './../../../shared/models';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { VehicleCategoryService } from './../../../shared/services';
 import { DashboardService } from './../../../shared/services/api/dashboard.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-dashboard-vehicle',
   templateUrl: './dashboard-vehicle.component.html',
@@ -23,12 +24,98 @@ export class DashboardVehicleComponent implements OnInit {
  totalNumberOfProblems : number=0;
  seniorityList:any[];
  senioritySearch:any;
+ percentageCorrective : number =0;
+ percentagePreventive : number =0;
+
+
+ basicData: any;
+ basicOptions: any;
+ subscription: Subscription;
+
+ dataG: any;
+
+ data: any;
+ chartOptions: any;
+// config: AppConfig;
+
   constructor(    private patrimonyService: PatrimonyService,
     private vehicleCategoryService: VehicleCategoryService,
-    private dashboardService :DashboardService,       
+    private dashboardService :DashboardService,      
+   // private configService: AppConfigService 
     ) { }
 
   ngOnInit(): void {
+
+    this.percentageCorrective = 60;
+    this.percentagePreventive=40;
+   
+    this.data = {
+        labels: ['Maintenance Corrective','Maintenance Preventive'],
+        datasets: [
+            {
+                data: [60, 40],
+                backgroundColor: [
+                    "#42A5F5",
+                    "#66BB6A",
+                   
+                ],
+                hoverBackgroundColor: [
+                    "#64B5F6",
+                    "#81C784",
+                    
+                ]
+            }
+        ]
+    };
+    this.basicData = {
+      labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août','septembre','octobre','novembre','décembre'],
+      datasets: [
+          {
+              label: 'Maintenance Corrective',
+              data: [65, 59, 80, 81, 56, 55, 40],
+              fill: false,
+              borderColor: '#42A5F5',
+              tension: .4
+          },
+          {
+              label: 'Maintenance Préventive',
+              data: [28, 48, 40, 19, 86, 27, 90],
+              fill: false,
+              borderColor: '#FFA726',
+              tension: .4
+          }
+      ]
+  };
+
+  this.dataG = {
+    labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août','septembre','octobre','novembre','décembre'],
+    datasets: [ {
+        type: 'bar',
+        label: 'Gasoil',
+        backgroundColor: '#66BB6A',
+        data: [
+            21,
+            84,
+            24,
+            75,
+            37,
+            65,
+            34
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+    }, ]
+};
+
+
+  this.applyLightTheme();
+  this.chartOptions = this.getLightTheme();
+
+
+
+
+
+    
     
     this.vehicleCategoryService.findAll().subscribe(
       data => {
@@ -46,6 +133,47 @@ export class DashboardVehicleComponent implements OnInit {
 
   }
 
+  getLightTheme() {
+    return {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        }
+    }
+}
+  applyLightTheme() {
+    this.basicOptions = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            }
+        }
+    };}
+
+   
   onSearchClicked(){
 
 
@@ -61,6 +189,27 @@ export class DashboardVehicleComponent implements OnInit {
                 console.log("date");
                 
               }
+
+              this.percentageCorrective = (100*(this.correctiveMaintenanceCosts)/(this.preventiveMaintenanceCosts+this.correctiveMaintenanceCosts));
+              this.percentagePreventive=(100*(this.preventiveMaintenanceCosts)/(this.preventiveMaintenanceCosts+this.correctiveMaintenanceCosts));
+              this.data = {
+                labels: ['Maintenance Corrective','Maintenance Preventive'],
+                datasets: [
+                    {
+                        data: [ this.percentageCorrective, this.percentagePreventive],
+                        backgroundColor: [
+                            "#42A5F5",
+                            "#66BB6A",
+                           
+                        ],
+                        hoverBackgroundColor: [
+                            "#64B5F6",
+                            "#81C784",
+                            
+                        ]
+                    }
+                ]
+            };
   }
 
   reset(){
@@ -72,16 +221,21 @@ export class DashboardVehicleComponent implements OnInit {
     this.correctiveMaintenanceCosts =0;
     this.preventiveMaintenanceCosts =0;
     this.totalNumberOfProblems=0;
-
+    this.senioritySearch=null;
   }
 
 
   onVehicleCodeSearch(event: any) {
    this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleCodeList = data.filter(f=> f.patrimony_type=='vehicule')
+     
     )
   }
 
+  onSelectVehicle(event : Vehicle){
+ this.categorySearch=event.vehicleCategory;
+  
+  }
 
 
  searchWithVehicleDate(){
@@ -116,13 +270,20 @@ export class DashboardVehicleComponent implements OnInit {
     this.dashboardService.getCorrectivemaintenancecostsbyvehicle(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
    .subscribe(
     data => {
-this.correctiveMaintenanceCosts=data;      
+this.correctiveMaintenanceCosts=data;  
+console.log("corr");
+ 
+console.log(this.correctiveMaintenanceCosts);
+   
     });
 
     this.dashboardService.getPreventivemaintenancecostsbyvehicle(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
    .subscribe(
     data => {
-this.preventiveMaintenanceCosts=data;      
+this.preventiveMaintenanceCosts=data;  
+console.log("preventi");
+  
+console.log(this.preventiveMaintenanceCosts);  
     });
 
     this.dashboardService.getTraveledmileagebyvechile(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
@@ -163,12 +324,18 @@ this.totalNumberOfProblems=data;
    .subscribe(
     data => {
 this.correctiveMaintenanceCosts=data;      
+console.log("corr");
+ 
+console.log(this.correctiveMaintenanceCosts);
     });
 
     this.dashboardService.getPreventivemaintenancecostsbyseniorityvehicle(categoryid,slice1, slice2, mode)
    .subscribe(
     data => {
 this.preventiveMaintenanceCosts=data;      
+console.log("preventi");
+  
+console.log(this.preventiveMaintenanceCosts);
     });
 
     this.dashboardService.getTraveledmileagebyseniorityvehicle(categoryid,slice1, slice2, mode)

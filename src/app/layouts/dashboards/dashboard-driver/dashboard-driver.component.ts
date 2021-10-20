@@ -20,6 +20,7 @@ export class DashboardDriverComponent implements OnInit {
  totalNumberOfProblems : number=0;
  seniorityList:any[];
  senioritySearch:string;
+ dataG:any;
   constructor(    private driverService: DriverService,
     private dashboardService :DashboardService,       
     ) { }
@@ -34,7 +35,25 @@ export class DashboardDriverComponent implements OnInit {
                  {field :'4' , header:"entre 5 et 10 ans"},
                  {field :'5' , header:"plus de 10 ans"}]
 
-
+                 this.dataG = {
+                  labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août','septembre','octobre','novembre','décembre'],
+                  datasets: [ {
+                      type: 'bar',
+                      label: 'Gasoil',
+                      backgroundColor: '#66BB6A',
+                      data: [
+                          21,
+                          84,
+                          24,
+                          75,
+                          37,
+                          65,
+                          34
+                      ],
+                      borderColor: 'white',
+                      borderWidth: 2
+                  }, ]
+              };
 
   }
 

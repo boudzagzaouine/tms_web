@@ -2,130 +2,342 @@
     <p-panel header="Filters" [toggleable]="true">
 
         <div class="row  mt-1 ">
-          <!-- <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <label class="font-weight-bold">
                 {{"Code" | translate}}</label><br />
                 <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
                 (completeMethod)="onCodeSearch($event)"></p-autoComplete>
             </div> -->
-      
-            <div class="col-md-3">            
-              <label class="font-weight-bold">{{'Véhicule' | translate}}  </label
-              ><br />
-              <p-autoComplete
-              [(ngModel)]="codeSearch"
-              [suggestions]="vehicleCodeList"
-              (completeMethod)="onVehicleCodeSearch($event)"
-              field="code"
-            ></p-autoComplete>
-           
-            </div>
-      
-            <div class="col-md-3">
-              <label class="font-weight-bold ">{{'Catégorie' | translate}}</label><br />
-              <p-dropdown
-              [options]="vehicleCategoryList"
-              optionLabel="code"
-              [autoDisplayFirst]="false"
-              [(ngModel)]="categorySearch"
-              filter="true"
-            >
-            </p-dropdown>
-            </div>
-      
-            <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date' | translate}} </label
-                ><br />
-                <p-calendar               [(ngModel)]="dateSearch"
-                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon" [readonlyInput]="true"></p-calendar>
-             
-              </div>
 
-              <div class="col-md-3">
+            <div class="col-md-3">
+                <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="vehicleCodeList"
+                    (completeMethod)="onVehicleCodeSearch($event)" (onSelect)="onSelectVehicle($event)" field="code">
+                </p-autoComplete>
+
+            </div>
+
+            <div class="col-md-3">
+                <label class="font-weight-bold ">{{'Catégorie' | translate}}</label><br />
+                <p-dropdown [options]="vehicleCategoryList" [showClear]="true" optionLabel="code" [autoDisplayFirst]="false"
+                    [(ngModel)]="categorySearch" filter="true">
+                </p-dropdown>
+            </div>
+
+            <div class="col-md-3">
+                <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
+                <p-calendar [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+
+            </div>
+
+            <div class="col-md-3">
                 <label class="font-weight-bold ">{{'Ancienneté par tranche'| translate}}</label><br />
-                <p-dropdown
-                [options]="seniorityList"
-                optionLabel="header"
-                [autoDisplayFirst]="false"
-                [(ngModel)]="senioritySearch"
-                [showClear]="true"
-              >
-              </p-dropdown>
-              </div>
-      
-          
-          </div>
-      
-          <br />
-          <br />
-          <div class="text-center">
+                <p-dropdown [options]="seniorityList" optionLabel="header" [autoDisplayFirst]="false"
+                    [(ngModel)]="senioritySearch" [showClear]="true">
+                </p-dropdown>
+            </div>
+
+
+        </div>
+
+        <br />
+        <br />
+        <div class="text-center">
             <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-              <i class="fa fa-refresh mr-2"></i>
-              {{'Réinitialiser'| translate}}
+                <i class="fa fa-refresh mr-2"></i>
+                {{'Réinitialiser'| translate}}
             </button>
-      
+
             <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-              <i class="fa fa-search mr-2"></i>
-      
-              {{' Rechercher'| translate}}
+                <i class="fa fa-search mr-2"></i>
+
+                {{' Rechercher'| translate}}
             </button>
-          </div>
-      
-      </p-panel>
-      <br />
-      <div class="row">
+        </div>
+
+    </p-panel>
+    <br />
+
+
+
+    <!-- <div class="row">
+
+       
+
         <div class="col-lg-4 col-md-6">
             <div class="ibox  color-dark widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{averageConsumption | number : '1.2-2'}} DH/KM </h2>
                     <div class="m-b-5">Consommation moyenne</div>
-                    <i class="ti-bar-chart widget-stat-icon bg-primary"  ></i>
-                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                    <i class="ti-bar-chart widget-stat-icon bg-danger"  ></i>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="ibox  color-dark widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2-2'}} KM</h2>
+                    <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2'}} KM</h2>
                     <div class="m-b-5">Kilométrage parcouru</div>
-                    <i class="fa fa-tachometer widget-stat-icon bg-success"></i>
-                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                    <i class="fa fa-tachometer widget-stat-icon bg-warning"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="ibox  color-dark widget-stat">
-                <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong">{{correctiveMaintenanceCosts}} DH</h2>
-                    <div class="m-b-5">Coûts de maintenance corrective</div>
-                    <i class="fa fa-money widget-stat-icon bg-danger"></i>
-                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="ibox  color-dark widget-stat">
-                <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong">{{preventiveMaintenanceCosts}} DH</h2>
-                    <div class="m-b-5"> Coût de maintenance préventive</div>
-                    <i class="fa fa-money widget-stat-icon bg-primary bg-warning"></i>
-                    <!-- <div><i class="fa fa-level-down m-r-5"></i><small></small></div> -->
-                </div>
-            </div>
-        </div>
-
         <div class="col-lg-4 col-md-6">
             <div class="ibox  color-dark widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{totalNumberOfProblems}}</h2>
                     <div class="m-b-5"> Nombre total de problèmes</div>
                     <i class="fa fa-cogs widget-stat-icon bg-primary"></i>
-                    <!-- <div><i class="fa fa-level-down m-r-5"></i><small></small></div> -->
+                </div>
+            </div>
+          
+        </div>
+      
+    </div> -->
+
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{averageConsumption | number : '1.2-2'}} DH/KM</h2>
+                    <div class="m-b-5">Consommation moyenne</div><i
+                        class="ti-bar-chart widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2'}} KM</h2>
+                    <div class="m-b-5">Kilométrage parcouru</div><i
+                        class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-dark color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{totalNumberOfProblems}}</h2>
+                    <div class="m-b-5">Nombre total de problèmes</div><i
+                        class="fa fa-cogs widget-stat-icon"></i>
                 </div>
             </div>
         </div>
     </div>
+
+
+    
+
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{correctiveMaintenanceCosts}} DH</h2>
+                    <div class="m-b-5">Coûts de maintenance corrective</div><i
+                        class="fa fa-money widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{preventiveMaintenanceCosts}} DH</h2>
+                    <div class="m-b-5">Coût de maintenance préventive</div><i
+                        class="fa fa-money widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong"> 12</h2>
+                    <div class="m-b-5">L’ÂGE MOYEN Du PARC   </div><i
+                        class="ti-bar-chart widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h3 class="m-0">Statistique Maintenance</h3>
+                            <div>.</div>
+                        </div>
+                        <div class="d-inline-flex">
+                            <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
+                                <div class="text-muted">Préventive</div>
+                                <div>
+                                    <span class="h2 m-0">{{preventiveMaintenanceCosts}} DH</span>
+                                </div>
+                            </div>
+                            <div class="px-3">
+                                <div class="text-muted">Corrective</div>
+                                <div>
+                                    <span class="h2 m-0">{{correctiveMaintenanceCosts}} DH</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Statistique</div>
+                </div>
+                <div class="ibox-body">
+                    <div class="row ">
+                        <div class="col-lg-12">
+
+                            <p-chart type="doughnut" [data]="data" [options]="chartOptions" ></p-chart>
+                       
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-divider list-group-full ">
+                        <li class="list-group-item ">Préventive
+                            <span class="float-right text-success"><i class="fa fa-caret-up"></i> {{this.percentagePreventive | number : '1.2-2'}} %</span>
+                        </li>
+                        <li class="list-group-item">Corrective
+                            <span class="float-right text-success"><i class="fa fa-caret-up"></i> {{this.percentageCorrective | number : '1.2-2'}} %</span>
+                        </li>
+                        
+                    </ul>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h3 class="m-0">Statistique Consommation</h3>
+                            <div>.</div>
+                        </div>
+                        <div class="d-inline-flex">
+                            <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
+                                <div class="text-muted">Total</div>
+                                <div>
+                                    <span class="h2 m-0">{{preventiveMaintenanceCosts}} DH</span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div>
+                        <p-chart type="bar" [data]="dataG" [options]="chartOptions"></p-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Catégorie Véhicule</div>
+                </div>
+                <div class="ibox-body">
+                    <table class="table table-striped m-t-20 visitors-table">
+                        <thead>
+                            <tr>
+                            
+                                <th>Categorie</th>
+                                <th>Quantité</th>
+
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A</td>
+                                <td>5</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="progress-parcent">32%</span>
+                                </td>
+                            </tr>
+                        
+                            <tr>
+                                <td>B</td>
+                                <td>10</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="progress-parcent">25%</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>C</td>
+                                <td>1</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="progress-parcent">40%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D</td>
+                                <td>6</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="progress-parcent">10%</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>E</td>
+                                <td>8</td>
+
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:52%; height:5px;" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="progress-parcent">20%</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
 
 
@@ -138,62 +350,54 @@
 
 
     <!-- <div class="row">
-        <div class="col-lg-8">
-            <div class="ibox">
-                <div class="ibox-head">
-                    <div class="ibox-title">Consommation moyenne</div>
-                  
-                </div>
-                <div class="ibox-body">
-                    <p-table >
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Véhicule</th>
-                                <th>Catégorie</th>
-                                <th>Kilométrage parcouru</th>
-                              
 
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-product>
-                            <tr>
-                                <td>15A2530</td>
-                                <td>25</td>
-                                <td>20</td>
-                                <td>420</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+        <div class="col-md-6">
+            <div class=" col-md-12 mt-3">
+                <div class="ibox  color-dark widget-stat">
+                    <div class="ibox-body">
+                        <h2 class="m-b-5 font-strong">{{correctiveMaintenanceCosts}} DH</h2>
+                        <div class="m-b-5">Coûts de maintenance corrective</div>
+                        <i class="fa fa-money widget-stat-icon  bg-primary"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="ibox">
-                <div class="ibox-head">
-                    <div class="ibox-title">.</div>
-                </div>
-                <div class="ibox-body">
-                  
-                </div>
-                <div class="ibox-footer text-center">
-                    <a href="javascript:;">View All Products</a>
+
+            <div class=" col-md-12">
+                <div class="ibox  color-dark widget-stat">
+                    <div class="ibox-body">
+                        <h2 class="m-b-5 font-strong">{{preventiveMaintenanceCosts}} DH</h2>
+                        <div class="m-b-5"> Coût de maintenance préventive</div>
+                        <i class="fa fa-money widget-stat-icon bg-primary  bg-success"></i>
+                    </div>
                 </div>
             </div>
+
+
+
         </div>
-    </div>
-    <style>
-        .visitors-table tbody tr td:last-child {
-            display: flex;
-            align-items: center;
-        }
+        <div class="col-md-6">
+           
 
-        .visitors-table .progress {
-            flex: 1;
-        }
+            <p-chart type="pie" [data]="data" [options]="chartOptions" [style]="{'width': '80%'}"></p-chart>
+        
+        </div>
 
-        .visitors-table .progress-parcent {
-            text-align: right;
-            margin-left: 10px;
-        }
-    </style>
-</div> -->
+    </div> -->
+
+
+
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h5 style="    font-size: 1.25rem; margin: 1.5rem 0 1rem;
+                font-family: inherit;
+                font-weight: 600;
+                line-height: 1.2;
+                color: inherit;"> </h5>
+                <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+            </div>
+
+        </div>
+
+
+    </div> -->

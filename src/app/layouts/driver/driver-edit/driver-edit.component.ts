@@ -123,6 +123,7 @@ export class DriverEditComponent implements OnInit {
   initForm(close = false) {
     const d = new Date(this.selectedDriver.birthDate);
     const dd = new Date(this.selectedDriver.lastMedicalVisit);
+    const dateOfAssignment = this.selectedDriver.dateOfAssignment == null  ?this.selectedDriver.dateOfAssignment :new Date(this.selectedDriver.dateOfAssignment);
     this.driverForm = this.formBuilder.group(
       {
 
@@ -136,6 +137,11 @@ export class DriverEditComponent implements OnInit {
         'email': new FormControl(this.selectedDriver.email),
         'carte': new FormControl(this.selectedDriver.carte),
         'card': new FormControl(this.selectedDriver.subscriptionCard),
+
+
+        'charged': new FormControl(this.selectedDriver.charged),
+        'salary': new FormControl(this.selectedDriver.salary),
+        'dateOfAssignment': new FormControl(dateOfAssignment),
 
       }
     );
@@ -183,6 +189,10 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
     this.selectedDriver.carte = formValue['carte'];
+
+    this.selectedDriver.charged = formValue['charged'];
+    this.selectedDriver.salary = formValue['salary'];
+    this.selectedDriver.dateOfAssignment = formValue['dateOfAssignment'];
     this.selectedDriver.owner=this.authentificationService.getDefaultOwner();
    this.selectedDriver.badgeTypeDrivers=this.BadgeDriverList;
  

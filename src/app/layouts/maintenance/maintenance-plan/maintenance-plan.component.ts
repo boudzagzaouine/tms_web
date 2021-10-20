@@ -299,14 +299,14 @@ export class MaintenancePlanComponent implements OnInit {
       },
           Validators.required),
 
-  //       'fProgram': new FormControl(
-  // {
-  //        value: this.editMType === 2
-  //           ? this.selectedMaintenance.programType
-  //           : this.selectedMaintenance.programType.description,
+        'fProgram': new FormControl(
+  {
+         value: this.editMType === 2
+            ? this.selectedMaintenance.programType
+            : this.selectedMaintenance.programType.description,
            
 
-  //  }, Validators.required),
+   }, Validators.required),
 
   'fDriver': new FormControl(this.selectedMaintenance.driver, Validators.required),
 

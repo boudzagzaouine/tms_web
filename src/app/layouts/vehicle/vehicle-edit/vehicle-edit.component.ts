@@ -233,8 +233,14 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     const d = new Date(this.selectedVehicle.technicalVisit);
     const dd = new Date(this.selectedVehicle.vignette);
     const ddd = new Date(this.selectedVehicle.aquisitionDate);
+    const drelease = this.selectedVehicle.release == null  ?this.selectedVehicle.release :new Date(this.selectedVehicle.release);
+
+    
+     var Diff_temps = new Date().getTime() - (new Date(this.selectedVehicle.release?this.selectedVehicle.release : new Date())).getTime(); 
+     var Diff_jours = Diff_temps / (1000 * 3600 * 24);
 
     this.vehicleForm = new FormGroup({
+
       general: new FormGroup({
         'fCode': new FormControl(this.selectedVehicle.code, Validators.required),
         'fRegistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
@@ -279,7 +285,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fAquisition': new FormControl(ddd, Validators.required),
         'fAmountc': new FormControl(this.selectedVehicle.amount, Validators.required),
         'fTransport': new FormControl(this.selectedVehicle.transport, Validators.required),
-       
+        'fRelease': new FormControl(drelease , Validators.required),
+        'fAge': new FormControl(Diff_jours.toFixed(0)+'  jours'),
 
       }),
 
@@ -324,6 +331,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedInsurance.owner=this.authentificationService.getDefaultOwner();
     this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
+    this.selectedVehicle.release = formValue['contract']['fRelease'];
+
   this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
   
    

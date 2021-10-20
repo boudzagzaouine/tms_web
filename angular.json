@@ -85,6 +85,7 @@
               "node_modules/select2/dist/js/select2.full.min.js",
               "node_modules/jquery-minicolors/jquery.minicolors.min.js",
               "node_modules/quill/dist/quill.js",
+              "node_modules/chart.js/dist/Chart.js",
               "src/assets/js/app.js"
             ]
           },

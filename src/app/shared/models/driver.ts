@@ -37,5 +37,9 @@ export class Driver {
 
   badgeTypeDrivers : BadgeTypeDriver[]=[];
   commissions : CommissionDriver[]=[];
- owner:Owner;
+  owner:Owner;
+   charged: Date;
+   salary : Date;
+   dateOfAssignment: Date = new Date() ;
+
 }

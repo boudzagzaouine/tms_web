@@ -464,6 +464,45 @@
 
           </div>
 
+          
+
+          <div class="row  mt-3 justify-content-around">
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{'Date mise en circulation' | translate}} *</label>
+            <span *ngIf="(vehicleForm.controls['contract'].get('fRelease').touched && vehicleForm.controls['contract'].get('fRelease').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['contract'].get('fRelease').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire"| translate }}
+            </span>
+            <br />
+            <p-calendar formControlName="fRelease" dateFormat="dd-mm-yy" 
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{'Age' | translate}} *</label>
+            <span *ngIf="(vehicleForm.controls['contract'].get('fRelease').touched && vehicleForm.controls['contract'].get('fRelease').invalid) ||
+                  (isFormSubmitted && vehicleForm.controls['contract'].get('fRelease').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire"| translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fAge" />
+          </div>
+          <div class="form-group col-md-3">
+</div>
+          </div>
+
+
+
+
+
+
+
+
+
+
           <div class="text-center mt-3 mr-3 ml-3" >
             <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
               {{'Fermer' | translate}}

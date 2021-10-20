@@ -48,6 +48,8 @@ export class Vehicle extends Patrimony {
   maintenancePlan :MaintenancePlan;
   initialMileage:number;
   currentMileage:number;
+  release :Date = new Date();
+  age :  number =0;
   owner:Owner;
   
 }

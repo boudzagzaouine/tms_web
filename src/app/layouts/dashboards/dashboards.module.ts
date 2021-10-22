@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DashboardDriverComponent } from './dashboard-driver/dashboard-driver.component';
 import {ChartModule} from 'primeng/chart';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 @NgModule({
@@ -59,6 +60,8 @@ import {ChartModule} from 'primeng/chart';
     BreadcrumbModule,
     ToastModule,
     ChartModule ,
+
+    ProgressBarModule
   ]
 })
 export class DashboardsModule { }

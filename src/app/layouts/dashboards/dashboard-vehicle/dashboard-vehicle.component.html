@@ -28,7 +28,7 @@
                 <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
                 <p-calendar [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
                     yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true"></p-calendar>
+                    [readonlyInput]="true" [maxDateCount]='2' ></p-calendar>
 
             </div>
 
@@ -157,7 +157,7 @@
         <div class="col-lg-4 col-md-6">
             <div class="ibox bg-danger color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"> 12</h2>
+                    <h2 class="m-b-5 font-strong"> {{averageAge}}</h2>
                     <div class="m-b-5">L’ÂGE MOYEN Du PARC   </div><i
                         class="ti-bar-chart widget-stat-icon"></i>
                 </div>
@@ -194,7 +194,7 @@
                         </div>
                     </div>
                     <div>
-                        <p-chart type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+                        <p-chart type="line" [data]="lineBarMaintenanceData" [options]="basicOptions"></p-chart>
                     </div>
                 </div>
             </div>
@@ -208,7 +208,7 @@
                     <div class="row ">
                         <div class="col-lg-12">
 
-                            <p-chart type="doughnut" [data]="data" [options]="chartOptions" ></p-chart>
+                            <p-chart type="doughnut" [data]="DoughnutMaintenanceData" [options]="chartOptions" ></p-chart>
                        
                         </div>
                     </div>
@@ -241,20 +241,20 @@
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
                                 <div class="text-muted">Total</div>
                                 <div>
-                                    <span class="h2 m-0">{{preventiveMaintenanceCosts}} DH</span>
+                                    <span class="h2 m-0">{{gasoilCosts}} DH</span>
                                 </div>
                             </div>
                            
                         </div>
                     </div>
                     <div>
-                        <p-chart type="bar" [data]="dataG" [options]="chartOptions"></p-chart>
+                        <p-chart type="bar" [data]="barChartGasoilData" [options]="chartOptions"></p-chart>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="ibox">
+            <!-- <div class="ibox">
                 <div class="ibox-head">
                     <div class="ibox-title">Catégorie Véhicule</div>
                 </div>
@@ -330,7 +330,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

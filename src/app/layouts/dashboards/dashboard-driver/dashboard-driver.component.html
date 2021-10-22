@@ -22,8 +22,8 @@
       
             <div class="col-md-3">
                 <label class="font-weight-bold"> {{'Date' | translate}} </label
-                ><br />
-                <p-calendar               [(ngModel)]="dateSearch"
+                ><br /> 
+                <p-calendar          [maxDateCount]='2'     [(ngModel)]="dateSearch"
                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon" [readonlyInput]="true"></p-calendar>
              
               </div>
@@ -183,14 +183,14 @@
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
                                 <div class="text-muted">Total</div>
                                 <div>
-                                    <span class="h2 m-0">2500 DH</span>
+                                    <span class="h2 m-0">{{gasoilCosts}} DH</span>
                                 </div>
                             </div>
                            
                         </div>
                     </div>
                     <div>
-                        <p-chart type="bar" [data]="dataG" [options]="chartOptions"></p-chart>
+                        <p-chart type="bar" [data]="barChartGasoilData" [options]="chartOptions"></p-chart>
                     </div>
                 </div>
             </div>
@@ -205,7 +205,39 @@
                 <div class="ibox-title">Consomation de gasoil </div>
             </div>
             <div class="ibox-body">
-                <table class="table table-striped m-t-20 visitors-table">
+
+                <p-table [value]="dieselDeclarationList" responsiveLayout="scroll"
+                [scrollable]="true" scrollHeight="400px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="font-weight-bold ">Chauffeurs</th>
+                            <th class="font-weight-bold ">Cin</th>
+                            <th class="font-weight-bold ">Date Affectation</th>
+                            <th class="font-weight-bold ">Quantité</th>
+                            <th class="font-weight-bold ">Data</th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-gasoil>
+                        <tr>
+                             <td  class="font-weight-bold h6">{{gasoil[0]}}</td>
+                            <td  class="font-weight-bold h6">{{gasoil[1]}}</td>
+                            <td  class="font-weight-bold h6">{{gasoil[2] | date: 'dd-MM-yyyy'}}</td>
+                            <td  class="font-weight-bold h6">{{gasoil[3]}}L</td> 
+
+                            
+                            <td >
+                                <p-progressBar value="{{gasoil[4] | number : '1.2-2'}}" [showValue]="true"></p-progressBar>
+                             <!-- <p class="align-center">{{gasoil[4] | number : '1.2-2'}} %</p>    -->
+                            </td> 
+
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+
+                <!-- <table class="table table-striped m-t-20 visitors-table">
                     <thead>
                         <tr>
                             <th>Chauffeurs</th>
@@ -280,7 +312,7 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
             </div>
         </div>
     </div>

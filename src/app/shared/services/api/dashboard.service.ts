@@ -141,6 +141,92 @@ getTotalnumberofproblemsbyvehicle(
     return this.http.get<any>(fullurl);
 }
 
+getLineChartMaintenanceCorrectiveByVehicle(
+    vehicleId: number,
+    CategoryId: number,
+    dateDepart: string,
+    dateFin: string
+): Observable<any[]> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/LineChartMaintenanceCorrectiveByVehicle?vehicleId=' +
+        vehicleId +
+        '&categoryId=' +
+        CategoryId +
+        '&dateDepart=' +
+        dateDepart +
+        '&dateFin=' +
+        dateFin +
+        '&token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+}
+
+getLineChartMaintenancePreventiveByVehicle(
+    vehicleId: number,
+    CategoryId: number,
+    dateDepart: string,
+    dateFin: string
+): Observable<any[]> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/LineChartMaintenancePreventiveByVehicle?vehicleId=' +
+        vehicleId +
+        '&categoryId=' +
+        CategoryId +
+        '&dateDepart=' +
+        dateDepart +
+        '&dateFin=' +
+        dateFin +
+        '&token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+}
+
+getBarChartGasoilByVehicle(
+    vehicleId: number,
+    CategoryId: number,
+    dateDepart: string,
+    dateFin: string
+): Observable<any[]> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/BarChartGasoilByVehicle?vehicleId=' +
+        vehicleId +
+        '&categoryId=' +
+        CategoryId +
+        '&dateDepart=' +
+        dateDepart +
+        '&dateFin=' +
+        dateFin +
+        '&token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+}
+
+getaverageAgeByVehicle(
+    
+): Observable<any> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/averageAgeByVehicle' +
+        '?token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any>(fullurl);
+}
+
 // driver
 
 
@@ -254,7 +340,40 @@ getTotalnumberofproblemsbyDriver(
   return this.http.get<any>(fullurl);
 }
 
+getBarChartGasoilByDriver(
+    driverId: number,
+    dateDepart: string,
+    dateFin: string
+): Observable<any[]> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/BarChartGasoilByDriver?driverId=' +
+        driverId +
+        '&dateDepart=' +
+        dateDepart +
+        '&dateFin=' +
+        dateFin +
+        '&token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+}
 
+getPercentGasoilByDriver(
+ 
+): Observable<any[]> {
+    const fullurl =
+        this.url +
+        'dashboard' +
+        '/PercentGasoilByDriver?' +
+        'token=' +
+        this.getToken();
+        
+    console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+}
 
 
 //seniority

@@ -5,350 +5,340 @@ import { PatrimonyService } from './../../../shared/services/api/patrimony-servi
 import { VehicleCategoryService } from './../../../shared/services';
 import { DashboardService } from './../../../shared/services/api/dashboard.service';
 import { Subscription } from 'rxjs';
+import { Dashboard } from './../../../shared/models/dashboard';
 @Component({
-  selector: 'app-dashboard-vehicle',
-  templateUrl: './dashboard-vehicle.component.html',
-  styleUrls: ['./dashboard-vehicle.component.css']
+    selector: 'app-dashboard-vehicle',
+    templateUrl: './dashboard-vehicle.component.html',
+    styleUrls: ['./dashboard-vehicle.component.css']
 })
 export class DashboardVehicleComponent implements OnInit {
 
-  codeSearch: Vehicle;
-  vehicleCodeList: Array<Patrimony> = [];
-  vehicleCategoryList: Array<VehicleCategory> = [];
-  categorySearch: VehicleCategory;
- dateSearch :Date;
- averageConsumption :number =0;
- mileageTraveled : number=0;
- correctiveMaintenanceCosts :number=0;
- preventiveMaintenanceCosts :number=0;
- totalNumberOfProblems : number=0;
- seniorityList:any[];
- senioritySearch:any;
- percentageCorrective : number =0;
- percentagePreventive : number =0;
+    codeSearch: Vehicle;
+    vehicleCodeList: Array<Patrimony> = [];
+    vehicleCategoryList: Array<VehicleCategory> = [];
+    categorySearch: VehicleCategory;
+    dateSearch: Date;
 
+    averageConsumption: number = 0;
+    mileageTraveled: number = 0;
+    correctiveMaintenanceCosts: number = 0;
+    preventiveMaintenanceCosts: number = 0;
+    totalNumberOfProblems: number = 0; 
+    percentageCorrective: number = 0;
+    percentagePreventive: number = 0;
+    gasoilCosts: number = 0;
+    averageAge: number = 0;
 
- basicData: any;
- basicOptions: any;
- subscription: Subscription;
+    seniorityList: any[];
+    senioritySearch: any;
+   
+    subscription: Subscription;
 
- dataG: any;
+    lineBarMaintenanceData: any;
+    basicOptions: any;
+    barChartGasoilData: any;
+    DoughnutMaintenanceData: any;
+    chartOptions: any;
+ 
+    statisticMaintenanceCorectiveList: Array<Dashboard> = [];
+    statisticMaintenancePreventiveList: Array<Dashboard> = [];
+    statisticGasoilList: Array<Dashboard> = [];
 
- data: any;
- chartOptions: any;
-// config: AppConfig;
+    constructor(private patrimonyService: PatrimonyService,
+        private vehicleCategoryService: VehicleCategoryService,
+        private dashboardService: DashboardService,
 
-  constructor(    private patrimonyService: PatrimonyService,
-    private vehicleCategoryService: VehicleCategoryService,
-    private dashboardService :DashboardService,      
-   // private configService: AppConfigService 
     ) { }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
 
-    this.percentageCorrective = 60;
-    this.percentagePreventive=40;
-   
-    this.data = {
-        labels: ['Maintenance Corrective','Maintenance Preventive'],
-        datasets: [
-            {
-                data: [60, 40],
-                backgroundColor: [
-                    "#42A5F5",
-                    "#66BB6A",
-                   
-                ],
-                hoverBackgroundColor: [
-                    "#64B5F6",
-                    "#81C784",
-                    
-                ]
+        this.vehicleCategoryService.findAll().subscribe(
+            data => {
+                this.vehicleCategoryList = data;
             }
-        ]
-    };
-    this.basicData = {
-      labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août','septembre','octobre','novembre','décembre'],
-      datasets: [
-          {
-              label: 'Maintenance Corrective',
-              data: [65, 59, 80, 81, 56, 55, 40],
-              fill: false,
-              borderColor: '#42A5F5',
-              tension: .4
-          },
-          {
-              label: 'Maintenance Préventive',
-              data: [28, 48, 40, 19, 86, 27, 90],
-              fill: false,
-              borderColor: '#FFA726',
-              tension: .4
-          }
-      ]
-  };
+        )
 
-  this.dataG = {
-    labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet','août','septembre','octobre','novembre','décembre'],
-    datasets: [ {
-        type: 'bar',
-        label: 'Gasoil',
-        backgroundColor: '#66BB6A',
-        data: [
-            21,
-            84,
-            24,
-            75,
-            37,
-            65,
-            34
-        ],
-        borderColor: 'white',
-        borderWidth: 2
-    }, ]
-};
+        this.seniorityList = [{ mode: '2', header: "Moins d'un an", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 1 et 3 ans", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 3 et 5 ans", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 5 et 10 ans", slice1: '0', slice2: '1' },
+        { mode: '1', header: "plus de 10 ans", slice1: '0', slice2: '10' }]
 
 
-  this.applyLightTheme();
-  this.chartOptions = this.getLightTheme();
 
+        this.dashboardService.getaverageAgeByVehicle()
+        .subscribe(
+            data => {
+                this.averageAge = data;
+               console.log(this.averageAge);
+               
+            });
 
+    }
 
 
 
     
-    
-    this.vehicleCategoryService.findAll().subscribe(
-      data => {
-        this.vehicleCategoryList = data;
-      }
-    )
+    onSearchClicked() {
 
-    this.seniorityList=[{mode :'2' , header:"Moins d'un an",slice1:'0',slice2:'1'},
-                 {mode :'2' , header:"entre 1 et 3 ans",slice1:'0',slice2:'1'},
-                 {mode :'2' , header:"entre 3 et 5 ans",slice1:'0',slice2:'1'},
-                 {mode :'2' , header:"entre 5 et 10 ans",slice1:'0',slice2:'1'},
-                 {mode :'1' , header:"plus de 10 ans",slice1:'0',slice2:'10'}]
+        if (this.senioritySearch != null && this.senioritySearch != undefined) {
+            this.searchWithSeniority()
+        }
+        else if (this.dateSearch != null && this.dateSearch != undefined) {
+            this.searchWithVehicleDate();
+        }
+
+        
 
 
+    }
 
-  }
+    reset() {
+        this.codeSearch = null;
+        this.categorySearch = null;
+        this.dateSearch = null;
+        this.averageConsumption = 0;
+        this.mileageTraveled = 0;
+        this.correctiveMaintenanceCosts = 0;
+        this.preventiveMaintenanceCosts = 0;
+        this.totalNumberOfProblems = 0;
+        this.senioritySearch = null;
+    }
 
-  getLightTheme() {
-    return {
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#495057'
+   
+
+    onVehicleCodeSearch(event: any) {
+        this.patrimonyService.find('code~' + event.query).subscribe(
+            data => this.vehicleCodeList = data.filter(f => f.patrimony_type == 'vehicule')
+        )
+    }
+
+    onSelectVehicle(event: Vehicle) {
+        this.categorySearch = event.vehicleCategory;
+    }
+
+
+    searchWithVehicleDate() {
+        var vehicleId = 0
+        var categoryId = 0;
+        var registration;
+        let dateDebut = new Date(), dateFin = new Date();
+        if (this.codeSearch != null && this.codeSearch.code !== '') {
+
+            vehicleId = this.codeSearch.id;
+            registration = this.codeSearch.registrationNumber;
+        }
+        if (this.categorySearch != null && this.categorySearch.code !== '') {
+            categoryId = this.categorySearch.id;
+        }
+
+        if (this.dateSearch != null) {
+            dateDebut = this.dateSearch[0];
+            dateFin = this.dateSearch[1];
+        }
+
+        this.dashboardService.getAverageConsumption(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.averageConsumption = data? data: 0;
+                });
+
+        this.dashboardService.getCorrectivemaintenancecostsbyvehicle(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.correctiveMaintenanceCosts = data? data: 0;
+                    this.onDoughnutMaintenance();
+                });
+
+        this.dashboardService.getPreventivemaintenancecostsbyvehicle(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.preventiveMaintenanceCosts = data ? data: 0;
+                    this.onDoughnutMaintenance();
+                });
+
+        this.dashboardService.getTraveledmileagebyvechile(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.mileageTraveled = data? data: 0;
+                });
+
+        this.dashboardService.getTotalnumberofproblemsbyvehicle(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.totalNumberOfProblems = data? data: 0;
+                });
+
+        this.dashboardService.getLineChartMaintenanceCorrectiveByVehicle(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.statisticMaintenanceCorectiveList = data;
+                    this.onLineBarChartMaintenance();
+                });
+
+        this.dashboardService.getLineChartMaintenancePreventiveByVehicle(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.statisticMaintenancePreventiveList = data;
+                    this.onLineBarChartMaintenance();
+                });
+
+        this.dashboardService.getBarChartGasoilByVehicle(registration, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
+            .subscribe(
+                data => {
+                    this.statisticGasoilList = data;
+                    this.gasoilCosts=this.statisticGasoilList.map(item => item.value).reduce((prev, next) => prev + next);
+                    this.onBarChartGasoil();
+                });
+
+    }
+
+
+    searchWithSeniority() {
+        let mode, slice1, slice2, categoryid;
+        mode = this.senioritySearch.mode;
+        slice1 = this.senioritySearch.slice1;
+        slice2 = this.senioritySearch.slice2;
+        categoryid = 0;
+        if (this.categorySearch != null && this.categorySearch != undefined) {
+            categoryid = this.categorySearch.id;
+        }
+        this.dashboardService.getAverageConsumptionseniorityvehicle(categoryid, slice1, slice2, mode)
+            .subscribe(
+                data => {
+                    this.averageConsumption = data ;
+
+                });
+        this.dashboardService.getCorrectivemaintenancecostsbyseniorityvehicle(categoryid, slice1, slice2, mode)
+            .subscribe(
+                data => {
+                    this.correctiveMaintenanceCosts = data;
+
+                });
+        this.dashboardService.getPreventivemaintenancecostsbyseniorityvehicle(categoryid, slice1, slice2, mode)
+            .subscribe(
+                data => {
+                    this.preventiveMaintenanceCosts = data;
+
+                });
+        this.dashboardService.getTraveledmileagebyseniorityvehicle(categoryid, slice1, slice2, mode)
+            .subscribe(
+                data => {
+                    this.mileageTraveled = data;
+                });
+        this.dashboardService.getTotalnumberofproblemsbyseniorityvehicle(categoryid, slice1, slice2, mode)
+            .subscribe(
+                data => {
+                    this.totalNumberOfProblems = data;
+                });
+
+    }
+
+
+
+
+    onBarChartGasoil() {
+        this.barChartGasoilData = {
+            labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+            datasets: [{
+                type: 'bar',
+                label: 'Gasoil',
+                backgroundColor: '#66BB6A',
+                data: this.statisticGasoilList.map(m => m.value),
+                borderColor: 'white',
+                borderWidth: 2
+            },]
+        };
+
+    }
+    onLineBarChartMaintenance() {
+        this.lineBarMaintenanceData = {
+            labels: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+            datasets: [
+                {
+                    label: 'Maintenance Corrective',
+                    data: this.statisticMaintenanceCorectiveList.map(m => m.value),
+                    fill: false,
+                    borderColor: '#42A5F5',
+                    tension: 0.4,
+                },
+                {
+                    label: 'Maintenance Préventive',
+                    data: this.statisticMaintenancePreventiveList.map(m => m.value),
+                    fill: false,
+                    borderColor: '#FFA726',
+                    tension: 0.4,
+                }
+            ]
+        };
+        this.applyLightTheme();
+        this.chartOptions = this.getLightTheme();
+
+    }
+
+    onDoughnutMaintenance() {
+        let totalCosts = (this.preventiveMaintenanceCosts + this.correctiveMaintenanceCosts);
+        this.percentageCorrective = (100 * (this.correctiveMaintenanceCosts) / totalCosts);
+        this.percentagePreventive = (100 * (this.preventiveMaintenanceCosts) / totalCosts);
+        this.DoughnutMaintenanceData = {
+            labels: ['Maintenance Corrective', 'Maintenance Preventive'],
+            datasets: [
+                {
+                    data: [this.percentageCorrective, this.percentagePreventive],
+                    backgroundColor: [
+                        "#42A5F5",
+                        "#66BB6A",
+
+                    ],
+                    hoverBackgroundColor: [
+                        "#64B5F6",
+                        "#81C784",
+
+                    ]
+                }
+            ]
+        };
+    }
+    getLightTheme() {
+        return {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#495057'
+                    }
                 }
             }
         }
     }
-}
-  applyLightTheme() {
-    this.basicOptions = {
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#495057'
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#495057'
-                },
-                grid: {
-                    color: '#ebedef'
+    applyLightTheme() {
+        this.basicOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#495057'
+                    }
                 }
             },
-            y: {
-                ticks: {
-                    color: '#495057'
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#495057'
+                    },
+                    grid: {
+                        color: '#ebedef'
+                    }
                 },
-                grid: {
-                    color: '#ebedef'
+                y: {
+                    ticks: {
+                        color: '#495057'
+                    },
+                    grid: {
+                        color: '#ebedef'
+                    }
                 }
             }
-        }
-    };}
-
-   
-  onSearchClicked(){
-
-
-
-              if(this.senioritySearch != null && this.senioritySearch != undefined ){
-             this.searchWithSeniority()
-             console.log("seniority");
-             
-              } 
-              
-              else if (this.dateSearch !=null && this.dateSearch !=undefined ){
-                this.searchWithVehicleDate();
-                console.log("date");
-                
-              }
-
-              this.percentageCorrective = (100*(this.correctiveMaintenanceCosts)/(this.preventiveMaintenanceCosts+this.correctiveMaintenanceCosts));
-              this.percentagePreventive=(100*(this.preventiveMaintenanceCosts)/(this.preventiveMaintenanceCosts+this.correctiveMaintenanceCosts));
-              this.data = {
-                labels: ['Maintenance Corrective','Maintenance Preventive'],
-                datasets: [
-                    {
-                        data: [ this.percentageCorrective, this.percentagePreventive],
-                        backgroundColor: [
-                            "#42A5F5",
-                            "#66BB6A",
-                           
-                        ],
-                        hoverBackgroundColor: [
-                            "#64B5F6",
-                            "#81C784",
-                            
-                        ]
-                    }
-                ]
-            };
-  }
-
-  reset(){
-    this.codeSearch=null;
-    this.categorySearch=null;
-    this.dateSearch=null;
-    this.averageConsumption  =0;
-    this.mileageTraveled =0;
-    this.correctiveMaintenanceCosts =0;
-    this.preventiveMaintenanceCosts =0;
-    this.totalNumberOfProblems=0;
-    this.senioritySearch=null;
-  }
-
-
-  onVehicleCodeSearch(event: any) {
-   this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.vehicleCodeList = data.filter(f=> f.patrimony_type=='vehicule')
-     
-    )
-  }
-
-  onSelectVehicle(event : Vehicle){
- this.categorySearch=event.vehicleCategory;
-  
-  }
-
-
- searchWithVehicleDate(){
-
-  let vehicleId,categoryId;
-    let dateDebut= new Date() ,dateFin = new Date();
-
-    if (this.codeSearch != null && this.codeSearch.code !== '') {
-       vehicleId =this.codeSearch.id;
-       categoryId =0;   
-
+        };
     }
-    if (this.categorySearch != null && this.categorySearch.code !== '') {
-       categoryId =this.categorySearch.id;   
-       vehicleId =0;
-
-     }
-
-     if (this.dateSearch != null ) { 
-         dateDebut =this.dateSearch[0]  ;
-         dateFin =this.dateSearch[1];
-     }
 
 
-   this.dashboardService.getAverageConsumption(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
-   .subscribe(
-    data => {
-      this.averageConsumption=data;
-      
-    });
-
-    this.dashboardService.getCorrectivemaintenancecostsbyvehicle(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
-   .subscribe(
-    data => {
-this.correctiveMaintenanceCosts=data;  
-console.log("corr");
- 
-console.log(this.correctiveMaintenanceCosts);
-   
-    });
-
-    this.dashboardService.getPreventivemaintenancecostsbyvehicle(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
-   .subscribe(
-    data => {
-this.preventiveMaintenanceCosts=data;  
-console.log("preventi");
-  
-console.log(this.preventiveMaintenanceCosts);  
-    });
-
-    this.dashboardService.getTraveledmileagebyvechile(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
-   .subscribe(
-    data => {
-this.mileageTraveled=data;      
-    });
-
-    this.dashboardService.getTotalnumberofproblemsbyvehicle(vehicleId,categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
-   .subscribe(
-    data => {
-this.totalNumberOfProblems=data;      
-    });
-
- }
-
-
- searchWithSeniority(){
-
-  let mode ,slice1,slice2,categoryid;
-  mode=this.senioritySearch.mode;
-  slice1=this.senioritySearch.slice1;
-  slice2=this.senioritySearch.slice2;
-  categoryid=0;
-  if(this.categorySearch!=null && this.categorySearch!=undefined){
-    categoryid=this.categorySearch.id;
-  }
-
-
-   this.dashboardService.getAverageConsumptionseniorityvehicle(categoryid,slice1, slice2, mode)
-   .subscribe(
-    data => {
-      this.averageConsumption=data;
-      
-    });
-
-    this.dashboardService.getCorrectivemaintenancecostsbyseniorityvehicle(categoryid,slice1, slice2, mode)
-   .subscribe(
-    data => {
-this.correctiveMaintenanceCosts=data;      
-console.log("corr");
- 
-console.log(this.correctiveMaintenanceCosts);
-    });
-
-    this.dashboardService.getPreventivemaintenancecostsbyseniorityvehicle(categoryid,slice1, slice2, mode)
-   .subscribe(
-    data => {
-this.preventiveMaintenanceCosts=data;      
-console.log("preventi");
-  
-console.log(this.preventiveMaintenanceCosts);
-    });
-
-    this.dashboardService.getTraveledmileagebyseniorityvehicle(categoryid,slice1, slice2, mode)
-   .subscribe(
-    data => {
-this.mileageTraveled=data;      
-    });
-
-    this.dashboardService.getTotalnumberofproblemsbyseniorityvehicle(categoryid,slice1, slice2, mode)
-   .subscribe(
-    data => {
-this.totalNumberOfProblems=data;      
-    });
-
- }
 }

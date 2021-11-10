@@ -147,11 +147,12 @@ p-autocomplete {
 }
 .p-disabled, .p-component:disabled {
   opacity: 1;
-  background-color: #f3f6f7;
+  background-color: #ffffff;
 }
 .p-dialog .p-dialog-footer .p-button-icon-only{
 
   width: 3rem !important;
+ 
 }
 .p-button:enabled:active {
   background:#4084bd;
@@ -162,6 +163,12 @@ p-autocomplete {
   background:#4084bd;
   color: #ffffff;
   border-color: #2196F3;
+  height: 3rem;
+}
+.p-picklist .p-picklist-buttons .p-button {
+  margin-bottom: 0.5;
+  background-color: #2c3941;
+  border-color: #2c3941;
 }
 .p-dialog{
   width: 30em;

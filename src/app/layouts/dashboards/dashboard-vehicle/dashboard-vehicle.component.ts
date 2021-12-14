@@ -136,6 +136,8 @@ export class DashboardVehicleComponent implements OnInit {
             dateDebut = this.dateSearch[0];
             dateFin = this.dateSearch[1];
         }
+        console.log(dateFin);
+        
 
         this.dashboardService.getAverageConsumption(vehicleId, categoryId, dateDebut.toLocaleDateString(), dateFin.toLocaleDateString())
             .subscribe(

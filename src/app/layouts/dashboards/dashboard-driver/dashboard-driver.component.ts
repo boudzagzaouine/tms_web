@@ -29,6 +29,7 @@ export class DashboardDriverComponent implements OnInit {
   dieselDeclarationList: Array<any[]> = [];
 
   gasoilCosts: number = 0;
+  chartOptions: any;
 
   constructor(private driverService: DriverService,
     private dashboardService: DashboardService,
@@ -147,7 +148,18 @@ export class DashboardDriverComponent implements OnInit {
         borderWidth: 2
       },]
     };
+    this.chartOptions = this.getLightTheme();
 
   }
-
+  getLightTheme() {
+    return {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        }
+    }
+}
 }

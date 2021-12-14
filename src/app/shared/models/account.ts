@@ -3,6 +3,7 @@ import { Contact } from './contact';
 import { Address } from './address';
 import { Card } from './card';
 import { Owner } from './owner';
+import { Planning } from './planning';
 export class Account {
     id = 0;
     code: string;
@@ -19,4 +20,5 @@ export class Account {
     credit: number;
     maxCredit: number;
     wholesale: boolean = false;
+    plannings :Planning[]=[];
 }

@@ -1,0 +1,199 @@
+<p-dialog
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '800px' }"
+  (onHide)="onShowDialog()"
+>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+      <form [formGroup]="accountForm">
+
+        <div class="row  justify-content-around">
+
+            <div class="form-group col-sm-12 col-md-12">
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+            <span *ngIf="(accountForm.get('nameA').touched && accountForm.get('nameA').invalid) ||
+                (isFormSubmitted && accountForm.get('nameA').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{'Obligatoire'| translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="nameA"
+              [ngClass]="{'is-invalid': accountForm.get('nameA').touched && accountForm.get('nameA').invalid}" />
+          </div>
+
+          <div class="col-sm-12 col-md-4">
+
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tel1" />
+          </div>
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'email' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="email" />
+          </div>
+        </div>
+
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
+            <span *ngIf="(accountForm.get('line1').touched && accountForm.get('line1').invalid) ||
+            (isFormSubmitted && accountForm.get('line1').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{'Obligatoire'| translate}}
+
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="line1"
+              [ngClass]="{'is-invalid': accountForm.get('line1').touched && accountForm.get('line1').invalid}" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{"Ligne d'adresse 2" | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="line2" />
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="city" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="zipCode" />
+          </div>
+
+
+        </div>
+        <div class="row  justify-content-around">
+
+<div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="country" />
+          </div>
+
+          <div class="form-group col-sm-12 col-md-6">
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="card  ">
+      <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+  
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogPlanning(this.selectedPlanning,false)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste Planning" | translate }}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table [value]=" this.selectedAccount?.plannings" [lazy]="true" [rows]="size"
+          [paginator]="true" [totalRecords]=" this.selectedAccount
+      ?.plannings?.length">
+          <ng-template pTemplate="header">
+            <tr>
+  
+              <th>{{'Jour' | translate}}</th>
+              <th>{{'Fermeture' | translate}}</th>
+
+              <th>{{'matin' | translate}}</th>
+              <th>{{'date debut' | translate}}</th>
+              <th>{{'date fin '| translate}}</th>
+              <th>{{'soir' | translate}} </th>
+              <th>{{'date debut' | translate}}</th>
+              <th>{{'date fin '| translate}}</th>
+              <!-- <th>{{ "Prix" | translate }}</th> -->
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+  
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.day}}</td>
+              <td>{{line?.closingDay}}</td>
+
+              <td>{{line?.morning}}</td>
+              <td>{{line?.morningTimeStart | date: 'HH:mm'}}</td>
+              <td>{{line?.morningTimeEnd | date: 'HH:mm'}}</td>
+
+              <td>{{line?.evering}}</td>
+              <td>{{line?.everingTimeStart | date: 'HH:mm'}}</td>
+              <td>{{line?.everingTimeEnd | date: 'HH:mm'}}</td>
+         
+              <td>
+  
+                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogPlanning(line,true)">
+                  <!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeletePlanning(line.day)">
+                  <!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+  
+        </p-table>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <button
+      type="button"
+      pButton
+      (click)="onShowDialog()"
+      class="p-button-primary"
+      label="{{'Annuler' | translate }}"
+    ></button>
+    <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<div *ngIf="showDialogPlanning == true">
+  <app-planning-edit
+   (showDialog)="onHideDialogPlanning($event)" 
+  (planningEdited)="onLineEditedPlanning($event)"
+    [selectedPlanning]="this.selectedPlanning" 
+    [editMode]="editModePlannig"></app-planning-edit>
+</div>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

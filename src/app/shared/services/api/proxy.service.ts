@@ -54,7 +54,7 @@ export class ProxyService {
           this.getToken();
           //console.log("fullurl");
 
-      console.log(fullurl);
+     // console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
 
@@ -107,9 +107,9 @@ export class ProxyService {
           size +
           '&token=' +
           this.getToken();
-          console.log("pagination");
+        //  console.log("pagination");
           
-      console.log(fullurl);
+    //  console.log(fullurl);
 
       return this.http.get<any[]>(fullurl);
   }

@@ -5,11 +5,14 @@ import { Uom } from './uom';
 
 import { Product } from './product';
 import { Owner } from './owner';
+import { SaleOrderLine } from './sale-order-line';
+import { Container } from './container';
 
 export class Stock {
   
     id: number;
     quantity: number;
+    purchasePrice:number;
     dlc: Date;
     product: Product;
     uom: Uom;
@@ -18,4 +21,6 @@ export class Stock {
     productPack : ProductPack;
     active : Boolean= true;
     owner:Owner;
+    saleOrderLine:SaleOrderLine;
+    container:Container;
 }

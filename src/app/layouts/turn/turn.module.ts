@@ -27,33 +27,48 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { TurnListComponent } from './turn-list/turn-list.component';
 import { DeliveryComponent } from './turn-list/delivery/delivery.component';
 import { DeliveryLineComponent } from './turn-list/delivery/delivery-line/delivery-line.component';
+import { PurchaseLineEditComponent } from './turn-edit/purchase-line-edit/purchase-line-edit.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { TabViewModule } from 'primeng/tabview';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { PanelModule } from 'primeng/panel';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { DialogModule } from 'primeng/dialog';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent],
+  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent,PurchaseLineEditComponent],
   imports: [
     CommonModule,
     TurnRoutingModule,
-    StepsModule,
-    ButtonModule,
-    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    CalendarModule,
-    MultiSelectModule,
-    DropdownModule,
     TableModule,
+    DropdownModule,
     AutoCompleteModule,
+    NgxSpinnerModule,
+    SharedModule,
+    CalendarModule,
+    ConfirmDialogModule,
+    TabViewModule,
+    KeyFilterModule,
+    NgbModalModule,
+    NgxSpinnerModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
+    StepsModule,
+    PanelModule,
+    BreadcrumbModule ,
     PickListModule,
-TreeTableModule,
-SliderModule,
-CalendarModule,
-NgbModalModule,
-NgxSpinnerModule,
-ConfirmDialogModule,
-FormsModule,
-ReactiveFormsModule,
-
+    SelectButtonModule,
+    MultiSelectModule,
+    DialogModule,
+    OverlayPanelModule,
+     TreeTableModule
 
 
 

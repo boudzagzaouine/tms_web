@@ -5,6 +5,7 @@ import {Product} from './product';
 import {Uom} from './uom';
 import {Vat} from './vat';
 import {ProductPack} from './product-pack';
+import { Stock } from './stock';
 
 export class SaleOrderLine {
     id: number;
@@ -32,6 +33,7 @@ export class SaleOrderLine {
     qtyRectified = false;
     remainingQuantity:number;
     qantityToLoad:number;
+    sotcks:Stock[];
     constructor() {
     }
 }

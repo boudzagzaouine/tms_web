@@ -8,6 +8,11 @@ import { Product } from './product';
 import { Uom } from './uom';
 import { Vat } from './vat';
 import { ProductPack } from './product-pack';
+import { PurchaseOrder } from './purchase-order';
+import { PurchaseOrderLine } from '.';
+import { TurnSoPo } from './turn-so-po';
+import { Container } from './container';
+import { Stock } from './stock';
 
 export class TurnLine {
   id: number;
@@ -21,35 +26,41 @@ export class TurnLine {
   totalPriceTTC: number;
   vat: Vat;
   productPack: ProductPack;
-  saleOrderLine: SaleOrderLine;
-  turn: Turn;
-  saleOrder: SaleOrder;
+  saleOrderLine: SaleOrderLine; 
+  purshaseOrderLine:PurchaseOrderLine;
+  turnSoPo: TurnSoPo;
+  orderStatus: OrderStatus;
+  stocks:Stock[];
 
   constructor(
     //owner:Owner=null,
-    product: Product = null,
+    product: Product ,
     quantityServed: number = 0,
     salePrice: number = 0,
-    uom: Uom = null,
-    totalPriceHT: number = 0,
+    uom: Uom ,
+   // totalPriceHT: number = 0,
     totalPriceTTC: number = 0,
-    vat: Vat = null,
-    productPack: ProductPack = null,
-    saleOrderLine: SaleOrderLine = null,
-    saleOrder: SaleOrder = null,
- turn: Turn = null,
+    vat: Vat ,
+    productPack: ProductPack ,
+    orderStatus: OrderStatus,
+    saleOrderLine: SaleOrderLine ,
+    purshaseOrderLine:PurchaseOrderLine=null,
+    stocks:Stock[],
+  //turnSoPo: TurnSoPo ,
   ) {
     this.product = product;
     this.quantityServed = quantityServed;
     this.salePrice = salePrice;
-    this.totalPriceHT = totalPriceHT;
+    //this.totalPriceHT = totalPriceHT;
     this.totalPriceTTC = totalPriceTTC;
     this.uom = uom;
     this.vat = vat;
     this.productPack = productPack;
-    this.saleOrderLine = saleOrderLine;
-    this.turn = turn;
-    this.saleOrder = saleOrder;
+    this.orderStatus = orderStatus;
 
+    this.saleOrderLine = saleOrderLine;
+   this.purshaseOrderLine = purshaseOrderLine;
+   this.stocks=stocks;
+  //  this.turnSoPo = turnSoPo;
   }
 }

@@ -47,6 +47,8 @@ import { SubscriptionCardComponent } from './subscriptionCard/subscriptionCard.c
 import { AgentComponent } from './agent/agent.component';
 import { PumpsComponent } from './pumps/pumps.component';
 import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
+import { HolidayComponent } from './holiday/holiday.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   {
@@ -90,6 +92,8 @@ const routes: Routes = [
       { path: 'agents', component: AgentComponent},
       { path: 'pumps', component: PumpsComponent},
       { path: 'fuel-pumps', component: FuelPumpsComponent},
+      { path: 'holiday', component: HolidayComponent},
+      { path: 'account', component: AccountComponent},
 
 
 

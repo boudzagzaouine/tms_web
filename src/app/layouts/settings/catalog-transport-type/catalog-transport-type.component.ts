@@ -71,7 +71,7 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.cols = [
       {
         field: 'transport',
-        child: 'code',
+        child: 'name',
         header: 'Transport',
         type: 'object'
       },

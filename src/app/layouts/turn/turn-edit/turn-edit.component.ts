@@ -22,153 +22,254 @@ import {
 } from '@angular/forms';
 import { Turn } from './../../../shared/models/turn';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Component, OnInit, EventEmitter, Output, OnChanges, DoCheck } from '@angular/core';
+import { TurnType } from './../../../shared/models/turn-Type';
+import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
+import { PurchaseOrderService } from './../../../shared/services/api/purchase-order.service';
+import { Account, PurchaseOrder, PurchaseOrderLine, Stock, Vat, Vehicle } from './../../../shared/models';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TurnSoPo } from './../../../shared/models/turn-so-po';
+import { TurnSoPoService } from './../../../shared/services/api/turn-so-po.service';
+import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
+import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
+import { AddressInfo } from './../../../shared/models/adress-info';
+import { PurchaseOrderLineService } from './../../../shared/services/api/purchase-order-line.service';
+import { TestBed } from '@angular/core/testing';
+import { Transport } from './../../../shared/models/transport';
+import { sortEventSegs } from '@fullcalendar/angular';
+import { SaleOrderStockService } from './../../../shared/services/api/sale-order-stock.service';
+import { StockService } from './../../../shared/services/api/stock.service';
+import { LoadCategorySaleOrder } from './../../../shared/models/load-category-saleOrder';
+import { Container } from './../../../shared/models/container';
+import { LocationContainerInVehicle } from './../../../shared/models/location-container-In-Vehicle';
+import { TurnTransport } from './../../../shared/models/turn-transport';
+import { HolidayService } from './../../../shared/services/api/account-holiday.service';
+import { Holiday } from './../../../shared/models/holiday';
+import { PlanningService } from './../../../shared/services/api/planning-service';
+import { Planning } from './../../../shared/models/planning';
+import { PackagingType } from './../../../shared/models/packagingType';
+
 @Component({
   selector: 'app-turn-edit',
   templateUrl: './turn-edit.component.html',
-  styleUrls: ['./turn-edit.component.css']
+  styleUrls: ['./turn-edit.component.scss']
 })
-export class TurnEditComponent implements OnInit, DoCheck {
-  activeIndex: number = 0;
-  items: MenuItem[];
+export class TurnEditComponent implements OnInit {
 
-  codeSearch: string;
-  accountSearch: string;
-  accountList: Account[] = [];
-
+  @Output() turnSoPoEdited = new EventEmitter<TurnSoPo>();
   page = 0;
   size = 10;
   collectionSize: number;
-
+  codeSearch: string;
+  searchQuery = '';
+  turnTypeId: number = 0
+  totalqntV: number = 0;
+  totalQntSO: number = 0;
+  totalQntPO: number = 0;
+  editModeTitle = 'Ajouter une Tournée';
+  editMode: boolean = false;
+  catVehiculeQnt: boolean = false;
+  catVehiculeQntSucces: boolean = false;
+  isFormSubmitted = false;
+  showDialogLine: boolean;
+  showvehicleToDrive: boolean = false;
+  turnForm: FormGroup;
+  turnAdded: Turn = new Turn();
   saleOrders: Array<any> = [];
   saleOrdersLoading: SaleOrder[] = [];
-  saleOrderLines: SaleOrderLine[] = [];
-  turnLines: TurnLine[] = [];
-
+  purchaseOrders: Array<PurchaseOrder> = [];
+  purchaseOrderLoading: PurchaseOrder[] = [];
+  turnSoList: Array<TurnSoPo> = [];
+  turnPoList: Array<TurnSoPo> = [];
+  turnSoPoList: Array<TurnSoPo> = [];
+  vehicleCatsToDeliver: VehicleCategory[] = [];
+  vehicleCatsToDeliverSort: VehicleCategory[] = [];
   vehicleCatList: VehicleCategory[] = [];
   transportList: Array<any> = [];
   vehicleList: Array<any> = [];
   driverList: Array<any> = [];
-  turnAdded: Turn = new Turn();
+  turnTypeList: TurnType[] = [];
+  packagingTypes: Array<PackagingType> = [];
+  packagingType: PackagingType = new PackagingType(null);
+  subscrubtion = new Subscription();
+  home: MenuItem;
+  activeIndex: number = 0;
+  items: MenuItem[];
+  itemsbreadcrumb: MenuItem[];
 
-  searchQuery = '';
-  isFormSubmitted=false;
+  containerList: Container[] = [];
+  sum: number = 0;
 
-  turnForm: FormGroup;
-  catVehiculeQnt: boolean = false;
-  totalqntV: number = 0;
-  totalQnt: number = 0;
+  loadCategorySos: LoadCategorySaleOrder[] = [];
+  turnTransports: TurnTransport[] = [];
+  selectedturnTransport: TurnTransport = new TurnTransport();
+
   constructor(
     private saleOrderService: SaleOrderService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private vehicleService: VehicleService,
     private driverService: DriverService,
-    private turnLineService: TurnLineService,
-    private saleOrderLineService:SaleOrderLineService,
+    private saleOrderLineService: SaleOrderLineService,
+    private purchaseOrderLineService: PurchaseOrderLineService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private tunrService: TurnService,
-    private accountService: AccountService,
+    private turnTypeService: TurnTypeService,
+    private purchaseOrderService: PurchaseOrderService,
+    private activatedRoute: ActivatedRoute,
+    private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private stockService: StockService,
+    private holidayService: HolidayService,
+    private planningService: PlanningService,
+    private confirmationService:ConfirmationService,
   ) { }
 
   ngOnInit() {
-    this.initForm();
+    let p1 = new PackagingType('Vrac');
+    let p2 = new PackagingType('Palette');
+    this.packagingTypes.push(p1);
+    this.packagingTypes.push(p2);
+
+    let id = this.activatedRoute.snapshot.params['id'];
+    if (id) {
+      this.editModeTitle = 'Modifier Tournée';
+      this.activatedRoute.params.subscribe(params => {
+        id = params['id'];
+        this.subscrubtion.add(this.tunrService.findById(id).subscribe(data => {
+          this.turnAdded = data;
+          console.log(this.turnAdded);
+          this.packagingType = this.packagingTypes.filter(f => f.code == this.turnAdded.packagingType)[0];
+          this.turnTransports = this.turnAdded.turnTransports;
+          this.turnSoList = this.turnAdded.turnSoPos.filter(f => f.saleOrder != null);
+          this.saleOrdersLoading = this.turnSoList.map(f => f.saleOrder)
+          this.turnPoList = this.turnAdded.turnSoPos.filter(f => f.purshaseOrder != null);
+          this.purchaseOrderLoading = this.turnPoList.map(f => f.purshaseOrder)
+          this.onSelectTurnType(this.turnAdded.turnType);
+          this.editMode = true;
+          this.turnTypeId = this.turnAdded.turnType.id;
+          //this.onSelectChangeCatVehicle(this.turnAdded.vehicle.vehicleCategory);
+          this.initForm();
+        },
+          err => {
+            this.toastr.error(err.error.message);
+            this.spinner.hide();
+          }));
+      });
+
+    }
+
+    this.itemsbreadcrumb = [
+      { label: 'Tournée' },
+      { label: 'Editer', routerLink: '/core/vehicles/edit' },
+    ];
+
+    this.items = [{ label: 'Commandes' }, { label: 'Surcharge' }, { label: 'Information' }, { label: 'Validation' }];
+    this.home = { icon: 'pi pi-home' };
+
+    this.turnTypeService.findAll().subscribe(data => {
+      this.turnTypeList = data;
+      this.turnAdded.turnType = this.turnTypeList[0];
+      this.onSelectTurnType(this.turnTypeList[0])
+      this.initForm();
+    });
 
     this.vehicleCategoryService.findAll().subscribe(data => {
       this.vehicleCatList = data;
     });
 
-    this.transportService.findAll().subscribe(data => {
-      this.transportList = data;
-    });
+
 
     this.driverService.findAll().subscribe(data => {
       this.driverList = data;
     });
 
-     this.accountService.findAll().subscribe(data => {
-       this.accountList = data;
-     });
-    this.items = [
-      {
-        label: 'Commande'
-      },
-      {
-        label: '...........'
-      },
-      {
-        label: 'Information'
-      }
-    ];
-
-    // this.loaddata();
+    this.initForm();
   }
 
-  ngDoCheck() {
-
-    this.totalQnt = 0;
-    if (this.saleOrdersLoading.length > 0) {
-      for (let i = 0; i < this.saleOrdersLoading.length; i++) {
-        for (let j = 0; j < this.saleOrdersLoading[i].lines.length; j++) {
-
-            this.totalQnt += (this.saleOrdersLoading[i].lines[j].qantityToLoad * this.saleOrdersLoading[i].lines[j].productPack.weight);
-
-
-        }
-      }
-    }
-  }
   initForm() {
+    const d = new Date(this.turnAdded.dateDelivery);
     this.turnForm = new FormGroup({
-      fDateLivraison: new FormControl(
-        this.turnAdded.dateDelivery,
-        Validators.required
-      ),
-      fVehicule: new FormControl(this.turnAdded.vehicle, Validators.required),
-      fTransport: new FormControl(
-        this.turnAdded.transport,
-        Validators.required
-      ),
-      fDrivers: new FormControl(this.turnAdded.drivers, Validators.required),
-      fTypeVehicule: new FormControl('', Validators.required)
+      fDateLivraison: new FormControl(d, Validators.required),
+      fVehicule: new FormControl(this.selectedturnTransport.vehicle, Validators.required),
+      fTransport: new FormControl(this.selectedturnTransport.transport, Validators.required),
+      fDrivers: new FormControl(this.selectedturnTransport.drivers, Validators.required),
+      fTypeVehicule: new FormControl(this.selectedturnTransport?.vehicleCategory, Validators.required),
+      fTurnType: new FormControl(this.turnAdded.turnType, Validators.required),
+      fpackagingType: new FormControl(this.turnAdded.packagingType),
     });
   }
 
-  onSubmit() {
-
-    //this.prepareSaleOrderStock();
-
-   // this.insertSaleOrderStock();
-
-
-  this.saveTurn();
-    console.log('turn stock');
-  //  console.log(this.turnAdded.turnLine);
-
+  chargeForm() {
+    this.isFormSubmitted = true;
+    if (this.turnForm.invalid) {
+      return;
+    }
+    const formValue = this.turnForm.value;
+    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    this.selectedturnTransport.vehicle = formValue['fVehicule'];
+    this.selectedturnTransport.vehicleCategory = formValue['fTypeVehicule'];
+    this.selectedturnTransport.transport = formValue['fTransport'];
+    this.selectedturnTransport.drivers = formValue['fDrivers'];
 
   }
 
+  onSubmit() {
+    this.chargeForm();
+    if (this.turnSoList.length > 0) { this.turnAdded.turnSoPos.push(...this.turnSoList); }
+    if (this.turnPoList.length > 0) { this.turnAdded.turnSoPos.push(...this.turnPoList); }
+    if (this.turnTransports.length > 0) {
+      this.turnTransports.forEach(turnTrs => {
+        this.vehicleCatsToDeliver.forEach(vCat => {
+          if (vCat.code == turnTrs.vehicleCategory.code) {
+            turnTrs.numberOfPalette = vCat.numberOfPalette;
+          }
+        });
 
-  loadData(search: string = '') {
+      });
 
-    console.log(`search query : ${this.searchQuery}`);
+      this.turnAdded.turnTransports = this.turnTransports;
 
-    this.spinner.show();
 
-    this.saleOrderService.find(search).subscribe(
+    }
+
+    this.tunrService.set(this.turnAdded).subscribe(
       data => {
-        console.log(data);
+        this.turnAdded = data;
+        this.toastr.success('Elément Turn est Enregistré Avec Succès ', 'Edition');
+      },
+      error => {
+        this.toastr.error(error.error.message);
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
+    );
+  }
+
+  onSelectTurnType(event) {
+    this.turnTypeId = this.turnAdded.turnType.id;
+    if (this.turnTypeId == 1) {
+      this.loadSaleOrderData();
+    } else if (this.turnTypeId == 2) {
+      this.loadPurchaseOrderData();
+    } else if (this.turnTypeId == 3) {
+      this.loadSaleOrderData();
+      this.loadPurchaseOrderData();
+    }
+  }
+  onSelectPackagingTypes(event) {
+    this.turnAdded.packagingType = event.value.code == 'Vrac' ? 'Vrac' : 'Palette';
+  }
+
+
+  loadSaleOrderData(search: string = '') {
+    let searchStatut: string = 'orderStatus.id:' + 9;
+    this.spinner.show();
+    this.saleOrderService.find(searchStatut).subscribe(
+      data => {
         this.saleOrders = data;
-        // this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
-        // || s.orderStatus.code === 'En attente' ||
-        // s.orderStatus.code === 'En cours'));
-      console.log('chargement data Commande ');
-        console.log("data sal order ");
-        console.log(this.saleOrders);
-
-
         this.spinner.hide();
       },
       error => { this.spinner.hide() },
@@ -176,228 +277,743 @@ export class TurnEditComponent implements OnInit, DoCheck {
     );
   }
 
-
-  onSearchClicked() {
-
-    const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
-     // buffer.append(`code~${this.codeSearch},orderStatus.id^2;5;9`);
-    }
-    if (this.accountSearch != null && this.accountSearch !== '') {
-      buffer.append(`account.code~${this.accountSearch}`);
-     // buffer.append(`code~${this.codeSearch},orderStatus.id^2;5;9`);
-    }
-
-
-    this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
-    this.loadData(this.searchQuery);
-
-  }
-  reset() {
-    this.codeSearch = '';
-    this.searchQuery = '';
-    this.saleOrders = null;
-    this.accountSearch=null;
+  onMoveSoToSource(event) {
+    let saleOrder: SaleOrder = event.items[0];
+    this.turnSoList = this.turnSoList.filter(p => p.code !== saleOrder.code);
+    this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
+    this.turnAdded.totalSoTTC = this.claculatetotalPriceLines(this.turnSoList);
   }
 
-  insertTurnLine() {
-    this.saleOrdersLoading.forEach(value => {
-      value.lines.forEach(valueLine => {
-         this.turnLines.push(
-           new TurnLine(
-           valueLine.product,
-             valueLine.qantityToLoad,
-          valueLine.salePrice,
-             valueLine.uom,
-             valueLine.totalPriceHT,
-             valueLine.totalPriceTTC,
-             valueLine.vat,
-             valueLine.productPack,
-             valueLine,
-             value,
-             this.turnAdded
-           )
-         );
-       });
-       console.log('chargement sale order stock');
-       console.log(this.turnLines);
-     });
+  onMoveSoToTarget(event) {
+    let saleOrder: SaleOrder = event.items[0];
+    let planning: Planning[] = [];
+    let existSo: Boolean = false;
+  this.confirmationService.confirm({
 
+  
+      message: 'Type de Chargement ?',
+      accept: () => {   
+         this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
+        this.turnSoList.forEach(element => { if (element.code == saleOrder.code) { existSo = true; } });
+        if (existSo == false) { this.searchSoLineBySo(saleOrder,'Complet'); }
+        else if (existSo == true) {
+          this.toastr.warning('Déja Existe', 'avertissement');
+          this.saleOrdersLoading.splice(this.saleOrdersLoading.length - 1, 1);
+        }   
+      },reject:() =>{
+        this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
+        this.turnSoList.forEach(element => { if (element.code == saleOrder.code) { existSo = true; } });
+        if (existSo == false) { this.searchSoLineBySo(saleOrder,'Grouper'); }
+        else if (existSo == true) {
+          this.toastr.warning('Déja Existe', 'avertissement');
+          this.saleOrdersLoading.splice(this.saleOrdersLoading.length - 1, 1);
+        }
+        }
+  });
+  }
 
-    this.turnLineService.saveAll(this.turnLines).subscribe(
+  searchSoLineBySo(so: SaleOrder,type : string) {
+    console.log(type);
+    
+    so.lines = [];
+    this.saleOrderLineService.find('saleOrder.id:' + so.id).subscribe(
       data => {
-       // this.turnAdded.turnLine = data;
-        this.toastr.success('Elément turnLine  est Enregistré Avec Succès ', 'Edition');
-        console.log("turnn line");
-        console.log(this.turnLines);
+        so.lines.push(...data);
+        so.lines.forEach(line => {
+          line.sotcks = [];
+          this.stockService.find('saleOrderLine.id:' + line.id).subscribe(
+            data => {
+              line.sotcks.push(...data);
+              line.quantityPrepare = data.map(m => m.quantity).reduce((a, b) => a + b, 0);
+              this.onChargedTurnBySo(so,type);
+            });
+        });
+      });
+  }
+
+  onChargedTurnBySo(saleOrder: SaleOrder,type : string) {
+
+    let tunSoPo = new TurnSoPo(
+      saleOrder.code,
+      saleOrder.totalPriceHT,
+      saleOrder.totalPriceTTC,
+      saleOrder.orderStatus,
+      saleOrder,
+      null,
+      type)
+    saleOrder.lines.forEach((soLine) => {
+      soLine.sotcks.forEach(stock => {
+        let turnline = new TurnLine(
+          stock.product,
+          stock.quantity,
+          stock.purchasePrice,
+          stock.uom,
+          (stock.purchasePrice * stock.quantity),
+          soLine.vat,
+          stock.productPack,
+          soLine.orderStatus,
+          soLine,
+          null,
+          soLine.sotcks,
+        );
+        tunSoPo.totalPriceTTC += (stock.purchasePrice * stock.quantity);
+        tunSoPo.turnLines.push(turnline);
+      });
+    });
+    tunSoPo.totalQuantity = this.calculateQntLine(tunSoPo);
+    this.turnSoList = this.turnSoList.filter(f => f.saleOrder.id != tunSoPo.saleOrder.id);
+    this.turnSoList.push(tunSoPo);
+    this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
+    this.turnAdded.totalSoTTC = this.claculatetotalPriceLines(this.turnSoList);
+    console.log(tunSoPo);
+    
+  }
 
 
-       // this.saveTurn();
-      },
-      error => {
-        this.toastr.error(error.error.message);
-        console.log('error Line');
-        console.log(error);
+  onLineEditedturnSo(line: TurnSoPo) {
+    if (line.saleOrder != null) {
+      this.turnSoList = this.turnSoList.filter(
+        (l) => l.code !== line.code
+      );
+      this.turnSoList.push(line);
+      this.turnSoList.forEach(element => {
+        element.totalQuantity = this.calculateQntLine(element);
+      });
+      this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
+      this.turnAdded.totalSoTTC = this.claculatetotalPriceLines(this.turnSoList);
+    }
+    else if (line.purshaseOrder != null) {
+      this.turnPoList = this.turnPoList.filter(
+        (l) => l.code !== line.code
+      );
+      this.turnPoList.push(line);
+      this.turnPoList.forEach(element => {
+        element.totalQuantity = this.calculateQntLine(element);
+      });
+      this.turnAdded.totalPoQnt = this.claculatetotalQntLines(this.turnPoList);
+      this.turnAdded.totalPoTTC = this.claculatetotalPriceLines(this.turnPoList);
+
+    }
+
+    this.vehicleCategoryToDeliver();
+  }
+
+
+
+  loadPurchaseOrderData(search: string = '') {
+    let searchStatut = 'orderStatus.id!' + 1;
+    this.spinner.show();
+    this.purchaseOrderService.find(searchStatut).subscribe(
+      data => {
+        this.purchaseOrders = data;
         this.spinner.hide();
       },
+      error => { this.spinner.hide() },
       () => this.spinner.hide()
     );
   }
 
-  saveTurn() {
+  onMovePoToSource(event) {
+    let purchaseOrder: PurchaseOrder = event.items[0];
+    this.turnPoList = this.turnPoList.filter(
+      p => p.code !== purchaseOrder.code);
+    this.turnAdded.totalPoQnt = this.claculatetotalQntLines(this.turnPoList);
+    this.turnAdded.totalPoTTC = this.claculatetotalPriceLines(this.turnPoList);
+  }
 
-    this.isFormSubmitted = true;
-    if (this.turnForm.invalid) {
-      return;
+  onMovePoToTarget(event) {
+    let purchaseOrder: PurchaseOrder = event.items[0];
+    console.log(purchaseOrder);
+    this.verifiedClosingDayAccount('supplier.code~' + purchaseOrder.supplier.code);
+
+  
+    let exist: Boolean = false;
+    this.turnPoList.forEach(element => { if (element.code == purchaseOrder.code) { exist = true; } });
+    if (exist == false) { this.onChargedTurnByPo(purchaseOrder); }
+    else if (exist == true) {
+      this.toastr.warning('Déja Existe', 'avertissement');
+      this.purchaseOrderLoading.splice(this.purchaseOrderLoading.length - 1, 1);
     }
+  }
 
-    const formValue = this.turnForm.value;
 
-    this.turnAdded.vehicle = formValue['fVehicule'];
-    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
-    this.turnAdded.transport = formValue['fTransport'];
-    this.turnAdded.drivers = formValue['fDrivers'];
+  onChargedTurnByPo(puchaseOrder: PurchaseOrder) {
+    let sum: number = 0;
+    let purchaseOrderLines: PurchaseOrderLine[] = [];
+    let tunPo = new TurnSoPo(
+      puchaseOrder.code,
+      puchaseOrder.totalPriceHT,
+      puchaseOrder.totalPriceTTC,
+      puchaseOrder.orderStatus,
+      null,
+      puchaseOrder,
+    )
+    this.purchaseOrderLineService.find('purshaseOrder.id:' + puchaseOrder.id).subscribe(
+      data => {
+        purchaseOrderLines = data;
+        sum = 0;
+        purchaseOrderLines.forEach((poLine) => {
+          sum += Number(poLine.quantity);
+          let turnline = new TurnLine(
+            poLine.product,
+            poLine.quantity,
+            poLine.purshasePrice,
+            poLine.uom,
+            // poLine.totalPriceHT,
+            poLine.totalPriceTTC,
+            poLine.vat,
+            poLine.productPack,
+            poLine.orderStatus,
+            null,
+            poLine,
+            null
+          );
+          tunPo.turnLines.push(turnline);
+        });
+        tunPo.totalQuantity = this.calculateQntLine(tunPo);
+        this.turnPoList.push(tunPo);
+        this.turnAdded.totalPoQnt = this.claculatetotalQntLines(this.turnPoList);
+        this.turnAdded.totalPoTTC = this.claculatetotalPriceLines(this.turnPoList);
 
-     this.tunrService.set(this.turnAdded).subscribe(
-       data => {
-         this.turnAdded=data;
-         this.toastr.success('Elément Turn est Enregistré Avec Succès TURN', 'Edition');
-         this.insertTurnLine();
-      //   this.updateSaleOrderLine();
-         console.log("turnn");
-         console.log(this.turnAdded);
-       },
-       error => {
-       this.toastr.error(error.error.message);
-         this.spinner.hide();
-       },
-
-      () => this.spinner.hide()
+      }
     );
-   console.log('final turn');
-     console.log(this.turnAdded);
+
   }
 
 
 
+  vehicleCategoryToDeliver() {
+    let qntSo = this.turnAdded.totalSoQnt > this.turnAdded.totalPoQnt ? this.turnAdded.totalSoQnt : this.turnAdded.totalPoQnt;
+    this.vehicleCatsToDeliverSort = this.vehicleCatList.sort(function (a, b) {
+      return (Number(a.tonnage) - Number(b.tonnage))
+    })
+    this.vehicleCatsToDeliver = [];
+    this.onSearchVehicleCategoryToDeliverByTonnage(qntSo);
+  }
+  onSearchVehicleCategoryToDeliverByTonnage(qte) {
+    let vehicleCat: VehicleCategory = new VehicleCategory();
+    let valide = 0;
+    let lastIndex = this.vehicleCatsToDeliverSort.length - 1;
+    let pourcentage = 0;
+    if (this.vehicleCatsToDeliverSort[lastIndex].tonnage >= qte) {
 
+      vehicleCat = this.vehicleCatsToDeliverSort.filter(f => f.tonnage >= qte)[0];
+      pourcentage = (qte / vehicleCat.tonnage) * 100;
+      vehicleCat.pourcentageToDeliver = Number(pourcentage.toFixed(2));
+      this.vehicleCatsToDeliver.push(vehicleCat);
+      valide = 1;
+      this.vehicleCatsToDeliver = this.onSearchVehicleToDeliveByCategorySelected();
+    } else if (this.vehicleCatsToDeliverSort[lastIndex].tonnage <= qte) {
+      vehicleCat = this.vehicleCatsToDeliverSort[lastIndex];
+      pourcentage = 100;
+      vehicleCat.pourcentageToDeliver = Number(pourcentage.toFixed(2));
+      this.vehicleCatsToDeliver.push(vehicleCat);
+      this.onSearchVehicleCategoryToDeliverByTonnage(qte - vehicleCat.tonnage)
+    }
+  }
+  onSearchVehicleToDeliveByCategorySelected() {
+    let catalog: CatalogTransportType = new CatalogTransportType();
+    let vehicleCats: VehicleCategory[] = [];
+    let saleorders: SaleOrder[] = [];
+    let transports: Transport[] = [];
+    saleorders = this.turnSoList.map(m => m.saleOrder);
+    console.log(saleorders);
 
-updateSaleOrderLine(){
+    this.vehicleCatsToDeliver.forEach(cat => {
+      cat.transports = [];
+      this.transportService.findAll().subscribe(data => {
+        transports = data;
+        transports.forEach((tr) => {
+          tr.catalogTransportTypes = [];
+          tr.priceTurn = 0;
+          saleorders.forEach(so => {
+            this.catalogTransportTypeService.find('vehicleCategory.id:' + cat.id + ',zoneSource.code~' + 'fes' + ',zoneDestination.code~' + so.account.deliveryAddress.city + ',transport.id:' + tr.id).subscribe(
+              data => {
+                if (data[0] != null || data[0] != undefined) {
+                  catalog = data[0];
+                  tr.catalogTransportTypes.push(catalog);
+                  tr.priceTurn += Number(catalog.amountTtc);
+                }
+              }
+            );
+          });
+          cat.transports = cat.transports.filter(f => f.id !== tr.id);
+          cat.transports.push(tr);
+        });
 
+      });
 
-  this.saleOrdersLoading.forEach(value => {
-    value.lines.forEach(valueLine => {
-       this.saleOrderLines.push(valueLine);
-     });
+      vehicleCats.push(cat);
+
     });
 
-this.saleOrderLineService.setAll(this.saleOrderLines).subscribe(
-  data => {
+    this.loadingContainer();
 
-    this.toastr.success('Elément orderline est Enregistré Avec Succès orderline', 'Edition');
+    this.vehicleCatsToDeliver.forEach(vtd => {
+      this.loadCategorySos.forEach(lCS => {
 
-  },
-  error => {
-  this.toastr.error(error.error.message);
-    this.spinner.hide();
-  },
+        if (vtd.code == lCS.vehicleCategory.code) {
+          vtd.numberOfPalette = lCS.totalPalet;
+        }
 
- () => this.spinner.hide()
-);
-
-                     }
+      });
 
 
+    });
 
-  onSelectChangeCatVehicle(event) {
-    let codeCat = event.value;
+
+    return vehicleCats;
+  }
+
+
+
+
+
+
+
+  // onSearchContainerBySo() {
+  //   let surcharge: number = 0;
+  //   let stocks: Stock[] = [];
+  //   let containers: Container[] = [];
+  //   surcharge = this.claculatetotalQntLines(this.turnSoList);
+  //   this.turnSoList.forEach(so => {
+  //     so.turnLines.forEach(soline => {
+  //       soline.saleOrderLine.sotcks = [];
+  //       this.stockService.find('saleOrderLine.id:' + soline.saleOrderLine.id).subscribe(
+  //         data => {
+  //           stocks = data;
+  //           soline.saleOrderLine.sotcks.push(...stocks);
+  //         });
+  //     });
+  //      containers=soline.saleOrderLine.sotcks
+  //   });
+  //   return this.turnSoList;
+  // }
+
+  // generateContainer(vehicleCat :VehicleCategory) {
+  //   let load: LocationContainerInVehicle[] =[];
+  //   let creatloadClone: LocationContainerInVehicle[] = [];
+  //   let creatload: LocationContainerInVehicle = new LocationContainerInVehicle();
+  //   console.log(vehicleCat);
+
+  //   this.loadCategorySos.forEach(f => {
+  //     if(f.vehicleCategory.id ==vehicleCat.id){
+  //     load.push(...f.locationContainer);}
+  //   })
+
+  //   load.forEach(l => {
+  //     if (creatload.i != l.i) {
+  //       creatload = new LocationContainerInVehicle();
+  //       creatload.i = l.i;
+  //       console.log(creatload.i);
+  //       creatload.saleOrder = l.saleOrder;
+  //       creatload.locationContainer.push(...load.filter(f => f.i == creatload.i));
+  //       creatloadClone.push(creatload);
+  //       console.log(creatload.i);
+  //     }
+  //   });
+
+
+  //   console.log(creatloadClone);
+
+
+
+
+  //   return creatloadClone;
+  // }
+
+  loadingTruckByContainer(saleOrder: SaleOrder, stock: Stock, indiceLenght: number, indiceWidth: number, indiceV: number) {
+    let locationContainer: LocationContainerInVehicle = new LocationContainerInVehicle();
+    if (this.loadCategorySos[indiceV].locationContainer == null && this.loadCategorySos[indiceV].locationContainer == undefined) {
+      this.loadCategorySos[indiceV].locationContainer = [];
+    }
+    locationContainer.length = stock.container.containerType.length;
+    locationContainer.width = stock.container.containerType.width;
+    locationContainer.saleOrder = saleOrder;
+    locationContainer.i = indiceLenght;
+    locationContainer.j = indiceWidth;
+    locationContainer.containers = stock.container;
+    //this.loadCategorySos[indiceV].saleOrderLine=
+    this.loadCategorySos[indiceV].weight += stock.quantity * stock.productPack.weight;
+    // this.loadCategorySos[indiceV].locationContainer = this.loadCategorySos[indiceV].locationContainer.filter(f => { f.containers.id != locationContainer.containers.id });
+    this.loadCategorySos[indiceV].locationContainer.push(locationContainer);
+  }
+
+  loadingContainer() {
+    let loadCategorySo: LoadCategorySaleOrder = new LoadCategorySaleOrder();
+    let lenghtOfTruck: number = 0;
+    let widthOfTruck: number = 0;
+    let indice: number = 0;
+    let indiceLenght: number = 0;
+    let indiceWidth: number = 0;
+    let existContainer: number = -1;
+    let sumWeight: number = 0;
+    let weightV: number = 0;
+    let indiceVehicleError: boolean = false;
+    let totalPalet: number = 0;
+    this.loadCategorySos = [];
+    this.vehicleCatsToDeliver.forEach(element => {
+      loadCategorySo = new LoadCategorySaleOrder();
+      loadCategorySo.vehicleCategory = element;
+      this.loadCategorySos.push(loadCategorySo);
+    });
+
+
+
+    lenghtOfTruck = this.loadCategorySos[indice].vehicleCategory.length;
+    widthOfTruck = this.loadCategorySos[indice].vehicleCategory.width;
+    this.turnSoList.forEach(turnSO => {
+      turnSO.turnLines.forEach(line => {
+
+        line.stocks.forEach(stock => {
+          existContainer = -1;
+
+          this.loadCategorySos[indice].locationContainer.forEach(load => {
+            if (load.containers.id == stock.container.id) { existContainer = 0; }
+          });
+
+
+          if (existContainer != 0) {
+
+            weightV = (this.loadCategorySos[indice].weight == 0 ? (stock.quantity * stock.productPack.weight) : this.loadCategorySos[indice].weight);
+            sumWeight = this.loadCategorySos[indice].weight + (stock.quantity * stock.productPack.weight);
+            if (sumWeight > this.loadCategorySos[indice].vehicleCategory.tonnage || lenghtOfTruck < stock.container.containerType.length) {
+
+              console.log(sumWeight + '>' + this.loadCategorySos[indice].vehicleCategory.tonnage);
+              console.log(lenghtOfTruck + ' <' + stock.container.containerType.length);
+
+              if (this.loadCategorySos[indice + 1] != undefined || this.loadCategorySos[indice + 1] != null) {
+
+                indice = indice + 1; indiceLenght = 0; indiceWidth = 0; totalPalet = 0;
+                console.log("indice ++" + indice);
+                lenghtOfTruck = this.loadCategorySos[indice].vehicleCategory.length;
+                widthOfTruck = this.loadCategorySos[indice].vehicleCategory.width;
+                indiceVehicleError == false
+              } else {
+                indiceVehicleError == true;
+              }
+            }
+
+            if (indiceVehicleError == false) {
+              console.log("indice" + indice);
+              console.log(" line : " + line.saleOrderLine.id);
+              console.log(" stock : " + stock.id);
+              console.log(" container : " + stock.container.id);
+              console.log(" qnt : " + stock.quantity * stock.productPack.weight);
+
+              if (lenghtOfTruck >= stock.container.containerType.length) {
+                console.log("lenghttruck > containeir lenght : " + lenghtOfTruck + '>=' + stock.container.containerType.length);
+                if (widthOfTruck >= stock.container.containerType.width) {
+                  lenghtOfTruck = lenghtOfTruck - stock.container.containerType.length;
+                  widthOfTruck = widthOfTruck - stock.container.containerType.width;
+                  this.loadingTruckByContainer(turnSO.saleOrder, stock, indiceLenght, indiceWidth, indice);
+                  indiceWidth = indiceWidth + 1;
+                }
+                else if (widthOfTruck < stock.container.containerType.width) {
+                  console.log("widthOfTruck > containeir width" + widthOfTruck + '<' + stock.container.containerType.width);
+                  indiceLenght = indiceLenght + 1;
+                  indiceWidth = 0;
+                  widthOfTruck = this.loadCategorySos[indice].vehicleCategory.width;
+                  lenghtOfTruck = lenghtOfTruck - stock.container.containerType.length;
+                  widthOfTruck = widthOfTruck - stock.container.containerType.width;
+                  this.loadingTruckByContainer(turnSO.saleOrder, stock, indiceLenght, indiceWidth, indice);
+                  indiceWidth = 1;
+                }
+
+                this.loadCategorySos[indice].totalPalet += 1;
+
+              }
+
+            }
+          }
+        });
+      });
+    });
+    console.log(this.loadCategorySos);
+
+
+    // this.generateContainer()
+  }
+
+
+  verifiedClosingDayAccount(search: String) {
+    let planning: Planning = new Planning();
+    const formValue = this.turnForm.value;
+    var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    this.planningService.find(search + ',day~' + days[this.turnAdded.dateDelivery.getDay()]).subscribe(
+      data => {
+        planning = data[0];
+        if (planning != null || planning != undefined) {
+
+          if (planning.closingDay == true) {
+            this.toastr.warning('jour Fermeture', 'avertissement');
+          }
+        }
+      });
+  }
+  verifiedHolidayByDateTTurn() {
+    let day: string;
+    let month: string;
+    let holidays: Holiday[] = [];
+    const formValue = this.turnForm.value;
+    this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    day = this.turnAdded.dateDelivery.getDate().toString();
+    month = (this.turnAdded.dateDelivery.getMonth() + 1).toString();
+    this.holidayService.find('holidayDay:' + day + ',holidayMonth:' + month).subscribe(
+      data => {
+        holidays = data;
+        if (holidays.length > 0) {
+          this.toastr.warning('Jour Férié', 'avertissement');
+        }
+      }
+    );
+  }
+
+
+  calculatePriceTurnSo() {
     let sum: number = 0;
+    let totalSum: number = 0;
+    let catalogTransports: CatalogTransportType;
+    let cat :VehicleCategory[] = [];
+    this.chargeForm();
+    this.turnSoList.forEach((f, index) => {
+     // console.log(l.saleOrderLine?.saleOrder.id);
+      console.log(f.saleOrder.id);
+      
+      cat = this.loadCategorySos.filter(l=>l.saleOrderLine?.saleOrder.id ==f.saleOrder.id).map(m=> m.vehicleCategory);
+console.log(cat);
 
+    //   this.catalogTransportTypeService.find('vehicleCategory.id:' + this.turnAdded.vehicleCategory.id + ',zoneSource.code~' + 'FES' + ',zoneDestination.code~' + f.saleOrder.account.deliveryAddress.city + ',transport.id:' + this.turnAdded.transport.id).subscribe(
+    //     data => {
+    //       catalogTransports = data[0];
+    //       if (catalogTransports != null) {
+    //         sum = Number(catalogTransports.amountTtc);
+    //         totalSum += sum;
+    //         this.turnSoList[index].totalPriceTurn = sum;
+    //         this.turnAdded.totalSoPriceTurn = totalSum;
+    //       }
+    //     },
+    //     error => {
+    //       this.toastr.error(error.error.message);
+    //       this.spinner.hide();
+    //     },
+    //     () => this.spinner.hide()
+    //   );
+     }
+     );
+  }
+
+
+
+
+
+
+
+
+  calculatePriceTurnPo() {
+    let sum: number = 0;
+    let totalSum: number = 0;
+    let catalogTransports: CatalogTransportType;
+    //this.chargeForm();
+    // this.turnPoList.forEach((f, index) => {
+    //   this.catalogTransportTypeService.find('vehicleCategory.id:' + this.turnAdded.vehicle.vehicleCategory.id + ',zoneSource.code~' + 'FES' + ',zoneDestination.code~' + f.purshaseOrder.supplier.address.city + ',transport.id:' + this.turnAdded.transport.id).subscribe(
+    //     data => {
+    //       catalogTransports = data[0];
+    //       if (catalogTransports != null) {
+    //         sum = Number(catalogTransports.amountTtc);
+    //         totalSum += sum;
+    //         this.turnPoList[index].totalPriceTurn = sum;
+    //         this.turnAdded.totalPoPriceTurn = totalSum;
+    //       }
+    //     },
+    //     error => {
+    //       this.toastr.error(error.error.message);
+    //       this.spinner.hide();
+    //     },
+    //     () => this.spinner.hide()
+    //   );
+    // }
+    //);
+  }
+
+
+  onSelectTransport(event) {
+    let codeTrans = event.value ? event.value : event;
+    const formValue = this.turnForm.value;
+    let codeCat = formValue['fTypeVehicule'];
     this.vehicleService
-      .find('vehicleCategory.code~' + codeCat.code)
+      .find('vehicleCategory.code~' + codeCat.code + ',transport.id:' + codeTrans.id)
       .subscribe(data => {
         this.vehicleList = data;
       });
-    this.totalqntV = codeCat.tonnage;
-    if (this.totalQnt > codeCat.tonnage) {
+  }
 
+  onSelectChangeCatVehicle(event) {
+
+    let codeCat = event.value ? event.value : event;
+    console.log(codeCat);
+
+    this.transportList = codeCat.transports;
+    // this.turnAdded.vehicleCategory = codeCat;
+    let sum: number = 0;
+    this.totalqntV = codeCat.tonnage;
+    if (this.turnAdded.totalSoQnt > codeCat.tonnage) {
       this.catVehiculeQnt = true;
+      this.catVehiculeQntSucces = false;
     }
     else {
       this.catVehiculeQnt = false;
+      this.catVehiculeQntSucces = true;
+
     }
+  }
+
+  onSelectDriver(event) {
+    console.log(event.itemValue.code);
+
+
+
+    this.turnTransports.forEach(tr => {
+      tr.drivers.forEach(trDrv => {
+        if (trDrv.code == event.itemValue.code) {
+          console.log("true driver ");
+          this.toastr.warning('Chauffeur ' + event.itemValue.name + ' Deja Affecté', 'avertissement');
+        }
+      }
+      );
+    });
+
 
 
 
   }
+  editTurnTransport() {
+    let registrationNumber, categoryCode;
+    let existDriver: Boolean = false;
+    this.chargeForm();
 
-  // loaddata() {
-  //   this.saleOrderService
-  //     //.find('orderStatus.code~' + 'En attente')
-  //     .findAll().subscribe(data => {
+    this.selectedturnTransport.drivers.forEach(drv => {
 
-  //       this.saleOrders = data;
-  //       this.saleOrders = this.saleOrders.filter(s => (s.orderStatus.code === 'préparer'
-  //         || s.orderStatus.code === 'En attente' ||
-  //         s.orderStatus.code === 'En cours'));
-  //       console.log('chargement data Commande ');
-  //       console.log(this.saleOrders);
-  //     },
-  //       error => {
-
-  //         this.toastr.error(error.error.message);
-  //         console.log(error);
-
-  //         this.spinner.hide();
-  //       },
-
-  //       () => this.spinner.hide()
-  //     );
- // }
-
-   TotalQnt(d: SaleOrder) {
-     let sum = 0;
-     // this.totalQnt = 0;
-     for (let i = 0; i < d.lines.length; i++) {
-      if (d.orderStatus.code === 'préparer') {
-         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
-      } else if (d.orderStatus.code === 'En attente') {
-         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
-       } else if (d.orderStatus.code === 'En cours') {
-         sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
-     }
+      this.turnTransports.forEach(tr => {
+        tr.drivers.forEach(trDrv => {
+          if (trDrv.code == drv.code) {
+            console.log("true driver ");
+            existDriver = true;
+          }
+        }
+        );
+      });
+    });
+    if (existDriver == false) {
+      registrationNumber = this.selectedturnTransport?.vehicle?.registrationNumber;
+      categoryCode = this.selectedturnTransport?.vehicle?.vehicleCategory?.code;
 
 
-     }
+      this.turnTransports = this.turnTransports.filter(f => (f.vehicle.registrationNumber != registrationNumber));
+      this.turnTransports.push(this.selectedturnTransport);
+      this.selectedturnTransport = new TurnTransport();
+      this.turnForm.patchValue({
+        fVehicule: this.selectedturnTransport.vehicle,
+        fTransport: this.selectedturnTransport.transport,
+        fDrivers: this.selectedturnTransport.drivers,
+        fTypeVehicule: this.selectedturnTransport?.vehicleCategory,
+      });
 
-     return sum;
-   }
+    } else if (existDriver == true) {
+      this.toastr.warning('Chauffeur Deja Affecté', 'avertissement');
 
-  // TotalQnt(d: SaleOrder) {
-  //   let sum = 0;
-  //   // this.totalQnt = 0;
-  //   for (let i = 0; i < d.lines.length; i++) {
+    }
+  }
 
-  //       sum += (d.lines[i].qantityToLoad * d.lines[i].productPack.weight);
+  onLineEditTurnTransport(event) {
+    this.selectedturnTransport = event;
+    this.turnForm.patchValue({
+      fVehicule: this.selectedturnTransport.vehicle,
+      fTransport: this.selectedturnTransport.transport,
+      fDrivers: this.selectedturnTransport.drivers,
+      fTypeVehicule: this.selectedturnTransport?.vehicleCategory,
+    });
 
 
-  //   return sum;
-  // }
-  // }
+  }
+
+  resetTurnTransport() {
+    this.selectedturnTransport = new TurnTransport();
+    this.turnForm.patchValue({
+      fVehicule: this.selectedturnTransport.vehicle,
+      fTransport: this.selectedturnTransport.transport,
+      fDrivers: this.selectedturnTransport.drivers,
+      fTypeVehicule: this.selectedturnTransport?.vehicleCategory,
+    });
+  }
+
+
+
+  calculateQntLine(d: TurnSoPo) {
+    let sum: number = 0;
+    d.turnLines.forEach(element => {
+      sum += Number(element.quantityServed * element.productPack.weight);
+    });
+    return sum;
+  }
+
+  claculatetotalQntLines(turnSoPo: TurnSoPo[]) {
+    let sum: number = 0;
+    let total: number = 0;
+    turnSoPo.forEach(element => {
+      total += element.totalQuantity;
+    });
+    return total;
+  }
+
+
+  calculatePriceLine(d: TurnSoPo) {
+    let sum: number = 0;
+    d.turnLines.forEach(element => {
+      sum += Number(element.totalPriceTTC);
+    });
+    return sum;
+  }
+
+  claculatetotalPriceLines(turnSoPo: TurnSoPo[]) {
+    let sum: number = 0;
+    let total: number = 0;
+    turnSoPo.forEach(element => {
+      total += this.calculatePriceLine(element);
+    });
+    return total;
+  }
+
 
 
   previous() {
     this.activeIndex--;
   }
-
   next() {
-    this.activeIndex++;
-
-    if (this.activeIndex == 1) {
-      //this.loaddata();
+    if (this.activeIndex == 0) {
+      this.vehicleCategoryToDeliver();
+      this.verifiedHolidayByDateTTurn();
+      this.activeIndex++;
+    }
+    else if (this.activeIndex == 2) {
+      this.calculatePriceTurnSo();
+      this.calculatePriceTurnPo();
+      this.activeIndex++;
+    }
+    else {
+      this.activeIndex++;
     }
   }
+
+  onShowDialogligne(line, event) {
+    this.showDialogLine = true;
+    this.turnSoPoEdited = (line);
+  }
+  onHideDialogLigne(event) {
+    this.showDialogLine = event;
+  }
+
+
+
 }

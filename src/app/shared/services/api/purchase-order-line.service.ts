@@ -10,7 +10,7 @@ import { ProxyService } from './proxy.service';
 export class PurchaseOrderLineService extends EmsService<PurchaseOrderLine> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'purchaseorderlines');
+    super(proxy, 'purshaseOrderLines');
   }
 
 

@@ -113,6 +113,11 @@ import { PumpService } from './services/api/pump.service';
 import { FuelPumpService } from './services/api/fuel-pump.service';
 import { AlimentationPumpService } from './services/api/alimentation-pump.service';
 import { WarehouseServcie } from './services/api/warehouse.service';
+import { TurnTypeService } from './services/api/turn-type.service';
+import { TurnSoPoService } from './services/api/turn-so-po.service';
+import { SupplierHolidayService } from './services/api/supplier-holiday.service';
+import { HolidayService } from './services/api/account-holiday.service';
+import { PlanningService } from './services/api/planning-service';
 
 
 @NgModule({
@@ -240,7 +245,12 @@ export class SharedModule {
         PumpService,
         FuelPumpService,
         AlimentationPumpService,
-        WarehouseServcie
+        WarehouseServcie,
+        TurnTypeService,
+        TurnSoPoService,
+        HolidayService,
+        SupplierHolidayService,
+        PlanningService 
       ],
 
     };

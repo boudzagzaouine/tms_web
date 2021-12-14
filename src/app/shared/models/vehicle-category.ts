@@ -1,5 +1,7 @@
 import { InsuranceType } from './insurance-Type';
 import { Owner } from './owner';
+import { Transport } from './transport';
+import { Vehicle } from './vehicle';
 
 export class VehicleCategory {
 
@@ -13,7 +15,10 @@ export class VehicleCategory {
   tonnage: number;
   emptyWeight: number;
   totalWeight: number;
-
+  numberOfPalette:number;
   insuranceType: InsuranceType;
  owner :Owner;
+ pourcentageToDeliver:number;
+ vehicles:Vehicle[]=[];
+ transports :Transport[]=[];
 }

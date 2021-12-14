@@ -72,6 +72,14 @@
             <a routerLink="/core/settings/agents" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Agent ' | translate}}</a>
           </li>
+          <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
+            <a routerLink="/core/settings/account" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'client ' | translate}}</a>
+          </li>
+          <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
+            <a routerLink="/core/settings/holiday" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Jour férier ' | translate}}</a>
+          </li>
           <li *hasPermission="['CATEGORY_VEHICLE_VIEW','CONTRACT_TYPE_VIEW','CONSUMPTION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>
@@ -156,6 +164,10 @@
           <li *hasPermission="['SUPPLIER_VIEW']">
             <a routerLink="/core/settings/suppliers" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Fournisseur ' | translate}}</a>
+          </li>
+          <li *hasPermission="['SUPPLIER_VIEW']">
+            <a routerLink="/core/settings/supplier-holiday" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'fournisseur férier ' | translate}}</a>
           </li>
           <li *hasPermission="['TRANSPORT_VIEW']">
             <a routerLink="/core/settings/transport" class="m-a"><i class="fa fa-circle-o"></i>
@@ -390,7 +402,7 @@
 
 
 
-      <!-- <li>
+      <li>
         <a class="text-white" class="m-a"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
           </i>
@@ -411,7 +423,7 @@
           </li>
 
         </ul>
-      </li> -->
+      </li>
 
 
 

@@ -8,6 +8,7 @@ import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
 import { MaintenancePlan } from './maintenance-plan';
 import { Owner } from './owner';
+import { Transport } from './transport';
 
 export class Vehicle extends Patrimony {
 
@@ -51,5 +52,6 @@ export class Vehicle extends Patrimony {
   release :Date = new Date();
   age :  number =0;
   owner:Owner;
+  priceTurn:number=0;
   
 }

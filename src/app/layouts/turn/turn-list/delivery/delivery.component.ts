@@ -11,6 +11,7 @@ import { VehicleService } from './../../../../shared/services/api/vehicle.servic
 import { TransportServcie } from './../../../../shared/services/api/transport.service';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { Component, OnInit } from '@angular/core';
+import { Account } from './../../../../shared/models';
 
 @Component({
   selector: 'app-delivery',
@@ -77,7 +78,7 @@ export class DeliveryComponent implements OnInit {
           this.selectTurn = data;
           console.log(this.selectTurn);
 
-          this.charger();
+       //   this.charger();
 
           this.initForm();
         }
@@ -89,40 +90,40 @@ export class DeliveryComponent implements OnInit {
 
 
   }
-  charger() {
+//   charger() {
 
-    this.turnLineService.findAll().subscribe(
-      data => {
-        this.turnLines = data;
- console.log("data turn line ");
+//     this.turnLineService.findAll().subscribe(
+//       data => {
+//         this.turnLines = data;
+//  console.log("data turn line ");
 
-        console.log(this.turnLines);
+//         console.log(this.turnLines);
 
-         this.turnLines = this.turnLines.filter(p => ((p.turn.id) === this.idTurn));
+//          this.turnLines = this.turnLines.filter(p => ((p.turn.id) === this.idTurn));
 
-         this.turnLinesL.push(this.turnLines[0]);
-         console.log("turnlines L");
-         console.log(this.turnLinesL);
-
-
-        for (let i = 0; i < this.turnLines.length; i++) {
-
-           if (this.turnLines[i].saleOrder.code !== this.turnLinesL[i].saleOrder.code) {
-
-           this.turnLinesL.push(this.turnLines[i]);
-           }
-         }
-
-        console.log('afficher Turn Line ');
-         console.log(this.turnLines);
+//          this.turnLinesL.push(this.turnLines[0]);
+//          console.log("turnlines L");
+//          console.log(this.turnLinesL);
 
 
+//         for (let i = 0; i < this.turnLines.length; i++) {
+
+//            if (this.turnLines[i].saleOrder.code !== this.turnLinesL[i].saleOrder.code) {
+
+//            this.turnLinesL.push(this.turnLines[i]);
+//            }
+//          }
+
+//         console.log('afficher Turn Line ');
+//          console.log(this.turnLines);
 
 
-      }
-    );
 
-  }
+
+//       }
+//     );
+
+//   }
   initForm() {
     const d = new Date(this.selectTurn.dateDelivery);
     this.turnForm = new FormGroup({
@@ -130,12 +131,12 @@ export class DeliveryComponent implements OnInit {
         d,
         Validators.required
       ),
-      fVehicule: new FormControl(this.selectTurn.vehicle, Validators.required),
+      fVehicule: new FormControl('', Validators.required),
       fTransport: new FormControl(
-        this.selectTurn.transport,
+      '',
         Validators.required
       ),
-      fDrivers: new FormControl(this.selectTurn.drivers, Validators.required),
+      fDrivers: new FormControl('', Validators.required),
       fTypeVehicule: new FormControl('', Validators.required)
     });
   }

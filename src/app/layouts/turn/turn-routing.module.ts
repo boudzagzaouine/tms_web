@@ -8,6 +8,8 @@ import { TurnComponent } from './turn.component';
 
 const routes: Routes = [{ path: '', component: TurnComponent },
                         { path: 'edit', component: TurnEditComponent },
+                        { path: 'edit/:id', component: TurnEditComponent },
+
                         { path: 'list', component: TurnListComponent },
                         { path: 'turn/:id', component: DeliveryComponent }];
 

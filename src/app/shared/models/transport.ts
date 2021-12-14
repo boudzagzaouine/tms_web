@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { CatalogTransportType } from './CatalogTransportType';
 import { Owner } from './owner';
 
 
@@ -14,5 +15,12 @@ export class Transport {
    address:Address;
   active:Boolean;
   owner:Owner;
+  priceTurn:number=0;
+  catalogTransportTypes:CatalogTransportType[]=[];
 
+
+
+  
+
+ 
 }

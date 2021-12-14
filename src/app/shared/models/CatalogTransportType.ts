@@ -2,6 +2,7 @@ import { Zone } from './Zone';
 import { Vat } from './vat';
 import { VehicleCategory } from './vehicle-category';
 import { Owner } from './owner';
+import { Transport } from './transport';
 
 
 export class CatalogTransportType {

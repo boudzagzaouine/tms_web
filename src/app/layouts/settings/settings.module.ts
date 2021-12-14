@@ -109,6 +109,13 @@ import { PumpsComponent } from './pumps/pumps.component';
 import { PumpEditComponent } from './pumps/pump-edit/pump-edit.component';
 import { FuelPumpEditComponent } from './fuel-pumps/fuel-pump-edit/fuel-pump-edit.component';
 import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
+import { HolidayComponent } from './holiday/holiday.component';
+import { HolidayEditComponent } from './holiday/holiday-edit/holiday-edit.component';
+import { AccountComponent } from './account/account.component';
+import { AccountEditComponent } from './account/account-edit/account-edit.component';
+import { PlanningEditComponent } from './account/account-edit/planning-edit/planning-edit.component';
+import { SupplierPlanningEditComponent } from './supplier/supplier-edit/supplier-planning-edit/supplier-planning-edit.component';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 
 
@@ -187,7 +194,13 @@ import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
      PumpsComponent,
      PumpEditComponent,
      FuelPumpsComponent,
-     FuelPumpEditComponent
+     FuelPumpEditComponent,
+     HolidayComponent,
+     HolidayEditComponent,
+     AccountComponent,
+     AccountEditComponent,
+     PlanningEditComponent,
+     SupplierPlanningEditComponent
   ],
   imports: [
     CommonModule,
@@ -224,6 +237,7 @@ import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
     SelectButtonModule,
     AccordionModule,
     NgxPrintModule,
+    InputSwitchModule,
     NgxPermissionsModule.forChild(),
   ]
 })

@@ -1,6 +1,7 @@
 import { Address } from './address';
 import { Contact } from './contact';
 import { Owner } from './owner';
+import { Planning } from './planning';
 import { Reception } from './reception';
 import { SupplierInvoice } from './supplier-invoice';
 export class Supplier {
@@ -23,4 +24,6 @@ export class Supplier {
     tradeRegister: string;
     cnssNumber: string;
     company: string;
+    plannings :Planning[]=[];
+
 }

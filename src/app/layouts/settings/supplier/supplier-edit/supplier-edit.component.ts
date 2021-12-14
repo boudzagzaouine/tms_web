@@ -9,7 +9,8 @@ import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boo
 import { Supplier } from '../../../../shared/models';
 import { AuthenticationService, SupplierService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Planning } from './../../../../shared/models/planning';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -33,6 +34,10 @@ export class SupplierEditComponent implements OnInit {
   title = 'Modifier un Fournisseur';
   subscriptions= new Subscription();
 
+  showDialogPlanning: boolean;
+  selectedPlanning :Planning= new Planning();
+  editModePlannig: boolean;
+
   constructor(
     private supplierService: SupplierService,
     private authentificationService:AuthenticationService,
@@ -40,7 +45,7 @@ export class SupplierEditComponent implements OnInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private messageService: MessageService,
-
+    private confirmationService: ConfirmationService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -48,6 +53,7 @@ export class SupplierEditComponent implements OnInit {
       this.selectedSupplier = new Supplier();
       this.selectedContact = new Contact();
       this.selectedAddress = new Address();
+      this.selectedSupplier.plannings=[];
       this.title = 'Ajouter un Fournisseur';
       this.subscriptions.add(this.supplierService.generateCode().subscribe(
         code => {
@@ -120,6 +126,7 @@ export class SupplierEditComponent implements OnInit {
       this.selectedAddress.owner=this.authentificationService.getDefaultOwner();
       this.selectedSupplier.address = this.selectedAddress;
     }
+console.log(this.selectedSupplier);
 
     this.subscriptions.add( this.supplierService.set(this.selectedSupplier).subscribe(
       data => {
@@ -151,6 +158,54 @@ export class SupplierEditComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+
+  onLineEditedPlanning(line: Planning) {
+    console.log(line);
+    if(this.selectedSupplier.plannings ==null || this.selectedSupplier.plannings == undefined){
+    this.selectedSupplier.plannings=[];
+
+    }
+    this.selectedSupplier.plannings = this.selectedSupplier.plannings.filter(
+      (l) => l.day !== line.day
+    );
+    this.selectedSupplier.plannings.push(line);
+   console.log(this.selectedSupplier.plannings);
+   
+
+  }
+  onDeletePlanning (day: string) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+        this.selectedSupplier.plannings = this.selectedSupplier.plannings.filter(
+          (l) => l.day !== day
+        );
+  
+      },
+    });
+  }
+  onHideDialogPlanning(event) {
+    this.showDialogPlanning = event;
+  }
+
+  onShowDialogPlanning(line, mode) {
+    this.showDialogPlanning = true;
+
+    if (mode == true) {
+      console.log("true");
+      console.log(line);
+      
+      this.selectedPlanning = line;
+      this.editModePlannig = true;
+
+    } else if(mode ==false) {
+      console.log("false");
+      this.selectedPlanning=new Planning();
+      this.editModePlannig = false;
+
+    }
   }
 
 }

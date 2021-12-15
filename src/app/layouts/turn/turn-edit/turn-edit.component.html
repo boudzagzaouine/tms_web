@@ -24,19 +24,32 @@
                 formControlName="fDateLivraison">
               </p-calendar>
             </div>
+            <div class="form-group col-md-2">
+              <label class="font-weight-bold ">{{ "Chargement" | translate }} *</label>
+              <span *ngIf="
+                (turnForm.get('fDateLivraison').touched &&
+                turnForm.get('fDateLivraison').invalid) ||
+                (isFormSubmitted && turnForm.get('fDateLivraison').invalid)
+              " class="text-lighter" style="color: red; font-size: xx-small;">
+                obligatoire
+              </span>
+              <p-selectButton [options]="loadingTypeList" formControlName="floadingType"
+              (onChange)="onSelectLoadingTypes($event)" optionLabel="code" >
+            </p-selectButton>
+            </div>
             <div class="form-group col-md-3">
               <label class="font-weight-bold">{{
                 "Type tournée" | translate}} </label>
   
-              <p-selectButton [options]="turnTypeList" [(ngModel)]="this.turnAdded.turnType" name="first"
-                (onChange)="onSelectTurnType($event)" optionLabel="code" [ngModelOptions]="{standalone: true}"></p-selectButton>
+              <p-selectButton [options]="turnTypeList" formControlName="fTurnType" name="first"
+                (onChange)="onSelectTurnType($event)" optionLabel="code" ></p-selectButton>
   
             </div>          
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
               <label class="font-weight-bold">{{
                 "Type emballage" | translate}} </label>
-              <p-selectButton [options]="packagingTypes" [(ngModel)]=" this.packagingType"
-                (onChange)="onSelectPackagingTypes($event)" optionLabel="code" [ngModelOptions]="{standalone: true}">
+              <p-selectButton [options]="packagingTypes" formControlName="fpackagingType" name="first"
+                (onChange)="onSelectPackagingTypes($event)" optionLabel="code" >
               </p-selectButton>
   
             </div>
@@ -274,7 +287,6 @@
               <th>Client</th>
               <th>Surcharge</th>
               <th>Statut</th>
-              <th>Type Chargement</th>
 
               <th>Action</th>
             </tr>
@@ -285,7 +297,6 @@
               <td>{{ del?.saleOrder?.account.code }}</td>
               <td>{{ del?.totalQuantity| number : '1.2-2' }} KG</td>
               <td>{{ del?.saleOrder?.orderStatus.code }}</td>
-              <td>{{ del?.loadingType }}</td>
 
               <td>
 

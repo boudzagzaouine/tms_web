@@ -50,6 +50,7 @@ import { Holiday } from './../../../shared/models/holiday';
 import { PlanningService } from './../../../shared/services/api/planning-service';
 import { Planning } from './../../../shared/models/planning';
 import { PackagingType } from './../../../shared/models/packagingType';
+import { LoadingType } from './../../../shared/models/loading-type';
 
 @Component({
   selector: 'app-turn-edit',
@@ -91,6 +92,8 @@ export class TurnEditComponent implements OnInit {
   vehicleList: Array<any> = [];
   driverList: Array<any> = [];
   turnTypeList: TurnType[] = [];
+  loadingTypeList: LoadingType[] = [];
+
   packagingTypes: Array<PackagingType> = [];
   packagingType: PackagingType = new PackagingType(null);
   subscrubtion = new Subscription();
@@ -124,14 +127,14 @@ export class TurnEditComponent implements OnInit {
     private stockService: StockService,
     private holidayService: HolidayService,
     private planningService: PlanningService,
-    private confirmationService:ConfirmationService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit() {
-    let p1 = new PackagingType('Vrac');
-    let p2 = new PackagingType('Palette');
-    this.packagingTypes.push(p1);
-    this.packagingTypes.push(p2);
+    let p1 = new PackagingType('Vrac'); let p2 = new PackagingType('Palette');
+    this.packagingTypes.push(p1); this.packagingTypes.push(p2);
+    let l1 = new LoadingType('Complet'); let l2 = new LoadingType('Groupe');
+    this.loadingTypeList.push(l1); this.loadingTypeList.push(l2);
 
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
@@ -143,6 +146,9 @@ export class TurnEditComponent implements OnInit {
           console.log(this.turnAdded);
           this.packagingType = this.packagingTypes.filter(f => f.code == this.turnAdded.packagingType)[0];
           this.turnTransports = this.turnAdded.turnTransports;
+          this.turnAdded.loadingTypeO = this.turnAdded.loadingType == this.loadingTypeList[0].code ? this.loadingTypeList[0] : this.loadingTypeList[1];
+          this.turnAdded.packagingTypeO = this.turnAdded.packagingType == this.packagingTypes[0].code ? this.packagingTypes[0] : this.packagingTypes[1];
+
           this.turnSoList = this.turnAdded.turnSoPos.filter(f => f.saleOrder != null);
           this.saleOrdersLoading = this.turnSoList.map(f => f.saleOrder)
           this.turnPoList = this.turnAdded.turnSoPos.filter(f => f.purshaseOrder != null);
@@ -159,6 +165,9 @@ export class TurnEditComponent implements OnInit {
           }));
       });
 
+    } else {
+      this.turnAdded.loadingTypeO = this.loadingTypeList[0];
+      this.turnAdded.packagingTypeO = this.packagingTypes[1];
     }
 
     this.itemsbreadcrumb = [
@@ -186,6 +195,7 @@ export class TurnEditComponent implements OnInit {
       this.driverList = data;
     });
 
+
     this.initForm();
   }
 
@@ -198,7 +208,9 @@ export class TurnEditComponent implements OnInit {
       fDrivers: new FormControl(this.selectedturnTransport.drivers, Validators.required),
       fTypeVehicule: new FormControl(this.selectedturnTransport?.vehicleCategory, Validators.required),
       fTurnType: new FormControl(this.turnAdded.turnType, Validators.required),
-      fpackagingType: new FormControl(this.turnAdded.packagingType),
+      fpackagingType: new FormControl(this.turnAdded.packagingTypeO),
+      floadingType: new FormControl(this.turnAdded.loadingTypeO),
+
     });
   }
 
@@ -209,10 +221,13 @@ export class TurnEditComponent implements OnInit {
     }
     const formValue = this.turnForm.value;
     this.turnAdded.dateDelivery = formValue['fDateLivraison'];
+    //  this.turnAdded.loadingTypeO = formValue['floadingType'];
     this.selectedturnTransport.vehicle = formValue['fVehicule'];
     this.selectedturnTransport.vehicleCategory = formValue['fTypeVehicule'];
     this.selectedturnTransport.transport = formValue['fTransport'];
     this.selectedturnTransport.drivers = formValue['fDrivers'];
+    this.turnAdded.loadingType = this.turnAdded.loadingTypeO.code;
+    this.turnAdded.packagingType = this.turnAdded.packagingTypeO.code;
 
   }
 
@@ -231,9 +246,8 @@ export class TurnEditComponent implements OnInit {
       });
 
       this.turnAdded.turnTransports = this.turnTransports;
-
-
     }
+
 
     this.tunrService.set(this.turnAdded).subscribe(
       data => {
@@ -260,7 +274,13 @@ export class TurnEditComponent implements OnInit {
     }
   }
   onSelectPackagingTypes(event) {
-    this.turnAdded.packagingType = event.value.code == 'Vrac' ? 'Vrac' : 'Palette';
+    this.turnAdded.packagingTypeO = event.value.code == this.packagingTypes[0].code ? this.packagingTypes[0] : this.packagingTypes[1];
+  }
+  onSelectLoadingTypes(event) {
+    console.log(event.value.code);
+    this.turnAdded.loadingTypeO = event.value.code == this.loadingTypeList[0].code ? this.loadingTypeList[0] : this.loadingTypeList[1];
+    console.log(this.turnAdded.loadingTypeO);
+
   }
 
 
@@ -286,35 +306,42 @@ export class TurnEditComponent implements OnInit {
 
   onMoveSoToTarget(event) {
     let saleOrder: SaleOrder = event.items[0];
-    let planning: Planning[] = [];
     let existSo: Boolean = false;
-  this.confirmationService.confirm({
+    let existAccount: Boolean = false;
+    this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
+    console.log(this.turnAdded.loadingTypeO.code);
 
-  
-      message: 'Type de Chargement ?',
-      accept: () => {   
-         this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
-        this.turnSoList.forEach(element => { if (element.code == saleOrder.code) { existSo = true; } });
-        if (existSo == false) { this.searchSoLineBySo(saleOrder,'Complet'); }
-        else if (existSo == true) {
-          this.toastr.warning('Déja Existe', 'avertissement');
-          this.saleOrdersLoading.splice(this.saleOrdersLoading.length - 1, 1);
-        }   
-      },reject:() =>{
-        this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
-        this.turnSoList.forEach(element => { if (element.code == saleOrder.code) { existSo = true; } });
-        if (existSo == false) { this.searchSoLineBySo(saleOrder,'Grouper'); }
-        else if (existSo == true) {
-          this.toastr.warning('Déja Existe', 'avertissement');
-          this.saleOrdersLoading.splice(this.saleOrdersLoading.length - 1, 1);
+    if (this.turnAdded.loadingTypeO.code == 'Complet') {
+      if (this.turnSoList.length == 0) {
+        this.searchSoLineBySo(saleOrder, this.turnAdded.loadingTypeO.code);
+      } else {
+        this.turnSoList.forEach(element => {
+          if (element.code == saleOrder.code) { existSo = true; }
+          if (element.saleOrder.account.code == saleOrder.account.code) { existAccount == true }
+        });
+        if (existSo == false) { this.searchSoLineBySo(saleOrder, this.turnAdded.loadingTypeO.code); }
+        else if (existSo == true) { this.toastr.warning('Déja Existe', 'avertissement'); }
+        if (existAccount == false) {
+          this.toastr.warning('pas meme client', 'avertissement');
+          this.saleOrdersLoading = this.saleOrdersLoading.filter(f => f.account.code != saleOrder.account.code)
+          this.turnSoList = this.turnSoList.filter(f => { f.saleOrder.account.code != saleOrder.account.code })
+          this.onMoveSoToSource(event);
         }
-        }
-  });
+      }
+    } else {
+      this.turnSoList.forEach(element => {
+        console.log("groupe");
+
+        if (element.code == saleOrder.code) { existSo = true; }
+      });
+      if (existSo == false) { this.searchSoLineBySo(saleOrder, this.turnAdded.loadingTypeO.code); }
+      else if (existSo == true) { this.toastr.warning('Déja Existe', 'avertissement'); }
+    }
   }
 
-  searchSoLineBySo(so: SaleOrder,type : string) {
+  searchSoLineBySo(so: SaleOrder, type: string) {
     console.log(type);
-    
+
     so.lines = [];
     this.saleOrderLineService.find('saleOrder.id:' + so.id).subscribe(
       data => {
@@ -325,13 +352,13 @@ export class TurnEditComponent implements OnInit {
             data => {
               line.sotcks.push(...data);
               line.quantityPrepare = data.map(m => m.quantity).reduce((a, b) => a + b, 0);
-              this.onChargedTurnBySo(so,type);
+              this.onChargedTurnBySo(so, type);
             });
         });
       });
   }
 
-  onChargedTurnBySo(saleOrder: SaleOrder,type : string) {
+  onChargedTurnBySo(saleOrder: SaleOrder, type: string) {
 
     let tunSoPo = new TurnSoPo(
       saleOrder.code,
@@ -340,8 +367,10 @@ export class TurnEditComponent implements OnInit {
       saleOrder.orderStatus,
       saleOrder,
       null,
-      type)
+    )
     saleOrder.lines.forEach((soLine) => {
+      console.log(soLine.sotcks);
+
       soLine.sotcks.forEach(stock => {
         let turnline = new TurnLine(
           stock.product,
@@ -366,7 +395,7 @@ export class TurnEditComponent implements OnInit {
     this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
     this.turnAdded.totalSoTTC = this.claculatetotalPriceLines(this.turnSoList);
     console.log(tunSoPo);
-    
+
   }
 
 
@@ -425,8 +454,6 @@ export class TurnEditComponent implements OnInit {
     let purchaseOrder: PurchaseOrder = event.items[0];
     console.log(purchaseOrder);
     this.verifiedClosingDayAccount('supplier.code~' + purchaseOrder.supplier.code);
-
-  
     let exist: Boolean = false;
     this.turnPoList.forEach(element => { if (element.code == purchaseOrder.code) { exist = true; } });
     if (exist == false) { this.onChargedTurnByPo(purchaseOrder); }
@@ -663,7 +690,9 @@ export class TurnEditComponent implements OnInit {
     lenghtOfTruck = this.loadCategorySos[indice].vehicleCategory.length;
     widthOfTruck = this.loadCategorySos[indice].vehicleCategory.width;
     this.turnSoList.forEach(turnSO => {
+
       turnSO.turnLines.forEach(line => {
+        console.log(line);
 
         line.stocks.forEach(stock => {
           existContainer = -1;
@@ -775,31 +804,30 @@ export class TurnEditComponent implements OnInit {
     let sum: number = 0;
     let totalSum: number = 0;
     let catalogTransports: CatalogTransportType;
-    let cat :VehicleCategory[] = [];
+    let cat: VehicleCategory[] = [];
     this.chargeForm();
     this.turnSoList.forEach((f, index) => {
-     // console.log(l.saleOrderLine?.saleOrder.id);
-      console.log(f.saleOrder.id);
-      
-      cat = this.loadCategorySos.filter(l=>l.saleOrderLine?.saleOrder.id ==f.saleOrder.id).map(m=> m.vehicleCategory);
-console.log(cat);
+      // console.log(l.saleOrderLine?.saleOrder.id);
 
-    //   this.catalogTransportTypeService.find('vehicleCategory.id:' + this.turnAdded.vehicleCategory.id + ',zoneSource.code~' + 'FES' + ',zoneDestination.code~' + f.saleOrder.account.deliveryAddress.city + ',transport.id:' + this.turnAdded.transport.id).subscribe(
-    //     data => {
-    //       catalogTransports = data[0];
-    //       if (catalogTransports != null) {
-    //         sum = Number(catalogTransports.amountTtc);
-    //         totalSum += sum;
-    //         this.turnSoList[index].totalPriceTurn = sum;
-    //         this.turnAdded.totalSoPriceTurn = totalSum;
-    //       }
-    //     },
-    //     error => {
-    //       this.toastr.error(error.error.message);
-    //       this.spinner.hide();
-    //     },
-    //     () => this.spinner.hide()
-    //   );
+      cat = this.loadCategorySos.filter(l => {l.saleOrderLine?.saleOrder.id == f.saleOrder.id}).map(m => m.vehicleCategory);
+      console.log(cat);
+
+    //     this.catalogTransportTypeService.find('vehicleCategory.id:' + cat[0].id+ ',zoneSource.code~' + 'FES' + ',zoneDestination.code~' + f.saleOrder.account.deliveryAddress.city + ',transport.id:' + this.turnAdded.transport.id).subscribe(
+    //       data => {
+    //         catalogTransports = data[0];
+    //         if (catalogTransports != null) {
+    //           sum = Number(catalogTransports.amountTtc);
+    //           totalSum += sum;
+    //           this.turnSoList[index].totalPriceTurn = sum;
+    //           this.turnAdded.totalSoPriceTurn = totalSum;
+    //         }
+    //       },
+    //       error => {
+    //         this.toastr.error(error.error.message);
+    //         this.spinner.hide();
+    //       },
+    //       () => this.spinner.hide()
+    //     );
      }
      );
   }

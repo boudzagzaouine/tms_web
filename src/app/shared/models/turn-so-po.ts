@@ -25,7 +25,7 @@ export class TurnSoPo {
   totalPriceTTC: number;
   totalPriceTurn : number;
   totalQuantity:number;
-  loadingType: string;
+
 
   constructor(
     code?: string,
@@ -35,7 +35,6 @@ export class TurnSoPo {
 
     saleOrder?: SaleOrder ,
    purshaseOrder?:PurchaseOrder,
-   loadingType?:string,
  
   ) {
   this.code=code;
@@ -45,7 +44,6 @@ export class TurnSoPo {
 
     this.saleOrder = saleOrder;
     this.purshaseOrder = purshaseOrder;
-    this.loadingType=loadingType;
 // this.turn = turn;
 // this.turnlines = turnlines;
 

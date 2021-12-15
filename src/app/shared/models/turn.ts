@@ -8,6 +8,8 @@ import { TurnSoPo } from './turn-so-po';
 import { Transport } from './transport';
 import { VehicleCategory } from './vehicle-category';
 import { TurnTransport } from './turn-transport';
+import { LoadingType } from './loading-type';
+import { PackagingType } from './packagingType';
 
 export class Turn {
   id: number;
@@ -26,4 +28,10 @@ export class Turn {
   totalSoPriceTurn : number=0;
   totalPoPriceTurn : number=0;
   packagingType:string;
+  loadingType:string;
+  loadingTypeO: LoadingType;
+  packagingTypeO:PackagingType;
+
+ 
+
 }

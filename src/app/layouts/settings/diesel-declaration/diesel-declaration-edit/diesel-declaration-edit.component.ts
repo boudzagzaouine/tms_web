@@ -74,11 +74,11 @@ export class DieselDeclarationEditComponent implements OnInit {
     });
 
     }else if (this.editMode === 2){
-      
+
           this.editModee=true;
           this.title = 'Modifier déclaration Gasoil';
           console.log(this.selectedDieselDeclaration);
-          
+
     }
 
  this.types=[
@@ -113,24 +113,24 @@ export class DieselDeclarationEditComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.dieselDeclarationForm.invalid) { return; }
- 
+
     this.selectedDieselDeclaration.code = this.dieselDeclarationForm.value['code'];
     this.selectedDieselDeclaration.amount = this.dieselDeclarationForm.value['amount'];
     this.selectedDieselDeclaration.dieselDeclarationDate = this.dieselDeclarationForm.value['date'];
     this.selectedDieselDeclaration.mileage = this.dieselDeclarationForm.value['km'];
       this.selectedDieselDeclaration.owner=this.authentificationService.getDefaultOwner();
- 
+
       if(this.selectType==1){
       this.selectedDieselDeclaration.subscriptionCard = this.dieselDeclarationForm.value['card'];
       this.selectedDieselDeclaration.typeDeclaration=1;
-      this.insertDieselDeclaration(); 
+      this.insertDieselDeclaration();
 
 
     }
     else if(this.selectType==2){
      this.selectedDieselDeclaration.purshaseOrder = this.dieselDeclarationForm.value['bon'];
      this.selectedDieselDeclaration.typeDeclaration=2;
-     this.insertDieselDeclaration(); 
+     this.insertDieselDeclaration();
 
 
     }
@@ -141,23 +141,23 @@ export class DieselDeclarationEditComponent implements OnInit {
       this.selectedDieselDeclaration.typeDeclaration=3;
 
       if(this.selectedDieselDeclaration.quantity <= this.selectedDieselDeclaration.fuelPump.quantity){
-    
-    this.insertDieselDeclaration(); 
+
+    this.insertDieselDeclaration();
       }
    else {
     this.toastr.error('Erreur Quantité', 'Erreur');
 
    }
-  
-  
+
+
      }
 
- 
-   
- 
 
-    
-  
+
+
+
+
+
   }
 
 
@@ -168,11 +168,11 @@ export class DieselDeclarationEditComponent implements OnInit {
         this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         // this.loadData();
        // this.displayDialog = false;
-       if(this.selectType==3){
+      // if(this.selectType==3){
          this.selectedDieselDeclaration=data;
-        this.maintenanceStockService.insertMaintenanceStockFromDeclarationGasoialInternal(this.selectedDieselDeclaration);
+       // this.maintenanceStockService.insertMaintenanceStockFromDeclarationGasoialInternal(this.selectedDieselDeclaration);
 
-       }
+      // }
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.validate=1;
@@ -192,7 +192,7 @@ export class DieselDeclarationEditComponent implements OnInit {
         amount:event.totalPriceHT,
       });
       this.selectedDieselDeclaration.purshaseOrder=event as PurchaseOrder;
-       
+
   }
 
   onCodeVehicleSearch(event: any) {
@@ -227,22 +227,22 @@ export class DieselDeclarationEditComponent implements OnInit {
   }
 
   onSelectVehicle(event) {
-    this.selectedDieselDeclaration.vehicle = event;    
+    this.selectedDieselDeclaration.vehicle = event;
   }
 
   onSelectDriver(event) {
-    this.selectedDieselDeclaration.driver = event;    
+    this.selectedDieselDeclaration.driver = event;
   }
 
   onSelectCard(event) {
-    this.selectedDieselDeclaration.subscriptionCard = event;    
+    this.selectedDieselDeclaration.subscriptionCard = event;
   }
 
   onSelectFuelpump(event) {
-    this.selectedDieselDeclaration.fuelPump = event;  
-     
-   
-    
+    this.selectedDieselDeclaration.fuelPump = event;
+
+
+
   }
 
 
@@ -250,21 +250,21 @@ export class DieselDeclarationEditComponent implements OnInit {
      const quantity = +this.dieselDeclarationForm.value['quantity'];
     const price = +this.selectedDieselDeclaration.fuelPump.product.purshasePriceUB;
     console.log(quantity + "" + price);
-    
+
  console.log(quantity*price);
- 
+
     this.dieselDeclarationForm.patchValue({
       amount: quantity*price,
-      
+
   });
   }
   onSelectPurchaseOrder(event) {
-    this.selectedDieselDeclaration.purshaseOrder = event;  
+    this.selectedDieselDeclaration.purshaseOrder = event;
     this.dieselDeclarationForm.patchValue({
       amount:this.selectedDieselDeclaration.purshaseOrder.totalPriceHT,
     });
    // console.log(this.selectedDieselDeclaration.purshaseOrder);
-      
+
   }
 
   onShowDialog() {

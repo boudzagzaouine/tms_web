@@ -33,7 +33,7 @@ planningN :Planning = new Planning();
   displayDialog: boolean;
   title = 'Modifier un Client';
   subscriptions= new Subscription();
-
+ size :number;
   showDialogPlanning: boolean;
 
   constructor(
@@ -162,13 +162,13 @@ console.log(this.selectedAccount);
 
   onLineEditedPlanning(line: Planning) {
     console.log(line);
-    
+
     this.selectedAccount.plannings = this.selectedAccount.plannings.filter(
       (l) => l.day !== line.day
     );
     this.selectedAccount.plannings.push(line);
    console.log(this.selectedAccount.plannings);
-   
+
 
   }
   onDeletePlanning (day: string) {
@@ -178,7 +178,7 @@ console.log(this.selectedAccount);
         this.selectedAccount.plannings = this.selectedAccount.plannings.filter(
           (l) => l.day !== day
         );
-  
+
       },
     });
   }
@@ -192,7 +192,7 @@ console.log(this.selectedAccount);
     if (mode == true) {
       console.log("true");
       console.log(line);
-      
+
       this.selectedPlanning = line;
       this.editModePlannig = true;
 

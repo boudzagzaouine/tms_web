@@ -33,7 +33,7 @@ export class SupplierEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un Fournisseur';
   subscriptions= new Subscription();
-
+ size :number
   showDialogPlanning: boolean;
   selectedPlanning :Planning= new Planning();
   editModePlannig: boolean;
@@ -172,7 +172,7 @@ console.log(this.selectedSupplier);
     );
     this.selectedSupplier.plannings.push(line);
    console.log(this.selectedSupplier.plannings);
-   
+
 
   }
   onDeletePlanning (day: string) {
@@ -182,7 +182,7 @@ console.log(this.selectedSupplier);
         this.selectedSupplier.plannings = this.selectedSupplier.plannings.filter(
           (l) => l.day !== day
         );
-  
+
       },
     });
   }
@@ -196,7 +196,7 @@ console.log(this.selectedSupplier);
     if (mode == true) {
       console.log("true");
       console.log(line);
-      
+
       this.selectedPlanning = line;
       this.editModePlannig = true;
 

@@ -523,7 +523,6 @@ export class TurnEditComponent implements OnInit {
     let lastIndex = this.vehicleCatsToDeliverSort.length - 1;
     let pourcentage = 0;
     if (this.vehicleCatsToDeliverSort[lastIndex].tonnage >= qte) {
-
       vehicleCat = this.vehicleCatsToDeliverSort.filter(f => f.tonnage >= qte)[0];
       pourcentage = (qte / vehicleCat.tonnage) * 100;
       vehicleCat.pourcentageToDeliver = Number(pourcentage.toFixed(2));

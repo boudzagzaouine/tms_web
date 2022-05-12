@@ -67,7 +67,7 @@ export class ReceptionEditComponent implements OnInit {
         this.selectedReception.orderType=this.orderTypeList[0];
         this.initForm();
       }
-    
+
     ));
 
 
@@ -81,7 +81,7 @@ export class ReceptionEditComponent implements OnInit {
           this.selectedPurchaseOrder = data.purshaseOrder;
 
           console.log(this.selectedReception);
-     
+
 
           this.initForm();
         },
@@ -171,7 +171,7 @@ export class ReceptionEditComponent implements OnInit {
         //       this.selectedReception.supplier != null
         //       ? this.selectedReception.supplier
         //       : null,
-        
+
         // },
         this.selectedReception.supplier, Validators.required
       ),
@@ -244,7 +244,7 @@ export class ReceptionEditComponent implements OnInit {
     this.selectedReception.supplierDeliveryDate = this.receptionForm.value['blDate'];
     // this.selectedReception.orderType = this.receptionForm.value['type'];
      console.log(this.selectedReception.orderType);
-     
+
     this.selectedReception.owner = this.authentificationService.getDefaultOwner();
     this.subscrubtion.add(this.receptionService.set(this.selectedReception).subscribe(
       dataM => {
@@ -255,7 +255,7 @@ export class ReceptionEditComponent implements OnInit {
         this.validate=1;
         this.isFormSubmitted = false;
         this.spinner.hide();
-      
+
 
         if (close) {
         //  this.router.navigate(['/core/reception/list']);
@@ -287,11 +287,11 @@ export class ReceptionEditComponent implements OnInit {
   onPurchaseOrderCodeSearch(event: any) {
     // .filter(data => data.orderStatus.id != 1);
     this.subscrubtion.add(this.purchcaseOrderService.find('code~' + event.query+',orderStatus.id!1').subscribe((data) => {
-      this.purchaseOrderList = data;  
+      this.purchaseOrderList = data;
       console.log(this.purchaseOrderList);
     }));
-  
-    
+
+
   }
 
   onSelectOrderType(event) {
@@ -318,8 +318,8 @@ export class ReceptionEditComponent implements OnInit {
     this.receptionForm.patchValue({
       supplier: this.selectedPurchaseOrder.supplier,
       type: this.selectedPurchaseOrder.orderType.code,
-    
-      
+
+
       //status: this.selectedReception.orderStatus.code
     });
 

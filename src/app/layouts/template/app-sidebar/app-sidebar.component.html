@@ -2,11 +2,11 @@
   <!-- 222d32 -->
   <div id="sidebar-collapse" style="background-color: #2c3941 !important;">
     <ul class="side-menu metismenu fixed" style="background-color: #2c3941 !important;">
-     
 
-      <li >  
 
-      
+      <li >
+
+
         <a  class="text-white"><i class="sidebar-item-icon fa " >
             <img src="./assets/img/Menu/dashboard.png" width="20px" height="20px">
           </i>
@@ -16,7 +16,7 @@
             <a routerLink="/core/dashboards/vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>
           </li>
-         
+
         </ul>
 
 
@@ -25,14 +25,14 @@
             <a routerLink="/core/dashboards/driver" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Conducteur ' | translate}}</a>
           </li>
-         
+
         </ul>
-   
-      </li>  
+
+      </li>
 
 
 
-     
+
       <li>
 
         <a class="text-white "><i class="sidebar-item-icon "><img src="./assets/img/Menu/Parametre.png" width="20px"
@@ -181,15 +181,15 @@
 
         </ul>
       </li>
-      
-      
-   
+
+
+
 
       <!-- *ngxPermissionsOnly="['VEHICLE_CREATE']" -->
-      
-        <li *hasPermission="['VEHICLE_CREATE','VEHICLE_VIEW']">  
 
-      
+        <li *hasPermission="['VEHICLE_CREATE','VEHICLE_VIEW']">
+
+
           <a  class="text-white"><i class="sidebar-item-icon fa " >
               <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
             </i>
@@ -204,12 +204,12 @@
                   height="15px"> {{'Lister' | translate}}</a>
             </li>
           </ul>
-     
-        </li>      
- 
-     
-       
-      
+
+        </li>
+
+
+
+
 
 
       <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
@@ -274,7 +274,7 @@
         </ul>
       </li>
 
-      <li *hasPermission="['DIESELDECLARATION_VIEW']"> 
+      <li *hasPermission="['DIESELDECLARATION_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="20px" height="20px">
           </i>
@@ -288,7 +288,7 @@
         </ul>
       </li>
 
-      <li *hasPermission="['ALIMENTATION_PUMP_VIEW']"> 
+      <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="20px" height="20px">
           </i>
@@ -315,7 +315,7 @@
                 height="15px"> {{'Plan Maintenance' | translate}} </a>
           </li>
 
-          <li *hasPermission="['MAINTENANCE_CREATE']"> 
+          <li *hasPermission="['MAINTENANCE_CREATE']">
             <a routerLink="/core/maintenance/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
                 height="15px"> {{'Maintennace Corrective' | translate}} </a>
           </li>
@@ -333,7 +333,7 @@
           <li>
             <a routerLink="/core/maintenance/calendar" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Calendrier' | translate}}</a>
-          </li> 
+          </li>
 
         </ul>
       </li>
@@ -348,7 +348,7 @@
             <a routerLink="/core/settings/insurances" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Lister' | translate}} </a>
           </li>
-       
+
         </ul>
       </li>
 
@@ -402,7 +402,7 @@
 
 
 
-      <li>
+      <!-- <li>
         <a class="text-white" class="m-a"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
           </i>
@@ -415,7 +415,7 @@
                 height="15px"> {{'Inserer' | translate}} </a>
           </li>
 
-          <li>
+       <li>
 
 
             <a routerLink="/core/turn/list" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
@@ -423,7 +423,7 @@
           </li>
 
         </ul>
-      </li>
+      </li> -->
 
 
 

@@ -28,7 +28,7 @@ showEffect="fade"
            />
           </div>
           <div class="form-group col-sm-6">
-    
+
           </div>
 
           <div class="form-group col-sm-6">
@@ -64,7 +64,7 @@ showEffect="fade"
 
           </div>
 
-         
+
 
           <div class="form-group col-sm-12" *ngIf="(selectType==1)" >
 
@@ -89,15 +89,15 @@ showEffect="fade"
           <div class="form-group col-sm-6" *ngIf="(selectType==2)" >
 
            <br>
-            <button  
+            <button
               type="button"
               (click)="onShowDialogBon(true)"
               class="btn btn-md btn-primary mt-2"
                 > <i class="fa fa-plus"></i>
-      </button> 
+      </button>
       <!-- <p-button [icon]="activeState[0] ? 'pi pi-minus' : 'pi pi-plus'" (click)="toggle(0)" styleClass="p-button-text" label="Ajouter"></p-button> -->
 
-           
+
           </div>
 
 
@@ -125,7 +125,7 @@ showEffect="fade"
 
             <p-accordion>
               <p-accordionTab  [(selected)]="activeState[0]">
-                 
+
                 <div class="row  justify-content-around">
 
                 <div class="form-group col-sm-6">
@@ -139,7 +139,7 @@ showEffect="fade"
                   <p-autoComplete  [suggestions]="vehicleList" (onSelect)='onSelectVehicle($event)'
                   (completeMethod)="onCodeVehicleSearch($event)" formControlName="vehicle"
                   field="code"></p-autoComplete>
-      
+
                 </div>
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{'Fournisseur' | translate}} *</label>
@@ -152,7 +152,7 @@ showEffect="fade"
                   <p-autoComplete  [suggestions]="vehicleList" (onSelect)='onSelectVehicle($event)'
                   (completeMethod)="onCodeVehicleSearch($event)" formControlName="vehicle"
                   field="code"></p-autoComplete>
-      
+
                 </div>
 
                 <div class="form-group col-sm-6">
@@ -163,20 +163,20 @@ showEffect="fade"
                      {{'Obligatoire' | translate }}
                   </span>
                   <br />
-              
-               
+
+
                   <input type="text" class="form-control" pInputText formControlName="amount"
                   (keydown.space)="$event.preventDefault()"
                  />
-                 
+
                 </div>
 
                 </div>
 
               </p-accordionTab>
-           
+
           </p-accordion>
-          
+
           </div> -->
 
           <div class="form-group col-sm-6">
@@ -190,7 +190,7 @@ showEffect="fade"
             <!-- <input type="text" class="form-control" pInputText formControlName="amount"
             (keydown.space)="$event.preventDefault()"
            /> -->
-         
+
             <input type="text" class="form-control" pInputText formControlName="amount"
             (keydown.space)="$event.preventDefault()"
            />
@@ -217,12 +217,12 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
             </span>
             <br />
-            <p-calendar [monthNavigator]="true"  [yearNavigator]="true" 
+            <p-calendar [monthNavigator]="true"  [yearNavigator]="true"
             dateFormat="dd-mm-yy"   appendTo="body"
               formControlName="date" yearRange="1970:2100"
               ></p-calendar>
 
-       
+
           </div>
 
 
@@ -236,9 +236,9 @@ showEffect="fade"
 <p-footer>
   <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-    <button *ngIf="(this.selectedDieselDeclaration.purshaseOrder !=null)&& (this.validate==1)" 
+    <button *ngIf="(this.selectedDieselDeclaration.purshaseOrder !=null)&& (this.validate==1)"
     type="button"
-    pButton 
+    pButton
     [useExistingCss]="true"
     printSectionId="print-section" ngxPrint
     class="p-button-warning"
@@ -254,6 +254,7 @@ showEffect="fade"
   ></button>
   <button
       type="button"
+      [disabled]="this.selectedDieselDeclaration.id>0"
       pButton
       (click)="onSubmit()"
       class="p-button-success"
@@ -270,7 +271,7 @@ showEffect="fade"
   ></app-bon-edit>
 </div>
 
-<div  id="print-section" *ngIf="this.selectedDieselDeclaration.purshaseOrder !=null" 
+<div  id="print-section" *ngIf="this.selectedDieselDeclaration.purshaseOrder !=null"
   style=" visibility: hidden;">
    <app-generateBon
    [selectedpurchaseOrder]="this.selectedDieselDeclaration.purshaseOrder"

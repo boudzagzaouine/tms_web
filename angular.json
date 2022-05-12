@@ -29,6 +29,7 @@
               "node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css",
               "node_modules/datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css",
               "node_modules/ngx-toastr/toastr.css",
+              
               "node_modules/jvectormap/jquery-jvectormap.css",
               "node_modules/summernote/dist/summernote.css",
               "node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css",

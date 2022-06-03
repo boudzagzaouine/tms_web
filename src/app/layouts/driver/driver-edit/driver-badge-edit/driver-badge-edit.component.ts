@@ -30,7 +30,7 @@ export class DriverBadgeEditComponent implements OnInit {
   constructor(
   private authentificationService:AuthenticationService,
     private badgeTypeService: BadgeTypeService,
-   
+
   ) { }
 
   ngOnInit() {
@@ -58,7 +58,6 @@ export class DriverBadgeEditComponent implements OnInit {
 
     if (!this.editMode) {
       this.selectedBadgeDriver = new BadgeTypeDriver();
-
     }
     this.initForm();
 
@@ -93,16 +92,16 @@ export class DriverBadgeEditComponent implements OnInit {
     this.displayDialog = false;
 
   }
-  
- 
+
+
 
   onSelectBadgeType(event) {
-  
+
     this.selectedBadgeDriver.badgeType = event.value as BadgeType;
-  
+
   }
 
- 
+
   onHideDialog() {
     const a = false;
     this.showDialog.emit(a);

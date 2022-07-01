@@ -1,3 +1,5 @@
+import { Day } from './../../../../../shared/models/day';
+import { DayService } from './../../../../../shared/services/api/day.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Planning } from './../../../../../shared/models/planning';
@@ -10,34 +12,48 @@ import { AuthenticationService } from './../../../../../shared/services';
 })
 export class SupplierPlanningEditComponent implements OnInit {
 
- 
+
   @Input() selectedPlanning: Planning = new Planning();
   @Input() editMode = false;
   @Output() planningEdited = new EventEmitter<Planning>();
   @Output() showDialog = new EventEmitter<boolean>();
+
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Plan';
   planningForm: FormGroup;
-  planningDays: Array<{ day: string }> = [];
+  planningDays: Array<Day> = [];
+
+  // planningDays: Array<{ day: string }> = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,
+    private dayService:DayService,
 
   ) { }
 
   ngOnInit() {
 
-    this.planningDays = [ { day: 'LUNDI' }, { day: 'MARDI' }, { day: 'MERCREDI' }, { day: 'JEUDI' }, { day: 'Vendredi' }, { day: 'SAMEDI' }, { day: 'DIMANCHE' },]
+   // this.planningDays = [ { day: 'LUNDI' }, { day: 'MARDI' }, { day: 'MERCREDI' }, { day: 'JEUDI' }, { day: 'Vendredi' }, { day: 'SAMEDI' }, { day: 'DIMANCHE' },]
 
-    this.title = 'Ajouter un Plan';
     this.displayDialog = true;
-    console.log(this.editMode);
+
+    this.title = 'Modifier un Plan';
+
+
+      this.dayService.findAll().subscribe((data) => {
+        this.planningDays = data.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        });
+
+      })
+
 
 
     if (!this.editMode) {
-      console.log("new");
+
+      this.title = 'Ajouter un Plan';
 
       this.selectedPlanning = new Planning();
       this.selectedPlanning.everingTimeStart.setHours(0,0,0);
@@ -47,28 +63,30 @@ export class SupplierPlanningEditComponent implements OnInit {
 
     }
     else{
-      console.log("modif");
-      
+
     }
     this.initForm();
-    console.log(this.selectedPlanning);
+
 
 
   }
+
   onChangeClosing(event){
-console.log(event.checked);
 if(event.checked==true){
+  this.selectedPlanning.closingDay=true;
+  const  date =new Date();
+date.setHours(0,0,0);
+  this.planningForm.patchValue({
+    morningstart: date,
+    morningend:  date,
+    everingstart:date,
+    everingend:date,
+  });
 
-  // this.planningForm.patchValue({
-  //   everingstart: new Date(),
-  //   everingend:   new Date(),
-  //   morningstart:   new Date(),
-  //   morningend:   new Date(),
+  this.planningForm.updateValueAndValidity();
 
-  // });
-
-  
-
+}else {
+  this.selectedPlanning.closingDay=false;
 }
   }
 
@@ -80,7 +98,7 @@ if(event.checked==true){
 
     this.planningForm = this.formBuilder.group({
 
-      day: this.formBuilder.control(this.selectedPlanning?.day),
+      day: this.formBuilder.control(this.selectedPlanning.day),
       morning: this.formBuilder.control(this.selectedPlanning.morning),
       morningstart: this.formBuilder.control(mstart),
       morningend: this.formBuilder.control(mend),
@@ -100,16 +118,16 @@ if(event.checked==true){
     }
 
     // this.selectedPlanning.Day = this.planningForm.value['day'];
-    this.selectedPlanning.morning = "Matin";
+  //  this.selectedPlanning.morning = "Matin";
     this.selectedPlanning.morningTimeStart = this.planningForm.value['morningstart'];
     this.selectedPlanning.morningTimeEnd = this.planningForm.value['morningend'];
-    this.selectedPlanning.evering = "Soir";
+   // this.selectedPlanning.evering = "Soir";
     this.selectedPlanning.everingTimeStart = this.planningForm.value['everingstart'];
     this.selectedPlanning.everingTimeEnd = this.planningForm.value['everingend'];
     this.selectedPlanning.closingDay = this.planningForm.value['closingday'];
+console.log(this.selectedPlanning.closingDay);
 
     this.selectedPlanning.owner = this.authentificationService.getDefaultOwner();
-    console.log(this.selectedPlanning);
 
     this.planningEdited.emit(this.selectedPlanning);
     this.displayDialog = false;
@@ -117,9 +135,13 @@ if(event.checked==true){
   }
 
 
-  onSelectDay(event) {
-    console.log(event.value.day);
-    this.selectedPlanning.day = event.value.day;
+  onSelectDay(event:Day) {
+ this.dayService.findById(event.value).subscribe(data=>{
+this.selectedPlanning.day = data;
+
+ });
+
+    //
   }
 
 
@@ -129,5 +151,7 @@ if(event.checked==true){
     this.displayDialog = false;
 
   }
+
+
 
 }

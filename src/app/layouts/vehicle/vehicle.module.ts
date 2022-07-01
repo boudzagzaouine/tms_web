@@ -1,3 +1,5 @@
+import { DialogModule } from 'primeng/dialog';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { PanelModule } from 'primeng/panel';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,9 +27,10 @@ import {StepsModule} from 'primeng/steps';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { VehicleProductComponent } from './vehicle-edit/vehicle-product/vehicle-product.component';
 
 @NgModule({
-  declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent, VehiculeEditLineComponent, ],
+  declarations: [VehicleComponent, VehicleEditComponent , VehicleListComponent, VehiculeEditLineComponent,VehicleProductComponent ],
   imports: [
     CommonModule,
     VehicleRoutingModule,
@@ -52,6 +55,8 @@ import { MessageService } from 'primeng/api';
     PanelModule,
     BreadcrumbModule,
     ToastModule,
+    SelectButtonModule,
+    DialogModule
 
   ],
   providers:[MessageService],

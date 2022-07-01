@@ -87,6 +87,25 @@
           </div>
 
           <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Type' | translate}}</label><br />
+
+ <p-dropdown id="supplierType" [autoDisplayFirst]="false"  placeholder="{{this.selectedSupplier?.supplierType?.code}}" [options]="supplierTypeList"optionLabel="code"
+            formControlName="supplierType" (onChange)="onSelectSupplierType($event)" [filter]="true"
+             [showClear]="true"></p-dropdown>
+
+<!--
+            <p-dropdown [options]="supplierTypeList" [autoDisplayFirst]="false" optionLabel="code" [(ngModel)]="selectedSupplier.supplierType.code" [filter]="true"
+            [showClear]="true" >
+              <ng-template let-type pTemplate="type">
+                  <div class="flex align-items-center">
+
+                      <span>{{type?.code}}</span>
+                  </div>
+              </ng-template>
+          </p-dropdown> -->
+
+
+
 
           </div>
         </div>
@@ -110,19 +129,19 @@
         </div>
       </div>
       <div class="card-body border-top-primary">
-        <p-table [value]=" this.selectedSupplier?.plannings" [lazy]="true" [rows]="size"
+        <p-table [value]=" this.selectedSupplier?.plannings" [lazy]="true" [rows]="8"
           [paginator]="true" [totalRecords]=" this.selectedSupplier
-      ?.plannings?.length">
+      ?.plannings?.length" >
           <ng-template pTemplate="header">
             <tr>
 
-              <th>{{'day' | translate}}</th>
-              <th>{{'matin' | translate}}</th>
-              <th>{{'date debut' | translate}}</th>
-              <th>{{'date fin '| translate}}</th>
-              <th>{{'soir' | translate}} </th>
-              <th>{{'date debut' | translate}}</th>
-              <th>{{'date fin '| translate}}</th>
+              <th>{{'Jour' | translate}}</th>
+              <th>{{'Fermeture' | translate}}</th>
+
+              <th>{{'Heure début Matin' | translate}}</th>
+              <th>{{'Heure fin Matin '| translate}}</th>
+              <th>{{'Heure debut Soir' | translate}}</th>
+              <th>{{'Heure fin Soir '| translate}}</th>
               <!-- <th>{{ "Prix" | translate }}</th> -->
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
@@ -130,12 +149,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-line>
             <tr>
-              <td>{{line?.day}}</td>
-              <td>{{line?.morning}}</td>
+              <td>{{line?.day?.code}}</td>
+              <td>{{line?.closingDay}}</td>
               <td>{{line?.morningTimeStart | date: 'HH:mm'}}</td>
               <td>{{line?.morningTimeEnd | date: 'HH:mm'}}</td>
-
-              <td>{{line?.evering}}</td>
               <td>{{line?.everingTimeStart | date: 'HH:mm'}}</td>
               <td>{{line?.everingTimeEnd | date: 'HH:mm'}}</td>
 

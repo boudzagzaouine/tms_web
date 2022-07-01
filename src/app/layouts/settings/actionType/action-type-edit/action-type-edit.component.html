@@ -5,7 +5,7 @@
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '550px' }"
+[style]="{ width: '750px' }"
 (onHide)='onShowDialog()'
 >
 <p-header>
@@ -17,7 +17,7 @@ showEffect="fade"
       <form [formGroup]="actionTypeForm">
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label class="font-weight-bold">{{'Code' | translate}} *</label>
             <span *ngIf="(actionTypeForm.get('code').touched && actionTypeForm.get('code').invalid) ||
             (isFormSubmitted && actionTypeForm.get('code').invalid)" class="text-lighter"
@@ -30,17 +30,82 @@ showEffect="fade"
            />
           </div>
 
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
-          <div class="col-md-3"></div>
+</div>
 
-        </div>
       </form>
     </div>
+
+    <div class="card  ">
+      <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogActionTypeRepair(this.selectedActionTypeRepair,false)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste des Prestataires de Reparation" | translate }}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table [value]=" this.selectedActionType?.actionTypeRepairs" [lazy]="true" [rows]="5"
+          [paginator]="true" [totalRecords]=" this.selectedActionType
+      ?.actionTypeRepairs?.length">
+          <ng-template pTemplate="header">
+            <tr>
+
+
+              <th>{{'Réparation' | translate}}</th>
+              <th>{{'Atelier' | translate}}</th>
+
+              <th>{{'Fournisseur' | translate}}</th>
+              <th>{{'Ville'| translate}}</th>
+              <th>{{'Prix' | translate}}</th>
+              <th>{{'Durée '| translate}}</th>
+              <!-- <th>{{ "Prix" | translate }}</th> -->
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.repairType}}</td>
+              <td>{{line?.workshop}}</td>
+              <td>{{line?.supplier?.code}}</td>
+              <td>{{line?.city}}</td>
+              <td>{{line?.price }}</td>
+              <td>{{line?.duration }}</td>
+
+              <td>
+
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogActionTypeRepair(line,true)">
+                  <!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button  type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteActionTypeRepair(line.day)">
+                  <!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </div>
+    </div>
+
   </div>
 </div>
+
 <p-footer>
   <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
@@ -61,4 +126,17 @@ showEffect="fade"
   </div>
 </p-footer>
 </p-dialog>
+
+
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<div *ngIf="showDialogRepair == true">
+  <app-action-type-repair
+  (showDialog)="onHideDialogActionTypeRepair($event)"
+  (actionTypeRepairEdited)="onLineEditedActionTypeRepair($event)"
+    [selectedActionTypeRepair]="selectedActionTypeRepair"
+
+  [editMode]="editModeActionTypeRepair"
+  ></app-action-type-repair>
+
+
+</div>

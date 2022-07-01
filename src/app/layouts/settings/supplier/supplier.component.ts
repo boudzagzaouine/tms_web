@@ -1,3 +1,4 @@
+import { Planning } from './../../../shared/models/planning';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { Supplier } from './../../../shared/models/supplier';
@@ -50,7 +51,7 @@ export class SupplierComponent implements OnInit {
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Fournisseur' ,routerLink:'/core/settings/suppliers'},
-  
+
   ];
   this.home = {icon: 'pi pi-home'};
 
@@ -75,8 +76,6 @@ export class SupplierComponent implements OnInit {
   }
 
   loadData() {
-
-
     this.spinner.show();
     this.subscriptions.add(this.supplierService.sizeSearch(this.searchQuery).subscribe(
       data => {
@@ -233,6 +232,7 @@ export class SupplierComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
 
 
 }

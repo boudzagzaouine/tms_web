@@ -1,3 +1,7 @@
+import { CompanyService } from './../../../../shared/services/api/company.service';
+import { Company } from './../../../../shared/models/company';
+import { DayService } from './../../../../shared/services/api/day.service';
+import { Day } from './../../../../shared/models/day';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +31,10 @@ export class AccountEditComponent implements OnInit {
   closeResult: String;
   accountForm: FormGroup;
   accountTypeList: Account[] = [];
+  days :Array<Day>=[];
+  plannings :Array<Planning>=[];
+  companies :Array<Company>=[];
+
   editModePlannig: boolean;
 planningN :Planning = new Planning();
   isFormSubmitted = false;
@@ -44,13 +52,29 @@ planningN :Planning = new Planning();
     private toastr: ToastrService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private dayService:DayService,
+    private companyService:CompanyService) { }
 
   ngOnInit() {
+
+
+    this.subscriptions.add(
+      this.dayService.findAll().subscribe((data) => {
+        this.days = data.sort(function (a, b) {
+          return (Number(a.value) - Number(b.value))
+        });
+        this.generatePlannings();
+      })
+
+    );
     if (this.editMode === 1) {
       this.selectedAccount = new Account();
       this.selectedContact = new Contact();
       this.selectedAddress = new Address();
+      this.selectedAccount.plannings = this.plannings.sort(function (a, b) {
+        return (Number(a.day.value) - Number(b.day.value))
+      });
       this.title = 'Ajouter un Client';
       this.subscriptions.add(this.accountService.generateCode().subscribe(
         code => {
@@ -74,7 +98,18 @@ planningN :Planning = new Planning();
       if (this.selectedAccount.deliveryAddress) {
         this.selectedAddress = this.selectedAccount.deliveryAddress;
       }
+      console.log(this.selectedAccount.plannings);
 
+      if(this.selectedAccount.plannings.length ==0){
+        this.selectedAccount.plannings = this.plannings.sort(function (a, b) {
+          return (Number(a.day.value) - Number(b.day.value))
+        });
+      }
+      if(this.selectedAccount.plannings.length >=0){
+        this.selectedAccount.plannings = this.selectedAccount.plannings.sort(function (a, b) {
+          return (Number(a.day.value) - Number(b.day.value))
+        });
+      }
     }
 
 
@@ -84,6 +119,7 @@ planningN :Planning = new Planning();
   }
 
   initForm() {
+    let deliveryDate = new Date(this.selectedAccount.deliveryDate);
 
     this.accountForm = new FormGroup({
       'code': new FormControl(this.selectedAccount.code, Validators.required),
@@ -95,7 +131,10 @@ planningN :Planning = new Planning();
       'line2': new FormControl(this.selectedAddress.line2),
       'zipCode': new FormControl(this.selectedAddress.zip),
       'city': new FormControl(this.selectedAddress.city),
-      'country': new FormControl(this.selectedAddress.country)
+      'country': new FormControl(this.selectedAddress.country),
+      'company': new FormControl(this.selectedAccount.company),
+      'deliveryDate': new FormControl(deliveryDate)
+
     });
   }
 
@@ -117,6 +156,7 @@ planningN :Planning = new Planning();
     this.selectedAddress.zip = this.accountForm.value['zipCode'];
     this.selectedAddress.city = this.accountForm.value['city'];
     this.selectedAddress.country = this.accountForm.value['country'];
+    this.selectedAccount.deliveryDate = this.accountForm.value['deliveryDate'];
 
     if (this.selectedContact.name) {
       this.selectedContact.owner=this.authentificationService.getDefaultOwner();
@@ -149,7 +189,19 @@ console.log(this.selectedAccount);
     ));
 
   }
+  onCompanySearch(event: any) {
+    this.subscriptions.add( this.companyService
+      .find('code~' + event.query)
+      .subscribe(data => (this.companies = data)));
+  }
 
+  onSelectCompany(event: any) {
+    console.log(event);
+
+    this.selectedAccount.company = event;
+
+
+  }
 
   onShowDialog() {
     let a = false;
@@ -164,9 +216,12 @@ console.log(this.selectedAccount);
     console.log(line);
 
     this.selectedAccount.plannings = this.selectedAccount.plannings.filter(
-      (l) => l.day !== line.day
+      (l) => l.day.code !== line.day.code
     );
     this.selectedAccount.plannings.push(line);
+    this.selectedAccount.plannings =  this.selectedAccount.plannings.sort(function (a, b) {
+      return (Number(a.day.value) - Number(b.day.value))
+    });
    console.log(this.selectedAccount.plannings);
 
 
@@ -176,7 +231,7 @@ console.log(this.selectedAccount);
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
         this.selectedAccount.plannings = this.selectedAccount.plannings.filter(
-          (l) => l.day !== day
+          (l) => l.day.code !== day
         );
 
       },
@@ -203,8 +258,31 @@ console.log(this.selectedAccount);
 
     }
 
+  }
+
+  generatePlannings(){
+
+    var planning : Planning;
+   var datMD :Date = new Date();
+   var datMF :Date = new Date();
+   var datSD :Date = new Date();
+   var datSF :Date = new Date();
 
 
+this.days.forEach(element => {
+  planning = new Planning()
+   datMD.setHours(8);datMD.setMinutes(0);
+   datMF.setHours(12);datMF.setMinutes(0);
+   datSD.setHours(14);datSD.setMinutes(0);
+   datSF.setHours(18);datSF.setMinutes(0);
+  planning.day=element,
+  planning.closingDay=false,
+  planning.morningTimeStart=datMD,
+  planning.morningTimeEnd=datMF,
+  planning.everingTimeStart=datSD,
+  planning.everingTimeEnd=datSF,
 
+   this.plannings.push(planning);
+});
   }
 }

@@ -87,9 +87,28 @@
           </div>
 
           <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+            <p-autoComplete  formControlName="company" [suggestions]="companies"
+            (onSelect)="onSelectCompany($event)" (completeMethod)="onCompanySearch($event)" field="code">
+          </p-autoComplete>
 
           </div>
         </div>
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-12 col-md-6">
+          <label class="font-weight-bold">{{'heure preferentielle de livraison'| translate}}</label><br />
+
+            <p-calendar  [timeOnly]="true" formControlName="deliveryDate" hourFormat="24" inputId="timeonly" ></p-calendar>
+
+          </div>
+          <div class="form-group col-sm-12 col-md-6">
+
+          </div>
+</div>
+
       </form>
     </div>
 
@@ -97,7 +116,7 @@
     <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
         <div class="row">
-  
+
           <div class="col-xs-4 col-md-4 pull-left">
             <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogPlanning(this.selectedPlanning,false)">
               <i class="fa fa-plus"></i>
@@ -115,36 +134,31 @@
       ?.plannings?.length">
           <ng-template pTemplate="header">
             <tr>
-  
-              <th>{{'Jour' | translate}}</th>
+
+
+              <th>{{'jour' | translate}}</th>
               <th>{{'Fermeture' | translate}}</th>
 
-              <th>{{'matin' | translate}}</th>
-              <th>{{'date debut' | translate}}</th>
-              <th>{{'date fin '| translate}}</th>
-              <th>{{'soir' | translate}} </th>
-              <th>{{'date debut' | translate}}</th>
-              <th>{{'date fin '| translate}}</th>
+              <th>{{'Heure début Matin' | translate}}</th>
+              <th>{{'Heure fin Matin '| translate}}</th>
+              <th>{{'Heure debut Soir' | translate}}</th>
+              <th>{{'Heure fin Soir '| translate}}</th>
               <!-- <th>{{ "Prix" | translate }}</th> -->
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
-  
+
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-line>
             <tr>
-              <td>{{line?.day}}</td>
+              <td>{{line?.day?.code}}</td>
               <td>{{line?.closingDay}}</td>
-
-              <td>{{line?.morning}}</td>
               <td>{{line?.morningTimeStart | date: 'HH:mm'}}</td>
               <td>{{line?.morningTimeEnd | date: 'HH:mm'}}</td>
-
-              <td>{{line?.evering}}</td>
               <td>{{line?.everingTimeStart | date: 'HH:mm'}}</td>
               <td>{{line?.everingTimeEnd | date: 'HH:mm'}}</td>
-         
+
               <td>
-  
+
                 <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogPlanning(line,true)">
                   <!--ADD-->
@@ -158,7 +172,7 @@
               </td>
             </tr>
           </ng-template>
-  
+
         </p-table>
       </div>
     </div>
@@ -191,9 +205,9 @@
 </p-dialog>
 <div *ngIf="showDialogPlanning == true">
   <app-planning-edit
-   (showDialog)="onHideDialogPlanning($event)" 
+   (showDialog)="onHideDialogPlanning($event)"
   (planningEdited)="onLineEditedPlanning($event)"
-    [selectedPlanning]="this.selectedPlanning" 
+    [selectedPlanning]="this.selectedPlanning"
     [editMode]="editModePlannig"></app-planning-edit>
 </div>
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>

@@ -1,3 +1,4 @@
+import { Day } from './day';
 import { Supplier } from ".";
 import { Account } from "./account";
 import { Owner } from "./owner";
@@ -7,7 +8,7 @@ export class Planning {
 
   id: number;
 
-    day:string ;
+    day:Day ;
     morning:string;
     morningTimeStart:Date= new Date();
     morningTimeEnd:Date= new Date();
@@ -18,5 +19,5 @@ export class Planning {
 
     account: Account;
     supplier: Supplier;
-    closingDay:boolean;
+    closingDay:Boolean=false;
 }

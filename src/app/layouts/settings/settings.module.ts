@@ -116,6 +116,7 @@ import { AccountEditComponent } from './account/account-edit/account-edit.compon
 import { PlanningEditComponent } from './account/account-edit/planning-edit/planning-edit.component';
 import { SupplierPlanningEditComponent } from './supplier/supplier-edit/supplier-planning-edit/supplier-planning-edit.component';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import { ActionTypeRepairComponent } from './actionType/action-type-edit/action-type-repair/action-type-repair.component';
 
 
 
@@ -200,7 +201,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
      AccountComponent,
      AccountEditComponent,
      PlanningEditComponent,
-     SupplierPlanningEditComponent
+     SupplierPlanningEditComponent,
+     ActionTypeRepairComponent
   ],
   imports: [
     CommonModule,

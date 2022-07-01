@@ -1,3 +1,5 @@
+import { VehicleProduct } from './vehicle-product';
+import { Driver } from './driver';
 import { Patrimony } from './patrimony';
 import { ConsumptionType } from './consumption-type';
 import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
@@ -53,5 +55,9 @@ export class Vehicle extends Patrimony {
   age :  number =0;
   owner:Owner;
   priceTurn:number=0;
-  
+  driver :Driver;
+  fixOrVariable: string;
+  dateDriver:Date;
+  vehicleProducts: VehicleProduct[]=[];
+
 }

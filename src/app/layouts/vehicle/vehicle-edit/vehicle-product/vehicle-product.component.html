@@ -1,0 +1,65 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="vehicleProductForm" >
+        <div class="modal-body">
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{'Produit' | translate}}*</label>
+                    <span *ngIf="(vehicleProductForm.get('pdt').touched && vehicleProductForm.get('pdt').invalid) ||
+            (isFormSubmitted && vehicleProductForm.get('pdt').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+                    </span>
+                    <p-autoComplete formControlName="pdt" [appendTo]="'body'"[suggestions]="productList" class="w-100"
+                     field="code" class="form-control border-0"  placeholder="{{this.selectedVehicleProduct?.product?.code}}"
+                        [minLength]="1" [size]="10" (completeMethod)="searchProduct($event)"
+                        (onSelect)="onSelectProduct($event)"></p-autoComplete>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{'Référence' | translate}}</label>
+                    <input type="text" pInputText class="form-control mb-2" formControlName="reference">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+</div>
+</div>
+</div>
+<p-footer>
+<div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+  <button
+  type="button"
+  pButton
+  (click)="onShowDialog()"
+  class="p-button-primary"
+  label="{{'Annuler' | translate }}"
+></button>
+<button
+    type="button"
+    pButton
+    (click)="onSubmit()"
+    class="p-button-success"
+    label="{{ 'Valider' | translate }}"
+  ></button>
+</div>
+</p-footer>
+</p-dialog>

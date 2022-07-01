@@ -1,3 +1,6 @@
+import { CompanyService } from './services/api/company.service';
+import { Company } from './models/company';
+import { SupplierTypeService } from './services/api/supplier-type.service';
 import { MaintenanceStockService } from './services/api/maintenance-stock.service';
 import { ReceptionStockService } from './services/api/reception-stock.service';
 import { OrderStatusService } from './services/api/order-status.service';
@@ -250,7 +253,9 @@ export class SharedModule {
         TurnSoPoService,
         HolidayService,
         SupplierHolidayService,
-        PlanningService 
+        PlanningService,
+        SupplierTypeService,
+        CompanyService
       ],
 
     };

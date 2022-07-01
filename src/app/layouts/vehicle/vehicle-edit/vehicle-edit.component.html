@@ -49,10 +49,10 @@
                  [showClear]="true"></p-dropdown>
             </div>
 
-        
+
           </div>
 
-         
+
           <div class="row  justify-content-around">
 
           <div class="form-group col-md-3 ">
@@ -66,15 +66,10 @@
               formControlName="fBadgeType" (onChange)="onSelectBadgeType($event)" [filter]="true"
                [showClear]="true"></p-dropdown>
           </div>
-          <div class="form-group col-md-7 ">
-          </div>
-          </div>
-
-          <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Date du contrôle technique'| translate}}</label>
               <br />
-              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy" 
+              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy"
                 formControlName="fTechnicalVisit" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-md-3 ">
@@ -82,13 +77,14 @@
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fValeurVisiteTechnique" />
             </div>
-            <div class="form-group col-md-3 "></div>
           </div>
+
+
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Date de paiement de vignette'| translate}}</label>
               <br />
-              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy" 
+              <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy"
                 formControlName="fVignette" yearRange="1970:2100"></p-calendar>
             </div>
             <div class="form-group col-md-3 ">
@@ -96,37 +92,134 @@
               <br />
               <input type="text" class="form-control" pInputText pKeyFilter="num" formControlName="fValeurVignette" />
             </div>
-            <div class="form-group col-md-3 "></div>
-          </div>
+            <div class="form-group col-md-3 ">
+              <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
+              <span *ngIf="
+                  (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
+                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
+                  (isFormSubmitted &&
+                  vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
 
-           <div class="row   justify-content-around">
-           
+              </span>
 
-        <div class="form-group col-md-3 ">
-          <label class="font-weight-bold">{{ "Plan Maintenance " | translate }} </label>
-          <span *ngIf="
-              (vehicleForm.controls['general'].get('fMaintenancePlan').touched &&
-              vehicleForm.controls['general'].get('fMaintenancePlan').invalid) ||
-              (isFormSubmitted &&
-              vehicleForm.controls['general'].get('fMaintenancePlan').invalid)
-            " class="text-lighter" style="color: red; font-size: xx-small;">
-            {{ 'Obligatoire' | translate}}
-
-          </span>
-
-          <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
-            (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="description">
-          </p-autoComplete>
+              <p-autoComplete  formControlName="fMaintenancePlan" [suggestions]="maintenancePlanList"
+                (onSelect)="onSelectMaintenancePlan($event)" (completeMethod)="onMaintenancePlanSearch($event)" field="description">
+              </p-autoComplete>
 
 
+            </div>          </div>
+
+            <div class="row  justify-content-around">
+
+              <div class="form-group col-md-3 ">
+                <label class="font-weight-bold">{{ "Chauffeur " | translate }} </label>
+                <span *ngIf="
+                    (vehicleForm.controls['general'].get('fDriver').touched &&
+                    vehicleForm.controls['general'].get('fDriver').invalid) ||
+                    (isFormSubmitted &&
+                    vehicleForm.controls['general'].get('fDriver').invalid)
+                  " class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{ 'Obligatoire' | translate}}
+
+                </span>
+
+                <p-autoComplete  formControlName="fDriver" [suggestions]="driverList"
+                  (onSelect)="onSelectDriver($event)"
+                  (completeMethod)="onDriverSearch($event)" field="name">
+                </p-autoComplete>
+
+
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{ "Mode " | translate }} </label>
+                <p-selectButton [options]="types" (onOptionClick)='onselectType($event)'
+                 optionLabel="name" optionValue="name" formControlName="fFixeOrVariable"></p-selectButton>
+
+              </div>
+
+
+
+              <div class="form-group col-md-3" *ngIf="this.selectedVehicle.fixOrVariable =='Variable'">
+                <label class="font-weight-bold">{{ "Date " | translate }} </label>
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy"
+                formControlName="fDateDriver" yearRange="1970:2100"></p-calendar>
+              </div>
+
+              <div class="form-group col-md-3" *ngIf="this.selectedVehicle.fixOrVariable!='Variable'">
+
+              </div>
+
+            </div>
         </div>
-        <div class="form-group col-md-7"></div>
-     
+
+
+        <div class="card m-5 ">
+          <div class="card-header" style="background-color: #f7f7f7;">
+           <div class="row">
+
+            <div class="col-xs-4 col-md-4 pull-left">
+              <button
+
+                type="button"
+                class="btn btn-sm btn-primary mx-1"
+                (click)="onShowDialogVehicleDriver(vehicleProduct,false)"
+                ><!--ADD-->
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <span style="font-size: 16px; color: #5f5b5b;">
+                <b> {{ "Liste des pieces de rechange" | translate }}</b></span
+              >
+            </div>
+          </div></div>
+          <div class="card-body border-top-primary">
+
+            <p-table
+            [value]=" this.selectedVehicle?.vehicleProducts" [lazy]="true" [rows]="size" [paginator]="true"
+            [totalRecords]=" this.selectedVehicle?.vehicleProducts?.length">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ "Produit" | translate }}</th>
+                  <th>{{ "Référence" | translate }}</th>
+                  <th style="width: 15%;">{{ "Actions" | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-line>
+                <tr>
+                  <td>
+                    {{ line?.product?.code }}
+                </td>
+                <td>{{ line?.reference }}</td>
+
+                  <td>
+                    <button
+
+                    type="button"
+                    class="btn btn-sm btn-primary mx-1"
+                    (click)="onShowDialogVehicleDriver(line,true)"
+                    ><!--ADD-->
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                  <button
+
+                  type="button"
+                  class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteVehicleDriver(line.id)"
+                  ><!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
           </div>
         </div>
-
-
-       
 
 
 
@@ -212,8 +305,8 @@
           </div>
 
           <div class="row  justify-content-around">
-          
-           
+
+
 
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{'Filtre à air '| translate}} (KM)</label>
@@ -237,7 +330,7 @@
 
           <div class="row  justify-content-around">
             <div class="form-group col-md-3 ">
-              <label class="font-weight-bold ">{{' Initiale (KM) ' | translate}} *</label>         
+              <label class="font-weight-bold ">{{' Initiale (KM) ' | translate}} *</label>
               <span *ngIf="(vehicleForm.controls['caracteristic'].get('fInitialmileage').touched && vehicleForm.controls['caracteristic'].get('fInitialmileage').invalid) ||
               (isFormSubmitted && vehicleForm.controls['caracteristic'].get('fInitialmileage').invalid)" class="text-lighter"
                 style="color: red; font-size: xx-small;">
@@ -245,16 +338,16 @@
               </span>
               <input type="text" class="form-control"  pInputText formControlName="fInitialmileage" />
             </div>
-  
+
             <div class="form-group col-md-3 ">
               <label class="font-weight-bold ">{{' Actuel (KM)' | translate}} </label>
-                      
+
               <input type="text" class="form-control"  [attr.disabled]="true"
-              pInputText formControlName="fCurrentmileage" />  
+              pInputText formControlName="fCurrentmileage" />
             </div>
             <div class="form-group col-md-3 ">
             </div>
-           
+
           </div>
           </div>
         </p-tabPanel>
@@ -292,7 +385,7 @@
                 {{"Obligatoire"| translate }}
               </span><br /> -->
               <p-dropdown  [options]="insuranceTypeList" optionLabel="description"
-              formControlName="fIType" (onChange)="onSelectInsuranceType($event)" 
+              formControlName="fIType" (onChange)="onSelectInsuranceType($event)"
               [filter]="true" [showClear]="true" >
             </p-dropdown>
             </div>
@@ -318,7 +411,7 @@
                  {{"Obligatoire"| translate }}
               </span> -->
               <br />
-              <p-calendar formControlName="fIStartDate" dateFormat="dd-mm-yy" 
+              <p-calendar formControlName="fIStartDate" dateFormat="dd-mm-yy"
                 [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
             </div>
 
@@ -419,7 +512,7 @@
               {{"Obligatoire"| translate }}
             </span>
             <br />
-            <p-calendar formControlName="fAquisition" dateFormat="dd-mm-yy" 
+            <p-calendar formControlName="fAquisition" dateFormat="dd-mm-yy"
               [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
           </div>
           <div class="form-group col-md-3">
@@ -435,7 +528,7 @@
 
           </div>
 
-       
+
 
 
         </div>
@@ -455,16 +548,16 @@
 
           </div>
 
-          <div class="form-group col-md-3 ">     
+          <div class="form-group col-md-3 ">
           </div>
 
           <div class="form-group col-md-3 ">
-          
-          </div>
 
           </div>
 
-          
+          </div>
+
+
 
           <div class="row  mt-3 justify-content-around">
 
@@ -476,7 +569,7 @@
               {{"Obligatoire"| translate }}
             </span>
             <br />
-            <p-calendar formControlName="fRelease" dateFormat="dd-mm-yy" 
+            <p-calendar formControlName="fRelease" dateFormat="dd-mm-yy"
               [monthNavigator]="true" [yearNavigator]="true" yearRange="1970:2100"></p-calendar>
           </div>
 
@@ -519,7 +612,7 @@
 
               <!--             FIn Onglet  Contrat -->
 
-          
+
 
 
   <div *ngIf="!(this.index==0)"  class="row pull-left ">
@@ -541,4 +634,13 @@
 
 <p-toast position="top-right" [autoZIndex]="'true'" ></p-toast>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
+<div *ngIf="showDialogVehiclePriduct == true">
+  <app-vehicle-product
+    (showDialog)="onHideDialogVehicleProduct($event)"
+    (vehicleProductAdded)="onLineEditedVehicleProduct($event)"
+     [selectedVehicleProduct]="selectedVehicleProduct"
+     [editMode]="editModeVehiclePriduct"
+    ></app-vehicle-product>
+</div>

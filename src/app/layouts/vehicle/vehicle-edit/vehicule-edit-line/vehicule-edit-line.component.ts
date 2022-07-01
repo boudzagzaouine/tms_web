@@ -21,13 +21,14 @@ export class VehiculeEditLineComponent implements OnInit {
   @Input() selectedTermLigne = new InsuranceTermsVehicle();
   @Output() insuranceTermLineAdded = new EventEmitter<InsuranceTermsVehicle>();
 
-   valueamount: boolean;
+  valueamount: boolean;
   closeResult: String;
   insuranceTermLineForm: FormGroup;
   insuranceTermLineList: InsuranceTermsVehicle[] = [];
   insuranceTermList: InsuranceTerm[] = [];
   isFormSubmitted = false;
   title ='Modifier un terme assurance';
+  
   constructor( private modalService: NgbModal,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -63,7 +64,7 @@ export class VehiculeEditLineComponent implements OnInit {
 
    this.insuranceTermLineAdded.emit(this.selectedTermLigne);
 
-  
+
 
 
 
@@ -112,7 +113,7 @@ if (this.selectedTermLigne.insuranceTerm.roofed) {
   this.insuranceTermLineForm.controls['Famount'].disable();
 }
 
-   
+
   }
 
   loadTermInsurance() {

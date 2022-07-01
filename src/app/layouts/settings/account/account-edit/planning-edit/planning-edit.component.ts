@@ -1,3 +1,5 @@
+import { Day } from './../../../../../shared/models/day';
+import { DayService } from './../../../../../shared/services/api/day.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
@@ -19,22 +21,28 @@ export class PlanningEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un Plan';
   planningForm: FormGroup;
-  planningDays: Array<{ day: string }> = [];
+  planningDays: Array<Day> = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,
+    private dayService:DayService
 
   ) { }
 
   ngOnInit() {
 
-    this.planningDays = [ { day: 'LUNDI' }, { day: 'MARDI' }, { day: 'MERCREDI' }, { day: 'JEUDI' }, { day: 'Vendredi' }, { day: 'SAMEDI' }, { day: 'DIMANCHE' },]
+   // this.planningDays = [ { day: 'LUNDI' }, { day: 'MARDI' }, { day: 'MERCREDI' }, { day: 'JEUDI' }, { day: 'Vendredi' }, { day: 'SAMEDI' }, { day: 'DIMANCHE' },]
 
     this.title = 'Ajouter un Plan';
     this.displayDialog = true;
     console.log(this.editMode);
+    this.dayService.findAll().subscribe((data) => {
+      this.planningDays = data.sort(function (a, b) {
+        return (Number(a.value) - Number(b.value))
+      });
 
+    })
 
     if (!this.editMode) {
       console.log("new");
@@ -48,7 +56,7 @@ export class PlanningEditComponent implements OnInit {
     }
     else{
       console.log("modif");
-      
+
     }
     this.initForm();
     console.log(this.selectedPlanning);
@@ -58,16 +66,21 @@ export class PlanningEditComponent implements OnInit {
   onChangeClosing(event){
 console.log(event.checked);
 if(event.checked==true){
+this.selectedPlanning.closingDay=true;
+  const  date =new Date();
+  date.setHours(0,0,0);
+    this.planningForm.patchValue({
+      morningstart: date,
+      morningend:  date,
+      everingstart:date,
+      everingend:date,
+    });
 
-  // this.planningForm.patchValue({
-  //   everingstart: new Date(),
-  //   everingend:   new Date(),
-  //   morningstart:   new Date(),
-  //   morningend:   new Date(),
+    this.planningForm.updateValueAndValidity();
 
-  // });
 
-  
+}else{
+  this.selectedPlanning.closingDay=false;
 
 }
   }
@@ -118,8 +131,8 @@ if(event.checked==true){
 
 
   onSelectDay(event) {
-    console.log(event.value.day);
-    this.selectedPlanning.day = event.value.day;
+    this.dayService.findById(event.value).subscribe(data=>{
+      this.selectedPlanning.day = data;})
   }
 
 

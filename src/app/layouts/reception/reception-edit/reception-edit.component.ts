@@ -365,31 +365,33 @@ export class ReceptionEditComponent implements OnInit {
       this.selectedReception.receptionLines.push(receptionLine);
     }
 
+this.calculateAllLines();
+    // this.selectedReception.totalPriceTTC = 0.0;
+    // this.selectedReception.totalPriceHT = 0.0;
+    // this.selectedReception.vat = 0.0;
+    // this.selectedReception.receptionLines.forEach(line => {
+    //   this.selectedReception.totalPriceTTC += line.totalPriceTTC;
+    //   this.selectedReception.totalPriceHT += line.totalPriceHT;
+    //   this.selectedReception.vat +=
+    //     line.totalPriceTTC - line.totalPriceHT;
+    // });
 
-    this.selectedReception.totalPriceTTC = 0.0;
-    this.selectedReception.totalPriceHT = 0.0;
-    this.selectedReception.vat = 0.0;
-    this.selectedReception.receptionLines.forEach(line => {
-      this.selectedReception.totalPriceTTC += line.totalPriceTTC;
-      this.selectedReception.totalPriceHT += line.totalPriceHT;
-      this.selectedReception.vat +=
-        line.totalPriceTTC - line.totalPriceHT;
-    });
+    // if (this.receptionForm != null) {
+    //   this.receptionForm.patchValue({
+    //     totalPriceHT: this.selectedReception.totalPriceHT,
+    //     vat: this.selectedReception.vat,
+    //     totalttc: this.selectedReception.totalPriceTTC
+    //   });
+    //   this.receptionForm.updateValueAndValidity();
 
-    if (this.receptionForm != null) {
-      this.receptionForm.patchValue({
-        totalPriceHT: this.selectedReception.totalPriceHT,
-        vat: this.selectedReception.vat,
-        totalttc: this.selectedReception.totalPriceTTC
-      });
-      this.receptionForm.updateValueAndValidity();
-
-    }
+   // }
 
 
   }
 
   calculateAllLines() {
+    console.log("calculate");
+
     this.selectedReception.totalPriceHT = 0;
     this.selectedReception.totalPriceTTC = 0;
     this.selectedReception.vat = 0;
@@ -401,6 +403,22 @@ export class ReceptionEditComponent implements OnInit {
           this.selectedReception.totalPriceHT);
     }
     );
+
+
+
+    let ht = this.selectedReception.receptionLines
+    .map(l => l.totalPriceHT)
+    .reduce(( prev,acc) => prev + acc, 0 );
+console.log(ht);
+console.log(this.selectedReception.totalPriceHT);
+
+    let ttc = this.selectedReception.receptionLines
+    .map(l => l.totalPriceTTC)
+    .reduce(( prev,acc) => prev + acc, 0 );
+    console.log(ttc);
+    console.log(this.selectedReception.totalPriceTTC);
+
+
     const purchaseOrderNameControl = this.receptionForm.get('order');
     this.receptionForm.patchValue({
       'vat': this.selectedReception.vat

@@ -1,3 +1,4 @@
+import { SupplierType } from './supplier-type';
 import { Address } from './address';
 import { Contact } from './contact';
 import { Owner } from './owner';
@@ -25,5 +26,6 @@ export class Supplier {
     cnssNumber: string;
     company: string;
     plannings :Planning[]=[];
+    supplierType:SupplierType;
 
 }

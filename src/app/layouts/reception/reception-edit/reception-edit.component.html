@@ -53,7 +53,7 @@
   <div class="form-group col-md-3">
 
     <label class="font-weight-bold ">{{'BL'| translate}} </label>
-  
+
     <input
                               type="text" pInputText
                               class="form-control"
@@ -76,7 +76,7 @@
   />
 
     <!-- <p-dropdown name="order-type"  formControlName="type" class="w-100"
-    [options]="orderTypeList" optionLabel="code" [autoDisplayFirst]="true" 
+    [options]="orderTypeList" optionLabel="code" [autoDisplayFirst]="true"
     (onChange)="onSelectOrderType($event)">
 </p-dropdown> -->
     <!-- <div class="input-group">
@@ -282,10 +282,10 @@
     {{'Fermer' | translate}}
   </a>
 
-  <button  
-  *ngIf="this.validate==1" 
+  <button
+  *ngIf="this.validate==1"
   type="button"
-  pButton 
+  pButton
   [useExistingCss]="true"
   printSectionId="print-section" ngxPrint
   class="p-button-warning m-1"
@@ -296,11 +296,11 @@
 <button     type="button"
 pButton class="p-button-success m-1" (click)="onSubmit()"
 label=" {{'Valider et continuer' | translate }}">
- 
+
 </button>
 <button    pButton  type="button" class="p-button-success m-1" (click)="onSubmit(true)"
 label=" {{ 'Valider' | translate }}">
- 
+
 </button>
 </div>
 
@@ -321,7 +321,7 @@ label=" {{ 'Valider' | translate }}">
 
 
 
-<div  id="print-section" 
+<div  id="print-section"
   style=" visibility: hidden;">
    <app-reception-generate-bon
    [selectedReception]="this.selectedReception"

@@ -1,3 +1,7 @@
+import { ConfigMessageComponent } from './../../settings/configMessage/configMessage.component';
+import { VehicleProduct } from './../../../shared/models/vehicle-product';
+import { DriverService } from './../../../shared/services/api/driver.service';
+import { Driver } from './../../../shared/models/driver';
 import { Filter } from './../../../shared/models/filter';
 import { Subscription } from 'rxjs';
 import { ConsumptionType } from './../../../shared/models/consumption-type';
@@ -9,7 +13,7 @@ import { Transport } from './../../../shared/models/transport';
 
 import { InsuranceTypeTermsService } from './../../../shared/services/api/insurance-type-term.service';
 import { InsuranceTypeTerms } from './../../../shared/models/insurance-type-terms';
-import { MenuItem, MessageService } from 'primeng/api';
+import { Confirmation, MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { InsuranceTypeService } from './../../../shared/services/api/insurance-type.service';
 import { InsuranceType } from './../../../shared/models/insurance-Type';
 import { ToastrService } from 'ngx-toastr';
@@ -68,6 +72,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   selectInusuranceTypeTerm = new InsuranceTypeTerms();
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
   maintenancePlanList: MaintenancePlan[] = [];
+ driverList: Driver[] = [];
+
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
@@ -75,12 +81,20 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   isFormSubmitted = false;
   fr: any;
   items: MenuItem[];
-    
+
   home: MenuItem;
+  types: any[];
+  vehicleProducts: VehicleProduct[]=[];
+  selectedVehicleProduct: VehicleProduct = new VehicleProduct();
+  vehicleProduct = new VehicleProduct;
+
+  showDialogVehiclePriduct: boolean;
+  editModeVehiclePriduct: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private maintenancePlanService :MaintenancePlanService,
+    private driverService: DriverService,
     private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
     private badgeTypeService: BadgeTypeService,
@@ -97,7 +111,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     private consumptionTypeService: ConsumptionTypeService,
     private authentificationService:AuthenticationService,
     private messageService: MessageService,
-    
+    private confirmationService:ConfirmationService,
+
 
   ) { }
 
@@ -106,12 +121,16 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.items = [
       {label: 'Véhicule'},
       {label: 'Editer' ,routerLink:'/core/vehicles/edit'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
-   
+  this.types=[
+
+    {name:'Fixe'},
+    {name:'Variable'},
+]
     this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
@@ -121,6 +140,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         id = params['id'];
         this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
+          this.selectedVehicle.vehicleProducts=this.selectedVehicle.vehicleProducts?this.selectedVehicle.vehicleProducts:[];
           console.log("vehicule");
           console.log(this.selectedVehicle);
 
@@ -131,8 +151,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
                 if (dataInsurance !== null) {
 
                   this.selectedInsurance = dataInsurance;
-                  
-                  
+
+
                   console.log("insurance");
                   console.log(this.selectedInsurance);
 
@@ -159,13 +179,14 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       })
       );
     } else {
+      this.selectedVehicle.vehicleProducts=this.selectedVehicle.vehicleProducts?this.selectedVehicle.vehicleProducts:[];
 
       this.subscriptions.add(this.vehicleService.generateCode().subscribe(
         code => {
           console.log("code");
-          
+
           console.log(code);
-          
+
        this.selectedVehicle.code = code;
         this.initForm();
     }
@@ -233,10 +254,12 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     const d = new Date(this.selectedVehicle.technicalVisit);
     const dd = new Date(this.selectedVehicle.vignette);
     const ddd = new Date(this.selectedVehicle.aquisitionDate);
+    const dateDriver = new Date(this.selectedVehicle.dateDriver);
+
     const drelease = this.selectedVehicle.release == null  ?this.selectedVehicle.release :new Date(this.selectedVehicle.release);
 
-    
-     var Diff_temps = new Date().getTime() - (new Date(this.selectedVehicle.release?this.selectedVehicle.release : new Date())).getTime(); 
+
+     var Diff_temps = new Date().getTime() - (new Date(this.selectedVehicle.release?this.selectedVehicle.release : new Date())).getTime();
      var Diff_jours = Diff_temps / (1000 * 3600 * 24);
 
     this.vehicleForm = new FormGroup({
@@ -251,6 +274,9 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fVignette': new FormControl(dd),
         'fValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
         'fMaintenancePlan': new FormControl(this.selectedVehicle.maintenancePlan),
+        'fDriver': new FormControl(this.selectedVehicle.driver),
+        'fFixeOrVariable': new FormControl(this.selectedVehicle.fixOrVariable),
+        'fDateDriver': new FormControl(dateDriver),
 
       }),
       caracteristic: new FormGroup({
@@ -307,6 +333,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.vignette = formValue['general']['fVignette'];
     this.selectedVehicle.valueVignette = formValue['general']['fValeurVignette'];
     this.selectedVehicle.valueVignette = formValue['general']['fmileage'];
+    this.selectedVehicle.dateDriver = formValue['general']['fDateDriver'];
 
     this.selectedVehicle.grayCard = formValue['caracteristic']['fGrayCard'];
     this.selectedVehicle.chassisNumber = formValue['caracteristic']['fChassisNumber'];
@@ -321,7 +348,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.airFilter = formValue['caracteristic']['fAreaFilter'];
     this.selectedVehicle.gearBox = formValue['caracteristic']['fGearBox'];
      this.selectedVehicle.initialMileage = formValue['caracteristic']['fInitialmileage'];
-    this.selectedVehicle.currentMileage = formValue['caracteristic']['fCurrentmileage']; 
+    this.selectedVehicle.currentMileage = formValue['caracteristic']['fCurrentmileage'];
      this.selectedVehicle.desiccantFilter = formValue['caracteristic']['fDesiccantFilter']
     this.selectedInsurance.code = formValue['insurance']['fICode'];
     this.selectedInsurance.startDate = formValue['insurance']['fIStartDate'];
@@ -334,8 +361,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.release = formValue['contract']['fRelease'];
 
   this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
-  
-   
+
+
 
     this.subscriptions.add(this.vehicleService.set(this.selectedVehicle).subscribe(
       data => {
@@ -353,13 +380,13 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
         }
         console.log("vehicule");
-        
+
         console.log(this.selectedVehicle);
         console.log("insurance");
-        
+
         console.log(this.selectedInsurance);
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-     
+
        this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedVehicle = new Vehicle();
@@ -401,7 +428,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   onloadByTypeTermInsurance(idinsurancetype: number) {
     console.log(idinsurancetype);
-    
+
     if (this.editModee) {
       this.selectedInsurance.insuranceTermLignes = [];
     }
@@ -441,6 +468,15 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   }
 
+
+ onselectType(event){
+    //  this.selectType=(event.option.name) as string;
+    //  console.log(event.option.code);
+
+    this.selectedVehicle.fixOrVariable=event.option.name;
+    }
+
+
   onNvclick() {
     this.vehicleForm.controls['insurance'].get('fICode').setValue(null);
     this.vehicleForm.controls['insurance'].get('fISupplier').setValue(null);
@@ -455,8 +491,13 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   onSelectMaintenancePlan(event: any) {
     this.selectedVehicle.maintenancePlan = event;
-    
-   
+
+
+  }
+  onSelectDriver(event: any) {
+    this.selectedVehicle.driver = event;
+
+
   }
 
   onMaintenancePlanSearch(event: any) {
@@ -465,10 +506,63 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
       .subscribe(data => (this.maintenancePlanList = data)));
   }
 
+  onDriverSearch(event: any) {
+    this.subscriptions.add( this.driverService
+      .find('name~' + event.query)
+      .subscribe(data => (this.driverList = data)));
+  }
+
+
+  onShowDialogVehicleDriver(line, mode) {
+    console.log("show dialog");
+  console.log(mode);
+console.log("---");
+
+    this.showDialogVehiclePriduct = true;
+
+    if (mode == true) {
+      this.selectedVehicleProduct = line;
+      this.editModeVehiclePriduct = true;
+    } else {
+      this.editModeVehiclePriduct = false;
+
+    }
+  }
+
+  onDeleteVehicleDriver(id: number) {
+    console.log("delete");
+
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+        this.selectedVehicle.vehicleProducts = this.selectedVehicle.vehicleProducts.filter(
+          (l) => l.id !== id
+        );
+        // this.updateTotalPrice();
+      },
+    });
+
+  }
+
+  onLineEditedVehicleProduct(vehicleProduct: VehicleProduct) {
+
+
+    const orderline = this.selectedVehicle.vehicleProducts.find(
+      line => line.product.id === vehicleProduct.product.id
+    );
+    if (orderline == null) {
+      this.selectedVehicle.vehicleProducts.push(vehicleProduct);
+    }
+  }
+  onHideDialogVehicleProduct(event) {
+    this.showDialogVehiclePriduct = event;
+  }
+
+
 
   openNext() {
     this.isFormSubmitted = true;
-    
+
     if (this.index === 0) {
       if
         (this.vehicleForm.controls['general'].invalid) {

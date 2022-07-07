@@ -1,0 +1,736 @@
+<p-breadcrumb [model]="itemsbreadcrumb" [home]="home"></p-breadcrumb>
+<div class="card mt-1">
+  <div class="card-header" style="background-color: #f7f7f7"></div>
+  <div class="card-body border-top-primary">
+    <form>
+      <div class="mt-3 row justify-content-around">
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold">{{ "Code" | translate }} *</label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            formControlName="code"
+            pInputText
+          />
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold"
+            >{{ "Date " | translate }} *</label
+          >
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            yearRange="1970:2100"
+            formControlName="fDateLivraison"
+          >
+          </p-calendar>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold">{{ "Type" | translate }} *</label>
+
+          <p-selectButton
+            [options]="types"
+            formControlName="floadingType"
+            optionLabel="name"
+          >
+          </p-selectButton>
+        </div>
+        <div class="form-group col-md-3"></div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
+            <p-fieldset legend="Expediteur">
+              <div class="row justify-content-around">
+                <div class="form-group col-md-4">
+                  <label class="font-weight-bold"
+                    >{{ " Déjà existant" | translate }} *</label
+                  >
+                  <br />
+                </div>
+                <div class="form-group col-md-2">
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="font-weight-bold"
+                    >{{ "Oui" | translate }} </label
+                  >
+
+                  <p-radioButton
+                    name="expediteur"
+                    [value]="'true'"
+                    [(ngModel)]="selectedValueExpediteur"
+                    inputId="expediteur1"
+                  ></p-radioButton>
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="font-weight-bold"
+                    >{{ "Non" | translate }} </label
+                  >
+                    <p-radioButton
+                    name="expediteur"
+                     [value]="'false'"
+                    [(ngModel)]="selectedValueExpediteur"
+                    inputId="expediteur2"
+                  ></p-radioButton>
+                </div>
+
+              </div>
+              <div class="row justify-content-around">
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold"
+                    >{{ "Nom" | translate }} *</label
+                  >
+
+                  <br />
+                  <p-autoComplete  *ngIf="(selectedValueExpediteur=='true')"
+                   field="description">
+                </p-autoComplete>
+                  <input *ngIf="(selectedValueExpediteur=='false')"
+                    type="text"
+                    class="form-control"
+                    pInputText
+
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Tel 1" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="tel1"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "email" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="email"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Société" | translate
+                  }}</label
+                  ><br />
+
+                  <p-autoComplete formControlName="company" field="code">
+                  </p-autoComplete>
+                </div>
+              </div>
+
+              <div class="row justify-content-around">
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold"
+                    >{{ "Ligne d'adresse 1" | translate }} *</label
+                  >
+                  <br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="line1"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Ville" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="city"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Code postal" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="zipCode"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Pays" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="country"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Date d'enlévenment" | translate
+                  }}</label
+                  ><br />
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
+                formControlName="fDateLivraison">
+              </p-calendar>
+            </div>
+              <div class="form-group col-md-6">
+</div>
+
+              </div>
+            </p-fieldset>
+          </p-scrollPanel>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <p-scrollPanel
+            [style]="{ width: '100%', height: 'auto' }"
+            styleClass="custombar1"
+          >
+            <p-fieldset legend="Destinataire">
+
+              <div class="row justify-content-around">
+                <div class="form-group col-md-4">
+                  <label class="font-weight-bold"
+                    >{{ " Déjà existant" | translate }} </label
+                  >
+                  <br />
+                </div>
+                           <div class="form-group col-md-2">
+</div>
+                <div class="form-group col-md-3">
+                  <label class="font-weight-bold"
+                    >{{ "Oui" | translate }} </label
+                  >
+
+                  <p-radioButton
+                    name="destinataire"
+                    [value]="'true'"
+                    [(ngModel)]="selectedValueDestinataire"
+                    inputId="destinataire1"
+                  ></p-radioButton>
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="font-weight-bold"
+                    >{{ "Non" | translate }} *</label
+                  >
+                    <p-radioButton
+                    name="destinataire"
+                     [value]="'false'"
+                    [(ngModel)]="selectedValueDestinataire"
+                    inputId="destinataire2"
+                  ></p-radioButton>
+                </div>
+
+              </div>
+
+              <div class="row justify-content-around">
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold"
+                    >{{ "Nom" | translate }} *</label
+                  >
+                  <br />
+                  <p-autoComplete  *ngIf="(selectedValueDestinataire=='true')"
+                  field="description">
+               </p-autoComplete>
+                 <input *ngIf="(selectedValueDestinataire=='false')"
+                   type="text"
+                   class="form-control"
+                   pInputText
+
+                 />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Tel 1" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="tel1"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "email" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="email"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Société" | translate
+                  }}</label
+                  ><br />
+
+                  <p-autoComplete formControlName="company" field="code">
+                  </p-autoComplete>
+                </div>
+              </div>
+
+              <div class="row justify-content-around">
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold"
+                    >{{ "Ligne d'adresse 1" | translate }} *</label
+                  >
+                  <br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="line1"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Ville" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="city"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Code postal" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="zipCode"
+                  />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Pays" | translate
+                  }}</label
+                  ><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    pInputText
+                    formControlName="country"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{
+                    "Date Livraison" | translate
+                  }}</label
+                  ><br />
+                <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
+                formControlName="fDateLivraison">
+              </p-calendar>
+            </div>
+              <div class="form-group col-md-6">
+</div>
+
+              </div>
+            </p-fieldset>
+          </p-scrollPanel>
+        </div>
+      </div>
+
+      <p-fieldset legend="Détail de colis">
+        <div class="row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Type emballage" | translate }} *</label
+            >
+
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="typeOfPackagings"
+              optionLabel="name"
+              formControlName="floadingType"
+              [filter]="true"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-group col-md-9">
+</div>
+</div>
+          <div class="row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold">{{
+              "Nombre colis" | translate
+            }}</label
+            ><br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="tel1"
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Poids Kg" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="nameA"
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Longueur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="nameA"
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Largeur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="nameA"
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Hauteur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="nameA"
+            />
+          </div>
+        </div>
+      </p-fieldset>
+
+      <div class="text-center mt-3 mr-3 ml-3">
+        <a class="btn btn-primary m-1">
+          {{ "Fermer" | translate }}
+        </a>
+        <button type="button" class="btn btn-success m-1">
+          {{ "Valider et continuer" | translate }}
+        </button>
+        <button type="button" class="btn btn-success m-1">
+          {{ "Valider" | translate }}
+        </button>
+      </div>
+
+      <!-- ---------------------- -->
+
+      <!-- <p-fieldset legend="Expéditeur">
+
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+
+          <p-scrollPanel [style]="{width: '100%', height: 'auto'}">
+
+            <p-fieldset legend="Contact">
+              <div class="row  justify-content-around">
+
+                <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+                <br />
+                <input type="text" class="form-control" pInputText formControlName="nameA" />
+              </div>
+
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+                <input type="text" class="form-control" pInputText formControlName="tel1" />
+              </div>
+  </div>
+              <div class="row  justify-content-around">
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'email' | translate}}</label><br />
+                <input type="text" class="form-control" pInputText formControlName="email" />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+                <p-autoComplete  formControlName="company"  field="code">
+              </p-autoComplete>
+
+              </div>
+
+
+            </div>
+          </p-fieldset>
+
+          </p-scrollPanel>
+
+      </div>
+      <div class="p-col-12 p-md-6">
+          <p-scrollPanel [style]="{width: '100%', height: 'auto'}" styleClass="custombar1">
+            <p-fieldset legend="Adresse">
+              <div class="row  justify-content-around">
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="line1"
+                   />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
+                  <input type="text" class="form-control" pInputText formControlName="city" />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
+                  <input type="text" class="form-control" pInputText formControlName="zipCode" />
+                </div>
+
+            <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
+                  <input type="text" class="form-control" pInputText formControlName="country" />
+                </div>
+              </div>
+              <div class="row  justify-content-around">
+
+
+
+
+              </div>
+
+
+
+          </p-fieldset>
+          </p-scrollPanel>
+      </div>
+
+  </div>
+    </p-fieldset>
+
+
+    <p-fieldset legend="Destinataire">
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+
+            <p-scrollPanel [style]="{width: '100%', height: 'auto'}">
+
+              <p-fieldset  legend="Contact" >
+
+
+
+                <div class="row  justify-content-around">
+
+                  <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+                  <br />
+                  <input type="text" class="form-control" pInputText formControlName="nameA" />
+                </div>
+
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+                  <input type="text" class="form-control" pInputText formControlName="tel1" />
+                </div>
+    </div>
+                <div class="row  justify-content-around">
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'email' | translate}}</label><br />
+                  <input type="text" class="form-control" pInputText formControlName="email" />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+                  <p-autoComplete  formControlName="company"  field="code">
+                </p-autoComplete>
+
+                </div>
+
+
+              </div>
+            </p-fieldset>
+
+            </p-scrollPanel>
+
+        </div>
+        <div class="p-col-12 p-md-6">
+            <p-scrollPanel [style]="{width: '100%', height: 'auto'}" styleClass="custombar1">
+              <p-fieldset legend="Adresse">
+                <div class="row  justify-content-around">
+
+                  <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
+                    <br />
+                    <input type="text" class="form-control" pInputText formControlName="line1"
+                     />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
+                    <input type="text" class="form-control" pInputText formControlName="city" />
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
+                    <input type="text" class="form-control" pInputText formControlName="zipCode" />
+                  </div>
+
+              <div class="form-group col-md-6">
+                    <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
+                    <input type="text" class="form-control" pInputText formControlName="country" />
+                  </div>
+                </div>
+                <div class="row  justify-content-around">
+
+
+
+
+                </div>
+
+
+
+            </p-fieldset>
+            </p-scrollPanel>
+        </div>
+
+    </div>
+      </p-fieldset> -->
+
+      <!-- <p-fieldset legend="Expéditeur">
+
+    <hr>
+    <div class="row  justify-content-around">
+
+      <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+      <br />
+      <input type="text" class="form-control" pInputText formControlName="nameA" />
+    </div>
+
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+      <input type="text" class="form-control" pInputText formControlName="tel1" />
+    </div>
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'email' | translate}}</label><br />
+      <input type="text" class="form-control" pInputText formControlName="email" />
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+      <p-autoComplete  formControlName="company"  field="code">
+    </p-autoComplete>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="row  justify-content-around">
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
+      <br />
+      <input type="text" class="form-control" pInputText formControlName="line1"
+       />
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
+      <input type="text" class="form-control" pInputText formControlName="city" />
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
+      <input type="text" class="form-control" pInputText formControlName="zipCode" />
+    </div>
+
+<div class="form-group col-md-3">
+      <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
+      <input type="text" class="form-control" pInputText formControlName="country" />
+    </div>
+  </div>
+  <div class="row  justify-content-around">
+
+
+
+    <div class="form-group col-md-4">
+      <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+      <p-autoComplete  formControlName="company"  field="code">
+    </p-autoComplete>
+
+    </div>
+  </div>
+
+  <div class="row  justify-content-around">
+
+    <div class="form-group col-md-4">
+    <label class="font-weight-bold">{{'heure preferentielle de livraison'| translate}}</label><br />
+
+      <p-calendar  [timeOnly]="true" formControlName="deliveryDate" hourFormat="24" inputId="timeonly" ></p-calendar>
+
+    </div>
+    <div class="form-group col-md-4">
+
+    </div>
+</div>
+
+
+
+
+  </p-fieldset> -->
+    </form>
+  </div>
+</div>

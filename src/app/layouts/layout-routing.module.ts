@@ -33,7 +33,7 @@ const routes: Routes = [
 
        { path: 'stock-view',
        loadChildren: () => import('./stock-view/stock-view.module').then(m => m.StockViewModule) },
-      
+
        { path: 'order',
        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule) },
 
@@ -47,8 +47,9 @@ const routes: Routes = [
           loadChildren: () => import('./alimentation-pumps/alimentation-pumps.module')
             .then(m => m.AlimentationPumpsModule)
         },
+        { path: 'trajet', loadChildren: () => import('./trajet/trajet.module').then(m => m.TrajetModule) },
 
-  
+
     ],
   }];
 

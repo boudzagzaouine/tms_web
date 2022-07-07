@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
-  
+
   { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule), canActivate: [AuthGuard] },
   { path: 'core', loadChildren: () => import('./layouts/layout.module').then(m => m.LayoutModule), canActivate: [AuthGuard] },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
@@ -11,9 +11,10 @@ const routes: Routes = [
   { path: '**', redirectTo: 'not-found', pathMatch: 'full'  },
   { path: 'orders', loadChildren: () => import('./layouts/orders/orders.module').then(m => m.OrdersModule) },
   { path: 'reception', loadChildren: () => import('./layouts/reception/reception.module').then(m => m.ReceptionModule) },
-  
+
   { path: 'dashboards', loadChildren: () => import('./layouts/dashboards/dashboards.module').then(m => m.DashboardsModule) },
- 
+
+
 ];
 
 @NgModule({

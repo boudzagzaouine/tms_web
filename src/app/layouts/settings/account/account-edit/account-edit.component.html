@@ -1,16 +1,19 @@
-<p-dialog
+<!-- <p-dialog
   header="{{ title | translate }}"
   [(visible)]="displayDialog"
   [focusOnShow]="false"
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [style]="{ width: '800px' }"
+  [style]="{ width: '80%' }"
   (onHide)="onShowDialog()"
->
-  <div>
-    <div class="modal-body">
-      <div class="card-body">
+> -->
+
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{ 'editMofdeTitle' | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary" >
       <form [formGroup]="accountForm">
 
         <div class="row  justify-content-around">
@@ -110,8 +113,9 @@
 </div>
 
       </form>
-    </div>
-
+  </div>
+  <p-tabView [activeIndex]="0" >
+  <p-tabPanel header="{{ 'Plannings' | translate}}" [disabled]="true" headerStyleClass="onglet-p-5">
 
     <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
@@ -177,32 +181,28 @@
       </div>
     </div>
 
+  </p-tabPanel>
 
+  </p-tabView>
+<div class="text-center mt-3 mr-3 ml-3" >
 
-
-
-
+  <div class="text-center mt-3 mr-3 ml-3" >
+    <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
+      {{'Fermer' | translate}}
+    </a>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+      {{'Valider et continuer' | translate }}
+    </button>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+      {{ "Valider" | translate }}
+    </button>
   </div>
 </div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-    <button
-      type="button"
-      pButton
-      (click)="onShowDialog()"
-      class="p-button-primary"
-      label="{{'Annuler' | translate }}"
-    ></button>
-    <button
-      type="button"
-      pButton
-      (click)="onSubmit()"
-      class="p-button-success"
-      label="{{'Valider' | translate }}"
-    ></button>
-  </div>
-</p-footer>
-</p-dialog>
+
+</div>
+
+
+<!-- </p-dialog> -->
 <div *ngIf="showDialogPlanning == true">
   <app-planning-edit
    (showDialog)="onHideDialogPlanning($event)"

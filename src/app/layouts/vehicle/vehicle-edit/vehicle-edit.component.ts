@@ -73,7 +73,8 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   InsuranceTermVehicle: InsuranceTermsVehicle[] = [];
   maintenancePlanList: MaintenancePlan[] = [];
  driverList: Driver[] = [];
-
+ interneExternes : any[];
+ internOrExtern :string;
   transportList: any[] = [];
   idinsurancetype: number;
   index: number = 0;
@@ -125,6 +126,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   ];
 
   this.home = {icon: 'pi pi-home'};
+
+  this.interneExternes=[
+    'Interne',
+    'Externe',
+]
 
   this.types=[
 
@@ -310,9 +316,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         'fContractType': new FormControl(this.selectedVehicle.contractType, Validators.required),
         'fAquisition': new FormControl(ddd, Validators.required),
         'fAmountc': new FormControl(this.selectedVehicle.amount, Validators.required),
-        'fTransport': new FormControl(this.selectedVehicle.transport, Validators.required),
+        'fTransport': new FormControl(this.selectedVehicle.transport),
         'fRelease': new FormControl(drelease , Validators.required),
         'fAge': new FormControl(Diff_jours.toFixed(0)+'  jours'),
+        'fInternOrExterne': new FormControl(this.selectedVehicle.interneOrExterne ),
+        'fDurationInMonth': new FormControl(this.selectedVehicle.durationInMonths ),
 
       }),
 
@@ -359,6 +367,10 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     this.selectedVehicle.aquisitionDate = formValue['contract']['fAquisition'];
     this.selectedVehicle.amount = formValue['contract']['fAmountc'];
     this.selectedVehicle.release = formValue['contract']['fRelease'];
+
+
+    this.selectedVehicle.durationInMonths = formValue['contract']['fDurationInMonth'];
+
 
   this.selectedVehicle.owner=this.authentificationService.getDefaultOwner();
 
@@ -475,6 +487,12 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
     this.selectedVehicle.fixOrVariable=event.option.name;
     }
+    onselectInterneExterne(event){
+console.log(event.option);
+
+      this.selectedVehicle.interneOrExterne=event.option;
+
+    }
 
 
   onNvclick() {
@@ -572,7 +590,10 @@ console.log("---");
         this.isFormSubmitted = false;
       }
 
-    } else if (this.index === 1) {
+    }else if (this.index === 1) {this.index = this.index + 1;
+      this.isFormSubmitted = false;}
+
+    else if (this.index === 2) {
       if
         (this.vehicleForm.controls['caracteristic'].invalid) {
         return;
@@ -581,7 +602,7 @@ console.log("---");
         this.isFormSubmitted = false;
       }
 }
-      else if (this.index === 2) {
+      else if (this.index === 3) {
         this.index = this.index + 1;
         this.isFormSubmitted = false;
 

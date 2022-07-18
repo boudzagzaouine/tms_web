@@ -31,18 +31,65 @@
         </div>
 
         <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Chargement" | translate }} *</label>
+
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="loadingTypeList"
+              optionLabel="name"
+              formControlName="floadingType"
+              (onChange)="onSelectLoadingTypes($event)"
+              [filter]="true"
+              [showClear]="true"
+            ></p-dropdown>
+
+          <!-- <p-selectButton [options]="loadingTypeList" formControlName="floadingType"
+          (onChange)="onSelectLoadingTypes($event)" optionLabel="name" >
+        </p-selectButton> -->
+        </div>
+
+        <div class="form-group col-md-3">
           <label class="font-weight-bold">{{ "Type" | translate }} *</label>
 
-          <p-selectButton
+          <p-dropdown
+          [autoDisplayFirst]="false"
+          [options]="types"
+          optionLabel="name"
+          formControlName="floadingType"
+          [filter]="true"
+          [showClear]="true"
+        ></p-dropdown>
+
+          <!-- <p-selectButton
             [options]="types"
             formControlName="floadingType"
             optionLabel="name"
           >
-          </p-selectButton>
+          </p-selectButton> -->
         </div>
-        <div class="form-group col-md-3"></div>
       </div>
 
+      <div *ngIf="loadingType=='Complet'">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-6">
+
+            <p-selectButton
+            [options]="completTypeList"
+            formControlName="floadingType"
+            optionLabel="name"
+          >
+          </p-selectButton>
+
+          </div>
+        </div>
+
+
+        
+
+      </div>
+
+
+      <div *ngIf="loadingType=='Groupage'">
       <div class="p-grid">
         <div class="p-col-12 p-md-6">
           <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
@@ -369,6 +416,8 @@
           </p-scrollPanel>
         </div>
       </div>
+
+    </div>
 
       <p-fieldset legend="Détail de colis">
         <div class="row justify-content-around">

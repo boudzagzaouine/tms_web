@@ -60,4 +60,7 @@ export class Vehicle extends Patrimony {
   dateDriver:Date;
   vehicleProducts: VehicleProduct[]=[];
 
+    interneOrExterne:string ;
+    durationInMonths:number ;
+
 }

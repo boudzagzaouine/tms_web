@@ -17,10 +17,25 @@ export class TrajetEditComponent implements OnInit {
    typeOfPackagings =[];
    selectedValueExpediteur: string='false';
    selectedValueDestinataire: string='false';
+   loadingTypeList = [];
+   completTypeList = [];
+
+   loadingType :string;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    this.completTypeList=[
+      {name:'Affretement'},
+      {name:'Transport Dedie'},
+]
+
+    this.loadingTypeList=[
+
+      {name:'Complet'},
+      {name:'Groupage'},
+]
     this.types=[
 
       {name:'Enlévement'},
@@ -40,6 +55,13 @@ this.typeOfPackagings=[
    console.log(this.selectedValueExpediteur);
 
 
+
+  }
+
+  onSelectLoadingTypes(event) {
+    console.log(event.value.code);
+    this.loadingType = event.value.name ;
+    console.log(this.loadingType);
 
   }
 }

@@ -1,0 +1,425 @@
+<p-dialog
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '1000px' }"
+  (onHide)="onShowDialog()"
+>
+<div class="modal-body">
+  <div class="card-body">
+    <form [formGroup]="contractAccountForm">
+
+      <div formGroupName="general">
+        <div class="mt-3 row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold">{{ "Code" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['general'].get('fCode').touched &&
+            contractAccountForm.controls['general'].get('fCode').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['general'].get('fCode').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              formControlName="fCode"
+              pInputText
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Date " | translate }} *</label
+            >
+            <p-calendar
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              dateFormat="dd/mm/yy"
+              yearRange="1970:2100"
+              formControlName="fDate"
+            >
+            </p-calendar>
+          </div>
+   <div class="form-group col-md-3">
+    <label class="font-weight-bold ">{{ "Client" | translate }} *</label>
+    <span *ngIf="
+    (contractAccountForm.controls['general'].get('fAccount').touched &&
+    contractAccountForm.controls['general'].get('fAccount').invalid) ||
+    (isFormSubmitted &&
+    contractAccountForm.controls['general'].get('fAccount').invalid)
+  " class="text-lighter" style="color: red; font-size: xx-small;">
+  {{ 'Obligatoire' | translate}}
+
+</span>
+    <p-autoComplete [suggestions]="nameAccountList" appendTo="body"
+    field="name" (completeMethod)="onNameSearch($event)" (onSelect)="onSelectAccount($event)"  formControlName="fAccount">
+  </p-autoComplete>
+
+   </div>
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{ "Contract Type" | translate }} *</label>
+<span *ngIf="
+            (contractAccountForm.controls['general'].get('fContractType').touched &&
+            contractAccountForm.controls['general'].get('fContractType').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['general'].get('fContractType').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="types"
+                (onChange)="onSelectContractType($event)"
+                [filter]="true"
+                [showClear]="true"
+                formControlName="fContractType"
+              ></p-dropdown>
+
+          </div>
+
+
+
+
+        </div>
+  </div>
+
+
+ <div formGroupName="vehicle">
+      <div *ngIf="contractType=='Location'">
+
+        <div class="mt-3 row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{ "Categorie Vehicule" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['vehicle'].get('fVehicle').touched &&
+            contractAccountForm.controls['vehicle'].get('fVehicle').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['vehicle'].get('fVehicle').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="vehicleCategoryList"
+                optionLabel="code"
+                (onChange)="onSelectVehicleCategory($event)"
+                [filter]="true"
+                [showClear]="true"
+                formControlName="fVehicle"
+                appendTo="body"
+              ></p-dropdown>
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold">{{ "Quantite" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['vehicle'].get('fQuantity').touched &&
+            contractAccountForm.controls['vehicle'].get('fQuantity').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['vehicle'].get('fQuantity').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              formControlName="fQuantity"
+              pInputText
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Date debut" | translate }} *</label
+            >
+            <p-calendar
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              dateFormat="dd/mm/yy"
+              yearRange="1970:2100"
+              formControlName="fStartDate"
+            >
+            </p-calendar>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Date Fin" | translate }} *</label
+            >
+            <p-calendar
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              dateFormat="dd/mm/yy"
+              yearRange="1970:2100"
+              formControlName="fEndDate"
+            >
+            </p-calendar>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div formGroupName="trajet">
+<div *ngIf="contractType=='Marchandise'">
+
+
+
+  <div class="row justify-content-around">
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold"
+        >{{ "Type emballage" | translate }} *</label
+      >
+      <span *ngIf="
+      (contractAccountForm.controls['trajet'].get('fSenderLine').touched &&
+      contractAccountForm.controls['trajet'].get('fSenderLine').invalid) ||
+      (isFormSubmitted &&
+      contractAccountForm.controls['trajet'].get('fSenderLine').invalid)
+    " class="text-lighter" style="color: red; font-size: xx-small;">
+    {{ 'Obligatoire' | translate}}
+
+  </span>
+
+      <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="typeOfPackagings"
+                (onChange)="onSelectPackageType($event)"
+                [filter]="true"
+                [showClear]="true"
+                formControlName="fPackageType"
+                appendTo="body"
+              ></p-dropdown>
+
+    </div>
+
+    <div class="form-group col-md-9">
+    </div>
+  </div>
+
+
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6">
+      <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
+        <p-fieldset legend="Expediteur">
+
+
+          <div class="row justify-content-around">
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold"
+                >{{ "Ligne d'adresse 1" | translate }} *</label
+              >
+              <span *ngIf="
+              (contractAccountForm.controls['trajet'].get('fSenderLine').touched &&
+              contractAccountForm.controls['trajet'].get('fSenderLine').invalid) ||
+              (isFormSubmitted &&
+              contractAccountForm.controls['trajet'].get('fSenderLine').invalid)
+            " class="text-lighter" style="color: red; font-size: xx-small;">
+            {{ 'Obligatoire' | translate}}
+
+          </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fSenderLine"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Ville" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fSenderCity"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Code postal" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fSenderZip"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Pays" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fSenderCountry"
+              />
+            </div>
+
+          </div>
+
+
+
+
+        </p-fieldset>
+      </p-scrollPanel>
+
+
+    </div>
+    <div class="p-col-12 p-md-6">
+      <p-scrollPanel
+        [style]="{ width: '100%', height: 'auto' }"
+        styleClass="custombar1"
+      >
+        <p-fieldset legend="Destinataire">
+
+
+
+
+          <div class="row justify-content-around">
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold"
+                >{{ "Ligne d'adresse 1" | translate }} *</label
+              >
+              <span *ngIf="
+              (contractAccountForm.controls['trajet'].get('fReceiveLine').touched &&
+              contractAccountForm.controls['trajet'].get('fReceiveLine').invalid) ||
+              (isFormSubmitted &&
+              contractAccountForm.controls['trajet'].get('fReceiveLine').invalid)
+            " class="text-lighter" style="color: red; font-size: xx-small;">
+            {{ 'Obligatoire' | translate}}
+
+          </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fReceiveLine"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Ville" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fReceiveCity"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Code postal" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fReceiveCountry"
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Pays" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fReceiveZip"
+              />
+            </div>
+
+
+
+          </div>
+
+        </p-fieldset>
+      </p-scrollPanel>
+    </div>
+
+
+  </div>
+
+</div>
+
+
+</div>
+<div formGroupName="general">
+<div class="row justify-content-around">
+  <div class="form-group col-md-3">
+    <label class="font-weight-bold"
+      >{{ "Prix" | translate }} *</label
+    >
+    <span *ngIf="
+    (contractAccountForm.controls['general'].get('fPrice').touched &&
+    contractAccountForm.controls['general'].get('fPrice').invalid) ||
+    (isFormSubmitted &&
+    contractAccountForm.controls['general'].get('fPrice').invalid)
+  " class="text-lighter" style="color: red; font-size: xx-small;">
+  {{ 'Obligatoire' | translate}}
+
+</span>
+    <br />
+    <input
+      type="text"
+      class="form-control"
+      pInputText
+      formControlName="fPrice"
+    />
+  </div>
+  <div class="form-group col-md-9">
+  </div>
+</div>
+</div>
+    </form>
+  </div>
+</div>
+
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <button
+      type="button"
+      pButton
+      (click)="onShowDialog()"
+      class="p-button-primary"
+      label="{{'Annuler' | translate }}"
+    ></button>
+    <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+  </p-dialog>

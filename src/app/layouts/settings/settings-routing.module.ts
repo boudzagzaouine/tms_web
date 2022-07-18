@@ -1,3 +1,5 @@
+import { AccountEditComponent } from './account/account-edit/account-edit.component';
+import { MenuAccountComponent } from './menu-account/menu-account.component';
 import { MenuProductComponent } from './menu-product/menu-product.component';
 import { ProductTypeComponent } from './product-type/product-type.component';
 import { ProductComponent } from './product/product.component';
@@ -93,7 +95,8 @@ const routes: Routes = [
       { path: 'pumps', component: PumpsComponent},
       { path: 'fuel-pumps', component: FuelPumpsComponent},
       { path: 'holiday', component: HolidayComponent},
-      { path: 'account', component: AccountComponent},
+      { path: 'account', component: MenuAccountComponent},
+      { path: 'account-edit/:id', component: AccountEditComponent},
 
 
 

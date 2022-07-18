@@ -1,3 +1,4 @@
+import { ContractAccountComponent } from './contract-account/contract-account.component';
 import { VehicleComponent } from './../vehicle/vehicle.component';
 import { PatrimonyTypeEditComponent } from './patrimony-type/patrimony-type-edit/patrimony-type-edit.component';
 import { PatrimonyTypeComponent } from './patrimony-type/patrimony-type.component';
@@ -117,6 +118,8 @@ import { PlanningEditComponent } from './account/account-edit/planning-edit/plan
 import { SupplierPlanningEditComponent } from './supplier/supplier-edit/supplier-planning-edit/supplier-planning-edit.component';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import { ActionTypeRepairComponent } from './actionType/action-type-edit/action-type-repair/action-type-repair.component';
+import { MenuAccountComponent } from './menu-account/menu-account.component';
+import { ContractAccountEditComponent } from './contract-account/contract-account-edit/contract-account-edit.component';
 
 
 
@@ -202,7 +205,10 @@ import { ActionTypeRepairComponent } from './actionType/action-type-edit/action-
      AccountEditComponent,
      PlanningEditComponent,
      SupplierPlanningEditComponent,
-     ActionTypeRepairComponent
+     ActionTypeRepairComponent,
+     MenuAccountComponent,
+     ContractAccountComponent,
+     ContractAccountEditComponent
   ],
   imports: [
     CommonModule,

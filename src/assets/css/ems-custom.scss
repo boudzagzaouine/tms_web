@@ -122,13 +122,13 @@ p-autocomplete {
   background-color: #3c8dbc;
   color: white;
 }
-.p-button.p-button-success:enabled:active, .p-buttonset.p-button-success 
+.p-button.p-button-success:enabled:active, .p-buttonset.p-button-success
 > .p-button:enabled:active, .p-splitbutton.p-button-success > .p-button:enabled:active {
   background: #3caea3;
   color: #ffffff;
   border-color: #3caea3;
 }
-.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success 
+.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success
 > .p-button:enabled:hover, .p-splitbutton.p-button-success > .p-button:enabled:hover {
   background: #20c997;
   color: #ffffff;
@@ -152,7 +152,7 @@ p-autocomplete {
 .p-dialog .p-dialog-footer .p-button-icon-only{
 
   width: 3rem !important;
- 
+
 }
 .p-button:enabled:active {
   background:#4084bd;
@@ -177,14 +177,14 @@ p-autocomplete {
 //   width: 30em;
 // }
 
-.p-button.p-button-secondary, .p-buttonset.p-button-secondary 
+.p-button.p-button-secondary, .p-buttonset.p-button-secondary
 > .p-button, .p-splitbutton.p-button-secondary > .p-button{
- 
+
   background: #fbfeff;
   color: #020202;
   border-color: #ced4da
 }
-.p-button.p-button-secondary:enabled:hover, .p-buttonset.p-button-secondary 
+.p-button.p-button-secondary:enabled:hover, .p-buttonset.p-button-secondary
 > .p-button:enabled:hover, .p-splitbutton.p-button-secondary > .p-button:enabled:hover {
   background: #ffffff;
   color: #101010;
@@ -401,8 +401,10 @@ p-autocomplete {
   .onglet-p-4{
     width: 24.3% !important;
   background-color: #fafbfc !important;
+  } .onglet-p-5{
+    width: 20% !important;
+  background-color: #fafbfc !important;
   }
-
 
   .p-accordion .p-accordion-header .p-accordion-header-link {
     padding: 0rem;

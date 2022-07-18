@@ -1,0 +1,31 @@
+import { Account } from './account';
+import { Company } from './company';
+import { Contact } from './contact';
+import { Address } from './address';
+import { Card } from './card';
+import { Owner } from './owner';
+import { Planning } from './planning';
+import { VehicleCategory } from './vehicle-category';
+import { PackagingType } from './packagingType';
+export class ContractAccount {
+
+    id: number;
+    code :string;
+    date :Date =new Date();
+    account:Account;
+    contractType : String;
+    vehicleCategory : VehicleCategory;
+    quantity : number;
+
+    senderAddress : Address;
+    receiverAdresse :Address;
+
+    startDate :Date =new Date();
+    endDate:Date =new Date();
+    price :number ;
+    packageType : String;
+
+
+
+
+}

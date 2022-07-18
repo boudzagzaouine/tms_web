@@ -1,20 +1,21 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { AccountService } from '../../../shared/services/api/account.service';
+import { ContractAccountService } from '../../../shared/services/api/contract-account.service';
+import { ContractAccount } from '../../../shared/models/contract-account';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { GlobalService } from '../../../shared/services/api/global.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { Account } from './../../../shared/models';
-import { AccountService } from './../../../shared/services/api/account.service';
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { EmsBuffer } from './../../../shared/utils';
+import { EmsBuffer } from '../../../shared/utils/ems-buffer';
+import { Account } from '../../../shared/models/account';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  selector: 'app-contract-account',
+  templateUrl: './contract-account.component.html',
+  styleUrls: ['./contract-account.component.css']
 })
-export class AccountComponent implements OnInit {
+export class ContractAccountComponent implements OnInit {
 
   page = 0;
   size = 10;
@@ -23,28 +24,28 @@ export class AccountComponent implements OnInit {
   codeSearch: string;
   nameSearch: string;
 
-  selectAccounts: Array<Account> = [];
-  accountList: Array<Account> = [];
-  codeaccountList: Array<Account> = [];
+  selectContractAccounts: Array<ContractAccount> = [];
+  contractAccountList: Array<ContractAccount> = [];
+  codeContractaccountList: Array<Account> = [];
   nameAccountList: Array<Account> = [];
 
   cols: any[];
   showDialog: boolean;
   editMode: number;
   className: string;
-  accountExportList: Array<Account> = [];
-  titleList = 'Liste des Client';
+  contractAccountExportList: Array<ContractAccount> = [];
+  titleList = 'Liste des Contracts Client';
   subscriptions= new Subscription();
   items: MenuItem[];
   home: MenuItem;
 
   constructor(private accountService: AccountService,
+    private contractAccountService: ContractAccountService,
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private router: Router) { }
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
 
@@ -55,19 +56,26 @@ export class AccountComponent implements OnInit {
   ];
   this.home = {icon: 'pi pi-home'};
 
-    this.className = Account.name;
+    this.className = ContractAccount.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'date', header: 'Date', type: 'date' },
+      { field: 'account', child: 'name', header: 'Client', type: 'object' },
+      { field: 'contractType', header: 'Type Contrat', type: 'string' },
 
-     // { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
-      { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
-       { field: 'contact', child: 'email', header: 'Email', type: 'object' },
-      { field: 'deliveryAddress', child: 'line1', header: 'Addresse 1', type: 'object' },
-     { field: 'deliveryAddress', child: 'line2', header: 'Addresse 2', type: 'object' },
-     { field: 'deliveryAddress', child: 'zip', header: 'Code postale', type: 'object' },
-     { field: 'deliveryAddress', child: 'city', header: 'Ville', type: 'object' },
-     { field: 'deliveryAddress', child: 'country', header: 'Pays', type: 'object' },
+      { field: 'vehicleCategory', child: 'code', header: 'Categorie vehicle', type: 'object' },
+      { field: 'quantity', header: 'Quantite', type: 'number' },
+
+      { field: 'senderAddress', child: 'city', header: 'Ville Expediteur', type: 'object' },
+      { field: 'receiverAdresse', child: 'city', header: 'Ville Destinataire', type: 'object' },
+
+      { field: 'startDate', header: 'Date Debut', type: 'date' },
+      { field: 'endDate', header: 'Date Fin', type: 'date' },
+
+      { field: 'packageType', header: 'Type de embalage', type: 'string' },
+      { field: 'priceHT', header: 'Prix', type: 'string' },
+
+
 
     ];
 
@@ -87,9 +95,9 @@ export class AccountComponent implements OnInit {
 
       }
     ));
-    this.subscriptions.add(this.accountService.findPagination(this.page, this.size, this.searchQuery).subscribe(
+    this.subscriptions.add(this.contractAccountService.findPagination(this.page, this.size, this.searchQuery).subscribe(
       data => {
-        this.accountList = data;
+        this.contractAccountList = data;
         console.log(data);
         this.spinner.hide();
       },
@@ -107,8 +115,8 @@ export class AccountComponent implements OnInit {
     this.loadData();
   }
   onCodeSearch(event: any) {
-    this.subscriptions.add(this.accountService.find('code~' + event.query).subscribe(
-      data => this.codeaccountList = data.map(f => f.code)
+    this.subscriptions.add(this.contractAccountService.find('code~' + event.query).subscribe(
+      data => this.codeContractaccountList = data.map(f => f.code)
     ));
   }
   onNameSearch(event: any) {
@@ -121,11 +129,11 @@ export class AccountComponent implements OnInit {
 
     this.subscriptions.add(this.accountService.find(this.searchQuery).subscribe(
       data => {
-        this.accountExportList = data;
+        this.contractAccountExportList = data;
         if (event != null) {
-          this.globalService.generateExcel(event, this.accountExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.contractAccountExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.accountExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.contractAccountExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -143,8 +151,8 @@ export class AccountComponent implements OnInit {
   onExportPdf(event) {
     this.subscriptions.add( this.accountService.find(this.searchQuery).subscribe(
       data => {
-        this.accountExportList = data;
-        this.globalService.generatePdf(event, this.accountExportList, this.className, this.titleList);
+        this.contractAccountExportList = data;
+        this.globalService.generatePdf(event, this.contractAccountExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -193,25 +201,22 @@ export class AccountComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectAccounts = event.object;
+    this.selectContractAccounts = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
-      console.log(  this.selectAccounts);
-      this.router.navigate(['/core/settings/account-edit',  this.selectAccounts[0].id]);
-
-     // this.showDialog = true;
+      this.showDialog = true;
     }
 
   }
 
   onDeleteAll() {
 
-    if (this.selectAccounts.length >= 1) {
+    if (this.selectContractAccounts.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
-          const ids = this.selectAccounts.map(x => x.id);
+          const ids = this.selectContractAccounts.map(x => x.id);
           this.subscriptions.add(this.accountService.deleteAllByIds(ids).subscribe(
             data => {
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
@@ -228,7 +233,7 @@ export class AccountComponent implements OnInit {
           ));
         }
       });
-    } else if (this.selectAccounts.length < 1) {
+    } else if (this.selectContractAccounts.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
   }

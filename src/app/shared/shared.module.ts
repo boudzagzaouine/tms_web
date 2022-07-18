@@ -1,3 +1,4 @@
+import { ContractAccountService } from './services/api/contract-account.service';
 import { CompanyService } from './services/api/company.service';
 import { Company } from './models/company';
 import { SupplierTypeService } from './services/api/supplier-type.service';
@@ -255,7 +256,8 @@ export class SharedModule {
         SupplierHolidayService,
         PlanningService,
         SupplierTypeService,
-        CompanyService
+        CompanyService,
+        ContractAccountService
       ],
 
     };

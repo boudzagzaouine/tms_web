@@ -30,9 +30,29 @@ showEffect="fade"
                 </div>
 
                 <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Type Produit' | translate}}*</label>
+                  <span *ngIf="(vehicleProductForm.get('pdtType').touched && vehicleProductForm.get('pdtType').invalid) ||
+          (isFormSubmitted && vehicleProductForm.get('pdtType').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{"Obligatoire" | translate}}
+                  </span>
+                  <p-autoComplete formControlName="pdtType" [appendTo]="'body'"[suggestions]="productTypeList" class="w-100"
+                   field="code" class="form-control border-0"  placeholder="{{this.selectedVehicleProduct?.productType?.code}}"
+                      [minLength]="1" [size]="10" (completeMethod)="searchProductType($event)"
+                      (onSelect)="onSelectProductType($event)"></p-autoComplete>
+              </div>
+
+
+
+                <div class="form-group col-md-6">
                     <label class="font-weight-bold">{{'Référence' | translate}}</label>
                     <input type="text" pInputText class="form-control mb-2" formControlName="reference">
                 </div>
+
+                <div class="form-group col-md-6">
+                  <label class="font-weight-bold">{{'Autre Référence' | translate}}</label>
+                  <input type="text" pInputText class="form-control mb-2" formControlName="referenceOther">
+              </div>
             </div>
 
         </div>

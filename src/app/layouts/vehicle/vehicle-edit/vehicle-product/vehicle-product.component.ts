@@ -1,3 +1,5 @@
+import { ProductTypeService } from './../../../../shared/services/api/product-type.service';
+import { ProductType } from './../../../../shared/models/product-type';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { ProductService } from './../../../../shared/services/api/product.service';
 import { Subscription } from 'rxjs';
@@ -20,6 +22,8 @@ export class VehicleProductComponent implements OnInit {
   @Output() vehicleProductAdded = new EventEmitter<VehicleProduct>();
   selectedProduct: Product;
   productList: Product[];
+  productTypeList: ProductType[];
+
   vehicleProductForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -28,6 +32,8 @@ export class VehicleProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private productTypeService: ProductTypeService,
+
     private authentificationService:AuthenticationService,
 ) { }
 
@@ -61,12 +67,26 @@ export class VehicleProductComponent implements OnInit {
           Validators.required
       ),
 
+      pdtType: new FormControl(
+        this.selectedVehicleProduct != null &&
+        this.selectedVehicleProduct.productType != null
+            ? this.selectedVehicleProduct.productType.code
+            : null,
+        Validators.required
+    ),
+
       reference: new FormControl(
           this.selectedVehicleProduct != null &&
           this.selectedVehicleProduct.reference != null
               ? this.selectedVehicleProduct.reference
               : ''
       ),
+      referenceOther: new FormControl(
+        this.selectedVehicleProduct != null &&
+        this.selectedVehicleProduct.referenceOther != null
+            ? this.selectedVehicleProduct.referenceOther
+            : ''
+    ),
 
 
   });
@@ -82,7 +102,9 @@ export class VehicleProductComponent implements OnInit {
     this.selectedVehicleProduct.reference = this.vehicleProductForm.value[
       'reference'
       ];
-
+      this.selectedVehicleProduct.referenceOther = this.vehicleProductForm.value[
+        'referenceOther'
+        ];
  this.selectedVehicleProduct.owner=this.authentificationService.getDefaultOwner();
   this.vehicleProductAdded.emit(this.selectedVehicleProduct);
     this.displayDialog = false;
@@ -101,6 +123,22 @@ export class VehicleProductComponent implements OnInit {
 
 onSelectProduct(event) {
   this.selectedVehicleProduct.product = event as Product;
+  this.vehicleProductForm.patchValue({
+    'pdtType': this.selectedVehicleProduct.product.productType
+  });
+    this.selectedVehicleProduct.productType=  this.selectedVehicleProduct.product.productType
+
+
+}
+
+searchProductType(event) {
+  this.subscrubtion.add(this.productTypeService.find('code~' + event.query).subscribe(data => {
+    this.productTypeList = data;
+  }));
+}
+
+onSelectProductType(event) {
+  this.selectedVehicleProduct.productType = event as ProductType;
 
 }
 

@@ -1,0 +1,83 @@
+
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+    <div class="row  mt-1 justify-content-around">
+
+
+      <div class="col-md-3">
+        <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
+        <p-calendar [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
+            [readonlyInput]="true" [maxDateCount]='2' ></p-calendar>
+
+    </div>
+
+    <div class="col-md-3">
+      <label class="font-weight-bold">{{'Patrimoine' | translate}} </label><br />
+      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="patrimonyCodeList"
+          (completeMethod)="onPatrimonyCodeSearch($event)"
+           field="code">
+      </p-autoComplete>
+
+  </div>
+
+
+
+
+
+
+
+    <div class="col-md-4"></div>
+
+    </div>
+
+  <br />
+  <br />
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i>
+      {{ "Réinitialiser" | translate }}
+    </button>
+
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i>
+
+      {{ "Rechercher" | translate }}
+    </button>
+  </div>
+</p-panel>
+
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="maintenanceList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdf($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
+  [listName]="titleList"
+  [permissionDelete]="['VEHICLE_DELETE']"
+  [permissionEdit]="['VEHICLE_EDIT']"
+></app-data-table>
+
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>
+
+
+
+

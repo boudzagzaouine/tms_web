@@ -7,7 +7,7 @@
   <div class="card-body border-top-primary" >
     <form [formGroup]="vehicleForm">
 
-  c
+      <p-tabView [activeIndex]="index" >
 
                                  <!-- Général -->
         <p-tabPanel header="{{ 'Général' | translate}}" [disabled]="true" headerStyleClass="onglet-p-5">
@@ -258,7 +258,10 @@
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{ "Produit" | translate }}</th>
+                    <th>{{ "Type Produit" | translate }}</th>
                     <th>{{ "Référence" | translate }}</th>
+                    <th>{{ "Autre Référence" | translate }}</th>
+
                     <th style="width: 15%;">{{ "Actions" | translate }}</th>
                   </tr>
                 </ng-template>

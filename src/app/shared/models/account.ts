@@ -8,6 +8,8 @@ export class Account {
     id = 0;
     code: string;
     name: string;
+    telephone:string;
+   email:string;
     description: string;
     creationDate: Date;
     updateDate: Date;
@@ -22,4 +24,6 @@ export class Account {
     wholesale: boolean = false;
     plannings :Planning[]=[];
     deliveryDate : Date= new Date();
+    contacts :Contact[]=[];
+    addresses:Address[]=[];
 }

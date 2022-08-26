@@ -173,7 +173,7 @@ export class ContractAccountComponent implements OnInit {
       buffer.append(`code~${this.codeSearch}`);
     }
     if (this.nameSearch != null && this.nameSearch !== '') {
-      buffer.append(`name~${this.nameSearch}`);
+      buffer.append(`account.name~${this.nameSearch}`);
     }
 
     this.page = 0;

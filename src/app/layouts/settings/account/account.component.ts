@@ -59,15 +59,18 @@ export class AccountComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'telephone', header: 'Telephone', type: 'string' },
+    { field: 'company', child: 'code', header: 'Société', type: 'object' },
+    { field: 'deliveryDate', header: 'heure preferentielle de livraison', type: 'date' },
 
      // { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
-      { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
-       { field: 'contact', child: 'email', header: 'Email', type: 'object' },
-      { field: 'deliveryAddress', child: 'line1', header: 'Addresse 1', type: 'object' },
-     { field: 'deliveryAddress', child: 'line2', header: 'Addresse 2', type: 'object' },
-     { field: 'deliveryAddress', child: 'zip', header: 'Code postale', type: 'object' },
-     { field: 'deliveryAddress', child: 'city', header: 'Ville', type: 'object' },
-     { field: 'deliveryAddress', child: 'country', header: 'Pays', type: 'object' },
+    //   { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
+    //    { field: 'contact', child: 'email', header: 'Email', type: 'object' },
+    //   { field: 'deliveryAddress', child: 'line1', header: 'Addresse 1', type: 'object' },
+    //  { field: 'deliveryAddress', child: 'line2', header: 'Addresse 2', type: 'object' },
+    //  { field: 'deliveryAddress', child: 'zip', header: 'Code postale', type: 'object' },
+    //  { field: 'deliveryAddress', child: 'city', header: 'Ville', type: 'object' },
+    //  { field: 'deliveryAddress', child: 'country', header: 'Pays', type: 'object' },
 
     ];
 
@@ -191,16 +194,22 @@ export class AccountComponent implements OnInit {
   }
 
   onObjectEdited(event) {
+    console.log("edit mode ");
+
+console.log(event.operationMode);
 
     this.editMode = event.operationMode;
     this.selectAccounts = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
-    } else {
+    } else if(this.editMode ===1) {
       console.log(  this.selectAccounts);
-      this.router.navigate(['/core/settings/account-edit',  this.selectAccounts[0].id]);
+    this.router.navigate(['/core/settings/account-edit']);
 
      // this.showDialog = true;
+    }else if(this.editMode ===2) {
+      this.router.navigate(['/core/settings/account-edit',  this.selectAccounts[0].id]);
+
     }
 
   }

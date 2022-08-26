@@ -11,23 +11,36 @@
 
 <div class="card mt-4">
   <div class="card-header">
-    <span class="h4">{{ 'editMofdeTitle' | translate }}</span>
+    <span class="h4">{{   this.title | translate }}</span>
   </div>
   <div class="card-body border-top-primary" >
       <form [formGroup]="accountForm">
 
         <div class="row  justify-content-around">
 
-            <div class="form-group col-sm-12 col-md-12">
-            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
-            <span *ngIf="(accountForm.get('nameA').touched && accountForm.get('nameA').invalid) ||
-                (isFormSubmitted && accountForm.get('nameA').invalid)" class="text-lighter"
+          <div class="form-group col-sm-12 col-md-4">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(accountForm.get('code').touched && accountForm.get('code').invalid) ||
+                (isFormSubmitted && accountForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
               {{'Obligatoire'| translate}}
             </span>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="nameA"
-              [ngClass]="{'is-invalid': accountForm.get('nameA').touched && accountForm.get('nameA').invalid}" />
+            <input type="text" class="form-control" [attr.disabled]="true" pInputText formControlName="code"
+              [ngClass]="{'is-invalid': accountForm.get('code').touched && accountForm.get('code').invalid}" />
+          </div>
+
+
+            <div class="form-group col-sm-12 col-md-4">
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+            <span *ngIf="(accountForm.get('name').touched && accountForm.get('name').invalid) ||
+                (isFormSubmitted && accountForm.get('name').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{'Obligatoire'| translate}}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="name"
+              [ngClass]="{'is-invalid': accountForm.get('name').touched && accountForm.get('name').invalid}" />
           </div>
 
           <div class="col-sm-12 col-md-4">
@@ -37,59 +50,22 @@
 
         <div class="row  justify-content-around">
 
-          <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+          <div class="form-group col-sm-12 col-md-4">
+            <label class="font-weight-bold">{{'Tel ' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="tel1" />
           </div>
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'email' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="email" />
           </div>
+          <div class="form-group col-sm-12 col-md-4">
+</div>
         </div>
 
 
-        <div class="row  justify-content-around">
-
-          <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
-            <span *ngIf="(accountForm.get('line1').touched && accountForm.get('line1').invalid) ||
-            (isFormSubmitted && accountForm.get('line1').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-              {{'Obligatoire'| translate}}
-
-            </span>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="line1"
-              [ngClass]="{'is-invalid': accountForm.get('line1').touched && accountForm.get('line1').invalid}" />
-          </div>
-
-          <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{"Ligne d'adresse 2" | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="line2" />
-          </div>
-        </div>
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="city" />
-          </div>
-
-          <div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="zipCode" />
-          </div>
-
-
-        </div>
-        <div class="row  justify-content-around">
-
-<div class="form-group col-sm-12 col-md-6">
-            <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="country" />
-          </div>
-
-          <div class="form-group col-sm-12 col-md-6">
+   <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Société' | translate}}</label><br />
 
             <p-autoComplete  formControlName="company" [suggestions]="companies"
@@ -97,17 +73,13 @@
           </p-autoComplete>
 
           </div>
-        </div>
-
-        <div class="row  justify-content-around">
-
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
           <label class="font-weight-bold">{{'heure preferentielle de livraison'| translate}}</label><br />
 
             <p-calendar  [timeOnly]="true" formControlName="deliveryDate" hourFormat="24" inputId="timeonly" ></p-calendar>
 
           </div>
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
 
           </div>
 </div>
@@ -115,7 +87,7 @@
       </form>
   </div>
   <p-tabView [activeIndex]="0" >
-  <p-tabPanel header="{{ 'Plannings' | translate}}" [disabled]="true" headerStyleClass="onglet-p-5">
+  <p-tabPanel header="{{ 'Plannings' | translate}}"  headerStyleClass="onglet-p-5">
 
     <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
@@ -133,7 +105,7 @@
         </div>
       </div>
       <div class="card-body border-top-primary">
-        <p-table [value]=" this.selectedAccount?.plannings" [lazy]="true" [rows]="size"
+        <p-table [value]=" this.selectedAccount?.plannings"  [rows]="7"
           [paginator]="true" [totalRecords]=" this.selectedAccount
       ?.plannings?.length">
           <ng-template pTemplate="header">
@@ -163,12 +135,12 @@
 
               <td>
 
-                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-primary mx-1"
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogPlanning(line,true)">
                   <!--ADD-->
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-danger mx-1"
+                <button  type="button" class="btn btn-sm btn-danger mx-1"
                   (click)="onDeletePlanning(line.day)">
                   <!--ADD-->
                   <i class="fa fa-trash"></i>
@@ -183,17 +155,158 @@
 
   </p-tabPanel>
 
+  <p-tabPanel header="{{ 'Contacts' | translate}}"  headerStyleClass="onglet-p-5">
+
+    <div class="card  ">
+      <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogContact(this.selectedContact,false)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste Contacts" | translate }}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table [value]=" this.selectedAccount?.contacts"  [rows]="10"
+          [paginator]="true" [totalRecords]=" this.selectedAccount
+      ?.contacts?.length">
+          <ng-template pTemplate="header">
+            <tr>
+
+
+              <th>{{'code' | translate}}</th>
+              <th>{{'Nom' | translate}}</th>
+
+              <th>{{'tel1' | translate}}</th>
+              <th>{{'E-mail '| translate}}</th>
+
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.code}}</td>
+              <td>{{line?.name}}</td>
+              <td>{{line?.tel1}}</td>
+              <td>{{line?.email}}</td>
+
+
+              <td>
+
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogContact(line,true)">
+                  <!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button  type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteContact(line.code)">
+                  <!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </div>
+    </div>
+
+  </p-tabPanel>
+
+
+  <p-tabPanel header="{{ 'Adresses' | translate}}"  headerStyleClass="onglet-p-5">
+
+    <div class="card  ">
+      <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogAddress(this.selectedAddress,false)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste Adresses" | translate }}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table [value]=" this.selectedAccount?.addresses"  [rows]="10"
+          [paginator]="true" [totalRecords]=" this.selectedAccount
+      ?.addresses?.length">
+          <ng-template pTemplate="header">
+            <tr>
+
+
+              <th>{{'code' | translate}}</th>
+              <th>{{"Première ligne d'adresse" | translate}}</th>
+
+              <th>{{"Deuxième ligne d'adresse" | translate}}</th>
+              <th>{{'Pays '| translate}}</th>
+              <th>{{'Ville '| translate}}</th>
+              <th>{{'Code postal '| translate}}</th>
+              <th>{{"Type D'addresse "| translate}}</th>
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.code}}</td>
+              <td>{{line?.line1}}</td>
+              <td>{{line?.line2}}</td>
+              <td>{{line?.country}}</td>
+              <td>{{line?.city}}</td>
+              <td>{{line?.zip}}</td>
+              <td>{{line?.addressTypeTms}}</td>
+
+              <td>
+
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogAddress(line,true)">
+                  <!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button  type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteAddress(line.code)">
+                  <!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </div>
+    </div>
+
+  </p-tabPanel>
+
+
+
+
+
+
+
   </p-tabView>
 <div class="text-center mt-3 mr-3 ml-3" >
 
   <div class="text-center mt-3 mr-3 ml-3" >
-    <a class="btn btn-primary m-1" [routerLink]="['/core/vehicles/list']">
+    <a class="btn btn-primary m-1" [routerLink]="['/core/account']">
       {{'Fermer' | translate}}
     </a>
     <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
       {{'Valider et continuer' | translate }}
     </button>
-    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
       {{ "Valider" | translate }}
     </button>
   </div>
@@ -210,4 +323,28 @@
     [selectedPlanning]="this.selectedPlanning"
     [editMode]="editModePlannig"></app-planning-edit>
 </div>
+
+<div *ngIf="showDialogContact == true">
+  <app-contact-edit
+   (showDialog)="onHideDialogContact($event)"
+  (contactEdited)="onLineEditedContact($event)"
+    [selectedContact]="this.selectedContact"
+    [editMode]="editModeContact"></app-contact-edit>
+</div>
+
+<div *ngIf="showDialogAddress == true">
+  <app-address-edit
+   (showDialog)="onHideDialogAddress($event)"
+  (addressEdited)="onLineEditedAddress($event)"
+    [selectedAddress]="this.selectedAddress"
+    [editMode]="editModeAddress"></app-address-edit>
+</div>
+
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

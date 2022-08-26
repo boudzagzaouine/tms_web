@@ -34,7 +34,6 @@ export class PlanningEditComponent implements OnInit {
 
    // this.planningDays = [ { day: 'LUNDI' }, { day: 'MARDI' }, { day: 'MERCREDI' }, { day: 'JEUDI' }, { day: 'Vendredi' }, { day: 'SAMEDI' }, { day: 'DIMANCHE' },]
 
-    this.title = 'Ajouter un Plan';
     this.displayDialog = true;
     console.log(this.editMode);
     this.dayService.findAll().subscribe((data) => {
@@ -45,6 +44,8 @@ export class PlanningEditComponent implements OnInit {
     })
 
     if (!this.editMode) {
+      this.title = 'Ajouter un Plan';
+
       console.log("new");
 
       this.selectedPlanning = new Planning();
@@ -55,7 +56,7 @@ export class PlanningEditComponent implements OnInit {
 
     }
     else{
-      console.log("modif");
+      this.title = 'Modifier un Plan';
 
     }
     this.initForm();

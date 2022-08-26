@@ -40,16 +40,16 @@ import { Agent } from './../../../../shared/models/agent';
   .ui-steps .ui-steps-item {
       width: 25%;
   }
-  
+
   .ui-steps.steps-custom {
       margin-bottom: 30px;
   }
-  
+
   .ui-steps.steps-custom .ui-steps-item .ui-menuitem-link {
       padding: 0 1em;
       overflow: visible;
   }
-  
+
   .ui-steps.steps-custom .ui-steps-item .ui-steps-number {
       background-color: #0081c2;
       color: #FFFFFF;
@@ -59,7 +59,7 @@ import { Agent } from './../../../../shared/models/agent';
       margin-top: -14px;
       margin-bottom: 10px;
   }
-  
+
   .ui-steps.steps-custom .ui-steps-item .ui-steps-title {
       color: #555555;
   }
@@ -100,6 +100,8 @@ export class PlanActionEditComponent implements OnInit {
   title = 'Modifier une action';
 
   activeIndex: number = 0;
+  statusActionList: any[] = ["Bloquante",
+  "non-Bloquante"];
 
   constructor(private maintenanceTypeService: MaintenanceTypeService,
     private conditionalTypeService: ConditionalTypeService,
@@ -176,7 +178,7 @@ export class PlanActionEditComponent implements OnInit {
         })
       })
     );
-   
+
 
 
     this.subscrubtion.add(
@@ -234,12 +236,12 @@ export class PlanActionEditComponent implements OnInit {
         }).forEach((f)=>{
           this.daysInit.push(f.value)
         })
-  
-        
-        
+
+
+
     this.initForm();
 
-    
+
   }
 
 
@@ -257,6 +259,8 @@ export class PlanActionEditComponent implements OnInit {
         'fmaintenaceType': new FormControl(this.selectedActionPlan.maintenanceType),
         'fProgram': new FormControl(this.selectedActionPlan.programType, Validators.required),
         'FcodeType': new FormControl(this.selectedActionPlan.actionType, Validators.required),
+        'blocking': new FormControl(this.selectedActionPlan.blocking, Validators.required),
+
       }),
       periodicity: new FormGroup({
         'fDateStart': new FormControl(dStart, Validators.required),
@@ -311,7 +315,7 @@ export class PlanActionEditComponent implements OnInit {
     this.selectedActionPlan.days = this.actionPlanForm.value['periodicity']['fhebdomadaire'];
     this.selectedActionPlan.dayOfMonth = this.actionPlanForm.value['periodicity']['fdayOfMonth'];
     this.selectedActionPlan.owner = this.authentificationService.getDefaultOwner();
-  
+
     this.months= this.actionPlanForm.value['periodicity']['fmensuel'];
      this.selectedActionPlan.months=[];
     this.months.forEach((f) => {
@@ -319,7 +323,7 @@ export class PlanActionEditComponent implements OnInit {
              if(f == fm.value){
               this.selectedActionPlan.months.push(fm as Month);
              }
-          });    
+          });
     });
 
     this.days= this.actionPlanForm.value['periodicity']['fhebdomadaire'];
@@ -329,9 +333,9 @@ export class PlanActionEditComponent implements OnInit {
             if(f == fm.value){
              this.selectedActionPlan.days.push(fm as Day);
             }
-         });    
+         });
    });
-       
+
 
 
 
@@ -348,7 +352,11 @@ export class PlanActionEditComponent implements OnInit {
   }
 
 
+  onSelectstatusAction(event){
+this.selectedActionPlan.blocking=event.value;
+console.log(this.selectedActionPlan.blocking);
 
+  }
   onActionCodeSearch(event) {
     this.actionTpeService.find(`code~${event.query}`).subscribe((data) => {
       this.actionTypeList = data;
@@ -383,7 +391,7 @@ export class PlanActionEditComponent implements OnInit {
   onSelectAgent(event){
     this.selectedActionPlan.agent = event.value as Agent;
     console.log( this.selectedActionPlan.agent);
-    
+
 
   }
 
@@ -422,7 +430,7 @@ export class PlanActionEditComponent implements OnInit {
     this.displayDialog = false;
   }
 
- 
+
   openNext() {
     this.isFormSubmitted = true;
     if (this.activeIndex === 0) {

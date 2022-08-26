@@ -67,4 +67,5 @@ supplier :Supplier;
 owner: Owner;
 
 driver:Driver;
+blocking:String;
 }

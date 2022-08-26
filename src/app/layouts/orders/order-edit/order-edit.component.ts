@@ -42,6 +42,7 @@ export class OrderEditComponent implements OnInit {
   showDialog: boolean;
   editMode: boolean;
   subscrubtion = new Subscription();
+  idLine :number=0;
 
   constructor(private supplierService: SupplierService,
     private purchaseOrderService: PurchaseOrderService,
@@ -189,13 +190,13 @@ export class OrderEditComponent implements OnInit {
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.validate=1;
-     
+
 
         if (close) {
          // this.router.navigate(['/core/order/list']);
         } else {
 
-          this.router.navigate(['/core/order/edit']);  
+          this.router.navigate(['/core/order/edit']);
            this.selectedPurchaseOrder = new PurchaseOrder();
         this.purchaseOrderForm.reset();
         }
@@ -258,10 +259,30 @@ export class OrderEditComponent implements OnInit {
 
   onLineEditedAction(purchaseOrderLine: PurchaseOrderLine) {
 
+    this.idLine--;
+
+
+    this.selectedPurchaseOrder.purshaseOrderLines =
+    this.selectedPurchaseOrder.purshaseOrderLines.sort(function (a, b) {
+      return Number(a.number) - Number(b.number);
+    });
+
     const orderline = this.selectedPurchaseOrder.purshaseOrderLines.find(
       line => line.product.id === purchaseOrderLine.product.id
     );
+
+    const size = this.selectedPurchaseOrder.purshaseOrderLines.length;
+
     if (orderline == null) {
+
+      if (size == 0) {
+      purchaseOrderLine.number = 1000;
+      } else {
+            console.log(this.selectedPurchaseOrder.purshaseOrderLines[size-1].number);
+        let lastLine =this.selectedPurchaseOrder.purshaseOrderLines[size-1].number ? this.selectedPurchaseOrder.purshaseOrderLines[size-1].number:0;
+        purchaseOrderLine.number=lastLine+1000 ;
+      }
+      purchaseOrderLine.id=this.idLine;
       this.selectedPurchaseOrder.purshaseOrderLines.push(
         purchaseOrderLine
       );

@@ -56,7 +56,7 @@ export class AuthenticationService implements OnDestroy{
 
                 user => {
                     this.currentUser = user;
- 
+
                     if (
                         this.currentUser !== undefined &&
                         this.currentUser !== null
@@ -75,7 +75,7 @@ export class AuthenticationService implements OnDestroy{
                         }
                         this.permissionService.loadPermissions(permissions);
                        // console.log(this.permissionService.getPermissions());
-                        
+
                        // this.currentUser.columns = '';
                         // this.currentUser.agency = null;
                       //  this.currentUser.saleOrders = null;
@@ -122,7 +122,7 @@ export class AuthenticationService implements OnDestroy{
 
         if (user !== undefined && user !== null) {
            //console.log(loadPermissions);
-            
+
             if (loadPermissions) {
                 const permissions: string[] = [];
                 if (
@@ -165,7 +165,7 @@ export class AuthenticationService implements OnDestroy{
             return user.owner;
 
         }
-        
+
         return null;
     }
 

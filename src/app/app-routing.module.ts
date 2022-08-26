@@ -14,7 +14,10 @@ const routes: Routes = [
 
   { path: 'dashboards', loadChildren: () => import('./layouts/dashboards/dashboards.module').then(m => m.DashboardsModule) },
 
+  { path: 'vehicle-availablity', loadChildren: () => import('./layouts/vehicle-availablity/vehicle-availablity.module').then(m => m.VehicleAvailablityModule) },
 
+
+  
 ];
 
 @NgModule({

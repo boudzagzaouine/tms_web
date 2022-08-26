@@ -5,44 +5,44 @@
         <div class="col-md-4 pull-left ">
       <span *hasPermission= "permissionCreate" >
 
-        <!-- <p-button icon="pi pi-plus" 
+        <!-- <p-button icon="pi pi-plus"
         styleClass="p-button-info mx-1"
-        [hidden]="addBtnVisible" 
+        [hidden]="addBtnVisible"
         (click)="onEdit(1)"
         ></p-button> -->
 
-             <button  
-            [hidden]="addBtnVisible" 
+             <button
+            [hidden]="addBtnVisible"
               type="button"
               class="btn btn-sm btn-primary mx-1"
               (click)="onEdit(1)"   >
             <!--ADD-->
                <i class="fa fa-plus"></i>
-      </button> 
+      </button>
             </span>
             <span *hasPermission= "permissionEdit" >
-              <!-- <p-button icon="pi pi-pencil" 
+              <!-- <p-button icon="pi pi-pencil"
               styleClass="p-button-success mx-1"
-              [hidden]="updateBtnVisible" 
+              [hidden]="updateBtnVisible"
               (click)="onEdit(2)"
               [disabled]="updateBtnDisable == false"></p-button> -->
-          
+
              <button
              [hidden]="updateBtnVisible"
              type="button"
               class="btn btn-sm btn-success mx-1"
               (click)="onEdit(2)"
-              [disabled]="updateBtnDisable == false" > 
+              [disabled]="updateBtnDisable == false" >
            <!--UPDATE-->
                <i class="fa fa-pencil"></i>
-            </button> 
+            </button>
             </span>
             <span *hasPermission= "permissionDelete" >
-              <!-- <p-button icon="pi pi-trash" 
+              <!-- <p-button icon="pi pi-trash"
               [hidden]="deleteBtnVisible"
               [disabled]="deleteBtnDisable == false"
               styleClass="p-button-danger mx-1"
-              [hidden]="addBtnVisible" 
+              [hidden]="addBtnVisible"
               (click)="onEdit(1)"
               ></p-button> -->
 
@@ -51,10 +51,10 @@
               type="button"
               class="btn btn-sm btn-danger mx-1"
               (click)="onEdit(3)"
-              [disabled]="deleteBtnDisable == false" > 
+              [disabled]="deleteBtnDisable == false" >
             <!--DELETE-->
                <i class="fa fa-trash-o"></i>
-            </button> 
+            </button>
         </span>
         </div>
 
@@ -65,12 +65,12 @@
         </div>
         <div class="d-flex col-md-5 justify-content-end ">
 <div>
-          <p-splitButton label="Exportation" 
+          <p-splitButton label="Exportation"
           styleClass="p-button-secondary "
         id="button-icon-only"
            [model]="items" ></p-splitButton>
  </div>
- 
+
             <button
               type="button"
               title="{{ 'Enregistrer la vue' | translate }}"
@@ -172,6 +172,7 @@
           </th>
         </tr>
       </ng-template>
+
       <ng-template
         pTemplate="body"
         let-rowData
@@ -213,7 +214,7 @@
             </span>
 
             <span  *ngIf="(typeOf(col.type)===5 );">
-              {{rowData[col?.field] ? rowData[col?.field][col?.child][col?.child2] :''}}
+              {{rowData[col?.field] ?  rowData[col?.field][col?.child][col?.child2] :''}}
 
             </span>
           </td>
@@ -221,6 +222,13 @@
 
           <!-- <p-checkbox binary="true"></p-checkbox> -->
         </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td  style="    text-align: center;">
+            Aucun enregistrement trouvé        </td>
+      </tr>
       </ng-template>
     </p-table>
   </div>

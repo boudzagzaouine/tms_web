@@ -2,9 +2,10 @@ import { Owner } from './owner';
 
 export class Contact {
     id: number;
+    code :string;
     name: string;
-    updateDate: Date;
     tel1: String;
+    updateDate: Date;
     tel2: String;
     creationDate: Date;
     surname: String;

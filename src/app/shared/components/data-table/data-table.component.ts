@@ -25,6 +25,7 @@ import {
   styleUrls: ["./data-table.component.css"]
 })
 export class DataTableComponent implements OnInit {
+
   @Input() permissionCreate :string[]=[];
   @Input() permissionEdit :string[]=[];
   @Input() permissionDelete :string[]=[];
@@ -69,7 +70,7 @@ export class DataTableComponent implements OnInit {
     this.loadColumns();
 
     this.items = [
-     
+
       {label: 'En PDF', icon: 'pi pi-file-pdf', command: () => {
           this.exportPdf();
       }},
@@ -79,7 +80,7 @@ export class DataTableComponent implements OnInit {
      {label: 'En EXCEL Globale', icon: 'pi pi-file-excel', command: () => {
       this.exportExcelGlobal();
      }},
-    
+
   ];
 
 
@@ -96,7 +97,7 @@ export class DataTableComponent implements OnInit {
 
   loadColumns() {
     this.user = this.authUser.getCurrentUser();
-  
+
 
     if (this.user.columns != null && this.user.columns !== "") {
       this.columnsAdded = JSON.parse(this.user.columns);
@@ -167,6 +168,8 @@ export class DataTableComponent implements OnInit {
   loadDataLazy(event) {
     // this.size = event.rows;
     // this.page = event.first / this.size;
+    console.log(event);
+
     this.lazyLoadData.emit(event);
   }
 

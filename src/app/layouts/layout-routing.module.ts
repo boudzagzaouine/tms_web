@@ -48,6 +48,7 @@ const routes: Routes = [
             .then(m => m.AlimentationPumpsModule)
         },
         { path: 'trajet', loadChildren: () => import('./trajet/trajet.module').then(m => m.TrajetModule) },
+        { path: 'vehicle-availablity', loadChildren: () => import('./vehicle-availablity/vehicle-availablity.module').then(m => m.VehicleAvailablityModule) },
 
 
     ],

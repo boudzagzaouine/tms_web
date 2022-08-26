@@ -1,3 +1,7 @@
+import { SinisterService } from './services/api/sinister.service';
+import { SinisterTypeService } from './services/api/sinister-type.service';
+import { SupplierProductService } from './services/api/supplier-product.service';
+import { ContactService } from './services/api/contact.service';
 import { ContractAccountService } from './services/api/contract-account.service';
 import { CompanyService } from './services/api/company.service';
 import { Company } from './models/company';
@@ -257,7 +261,11 @@ export class SharedModule {
         PlanningService,
         SupplierTypeService,
         CompanyService,
-        ContractAccountService
+        ContractAccountService,
+        ContactService,
+        SupplierProductService,
+        SinisterTypeService,
+        SinisterService
       ],
 
     };

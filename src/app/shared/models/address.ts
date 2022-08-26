@@ -12,6 +12,6 @@ export class Address {
   country: string;
   creationDate: Date;
   updateDate: Date;
-
+  addressTypeTms: string;
   owner:Owner;
 }

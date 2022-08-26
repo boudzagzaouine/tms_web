@@ -56,6 +56,10 @@
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+            <a routerLink="/core/settings/menu-sinister" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Sinistre' | translate}}</a>
+          </li>
           <li *hasPermission="['ACTION_TYPE_VIEW']">
             <a routerLink="/core/settings/action-type" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Type action' | translate}}</a>
@@ -201,6 +205,24 @@
             </li>
             <li *hasPermission="['VEHICLE_VIEW']">
               <a routerLink="/core/vehicles/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                  height="15px"> {{'Lister' | translate}}</a>
+            </li>
+          </ul>
+
+        </li>
+
+
+        <li *hasPermission="['VEHICLE_CREATE','VEHICLE_VIEW']">
+
+
+          <a  class="text-white"><i class="sidebar-item-icon fa " >
+              <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
+            </i>
+            <span class="nav-label">{{'disponibilité Patrimoine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+          <ul class="nav-2-level collapse" >
+
+            <li *hasPermission="['VEHICLE_VIEW']">
+              <a routerLink="/core/vehicle-availablity/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                   height="15px"> {{'Lister' | translate}}</a>
             </li>
           </ul>

@@ -25,6 +25,14 @@
       <input type="text"  class="form-control" pInputText formControlName="workshop" />
     </div>
     <div class="form-group col-sm-6"  >
+      
+        <label class="font-weight-bold"> {{'Durée (min)' | translate}}</label><br />
+        <!-- <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="duration" /> -->
+        <p-inputNumber formControlName="duration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
+        </p-inputNumber>
+
+
+
     </div>
   </div>
 
@@ -55,7 +63,7 @@
     <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="price" />
   </div>
   <div class="form-group col-sm-6">
-    <label class="font-weight-bold"> {{'Durée' | translate}}</label><br />
+    <label class="font-weight-bold"> {{'Durée (min)' | translate}}</label><br />
     <!-- <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="duration" /> -->
     <p-inputNumber formControlName="duration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
     </p-inputNumber>

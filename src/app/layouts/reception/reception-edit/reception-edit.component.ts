@@ -248,9 +248,9 @@ export class ReceptionEditComponent implements OnInit {
     this.selectedReception.owner = this.authentificationService.getDefaultOwner();
     this.subscrubtion.add(this.receptionService.set(this.selectedReception).subscribe(
       dataM => {
-        if (this.selectedReception.purshaseOrder !== null) {
+      //  if (this.selectedReception.purshaseOrder !== null) {
           this.receptionStockService.receive(dataM);
-        }
+       // }
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
         this.validate=1;
         this.isFormSubmitted = false;

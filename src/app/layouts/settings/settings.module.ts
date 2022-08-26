@@ -1,3 +1,9 @@
+import { MenuSinisterComponent } from './menu-sinister/menu-sinister.component';
+import { SinisterTypeEditComponent } from './sinister-type/sinister-type-edit/sinister-type-edit.component';
+import { SinisterTypeComponent } from './sinister-type/sinister-type.component';
+import { SupplierProductEditComponent } from './supplier/supplier-edit/supplier-product-edit/supplier-product-edit.component';
+import { AddressEditComponent } from './account/account-edit/address-edit/address-edit.component';
+import { ContactEditComponent } from './account/account-edit/contact-edit/contact-edit.component';
 import { ContractAccountComponent } from './contract-account/contract-account.component';
 import { VehicleComponent } from './../vehicle/vehicle.component';
 import { PatrimonyTypeEditComponent } from './patrimony-type/patrimony-type-edit/patrimony-type-edit.component';
@@ -120,6 +126,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import { ActionTypeRepairComponent } from './actionType/action-type-edit/action-type-repair/action-type-repair.component';
 import { MenuAccountComponent } from './menu-account/menu-account.component';
 import { ContractAccountEditComponent } from './contract-account/contract-account-edit/contract-account-edit.component';
+import { SinisterComponent } from './sinister/sinister.component';
+import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.component';
 
 
 
@@ -208,7 +216,19 @@ import { ContractAccountEditComponent } from './contract-account/contract-accoun
      ActionTypeRepairComponent,
      MenuAccountComponent,
      ContractAccountComponent,
-     ContractAccountEditComponent
+     ContractAccountEditComponent,
+     ContactEditComponent,
+     AddressEditComponent,
+     SupplierProductEditComponent,
+     SinisterTypeComponent,
+     SinisterTypeEditComponent,
+     SinisterComponent,
+     SinisterEditComponent,
+     SinisterComponent,
+     SinisterEditComponent,
+     MenuSinisterComponent
+
+
   ],
   imports: [
     CommonModule,

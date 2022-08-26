@@ -40,12 +40,13 @@ export class ActionPlan {
   employer: string;
   observation : string;
   declaredDate : Date = new Date();
-  duration : number ; 
-  dayOfMonth : number; 
+  duration : number ;
+  dayOfMonth : number;
    months : Month[] = [];
-  days : Day[] = [];  
+  days : Day[] = [];
   maintenancePlan: MaintenancePlan;
   actionType: ActionType;
+  blocking: string;
 
   conditionalType:ConditionalType;
   valueconditionalType :number;

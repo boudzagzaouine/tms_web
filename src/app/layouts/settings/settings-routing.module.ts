@@ -1,3 +1,7 @@
+import { MenuSinisterComponent } from './menu-sinister/menu-sinister.component';
+import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.component';
+import { SinisterComponent } from './sinister/sinister.component';
+import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
 import { AccountEditComponent } from './account/account-edit/account-edit.component';
 import { MenuAccountComponent } from './menu-account/menu-account.component';
 import { MenuProductComponent } from './menu-product/menu-product.component';
@@ -97,7 +101,13 @@ const routes: Routes = [
       { path: 'holiday', component: HolidayComponent},
       { path: 'account', component: MenuAccountComponent},
       { path: 'account-edit/:id', component: AccountEditComponent},
-
+      { path: 'account-edit', component: AccountEditComponent},
+      { path: 'supplier-edit/:id', component: SupplierEditComponent},
+      { path: 'supplier-edit', component: SupplierEditComponent},
+      { path: 'sinisters', component: SinisterComponent},
+      { path: 'sinister-edit', component: SinisterEditComponent},
+      { path: 'sinister-edit/:id', component: SinisterEditComponent},
+      { path: 'menu-sinister', component: MenuSinisterComponent},
 
 
     ]

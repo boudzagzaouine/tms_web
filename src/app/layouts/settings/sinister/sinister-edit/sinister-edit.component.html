@@ -1,0 +1,164 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{ this.title | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary">
+    <form [formGroup]="sinisterForm">
+      <div class="row justify-content-around">
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fcode').touched && sinisterForm.get('fcode').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fcode').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="fcode"
+            (keydown.space)="$event.preventDefault()"  />
+        </div>
+
+        <div class="form-group col-md-9 ">
+          <label class="font-weight-bold ">{{'Description' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fdesc').touched && sinisterForm.get('fdesc').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fdesc').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="fdesc"
+            (keydown.space)="$event.preventDefault()"  />
+        </div>
+
+
+
+
+
+      </div>
+
+      <div class="row justify-content-around">
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Type Sinistre' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fsinisterType').touched && sinisterForm.get('fsinisterType').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fsinisterType').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <p-dropdown [autoDisplayFirst]="false" [options]="sinisterTypeList" optionLabel="code" placeholder="{{this.selectedSinister?.sinisterType?.code}}"
+          formControlName="fsinisterType" (onChange)="onSelectSinisterType($event)" [filter]="true"
+           [showClear]="true"></p-dropdown>
+        </div>
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Véhicule' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fvehicle').touched && sinisterForm.get('fvehicle').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fvehicle').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <p-autoComplete  formControlName="fvehicle" [suggestions]="vehicleList"
+          (onSelect)="onSelectVehicle($event)" (completeMethod)="onVehicleCodeSearch($event)" field="registrationNumber">
+        </p-autoComplete>
+        </div>
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Driver' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fdriver').touched && sinisterForm.get('fdriver').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fdriver').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <p-autoComplete  formControlName="fdriver" [suggestions]="driverList"
+          (onSelect)="onSelectDriver($event)" (completeMethod)="onDriverNameSearch($event)" field="name">
+        </p-autoComplete>
+        </div>
+
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Assureur' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fsupplier').touched && sinisterForm.get('fsupplier').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fsupplier').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <p-autoComplete  formControlName="fsupplier" [suggestions]="supplierList"
+          (onSelect)="onSelectSupplier($event)" (completeMethod)="onSupplierNameSearch($event)" field="contact.name">
+        </p-autoComplete>
+        </div>
+
+
+      </div>
+
+      <div class="row justify-content-around">
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Lieu ' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fvenue').touched && sinisterForm.get('fvenue').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fvenue').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="fvenue"
+          (keydown.space)="$event.preventDefault()"  />
+        </div>
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'Date ' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('fdate').touched && sinisterForm.get('fdate').invalid) ||
+            (isFormSubmitted && sinisterForm.get('fdate').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy"
+          formControlName="fdate" yearRange="1970:2100"></p-calendar>
+
+        </div>
+
+        <div class="form-group col-md-3 ">
+          <label class="font-weight-bold ">{{'remboursement (DH)' | translate}} *</label>
+          <span *ngIf="(sinisterForm.get('frepayment').touched && sinisterForm.get('frepayment').invalid) ||
+            (isFormSubmitted && sinisterForm.get('frepayment').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire' |translate }}
+          </span>
+          <br />
+          <input type="text" class="form-control" pInputText formControlName="frepayment"
+          (keydown.space)="$event.preventDefault()"  />
+        </div>
+        <div class="form-group col-md-3 ">
+</div>
+      </div>
+    </form>
+  </div>
+
+
+
+<div class="text-center mt-3 mr-3 ml-3" >
+
+  <div class="text-center mt-3 mr-3 ml-3" >
+    <a class="btn btn-primary m-1" [routerLink]="['/core/account']">
+      {{'Fermer' | translate}}
+    </a>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+      {{'Valider et continuer' | translate }}
+    </button>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+      {{ "Valider" | translate }}
+    </button>
+  </div>
+</div>
+
+</div>
+
+
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

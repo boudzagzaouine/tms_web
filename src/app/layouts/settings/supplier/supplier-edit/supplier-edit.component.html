@@ -1,21 +1,13 @@
-<p-dialog
-  header="{{ title | translate }}"
-  [(visible)]="displayDialog"
-  [focusOnShow]="false"
-  [responsive]="true"
-  showEffect="fade"
-  [modal]="true"
-  [style]="{ width: '800px' }"
-  (onHide)="onShowDialog()"
->
-  <div>
-    <div class="modal-body">
-      <div class="card-body">
+<div class="card mt-4">
+  <div class="card-header">
+    <span class="h4">{{   this.title | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary" >
       <form [formGroup]="supplierForm">
 
         <div class="row  justify-content-around">
 
-            <div class="form-group col-sm-12 col-md-12">
+            <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Nom' | translate}} *</label>
             <span *ngIf="(supplierForm.get('name').touched && supplierForm.get('name').invalid) ||
                 (isFormSubmitted && supplierForm.get('name').invalid)" class="text-lighter"
@@ -27,27 +19,29 @@
               [ngClass]="{'is-invalid': supplierForm.get('name').touched && supplierForm.get('name').invalid}" />
           </div>
 
-          <div class="col-sm-12 col-md-4">
+          <div class="col-sm-12 col-md-8">
 
           </div>
         </div>
 
         <div class="row  justify-content-around">
 
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="tel1" />
           </div>
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'email' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="email" />
+          </div>
+          <div class="form-group col-sm-12 col-md-4">
           </div>
         </div>
 
 
         <div class="row  justify-content-around">
 
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{"Ligne d'adresse 1" | translate}} *</label>
             <span *ngIf="(supplierForm.get('line1').touched && supplierForm.get('line1').invalid) ||
             (isFormSubmitted && supplierForm.get('line1').invalid)" class="text-lighter"
@@ -60,57 +54,57 @@
               [ngClass]="{'is-invalid': supplierForm.get('line1').touched && supplierForm.get('line1').invalid}" />
           </div>
 
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{"Ligne d'adresse 2" | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="line2" />
           </div>
+          <div class="form-group col-sm-12 col-md-4">
+</div>
         </div>
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Ville' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="city" />
           </div>
 
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Code postal' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="zipCode" />
           </div>
-
+          <div class="form-group col-sm-12 col-md-4">
+</div>
 
         </div>
         <div class="row  justify-content-around">
 
-<div class="form-group col-sm-12 col-md-6">
+<div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Pays' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="country" />
           </div>
 
-          <div class="form-group col-sm-12 col-md-6">
+          <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Type' | translate}}</label><br />
 
- <p-dropdown id="supplierType" [autoDisplayFirst]="false"  placeholder="{{this.selectedSupplier?.supplierType?.code}}" [options]="supplierTypeList"optionLabel="code"
+ <p-dropdown id="supplierType"
+ [autoDisplayFirst]="false"
+  placeholder="{{this.selectedSupplier?.supplierType?.code}}"
+  [options]="supplierTypeList"optionLabel="code"
             formControlName="supplierType" (onChange)="onSelectSupplierType($event)" [filter]="true"
              [showClear]="true"></p-dropdown>
 
-<!--
-            <p-dropdown [options]="supplierTypeList" [autoDisplayFirst]="false" optionLabel="code" [(ngModel)]="selectedSupplier.supplierType.code" [filter]="true"
-            [showClear]="true" >
-              <ng-template let-type pTemplate="type">
-                  <div class="flex align-items-center">
-
-                      <span>{{type?.code}}</span>
-                  </div>
-              </ng-template>
-          </p-dropdown> -->
-
-
-
 
           </div>
+          <div class="form-group col-sm-12 col-md-4">
+</div>
         </div>
       </form>
     </div>
+
+
+
+    <p-tabView [activeIndex]="0" >
+      <p-tabPanel header="{{ 'Plannings' | translate}}"  headerStyleClass="onglet-p-5">
 
 
     <div class="card  ">
@@ -158,12 +152,12 @@
 
               <td>
 
-                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-primary mx-1"
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogPlanning(line,true)">
                   <!--ADD-->
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-danger mx-1"
+                <button type="button" class="btn btn-sm btn-danger mx-1"
                   (click)="onDeletePlanning(line.day)">
                   <!--ADD-->
                   <i class="fa fa-trash"></i>
@@ -176,35 +170,99 @@
       </div>
     </div>
 
+</p-tabPanel>
 
 
 
 
 
+<p-tabPanel header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-5">
 
+
+  <div class="card  ">
+    <div class="card-header" style="background-color: #f7f7f7;">
+      <div class="row">
+
+        <div class="col-xs-4 col-md-4 pull-left">
+          <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogSupplierProduct(selectedSupplierProduct,false)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <div class=" col-xs-4 col-md-6 pull-center">
+          <span style="font-size: 16px; color: #5f5b5b;">
+            <b> {{ "Liste Catalogues" | translate }}</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body border-top-primary">
+      <p-table [value]=" this.selectedSupplier?.supplierProducts" [lazy]="true" [rows]="8"
+        [paginator]="true" [totalRecords]=" this.selectedSupplier
+    ?.supplierProducts?.length" >
+        <ng-template pTemplate="header">
+          <tr>
+
+            <th>{{'Produit' | translate}}</th>
+            <th>{{'Unité de mesure' | translate}}</th>
+            <th>{{'Prix HT '| translate}}</th>
+            <th>{{'TVA' | translate}}</th>
+            <th>{{'Pric TTC '| translate}}</th>
+            <!-- <th>{{ "Prix" | translate }}</th> -->
+            <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-line>
+          <tr>
+            <td>{{line?.product?.code}}</td>
+            <td>{{line?.uom?.code}}</td>
+            <td>{{line?.priceHT}}</td>
+            <td>{{line?.vat?.value}}</td>
+            <td>{{line?.priceTTC}}</td>
+
+            <td>
+
+              <button  type="button" class="btn btn-sm btn-primary mx-1"
+                (click)="onShowDialogSupplierProduct(line,true)">
+                <!--ADD-->
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-danger mx-1"
+                (click)="onDeleteSupplierProduct(line?.product?.code)">
+                <!--ADD-->
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+
+</p-tabPanel>
+</p-tabView>
+
+
+
+
+    <div class="text-center mt-3 mr-3 ml-3" >
+
+      <div class="text-center mt-3 mr-3 ml-3" >
+        <a class="btn btn-primary m-1" [routerLink]="['/core/settings/suppliers']">
+          {{'Fermer' | translate}}
+        </a>
+        <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+          {{'Valider et continuer' | translate }}
+        </button>
+        <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+          {{ "Valider" | translate }}
+        </button>
+      </div>
+    </div>
 
 
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
-    <button
-      type="button"
-      pButton
-      (click)="onShowDialog()"
-      class="p-button-primary"
-      label="{{'Annuler' | translate }}"
-    ></button>
-    <button
-      type="button"
-      pButton
-      (click)="onSubmit()"
-      class="p-button-success"
-      label="{{'Valider' | translate }}"
-    ></button>
-  </div>
-</p-footer>
-</p-dialog>
+
 <div *ngIf="showDialogPlanning == true">
 
 
@@ -215,4 +273,27 @@
    [editMode]="editModePlannig"></app-supplier-planning-edit>
 
 </div>
+
+
+
+
+<div *ngIf="showDialogSupplierProduct == true">
+
+
+  <app-supplier-product-edit
+  (showDialog)="onHideDialogSupplierProduct($event)"
+ (supplierProductEdited)="onLineEditedSupplierProduct($event)"
+   [selectedSupplierProduct]="this.selectedSupplierProduct"
+   [editMode]="editModeSupplierProduct"></app-supplier-product-edit>
+
+</div>
+
+
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>

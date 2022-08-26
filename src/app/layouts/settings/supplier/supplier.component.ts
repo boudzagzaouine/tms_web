@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Planning } from './../../../shared/models/planning';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
@@ -44,7 +45,8 @@ export class SupplierComponent implements OnInit {
     private globalService: GlobalService,
     private toastr: ToastrService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private router:Router) { }
 
   ngOnInit() {
 
@@ -188,10 +190,18 @@ export class SupplierComponent implements OnInit {
 
     this.editMode = event.operationMode;
     this.selectSuppliers = event.object;
+    console.log(  this.editMode);
+
     if (this.editMode === 3) {
       this.onDeleteAll();
-    } else {
-      this.showDialog = true;
+    } else if(this.editMode ===1) {
+      console.log(  this.selectSuppliers);
+    this.router.navigate(['/core/settings/supplier-edit']);
+
+     // this.showDialog = true;
+    }else if(this.editMode ===2) {
+      this.router.navigate(['/core/settings/supplier-edit',  this.selectSuppliers[0].id]);
+
     }
 
   }

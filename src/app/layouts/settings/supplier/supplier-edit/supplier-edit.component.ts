@@ -1,3 +1,6 @@
+import { SupplierProductService } from './../../../../shared/services/api/supplier-product.service';
+import { SupplierProduct } from './../../../../shared/models/supplier-product';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Day } from './../../../../shared/models/day';
 import { DayService } from './../../../../shared/services/api/day.service';
 import { SupplierType } from "./../../../../shared/models/supplier-type";
@@ -24,6 +27,7 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { Planning } from "./../../../../shared/models/planning";
 import { DateComponent } from '@fullcalendar/angular';
 import { LOADIPHLPAPI } from 'dns';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 @Component({
   selector: "app-supplier-edit",
@@ -37,23 +41,29 @@ export class SupplierEditComponent implements OnInit {
 
   selectedContact = new Contact();
   selectedAddress = new Address();
+  selectedSupplierProduct = new SupplierProduct();
+    selectedPlanning: Planning = new Planning();
+
   closeResult: String;
   supplierForm: FormGroup;
   supplierTypeList: SupplierType[] = [];
   plannings :Array<Planning>=[];
+  supplierProducts:Array<SupplierProduct>=[];
   days :Array<Day>=[];
-
   isFormSubmitted = false;
   displayDialog: boolean;
   title = "Modifier un Fournisseur";
   subscriptions = new Subscription();
   size: number;
   showDialogPlanning: boolean;
-  selectedPlanning: Planning = new Planning();
+  showDialogSupplierProduct: boolean;
   editModePlannig: boolean;
+  editModeSupplierProduct: boolean;
+
   editMd :boolean;
   constructor(
     private supplierService: SupplierService,
+    private supplierProductService : SupplierProductService,
     private authentificationService: AuthenticationService,
     private addressService: AddressService,
     private modalService: NgbModal,
@@ -63,6 +73,8 @@ export class SupplierEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private supplierTypeService: SupplierTypeService,
     private dayService :DayService,
+    private activatedRoute: ActivatedRoute,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -84,9 +96,14 @@ export class SupplierEditComponent implements OnInit {
       })
 
     );
-    if (this.editMode === 1) {
+    console.log(this.editMode);
+    let id = this.activatedRoute.snapshot.params["id"];
+    if (!id) {
 
       this.editMd=false;
+          this.title = "Ajouter un Fournisseur";
+          console.log(this.editMd);
+
       this.selectedSupplier = new Supplier();
       this.selectedContact = new Contact();
       this.selectedAddress = new Address();
@@ -95,7 +112,7 @@ export class SupplierEditComponent implements OnInit {
       this.selectedSupplier.plannings = this.plannings.sort(function (a, b) {
         return (Number(a.day.value) - Number(b.day.value))
       });
-      this.title = "Ajouter un Fournisseur";
+
       this.subscriptions.add(
         this.supplierService.generateCode().subscribe((code) => {
           this.selectedSupplier.code = code;
@@ -111,25 +128,59 @@ export class SupplierEditComponent implements OnInit {
       );
     } else {
       this.editMd=true;
-      if (this.selectedSupplier.contact) {
-        this.selectedContact = this.selectedSupplier.contact;
-      }
-      if (this.selectedSupplier.address) {
-        this.selectedAddress = this.selectedSupplier.address;
-      }
-      console.log("planning");
-      console.log(this.selectedSupplier.plannings);
+      console.log(this.editMd);
+      if (id) {
+        console.log(id);
+        this.supplierService.findById(id).subscribe((data) => {
+          this.selectedSupplier = data;
 
-      if(this.selectedSupplier.plannings.length ==0){
-        this.selectedSupplier.plannings = this.plannings.sort(function (a, b) {
-          return (Number(a.day.value) - Number(b.day.value))
+          if (this.selectedSupplier.contact) {
+            this.selectedContact = this.selectedSupplier.contact;
+          }
+          if (this.selectedSupplier.address) {
+            this.selectedAddress = this.selectedSupplier.address;
+          }
+
+          if (this.selectedSupplier.plannings.length == 0) {
+            this.selectedSupplier.plannings = this.plannings.sort(function (
+              a,
+              b
+            ) {
+              return Number(a.day.value) - Number(b.day.value);
+            });
+          }
+          if (this.selectedSupplier.plannings.length >= 0) {
+            this.selectedSupplier.plannings =
+              this.selectedSupplier.plannings.sort(function (a, b) {
+                return Number(a.day.value) - Number(b.day.value);
+              });
+          }
+          this.initForm();
         });
       }
-      if(this.selectedSupplier.plannings.length >=0){
-        this.selectedSupplier.plannings = this.selectedSupplier.plannings.sort(function (a, b) {
-          return (Number(a.day.value) - Number(b.day.value))
-        });
-      }
+
+
+
+
+      // if (this.selectedSupplier.contact) {
+      //   this.selectedContact = this.selectedSupplier.contact;
+      // }
+      // if (this.selectedSupplier.address) {
+      //   this.selectedAddress = this.selectedSupplier.address;
+      // }
+      // console.log("planning");
+      // console.log(this.selectedSupplier.plannings);
+
+      // if(this.selectedSupplier.plannings.length ==0){
+      //   this.selectedSupplier.plannings = this.plannings.sort(function (a, b) {
+      //     return (Number(a.day.value) - Number(b.day.value))
+      //   });
+      // }
+      // if(this.selectedSupplier.plannings.length >=0){
+      //   this.selectedSupplier.plannings = this.selectedSupplier.plannings.sort(function (a, b) {
+      //     return (Number(a.day.value) - Number(b.day.value))
+      //   });
+      // }
     }
 
 
@@ -156,7 +207,7 @@ export class SupplierEditComponent implements OnInit {
 
   }
 
-  onSubmit() {
+  onSubmit(clode=false) {
     this.isFormSubmitted = true;
     if (this.supplierForm.invalid) {
       return;
@@ -201,6 +252,16 @@ export class SupplierEditComponent implements OnInit {
           this.displayDialog = false;
           this.isFormSubmitted = false;
           this.spinner.hide();
+
+          this.supplierForm.reset();
+          if (close) {
+            this.router.navigate(["/core/settings/suppliers"]);
+          } else {
+            this.editMode = 1;
+            this.router.navigate(["/core/settings/supplier-edit"]);
+            this.title = "Ajouter un Client";
+          }
+
         },
         (error) => {
           this.messageService.add({
@@ -217,6 +278,9 @@ export class SupplierEditComponent implements OnInit {
       )
     );
   }
+
+
+
 
   onShowDialog() {
     let a = false;
@@ -300,4 +364,61 @@ this.days.forEach(element => {
    this.plannings.push(planning);
 });
   }
+
+
+
+
+  onLineEditedSupplierProduct(line: SupplierProduct) {
+    console.log(line);
+
+    if (
+      this.selectedSupplier.supplierProducts == null ||
+      this.selectedSupplier.supplierProducts == undefined
+    ) {
+      this.selectedSupplier.supplierProducts = [];
+    }
+    this.selectedSupplier.supplierProducts = this.selectedSupplier.supplierProducts.filter(
+      (l) => l.product.code !== line.product.code
+    );
+    this.selectedSupplier.supplierProducts.push(line);
+
+  }
+  onDeleteSupplierProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedSupplier.supplierProducts =
+          this.selectedSupplier.supplierProducts.filter((l) => l.product.code !== productCode);
+      },
+    });
+  }
+  onHideDialogSupplierProduct(event) {
+    this.showDialogSupplierProduct = event;
+  }
+
+  onShowDialogSupplierProduct(line, mode) {
+    this.showDialogSupplierProduct = true;
+
+    if (mode == true) {
+
+
+      this.selectedSupplierProduct = line;
+      this.editModeSupplierProduct = true;
+    } else if (mode == false) {
+
+      this.selectedSupplierProduct = new SupplierProduct();
+      this.editModeSupplierProduct = false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 }

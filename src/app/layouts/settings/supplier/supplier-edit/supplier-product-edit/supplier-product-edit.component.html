@@ -1,0 +1,78 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="supplierProductForm">
+
+
+
+          <div class="row  justify-content-around">
+
+
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{'Produit' | translate}}*</label>
+              <span *ngIf="(supplierProductForm.get('product').touched && supplierProductForm.get('product').invalid) ||
+              (isFormSubmitted && supplierProductForm.get('product').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire'| translate}}
+          </span>
+          <p-autoComplete [suggestions]="productList" field="code" (completeMethod)="productSearch($event)"
+          formControlName="product" (onSelect)="onSelectProduct($event)"></p-autoComplete>
+
+
+            </div>
+
+
+            <div class="form-group col-md-6 ">
+              <label class="font-weight-bold">{{'Unité de mesure'| translate}}</label><br />
+              <p-dropdown  formControlName="uom"
+              [options]="uoms"
+               (onChange)="onSelectUom($event)"
+              optionLabel="code"  [filter]="true" [showClear]="true">
+          </p-dropdown>            </div>
+            <div class="form-group col-md-6 ">
+              <label class="font-weight-bold">{{'Prix HT'| translate}}</label><br />
+              <input type="text" class="form-control" pInputText
+              (keyup)="onPriceChange(1)" formControlName="priceHT" />
+              </div>
+
+              <div class="form-group col-md-6 ">
+                <label class="font-weight-bold">{{'TVA'| translate}}</label><br />
+                <p-dropdown  formControlName="vat"
+                [options]="vats"
+                 (onChange)="onSelectVat($event)"
+                optionLabel="value"  [filter]="true" [showClear]="true">
+            </p-dropdown>
+                </div>
+
+              <div class="form-group col-md-6 ">
+                <label class="font-weight-bold">{{'Prix TTC'| translate}}</label><br />
+                <input type="text" class="form-control" pInputText
+                (keyup)="onPriceChange(2)" formControlName="priceTTC" />
+                </div>
+                <div class="form-group col-md-6 ">
+</div>
+
+          </div>
+
+        </form>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+      <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

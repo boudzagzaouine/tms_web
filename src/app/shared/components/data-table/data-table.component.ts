@@ -43,6 +43,7 @@ export class DataTableComponent implements OnInit {
   @Input() viewBtnVisible = false;
   @Input() updateBtnVisible = false;
   @Input() deleteBtnVisible = false;
+  @Input() generateInvoiceBtnVisible = true;
   @Output() lazyLoadData = new EventEmitter<any>();
   @Output() objectEdited = new EventEmitter<EmittedOBject>();
   @Output() exportBtnExcelGlobal = new EventEmitter<any[]>();
@@ -57,6 +58,7 @@ export class DataTableComponent implements OnInit {
   user = new User();
   updateBtnDisable = false;
   deleteBtnDisable = false;
+  generateInvoiceBtnDisable=false;
   items: MenuItem[];
   constructor(
     private spinner: NgxSpinnerService,
@@ -128,19 +130,22 @@ export class DataTableComponent implements OnInit {
   }
   typeOf(event) {
     let res: number;
-
     if (event === "object") {
       res = 1;
-    } else if (event === "number" || event === "string") {
+    } else if (event === "number" ) {
       res = 2;
-    } else if (event === "date") {
-      res = 3;
-    } else if (event === "boolean") {
-      res = 4;
     }
-    else if (event === "object2") {
+    else if ( event === "string") {
+      res = 3;
+    }  else if (event === "date") {
+      res = 4;
+    } else if (event === "boolean") {
       res = 5;
     }
+    else if (event === "object2") {
+      res = 6;
+    }
+
 
     return res;
   }
@@ -177,17 +182,22 @@ export class DataTableComponent implements OnInit {
     if (this.selectedObjects.length === 1) {
       this.updateBtnDisable = true;
       this.deleteBtnDisable = true;
+      this. generateInvoiceBtnDisable=true;
     } else {
       this.updateBtnDisable = false;
+      this. generateInvoiceBtnDisable=true;
     }
 
   }
   onRowUnselect(event) {
     if (this.selectedObjects.length === 1) {
       this.updateBtnDisable = true;
+      this. generateInvoiceBtnDisable=true;
+
     } else if (this.selectedObjects.length < 1) {
       this.updateBtnDisable = false;
       this.deleteBtnDisable = false;
+      this. generateInvoiceBtnDisable=false;
     }
   }
 

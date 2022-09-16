@@ -44,7 +44,7 @@ export class EmsService<T> {
 
   sizeSearch(search: string) {
 
-    
+
     return this.proxy.sizeSearch(this.controller, search);
   }
 
@@ -84,5 +84,10 @@ export class EmsService<T> {
 verify() {
   return this.proxy.verify(this.controller);
 }
+
+generateSupplierInvoiceFromReception(t: T): Observable<T> {
+  return this.proxy.generateSupplierInvoiceFromReception(this.controller, t);
+}
+
 
 }

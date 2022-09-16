@@ -1,3 +1,5 @@
+import { ToastModule } from 'primeng/toast';
+import { GenerateSupplierInvoiceFromReceptionComponent } from './generate-supplier-invoice-from-reception/generate-supplier-invoice-from-reception.component';
 import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
 import { StepsModule } from 'primeng/steps';
@@ -28,7 +30,7 @@ import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
-  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent, ReceptionLineEditComponent,ReceptionGenerateBonComponent],
+  declarations: [ReceptionComponent, ReceptionEditComponent, ReceptionListComponent, ReceptionLineEditComponent,ReceptionGenerateBonComponent,GenerateSupplierInvoiceFromReceptionComponent],
   imports: [
     CommonModule,
     ReceptionRoutingModule,
@@ -53,6 +55,8 @@ import { NgxPrintModule } from 'ngx-print';
     PanelModule,
     DialogModule,
     NgxPrintModule,
+    ToastModule,
+
 
   ]
 })

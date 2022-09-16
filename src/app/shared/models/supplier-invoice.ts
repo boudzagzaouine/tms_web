@@ -1,3 +1,6 @@
+import { PaymentStatus } from './payment-status';
+import { SupplierInvoiceReception } from './supplier-invoice-reception';
+import { InvoiceStatus } from './invoice-status';
 import { Currency } from './currency';
 import { PaymentType } from './payment-method';
 import { Owner } from './owner';
@@ -8,6 +11,8 @@ import { SupplierInvoiceLine } from './supplier-invoice-line';
 export class SupplierInvoice {
      id: number;
      code: string;
+     description:string;
+     supplierInvoiceCode:string;
      creationDate: Date;
      updateDate: Date;
     supplier: Supplier;
@@ -16,7 +21,8 @@ export class SupplierInvoice {
      discount: number;
      vat: number;
      deadLine: Date;
-     //  invoiceStatus: InvoiceStatus;
+     invoiceStatus: InvoiceStatus;
+      invoiceDate:Date = new Date();
      purshaseOrder: PurchaseOrder;
      warehouse: Warehouse;
      owner: Owner;
@@ -24,6 +30,7 @@ export class SupplierInvoice {
      currency: Currency;
      paymentType: PaymentType;
      active: boolean;
-
+     paymentStatus : PaymentStatus;
+     supplierInvoiceReceptions : SupplierInvoiceReception[];
     supplierInvoiceLines: SupplierInvoiceLine[];
 }

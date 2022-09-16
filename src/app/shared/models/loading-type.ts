@@ -9,6 +9,7 @@ export class LoadingType {
   owner:Owner ;
 
   constructor(code :string){
+
     this.code = code;
    }
 }

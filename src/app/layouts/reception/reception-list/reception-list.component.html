@@ -38,9 +38,9 @@
     <div class="col-md-2">
       <label class="font-weight-bold">{{ "Date Reception" | translate }}</label
       ><br />
-      <p-calendar [(ngModel)]="dateSearch" 
-      [monthNavigator]="true" 
-      [yearNavigator]="true" 
+      <p-calendar [(ngModel)]="dateSearch"
+      [monthNavigator]="true"
+      [yearNavigator]="true"
       yearRange="2000:2030" dateFormat="dd/mm/yy"
       selectionMode="range" [readonlyInput]="true" (onSelect)="selectDateReception($event)"
       inputId="navigators"
@@ -78,11 +78,22 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-
+  [generateInvoiceBtnVisible]="false"
   [permissionDelete]="['RECEPTION_DELETE']"
   [permissionEdit]="['RECEPTION_EDIT']"
 
 ></app-data-table>
+
+
+<div *ngIf="showDialog == true">
+
+<app-generate-supplier-invoice-from-reception
+(showDialog)="onHideDialogInvoice($event)"
+(supplierInvoiceAdded)="generateSuppleirInvoiceFromReception($event)"
+ [selectedSupplierInvoice]="selectedReceptionLine"
+ [editMode]="editModeInvoice"
+></app-generate-supplier-invoice-from-reception>
+</div>
 
 <ngx-spinner
   bdColor="rgba(255,255,255,0)"

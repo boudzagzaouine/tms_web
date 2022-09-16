@@ -28,7 +28,7 @@ export class ConditionalTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des types de badges';
+  titleList = 'Liste des types de Condition';
   conditionalTypeExportList: Array<ConditionalType> = [];
   subscriptions= new Subscription();
   items: MenuItem[];
@@ -46,9 +46,9 @@ export class ConditionalTypeComponent implements OnInit {
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Type condition' ,routerLink:'/core/settings/conditional-type'},
-  
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.className = ConditionalType.name;

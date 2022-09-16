@@ -1,0 +1,261 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<div class="card">
+  <div class="card-header">
+    <span class="h4">{{ editModeTitle | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary">
+    <form [formGroup]="supplierInvoiceForm">
+
+      <div class="row justify-content-around">
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Numéro" | translate }} * </label>
+
+          <br />
+
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="code" [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Fournisseur" | translate }} *</label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="supplier"
+          />
+        </div>
+
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Code Facture Achat" | translate }} * </label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="supplierInvoiceCode"
+          />
+        </div>
+        <div class="form-group col-md-3">
+</div>
+      </div>
+
+      <div class="row justify-content-around">
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Statut" | translate }} * </label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="invoiceStatus"
+          />
+        </div>
+
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Statut de paiement" | translate }} * </label>
+
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="paymentStatus"
+          />
+        </div>
+
+        <div class="form-group col-md-6">
+        </div>
+
+
+      </div>
+      <div class="row justify-content-around">
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{
+            "Total HT" | translate
+          }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="totalPriceHT"
+          />
+        </div>
+
+        <div class="form-group col-md-3">
+
+          <label class="font-weight-bold ">{{ "Total TVA" | translate }}</label
+            ><br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+              formControlName="vat"
+            />
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Total TTC" | translate }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="totalPriceTTC"
+          />
+        </div>
+
+        <div class="form-group col-md-3">
+        </div>
+      </div>
+
+
+      <div class="row justify-content-around">
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{
+            "Devise" | translate
+          }}</label
+          ><br />
+          <input
+          type="text"
+          class="form-control"
+          pInputText
+          formControlName="currency"
+        />
+
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Date" | translate }}</label
+          ><br />
+           <p-calendar
+          [monthNavigator]="true"
+          [yearNavigator]="true"
+          dateFormat="dd-mm-yy"
+          formControlName="invoiceDate"
+          yearRange="1970:2100"
+        ></p-calendar>
+
+        </div>
+
+        <div class="form-group col-md-3">
+          <label class="font-weight-bold ">{{ "Entrepôt" | translate }}</label
+          ><br />
+          <input
+            type="text"
+            class="form-control"
+            pInputText
+            formControlName="warehouse"
+          />
+        </div>
+        <div class="form-group col-md-3">
+        </div>
+      </div>
+
+
+
+      <div class="card m-5 ">
+        <div class="card-header" style="background-color: #f7f7f7;">
+         <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste des lignes de facture" | translate }}</b></span
+            >
+          </div>
+        </div></div>
+        <div class="card-body border-top-primary">
+          <p-table
+          [value]=" this.supplierInvoiceLineList" [lazy]="true" [rows]="size" [paginator]="true"
+          [totalRecords]=" this.supplierInvoiceLineList?.length">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'Produit ' | translate}}</th>
+                <th>{{ 'Description' | translate}}</th>
+                <th>{{ 'Prix unitaire ' | translate}}</th>
+                <th>{{ 'Prix total HT ' | translate}}</th>
+                <th>{{ 'TVA ' | translate}}</th>
+                <th>{{ 'Prix total TTC ' | translate}}</th>
+
+
+                <!-- <th style="width:10%">{{ 'Action ' | translate}}</th> -->
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ligne>
+              <tr>
+                <td>{{ ligne?.product?.code}}</td>
+                <td>{{ ligne?.product?.desc }}</td>
+                <td>{{ ligne?.tarifPrice }}</td>
+                <td>{{ ligne?.totalPriceHT }}</td>
+                <td>{{ ligne?.vat?.value ?ligne?.vat?.value : 0  }}</td>
+                <td>{{ ligne?.totalPriceTTC }}</td>
+
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </div>
+      </div>
+
+
+
+        <div class="text-center">
+          <a
+            class="btn btn-primary m-1"
+            [routerLink]="['/core/supplier-invoice/list']"
+            routerLinkActive="active"
+          >
+            {{ "Fermer" | translate }}
+          </a>
+          <!-- <button
+            type="button"
+            class="btn btn-success m-1"
+            (click)="onSubmitForm(false)"
+          >
+            {{ "Valider et continue" | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success m-1"
+            (click)="onSubmitForm(true)"
+          >
+            {{ "Valider" | translate }}
+          </button> -->
+        </div>
+
+
+    </form>
+
+  </div>
+</div>
+
+
+
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

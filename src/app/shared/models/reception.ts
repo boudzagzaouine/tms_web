@@ -38,4 +38,5 @@ export class Reception {
     receptionDate: Date=new Date();
    // box: CashRegister;
     supplierDeliveryDate: Date;
+    invoice :Boolean;
 }

@@ -1,3 +1,4 @@
+import { Document } from './../../../../shared/models/document';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { SinisterService } from './../../../../shared/services/api/sinister.service';
@@ -28,11 +29,15 @@ export class SinisterEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() showDialogContactEvent = new EventEmitter<boolean>();
 
+  selectedDocument :Document= new Document();
+  editModeDocument: boolean;
+  idDocument :number=0;
+
   sinisterForm: FormGroup;
   title = "Ajouter un Sinistre";
   isFormSubmitted = false;
   displayDialog: boolean;
-
+  showDialogDocument: boolean;
   sinisterTypeList:Array<SinisterType> = [];
   vehicleList: Array<Vehicle>=[];
   driverList: Array<Driver>=[];
@@ -217,6 +222,57 @@ console.log(event);
                 }
               )
             );
+          }
+
+          onLineEditedDocuemnt(line: Document) {
+            console.log(line);
+
+            this.selectedSinister.documents = this.selectedSinister.documents.filter(
+              (l) => l.id !== line.id
+            );
+          this.idDocument--;
+           line.id=this.idDocument;
+            this.selectedSinister.documents.push(line);
+
+           console.log(this.selectedSinister.documents);
+
+
+          }
+          onDeleteDocument (id: number) {
+            this.confirmationService.confirm({
+              message: 'Voulez vous vraiment Suprimer?',
+              accept: () => {
+                this.selectedSinister.documents = this.selectedSinister.documents.filter(
+                  (l) => l.id !== id
+                );
+
+              },
+            });
+          }
+
+          onHideDialogDocument(event) {
+            this.showDialogDocument = event;
+          }
+
+          onShowDialogDocument(line, mode) {
+            console.log("debut show ");
+
+            this.showDialogDocument = true;
+
+            if (mode == true) {
+              console.log("true");
+              console.log(line);
+
+              this.selectedDocument = line;
+              this.editModeDocument = true;
+
+            } else if(mode ==false) {
+              console.log("false");
+              this.selectedDocument=new Document();
+              this.editModeDocument = false;
+
+            }
+
           }
 
 }

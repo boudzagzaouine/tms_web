@@ -1,21 +1,27 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
-    
 
+    <div class="col-md-2" >
+      <label class="font-weight-bold">{{'Code' |translate}}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
+      (completeMethod)="onCodeSearch($event)"></p-autoComplete>
+    </div>
 
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
+      <input type="text" pInputText [(ngModel)]="descriptionSearch" />
+    </div>
   </div>
   <br />
 
   <div class="text-center">
     <button type="button" class="btn btn-primary mr-2" (click)="reset()">
       <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
-
     </button>
-
     <button type="button" class="btn btn-success" (click)="onSearchClicked()">
       <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
-
     </button>
   </div>
 </p-panel>
@@ -45,7 +51,7 @@
     [selectedHoliday]="selectHolidays[0]"
     (showDialog)="onShowDialog($event)"
   ></app-holiday-edit>
-  
+
 </div>
 
 <ngx-spinner

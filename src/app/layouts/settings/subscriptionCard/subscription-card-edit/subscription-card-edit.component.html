@@ -7,7 +7,7 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '350px' }"
+[style]="{ width: '450px' }"
 (onHide)='onShowDialog()'>
 <div>
   <div class="modal-body">
@@ -15,7 +15,7 @@ showEffect="fade"
       <form [formGroup]="subscriptionCardForm">
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label class="font-weight-bold">{{'Code' | translate}} *</label>
             <span *ngIf="(subscriptionCardForm.get('code').touched && subscriptionCardForm.get('code').invalid) ||
             (isFormSubmitted && subscriptionCardForm.get('code').invalid)" class="text-lighter"
@@ -28,11 +28,21 @@ showEffect="fade"
            />
           </div>
 
-          <div class="form-group col-sm-12">
+          <div class="form-group col-sm-6">
             <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
-          <div class="col-md-3"></div>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Type' | translate}}</label><br />
+            <p-dropdown [autoDisplayFirst]="false" [options]="subscriptionCardTypeList" optionLabel="code" [placeholder]="this.selectedSubscriptionCard.subscriptionCardType.code"
+                formControlName="fSubscriptionCardType" (onChange)="onSelectSubscriptionCardType($event)" [filter]="true"
+                 [showClear]="true" appendTo="body"></p-dropdown>
+          </div> 
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Montant (DH)' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="price" />
+          </div>
 
         </div>
       </form>

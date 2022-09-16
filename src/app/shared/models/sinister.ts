@@ -1,3 +1,4 @@
+import { Document } from './document';
 import { Supplier } from '.';
 import { SinisterType } from './sinister-type';
 import { Driver } from './driver';
@@ -18,5 +19,6 @@ export class Sinister {
   venue:String ;
   supplier:Supplier;
   repayment :number;
+  documents : Document[]=[];
   owner :Owner;
 }

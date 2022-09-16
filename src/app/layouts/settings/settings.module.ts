@@ -1,4 +1,10 @@
-import { MenuSinisterComponent } from './menu-sinister/menu-sinister.component';
+import { MenuTransportComponent } from './menu-transport/menu-transport.component';
+import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
+import { MenuSubscriptionCardComponent } from './menu-subscription-card/menu-subscription-card.component';
+import { SubscriptionCardTypeEditComponent } from './subscription-card-type/subscription-card-type-edit/subscription-card-type-edit.component';
+import { SinisterDocumentEditComponent } from './sinister/sinister-edit/sinister-document-edit/sinister-document-edit.component';
+import { DocumentTypeEditComponent } from './document-type/document-type-edit/document-type-edit.component';
+import { DocumentTypeComponent } from './document-type/document-type.component';
 import { SinisterTypeEditComponent } from './sinister-type/sinister-type-edit/sinister-type-edit.component';
 import { SinisterTypeComponent } from './sinister-type/sinister-type.component';
 import { SupplierProductEditComponent } from './supplier/supplier-edit/supplier-product-edit/supplier-product-edit.component';
@@ -128,6 +134,8 @@ import { MenuAccountComponent } from './menu-account/menu-account.component';
 import { ContractAccountEditComponent } from './contract-account/contract-account-edit/contract-account-edit.component';
 import { SinisterComponent } from './sinister/sinister.component';
 import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.component';
+import {FileUploadModule} from 'primeng/fileupload';
+import { SubscriptionCardTypeComponent } from './subscription-card-type/subscription-card-type.component';
 
 
 
@@ -226,7 +234,15 @@ import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.co
      SinisterEditComponent,
      SinisterComponent,
      SinisterEditComponent,
-     MenuSinisterComponent
+     DocumentTypeComponent,
+     DocumentTypeEditComponent,
+     SinisterDocumentEditComponent,
+     SubscriptionCardTypeEditComponent,
+     SubscriptionCardTypeComponent,
+     MenuSubscriptionCardComponent,
+     MenuFuelComponent,
+     MenuTransportComponent
+
 
 
   ],
@@ -267,6 +283,7 @@ import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.co
     NgxPrintModule,
     InputSwitchModule,
     NgxPermissionsModule.forChild(),
+    FileUploadModule
   ]
 })
 export class SettingsModule { }

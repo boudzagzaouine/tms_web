@@ -1,0 +1,123 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="DocumentForm">
+
+
+
+
+
+  <div class="row  justify-content-around" >
+
+
+
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold"> {{'Code' | translate}}</label><br />
+      <input type="text"  class="form-control" pInputText formControlName="code" />
+    </div>
+    <div class="form-group col-sm-6"  >
+
+        <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
+        <!-- <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="duration" /> -->
+        <input type="text"  class="form-control" pInputText formControlName="description">
+
+    </div>
+  </div>
+
+  <div class="row  justify-content-around" >
+
+
+
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold"> {{'Type Document' | translate}}</label><br />
+      <p-dropdown [autoDisplayFirst]="false" [options]="documentTypeList" optionLabel="code" placeholder="{{this.selectedDocument?.documentType?.code}}"
+      formControlName="documentType" (onChange)="onSelectDocumentType($event)" [filter]="true"
+       [showClear]="true"></p-dropdown>    </div>
+    <div class="form-group col-sm-6"  >
+
+        <label class="font-weight-bold"> {{'date' | translate}}</label><br />
+        <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd-mm-yy"
+        formControlName="date" yearRange="1970:2100"></p-calendar>
+
+    </div>
+  </div>
+
+  <div class="row  justify-content-around" >
+
+    <div class="form-group col-sm-12">
+      <div class="card">
+        <p-fileUpload  chooseLabel="Choisir" mode="advanced"
+        [showUploadButton]="false" [showCancelButton]="false"
+        (onSelect)="onSelectDocument($event)" maxFileSize="1000000">
+        <ng-template pTemplate="toolbar">
+            <div>Télécharger 1 fichier</div>
+        </ng-template>
+        <ng-template   pTemplate="content">
+            <div>
+              <table class="table" *ngIf="this.selectedDocument?.fileName">
+
+                <tbody>
+                  <tr>
+                    <td>{{this.selectedDocument?.fileName}}</td>
+                    <td>{{this.selectedDocument?.fileType}}</td>
+                    <td>
+                      <a  (click)="dowloand()"  type="button" class="btn btn-sm btn-primary mx-1"
+                      >
+                      <!--ADD-->
+                      <i class="fa fa-upload"></i>
+                    </a>
+                    <a  type="button" class="btn btn-sm btn-danger mx-1" (click)="deleteFile()"
+                     >
+                      <!--ADD-->
+                      <i class="fa fa-trash"></i>
+                  </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+              </div>
+        </ng-template>
+
+</p-fileUpload>
+
+<!--
+        <p-fileUpload  chooseLabel="Choisir" mode="advanced"
+        [showUploadButton]="false" [showCancelButton]="false" (onSelect)="onSelectDocument($event)"
+                 maxFileSize="1000000" >
+                 <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                </ng-template>
+        </p-fileUpload> -->
+
+            </div>
+
+      </div>
+    </div>
+
+
+</form>
+
+
+
+
+</div>
+</div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
+      label="{{'Annuler' | translate }}"></button>
+    <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+      label="{{ 'Valider' | translate }}"></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

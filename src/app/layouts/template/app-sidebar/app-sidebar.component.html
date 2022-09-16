@@ -1,14 +1,15 @@
-<nav class="page-sidebar">
+<nav class="page-sidebar"  style="overflow: auto;
+height: 100vh; padding-bottom: 10%;">
   <!-- 222d32 -->
-  <div id="sidebar-collapse" style="background-color: #2c3941 !important;">
-    <ul class="side-menu metismenu fixed" style="background-color: #2c3941 !important;">
+  <div id="sidebar-collapse" >
+    <ul class="side-menu metismenu fixed" >
 
 
       <li >
 
 
         <a  class="text-white"><i class="sidebar-item-icon fa " >
-            <img src="./assets/img/Menu/dashboard.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/dashboard.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Tableau de Bord' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse" >
@@ -23,7 +24,7 @@
         <ul class="nav-2-level collapse" >
           <li >
             <a routerLink="/core/dashboards/driver" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Conducteur ' | translate}}</a>
+              {{'Chauffeur ' | translate}}</a>
           </li>
 
         </ul>
@@ -35,8 +36,8 @@
 
       <li>
 
-        <a class="text-white "><i class="sidebar-item-icon "><img src="./assets/img/Menu/Parametre.png" width="20px"
-              height="20px"></i>
+        <a class="text-white "><i class="sidebar-item-icon "><img src="./assets/img/Menu/Parametre.png"
+          ></i>
 
           <span class="nav-label "> {{'Paramétrage' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -56,14 +57,11 @@
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
-            <a routerLink="/core/settings/menu-sinister" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Sinistre' | translate}}</a>
-          </li>
+<!--
           <li *hasPermission="['ACTION_TYPE_VIEW']">
             <a routerLink="/core/settings/action-type" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Type action' | translate}}</a>
-          </li>
+          </li> -->
           <!-- <li>
             <a routerLink="/core/settings/contract-types"><i class="fa fa-circle-o"></i>
               {{'Type Contrat' | translate}}</a>
@@ -76,10 +74,10 @@
             <a routerLink="/core/settings/agents" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Agent ' | translate}}</a>
           </li>
-          <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
+          <!-- <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
             <a routerLink="/core/settings/account" class="m-a"><i class="fa fa-circle-o"></i>
               {{'client ' | translate}}</a>
-          </li>
+          </li> -->
           <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
             <a routerLink="/core/settings/holiday" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Jour férier ' | translate}}</a>
@@ -94,18 +92,18 @@
           </li>
           <li *hasPermission="['BADGE_TYPE_VIEW','COMMISSION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-driver" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Conducteur ' | translate}}</a>
+              {{'Chauffeur ' | translate}}</a>
           </li>
 
-          <li *hasPermission="['CONDITIONAL_TYPE_VIEW']">
+          <!-- <li *hasPermission="['CONDITIONAL_TYPE_VIEW']">
             <a routerLink="/core/settings/conditional-type" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Type condition ' | translate}}</a>
-          </li>
+          </li> -->
 
-          <li *hasPermission="['SUBSCRIPTION_CARD_VIEW']">
-            <a routerLink="/core/settings/subscription-card" class="m-a"><i class="fa fa-circle-o"></i>
+          <!-- <li *hasPermission="['SUBSCRIPTION_CARD_VIEW']">
+            <a routerLink="/core/settings/menu-subscription-card" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Carte Abonnement ' | translate}}</a>
-          </li>
+          </li> -->
 
           <!-- <li>
             <a routerLink="/core/settings/badge-types"><i class="fa fa-circle-o"></i>
@@ -133,16 +131,20 @@
             <a routerLink="/core/settings/commission-type"><i class="fa fa-circle-o"></i>
               {{'Type Commission ' | translate}}</a>
           </li> -->
-
+<!--
           <li *hasPermission="['CATEGORY_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/transport-category-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Catégorie de Transport  ' | translate}}</a>
-          </li>
+          </li> -->
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
-            <a routerLink="/core/settings/path" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Trajet ' | translate}}</a>
+            <a routerLink="/core/settings/menu-transport" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Transport ' | translate}}</a>
           </li>
           <li *hasPermission="['PUMP_VIEW']">
+            <a routerLink="/core/settings/menu-fuel" class="m-a"><i class="fa fa-circle-o"></i>
+              {{' Carburant' | translate}}</a>
+          </li>
+          <!-- <li *hasPermission="['PUMP_VIEW']">
             <a routerLink="/core/settings/pumps" class="m-a"><i class="fa fa-circle-o"></i>
               {{' Pompe carburant' | translate}}</a>
           </li>
@@ -150,7 +152,7 @@
           <li *hasPermission="['FUEL_PUMP_VIEW']">
             <a routerLink="/core/settings/fuel-pumps" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Station' | translate}}</a>
-          </li>
+          </li> -->
           <!-- <li>
             <a routerLink="/core/settings/patrimony" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Type Patrimoine  ' | translate}}</a>
@@ -165,18 +167,18 @@
             <a routerLink="/core/settings/zone" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Zone  ' | translate}}</a>
           </li>
-          <li *hasPermission="['SUPPLIER_VIEW']">
+          <!-- <li *hasPermission="['SUPPLIER_VIEW']">
             <a routerLink="/core/settings/suppliers" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Fournisseur ' | translate}}</a>
-          </li>
-          <li *hasPermission="['SUPPLIER_VIEW']">
+          </li> -->
+          <!-- <li *hasPermission="['SUPPLIER_VIEW']">
             <a routerLink="/core/settings/supplier-holiday" class="m-a"><i class="fa fa-circle-o"></i>
               {{'fournisseur férier ' | translate}}</a>
-          </li>
-          <li *hasPermission="['TRANSPORT_VIEW']">
+          </li> -->
+          <!-- <li *hasPermission="['TRANSPORT_VIEW']">
             <a routerLink="/core/settings/transport" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Transport ' | translate}}</a>
-          </li>
+          </li> -->
           <li *hasPermission="['PRODUCT_VIEW','PRODUCT_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-product" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Produit ' | translate}}</a>
@@ -187,6 +189,26 @@
       </li>
 
 
+      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+        <a class="text-white" routerLink="/core/settings/account"><i class="sidebar-item-icon fa " >
+            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
+          </i>
+
+          <span class="nav-label">{{'Client' | translate}}</span></a>
+
+      </li>
+
+
+
+      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+        <a class="text-white" routerLink="/core/settings/suppliers"><i class="sidebar-item-icon fa " >
+            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
+          </i>
+
+          <span class="nav-label">{{'Fournisseur' | translate}}</span></a>
+
+      </li>
+
 
 
       <!-- *ngxPermissionsOnly="['VEHICLE_CREATE']" -->
@@ -195,7 +217,7 @@
 
 
           <a  class="text-white"><i class="sidebar-item-icon fa " >
-              <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
+              <img src="./assets/img/Menu/vehicle.png" width="25px" height="25px">
             </i>
             <span class="nav-label">{{'Véhicule' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
           <ul class="nav-2-level collapse" >
@@ -216,7 +238,7 @@
 
 
           <a  class="text-white"><i class="sidebar-item-icon fa " >
-              <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
+              <img src="./assets/img/Menu/vehicle.png" width="25px" height="25px">
             </i>
             <span class="nav-label">{{'disponibilité Patrimoine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
           <ul class="nav-2-level collapse" >
@@ -236,7 +258,7 @@
 
       <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/machine.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Machine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -254,7 +276,7 @@
 
       <li *hasPermission="['DRIVER_CREATE','DRIVER_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/Chauffeur.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/Chauffeur.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Chauffeur' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -270,7 +292,7 @@
       </li>
       <li *hasPermission="['STOCK_CREATE','STOCK_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/stock.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/stock.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'mouvement de stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -284,7 +306,7 @@
 
       <li *hasPermission="['STOCK_CREATE','STOCK_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/stock.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/stock.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -298,7 +320,7 @@
 
       <li *hasPermission="['DIESELDECLARATION_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/gasoil.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Declaration Gasoil' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -312,7 +334,7 @@
 
       <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/gasoil.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Alimentation Pompe' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -326,7 +348,7 @@
 
       <li *hasPermission="['MAINTENANCEPLAN_VIEW','MAINTENANCEPLAN_CREATE','MAINTENANCE_CREATE','MAINTENANCE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa">
-            <img src="./assets/img/Menu/maintenance.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/maintenance.png" width="25px" height="25px">
 
           </i>
           <span class="nav-label">{{'Maintenance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
@@ -362,7 +384,7 @@
 
       <li *hasPermission="['INSURANCE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/assurance_auto1.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/assurance_auto1.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Assurance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -374,10 +396,24 @@
         </ul>
       </li>
 
+      <li *hasPermission="['INSURANCE_VIEW']">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/sinistre1.png" width="25px" height="25px">
+          </i>
+          <span class="nav-label">{{'Sinistre' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
+          <li *hasPermission="['INSURANCE_VIEW']">
+            <a routerLink="/core/settings/sinisters" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Lister' | translate}} </a>
+          </li>
+
+        </ul>
+      </li>
+
 
       <li *hasPermission="['PURCHASEORDER_CREATE','PURCHASEORDER_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/sale.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/sale.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Commande' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -394,7 +430,7 @@
 
       <li *hasPermission="['RECEPTION_CREATE','RECEPTION_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/purchase.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Reception' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -410,10 +446,25 @@
       </li>
 
 
+      <li *hasPermission="['RECEPTION_CREATE','RECEPTION_VIEW']">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/invoice.png" width="25px" height="25px">
+          </i>
+          <span class="nav-label">{{'Facturation' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
 
+          <li *hasPermission="['RECEPTION_VIEW']">
+            <a routerLink="/core/supplier-invoice/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Lister' | translate}}</a>
+          </li>
+        </ul>
+      </li>
+
+
+<!--
       <li >
         <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/purchase.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Trajet' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
@@ -426,13 +477,13 @@
                 height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
 
 
       <!-- <li>
         <a class="text-white" routerLink="/core/consomptions/edit" class="m-a"><i class="sidebar-item-icon fa">
-            <img src="./assets/img/Menu/commission.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/commission.png" width="25px" height="25px">
 
           </i>
           <span class="nav-label">{{'commission Chauffeur' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
@@ -443,7 +494,7 @@
 
       <li>
         <a class="text-white" class="m-a"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/vehicle.png" width="20px" height="20px">
+            <img src="./assets/img/Menu/vehicle.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Tour' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">

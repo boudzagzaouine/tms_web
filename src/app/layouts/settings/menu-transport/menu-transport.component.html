@@ -1,0 +1,23 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<p-tabView>
+
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Transport' | translate }}"   headerStyleClass="onglet-p-3">
+      <ng-template pTemplate="content">
+                 <app-transport></app-transport>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Catégories de transport' | translate}}"  headerStyleClass="onglet-p-3">
+      <ng-template pTemplate="content">
+        <app-transport-category-vehicle></app-transport-category-vehicle>
+      </ng-template>
+  </p-tabPanel>
+
+
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Trajet' | translate}}"  headerStyleClass="onglet-p-3">
+    <ng-template pTemplate="content">
+      <app-catalog-transport-type></app-catalog-transport-type>
+    </ng-template>
+</p-tabPanel>
+
+</p-tabView>

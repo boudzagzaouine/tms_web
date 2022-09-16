@@ -1,3 +1,4 @@
+import { MenuItem } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuAccountComponent implements OnInit {
 
+  items: MenuItem[];
+
+  home: MenuItem;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() {
 
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Client' ,routerLink:'/core/settings/account'},
+
+  ];
+
+  this.home = {icon: 'pi pi-home'};
+
+  }
 }

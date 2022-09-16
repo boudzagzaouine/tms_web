@@ -143,7 +143,6 @@ export class TurnEditComponent implements OnInit {
         id = params['id'];
         this.subscrubtion.add(this.tunrService.findById(id).subscribe(data => {
           this.turnAdded = data;
-          console.log(this.turnAdded);
           this.packagingType = this.packagingTypes.filter(f => f.code == this.turnAdded.packagingType)[0];
           this.turnTransports = this.turnAdded.turnTransports;
           this.turnAdded.loadingTypeO = this.turnAdded.loadingType == this.loadingTypeList[0].code ? this.loadingTypeList[0] : this.loadingTypeList[1];
@@ -180,6 +179,8 @@ export class TurnEditComponent implements OnInit {
 
     this.turnTypeService.findAll().subscribe(data => {
       this.turnTypeList = data;
+
+
       this.turnAdded.turnType = this.turnTypeList[0];
       this.onSelectTurnType(this.turnTypeList[0])
       this.initForm();
@@ -263,7 +264,10 @@ export class TurnEditComponent implements OnInit {
   }
 
   onSelectTurnType(event) {
-    this.turnTypeId = this.turnAdded.turnType.id;
+
+
+    this.turnTypeId = event.value.id;
+
     if (this.turnTypeId == 1) {
       this.loadSaleOrderData();
     } else if (this.turnTypeId == 2) {
@@ -277,15 +281,13 @@ export class TurnEditComponent implements OnInit {
     this.turnAdded.packagingTypeO = event.value.code == this.packagingTypes[0].code ? this.packagingTypes[0] : this.packagingTypes[1];
   }
   onSelectLoadingTypes(event) {
-    console.log(event.value.code);
     this.turnAdded.loadingTypeO = event.value.code == this.loadingTypeList[0].code ? this.loadingTypeList[0] : this.loadingTypeList[1];
-    console.log(this.turnAdded.loadingTypeO);
 
   }
 
 
   loadSaleOrderData(search: string = '') {
-    let searchStatut: string = 'orderStatus.id:' + 9;
+    let searchStatut: string = 'orderStatus.id:' + 9; //9
     this.spinner.show();
     this.saleOrderService.find(searchStatut).subscribe(
       data => {
@@ -298,6 +300,9 @@ export class TurnEditComponent implements OnInit {
   }
 
   onMoveSoToSource(event) {
+    console.log("source");
+    console.log(event);
+
     let saleOrder: SaleOrder = event.items[0];
     this.turnSoList = this.turnSoList.filter(p => p.code !== saleOrder.code);
     this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
@@ -305,11 +310,14 @@ export class TurnEditComponent implements OnInit {
   }
 
   onMoveSoToTarget(event) {
+    console.log("target");
+
+    console.log(event);
+
     let saleOrder: SaleOrder = event.items[0];
     let existSo: Boolean = false;
     let existAccount: Boolean = false;
-    this.verifiedClosingDayAccount('account.code~' + saleOrder.account.code);
-    console.log(this.turnAdded.loadingTypeO.code);
+   // this.verifiedClosingDayAccount('account.id:' + saleOrder.account.id);
 
     if (this.turnAdded.loadingTypeO.code == 'Complet') {
       if (this.turnSoList.length == 0) {
@@ -330,7 +338,6 @@ export class TurnEditComponent implements OnInit {
       }
     } else {
       this.turnSoList.forEach(element => {
-        console.log("groupe");
 
         if (element.code == saleOrder.code) { existSo = true; }
       });
@@ -340,9 +347,12 @@ export class TurnEditComponent implements OnInit {
   }
 
   searchSoLineBySo(so: SaleOrder, type: string) {
-    console.log(type);
-
     so.lines = [];
+    console.log(so
+
+
+      );
+
     this.saleOrderLineService.find('saleOrder.id:' + so.id).subscribe(
       data => {
         so.lines.push(...data);
@@ -351,7 +361,9 @@ export class TurnEditComponent implements OnInit {
           this.stockService.find('saleOrderLine.id:' + line.id).subscribe(
             data => {
               line.sotcks.push(...data);
-              line.quantityPrepare = data.map(m => m.quantity).reduce((a, b) => a + b, 0);
+
+
+              line.quantityPrepare += data.map(m => m.quantity).reduce((a, b) => a + b, 0);
               this.onChargedTurnBySo(so, type);
             });
         });
@@ -369,8 +381,6 @@ export class TurnEditComponent implements OnInit {
       null,
     )
     saleOrder.lines.forEach((soLine) => {
-      console.log(soLine.sotcks);
-
       soLine.sotcks.forEach(stock => {
         let turnline = new TurnLine(
           stock.product,
@@ -386,6 +396,8 @@ export class TurnEditComponent implements OnInit {
           soLine.sotcks,
         );
         tunSoPo.totalPriceTTC += (stock.purchasePrice * stock.quantity);
+       console.log( tunSoPo.totalPriceTTC);
+
         tunSoPo.turnLines.push(turnline);
       });
     });
@@ -394,9 +406,19 @@ export class TurnEditComponent implements OnInit {
     this.turnSoList.push(tunSoPo);
     this.turnAdded.totalSoQnt = this.claculatetotalQntLines(this.turnSoList);
     this.turnAdded.totalSoTTC = this.claculatetotalPriceLines(this.turnSoList);
-    console.log(tunSoPo);
-
+ console.log(this.turnAdded.totalSoTTC);
   }
+
+  calculateQntLine(d: TurnSoPo) {
+    let sum: number = 0;
+    d.turnLines.forEach(element => {
+
+
+      sum += Number(element.quantityServed * element.productPack.weight);
+    });
+    return sum;
+  }
+
 
 
   onLineEditedturnSo(line: TurnSoPo) {
@@ -452,7 +474,6 @@ export class TurnEditComponent implements OnInit {
 
   onMovePoToTarget(event) {
     let purchaseOrder: PurchaseOrder = event.items[0];
-    console.log(purchaseOrder);
     this.verifiedClosingDayAccount('supplier.code~' + purchaseOrder.supplier.code);
     let exist: Boolean = false;
     this.turnPoList.forEach(element => { if (element.code == purchaseOrder.code) { exist = true; } });
@@ -508,7 +529,6 @@ export class TurnEditComponent implements OnInit {
   }
 
 
-
   vehicleCategoryToDeliver() {
     let qntSo = this.turnAdded.totalSoQnt > this.turnAdded.totalPoQnt ? this.turnAdded.totalSoQnt : this.turnAdded.totalPoQnt;
     this.vehicleCatsToDeliverSort = this.vehicleCatList.sort(function (a, b) {
@@ -543,7 +563,6 @@ export class TurnEditComponent implements OnInit {
     let saleorders: SaleOrder[] = [];
     let transports: Transport[] = [];
     saleorders = this.turnSoList.map(m => m.saleOrder);
-    console.log(saleorders);
 
     this.vehicleCatsToDeliver.forEach(cat => {
       cat.transports = [];
@@ -691,7 +710,6 @@ export class TurnEditComponent implements OnInit {
     this.turnSoList.forEach(turnSO => {
 
       turnSO.turnLines.forEach(line => {
-        console.log(line);
 
         line.stocks.forEach(stock => {
           existContainer = -1;
@@ -707,13 +725,9 @@ export class TurnEditComponent implements OnInit {
             sumWeight = this.loadCategorySos[indice].weight + (stock.quantity * stock.productPack.weight);
             if (sumWeight > this.loadCategorySos[indice].vehicleCategory.tonnage || lenghtOfTruck < stock.container.containerType.length) {
 
-              console.log(sumWeight + '>' + this.loadCategorySos[indice].vehicleCategory.tonnage);
-              console.log(lenghtOfTruck + ' <' + stock.container.containerType.length);
-
               if (this.loadCategorySos[indice + 1] != undefined || this.loadCategorySos[indice + 1] != null) {
 
                 indice = indice + 1; indiceLenght = 0; indiceWidth = 0; totalPalet = 0;
-                console.log("indice ++" + indice);
                 lenghtOfTruck = this.loadCategorySos[indice].vehicleCategory.length;
                 widthOfTruck = this.loadCategorySos[indice].vehicleCategory.width;
                 indiceVehicleError == false
@@ -974,18 +988,8 @@ export class TurnEditComponent implements OnInit {
       fTypeVehicule: this.selectedturnTransport?.vehicleCategory,
     });
   }
-
-
-
-  calculateQntLine(d: TurnSoPo) {
-    let sum: number = 0;
-    d.turnLines.forEach(element => {
-      sum += Number(element.quantityServed * element.productPack.weight);
-    });
-    return sum;
-  }
-
   claculatetotalQntLines(turnSoPo: TurnSoPo[]) {
+
     let sum: number = 0;
     let total: number = 0;
     turnSoPo.forEach(element => {
@@ -993,11 +997,10 @@ export class TurnEditComponent implements OnInit {
     });
     return total;
   }
-
-
   calculatePriceLine(d: TurnSoPo) {
     let sum: number = 0;
     d.turnLines.forEach(element => {
+
       sum += Number(element.totalPriceTTC);
     });
     return sum;
@@ -1008,7 +1011,10 @@ export class TurnEditComponent implements OnInit {
     let total: number = 0;
     turnSoPo.forEach(element => {
       total += this.calculatePriceLine(element);
+
     });
+    console.log(total);
+
     return total;
   }
 

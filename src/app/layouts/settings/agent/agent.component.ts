@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Agent } from './../../../shared/models/agent';
 import { AgentService } from './../../../shared/services/api/agent.service';
@@ -30,7 +30,8 @@ export class AgentComponent implements OnInit {
   titleList = 'Liste des Agents';
   agentExportList: Array<Agent> = [];
   subscriptions= new Subscription();
-
+  items: MenuItem[];
+  home: MenuItem;
   constructor(private agentService: AgentService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -51,7 +52,11 @@ export class AgentComponent implements OnInit {
       { field: 'tele1', header: 'Téléphone', type: 'string' },
       { field: 'responsability', child:'code',header: 'Responsabilité', type: 'object' },
     ];
+    this.items = [
+      {label: 'Paramétrage'},
+      {label: 'Agent' ,routerLink:'/core/settings/agents'},
 
+  ];
     this.loadData();
 
   }

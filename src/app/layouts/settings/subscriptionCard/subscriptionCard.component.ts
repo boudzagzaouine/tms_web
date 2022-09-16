@@ -47,6 +47,8 @@ export class SubscriptionCardComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
+      { field: 'subscriptionCardType',child:"code", header: 'Type', type: 'object' },
+      { field: 'price', header: 'Montant (DH)', type: 'number' },
 
     ];
 
@@ -93,11 +95,13 @@ export class SubscriptionCardComponent implements OnInit {
     this.subscriptions.add(this.subscriptionCardService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
+
       }
     ));
     this.subscriptions.add(this.subscriptionCardService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.subscriptionCardList = data;
+        console.log(data);
 
         this.spinner.hide();
       },

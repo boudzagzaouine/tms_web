@@ -1,4 +1,7 @@
-import { MenuSinisterComponent } from './menu-sinister/menu-sinister.component';
+import { MenuTransportComponent } from './menu-transport/menu-transport.component';
+import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
+import { MenuSubscriptionCardComponent } from './menu-subscription-card/menu-subscription-card.component';
+import { DocumentTypeComponent } from './document-type/document-type.component';
 import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.component';
 import { SinisterComponent } from './sinister/sinister.component';
 import { SupplierEditComponent } from './supplier/supplier-edit/supplier-edit.component';
@@ -107,7 +110,10 @@ const routes: Routes = [
       { path: 'sinisters', component: SinisterComponent},
       { path: 'sinister-edit', component: SinisterEditComponent},
       { path: 'sinister-edit/:id', component: SinisterEditComponent},
-      { path: 'menu-sinister', component: MenuSinisterComponent},
+      { path: 'document-type', component: DocumentTypeComponent},
+      { path: 'menu-subscription-card', component: MenuSubscriptionCardComponent},
+      { path: 'menu-fuel', component: MenuFuelComponent},
+      { path: 'menu-transport', component: MenuTransportComponent},
 
 
     ]

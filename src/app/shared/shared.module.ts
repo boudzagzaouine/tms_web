@@ -1,3 +1,9 @@
+import { SubscriptionCardTypeService } from './services/api/subscription-card-type.service';
+import { DocumentTypeService } from './services/api/document-type.service';
+import { SupplierInvoiceReceptionService } from './services/api/supplier-invoice-reception.service';
+import { SupplierInvoiceReception } from './models/supplier-invoice-reception';
+import { SupplierInvoiceLineService } from './services/api/supplier-invoice-line.service copy';
+import { SupplierInvoiceService } from './services/api/supplier-invoice.service';
 import { SinisterService } from './services/api/sinister.service';
 import { SinisterTypeService } from './services/api/sinister-type.service';
 import { SupplierProductService } from './services/api/supplier-product.service';
@@ -265,7 +271,12 @@ export class SharedModule {
         ContactService,
         SupplierProductService,
         SinisterTypeService,
-        SinisterService
+        SinisterService,
+        SupplierInvoiceService,
+        SupplierInvoiceLineService,
+        SupplierInvoiceReceptionService,
+        DocumentTypeService,
+        SubscriptionCardTypeService
       ],
 
     };

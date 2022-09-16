@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700");
+
 .clf:after,
 .clf:before {
   content: "";
@@ -4384,6 +4386,8 @@ a.text-danger:focus {
   width: 30px;
   line-height: 20px !important;
   font-size: 16px;
+  margin-right: 10px;
+  font-weight: bold;
 }
 .side-menu li .nav-label {
   display: block;
@@ -4815,7 +4819,9 @@ body.has-backdrop .backdrop {
 
 .page-sidebar {
   /* 222d32 */
-  background-color: #2c3941;
+  /* background-color: #2c3941; */
+  background: #2c3941 url('/assets/img/back-back-menu-point.png') !important;
+
 }
 .page-sidebar .admin-block .admin-info {
   color: #fff;
@@ -4830,6 +4836,10 @@ body.has-backdrop .backdrop {
 
 .side-menu > li a {
   color: #b4bcc8;
+  /* font-size: 14px; */
+  font-family:  "open sans";
+  /* font-family: "Lucida Sans", sans-serif; k */
+    font-weight: bold;
 }
 .side-menu > li a:hover,
 .side-menu > li a:focus {

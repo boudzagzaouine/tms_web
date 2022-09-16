@@ -40,20 +40,20 @@
             <div class="form-group col-md-3">
               <label class="font-weight-bold">{{
                 "Type tournée" | translate}} </label>
-  
+
               <p-selectButton [options]="turnTypeList" formControlName="fTurnType" name="first"
                 (onChange)="onSelectTurnType($event)" optionLabel="code" ></p-selectButton>
-  
-            </div>          
+
+            </div>
               <div class="form-group col-md-2">
               <label class="font-weight-bold">{{
                 "Type emballage" | translate}} </label>
               <p-selectButton [options]="packagingTypes" formControlName="fpackagingType" name="first"
                 (onChange)="onSelectPackagingTypes($event)" optionLabel="code" >
               </p-selectButton>
-  
+
             </div>
-          
+
         </div>
         </form>
         <div class="row mt-3 justify-content-around">
@@ -157,7 +157,7 @@
       <div *ngIf="activeIndex == 1" class="mt-5">
           <!-- <a (click)="op.toggle($event)"><i class="fa fa-info-circle h1 text-info"></i></a> -->
 
-        <div> <span> 
+        <div> <span>
 
           <button pButton pRipple (click)="op.toggle($event)" type="button" label="Catégorie proposé " class="p-button-outlined p-button-secondary"></button>
 
@@ -247,8 +247,8 @@
                <div *ngFor="let item of  this.loadCategorySos" >
                 <h2>Camion {{item.vehicleCategory.code}}  Poid: {{item.weight}}</h2>
                 <table class=" m-5 " style="    height: 130px;
-                border-style: solid;"> 
-                
+                border-style: solid;">
+
                   <tr class ="p-1" *ngFor="let item of this.generateContainer(item.vehicleCategory)"  >
 
                     <td class="tdTruck " *ngFor="let it of  item.locationContainer">
@@ -276,7 +276,7 @@
 
             </p-overlayPanel>
           </div> -->
-         
+
 
         <h5>Commandes </h5>
 
@@ -294,7 +294,7 @@
           <ng-template pTemplate="body" let-del>
             <tr>
               <td>{{ del.code }}</td>
-              <td>{{ del?.saleOrder?.account.code }}</td>
+              <td>{{ del?.saleOrder?.account?.name }}</td>
               <td>{{ del?.totalQuantity| number : '1.2-2' }} KG</td>
               <td>{{ del?.saleOrder?.orderStatus.code }}</td>
 
@@ -455,13 +455,13 @@
           {{ "Valider " | translate }}
         </button>
       </div>
-    
+
     </form>
 
     <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
         <div class="row">
-  
+
           <div class="col-xs-4 col-md-4 pull-left">
             <!-- <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogPlanning(planningN,false)">
               <i class="fa fa-plus"></i>
@@ -478,14 +478,14 @@
           [paginator]="true" [totalRecords]=" this.turnTransports?.length">
           <ng-template pTemplate="header">
             <tr>
-  
+
               <th>{{'Catégorie' | translate}}</th>
               <th>{{'Transport' | translate}}</th>
               <th>{{'Chaiffeurs' | translate}}</th>
               <th>{{'Véhicule'| translate}}</th>
-             
+
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
-  
+
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-line>
@@ -495,10 +495,10 @@
               <td><p *ngFor="let dr of line?.drivers" >{{dr?.name }}   </p></td>
               <td>{{line?.vehicle?.registrationNumber}}</td>
 
-            
-         
+
+
               <td>
-  
+
                 <button [disabled]="editModePlanning" type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onLineEditTurnTransport(line)">
                   <!--ADD-->
@@ -512,7 +512,7 @@
               </td>
             </tr>
           </ng-template>
-  
+
         </p-table>
       </div>
     </div>

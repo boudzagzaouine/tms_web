@@ -108,7 +108,7 @@ export class ProxyService {
           '&token=' +
           this.getToken();
         //  console.log("pagination");
-          
+
     //  console.log(fullurl);
 
       return this.http.get<any[]>(fullurl);
@@ -261,7 +261,7 @@ findByPatrimony(controller: string, idVehicle: number): Observable<any> {
 }
 
 verify(controller: string) {
-    const fullurl = 
+    const fullurl =
         this.url +
         controller +
         '?token=' +
@@ -270,5 +270,13 @@ verify(controller: string) {
 }
 
 
+
+generateSupplierInvoiceFromReception(controller: string, object: any): Observable<any> {
+  const fullurl = this.url + controller + '/generateSupplierInvoiceFromReceptions?token=' + this.getToken();
+  return this.http.post(
+      this.url + controller + '/generateSupplierInvoiceFromReceptions?token=' + this.getToken(),
+      object
+  );
+}
 
 }

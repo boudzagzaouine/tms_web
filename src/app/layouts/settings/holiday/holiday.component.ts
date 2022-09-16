@@ -23,13 +23,15 @@ export class HolidayComponent implements OnInit {
 
   searchQuery = '';
   codeSearch: string;
+  descriptionSearch = '';
+  codeList: Array<Holiday> = [];
 
 
   cols: any[];
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste jours Férier client ';
+  titleList = 'Liste jours Férier  ';
   HolidayExportList: Array<Holiday> = [];
   items: MenuItem[];
   home: MenuItem;
@@ -47,24 +49,25 @@ export class HolidayComponent implements OnInit {
 
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Jour férier Client' ,routerLink:'/core/settings/account-holiday'},
-  
+      {label: 'Jour férier' ,routerLink:'/core/settings/holiday'},
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.className = Holiday.name;
     this.cols = [
       {
-        field: 'description',
-        header: 'Description',
-        type: 'string'
-      },
-      {
         field: 'code',
         header: 'Code',
         type: 'string'
       },
+      {
+        field: 'description',
+        header: 'Description',
+        type: 'string'
+      },
+
       {
         field: 'holidayDay',
         header: 'Jour',
@@ -79,7 +82,7 @@ export class HolidayComponent implements OnInit {
 
     this.loadData();
 
-   
+
   }
 
   loadData() {
@@ -96,7 +99,7 @@ export class HolidayComponent implements OnInit {
         data => {
           this.HolidayList = data;
           console.log(data);
-          
+
           this.spinner.hide();
         },
         error => {
@@ -111,6 +114,12 @@ export class HolidayComponent implements OnInit {
   loadDataLazy(event) {
     this.page = event.first / this.size;
     this.loadData();
+  }
+
+  onCodeSearch(event: any) {
+  this.HolidayService.find('code~' + event.query).subscribe(
+      data => this.codeList = data.map(f => f.code)
+    )
   }
   onExportExcel(event) {
     this.HolidayService.find(this.searchQuery).subscribe(
@@ -171,12 +180,14 @@ export class HolidayComponent implements OnInit {
     this.loadData();
   }
 
- 
+
 
   reset() {
-  
+
     this.page = 0;
     this.searchQuery = '';
+    this.codeSearch = '';
+    this.descriptionSearch = '';
     this.loadData();
   }
 
@@ -189,6 +200,8 @@ export class HolidayComponent implements OnInit {
       this.showDialog = true;
     }
   }
+
+
 
   onDeleteAll() {
     if (this.selectHolidays.length >= 1) {

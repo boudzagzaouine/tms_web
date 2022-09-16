@@ -1,0 +1,15 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+<p-tabView>
+
+  <p-tabPanel *hasPermission="['BADGE_TYPE_VIEW']" header="{{'Station des pompe' | translate }}"   headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+                 <app-fuel-pumps></app-fuel-pumps>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel *hasPermission="['COMMISSION_TYPE_VIEW']" header="{{ 'Pompes carburant' | translate}}"  headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <app-pumps></app-pumps>
+      </ng-template>
+  </p-tabPanel>
+
+</p-tabView>

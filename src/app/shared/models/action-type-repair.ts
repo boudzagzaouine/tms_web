@@ -11,5 +11,6 @@ export class ActionTypeRepair {
   city :String
   price: number;
   duration: number;
+  durationType :string;
   owner :Owner;
 }

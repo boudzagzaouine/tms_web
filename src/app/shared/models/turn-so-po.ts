@@ -21,25 +21,22 @@ export class TurnSoPo {
   purshaseOrder:PurchaseOrder;
   turnLines: TurnLine[] = [];
   orderStatus: OrderStatus;
-  totalPriceHT: number;
-  totalPriceTTC: number;
-  totalPriceTurn : number;
-  totalQuantity:number;
+  totalPriceHT: number=0;
+  totalPriceTTC: number =0;
+  totalPriceTurn : number=0;
+  totalQuantity:number=0;
 
 
   constructor(
     code?: string,
-    totalPriceHT?: number ,
-    totalPriceTTC?: number ,
     orderStatus?: OrderStatus,
 
     saleOrder?: SaleOrder ,
    purshaseOrder?:PurchaseOrder,
- 
+
   ) {
   this.code=code;
-    this.totalPriceHT = totalPriceHT;
-    this.totalPriceTTC = totalPriceTTC;
+
     this.orderStatus=orderStatus;
 
     this.saleOrder = saleOrder;

@@ -44,16 +44,51 @@ showEffect="fade"
 
 
 
-                <div class="form-group col-md-6">
-                    <label class="font-weight-bold">{{'Référence' | translate}}</label>
-                    <input type="text" pInputText class="form-control mb-2" formControlName="reference">
-                </div>
-
-                <div class="form-group col-md-6">
-                  <label class="font-weight-bold">{{'Autre Référence' | translate}}</label>
-                  <input type="text" pInputText class="form-control mb-2" formControlName="referenceOther">
-              </div>
             </div>
+
+<div class="row">
+            <div class="col-xs-4 col-md-4 pull-left">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary mx-1"
+                (click)="onShowNewLigne()"
+              >
+                <!--ADD-->
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+</div>
+            <p-table [value]="selectedVehicleProduct.vehicleProductReferences" dataKey="id" editMode="row">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th>Référence</th>
+
+                      <th style="width:8rem"></th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-reference let-editing="editing" let-ri="rowIndex">
+                  <tr [pEditableRow]="reference">
+                      <td>
+                          <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                  <input pInputText type="text" [(ngModel)]="reference.reference" [ngModelOptions]="{standalone: true}">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                  {{reference?.reference}}
+                              </ng-template>
+                          </p-cellEditor>
+                      </td>
+
+
+
+                      <td style="text-align:center">
+                          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(reference)" class="p-button-rounded p-button-text"></button>
+                          <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(reference,ri)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                          <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(reference, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
 
         </div>
 
@@ -83,3 +118,6 @@ showEffect="fade"
 </div>
 </p-footer>
 </p-dialog>
+
+
+

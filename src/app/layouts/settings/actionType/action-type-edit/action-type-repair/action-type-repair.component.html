@@ -25,12 +25,25 @@
       <input type="text"  class="form-control" pInputText formControlName="workshop" />
     </div>
     <div class="form-group col-sm-6"  >
-      
-        <label class="font-weight-bold"> {{'Durée (min)' | translate}}</label><br />
+
+        <label class="font-weight-bold"> {{'Durée ' | translate}}</label><br />
         <!-- <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="duration" /> -->
+       <div class="row">
         <p-inputNumber formControlName="duration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
         </p-inputNumber>
+        <p-dropdown
+        [autoDisplayFirst]="false"
+        [options]="durationTypes"
+        [placeholder]=" this.selectedActionTypeRepair?.durationType"
+  appendTo="body"
+        optionLabel="code"
+        [filter]="true"
+        formControlName="durationType"
+        (onChange)="onSelectDurationType($event)"
 
+      >
+      </p-dropdown>
+</div>
 
 
     </div>
@@ -65,9 +78,24 @@
   <div class="form-group col-sm-6">
     <label class="font-weight-bold"> {{'Durée (min)' | translate}}</label><br />
     <!-- <input type="text" class="form-control" pKeyFilter="num" pInputText formControlName="duration" /> -->
+    <div class="row">
+
     <p-inputNumber formControlName="duration" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5">
     </p-inputNumber>
 
+    <p-dropdown
+    [autoDisplayFirst]="false"
+    [options]="durationTypes"
+    [placeholder]=" this.selectedActionTypeRepair?.durationType"
+appendTo="body"
+    optionLabel="code"
+    [filter]="true"
+    formControlName="durationType"
+    (onChange)="onSelectDurationType($event)"
+
+  >
+  </p-dropdown>
+  </div>
   </div>
 
 </div>

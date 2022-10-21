@@ -33,6 +33,11 @@ export class ProxyService {
       //....users/2
   }
 
+  getParents(controller: string): Observable<any> {
+    const fullurl = this.url + controller + '/getParents?token=' + this.getToken();
+    return this.http.get<any>(fullurl);
+}
+
   findByCode(controller: string, code: string): Observable<any> {
       return this.http.get<any>(
           this.url +

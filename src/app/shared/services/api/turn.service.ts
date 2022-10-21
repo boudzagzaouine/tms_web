@@ -11,4 +11,12 @@ export class TurnService extends EmsService<Turn> {
     super(proxy, 'turns');
   }
 
+
+
+
+
+
+
+  
+
 }

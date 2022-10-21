@@ -1,0 +1,20 @@
+.add {
+  align-items: center;
+    color: #4084bd;
+    display: flex;
+    text-decoration: underline;
+    font-family: "Effra-Medium";
+    font-size: 15px;
+    width: 100%;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  text-align: left;
+  padding: 1rem 1rem;
+  border: 1px solid #4084bd;
+  border-width: 0 0 1px 0;
+  font-weight: 600;
+  color: #495057;
+  background: #f8f9fa;
+  transition: box-shadow 0.2s;
+}

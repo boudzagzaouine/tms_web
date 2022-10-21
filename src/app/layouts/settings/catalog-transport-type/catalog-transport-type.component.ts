@@ -1,8 +1,8 @@
+import { VilleService } from './../../../shared/services/api/ville.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { Zone } from './../../../shared/models/Zone';
+import { Ville } from './../../../shared/models/Ville';
 import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { ZoneServcie } from './../../../shared/services/api/zone.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
@@ -32,9 +32,9 @@ export class CatalogTransportTypeComponent implements OnInit {
   categorieVehicleList: Array<VehicleCategory> = [];
   transportList: Array<Transport> = [];
 
-  zoneSourceSearch: Zone;
-  zoneDestinationSearch: Zone;
-  zoneSourceList: Array<Zone> = [];
+  villeSourceSearch: Ville;
+  villeDestinationSearch: Ville;
+  villeSourceList: Array<Ville> = [];
 
   cols: any[];
   showDialog: boolean;
@@ -47,7 +47,7 @@ export class CatalogTransportTypeComponent implements OnInit {
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
-    private zoneService: ZoneServcie,
+    private villeService: VilleService,
     private transportService: TransportServcie,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -62,9 +62,9 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Catégorie Transport' ,routerLink:'/core/settings/path'},
-  
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.className = CatalogTransportType.name;
@@ -82,15 +82,15 @@ export class CatalogTransportTypeComponent implements OnInit {
         type: 'object'
       },
       {
-        field: 'zoneSource',
+        field: 'villeSource',
         child: 'code',
-        header: 'Zone Source',
+        header: 'Ville Source',
         type: 'object'
       },
       {
-        field: 'zoneDestination',
+        field: 'villeDestination',
         child: 'code',
-        header: 'Zone Destination',
+        header: 'Ville Destination',
         type: 'object'
       },
       { field: 'amountHt', header: 'Montant Ht', type: 'number' },
@@ -109,8 +109,8 @@ export class CatalogTransportTypeComponent implements OnInit {
       this.transportList = data;
     });
 
-    this.zoneService.findAll().subscribe(data => {
-      this.zoneSourceList = data;
+    this.villeService.findAll().subscribe(data => {
+      this.villeSourceList = data;
     });
   }
 
@@ -128,7 +128,7 @@ export class CatalogTransportTypeComponent implements OnInit {
         data => {
           this.transportCatVehicleList = data;
           console.log(data);
-          
+
           this.spinner.hide();
         },
         error => {
@@ -207,14 +207,14 @@ export class CatalogTransportTypeComponent implements OnInit {
     if (this.transportSearch != null && this.transportSearch.code !== '') {
       buffer.append(`transport.code~${this.transportSearch.code}`);
     }
-    if (this.zoneSourceSearch != null && this.zoneSourceSearch.code !== '') {
-      buffer.append(`zoneSource.code~${this.zoneSourceSearch.code}`);
+    if (this.villeSourceSearch != null && this.villeSourceSearch.code !== '') {
+      buffer.append(`villeSource.code~${this.villeSourceSearch.code}`);
     }
     if (
-      this.zoneDestinationSearch != null &&
-      this.zoneDestinationSearch.code !== ''
+      this.villeDestinationSearch != null &&
+      this.villeDestinationSearch.code !== ''
     ) {
-      buffer.append(`zoneDestination.code~${this.zoneDestinationSearch.code}`);
+      buffer.append(`villeDestination.code~${this.villeDestinationSearch.code}`);
     }
 
     this.page = 0;
@@ -232,17 +232,17 @@ export class CatalogTransportTypeComponent implements OnInit {
       .find('code~' + event.query)
       .subscribe(data => (this.transportList = data));
   }
-  onZoneSouceSearch(event: any) {
-    this.zoneService
+  onVilleSouceSearch(event: any) {
+    this.villeService
       .find('code~' + event.query)
-      .subscribe(data => (this.zoneSourceList = data));
+      .subscribe(data => (this.villeSourceList = data));
   }
 
   reset() {
     this.transportSearch = null;
     this.vehicleCategorySearch = null;
-    this.zoneSourceSearch = null;
-    this.zoneDestinationSearch = null;
+    this.villeSourceSearch = null;
+    this.villeDestinationSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData();

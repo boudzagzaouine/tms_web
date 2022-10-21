@@ -65,8 +65,8 @@ export class ProductEditComponent implements OnInit {
 
     this.subscriptions.add(this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
-  
-      
+
+
     }));
     this.editMd=true;
 
@@ -75,15 +75,16 @@ export class ProductEditComponent implements OnInit {
       this.title = 'Ajouter un produit';
       this.editMd=false;
 
-    } 
+    }
+console.log(this.selectedProduct);
 
     this.displayDialog = true;
     this.initForm();
 
     console.log(this.selectedProduct);
-    
- 
- 
+
+
+
   }
 
   initForm() {
@@ -100,6 +101,7 @@ export class ProductEditComponent implements OnInit {
       purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
       qntStock: new FormControl(this.selectedProduct.stockQuantity),
       qntMin: new FormControl(this.selectedProduct.minStock),
+      component :new FormControl(this.selectedProduct.component),
 
   });
 
@@ -124,12 +126,17 @@ export class ProductEditComponent implements OnInit {
   this.selectedProduct.minStock = this.productForm.value[
     'qntMin'
   ];
+  if (this.productForm.value['component'] === true) {
+    this.selectedProduct.component = true;
+  } else {
+    this.selectedProduct.component = false;
+  }
     this.selectedProduct.active = true;
   //this.selectedProduct.vat== this.vats.filter(f=> f.value== this.productForm.value['vat'])[0];;
     this.selectedProduct.owner=this.authentificationService.getDefaultOwner();
     this.selectProductPack.uom=this.selectedProduct.uomByProductUomBase;
     this.selectProductPack.quantity=1;
-    
+
     //console.log(this.selectedProduct);
 
      this.subscriptions.add(this.productService.set(this.selectedProduct).subscribe(
@@ -168,7 +175,7 @@ onSelectProductType(type: ProductType) {
 
 }
 onSelectUom(event) {
-  
+
   this.selectedProduct.uomByProductUomBase = event.value as Uom;
   this.selectedProduct.uomByProductUomPurshase = event.value as Uom;
   this.selectedProduct.uomByProductUomSale = event.value as Uom;
@@ -185,7 +192,7 @@ onSelectVat(event : Vat) {
 
   this.selectedProduct.vat = this.vat;
   //console.log(this.vat);
-  
+
   this.onPriceChange(1);
 
 }
@@ -219,7 +226,7 @@ onPriceChange(n: Number) {
           purchasePrice: purchasePrice.toFixed(2)
       });
   }
- 
+
 }
 
 

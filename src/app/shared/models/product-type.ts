@@ -13,6 +13,8 @@ export class ProductType {
     owner: Owner;
     productType: ProductType;
     productsForProductSubType: ProductType[];
+    gmao :Boolean;
+    component:Boolean=false;
    // vat: Vat;
     constructor() {}
 }

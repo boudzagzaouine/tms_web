@@ -1,3 +1,7 @@
+import { Pays } from './../../../../../shared/models/pays';
+import { Ville } from './../../../../../shared/models/ville';
+import { PaysService } from './../../../../../shared/services/api/pays.service';
+import { VilleService } from './../../../../../shared/services/api/ville.service';
 import { AddressService } from './../../../../../shared/services/api/address.service';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -21,11 +25,15 @@ export class AddressEditComponent implements OnInit {
   addressForm: FormGroup;
   addressCode :string ;
   addressTypeList:any[]=[];
+  cityList :Ville[]=[];
+  countryList :Pays[]=[];
 
   constructor(
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,
     private addressService : AddressService,
+    private  villeService :VilleService ,
+    private paysService :PaysService
 
 
 
@@ -40,6 +48,12 @@ export class AddressEditComponent implements OnInit {
     this.displayDialog = true;
     console.log(this.editMode);
 
+    this.paysService.findAll().subscribe(
+      data => {
+    this.countryList =data;
+
+      }
+    );
 
     if (!this.editMode) {
       this.title = 'Ajouter un Address';
@@ -84,6 +98,8 @@ export class AddressEditComponent implements OnInit {
       country: this.formBuilder.control(this.selectedAddress.country ,Validators.required),
       city: this.formBuilder.control(this.selectedAddress.city,Validators.required),
       zip: this.formBuilder.control(this.selectedAddress.zip),
+      latitude: this.formBuilder.control(this.selectedAddress.latitude),
+      longtitude: this.formBuilder.control(this.selectedAddress.longitude),
       fAddressType: this.formBuilder.control(this.selectedAddress.addressTypeTms),
     });
   }
@@ -106,9 +122,11 @@ export class AddressEditComponent implements OnInit {
    // this.selectedAddress.code = this.addressCode;
     this.selectedAddress.line1 = this.addressForm.value['line1'];
     this.selectedAddress.line2 = this.addressForm.value['line2'];
-    this.selectedAddress.country= this.addressForm.value['country'];
-    this.selectedAddress.city = this.addressForm.value['city'];
+    //this.selectedAddress.country= this.addressForm.value['country'];
+    //this.selectedAddress.city = this.addressForm.value['city'];
     this.selectedAddress.zip = this.addressForm.value['zip'];
+    this.selectedAddress.latitude = this.addressForm.value['latitude'];
+    this.selectedAddress.longitude = this.addressForm.value['longtitude'];
     this.selectedAddress.owner = this.authentificationService.getDefaultOwner();
     console.log(this.selectedAddress);
 
@@ -121,6 +139,26 @@ export class AddressEditComponent implements OnInit {
     const a = false;
     this.showDialog.emit(a);
     this.displayDialog = false;
+
+  }
+
+  onSelectCountry(event){
+    this.selectedAddress.country=event.value.code;
+console.log(this.selectedAddress.country);
+
+ this.villeService.find("pays.code~"+event.value.code).subscribe(
+  data=> {
+  this.cityList=data;
+  console.log(data);
+
+  }
+  );
+
+  }
+
+  onSelectCity(event){
+    this.selectedAddress.city=event.value.code;
+
 
   }
 

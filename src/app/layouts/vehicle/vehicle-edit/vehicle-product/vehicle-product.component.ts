@@ -1,3 +1,4 @@
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductTypeService } from './../../../../shared/services/api/product-type.service';
 import { ProductType } from './../../../../shared/models/product-type';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
@@ -8,10 +9,13 @@ import { ReceptionLine } from './../../../../shared/models/reception-line';
 import { VehicleProduct } from './../../../../shared/models/vehicle-product';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { VehicleProductReference } from './../../../../shared/models/vehicle-product-reference';
 
 @Component({
   selector: 'app-vehicle-product',
   templateUrl: './vehicle-product.component.html',
+  providers: [MessageService],
+
   styleUrls: ['./vehicle-product.component.scss']
 })
 export class VehicleProductComponent implements OnInit {
@@ -21,6 +25,8 @@ export class VehicleProductComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() vehicleProductAdded = new EventEmitter<VehicleProduct>();
   selectedProduct: Product;
+  selectedReference : VehicleProductReference
+  vehicleProductReferenceList :VehicleProductReference[]=[];
   productList: Product[];
   productTypeList: ProductType[];
 
@@ -29,11 +35,11 @@ export class VehicleProductComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier pieces de rechange';
   subscrubtion = new Subscription();
-
+   idReference : number=0;
   constructor(
     private productService: ProductService,
     private productTypeService: ProductTypeService,
-
+  private confirmationService :ConfirmationService,
     private authentificationService:AuthenticationService,
 ) { }
 
@@ -75,22 +81,59 @@ export class VehicleProductComponent implements OnInit {
         Validators.required
     ),
 
-      reference: new FormControl(
-          this.selectedVehicleProduct != null &&
-          this.selectedVehicleProduct.reference != null
-              ? this.selectedVehicleProduct.reference
-              : ''
-      ),
-      referenceOther: new FormControl(
-        this.selectedVehicleProduct != null &&
-        this.selectedVehicleProduct.referenceOther != null
-            ? this.selectedVehicleProduct.referenceOther
-            : ''
-    ),
+    //   reference: new FormControl(
+    //       this.selectedVehicleProduct != null &&
+    //       this.selectedVehicleProduct.reference != null
+    //           ? this.selectedVehicleProduct.reference
+    //           : ''
+    //   ),
+    //   referenceOther: new FormControl(
+    //     this.selectedVehicleProduct != null &&
+    //     this.selectedVehicleProduct.referenceOther != null
+    //         ? this.selectedVehicleProduct.referenceOther
+    //         : ''
+    // ),
 
 
   });
   }
+  onShowNewLigne(){
+    this.idReference--;
+ console.log("click create");
+ let vehicleProductReference  = new VehicleProductReference();
+ vehicleProductReference.reference='saisir une référence';
+    this.selectedVehicleProduct.vehicleProductReferences.push(vehicleProductReference);
+
+  }
+
+  onRowEditCancel(product: Product, index: number) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+    //this.selectedVehicleProduct.vehicleProductReferences.splice(index, 1);
+    this.selectedVehicleProduct.vehicleProductReferences = this.selectedVehicleProduct.vehicleProductReferences.filter(
+      (l) => l.id !== product.id
+    );
+
+      }
+    });
+
+}
+  onRowEditInit(product: VehicleProductReference) {
+    console.log("edit");
+
+   // this.selectedVehicleProduct.vehicleProductReferences[product.id] = {...product};
+
+
+}
+  onRowEditSave(reference: VehicleProductReference,index :any) {
+    console.log(index);
+    console.log(reference.reference);
+
+  this.selectedVehicleProduct.vehicleProductReferences[index].reference=reference.reference;
+    console.log(this.selectedVehicleProduct.vehicleProductReferences);
+
+}
 
 
   onSubmit() {
@@ -99,14 +142,16 @@ export class VehicleProductComponent implements OnInit {
       return;
     }
 
-    this.selectedVehicleProduct.reference = this.vehicleProductForm.value[
-      'reference'
-      ];
-      this.selectedVehicleProduct.referenceOther = this.vehicleProductForm.value[
-        'referenceOther'
-        ];
+    // this.selectedVehicleProduct.reference = this.vehicleProductForm.value[
+    //   'reference'
+    //   ];
+    //   this.selectedVehicleProduct.referenceOther = this.vehicleProductForm.value[
+    //     'referenceOther'
+    //     ];
  this.selectedVehicleProduct.owner=this.authentificationService.getDefaultOwner();
   this.vehicleProductAdded.emit(this.selectedVehicleProduct);
+  console.log(this.selectedVehicleProduct);
+
     this.displayDialog = false;
 
 
@@ -115,6 +160,7 @@ export class VehicleProductComponent implements OnInit {
   searchProduct(event) {
     this.subscrubtion.add(this.productService.find('code~' + event.query).subscribe(data => {
       this.productList = data;
+      this.productList=  this.productList.filter(f=> f.component== true )
     }));
   }
 

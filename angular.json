@@ -29,7 +29,7 @@
               "node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css",
               "node_modules/datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              
+
               "node_modules/jvectormap/jquery-jvectormap.css",
               "node_modules/summernote/dist/summernote.css",
               "node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css",
@@ -47,7 +47,8 @@
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "src/assets/css/main.css",
-              "src/assets/css/ems-custom.scss"
+              "src/assets/css/ems-custom.scss",
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

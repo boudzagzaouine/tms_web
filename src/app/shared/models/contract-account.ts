@@ -6,7 +6,6 @@ import { Card } from './card';
 import { Owner } from './owner';
 import { Planning } from './planning';
 import { VehicleCategory } from './vehicle-category';
-import { PackagingType } from './packagingType';
 export class ContractAccount {
 
     id: number;

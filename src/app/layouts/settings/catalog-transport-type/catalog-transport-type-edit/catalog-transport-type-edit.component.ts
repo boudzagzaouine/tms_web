@@ -1,9 +1,10 @@
+import { Ville } from './../../../../shared/models/ville';
+import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Transport } from './../../../../shared/models/transport';
 import { RoundPipe } from 'ngx-pipes';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { Vat } from './../../../../shared/models/vat';
-import { Zone } from './../../../../shared/models/Zone';
-import { ZoneServcie } from './../../../../shared/services/api/zone.service';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { TransportServcie } from './../../../../shared/services/api/transport.service';
@@ -34,7 +35,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   transportCatVehicleForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
-  zoneList: Zone[] = [];
+  villeList: Ville[] = [];
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
@@ -42,15 +43,15 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   title = 'Modifier un Trajet';
   transport : string;
   catVehicle : string;
-  zoneSource : string;
-  zoneDestination : string ;
+  villeSource : string;
+  villeDestination : string ;
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private transportService: TransportServcie,
     private vatService: VatService,
-    private zoneService: ZoneServcie,
+    private villeService: VilleService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
@@ -69,18 +70,18 @@ export class CatalogTransportTypeEditComponent implements OnInit {
         this.transportList = data;
       }
     );
-    this.zoneService.findAll().subscribe(
+    this.villeService.findAll().subscribe(
       data => {
-        this.zoneList = data;
+        this.villeList = data;
       }
     );
     this.vatService.findAll().subscribe(
       data => {
         this.vatList = data;
         console.log("List Vat");
-        
+
         console.log(this.vatList);
-        
+
       }
     );
     if (this.editMode === 1) {
@@ -102,12 +103,12 @@ export class CatalogTransportTypeEditComponent implements OnInit {
       'fAmountTva': new FormControl(this.selectCatalogTransportType.amountTva, Validators.required),
       'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
       'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
-      'fZoneSource': new FormControl(this.selectCatalogTransportType.zoneSource, Validators.required),
-      'fZoneDestination': new FormControl(this.selectCatalogTransportType.zoneDestination, Validators.required),
+      'fVilleSource': new FormControl(this.selectCatalogTransportType.villeSource, Validators.required),
+      'fVilleDestination': new FormControl(this.selectCatalogTransportType.villeDestination, Validators.required),
       'fVat': new FormControl(
-      
+
          this.editMode!=1 ?this.selectCatalogTransportType.vat.value:this.selectCatalogTransportType.vat,
-       
+
          Validators.required)
 
 
@@ -136,7 +137,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   }
 
   existTransport() {
-    this.catalogTransportTypeService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle},zoneSource.code~${this.zoneSource},zoneDestination.code~${this.zoneDestination}`).subscribe(
+    this.catalogTransportTypeService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle},villeSource.code~${this.villeSource},villeDestination.code~${this.villeDestination}`).subscribe(
       data => {
 console.log(data);
 
@@ -168,8 +169,8 @@ console.log(data);
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
     this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
     this.selectCatalogTransportType.transport = this.transportCatVehicleForm.value['fTransport'];
-    this.selectCatalogTransportType.zoneDestination = this.transportCatVehicleForm.value['fZoneDestination'];
-    this.selectCatalogTransportType.zoneSource = this.transportCatVehicleForm.value['fZoneSource'];
+    this.selectCatalogTransportType.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
+    this.selectCatalogTransportType.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
     this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];;
     this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
     console.log(this.selectCatalogTransportType);
@@ -178,7 +179,7 @@ console.log(data);
       data => {
         this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
  console.log(this.selectCatalogTransportType);
- 
+
         //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
         this.isFormSubmitted = false;
@@ -208,25 +209,25 @@ console.log(data);
       .find('code~' + event.query)
       .subscribe(data => (this.transportList = data));
   }
-  onZoneSourceSearch(event: any) {
-    this.zoneService
+  onVilleSourceSearch(event: any) {
+    this.villeService
       .find('code~' + event.query)
-      .subscribe(data => (this.zoneList = data));
+      .subscribe(data => (this.villeList = data));
   }
 
   onSelectVat(event) {
-  
+
     this.vat= this.vatList.filter(f=> f.value== event.value)[0];
     this.onPriceChange(1);
   }
-  onSelectZoneSource(event: any) {
-    this.selectCatalogTransportType.zoneSource = event;
-    this.zoneSource=event.code;
+  onSelectVilleSource(event: any) {
+    this.selectCatalogTransportType.villeSource = event;
+    this.villeSource=event.code;
 
   }
-  onSelectZoneDestination(event: any) {
-    this.selectCatalogTransportType.zoneDestination = event;
-    this.zoneDestination = event.code;
+  onSelectVilleDestination(event: any) {
+    this.selectCatalogTransportType.villeDestination = event;
+    this.villeDestination = event.code;
 
   }
 
@@ -240,8 +241,8 @@ console.log(data);
     let PriceTTC = +this.transportCatVehicleForm.value['fAmountTtc'];
     let vat = this.transportCatVehicleForm.value['fVat'];
     console.log(vat);
-    
-    
+
+
     if (PriceHt === undefined || PriceHt == null) {
       PriceHt = 0;
     } if (PriceTTC === undefined || PriceTTC == null) {
@@ -249,7 +250,7 @@ console.log(data);
     } if (vat === undefined || vat == null) {
       vat = 0;
     }
-  
+
     if (n === 1) {
       const amountTva = (PriceHt / 100) * vat;
     const priceTTC = PriceHt + amountTva;
@@ -259,7 +260,7 @@ console.log(data);
     });
 
     }if (n === 2) {
-      
+
     PriceHt = PriceTTC / (1 + vat / 100);
     const amountTva = (PriceHt / 100) * vat;
       this.transportCatVehicleForm.patchValue({
@@ -267,7 +268,7 @@ console.log(data);
         'fAmountTva':  amountTva.toFixed(2),
       });
     }
-   
+
   }
 
   onShowDialog() {

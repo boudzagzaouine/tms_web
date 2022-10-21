@@ -13,5 +13,7 @@ export class Address {
   creationDate: Date;
   updateDate: Date;
   addressTypeTms: string;
+  latitude:number;
+  longitude:number
   owner:Owner;
 }

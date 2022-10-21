@@ -11,7 +11,6 @@
           <input
             type="text"
             class="form-control"
-            formControlName="code"
             pInputText
           />
         </div>
@@ -25,7 +24,6 @@
             [yearNavigator]="true"
             dateFormat="dd/mm/yy"
             yearRange="1970:2100"
-            formControlName="fDateLivraison"
           >
           </p-calendar>
         </div>
@@ -37,7 +35,6 @@
               [autoDisplayFirst]="false"
               [options]="loadingTypeList"
               optionLabel="name"
-              formControlName="floadingType"
               (onChange)="onSelectLoadingTypes($event)"
               [filter]="true"
               [showClear]="true"
@@ -55,7 +52,6 @@
           [autoDisplayFirst]="false"
           [options]="types"
           optionLabel="name"
-          formControlName="floadingType"
           [filter]="true"
           [showClear]="true"
         ></p-dropdown>
@@ -75,7 +71,6 @@
 
             <p-selectButton
             [options]="completTypeList"
-            formControlName="floadingType"
             optionLabel="name"
           >
           </p-selectButton>
@@ -84,11 +79,87 @@
         </div>
 
 
-        
+
 
       </div>
 
+  <p-fieldset legend="Détail de colis">
+        <div class="row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Type emballage" | translate }} *</label
+            >
 
+            <p-dropdown
+              [autoDisplayFirst]="false"
+              [options]="typeOfPackagings"
+              optionLabel="name"
+              [filter]="true"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-group col-md-9">
+</div>
+</div>
+          <div class="row justify-content-around">
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold">{{
+              "Nombre colis" | translate
+            }}</label
+            ><br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+            />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold"
+              >{{ "Poids Kg" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Longueur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Largeur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+            />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="font-weight-bold"
+              >{{ "Hauteur" | translate }} *</label
+            >
+            <br />
+            <input
+              type="text"
+              class="form-control"
+              pInputText
+            />
+          </div>
+        </div>
+      </p-fieldset>
       <div *ngIf="loadingType=='Groupage'">
       <div class="p-grid">
         <div class="p-col-12 p-md-6">
@@ -155,7 +226,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="tel1"
                   />
                 </div>
 
@@ -168,7 +238,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="email"
                   />
                 </div>
 
@@ -178,7 +247,7 @@
                   }}</label
                   ><br />
 
-                  <p-autoComplete formControlName="company" field="code">
+                  <p-autoComplete  field="code">
                   </p-autoComplete>
                 </div>
               </div>
@@ -193,7 +262,7 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="line1"
+
                   />
                 </div>
 
@@ -206,7 +275,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="city"
                   />
                 </div>
 
@@ -219,7 +287,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="zipCode"
                   />
                 </div>
 
@@ -232,7 +299,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="country"
                   />
                 </div>
                 <div class="form-group col-md-6">
@@ -241,7 +307,7 @@
                   }}</label
                   ><br />
                 <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
-                formControlName="fDateLivraison">
+               >
               </p-calendar>
             </div>
               <div class="form-group col-md-6">
@@ -319,7 +385,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="tel1"
                   />
                 </div>
 
@@ -332,7 +397,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="email"
                   />
                 </div>
 
@@ -342,7 +406,7 @@
                   }}</label
                   ><br />
 
-                  <p-autoComplete formControlName="company" field="code">
+                  <p-autoComplete  field="code">
                   </p-autoComplete>
                 </div>
               </div>
@@ -357,7 +421,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="line1"
                   />
                 </div>
 
@@ -370,7 +433,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="city"
                   />
                 </div>
 
@@ -383,7 +445,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="zipCode"
                   />
                 </div>
 
@@ -396,7 +457,6 @@
                     type="text"
                     class="form-control"
                     pInputText
-                    formControlName="country"
                   />
                 </div>
                 <div class="form-group col-md-6">
@@ -405,7 +465,7 @@
                   }}</label
                   ><br />
                 <p-calendar [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
-                formControlName="fDateLivraison">
+               >
               </p-calendar>
             </div>
               <div class="form-group col-md-6">
@@ -419,89 +479,7 @@
 
     </div>
 
-      <p-fieldset legend="Détail de colis">
-        <div class="row justify-content-around">
-          <div class="form-group col-md-3">
-            <label class="font-weight-bold"
-              >{{ "Type emballage" | translate }} *</label
-            >
 
-            <p-dropdown
-              [autoDisplayFirst]="false"
-              [options]="typeOfPackagings"
-              optionLabel="name"
-              formControlName="floadingType"
-              [filter]="true"
-              [showClear]="true"
-            ></p-dropdown>
-          </div>
-          <div class="form-group col-md-9">
-</div>
-</div>
-          <div class="row justify-content-around">
-          <div class="form-group col-md-3">
-            <label class="font-weight-bold">{{
-              "Nombre colis" | translate
-            }}</label
-            ><br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="tel1"
-            />
-          </div>
-
-          <div class="form-group col-md-3">
-            <label class="font-weight-bold"
-              >{{ "Poids Kg" | translate }} *</label
-            >
-            <br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="nameA"
-            />
-          </div>
-          <div class="form-group col-md-2">
-            <label class="font-weight-bold"
-              >{{ "Longueur" | translate }} *</label
-            >
-            <br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="nameA"
-            />
-          </div>
-          <div class="form-group col-md-2">
-            <label class="font-weight-bold"
-              >{{ "Largeur" | translate }} *</label
-            >
-            <br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="nameA"
-            />
-          </div>
-          <div class="form-group col-md-2">
-            <label class="font-weight-bold"
-              >{{ "Hauteur" | translate }} *</label
-            >
-            <br />
-            <input
-              type="text"
-              class="form-control"
-              pInputText
-              formControlName="nameA"
-            />
-          </div>
-        </div>
-      </p-fieldset>
 
       <div class="text-center mt-3 mr-3 ml-3">
         <a class="btn btn-primary m-1">

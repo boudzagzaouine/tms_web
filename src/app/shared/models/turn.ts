@@ -1,3 +1,4 @@
+import { PackagingType } from './packaging-type';
 import { TurnLine } from './turn-line';
 import { Vehicle } from './vehicle';
 import { Driver } from './driver';
@@ -9,7 +10,6 @@ import { Transport } from './transport';
 import { VehicleCategory } from './vehicle-category';
 import { TurnTransport } from './turn-transport';
 import { LoadingType } from './loading-type';
-import { PackagingType } from './packagingType';
 
 export class Turn {
   id: number;
@@ -32,6 +32,6 @@ export class Turn {
   loadingTypeO: LoadingType;
   packagingTypeO:PackagingType;
 
- 
+
 
 }

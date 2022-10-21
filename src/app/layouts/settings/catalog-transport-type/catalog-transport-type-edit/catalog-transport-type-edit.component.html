@@ -42,37 +42,37 @@
             </div>
 
             <div class="form-group col-sm-6">
-              <label class="font-weight-bold">{{ "Zone Source " | translate }} *</label>
+              <label class="font-weight-bold">{{ "Ville Source " | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fZoneSource').touched &&
-                    transportCatVehicleForm.get('fZoneSource').invalid) ||
+                  (transportCatVehicleForm.get('fVilleSource').touched &&
+                    transportCatVehicleForm.get('fVilleSource').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fZoneSource').invalid)
+                    transportCatVehicleForm.get('fVilleSource').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
               </span>
 
 
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneSource" [suggestions]="zoneList"
-                (onSelect)="onSelectZoneSource($event)" (completeMethod)="onZoneSourceSearch($event)" field="code">
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleSource" [suggestions]="villeList"
+                (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
             </div>
 
             <div class="form-group col-sm-6">
-              <label class="font-weight-bold">{{ "Zone Destination" | translate }} *</label>
+              <label class="font-weight-bold">{{ "Ville Destination" | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fZoneDestination').touched &&
-                    transportCatVehicleForm.get('fZoneDestination').invalid) ||
+                  (transportCatVehicleForm.get('fVilleDestination').touched &&
+                    transportCatVehicleForm.get('fVilleDestination').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fZoneDestination').invalid)
+                    transportCatVehicleForm.get('fVilleDestination').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fZoneDestination" [suggestions]="zoneList"
-                (onSelect)="onSelectZoneDestination($event)" (completeMethod)="onZoneSourceSearch($event)" field="code">
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleDestination" [suggestions]="villeList"
+                (onSelect)="onSelectVilleDestination($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
             </div>
@@ -95,9 +95,9 @@
                 formControlName="fAmountHt" />
 
               <!-- <div class="ui-inputgroup">
-                  <input type="text"  pInputText (keyup)="onPriceChange(1)" formControlName="fAmountHt">    
-                  <span class="ui-inputgroup-addon">DH</span> 
-  
+                  <input type="text"  pInputText (keyup)="onPriceChange(1)" formControlName="fAmountHt">
+                  <span class="ui-inputgroup-addon">DH</span>
+
               </div> -->
 
 
@@ -115,7 +115,7 @@
                 {{ 'Obligatoire' | translate}}
               </span>
               <p-dropdown
-               [autoDisplayFirst]="false" 
+               [autoDisplayFirst]="false"
                [options]="vatList"
                  [filter]="true"
                  optionLabel="value"
@@ -141,9 +141,9 @@
                 formControlName="fAmountTtc" />
 
               <!-- <div class="ui-inputgroup">
-                  <input type="text"  pInputText (keyup)="onPriceChange(2)" 
-                  formControlName="fAmountTtc">    
-                  <span class="ui-inputgroup-addon">DH</span>   
+                  <input type="text"  pInputText (keyup)="onPriceChange(2)"
+                  formControlName="fAmountTtc">
+                  <span class="ui-inputgroup-addon">DH</span>
               </div> -->
 
             </div>
@@ -163,9 +163,9 @@
                 (keydown.space)="$event.preventDefault()" />
 
               <!-- <div class="ui-inputgroup">
-                  <input type="text"  pInputText  
-                  formControlName="fAmountTva" (keydown.space)="$event.preventDefault()">    
-                  <span class="ui-inputgroup-addon">DH</span>   
+                  <input type="text"  pInputText
+                  formControlName="fAmountTva" (keydown.space)="$event.preventDefault()">
+                  <span class="ui-inputgroup-addon">DH</span>
               </div> -->
 
             </div>

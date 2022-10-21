@@ -26,22 +26,22 @@
 
     <div class="col-md-2">
       <label class="font-weight-bold">{{
-        "Zone Source" | translate
+        "Ville Source" | translate
       }}</label
       ><br />
 
-      <p-autoComplete [(ngModel)]="zoneSourceSearch" [suggestions]="zoneSourceList"
-      (completeMethod)="onZoneSouceSearch($event)" field="code"></p-autoComplete>
+      <p-autoComplete [(ngModel)]="villeSourceSearch" [suggestions]="villeSourceList"
+      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
 
     </div>
     <div class="col-md-2">
       <label class="font-weight-bold">{{
-        "Zone Destination" | translate
+        "Ville Destination" | translate
       }}</label
       ><br />
 
-      <p-autoComplete [(ngModel)]="zoneDestinationSearch" [suggestions]="zoneSourceList"
-      (completeMethod)="onZoneSouceSearch($event)" field="code"></p-autoComplete>
+      <p-autoComplete [(ngModel)]="villeDestinationSearch" [suggestions]="villeSourceList"
+      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
 
     </div>
 

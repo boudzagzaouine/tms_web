@@ -32,7 +32,13 @@ showEffect="fade"
             <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
-          <div class="col-md-3"></div>
+          <div class="col-md-12">
+            <label class="font-weight-bold"> {{'Parent' | translate}}</label><br />
+            <p-autoComplete  formControlName="productType" [suggestions]="productTypeParentList"
+            (onSelect)="onSelectedProductType($event)"appendTo="body" [placeholder]="this.selectedProductType?.productType?.code"
+            (completeMethod)="onProductTypeSearch($event)" field="code">
+          </p-autoComplete>
+          </div>
 
         </div>
       </form>

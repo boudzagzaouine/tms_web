@@ -1,3 +1,4 @@
+import { DurationType } from './../../../../../shared/models/duration-type-type';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { Supplier } from './../../../../../shared/models/supplier';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -15,6 +16,9 @@ export class ActionTypeRepairComponent implements OnInit {
   @Input() editMode = false;
   @Output() actionTypeRepairEdited = new EventEmitter<ActionTypeRepair>();
   @Output() showDialog = new EventEmitter<boolean>();
+
+  durationTypes : DurationType[]=[];
+
   types: any[];
   selectType:string;
   supplierList : Supplier[]=[];
@@ -23,11 +27,18 @@ export class ActionTypeRepairComponent implements OnInit {
   ActionTypeRepairForm: FormGroup;
   isFormSubmitted = false;
 
+
   constructor(  private supplierService:SupplierService,
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,) { }
 
   ngOnInit(): void {
+    let dtJ = new DurationType("Jour");
+    let dtM = new DurationType("Min");
+    let dtH = new DurationType("Heur");
+    this.durationTypes.push(dtJ);
+    this.durationTypes.push(dtM);
+    this.durationTypes.push(dtH);
     this.title = 'Ajouter Prestataire de Reparation';
     this.displayDialog = true;
     this.types=[
@@ -57,6 +68,7 @@ console.log(this.selectType);
       city: this.formBuilder.control(this.selectedActionTypeRepair.city),
       price: this.formBuilder.control(this.selectedActionTypeRepair.price),
       duration: this.formBuilder.control(this.selectedActionTypeRepair.duration),
+      durationType: this.formBuilder.control(this.selectedActionTypeRepair.durationType),
 
 
     });
@@ -82,7 +94,11 @@ console.log(this.selectType);
     this.displayDialog = false;
   }
 
+  onSelectDurationType(event){
+  console.log(event.value.code);
 
+    this.selectedActionTypeRepair.durationType =event.value.code;
+  }
   onselectType(event){
      this.selectType=(event.option.name) as string;
      console.log(event.option.code);

@@ -1,0 +1,19 @@
+:host ::ng-deep  .p-fieldset-legend {
+  width: auto !important;
+  margin-left: 1rem !important;
+}
+
+:host ::ng-deep  .p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: #4084bd;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+}
+:host ::ng-deep .p-steps .p-steps-item.p-disabled .p-menuitem-link .p-steps-number{
+
+   background: #4084bd7d;
+   color: #ffffff;
+  width: 40px;
+  height: 40px;
+}
+

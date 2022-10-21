@@ -1,0 +1,17 @@
+    <p-tabView [activeIndex]="index" class="mt-5">
+
+            <p-tabPanel
+            *ngIf="showPanelOrderTypeAller == true"
+              header="{{ 'Aller' | translate }}"
+              headerStyleClass="onglet-p-2"
+            >
+            <app-merchandise-aller-edit
+            ></app-merchandise-aller-edit>
+          </p-tabPanel>
+
+            <p-tabPanel *ngIf="showPanelOrderTypeRetour == true" header="{{ 'Retour' | translate }}"
+            headerStyleClass="onglet-p-2">
+              <!-- retour  -->
+            </p-tabPanel>
+
+         </p-tabView>

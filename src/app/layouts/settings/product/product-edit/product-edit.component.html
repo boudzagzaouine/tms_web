@@ -32,7 +32,7 @@
          <br />
          <input
          type="text"
-        
+
                  pInputText
          formControlName="code"
          (keydown.space)="$event.preventDefault()"
@@ -45,7 +45,7 @@
 
            <input
            type="text"
-     
+
                    pInputText
            formControlName="description"
 
@@ -55,7 +55,7 @@
 
           <div class="col-sm-12 col-md-4"></div>
         </div>
- 
+
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12 col-md-6">
             <label class="font-weight-bold">{{'Type' | translate}} *</label>
@@ -66,7 +66,7 @@
             </span>
             <br />
             <p-autoComplete  formControlName="type"
-            [suggestions]="productTypeList" 
+            [suggestions]="productTypeList"
             field="code"  (completeMethod)="onSearchProduct($event)"
             (onSelect)="onSelectProductType($event)" >
         </p-autoComplete>
@@ -80,7 +80,7 @@
           {{"Obligatoire" | translate }}
         </span><br />
         <p-dropdown  formControlName="uom" [autoDisplayFirst]="editMd"
-        [options]="uoms" 
+        [options]="uoms"
          (onChange)="onSelectUom($event)"
         optionLabel="code"  [filter]="true" [showClear]="true">
     </p-dropdown>
@@ -98,12 +98,12 @@
           {{"Obligatoire" | translate }}
         </span>
         <input type="text" class="form-control" pInputText
-        (keyup)="onPriceChange(1)" formControlName="purchasePrice" /> 
+        (keyup)="onPriceChange(1)" formControlName="purchasePrice" />
 
         <!-- <div class="ui-inputgroup">
           <input type="text"  pInputText
           (keyup)="onPriceChange(1)" formControlName="purchasePrice" />
-          <span class="ui-inputgroup-addon">DH</span>      
+          <span class="ui-inputgroup-addon">DH</span>
 
       </div> -->
 
@@ -116,13 +116,13 @@
           {{"Obligatoire" | translate }}
         </span>
             <br />
-            <p-dropdown  
-            [autoDisplayFirst]="false" 
+            <p-dropdown
+            [autoDisplayFirst]="false"
 
             formControlName="vat"
              class="w-100" [options]="vats" [showClear]="true"
             (onChange)="onSelectVat($event)" optionLabel="value"
-            [filter]="true"  
+            [filter]="true"
             >
         </p-dropdown>
         </div>
@@ -131,7 +131,7 @@
         </div>
         <div class="row  justify-content-around">
 
-       
+
 
           <div class="form-group col-sm-12 col-md-6">
             <label class="font-weight-bold">{{'Prix d achat TTC' | translate}} *</label>
@@ -141,28 +141,28 @@
           {{"Obligatoire" | translate }}
         </span>
        <input type="text" class="form-control" pInputText
-        (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" /> 
+        (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" />
 
         <!-- <div class="ui-inputgroup">
           <input type="text"  pInputText
           (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" />
-          <span class="ui-inputgroup-addon">DH</span>      
+          <span class="ui-inputgroup-addon">DH</span>
 
       </div> -->
-           
+
            </div>
 
            <div class="form-group col-sm-12 col-md-6">
             <label class="font-weight-bold">{{'Quantité minimale' | translate}}</label><br />
-  
+
            <input
-           type="text" 
-            
+           type="text"
+
                    pInputText
            formControlName="qntMin"
-  
+
          />
-  
+
           </div>
         </div>
 
@@ -171,7 +171,7 @@
             <label class="font-weight-bold">{{'Quantité stock' | translate}}</label><br />
 
            <input
-           type="text" 
+           type="text"
             [attr.disabled]="true"
                    pInputText
            formControlName="qntStock"
@@ -180,8 +180,12 @@
 
           </div>
 
-      
+
         <div class="form-group col-sm-12 col-md-6">
+            <label class="font-weight-bold">{{ "Composant" | translate }}</label
+            ><br />
+            <p-checkbox formControlName="component" binary="true"></p-checkbox>
+
         </div>
       </div>
 

@@ -40,6 +40,8 @@ export class Product {
   supplierDelay: number;
   purshasePriceTTCUB: number;
   minStock: number;
+  component:Boolean=false;
+
 
     constructor() {
     }

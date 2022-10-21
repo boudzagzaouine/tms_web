@@ -1,3 +1,4 @@
+import { DurationType } from './../../../shared/models/duration-type-type';
 import { BlockType } from './../../../shared/models/block-type';
 import { MaintenanceStockService } from './../../../shared/services/api/maintenance-stock.service';
 import { ActionMaintenance } from './../../../shared/models/action-maintenance';
@@ -95,6 +96,8 @@ export class MaintenancePlanComponent implements OnInit {
    maintenancestateMode: number = 1;
    serviceProviderMode : number = 1;
    patrimonyType :number;
+   durationTypes : DurationType[]=[];
+
   constructor(
     private maintenanceTypeService: MaintenanceTypeService,
     private conditionalTypeService: ConditionalTypeService,
@@ -123,7 +126,12 @@ export class MaintenancePlanComponent implements OnInit {
   ngOnInit() {
 
 
-
+    let dtJ = new DurationType("Jour");
+    let dtM = new DurationType("Min");
+    let dtH = new DurationType("Heur");
+    this.durationTypes.push(dtJ);
+    this.durationTypes.push(dtM);
+    this.durationTypes.push(dtH);
 
     this.subscrubtion.add(
       this.maintenanceStateService.findAll().subscribe((data) => {
@@ -330,6 +338,7 @@ export class MaintenancePlanComponent implements OnInit {
         'fInterventionDate': new FormControl(dInterventionDate),
         'fTriggerDay': new FormControl(this.selectedMaintenance.triggerDay),
         'fActionType': new FormControl({value :this.selectedMaintenance.actionType,disabled:true}),
+
         'fConditionalType': new FormControl(this.selectedMaintenance.conditionalType),
         'fvaleurCOnditional': new FormControl(this.selectedMaintenance.valueconditionalType),
         'finterventionKm': new FormControl(this.selectedMaintenance.mileageNext),

@@ -30,6 +30,10 @@ export class EmsService<T> {
     return this.proxy.findById(this.controller, id);
   }
 
+  getParents() {
+    return this.proxy.getParents(this.controller);
+  }
+  
   size() {
     return this.proxy.size(this.controller);
   }

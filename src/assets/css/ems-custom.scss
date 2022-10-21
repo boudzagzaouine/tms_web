@@ -1,3 +1,4 @@
+
 // Custom
 
 .bg-white {
@@ -406,6 +407,8 @@ p-autocomplete {
   background-color: #fafbfc !important;
   }
 
+
+
   .p-accordion .p-accordion-header .p-accordion-header-link {
     padding: 0rem;
     border: 0px solid #dee2e6;
@@ -433,4 +436,12 @@ p-autocomplete {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #2C3941;
+}
+
+.card{
+  border-radius: 3px;
+}
+.card-header{
+  border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }

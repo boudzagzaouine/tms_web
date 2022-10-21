@@ -1,3 +1,5 @@
+import { TurnCategoryComponent } from './turn-edit/turn-category/turn-category.component';
+import { TurnItineraryComponent } from './turn-edit/turn-itinerary/turn-itinerary.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DeliveryInformationsComponent } from './turn-edit/delivery-informations/delivery-informations.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -39,7 +41,7 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent,PurchaseLineEditComponent],
+  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent,PurchaseLineEditComponent,TurnItineraryComponent,TurnCategoryComponent],
   imports: [
     CommonModule,
     TurnRoutingModule,

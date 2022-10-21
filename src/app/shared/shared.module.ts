@@ -1,3 +1,9 @@
+import { PaysService } from './services/api/pays.service';
+import { VilleService } from './services/api/ville.service';
+import { PackagingTypeService } from './services/api/packaging-type.service';
+import { ContainerTypeService } from './services/api/container-type.service';
+import { TurnStatusService } from './services/api/turn-status.service';
+import { OrderDeliveryService } from './services/api/order-delivery.service';
 import { SubscriptionCardTypeService } from './services/api/subscription-card-type.service';
 import { DocumentTypeService } from './services/api/document-type.service';
 import { SupplierInvoiceReceptionService } from './services/api/supplier-invoice-reception.service';
@@ -276,7 +282,13 @@ export class SharedModule {
         SupplierInvoiceLineService,
         SupplierInvoiceReceptionService,
         DocumentTypeService,
-        SubscriptionCardTypeService
+        SubscriptionCardTypeService,
+        OrderDeliveryService,
+        TurnStatusService,
+        ContainerTypeService,
+        PackagingTypeService,
+        VilleService,
+        PaysService
       ],
 
     };

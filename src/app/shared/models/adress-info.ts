@@ -8,6 +8,8 @@ export class AddressInfo {
   city: string;
   state: string;
   country: string;
+  latitude:number;
+  longitude:number
   creationDate: Date;
   updateDate: Date;
 }

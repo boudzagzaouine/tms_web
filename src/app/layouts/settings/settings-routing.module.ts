@@ -114,6 +114,7 @@ const routes: Routes = [
       { path: 'menu-subscription-card', component: MenuSubscriptionCardComponent},
       { path: 'menu-fuel', component: MenuFuelComponent},
       { path: 'menu-transport', component: MenuTransportComponent},
+      { path: 'test', component: TestDataTableComponent},
 
 
     ]

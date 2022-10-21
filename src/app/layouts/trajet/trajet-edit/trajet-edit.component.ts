@@ -26,16 +26,9 @@ export class TrajetEditComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.completTypeList=[
-      {name:'Affretement'},
-      {name:'Transport Dedie'},
-]
+    this.completTypeList=[{name:'Affretement'},{name:'Transport Dedie'}]
 
-    this.loadingTypeList=[
-
-      {name:'Complet'},
-      {name:'Groupage'},
-]
+    this.loadingTypeList=[ {name:'Complet'},{name:'Groupage'}]
     this.types=[
 
       {name:'Enlévement'},

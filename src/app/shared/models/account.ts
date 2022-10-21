@@ -26,4 +26,8 @@ export class Account {
     deliveryDate : Date= new Date();
     contacts :Contact[]=[];
     addresses:Address[]=[];
+
+
+// goingSource -goingDistinataire - coming
+  type :string;
 }

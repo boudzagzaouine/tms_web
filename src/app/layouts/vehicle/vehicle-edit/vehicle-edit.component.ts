@@ -1,3 +1,7 @@
+import { VehicleProductReference } from './../../../shared/models/vehicle-product-reference';
+import { ProductService } from './../../../shared/services/api/product.service';
+import { ProductTypeService } from './../../../shared/services/api/product-type.service';
+import { ProductType } from './../../../shared/models/product-type';
 import { ConfigMessageComponent } from './../../settings/configMessage/configMessage.component';
 import { VehicleProduct } from './../../../shared/models/vehicle-product';
 import { DriverService } from './../../../shared/services/api/driver.service';
@@ -33,7 +37,7 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ContractType, Supplier, InsuranceTerm, MaintenancePlan } from '../../../shared/models';
+import { ContractType, Supplier, InsuranceTerm, MaintenancePlan, Product } from '../../../shared/models';
 import { ConsumptionTypeService } from './../../../shared/services/api/consumption-type.service';
 import { AuthenticationService, MaintenancePlanService } from './../../../shared/services';
 import frLocale from '@fullcalendar/core/locales/fr';
@@ -42,7 +46,7 @@ import frLocale from '@fullcalendar/core/locales/fr';
   selector: 'app-vehicle-edit',
   templateUrl: './vehicle-edit.component.html',
   providers: [MessageService],
-  styleUrls: ['./vehicle-edit.component.css']
+  styleUrls: ['./vehicle-edit.component.scss']
 })
 export class VehicleEditComponent implements OnInit, OnDestroy {
 
@@ -91,10 +95,17 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   showDialogVehiclePriduct: boolean;
   editModeVehiclePriduct: boolean;
-
+  productTypeParentList : VehicleProduct[]=[];
+  productTypeChildList : VehicleProduct[]=[];
+  productList : VehicleProduct;
+  productReferenceList : VehicleProductReference[]=[];
+ idVehicleProduct:number=0;
   constructor(
     private activatedRoute: ActivatedRoute,
     private maintenancePlanService :MaintenancePlanService,
+    private productTypeService: ProductTypeService,
+    private productService: ProductService,
+
     private driverService: DriverService,
     private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -119,6 +130,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
     this.items = [
       {label: 'Véhicule'},
       {label: 'Editer' ,routerLink:'/core/vehicles/edit'},
@@ -137,6 +149,17 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     {name:'Fixe'},
     {name:'Variable'},
 ]
+
+
+// this.subscriptions.add(this.productTypeService.getParents().subscribe(
+//   data => {
+
+
+//  this.productTypeParentList = data;
+//  this.productTypeParentList=this.productTypeParentList.filter(f=> f.gmao==true);
+//   this.initForm();
+// }
+// ));
     this.initForm();
     let id = this.activatedRoute.snapshot.params['id'];
     if (id) {
@@ -147,6 +170,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         this.subscriptions.add(this.vehicleService.findById(id).subscribe(data => {
           this.selectedVehicle = data;
           this.selectedVehicle.vehicleProducts=this.selectedVehicle.vehicleProducts?this.selectedVehicle.vehicleProducts:[];
+          this.productTypeParentList=this.selectedVehicle.vehicleProducts.filter(
+            (thing, i, arr) => arr.findIndex(t => t.productType.productType.id === thing.productType.productType.id) === i
+          );
+          console.log(        this.productTypeParentList);
+
           console.log("vehicule");
           console.log(this.selectedVehicle);
 
@@ -247,6 +275,27 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     ));
 
   }
+
+  onSelectProductTypeParent(item){
+
+console.log(item);
+
+return this.productTypeChildList =this.selectedVehicle.vehicleProducts.filter(f=> f.productType.productType.id==item.productType.productType.id);
+  
+  }
+
+  onSelectProductTypeCild(productTypeChild){
+    console.log(productTypeChild);
+
+
+return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=> f.productType.id==productTypeChild.productType.id)[0].vehicleProductReferences;
+
+
+
+
+  }
+
+
   onLineEdited(line: InsuranceTermsVehicle) {
     this.selectedInsurance.insuranceTermLignes = this.selectedInsurance.insuranceTermLignes.filter(
       p => p.insuranceTerm.code !== line.insuranceTerm.code);
@@ -531,7 +580,7 @@ console.log(event.option);
   }
 
 
-  onShowDialogVehicleDriver(line, mode) {
+  onShowDialogVehicleProduct(line, mode) {
     console.log("show dialog");
   console.log(mode);
 console.log("---");
@@ -547,7 +596,7 @@ console.log("---");
     }
   }
 
-  onDeleteVehicleDriver(id: number) {
+  onDeleteVehicleProduct(id: number) {
     console.log("delete");
 
     this.confirmationService.confirm({
@@ -556,6 +605,9 @@ console.log("---");
         this.selectedVehicle.vehicleProducts = this.selectedVehicle.vehicleProducts.filter(
           (l) => l.id !== id
         );
+
+        this.productTypeChildList =this.selectedVehicle.vehicleProducts;
+
         // this.updateTotalPrice();
       },
     });
@@ -563,13 +615,31 @@ console.log("---");
   }
 
   onLineEditedVehicleProduct(vehicleProduct: VehicleProduct) {
-
+ this.idVehicleProduct--;
+   vehicleProduct.id>0 ? '' :vehicleProduct.id=this.idVehicleProduct;
+console.log(vehicleProduct);
 
     const orderline = this.selectedVehicle.vehicleProducts.find(
       line => line.product.id === vehicleProduct.product.id
     );
     if (orderline == null) {
       this.selectedVehicle.vehicleProducts.push(vehicleProduct);
+
+      console.log( this.selectedVehicle.vehicleProducts.length);
+
+      if(this.selectedVehicle.vehicleProducts.length>1) {
+         this.productTypeParentList=this.selectedVehicle.vehicleProducts.filter(
+        (thing, i, arr) => arr.findIndex(t => t.productType?.productType?.id === thing.productType?.productType?.id) === i
+      );
+      console.log(  this.productTypeParentList);
+
+      }else {
+         this.productTypeParentList =this.selectedVehicle.vehicleProducts;
+         console.log(  this.productTypeParentList);
+      }
+
+
+
     }
   }
   onHideDialogVehicleProduct(event) {

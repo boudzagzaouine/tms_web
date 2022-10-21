@@ -18,6 +18,9 @@ export class ProductTypeEditComponent implements OnInit {
   @Input() selectedProductType = new ProductType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
+  productTypeParentList: ProductType[] = [];
+
+
   productTypeForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -40,6 +43,7 @@ export class ProductTypeEditComponent implements OnInit {
       this.title = 'Ajouter un type de produit';
 
     }
+console.log(this.selectedProductType);
 
     this.displayDialog = true;
     this.initForm();
@@ -51,6 +55,8 @@ export class ProductTypeEditComponent implements OnInit {
     this.productTypeForm = new FormGroup({
       'code': new FormControl(this.selectedProductType.code, Validators.required),
       'description': new FormControl(this.selectedProductType.description),
+      'productType': new FormControl(this.selectedProductType.productType),
+
     });
   }
 
@@ -81,6 +87,19 @@ export class ProductTypeEditComponent implements OnInit {
       () => this.spinner.hide()
     ));
 
+  }
+
+  onSelectedProductType(event){
+
+    this.selectedProductType.productType=event;
+    console.log( this.selectedProductType.productType);
+
+
+  }
+  onProductTypeSearch(event: any) {
+    this.subscriptions.add( this.productTypeService
+      .find('code~' + event.query)
+      .subscribe(data => (this.productTypeParentList = data)));
   }
   onShowDialog() {
     let a = false;

@@ -1,0 +1,107 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '500px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div >
+    <div class="card-body">
+      <form [formGroup]="packageDetailForm" >
+        <div class="modal-body">
+
+          <div class="row  justify-content-around">
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold">{{'Quantité' | translate}}</label>
+              <input type="text" pInputText class="form-control mb-2" formControlName="numberOfPackages">
+          </div>
+
+            <div class="form-group col-md-9">
+                    <label class="font-weight-bold">{{'Type palette' | translate}}*</label>
+                    <span *ngIf="(packageDetailForm.get('containerType').touched && packageDetailForm.get('containerType').invalid) ||
+            (isFormSubmitted && packageDetailForm.get('containerType').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+              {{"Obligatoire" | translate}}
+                    </span>
+
+                    <p-dropdown
+    formControlName="containerType"
+      [autoDisplayFirst]="false"
+      [options]="containerTypeList"
+      optionLabel="code"
+      (onChange)="onSelectContainerType($event)"
+      [filter]="true"
+      [showClear]="true"
+    ></p-dropdown>
+
+                </div>
+
+
+</div>
+                <div class="row  justify-content-around">
+
+                <div class="form-group col-md-3">
+                    <label class="font-weight-bold">{{'Longueur' | translate}}</label>
+                    <input type="text" pInputText class="form-control mb-2" formControlName="length">
+                </div>
+
+
+                <div class="form-group col-md-3">
+                  <label class="font-weight-bold">{{'Largeur' | translate}}</label>
+                  <input type="text" pInputText class="form-control mb-2" formControlName="width">
+              </div>
+
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold">{{'Hauteur' | translate}}</label>
+                <input type="text" pInputText class="form-control mb-2" formControlName="height">
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold">{{'Poids' | translate}}</label>
+              <input type="text" pInputText class="form-control mb-2" formControlName="weight">
+          </div>
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+    </form>
+
+
+</div>
+</div>
+</div>
+<p-footer>
+<div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+  <button
+  type="button"
+  pButton
+  (click)="onShowDialog()"
+  class="p-button-primary"
+  label="{{'Annuler' | translate }}"
+></button>
+<button
+    type="button"
+    pButton
+    (click)="onSubmit()"
+    class="p-button-success"
+    label="{{ 'Valider' | translate }}"
+  ></button>
+</div>
+</p-footer>
+</p-dialog>

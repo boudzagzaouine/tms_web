@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { Owner } from './owner';
 
 export class Address {
@@ -15,5 +16,6 @@ export class Address {
   addressTypeTms: string;
   latitude:number;
   longitude:number
+  account :Account;
   owner:Owner;
 }

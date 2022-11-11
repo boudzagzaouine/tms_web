@@ -1,0 +1,30 @@
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  text-align: left;
+  padding: 1rem 1rem;
+  border: 1px solid #4084bd;
+  border-width: 0 0 1px 0;
+  font-weight: 600;
+  color: #495057;
+  background: #f8f9fa;
+  transition: box-shadow 0.2s;
+}
+
+
+.divRowInfo {box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+  border-radius: 5px;
+ // margin: 2px;
+}
+.divLineInfo{
+  margin-top: 9px;
+  border-right: 1px solid #dce0e6;
+}
+:host ::ng-deep .divRowInfo .divLineInfo .p-inputtext{
+
+  border: none;
+}
+:host ::ng-deep .divRowInfo .divLineInfo .p-dropdown{
+
+  border: none;
+}
+
+

@@ -17,10 +17,12 @@ export class Transport {
   owner:Owner;
   priceTurn:number=0;
   catalogTransportTypes:CatalogTransportType[]=[];
+  priceContrat:number=0;
 
 
 
-  
 
- 
+
+
+
 }

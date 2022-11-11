@@ -1,282 +1,303 @@
-<p-breadcrumb [model]="itemsbreadcrumb" [home]="home"></p-breadcrumb>
-
 <div class="card mt-1">
-  <div class="card-header" style="background-color: #f7f7f7">
-    {{ editModeTitle }}
+  <div class="card-header">
+    <span class="h4">Plan Transport</span>
   </div>
+
   <div class="card-body border-top-primary">
-    <form [formGroup]="transportPlanForm">
-      <p-steps [model]="items" [(activeIndex)]="activeIndex"> </p-steps>
 
-      <div *ngIf="activeIndex == 0" class="mt-5">
-          <div class="mt-3 row justify-content-around">
+<form [formGroup]="transportPlanForm" class="">
 
+  <div class="row mt-3 justify-content-around " >
 
-            <div class="form-group col-md-3">
-              <label class="font-weight-bold"
-                >{{ "Type tournée" | translate }}
-              </label>
+    <div class="form-group col-md-3 " >
+      <label class="font-weight-bold"
+        >{{ "Order" | translate }} *</label>
+      <br />
+      <input
+      formControlName="orderTransport"
+  [attr.disabled]="'true'"
+        type="text"
+        class="form-control"
+        pInputText
+      />
+    </div>
 
-              <p-selectButton
-                [options]="turnTypeList"
-                formControlName="fTurnType"
-                name="first"
-                (onChange)="onSelectTurnType($event)"
-                optionLabel="code"
-              ></p-selectButton>
-            </div>
-            <div class="form-group col-md-9">
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold"
+      >{{ "Catégorie" | translate }} *</label>
+    <br />
+
+    <p-dropdown
+    formControlName="vehicleCategory"
+  [autoDisplayFirst]="false"
+  [options]="vehicleCategoryList"
+  (onChange)="onSelectVehicleCategory($event)"
+  optionLabel="code"
+  [filter]="true"
+  [showClear]="true"
+  [dataKey]="code"
+
+></p-dropdown>
+
+  </div>
+
+  <div class="form-group col-md-3 ">
+    <label class="font-weight-bold"
+      >{{ "Transport" | translate }} *</label>
+    <br />
+
+    <p-autoComplete
+    formControlName="transport"
+    [suggestions]="transportList"
+    (onSelect)="onSelectTransport($event)"
+    (completeMethod)="onTransportSearch($event)"
+    field="name"
+  >
+  </p-autoComplete>
+
+  </div>
+
+    <div class="form-group col-md-3 ">
+      <label class="font-weight-bold"
+      >{{ "Date" | translate }} *</label>
+    <br />
+      <p-calendar
+      [monthNavigator]="true"
+      [yearNavigator]="true"
+      dateFormat="dd/mm/yy"
+      yearRange="1970:2100"
+      formControlName="date"
+    >
+    </p-calendar>
 </div>
-          </div>
-        <div class="row mt-3 justify-content-around">
-          <div class="form-group col-md-12">
-   <p-pickList
-        [source]="orderDeliveries"
-        [target]="selectedOrderDeliveries"
-        sourceHeader="Commande Livraison"
-        targetHeader="sélectionné"
-        [responsive]="true"
-        filterBy="account.name,code,expectedDate,deliveryAddress.city"
-        dragdrop="true"
-        sourceFilterPlaceholder="Recherche Par Client - Commande - Ville"
-        targetFilterPlaceholder="Recherche Par Client - Commande - Ville "
-        [sourceStyle]="{ height: '300px' }"
-        [targetStyle]="{ height: '300px' }"
-        (onMoveToSource)="onMoveSoToSource($event)"
-        (onMoveToTarget)="onMoveSoToTarget($event)"
-         [showSourceControls]="false"
-         [showTargetControls]="false"
+    </div>
 
 
+<div class="row mt-3 justify-content-around " *ngIf="this.selectedTransportPlan?.transport?.id==10147">
 
-      >
-        <ng-template let-order pTemplate="item">
-          <div class="product-item" >
-            <div class="product-list-detail">
-              <h5 class="p-mb-2">CLient : {{ order?.account?.name }}</h5>
-              <span *ngIf="this.selectedTransportPlan.turnType.id==1 || this.selectedTransportPlan.turnType.id==3">
-              <i class="pi pi-map-marker product-category-icon"></i>
-              <span class="product-category">
-                Depart : {{ order?.deliveryInfoAller?.contactDeliveryInfoSource?.city }} Vers {{order?.deliveryInfoAller?.contactDeliveryInfoDistination?.city }}</span><br>
-                <div class="product-list-action">
-                  <i class="pi pi-calendar product-category-icon"></i>
 
-                  <span
-                    >Date prévue:
-                    {{ order?.deliveryInfoAller?.contactDeliveryInfoSource?.date | date: "dd-MM-yyyy" }}</span
-                  >
-                </div>
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Vehicule" | translate }} *</label
+    >
 
-              </span>
-            <span *ngIf="this.selectedTransportPlan.turnType.id==2 || this.selectedTransportPlan.turnType.id==3">
-                <i class="pi pi-map-marker product-category-icon"></i>
-                  <span class="product-category">
-                Depart : {{ order?.deliveryInfoRetour?.contactDeliveryInfoSource?.city }} Vers {{order?.deliveryInfoRetour?.contactDeliveryInfoDistination?.city }}</span>
+    <br />
+    <p-autoComplete
+    formControlName="vehicle"
+    [suggestions]="vehicleList"
+    (onSelect)="onSelectVehicle($event)"
+    (completeMethod)="onVehicleSearch($event)"
+    field="registrationNumber"
+  >
+  </p-autoComplete>
 
-                <div class="product-list-action">
-                  <i class="pi pi-calendar product-category-icon"></i>
-                  <span
-                    >Date prévue:
-                    {{ order?.deliveryInfoRetour?.contactDeliveryInfoSource?.date | date: "dd-MM-yyyy" }}</span
-                  >
-                </div>
-              </span>
-              </div>
+  </div>
+  <div class="form-group col-md-3 " >
+    <label class="font-weight-bold"
+      >{{ "Chauffeur" | translate }} *</label
+    >
 
-          </div>
-        </ng-template>
-      </p-pickList>
+    <br />
+
+    <p-dropdown
+    formControlName="driver"
+  [autoDisplayFirst]="false"
+  [options]="driverList"
+  (onChange)="onSelectDriver($event)"
+  optionLabel="name"
+  [filter]="true"
+  [showClear]="true"
+  [dataKey]="name"
+  [placeholder]="this.selectedTransportPlan?.driver?.name"
+></p-dropdown>
+  </div>
+
+  <div class="form-group col-md-6 " ></div>
 </div>
+  <div class="row mt-3 justify-content-around ">
+
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Prix (DH)" | translate }} *</label>
+    <br />
+    <input
+    formControlName="price"
+
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "statut" | translate }} *</label>
+    <br />
+    <input
+    formControlName="status"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+
+  <div class="form-group col-md-6 " ></div>
+
+</div>
+
+
+
+</form>
+
+
+<div class="row m-5 justify-content-around ">
+
+  <p-tabView>
+      <p-tabPanel header="Aller" headerStyleClass="onglet-p-2" *ngIf="(selectedOrderTransport?.turnType?.id==1 || selectedOrderTransport?.turnType?.id==3)">
+
+        <div class="row mt-3 justify-content-around " style="    height: 90px;">
+          <!-- <div class="form-group col-md-2  " >
+</div>
+          <div class="form-group col-md-3 divRowInfo divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Ville Source" | translate }} </label
+            >
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedOrderTransportInfoAller?.addressContactInitial?.city }} </label
+          >
+          </div> -->
+          <div class="form-group col-md-6  " >
+
+
+            <span >
+              <span><img  src="/assets/img/depuis.png" style="width: 35px;
+                " ></span>
+              <span class="font-weight-bold m-2">{{ selectedOrderTransportInfoAller?.addressContactInitial?.city }} </span>
+    </span>
+    <span style="margin-left: 40%;">
+              <span><img  src="/assets/img/vers.png" style="width: 35px;
+              " ></span>
+              <span class="font-weight-bold m-2">{{ selectedOrderTransportInfoAller?.addressContactFinal?.city }} </span>
+              </span>
+
+
+
+             </div>
+          <!-- <div class="form-group col-md-3 divRowInfo divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Ville Distination" | translate }} </label
+            >
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedOrderTransportInfoAller?.addressContactFinal?.city }} </label
+          >
+          </div>
+
+          <div class="form-group col-md-2  " >
+          </div> -->
+
+
+
+
         </div>
 
 
 
+        <p-table *ngIf=" this.selectedOrderTransportInfoAller.orderTransportInfoLines.length>0"
+          [value]=" this.selectedOrderTransportInfoAller.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
+          [totalRecords]="this.selectedOrderTransportInfoAller.orderTransportInfoLines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ "Type" | translate }}</th>
+                <th>{{ "Ville" | translate }}</th>
 
-      </div>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{ line?.orderTransportType?.code }}</td>
 
-      <div *ngIf="activeIndex == 1" class="mt-5">
-        <div class="row mt-3 justify-content-around" *ngIf="this.selectedTransportPlan.turnType.id==1 || this.selectedTransportPlan.turnType.id==3">
-          <div class="form-group col-md-12">
-            <p-table [value]="this.selectedOrderDeliveries" responsiveLayout="scroll">
-              <ng-template pTemplate="header">
-                  <tr>
-                      <th rowspan="3">Client</th>
-                      <th colspan="4">Type Aller</th>
-                  </tr>
-                  <tr>
-                      <th colspan="1">Depart</th>
-                      <th colspan="1">Destination</th>
-                      <th colspan="2"></th>
+                <td>
+                  {{ line?.addressContactDeliveryInfo?.city }}
+              </td>
 
-                  </tr>
-                  <tr>
-                      <th>Ville</th>
-                      <th>Ville</th>
-                      <th>Poids <span style="font-size: 9px;">(kg)</span></th>
-                      <th>Volume <span style="font-size: 9px;">Mètre cube (m3)</span></th>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-order>
-                  <tr>
-                      <td>{{order?.account?.name}}</td>
-                      <td>{{order?.deliveryInfoAller?.contactDeliveryInfoSource?.city}}</td>
-                      <td>{{order?.deliveryInfoAller?.contactDeliveryInfoDistination?.city}}</td>
-                      <td>{{order?.deliveryInfoAller?.weightTotal}}</td>
-                      <td>{{order?.deliveryInfoAller?.capacityTotal}}</td>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="footer">
-                  <tr>
-                      <td colspan="3" class="text-right">Totals</td>
-                      <td>{{lastYearTotal | currency: 'USD'}}</td>
-                      <td>{{thisYearTotal | currency: 'USD'}}</td>
-                  </tr>
-              </ng-template>
+
+
+
+              </tr>
+            </ng-template>
+
           </p-table>
+
+
+      </p-tabPanel>
+      <p-tabPanel header="Retour" headerStyleClass="onglet-p-2" *ngIf="(selectedOrderTransport?.turnType?.id==2 || selectedOrderTransport?.turnType?.id==3)">
+        <div class="row mt-3 justify-content-around " style="    height: 90px;">
+
+          <div class="form-group col-md-3  " ></div>
+        <div class="form-group col-md-6  " >
+<span >
+          <span><img  src="/assets/img/depuis.png" style="width: 35px;
+            " ></span>
+          <span class="font-weight-bold m-2">{{ selectedOrderTransportInfoRetour?.addressContactInitial?.city }} </span>
+</span>
+<span style="margin-left: 40%;">
+          <span><img  src="/assets/img/vers.png" style="width: 35px;
+          " ></span>
+          <span class="font-weight-bold m-2">{{ selectedOrderTransportInfoRetour?.addressContactFinal?.city }} </span>
+          </span>
+        </div>
+        <div class="form-group col-md-3  " ></div>
+
       </div>
+
+        <p-table *ngIf=" this.selectedOrderTransportInfoRetour.orderTransportInfoLines.length>0"
+          [value]=" this.selectedOrderTransportInfoRetour.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
+          [totalRecords]="this.selectedOrderTransportInfoRetour.orderTransportInfoLines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ "Type" | translate }}</th>
+                <th>{{ "Ville" | translate }}</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{ line?.orderTransportType?.code }}</td>
+
+                <td>
+                  {{ line?.addressContactDeliveryInfo?.city }}
+              </td>
+
+
+
+
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+
+         </p-tabPanel>
+
+  </p-tabView>
 </div>
 
-
-<div class="row mt-3 justify-content-around" *ngIf="this.selectedTransportPlan.turnType.id==2 || this.selectedTransportPlan.turnType.id==3">
-  <div class="form-group col-md-12">
-    <p-table [value]="this.selectedOrderDeliveries" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-          <tr>
-              <th rowspan="3">Client</th>
-              <th colspan="4">Type Aller</th>
-          </tr>
-          <tr>
-              <th colspan="1">Depart</th>
-              <th colspan="1">Destination</th>
-              <th colspan="2"></th>
-
-          </tr>
-          <tr>
-              <th>Ville</th>
-              <th>Ville</th>
-              <th>Poids <span style="font-size: 9px;">(kg)</span></th>
-              <th>Volume <span style="font-size: 9px;">Mètre cube (m3)</span></th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-order>
-          <tr>
-              <td>{{order?.account?.name}}</td>
-              <td>{{order?.deliveryInfoRetour?.contactDeliveryInfoSource?.city}}</td>
-              <td>{{order?.deliveryInfoRetour?.contactDeliveryInfoDistination?.city}}</td>
-              <td>{{order?.deliveryInfoRetour?.weightTotal}}</td>
-              <td>{{order?.deliveryInfoRetour?.capacityTotal}}</td>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="footer">
-          <tr>
-              <td colspan="3" class="text-right">Totals</td>
-              <td>{{lastYearTotal | currency: 'USD'}}</td>
-              <td>{{thisYearTotal | currency: 'USD'}}</td>
-          </tr>
-      </ng-template>
-  </p-table>
 </div>
-</div>
-
-
-
-<div class="row justify-content-around mt-5">
-
-  <div class="form-group col-md-3">
-<span class="add" style="float: left;" >
-  <img src="/assets/img/add-transport.png" style="width: 30px ; height: 30px;">
-  <a (click)='onShowDialogOrderDeliveryTransport(null,false)' class="ml-2">Ajouter Transport</a></span>
-</div>
-<div class="form-group col-md-9">
-</div>
-
-
-<p-table
-  [value]=" orderDeliveryTransports" [lazy]="true" [rows]="5" [paginator]="true"
-  [totalRecords]="orderDeliveryTransports">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>{{ "Catégorie Véhicule" | translate }}</th>
-        <th>{{ "Véhicule" | translate }}</th>
-        <th>{{ "Chauffeur" | translate }}</th>
-        <th>{{ "Transport" | translate }}</th>
-
-
-
-        <th style="width: 15%;">{{ "Actions" | translate }}</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-line>
-      <tr>
-        <td>{{ line?.vehicleCategory?.code }}</td>
-
-        <td>
-          {{ line?.vehicle?.registrationNumber }}
-      </td>
-      <td>
-      <span *ngFor="let item of  line?.drivers">{{ item?.name}}</span>
-    </td>
-
-
-      <td>{{ line?.transport?.name }}</td>
-
-
-
-        <td>
-          <button
-
-          type="button"
-          class="btn btn-sm btn-primary mx-1"
-          (click)="onShowDialogOrderDeliveryTransport(line,true)"
-          ><!--ADD-->
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button
-
-        type="button"
-        class="btn btn-sm btn-danger mx-1"
-        (click)="onDeleteOrderDeliveryTransport(line)"
-        ><!--ADD-->
-        <i class="fa fa-trash"></i>
-      </button>
-
-        </td>
-      </tr>
-    </ng-template>
-
-  </p-table>
-</div>
-
 
 
 </div>
 
 
-    </form>
-    <div *ngIf="!(this.activeIndex == 0)" class="row pull-left mt-5">
-      <button
-        type="button"
-        pButton
-        icon="fa fa-chevron-left"
-        (click)="previous()"
-      ></button>
-    </div>
-    <div *ngIf="!(this.activeIndex == 3)" class="row pull-right mt-5">
-      <button
-        type="button"
-        pButton
-        icon="fa fa-chevron-right"
-        (click)="next()"
-      ></button>
-    </div>
-  </div>
-
-
-  <div *ngIf="showDialogOrderDeliveryTransport==true">
-    <app-transport-plan-transport-edit
-    (showDialog)="onHideDialogOrderDeliveryTransport($event)"
-    [selectedOrderDeliveryTransport]="selectOrderDeliveryTransport"
-    [selectOrderDelivery]="selectOrderDelivery"
-    (orderDeliveryTransportEdited)="onLineEditedOrderDeliveryTransport($event)"
-    ></app-transport-plan-transport-edit>
-  </div>
+<div class="text-center mt-5 mr-3 ml-3">
+  <a class="btn btn-primary m-1" [routerLink]="['/core/transport-plan/list']">
+    {{ "Fermer" | translate }}
+  </a>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+    {{ "Valider et continuer" | translate }}
+  </button>
+  <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+    {{ "Valider" | translate }}
+  </button>
+</div>

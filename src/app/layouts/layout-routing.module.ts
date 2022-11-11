@@ -50,7 +50,7 @@ const routes: Routes = [
         { path: 'trajet', loadChildren: () => import('./trajet/trajet.module').then(m => m.TrajetModule) },
         { path: 'vehicle-availablity', loadChildren: () => import('./vehicle-availablity/vehicle-availablity.module').then(m => m.VehicleAvailablityModule) },
         { path: 'supplier-invoice', loadChildren: () => import('./supplier-invoice/supplier-invoice.module').then(m => m.SupplierInvoiceModule) },
-        { path: 'order-delivery', loadChildren: () => import('./order-delivery/order-delivery.module').then(m => m.OrderDeliveryModule) },
+        { path: 'order-transport', loadChildren: () => import('./order-transport/order-transport.module').then(m => m.OrderTransportModule) },
         { path: 'transport-plan', loadChildren: () => import('./transport-plan/transport-plan.module').then(m => m.TransportPlanModule) },
 
 

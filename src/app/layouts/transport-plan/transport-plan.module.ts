@@ -1,11 +1,15 @@
-import { TransportPlanTransportEditComponent } from './transport-plan-edit/transport-plan-transport-edit/transport-plan-transport-edit.component';
-import { TransportPlanEditComponent } from './transport-plan-edit/transport-plan-edit.component';
-import { BrowserModule } from '@angular/platform-browser';
+import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
+import { TimelineModule } from 'primeng/timeline';
+import { CardModule } from 'primeng/card';
+import { ToastModule } from 'primeng/toast';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { FieldsetModule } from 'primeng/fieldset';
 import { TreeTableModule } from 'primeng/treetable';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DialogModule } from 'primeng/dialog';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { PickListModule } from 'primeng/picklist';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PanelModule } from 'primeng/panel';
@@ -25,14 +29,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransportPlanRoutingModule } from './transport-plan-routing.module';
+import { TransportPlanListComponent } from './transport-plan-list/transport-plan-list.component';
+import { TransportPlanEditComponent } from './transport-plan-edit/transport-plan-edit.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransportPlanComponent } from './transport-plan.component';
+import {OrderListModule} from 'primeng/orderlist';
 
 @NgModule({
   imports: [
     CommonModule,
-
     TransportPlanRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -48,7 +54,8 @@ import { TransportPlanComponent } from './transport-plan.component';
     TabViewModule,
     KeyFilterModule,
     NgbModalModule,
-
+    NgxSpinnerModule,
+    ConfirmDialogModule,
     ContextMenuModule,
     StepsModule,
     PanelModule,
@@ -58,8 +65,17 @@ import { TransportPlanComponent } from './transport-plan.component';
     MultiSelectModule,
     DialogModule,
     OverlayPanelModule,
-     TreeTableModule
+     TreeTableModule,
+     FieldsetModule,
+     ScrollPanelModule,
+     RadioButtonModule,
+     ToastModule,
+     CardModule,
+     TimelineModule,
+     OrderListModule,
+     SelectButtonModule
+
   ],
-  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanTransportEditComponent]
+  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent]
 })
 export class TransportPlanModule { }

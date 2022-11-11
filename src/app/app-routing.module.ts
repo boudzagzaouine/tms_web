@@ -9,8 +9,6 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: 'not-found', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full'  },
-  { path: 'orders', loadChildren: () => import('./layouts/orders/orders.module').then(m => m.OrdersModule) },
-  { path: 'reception', loadChildren: () => import('./layouts/reception/reception.module').then(m => m.ReceptionModule) },
 
   { path: 'dashboards', loadChildren: () => import('./layouts/dashboards/dashboards.module').then(m => m.DashboardsModule) },
 

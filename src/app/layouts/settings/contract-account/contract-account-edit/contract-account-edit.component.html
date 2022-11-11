@@ -139,6 +139,65 @@
               pInputText
             />
           </div>
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{ "Type" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['vehicle'].get('fturnType').touched &&
+            contractAccountForm.controls['vehicle'].get('fturnType').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['vehicle'].get('fturnType').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="turnTypeList"
+                optionLabel="code"
+                (onChange)="onSelectTurnType($event)"
+                [filter]="true"
+                [showClear]="true"
+                formControlName="fturnType"
+                appendTo="body"
+              ></p-dropdown>
+
+          </div>
+          <div class="form-group col-md-3">
+          </div>
+          <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{ "Ville Source" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['vehicle'].get('fSource').touched &&
+            contractAccountForm.controls['vehicle'].get('fSource').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['vehicle'].get('fSource').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+            <p-autoComplete [suggestions]="villeList" appendTo="body"
+            field="code" (completeMethod)="onVilleSearch($event)" (onSelect)="onSelectVilleSource($event)"  formControlName="fSource">
+          </p-autoComplete>
+
+           </div>
+
+           <div class="form-group col-md-3">
+            <label class="font-weight-bold ">{{ "Ville Distination" | translate }} *</label>
+            <span *ngIf="
+            (contractAccountForm.controls['vehicle'].get('fDistination').touched &&
+            contractAccountForm.controls['vehicle'].get('fDistination').invalid) ||
+            (isFormSubmitted &&
+            contractAccountForm.controls['vehicle'].get('fDistination').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+            <p-autoComplete [suggestions]="villeList" appendTo="body"
+            field="code" (completeMethod)="onVilleSearch($event)" (onSelect)="onSelectVilleDistination($event)"  formControlName="fDistination">
+          </p-autoComplete>
+
+           </div>
+
 
           <div class="form-group col-md-3">
             <label class="font-weight-bold"

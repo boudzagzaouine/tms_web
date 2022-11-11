@@ -1,3 +1,5 @@
+import { TurnType } from './turn-Type';
+import { Ville } from './ville';
 import { Account } from './account';
 import { Company } from './company';
 import { Contact } from './contact';
@@ -16,6 +18,9 @@ export class ContractAccount {
     vehicleCategory : VehicleCategory;
     quantity : number;
 
+    source :Ville;
+    distination :Ville;
+
     senderAddress : Address;
     receiverAdresse :Address;
 
@@ -24,7 +29,7 @@ export class ContractAccount {
     price :number ;
     packageType : String;
 
-
+  turnType :TurnType;
 
 
 }

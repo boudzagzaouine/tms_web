@@ -70,6 +70,12 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.className = CatalogTransportType.name;
     this.cols = [
       {
+        field: 'turnType',
+        child: 'code',
+        header: 'Type',
+        type: 'object'
+      },
+      {
         field: 'transport',
         child: 'name',
         header: 'Transport',

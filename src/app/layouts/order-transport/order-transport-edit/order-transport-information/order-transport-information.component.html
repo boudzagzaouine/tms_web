@@ -1,0 +1,326 @@
+
+<div class="container-fluid mt-5">
+  <form [formGroup]="OrderTransportForm">
+
+      <!-- Général -->
+
+
+          <div class="mt-3 row justify-content-around">
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Code" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('code')
+                    .touched &&
+                    OrderTransportForm.get('code')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('code').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <br />
+              <input
+                type="text"
+                formControlName="code"
+                class="form-control"
+                pInputText
+              />
+            </div>
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Chargement" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('loadingType')
+                    .touched &&
+                    OrderTransportForm.get('loadingType')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('loadingType')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+
+              <p-dropdown
+              formControlName="loadingType"
+              [autoDisplayFirst]="false"
+              [options]="loadingTypeList"
+              (onChange)="onSelectLoadingTypes($event)"
+              [filter]="true"
+              [showClear]="true"
+
+            ></p-dropdown>
+
+              <!-- <p-selectButton
+                formControlName="loadingType"
+                [options]="loadingTypeList"
+                (onChange)="onSelectLoadingTypes($event)"
+              >
+              </p-selectButton> -->
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Type" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('turnType')
+                    .touched &&
+                    OrderTransportForm.get('turnType')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('turnType')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-selectButton
+                formControlName="turnType"
+                [options]="turnTypeList"
+                (onChange)="onSelectType($event)"
+                optionLabel="code"
+
+              >
+              </p-selectButton>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Statut" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('status')
+                    .touched &&
+                    OrderTransportForm.get('status')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('status')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-dropdown
+                formControlName="status"
+                [autoDisplayFirst]="false"
+                [options]="turnStatusList"
+                (onChange)="onSelectStatus($event)"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [dataKey]="code"
+              ></p-dropdown>
+            </div>
+
+
+</div>
+
+  <div class="mt-3 row justify-content-around">
+ <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Client" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('account')
+                    .touched &&
+                    OrderTransportForm.get('account')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('account')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <br />
+              <p-autoComplete
+                formControlName="account"
+                [suggestions]="accountList"
+                (onSelect)="onSelectAccount($event)"
+                (completeMethod)="onAccountSearch($event)"
+                field="description"
+              ></p-autoComplete>
+            </div>
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Catégorie" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('category')
+                    .touched &&
+                    OrderTransportForm.get('category')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('category')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-dropdown
+                formControlName="category"
+                [autoDisplayFirst]="false"
+                [options]="vehicleCategoryList"
+                (onChange)="onSelectCategory($event)"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Date " | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('date')
+                    .touched &&
+                    OrderTransportForm.get('date')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('date').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-calendar
+                formControlName="date"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                dateFormat="dd/mm/yy"
+                yearRange="1970:2100"
+              >
+              </p-calendar>
+            </div>
+            <div class="form-group col-md-3">
+</div>
+  </div>
+
+          <!-- <div class="mt-3 row justify-content-around">
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Poids" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('weight')
+                    .touched &&
+                    OrderTransportForm.get('weight')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('weight').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <br />
+              <input
+                type="text"
+                formControlName="weight"
+                class="form-control"
+                pInputText
+              />
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Volume" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('capacite')
+                    .touched &&
+                    OrderTransportForm.get('capacite')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('capacite').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <br />
+              <input
+                type="text"
+                formControlName="capacite"
+                class="form-control"
+                pInputText
+              />
+            </div>
+
+            <div class="form-group col-md-6">
+
+
+
+
+            </div>
+          </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div></div>
+  </form>
+
+  <div  class="row pull-right mt-5">
+    <button
+      type="button"
+      pButton
+      icon="fa fa-chevron-right"
+      (click)="next()"
+    ></button>
+  </div>
+
+</div>
+
+
+
+<p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
+<ngx-spinner
+bdColor="rgba(255,255,255,0)"
+size="large"
+color="#00d2ff"
+type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+header="Confirmation"
+icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

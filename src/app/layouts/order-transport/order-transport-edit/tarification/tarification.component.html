@@ -1,0 +1,276 @@
+
+
+<div class="container mt-5">
+  <div class="row justify-content-around">
+
+    <div class="form-group col-md-3">
+      <span >
+
+      <label class="font-weight-bold">{{
+        "Prix TTC" | translate
+      }} *</label
+      >
+
+
+      <br />
+      <input
+      [(ngModel)]="this.priceTransport"
+
+      type="text"
+        class="form-control"
+        pInputText
+      />
+      </span>
+    </div>
+
+    <div class="form-group col-md-3">
+
+    </div>
+
+<div class="form-group col-md-6">
+  <p-overlayPanel #op appendTo="body" [style]="{' margin-left': '50vw','width': '50vw', 'position': 'absolute'}" >
+      <ng-template pTemplate>
+        <p-fieldset legend="Tarification" [toggleable]="true">
+          <div class="product-item">
+            <div class="image-container">
+                    <img src="/assets/img/truckCat.png"  class="product-image" />
+            </div>
+            <div class="product-list-detail">
+                <h5 class="mb-2">{{selectedVehicleCategory?.description}}</h5>
+                <!-- <i class="pi pi-tag product-category-icon"></i>
+                <span class="product-category">{{product.category}}</span> -->
+            </div>
+            <div class="product-list-action">
+                <h5 class="mb-2">{{selectedVehicleCategory?.tonnage }} KG</h5>
+            </div>
+        </div>
+
+        <div class="row mt-3 justify-content-around divRowInfo" *ngIf="this.selectedContractAccount?.id!=null">
+
+          <div class="form-group col-md-2  divLineInfo" >
+
+
+            <br />
+            <p-radioButton name="groupprice"
+              (click)="onRowTransportSelect(this.selectedContractAccount?.price)" ></p-radioButton>
+
+
+
+          </div>
+
+          <div class="form-group col-md-2  divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Source " | translate }} </label
+            >
+
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedContractAccount?.source?.code}} </label>
+          </div>
+          <div class="form-group col-md-2  divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Distination " | translate }} </label
+            >
+
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedContractAccount?.distination?.code}} </label>
+
+          </div>
+
+          <div class="form-group col-md-2  divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Date Fin" | translate }} </label
+            >
+
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedContractAccount?.endDate | date :'dd/MM/yyyy'}} </label
+          >
+
+
+          </div>
+          <div class="form-group col-md-2  divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Type " | translate }} </label
+            >
+
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedContractAccount?.turnType?.code}} </label>
+          </div>
+          <div class="form-group col-md-2  divLineInfo" >
+            <label class="font-weight-bold"
+              >{{ "Prix " | translate }} </label
+            >
+
+            <br />
+            <label class="font-weight-bold"
+            >{{ selectedContractAccount?.price}} DH </label>
+
+          </div>
+          </div>
+<br>
+    <p-table [value]="this.catalogTransportTypes"
+    (onRowSelect)="onRowTransportSelect($event)"
+    [lazy]="true" [rows]="5" [paginator]="true"
+    [totalRecords]="catalogTransportTypes">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="colTh" style="width: 3rem"></th>
+            <th class="colTh">Transport</th>
+            <th class="colTh">Prix</th>
+            <!-- <th>Nombre Palettes</th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cat >
+          <tr>
+            <td>
+              <p-tableRadioButton name="groupprice" [value]="cat?.amountTtc"></p-tableRadioButton>
+          </td>
+            <td>{{ cat?.transport?.name }}</td>
+            <td>{{ cat?.amountTtc }} Dh</td>
+            <!-- <td>{{ cat.numberOfPalette | number: "1.2-2" }}</td> -->
+          </tr>
+        </ng-template>
+
+
+      </p-table>
+    </p-fieldset>
+
+    </ng-template>
+    </p-overlayPanel>
+
+
+    <button type="text" style="width:100%" pButton label="Tarification Transport" (click)="op.toggle($event)">
+
+    <i class="pi pi-money-bill" style="font-size: 2rem"></i> </button>
+
+
+</div>
+</div>
+
+</div>
+
+
+
+<div class="container mt-5">
+  <div class="row justify-content-around">
+    <div class="form-group col-md-6" *ngIf="this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3">
+
+      <div class="row justify-content-around ">
+        <div class="form-group col-md-12">
+          <h4 class="divider donotcross" contenteditable>Aller</h4>
+      </div>
+      </div>
+
+
+      <div class="row justify-content-around">
+
+        <div class="form-group col-md-6">
+
+      <p-timeline [value]="this.orderTransportInfoAllerLignes" >
+        <ng-template pTemplate="content" let-event>
+          <small class="p-text-secondary" style="font-size: 23px;
+          font-weight: 700;
+          color: #326895;">{{event?.addressContactDeliveryInfo?.city}}</small><br>
+          <small class="p-text-secondary" style="font-size: 11px;
+          font-weight: 900;
+          color: #326895;">{{event?.orderTransportService?.code}}</small>
+
+      </ng-template>
+      <ng-template pTemplate="opposite" let-event>
+        <span style="font-size: 15px;
+        font-weight: 700;
+        color: #474a4c;"> {{event?.addressContactDeliveryInfo?.date | date: 'HH:mm'}}</span><br>
+       <span style="font-size: 12px;
+          font-weight: 500;
+          color: #474a4c;"> {{event?.addressContactDeliveryInfo?.date | date: 'dd-MM-yyyy'}}</span>
+      </ng-template>
+      </p-timeline>
+    </div>
+
+
+
+
+      </div>
+
+</div>
+<div class="form-group col-md-6" *ngIf="this.selectOrderTransport.turnType.id==1"></div>
+
+      <div class="form-group col-md-6" *ngIf="this.selectOrderTransport.turnType.id==2 || this.selectOrderTransport.turnType.id==3">
+
+        <div class="row justify-content-around ">
+          <div class="form-group col-md-12">
+            <h4 class="divider donotcross" contenteditable>Retour</h4>
+        </div>
+        </div>
+        <div class="row justify-content-around">
+
+          <div class="form-group col-md-6">
+
+        <p-timeline [value]="this.orderTransportInfoRetourLignes" >
+          <ng-template pTemplate="content" let-retour>
+            <small class="p-text-secondary" style="font-size: 23px;
+            font-weight: 700;
+            color: #326895;">{{retour?.addressContactDeliveryInfo?.city}}</small><br>
+            <small class="p-text-secondary" style="font-size: 11px;
+            font-weight: 900;
+            color: #326895;">{{retour?.orderTransportService?.code}}</small>
+
+        </ng-template>
+        <ng-template pTemplate="opposite" let-retour>
+
+          <span style="font-size: 15px;
+          font-weight: 700;
+          color: #474a4c;"> {{retour?.addressContactDeliveryInfo?.date | date: 'HH:mm'}}</span><br>
+         <span style="font-size: 12px;
+            font-weight: 500;
+            color: #474a4c;"> {{retour?.addressContactDeliveryInfo?.date | date: 'dd-MM-yyyy'}}</span>
+
+
+
+
+
+        </ng-template>
+        </p-timeline>
+      </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="form-group col-md-6" *ngIf="this.selectOrderTransport.turnType.id==2"></div>
+
+      </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="row pull-left mt-5">
+  <button
+    type="button"
+    pButton
+    icon="fa fa-chevron-left"
+    (click)="previous()"
+  ></button>
+</div>
+
+<div class="row pull-right mt-5">
+  <button
+    type="button"
+    pButton
+    icon="fa fa-chevron-right"
+    (click)="next()"
+  ></button>
+</div>
+

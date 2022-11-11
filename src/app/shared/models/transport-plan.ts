@@ -1,3 +1,6 @@
+import { Ville } from './ville';
+import {  TurnStatus } from './turn-status';
+import { OrderTransport } from './order-transport';
 import { PackagingType } from './packaging-type';
 import { TurnLine } from './turn-line';
 import { Vehicle } from './vehicle';
@@ -13,13 +16,18 @@ import { LoadingType } from './loading-type';
 
 export class TransportPlan {
   id: number;
+  orderTransport:OrderTransport;
+  vehicle :Vehicle;
+  driver:Driver;
+  vehicleCategory :VehicleCategory ;
+  transport :Transport ;
+  turnStatus :TurnStatus;
+  priceTTC :number;
+  date: Date = new Date();
+  villeSource :string;
+  villeDistination : string;
 
-  dateDelivery: Date= new Date();
 
-
-  packagingType:PackagingType;
-  loadingType:string;
-  turnType :TurnType;
 
 
 

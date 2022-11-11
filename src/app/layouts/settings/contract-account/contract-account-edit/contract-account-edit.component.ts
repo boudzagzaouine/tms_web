@@ -1,3 +1,7 @@
+import { TurnType } from './../../../../shared/models/turn-Type';
+import { TurnTypeService } from './../../../../shared/services/api/turn-type.service';
+import { Ville } from './../../../../shared/models/ville';
+import { VilleService } from './../../../../shared/services/api/ville.service';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { ContractAccountService } from './../../../../shared/services/api/contract-account.service';
@@ -39,8 +43,9 @@ export class ContractAccountEditComponent implements OnInit {
   completTypeList = [];
   nameAccountList: Array<Account> = [];
   vehicleCategoryList: Array<VehicleCategory> = [];
-
+  villeList:Ville[]=[];
   contractType: String;
+  turnTypeList:TurnType[]=[];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -49,6 +54,8 @@ export class ContractAccountEditComponent implements OnInit {
     private contractAccountService:ContractAccountService,
     private messageService: MessageService,
     private vehicleCategoryService:VehicleCategoryService,
+    private villeService :VilleService,
+    private turnTypeService :TurnTypeService,
 
   ) {}
 
@@ -60,11 +67,19 @@ export class ContractAccountEditComponent implements OnInit {
 
   }));
 
+
+  this.subscriptions.add(this.turnTypeService.findAll().subscribe(
+    code => {
+   this.turnTypeList= code;
+
+}));
+
     if (this.editMode === 1) {
     this.selectedContractAccount = new ContractAccount();
     this.selectSenderAddress = new Address();
     this.selectReceiveAddress = new Address();
-
+  this.selectedContractAccount.contractType='Location';
+  this.contractType='Location';
     this.subscriptions.add(this.addressService.generateCode().subscribe(
       code => {
      this.selectSenderAddress.code = code;
@@ -75,6 +90,13 @@ export class ContractAccountEditComponent implements OnInit {
    this.selectReceiveAddress.code = code;
     this.initForm();
 }));
+
+this.subscriptions.add(this.contractAccountService.generateCode().subscribe(
+  code => {
+ this.selectedContractAccount.code = code;
+  this.initForm();
+}
+));
 
     }
     else {
@@ -87,7 +109,9 @@ console.log(this.selectedContractAccount);
 
     }
     this.displayDialog = true;
-    this.types = [ "Marchandise" ,  "Location" ];
+    //this.types = [ "Marchandise" ,  "Location" ];
+
+    this.types = [ "Location" ];
 
     this.typeOfPackagings = [ "Palette" ,  "Vrac" ];
 
@@ -129,8 +153,15 @@ console.log(this.selectedContractAccount);
           this.selectedContractAccount.quantity,
           Validators.required
         ),
+        fturnType: new FormControl(
+          this.selectedContractAccount.turnType,
+          Validators.required
+        ),
         fStartDate: new FormControl(startDate, Validators.required),
         fEndDate: new FormControl(endDate, Validators.required),
+        fSource :new FormControl(this.selectedContractAccount.source, Validators.required),
+        fDistination :new FormControl(this.selectedContractAccount.distination, Validators.required),
+
       }),
 
       trajet: new FormGroup({
@@ -268,9 +299,26 @@ console.log(this.selectedContractAccount);
     );
   }
 
+
+  onVilleSearch(event: any) {
+    this.subscriptions.add(
+      this.villeService
+        .find("code~" + event.query)
+        .subscribe((data) => (this.villeList = data))
+    );
+  }
+
   onSelectAccount(event) {
     console.log(event);
     this.selectedContractAccount.account=event;
+  }
+  onSelectVilleSource(event) {
+    console.log(event);
+    this.selectedContractAccount.source=event;
+  }
+  onSelectVilleDistination(event) {
+    console.log(event);
+    this.selectedContractAccount.distination=event;
   }
   onSelectContractType(event) {
     console.log(event.value.code);
@@ -280,8 +328,14 @@ console.log(this.selectedContractAccount);
   }
 
   onSelectVehicleCategory(event){
-this.selectedContractAccount.vehicleCategory=event;
+this.selectedContractAccount.vehicleCategory=event.value;
+console.log(this.selectedContractAccount.vehicleCategory);
 
+
+  }
+  onSelectTurnType(event){
+    this.selectedContractAccount.turnType=event.value;
+  console.log(this.selectedContractAccount.turnType);
 
   }
 

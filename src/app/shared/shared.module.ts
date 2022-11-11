@@ -1,9 +1,20 @@
+import { OrderTransportTypeService } from './services/api/order-transport-type.service';
+import { TransportPlanService } from './services/api/transport-plan.service';
+import { TransportPlan } from './models/transport-plan';
+import { OrderTransportInfoService } from './services/api/order-transport-info.service';
+import { OrderTransportService } from './services/api/order-transport.service';
+import { StepsModule } from 'primeng/steps';
+import { ToastModule } from 'primeng/toast';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { TreeTableModule } from 'primeng/treetable';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { PickListModule } from 'primeng/picklist';
 import { PaysService } from './services/api/pays.service';
 import { VilleService } from './services/api/ville.service';
 import { PackagingTypeService } from './services/api/packaging-type.service';
 import { ContainerTypeService } from './services/api/container-type.service';
 import { TurnStatusService } from './services/api/turn-status.service';
-import { OrderDeliveryService } from './services/api/order-delivery.service';
 import { SubscriptionCardTypeService } from './services/api/subscription-card-type.service';
 import { DocumentTypeService } from './services/api/document-type.service';
 import { SupplierInvoiceReceptionService } from './services/api/supplier-invoice-reception.service';
@@ -94,6 +105,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import {FieldsetModule} from 'primeng/fieldset';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {CardModule} from 'primeng/card';
 
 import {
   BadgeTypeService,
@@ -169,7 +181,15 @@ import { PlanningService } from './services/api/planning-service';
     FieldsetModule,
     RadioButtonModule,
     NgxPermissionsModule.forChild(),
-    BreadcrumbModule
+    BreadcrumbModule,
+    PickListModule,
+    SelectButtonModule,
+    StepsModule,
+    OverlayPanelModule,
+     TreeTableModule,
+     ScrollPanelModule,
+     ToastModule,
+     CardModule
   ],
   exports: [
     DataTableComponent,NgxPermissionsModule,HasPermissionDirective
@@ -283,12 +303,15 @@ export class SharedModule {
         SupplierInvoiceReceptionService,
         DocumentTypeService,
         SubscriptionCardTypeService,
-        OrderDeliveryService,
         TurnStatusService,
         ContainerTypeService,
         PackagingTypeService,
         VilleService,
-        PaysService
+        PaysService,
+        OrderTransportTypeService,
+        OrderTransportService,
+        OrderTransportInfoService,
+        TransportPlanService
       ],
 
     };

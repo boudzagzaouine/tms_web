@@ -1,17 +1,30 @@
-import { OrderDeliveryTransport } from './../../../shared/models/order-delivery-transport';
+import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
+import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { OrderDeliveryService } from './../../../shared/services/api/order-delivery.service';
+import { ContractAccount } from './../../../shared/models/contract-account';
+import { ContractAccountService } from './../../../shared/services/api/contract-account.service';
+import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
+import { TurnStatus } from './../../../shared/models/turn-status';
+import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { OrderDelivery } from './../../../shared/models/order-delivery';
-import { LoadingType } from './../../../shared/models/loading-type';
-import { PackagingType } from './../../../shared/models/packagingType';
-import { PackagingTypeService } from './../../../shared/services/api/packaging-type.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
+import { DriverService } from './../../../shared/services/api/driver.service';
 import { TransportPlan } from './../../../shared/models/transport-plan';
-import { TurnType } from './../../../shared/models/turn-Type';
-import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
-import { MenuItem, ConfirmationService } from 'primeng/api';
+import { Driver } from './../../../shared/models/driver';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Transport } from './../../../shared/models/transport';
+import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
+import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
+import { VehicleCategorieComponent } from './../../settings/vehicle-categorie/vehicle-categorie.component';
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
+import { Vehicle } from './../../../shared/models/vehicle';
+import { OrderTransportInfoService } from './../../../shared/services/api/order-transport-info.service';
+import { OrderTransport } from './../../../shared/models/order-transport';
+import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
+import { MenuItem } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -23,175 +36,184 @@ export class TransportPlanEditComponent implements OnInit {
 
   selectedTransportPlan :TransportPlan = new TransportPlan();
   transportPlanForm :FormGroup;
-  orderDeliveries :OrderDelivery[]=[];
-  selectedOrderDeliveries:OrderDelivery[]=[];
-  turnTypeList :TurnType[]=[];
-  packagingTypeList :PackagingType[]=[];
-  loadingTypeList :LoadingType[]=[];
-  home: MenuItem;
-  activeIndex: number = 0;
-  items: MenuItem[];
-  itemsbreadcrumb: MenuItem[];
-  isFormSubmitted :Boolean;
-  searchQuery = '';
-  showDialogOrderDeliveryTransport :Boolean =false;
-  selectOrderDeliveryTransport:OrderDeliveryTransport = new OrderDeliveryTransport();
-  editModeOrderDeliveryTransport :Boolean =false;
-  orderDeliveryTransports : OrderDeliveryTransport[]=[];
-
-  constructor(private turnTypeService :TurnTypeService,
-              private  packagingTypeService:PackagingTypeService,
-              private spinner: NgxSpinnerService,
+  vehicleList:Vehicle[]=[];
+  driverList:Driver[]=[];
+  selectedOrderTransport: OrderTransport = new OrderTransport();
+  selectedOrderTransportInfoAller: OrderTransportInfo = new OrderTransportInfo();
+  selectedOrderTransportInfoRetour: OrderTransportInfo = new OrderTransportInfo();
+  vehicleCategoryList : VehicleCategory[]=[];
+  transportList : Transport[]=[];
+  isFormSubmitted : Boolean =false;
+  constructor(private transportPlanService:TransportPlanService,
+              private activatedRoute:ActivatedRoute,
+              private driverService :DriverService,
+              private transportService : TransportServcie,
+              private vehicleCategoryService :VehicleCategoryService,
+              public orderTransportService: OrderTransportService,
+              public orderTransportInfoService: OrderTransportInfoService,
               private toastr: ToastrService,
-              private orderDeliveryService :OrderDeliveryService,
-              private confirmationService:ConfirmationService
+              private router: Router,
+              private spinner: NgxSpinnerService,
+              private  vehicleService :VehicleService,
               ) { }
 
   ngOnInit() {
-
-    this.itemsbreadcrumb = [
-      { label: "Tournée" },
-      { label: "Editer", routerLink: "/core/turn/edit" },
-    ];
-    this.items = [
-      { label: "Commandes" },
-      { label: "Surcharge" },
-      { label: "Information" },
-      { label: "Validation" },
-    ];
-    this.home = { icon: "pi pi-home" };
-    let l1 = new LoadingType("Complet");
-    let l2 = new LoadingType("Groupe");
-    this.loadingTypeList.push(l1);
-    this.loadingTypeList.push(l2);
-    this.turnTypeService.findAll().subscribe((data) => {
-    this.turnTypeList = data;
-    //this.selectedTransportPlan.turnType = this.turnTypeList[0];
-  //  this.onSelectTurnType(this.selectedTransportPlan.turnType);
-    this.initForm();
-  });
-
-  this.packagingTypeService.findAll().subscribe(
-    data =>{
-   this.packagingTypeList=data;
-   //this.selectedTransportPlan.turnType = this.packagingTypeList[0];
-   this.initForm();
-
-    }
-  );
-  this.initForm();
-
-  }
-  initForm(){
-    const d = new Date(this.selectedTransportPlan.dateDelivery);
-    this.transportPlanForm = new FormGroup({
-      fDateLivraison: new FormControl(d, Validators.required),
-      fTurnType: new FormControl(this.selectedTransportPlan.turnType, Validators.required),
-      fpackagingType: new FormControl(this.selectedTransportPlan.packagingType),
-      floadingType: new FormControl(this.selectedTransportPlan.loadingType),
-    });
-  }
-
-  loadForm(){
-    this.isFormSubmitted = true;
-    if (this.transportPlanForm.invalid) {
-      return;
-    }
-    const formValue = this.transportPlanForm.value;
-    this.selectedTransportPlan.dateDelivery = formValue["fDateLivraison"];
-
-    this.activeIndex++;
-  }
-
-  onSelectTurnType(event) {
-
-    this.selectedTransportPlan.turnType =  event.value ;
-let search = "turnStatus.id:"+1 +",turnType.id:"+this.selectedTransportPlan.turnType.id;
-this.loadOrderDelivery(search);
-  }
-
-
-  onMoveSoToSource(event) {
-
-    console.log("source");
-    console.log(event);
-
-
-
-
-  }
-
-  onMoveSoToTarget(event) {
-    console.log("target");
-    console.log(event);
-  }
-  previous() {
-    this.activeIndex--;
-  }
-  next() {
-    console.log(this.selectedTransportPlan);
-
-    if (this.activeIndex == 0) {
-      this.  loadForm();
-
-    // this.verifiedHolidayByDateTTurn();
-    //   this.activeIndex++;
-    }
-    //else if (this.activeIndex == 2) {
-    //   this.calculatePriceTurnSo();
-    //   this.calculatePriceTurnPo();
-    //   this.activeIndex++;
-    // } else {
-    //   this.activeIndex++;
-    // }
-  }
-
-
-  loadOrderDelivery(search: string = '') {
-    this.spinner.show();
-
-  this.orderDeliveryService.find(search).subscribe(
+    this.driverService.findAll().subscribe(
       data => {
-
-        this.orderDeliveries = data;
-        this.orderDeliveryTransports=this.orderDeliveries[0].orderDeliveryTransport;
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-      },
-      () => this.spinner.hide()
+          this.driverList =data;
+      }
     );
+    this.vehicleCategoryService.findAll().subscribe(
+      data => {
+          this.vehicleCategoryList =data;
+      }
+    );
+    this.transportService.findAll().subscribe(
+      data => {
+          this.transportList =data;
+      }
+    );
+
+    this.initForm();
+    let id = this.activatedRoute.snapshot.params["id"];
+    if (id) {
+      this.activatedRoute.params.subscribe((params) => {
+        id = params["id"];
+
+          this.transportPlanService.findById(id).subscribe(
+            (data) => {
+              this.selectedTransportPlan=data;
+ console.log( this.selectedTransportPlan);
+
+              this.orderTransportService.findById(this.selectedTransportPlan.orderTransport.id).subscribe((data) => {
+                this.selectedOrderTransport = data;
+                console.log(this.selectedOrderTransport);
+
+                if(this.selectedOrderTransport.turnType.id==1 ||this.selectedOrderTransport.turnType.id==3 ){
+
+           this.orderTransportInfoService.find('type~'+'Aller'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
+             data=>{
+
+             this.selectedOrderTransportInfoAller=data[0];
+                       console.log(data);
+
+              }
+           );
+            }
+
+            if(this.selectedOrderTransport.turnType.id==2 ||this.selectedOrderTransport.turnType.id==3 ){
+
+              this.orderTransportInfoService.find('type~'+'Retour'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
+                data=>{
+
+                  this.selectedOrderTransportInfoRetour=data[0];
+
+                          console.log(data);
+
+                 }
+              );
+               }
+
+
+
+              });
+
+              this.initForm();
+            })
+          })
+
+        }
   }
 
+initForm(){
+  this.transportPlanForm = new FormGroup({
+
+    orderTransport: new FormControl(this.selectedTransportPlan.orderTransport?.code),
+    vehicle :new FormControl(this.selectedTransportPlan.vehicle),
+    driver:new FormControl(this.selectedTransportPlan.driver),
+    vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
+    transport :new FormControl(this.selectedTransportPlan.transport),
+    price :new FormControl(this.selectedTransportPlan.priceTTC),
+    date :new FormControl(new Date (this.selectedTransportPlan.date)),
+    status :new FormControl(this.selectedTransportPlan.turnStatus?.code),
+
+  })
+}
+
+onTransportSearch(event){
+  this.transportService
+  .find('name~' + event.query)
+  .subscribe(data => (this.transportList = data))
+}
+onSelectTransport(event){
+  console.log(event);
+  this.selectedTransportPlan.transport =event;
+}
+onVehicleSearch(event){
+  this.vehicleService
+  .find('registrationNumber~' + event.query)
+  .subscribe(data => (this.vehicleList = data))
+}
+onSelectVehicle(event){
+  console.log(event);
+  this.selectedTransportPlan.vehicle =event;
+  this.selectedTransportPlan.driver=this.selectedTransportPlan.vehicle.driver;
+console.log(this.selectedTransportPlan.driver);
+
+  this.transportPlanForm.patchValue({
+          driver: this.selectedTransportPlan.driver,
+
+        });
+        this.transportPlanForm.updateValueAndValidity();
+}
+
+onSelectVehicleCategory(event){
+  console.log(event.value);
+  this.selectedTransportPlan.vehicleCategory =event.value;
+}
+onSelectDriver(event){
+  console.log(event.value);
+  this.selectedTransportPlan.driver =event.value;
+}
 
 
 
-  onHideDialogOrderDeliveryTransport (event){
-    this.showDialogOrderDeliveryTransport=event
-  }
 
-  onShowDialogOrderDeliveryTransport(line, mode) {
-    this.showDialogOrderDeliveryTransport = true;
 
-    if (mode == true) {
-      this.selectOrderDeliveryTransport = line;
-      this.editModeOrderDeliveryTransport = true;
-    } else {
-      this.selectOrderDeliveryTransport = new OrderDeliveryTransport();
-      this.editModeOrderDeliveryTransport= false;
-    }
-  }
+onSubmit(close=false){
 
-  onDeleteOrderDeliveryTransport(line: OrderDeliveryTransport) {
-    this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
-      accept: () => {
-        this.orderDeliveryTransports = this.orderDeliveryTransports.filter((l) => l.id !== line.id);
+  this.isFormSubmitted=true;
 
-       this.orderDeliveryTransports.push(line);
+  if(this.transportPlanForm.invalid){return;}
+  this.spinner.show();
 
-      },
-    });
-  }
+  let formValue = this.transportPlanForm.value;
+
+  this.selectedTransportPlan.priceTTC=formValue['price'];
+  this.selectedTransportPlan.date=formValue['date'];
+    this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+     (data) => {
+       this.selectedTransportPlan = data;
+
+       this.toastr.success(
+         "Elément Turn est Enregistré Avec Succès ",
+         "Edition"
+       );
+       if (close) {
+         this.router.navigate(['/core/transport-plan/list']);
+       } else {
+
+         this.router.navigate(['/core/transport-plan/edit']);
+       }
+     },
+     (error) => {
+       this.toastr.error(error.error.message);
+       this.spinner.hide();
+     },
+     () => this.spinner.hide()
+   );
+
+
+   }
+
 }

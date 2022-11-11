@@ -3,7 +3,7 @@ import { ActionTypeRepair } from './action-type-repair';
 import { Owner } from './owner';
 
 
-export class Turnstatus {
+export class TurnStatus {
 
   id: number;
   code: string;

@@ -1,3 +1,5 @@
+import { TurnTypeService } from './../../../../shared/services/api/turn-type.service';
+import { TurnType } from './../../../../shared/models/turn-Type';
 import { Ville } from './../../../../shared/models/ville';
 import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Transport } from './../../../../shared/models/transport';
@@ -35,20 +37,23 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   transportCatVehicleForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
+  turnTypeList :TurnType[]=[];
   villeList: Ville[] = [];
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
   isFormSubmitted = false;
   title = 'Modifier un Trajet';
-  transport : string;
-  catVehicle : string;
-  villeSource : string;
-  villeDestination : string ;
+  turnType:number;
+  transport : number;
+  catVehicle : number;
+  villeSource : number;
+  villeDestination : number ;
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
+    private turnTypeService:TurnTypeService,
     private transportService: TransportServcie,
     private vatService: VatService,
     private villeService: VilleService,
@@ -64,6 +69,13 @@ export class CatalogTransportTypeEditComponent implements OnInit {
         this.vehicleCategorieList = data;
       }
     );
+
+    this.turnTypeService.findAll().subscribe(
+      data => {
+        this.turnTypeList = data;
+      }
+    );
+
 
     this.transportService.findAll().subscribe(
       data => {
@@ -109,7 +121,8 @@ export class CatalogTransportTypeEditComponent implements OnInit {
 
          this.editMode!=1 ?this.selectCatalogTransportType.vat.value:this.selectCatalogTransportType.vat,
 
-         Validators.required)
+         Validators.required),
+         'fTurnType': new FormControl(this.selectCatalogTransportType.turnType, Validators.required),
 
 
     });
@@ -137,7 +150,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   }
 
   existTransport() {
-    this.catalogTransportTypeService.sizeSearch(`transport.code~${this.transport},vehicleCategory.code~${this.catVehicle},villeSource.code~${this.villeSource},villeDestination.code~${this.villeDestination}`).subscribe(
+    this.catalogTransportTypeService.sizeSearch(`transport.id:${this.transport},turnType.id:${this.turnType},vehicleCategory.id:${this.catVehicle},villeSource.id:${this.villeSource},villeDestination.id:${this.villeDestination}`).subscribe(
       data => {
 console.log(data);
 
@@ -167,10 +180,12 @@ console.log(data);
     this.selectCatalogTransportType.amountHt = this.transportCatVehicleForm.value['fAmountHt'];
     this.selectCatalogTransportType.amountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
-    this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
-    this.selectCatalogTransportType.transport = this.transportCatVehicleForm.value['fTransport'];
-    this.selectCatalogTransportType.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
-    this.selectCatalogTransportType.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
+    this.selectCatalogTransportType.turnType = this.transportCatVehicleForm.value['fTurnType'];
+
+     this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
+     this.selectCatalogTransportType.transport = this.transportCatVehicleForm.value['fTransport'];
+     this.selectCatalogTransportType.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
+     this.selectCatalogTransportType.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
     this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];;
     this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
     console.log(this.selectCatalogTransportType);
@@ -198,11 +213,17 @@ console.log(data);
 
   onSelectVehicleCateory(event: any) {
     this.selectCatalogTransportType.vehicleCategory = event.value;
-    this.catVehicle=event.value.code;
+    this.catVehicle= this.selectCatalogTransportType.vehicleCategory.id;
+  }
+  onSelectTurnType(event: any) {
+    this.selectCatalogTransportType.turnType = event.value;
+    this.turnType=  this.selectCatalogTransportType.turnType.id;
+
+   // this.catVehicle=event.value.code;
   }
   onSelectTransport(event: any) {
     this.selectCatalogTransportType.transport = event;
-    this.transport=event.code;
+    this.transport=this.selectCatalogTransportType.transport.id;
   }
   onTransportSearch(event: any) {
     this.transportService
@@ -222,12 +243,12 @@ console.log(data);
   }
   onSelectVilleSource(event: any) {
     this.selectCatalogTransportType.villeSource = event;
-    this.villeSource=event.code;
+    this.villeSource= this.selectCatalogTransportType.villeSource.id;
 
   }
   onSelectVilleDestination(event: any) {
     this.selectCatalogTransportType.villeDestination = event;
-    this.villeDestination = event.code;
+    this.villeDestination = this.selectCatalogTransportType.villeDestination.id;
 
   }
 

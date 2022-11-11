@@ -1,0 +1,810 @@
+
+<div class="container-fluid mt-5">
+  <form [formGroup]="orderTransportInfoForm">
+
+    <div>
+
+    <div class="row justify-content-around">
+
+      <div class="form-group col-md-3">
+        <label class="font-weight-bold"
+          >{{ "Type emballage" | translate }} *</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('packagingType').touched &&
+          orderTransportInfoForm.get('packagingType').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('packagingType').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+        <p-dropdown
+        formControlName="packagingType"
+          [autoDisplayFirst]="false"
+          [options]="packagingTypeList"
+          optionLabel="code"
+
+          (onChange)="onSelectPackagingType($event)"
+          [filter]="true"
+          [showClear]="true"
+        ></p-dropdown>
+      </div>
+      <div class="form-group col-md-3">
+        <label class="font-weight-bold"
+          >{{ "Poids" | translate }}<span style="font-size: 9px;"> (KG)</span> *</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('weight').touched &&
+          orderTransportInfoForm.get('weight').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('weight').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+      <input
+      formControlName="weight"
+        type="text"
+        class="form-control"
+        pInputText
+      />
+      </div>
+
+      <div class="form-group col-md-3">
+        <label class="font-weight-bold"
+          >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> *</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('capacity').touched &&
+          orderTransportInfoForm.get('capacity').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('capacity').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+      <input
+      formControlName="capacity"
+        type="text"
+        class="form-control"
+        pInputText
+      />
+      </div>
+      <div class="form-group col-md-3">
+
+      </div>
+        </div>
+        <div class="row justify-content-around">
+
+        <div class="form-group col-md-6">
+          <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
+          <span class="add" style="float: left;" *ngIf="   this.selectedOrderTransportInfo.packagingType?.id>0">
+            <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==2" src="/assets/img/add.png" style="width: 30px ; height: 30px;">
+
+            <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==1
+            " src="/assets/img/add_pallet.png" style="width: 30px ; height: 30px;">
+            <a (click)='onShowDialogPackageDetail(null,false)' class="ml-2">Ajouter Details d'emballage</a></span>
+      </div>
+      <div class="form-group col-md-6">
+      </div>
+      </div>
+
+      <p-table *ngIf="this.selectedOrderTransportInfo.packagingType?.id>0 && packageDetails.length>0"
+        [value]=" packageDetails" [lazy]="true" [rows]="5" [paginator]="true"
+        [totalRecords]="packageDetails">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ "Nombre colis" | translate }}</th>
+              <th>{{ "Type Palette" | translate }}</th>
+              <th>{{ "Longueur" | translate }}</th>
+              <th>{{ "Largeur" | translate }}</th>
+              <th>{{ "Hauteur" | translate }}</th>
+              <th>{{ "Poids Kg" | translate }}</th>
+
+
+              <th style="width: 15%;">{{ "Actions" | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{ line?.numberOfPackages }}</td>
+
+              <td>
+                {{ line?.containerType?.code }}
+            </td>
+            <td>{{ line?.length }}</td>
+            <td>
+                {{ line?.width }}
+            </td>
+            <td>{{ line?.height }}</td>
+            <td>{{ line?.weight }}</td>
+
+
+              <td>
+                <button
+
+                type="button"
+                class="btn btn-sm btn-primary mx-1"
+                (click)="onShowDialogPackageDetail(line,true)"
+                >
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button
+
+              type="button"
+              class="btn btn-sm btn-danger mx-1"
+              (click)="onDeletePackageDetail(line.id)"
+              >
+              <i class="fa fa-trash"></i>
+            </button>
+
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+    </div>
+
+    <div class="p-grid mt-3">
+      <div class="p-col-12 p-md-6">
+        <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
+          <p-panel  [toggleable]="true">
+            <ng-template pTemplate = "header" >
+              <img src="./assets/img/depuis.png" width="30px"
+              height="30px">          <span style="font-weight: 600">DEPUIS</span>
+          </ng-template>
+
+          <div class="row justify-content-around">
+
+            <div class="form-group col-md-6">
+              <span class="add" style="float: left;" >
+
+                <img
+                src="/assets/img/address.png" style="width: 30px ; height: 30px;">
+                <a (click)='onSelectAccountInitial()' class="ml-2">Rechercher une adresse</a>
+              </span>
+          </div>
+          <div class="form-group col-md-6">
+          </div>
+          </div>
+
+
+            <div class="row justify-content-around">
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold"
+                  >{{ "Nom" | translate }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialName').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialName').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialName').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialName"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+
+
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Tel 1" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialTel1').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialTel1').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialTel1').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialTel1"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "email" | translate
+                }}</label
+                ><br />
+                <input
+                formControlName="orderTransportInfoInitialEmail"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <!-- <label class="font-weight-bold">{{
+                  "Société" | translate
+                }}</label
+                ><br />
+
+                <p-autoComplete  field="code" formControlName="orderTransportInfoInitialCompany">
+                </p-autoComplete> -->
+              </div>
+            </div>
+
+            <div class="row justify-content-around">
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold"
+                  >{{ "Ligne d'adresse 1" | translate }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialLine1').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialLine1').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialLine1').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialLine1"
+                  type="text"
+                  class="form-control"
+                  pInputText
+
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Ville" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialCity').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialCity').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialCity').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialCity"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Code postal" | translate
+                }}</label
+                ><br />
+                <input
+                formControlName="orderTransportInfoInitialZip"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Pays" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialCountry').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialCountry').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialCountry').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialCountry"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Latitude" | translate
+                }}</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoInitialLatitude').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialLatitude').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoInitialLatitude').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoInitialLatitude"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+      </div>
+      <div class="form-group col-md-6">
+        <label class="font-weight-bold">{{
+          "Longitude" | translate
+        }}</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('orderTransportInfoInitialLongitude').touched &&
+          orderTransportInfoForm.get('orderTransportInfoInitialLongitude').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('orderTransportInfoInitialLongitude').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+        <br />
+        <input
+        formControlName="orderTransportInfoInitialLongitude"
+          type="text"
+          class="form-control"
+          pInputText
+        />
+    </div>
+
+
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Date d'enlévenment" | translate
+                }}</label
+                ><br />
+              <p-calendar formControlName="orderTransportInfoInitialDate" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
+             >
+            </p-calendar>
+          </div>
+            <div class="form-group col-md-6">
+    </div>
+
+            </div>
+          </p-panel>
+        </p-scrollPanel>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <p-scrollPanel
+          [style]="{ width: '100%', height: 'auto' }"
+          styleClass="custombar1"
+        >
+          <p-panel [toggleable]="true">
+            <ng-template pTemplate = "header" >
+              <img src="./assets/img/vers.png" width="30px"
+              height="30px">          <span style="font-weight: 600">VERS</span>
+          </ng-template>
+
+          <div class="row justify-content-around">
+
+            <div class="form-group col-md-6">
+              <span class="add" style="float: left;" >
+
+                <img
+                src="/assets/img/address.png" style="width: 30px ; height: 30px;">
+                <a (click)='onSelectAccountFinal()' class="ml-2">Rechercher une adresse </a></span>
+          </div>
+          <div class="form-group col-md-6">
+          </div>
+          </div>
+            <div class="row justify-content-around">
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold"
+                  >{{ "Nom" | translate }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalName').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalName').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalName').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoFinalName"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+
+
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Tel 1" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalTel1').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalTel1').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalTel1').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span><br />
+                <input
+                formControlName="orderTransportInfoFinalTel1"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "email" | translate
+                }}</label
+                ><br />
+                <input
+                formControlName="orderTransportInfoFinalEmail"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <!-- <label class="font-weight-bold">{{
+                  "Société" | translate
+                }}</label
+                ><br />
+
+                <p-autoComplete  formControlName="orderTransportInfoFinalCompany" field="code">
+                </p-autoComplete> -->
+              </div>
+            </div>
+
+            <div class="row justify-content-around">
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold"
+                  >{{ "Ligne d'adresse 1" | translate }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalLine1').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalLine1').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalLine1').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoFinalLine1"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Ville" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalCity').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalCity').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalCity').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoFinalCity"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Code postal" | translate
+                }}</label
+                ><br />
+                <input
+                formControlName="orderTransportInfoFinalZip"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Pays" | translate
+                }} *</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalCountry').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalCountry').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalCountry').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoFinalCountry"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Latitude" | translate
+                }}</label
+                >
+                <span
+                *ngIf="
+                  (orderTransportInfoForm.get('orderTransportInfoFinalLatitude').touched &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalLatitude').invalid) ||
+                  (isFormSubmitted &&
+                  orderTransportInfoForm.get('orderTransportInfoFinalLatitude').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+                <br />
+                <input
+                formControlName="orderTransportInfoFinalLatitude"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+      </div>
+      <div class="form-group col-md-6">
+        <label class="font-weight-bold">{{
+          "Longitude" | translate
+        }}</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('orderTransportInfoFinalLongitude').touched &&
+          orderTransportInfoForm.get('orderTransportInfoFinalLongitude').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('orderTransportInfoFinalLongitude').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+        <br />
+        <input
+        formControlName="orderTransportInfoFinalLongitude"
+          type="text"
+          class="form-control"
+          pInputText
+        />
+    </div>
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Date Livraison" | translate
+                }}</label
+                ><br />
+              <p-calendar  formControlName="orderTransportInfoFinalDate" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
+             >
+            </p-calendar>
+          </div>
+            <div class="form-group col-md-6">
+
+    </div>
+
+            </div>
+          </p-panel>
+        </p-scrollPanel>
+      </div>
+
+
+    </div>
+
+
+    <div class="row justify-content-around">
+
+      <div class="form-group col-md-6">
+        <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
+        <span class="add" style="float: left;">
+
+          <img src="/assets/img/turn.png" style="width: 30px ; height: 30px;">
+          <a (click)='onShowDialogOrderTransportInfoLine(null,false)' class="ml-2">Ajouter Sous Trajet</a></span>
+    </div>
+    <div class="form-group col-md-6">
+    </div>
+
+    <p-table *ngIf="orderTransportInfoLines.length>0"
+      [value]=" this.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
+      [totalRecords]="orderTransportInfoLines">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{ "Service" | translate }}</th>
+            <th>{{ "Client" | translate }}</th>
+            <th>{{ "Ville" | translate }}</th>
+            <th>{{ "Nombre Palette /Enlevement " | translate }}</th>
+            <th>{{ "Poids /Enlevement" | translate }}</th>
+            <th>{{ "Nombre Palette /Livraison " | translate }}</th>
+            <th>{{ "Poids /Livraison" | translate }}</th>
+
+            <th style="width: 15%;">{{ "Actions" | translate }}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-line>
+          <tr>
+            <td>{{ line?.orderTransportType?.code }}</td>
+         <td>{{ line?.addressContactDeliveryInfo?.name }}</td>
+            <td>
+              {{ line?.addressContactDeliveryInfo?.city }}
+          </td>
+          <td>
+            {{ line?.numberOfPalletEnlevement  }}
+        </td>
+        <td>
+          {{ line?.weightEnlevement }}
+      </td>
+
+      <td>
+        {{ line?.numberOfPalletLivraison  }}
+    </td>
+    <td>
+      {{ line?.weightLivraison}}
+  </td>
+
+            <td>
+              <button
+
+              type="button"
+              class="btn btn-sm btn-primary mx-1"
+              (click)="onShowDialogOrderTransportInfoLine(line,true)"
+              ><!--ADD-->
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button
+
+            type="button"
+            class="btn btn-sm btn-danger mx-1"
+            (click)="onDeleteOrderTransportInfoLine(line.id)"
+            ><!--ADD-->
+            <i class="fa fa-trash"></i>
+          </button>
+
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+
+    </div>
+
+
+
+
+  </form>
+  </div>
+  <div class="row pull-left mt-5">
+    <button
+      type="button"
+      pButton
+      icon="fa fa-chevron-left"
+      (click)="previous()"
+    ></button>
+  </div>
+  <div class="row pull-right mt-5">
+    <button
+      type="button"
+      pButton
+      icon="fa fa-chevron-right"
+      (click)="next()"
+    ></button>
+  </div>
+
+
+    <div *ngIf="showDialogContactAddress == true">
+      <app-generate-address-contact
+        (showDialog)="onHideDialogGenerateContactAddress($event)"
+        [selectedAccount]="selectedAccount"
+        (addressContactDeliveryInfo)="affectedContactAddressInfoSelected($event)"
+      ></app-generate-address-contact>
+    </div>
+
+
+    <div *ngIf="showDialogPackageDetail == true">
+      <app-package-detail
+        (showDialog)="onHideDialogPackageDetail($event)"
+        (packageDetailAdded)="onLineEditedPackageDetail($event)"
+         [selectedPackageDetail]="selectPackageDetail"
+         [editMode]="editModePackageDetail"
+        ></app-package-detail>
+    </div>
+
+    <div *ngIf="showDialogOrderTransportInfoLine == true">
+    <app-order-transport-info-line
+    (showDialog)="onHideDialogOrderTransportInfoLine($event)"
+    (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
+     [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
+     [editMode]="editModeOrderTransportInfoLine"
+    >
+
+
+    </app-order-transport-info-line>
+  </div>

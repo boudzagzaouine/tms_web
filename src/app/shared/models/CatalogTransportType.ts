@@ -1,3 +1,4 @@
+import { TurnType } from './turn-Type';
 import { Ville } from './ville';
 import { Zone } from './Zone';
 import { Vat } from './vat';
@@ -13,6 +14,7 @@ export class CatalogTransportType {
   vehicleCategory: VehicleCategory;
   villeSource: Ville;
   villeDestination: Ville;
+  turnType :TurnType;
   amountHt: number;
   amountTtc: number;
   amountTva: number;

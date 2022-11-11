@@ -1,3 +1,4 @@
+import { CatalogTransportType } from './CatalogTransportType';
 import { InsuranceType } from './insurance-Type';
 import { Owner } from './owner';
 import { Transport } from './transport';
@@ -21,4 +22,7 @@ export class VehicleCategory {
  pourcentageToDeliver:number;
  vehicles:Vehicle[]=[];
  transports :Transport[]=[];
+
+ catalogTransportTypes:CatalogTransportType[]=[];
+
 }

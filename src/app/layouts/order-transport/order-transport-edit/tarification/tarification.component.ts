@@ -26,6 +26,9 @@ export class TarificationComponent implements OnInit {
   @Output() nextstep = new EventEmitter<boolean>();
 selectedVehicleCategory : VehicleCategory=new VehicleCategory();
 selectedContractAccount: ContractAccount = new ContractAccount();
+contractAccountList: ContractAccount[] = [];
+
+catalogTransportIntern :CatalogTransportType = new CatalogTransportType();
 catalogTransportTypes :CatalogTransportType []=[];
   orderTransportInfoAllerLignes :OrderTransportInfoLine[] = [];
   orderTransportInfoRetourLignes :OrderTransportInfoLine[] = [];
@@ -51,7 +54,7 @@ catalogTransportTypes :CatalogTransportType []=[];
 
   ngOnInit() {
 
-      this.selectOrderTransport = this.orderTransportService.getOrderTransport()? this.orderTransportService.getOrderTransport() : new OrderTransport();
+      this.selectOrderTransport = this.orderTransportService.getOrderTransport();
       this.orderTransportInfoAllerLignes =this.orderTransportService?.getorderTransportInfoAller() ?this.orderTransportService.getorderTransportInfoAller().orderTransportInfoLines:[];
       this.orderTransportInfoRetourLignes =this.orderTransportService.getorderTransportInfoRetour()?this.orderTransportService.getorderTransportInfoRetour().orderTransportInfoLines:[];
       this.selectedVehicleCategory=this.selectOrderTransport.vehicleCategory;
@@ -60,8 +63,8 @@ catalogTransportTypes :CatalogTransportType []=[];
         // this.orderTransportTransports=this.orderTransportService.getOrderTransport().orderTransportTransport;
          this.priceTransport = this.selectOrderTransport.priceTTC ;
  console.log(this.selectOrderTransport.priceTTC);
-         this.onSearchVehicleToDeliveByCategorySelected();
-
+         this.onSearchPriceExterne();
+         this.onSearchPriceInterne();
 
 
   }
@@ -74,10 +77,11 @@ catalogTransportTypes :CatalogTransportType []=[];
 
 
 
-  onSearchVehicleToDeliveByCategorySelected() {
+  onSearchPriceExterne() {
             this.catalogTransportTypeService
               .find(
-                "turnType.id:"+this.selectOrderTransport.turnType.id+
+                "transport.interneOrExterne:false"+
+                ",turnType.id:"+this.selectOrderTransport.turnType.id+
                 ",vehicleCategory.id:" +
                 this.selectedVehicleCategory.id +
                   ",villeSource.code~" +
@@ -89,29 +93,69 @@ catalogTransportTypes :CatalogTransportType []=[];
               .subscribe((data) => {
                   console.log(data);
                   this.catalogTransportTypes=data;
-                  this.loadContractAccountbyAccountSelected();
+
                 });
   }
+
+  onSearchPriceInterne() {
+    this.catalogTransportTypeService
+      .find(
+        "transport.interneOrExterne:true"+
+        ",turnType.id:"+this.selectOrderTransport.turnType.id+
+        ",vehicleCategory.id:" +
+        this.selectedVehicleCategory.id +
+          ",villeSource.code~" +
+          this.selectOrderTransport?.orderTransportInfoAller?.addressContactInitial.city +
+          ",villeDestination.code~" +
+          this.selectOrderTransport?.orderTransportInfoAller?.addressContactFinal.city
+
+      )
+      .subscribe((data) => {
+          console.log(data);
+          this.catalogTransportIntern=data[0];
+          this.loadContractAccountbyAccountSelected();
+        });
+}
+
 
 
   loadContractAccountbyAccountSelected(){
     console.log("dateeeeeeeee");
+ let source ,distination,startDate ,endDate ;
 
- console.log(this.selectOrderTransport.orderTransportInfoAller.addressContactInitial.city);
- console.log(this.selectOrderTransport.orderTransportInfoAller.addressContactFinal.city);
+ if(this.selectOrderTransport.turnType.id==1 ){
+  source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
+  distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+  startDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.date.toISOString();
+
+ }else if(this.selectOrderTransport.turnType.id==2 ){
+  source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
+  distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
+  startDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.date.toISOString();
+ } else if(this.selectOrderTransport.turnType.id==3 ){
+  source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
+  distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+  startDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.date.toISOString();
+ }
+
+
 
       this.contractAccountService.find(
         'turnType.id:'+this.selectOrderTransport.turnType.id+
         ',vehicleCategory.id:'+this.selectedVehicleCategory.id+
-        ',source.code~'+this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city+
-        ',distination.code~'+this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city+
-        ',startDate<'+this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.date.toISOString()+
-        ',endDate>'+this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.date.toISOString()
+        ',source.code~'+source+
+        ',distination.code~'+distination+
+        ',startDate<'+startDate+
+        ',endDate>'+endDate
       ).subscribe(
 
         data =>{
           console.log("contract");
-          this.selectedContractAccount.endDate=new Date();
+          //this.selectedContractAccount.endDate=new Date();
+          this.contractAccountList=data;
       this.selectedContractAccount=data[0];
        console.log(data);
 

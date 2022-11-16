@@ -39,7 +39,7 @@
 
             <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{ "Description" | translate }} </label>
-             
+
               <br />
               <input
                 type="text"
@@ -181,8 +181,21 @@
                 pKeyFilter="num"
               />
             </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{
+                "Poids total" | translate
+              }}</label
+              ><br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fTotalWeight"
+                pKeyFilter="num"
+              />
+            </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="form-group col-sm-6">
               <label class="font-weight-bold"
                 >{{ "Poids à vide" | translate }} *</label
@@ -209,20 +222,8 @@
                 pKeyFilter="num"
               />
             </div>
-            <div class="form-group col-sm-6">
-              <label class="font-weight-bold">{{
-                "Poids total" | translate
-              }}</label
-              ><br />
-              <input
-                type="text"
-                class="form-control"
-                pInputText
-                formControlName="fTotalWeight"
-                pKeyFilter="num"
-              />
-            </div>
-          </div>
+
+          </div> -->
         </form>
       </div>
     </div>

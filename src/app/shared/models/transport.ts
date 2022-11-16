@@ -18,7 +18,7 @@ export class Transport {
   priceTurn:number=0;
   catalogTransportTypes:CatalogTransportType[]=[];
   priceContrat:number=0;
-
+  interneOrExterne:Boolean=false;
 
 
 

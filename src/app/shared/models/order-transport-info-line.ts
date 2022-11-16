@@ -17,6 +17,5 @@ export class OrderTransportInfoLine {
   capacityLivraison : number;
   commentLivraison : string ;
   lineNumber: number;
-
   orderTransportInfo :OrderTransportInfo;
 }

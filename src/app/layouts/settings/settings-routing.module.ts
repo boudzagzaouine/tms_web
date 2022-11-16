@@ -1,3 +1,4 @@
+import { TransportEditComponent } from './transport/transport-edit/transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
 import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
 import { MenuSubscriptionCardComponent } from './menu-subscription-card/menu-subscription-card.component';
@@ -88,6 +89,9 @@ const routes: Routes = [
       { path: 'patrimony', component: PatrimonyTypeComponent },
       { path: 'zone', component: ZoneComponent },
       { path: 'transport', component: TransportComponent },
+      { path: 'transport-edit', component: TransportEditComponent },
+      { path: 'transport-edit/:id', component: TransportEditComponent },
+
       { path: 'product', component: ProductComponent },
       { path: 'product-type', component: ProductTypeComponent },
       { path: 'notification', component: NotificationComponent },

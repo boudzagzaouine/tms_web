@@ -1,3 +1,5 @@
+import { AccountPricingEditComponent } from './transport/transport-edit/account-pricing-edit/account-pricing-edit.component';
+import { CatalogueTransportEditComponent } from './transport/transport-edit/catalogue-transport-edit/catalogue-transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
 import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
 import { MenuSubscriptionCardComponent } from './menu-subscription-card/menu-subscription-card.component';
@@ -241,7 +243,9 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
      SubscriptionCardTypeComponent,
      MenuSubscriptionCardComponent,
      MenuFuelComponent,
-     MenuTransportComponent
+     MenuTransportComponent,
+     CatalogueTransportEditComponent,
+     AccountPricingEditComponent
 
 
 

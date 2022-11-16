@@ -40,10 +40,12 @@ export class CatalogTransportTypeComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des trajets';
+  titleList = 'Liste de Tarifs';
   catalogTransportTypeExportList: Array<CatalogTransportType> = [];
   items: MenuItem[];
   home: MenuItem;
+  defaultTransport :Transport = new Transport();
+
   constructor(
     private catalogTransportTypeService: CatalogTransportTypeServcie,
     private vehicleCategoryService: VehicleCategoryService,
@@ -58,7 +60,14 @@ export class CatalogTransportTypeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.transportService.findById(10147).subscribe(
+      data =>{
+        this.defaultTransport=data;
 
+        //this.loadData();
+
+      }
+    );
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Catégorie Transport' ,routerLink:'/core/settings/path'},
@@ -105,7 +114,7 @@ export class CatalogTransportTypeComponent implements OnInit {
       { field: 'vat', child: 'value', header: 'TVA', type: 'object' }
     ];
 
-    this.loadData();
+     this.loadData();
 
     this.vehicleCategoryService.findAll().subscribe(data => {
       this.categorieVehicleList = data;
@@ -121,6 +130,12 @@ export class CatalogTransportTypeComponent implements OnInit {
   }
 
   loadData() {
+    if(this.searchQuery=='' ||this.searchQuery==null){
+          this.searchQuery +='transport.id:'+10147;
+
+    }
+    console.log("search");
+console.log(this.searchQuery);
 
     this.spinner.show();
     this.catalogTransportTypeService
@@ -200,9 +215,8 @@ export class CatalogTransportTypeComponent implements OnInit {
   }
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
-    }
+      buffer.append(`transport.code~${this.defaultTransport.code}`);
+
 
     if (
       this.vehicleCategorySearch != null &&
@@ -210,9 +224,9 @@ export class CatalogTransportTypeComponent implements OnInit {
     ) {
       buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch.code}`);
     }
-    if (this.transportSearch != null && this.transportSearch.code !== '') {
-      buffer.append(`transport.code~${this.transportSearch.code}`);
-    }
+    // if (this.transportSearch != null && this.transportSearch.code !== '') {
+    //   buffer.append(`transport.code~${this.transportSearch.code}`);
+    // }
     if (this.villeSourceSearch != null && this.villeSourceSearch.code !== '') {
       buffer.append(`villeSource.code~${this.villeSourceSearch.code}`);
     }
@@ -250,7 +264,8 @@ export class CatalogTransportTypeComponent implements OnInit {
     this.villeSourceSearch = null;
     this.villeDestinationSearch = null;
     this.page = 0;
-    this.searchQuery = '';
+    this.searchQuery='';
+
     this.loadData();
   }
 
@@ -278,6 +293,8 @@ export class CatalogTransportTypeComponent implements OnInit {
               //   'Elément Supprimer avec Succés',
               //   'Suppression'
               // );
+              this.searchQuery='transport.id:'+this.defaultTransport.id;
+
               this.loadData();
             },
             error => {
@@ -296,6 +313,8 @@ export class CatalogTransportTypeComponent implements OnInit {
 
   onShowDialog(event) {
     this.showDialog = event;
+    this.searchQuery='transport.id:'+this.defaultTransport.id;
+
     this.loadData();
   }
 }

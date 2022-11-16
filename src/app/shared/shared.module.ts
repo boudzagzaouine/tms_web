@@ -1,3 +1,4 @@
+import { AccountPricingService } from './services/api/account-pricing.service';
 import { OrderTransportTypeService } from './services/api/order-transport-type.service';
 import { TransportPlanService } from './services/api/transport-plan.service';
 import { TransportPlan } from './models/transport-plan';
@@ -311,7 +312,8 @@ export class SharedModule {
         OrderTransportTypeService,
         OrderTransportService,
         OrderTransportInfoService,
-        TransportPlanService
+        TransportPlanService,
+        AccountPricingService
       ],
 
     };

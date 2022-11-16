@@ -1,5 +1,8 @@
-<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{ width: '500px' }" (onHide)="onShowDialog()">
+<p-dialog header="{{ title | translate }}"
+[(visible)]="displayDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '500px' }"
+  (onHide)="onShowDialog()">
   <div>
     <div class="modal-body">
       <div class="card-body">
@@ -17,13 +20,12 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-dropdown [autoDisplayFirst]="false"  [options]="turnTypeList" optionLabel="code" [filter]="true"
+              <p-dropdown [autoDisplayFirst]="false" [disabled]="this.editMode"  [options]="turnTypeList" optionLabel="code" [filter]="true"
                 [showClear]="true"  (onChange)="onSelectTurnType($event)"
                 formControlName="fTurnType">
               </p-dropdown>
             </div>
-
- <div class="form-group col-sm-6">
+            <div class="form-group col-sm-6">
               <label class="font-weight-bold">{{ "Categorie Véhicule" | translate }} *</label>
               <span *ngIf="
                   (transportCatVehicleForm.get('fVehicleCategory').touched &&
@@ -35,10 +37,11 @@
 
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectVehicleCateory($event)"
+                [showClear]="true" [disabled]="this.editMode" (onChange)="onSelectVehicleCateory($event)"
                 formControlName="fVehicleCategory">
               </p-dropdown>
             </div>
+
             </div>
 
           <div class="row justify-content-around">
@@ -76,7 +79,7 @@
               </span>
 
 
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleSource" [suggestions]="villeList"
+              <p-autoComplete [disabled]="this.editMode" formControlName="fVilleSource" [suggestions]="villeList"
                 (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
@@ -93,7 +96,7 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleDestination" [suggestions]="villeList"
+              <p-autoComplete [disabled]="this.editMode" formControlName="fVilleDestination" [suggestions]="villeList"
                 (onSelect)="onSelectVilleDestination($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
@@ -137,6 +140,7 @@
                 {{ 'Obligatoire' | translate}}
               </span>
               <p-dropdown
+              appendTo="body"
                [autoDisplayFirst]="false"
                [options]="vatList"
                  [filter]="true"
@@ -195,6 +199,7 @@
         </form>
       </div>
     </div>
+    
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">

@@ -19,5 +19,8 @@ export class CatalogTransportType {
   amountTtc: number;
   amountTva: number;
   vat: Vat;
+  interneOrExterne:Boolean;
   owner:Owner;
+
+  tarifClient :number=0; //variable local
 }

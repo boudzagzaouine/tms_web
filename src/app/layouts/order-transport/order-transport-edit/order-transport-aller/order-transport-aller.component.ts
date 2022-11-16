@@ -79,6 +79,7 @@ export class OrderTransportAllerComponent implements OnInit {
     this.packageDetails=this.selectedOrderTransportInfo.packageDetails?this.selectedOrderTransportInfo.packageDetails:[];
     this.orderTransportInfoLines=this.selectedOrderTransportInfo.orderTransportInfoLines?this.selectedOrderTransportInfo.orderTransportInfoLines:[];
     this.initForm();
+      console.log(this.selectedOrderTransportInfo.trajetUnique);
 
   }
 
@@ -96,6 +97,10 @@ export class OrderTransportAllerComponent implements OnInit {
       capacity: new FormControl(
         this.selectedOrderTransportInfo.capacityTotal,
         Validators.required
+      ),
+
+      trajetUnique: new FormControl(
+       this.selectedOrderTransportInfo.trajetUnique
       ),
 
       orderTransportInfoInitialName: new FormControl(
@@ -179,6 +184,7 @@ export class OrderTransportAllerComponent implements OnInit {
       orderTransportInfoFinalDate: new FormControl(
         new Date(this.selectedAddressContactOrderTransportInfoFinal.date)
       ),
+
     });
   }
   validateForm(){
@@ -199,6 +205,7 @@ export class OrderTransportAllerComponent implements OnInit {
   loadForm(){
     this.initFormInitial();
     this.initFormFinal();
+    this.selectedOrderTransportInfo.trajetUnique = this.selectedOrderTransportInfo.trajetUnique !=null ?this.selectedOrderTransportInfo.trajetUnique:false;
      this.selectedOrderTransportInfo.weightTotal = this.orderTransportInfoForm.value["weight"];
     this.selectedOrderTransportInfo.capacityTotal = this.orderTransportInfoForm.value["capacity"];
   this.selectedOrderTransportInfo.packageDetails=this.packageDetails;
@@ -302,6 +309,11 @@ this.orderTransportInfoForm.patchValue({
 
    }
 
+   trajetUnique(event){
+   console.log(event.checked);
+   this.selectedOrderTransportInfo.trajetUnique=event.checked ;
+
+   }
 
   affectedContactAddressInfoSelected(event) {
 

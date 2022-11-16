@@ -1,3 +1,4 @@
+
 import { OrderTransportRetourComponent } from './order-transport-edit/order-transport-retour/order-transport-retour.component';
 import { OrderTransportVerificationComponent } from './order-transport-edit/order-transport-verification/order-transport-verification.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +47,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContactEditComponent } from '../settings/account/account-edit/contact-edit/contact-edit.component';
 import { AddressEditComponent } from '../settings/account/account-edit/address-edit/address-edit.component';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   imports: [
@@ -83,6 +85,7 @@ import { AddressEditComponent } from '../settings/account/account-edit/address-e
      ToastModule,
      CardModule,
      TimelineModule,
+     CheckboxModule,
 
   ],
   declarations: [OrderTransportComponent,

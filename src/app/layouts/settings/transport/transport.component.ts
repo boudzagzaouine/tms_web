@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Transport } from './../../../shared/models/transport';
@@ -41,15 +42,16 @@ export class TransportComponent implements OnInit {
     private messageService: MessageService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private router :Router
   ) { }
 
 
   ngOnInit() {
-
+    this.searchQuery = 'interneOrExterne:false';
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Transport' ,routerLink:'/core/settings/transport'},
-  
+
   ];
   this.home = {icon: 'pi pi-home'};
 
@@ -142,6 +144,7 @@ export class TransportComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
+    buffer.append(`interneOrExterne:false`);
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);
     }
@@ -170,19 +173,39 @@ export class TransportComponent implements OnInit {
     this.nameSearch = null;
     this.codeSearch=null;
     this.page = 0;
-    this.searchQuery = '';
+    this.searchQuery = 'interneOrExterne:false';
     this.loadData(this.searchQuery);
   }
 
   onObjectEdited(event) {
 
-    this.editMode = event.operationMode;
-    this.selectedTransports = event.object;
-    if (this.editMode === 3) {
-      this.onDeleteAll();
-    } else {
-      this.showDialog = true;
-    }
+    // this.editMode = event.operationMode;
+    // this.selectedTransports = event.object;
+    // if (this.editMode === 3) {
+    //   this.onDeleteAll();
+    // } else {
+    //   this.showDialog = true;
+    // }
+
+
+
+    console.log("edit mode ");
+
+    console.log(event.operationMode);
+
+        this.editMode = event.operationMode;
+        this.selectedTransports = event.object;
+        if (this.editMode === 3) {
+          this.onDeleteAll();
+        } else if(this.editMode ===1) {
+          console.log(  this.selectedTransports);
+        this.router.navigate(['/core/settings/transport-edit']);
+
+         // this.showDialog = true;
+        }else if(this.editMode ===2) {
+          this.router.navigate(['/core/settings/transport-edit',  this.selectedTransports[0].id]);
+
+        }
 
   }
 

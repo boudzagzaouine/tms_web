@@ -86,20 +86,27 @@ this.emitOnchange();}
   }
 
   getorderTransportInfoAller(){
-    if( this.selectOrderTransport?.orderTransportInfoAller?.orderTransportInfoLines!=null){
+    if( this.selectOrderTransport?.orderTransportInfoAller!=null){
+      if( this.selectOrderTransport?.orderTransportInfoAller?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines.sort(function (a, b) {
       return Number(a.lineNumber) - Number(b.lineNumber);
-    });}
-    return this.selectOrderTransport.orderTransportInfoAller;
+    });}}
+    else {
+      this.selectOrderTransport.orderTransportInfoAller= new OrderTransportInfo();
+    }
+    return this.selectOrderTransport.orderTransportInfoAller ;
   }
 
   getorderTransportInfoRetour(){
-    if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
+    if( this.selectOrderTransport?.orderTransportInfoRetour!=null){
+      if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines.sort(function (a, b) {
       return Number(a.lineNumber) - Number(b.lineNumber);
-    });
-  }
-    return this.selectOrderTransport.orderTransportInfoRetour;
+    });}}
+    else {
+      this.selectOrderTransport.orderTransportInfoRetour= new OrderTransportInfo();
+    }
+    return this.selectOrderTransport.orderTransportInfoRetour ;
   }
 
 

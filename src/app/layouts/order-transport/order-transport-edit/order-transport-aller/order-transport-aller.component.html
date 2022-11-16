@@ -155,7 +155,19 @@
         </p-table>
     </div>
 
-    <div class="p-grid mt-3">
+    <div class="row justify-content-around mt-3">
+
+    <div class="form-group col-md-12">
+
+    <div class="field-checkbox">
+      <p-checkbox  [binary]="true" inputId="binary" formControlName="trajetUnique" (onChange)="trajetUnique($event)"></p-checkbox>
+      <label class="font-weight-bold ml-3  " for="binary">Trajet Unique</label>
+  </div>
+</div>
+</div>
+
+
+    <div class="p-grid">
       <div class="p-col-12 p-md-6">
         <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
           <p-panel  [toggleable]="true">
@@ -680,7 +692,7 @@
     </div>
 
 
-    <div class="row justify-content-around">
+    <div class="row justify-content-around" *ngIf="(this.selectedOrderTransportInfo.trajetUnique==false)">
 
       <div class="form-group col-md-6">
         <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->

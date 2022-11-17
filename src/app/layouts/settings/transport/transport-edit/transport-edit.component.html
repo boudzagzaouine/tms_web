@@ -24,6 +24,13 @@ showEffect="fade"
         <div class="row  justify-content-around">
 
           <div class="form-group col-sm-4">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+           />
+          </div>
+          <div class="form-group col-sm-4">
             <label class="font-weight-bold">{{'Nom' | translate}} *</label>
             <span *ngIf="(transportForm.get('name').touched && transportForm.get('name').invalid) ||
             (isFormSubmitted && transportForm.get('name').invalid)" class="text-lighter"
@@ -35,16 +42,31 @@ showEffect="fade"
            />
           </div>
 
-          <div class="form-group col-sm-8">
-            <label class="font-weight-bold">{{'Description' | translate}} </label>
+          <div class="form-group col-sm-4">
+            <!-- <label class="font-weight-bold">{{'Description' | translate}} </label>
 
             <br />
             <input type="text" class="form-control" pInputText formControlName="description"
-           />
+           /> -->
           </div>
 
 
         </div>
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-12 col-md-4">
+            <label class="font-weight-bold">{{'Tel 1' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tel1" />
+          </div>
+          <div class="form-group col-sm-12 col-md-4">
+            <label class="font-weight-bold">{{'email' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="email" />
+          </div>
+          <div class="form-group col-sm-12 col-md-4">
+          </div>
+        </div>
+
 
         <div class="row  justify-content-around">
 

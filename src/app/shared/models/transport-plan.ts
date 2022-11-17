@@ -22,7 +22,8 @@ export class TransportPlan {
   vehicleCategory :VehicleCategory ;
   transport :Transport ;
   turnStatus :TurnStatus;
-  priceTTC :number;
+  salePrice :number;
+  purchasePrice :number;
   date: Date = new Date();
   villeSource :string;
   villeDistination : string;

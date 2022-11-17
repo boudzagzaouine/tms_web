@@ -22,5 +22,8 @@ export class CatalogTransportType {
   interneOrExterne:Boolean;
   owner:Owner;
 
+  tarifLastPriceIntern :number=0; //variable local
+  tarifLastPriceExterne :number=0; //variable local
   tarifClient :number=0; //variable local
+  tarifAchat:number =0;//variable local
 }

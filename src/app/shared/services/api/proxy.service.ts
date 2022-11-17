@@ -284,4 +284,19 @@ generateSupplierInvoiceFromReception(controller: string, object: any): Observabl
   );
 }
 
+
+getLastPriceTransportPlan(controller: string, search: string): Observable<any> {
+  const fullurl =
+      this.url +
+      controller +
+      '/getLastPriceTransport?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+      //console.log("fullurl");
+
+ // console.log(fullurl);
+  return this.http.get<any>(fullurl);
+}
+
 }

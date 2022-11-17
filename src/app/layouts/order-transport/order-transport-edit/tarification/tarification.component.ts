@@ -1,3 +1,5 @@
+import { TransportPlanService } from './../../../../shared/services/api/transport-plan.service';
+import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
 import { ContractAccount } from './../../../../shared/models/contract-account';
 import { ContractAccountService } from './../../../../shared/services/api/contract-account.service';
 import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
@@ -29,7 +31,7 @@ selectedContractAccount: ContractAccount = new ContractAccount();
 contractAccountList: ContractAccount[] = [];
 
 catalogTransportIntern :CatalogTransportType = new CatalogTransportType();
-catalogTransportTypes :CatalogTransportType []=[];
+catalogTransportTypeExterns :CatalogTransportType []=[];
   orderTransportInfoAllerLignes :OrderTransportInfoLine[] = [];
   orderTransportInfoRetourLignes :OrderTransportInfoLine[] = [];
 
@@ -46,10 +48,12 @@ catalogTransportTypes :CatalogTransportType []=[];
    selectRadio :Boolean=true;
   constructor(private vehicleCategoryService :VehicleCategoryService,
     private orderTransportService :OrderTransportService,
+    private transportPlanService :TransportPlanService,
     private transportService : TransportServcie,
     private catalogTransportTypeService :CatalogTransportTypeServcie,
     private confirmationService:ConfirmationService,
     private contractAccountService :ContractAccountService,
+    private accountPricingService :AccountPricingService,
     private vehicleService :VehicleService) { }
 
   ngOnInit() {
@@ -78,6 +82,18 @@ catalogTransportTypes :CatalogTransportType []=[];
 
 
   onSearchPriceExterne() {
+    let source ,distination,startDate ,endDate ;
+
+    if(this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3 ){
+     source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
+     distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+
+
+    }else if(this.selectOrderTransport.turnType.id==2 ){
+     source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
+     distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
+
+    }
             this.catalogTransportTypeService
               .find(
                 "transport.interneOrExterne:false"+
@@ -85,19 +101,35 @@ catalogTransportTypes :CatalogTransportType []=[];
                 ",vehicleCategory.id:" +
                 this.selectedVehicleCategory.id +
                   ",villeSource.code~" +
-                  this.selectOrderTransport?.orderTransportInfoAller?.addressContactInitial.city +
+                  source +
                   ",villeDestination.code~" +
-                  this.selectOrderTransport?.orderTransportInfoAller?.addressContactFinal.city
+                 distination
 
               )
               .subscribe((data) => {
                   console.log(data);
-                  this.catalogTransportTypes=data;
-
+                  this.catalogTransportTypeExterns=data;
+                  this.onSearchAccountPricing();
+                  this.onSearchLastPriceByTransportExterne();
                 });
   }
 
   onSearchPriceInterne() {
+    let source ,distination,startDate ,endDate ;
+
+    if(this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3 ){
+     source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
+     distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+
+
+    }else if(this.selectOrderTransport.turnType.id==2 ){
+     source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
+     distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
+
+    }
+
+
+
     this.catalogTransportTypeService
       .find(
         "transport.interneOrExterne:true"+
@@ -105,19 +137,64 @@ catalogTransportTypes :CatalogTransportType []=[];
         ",vehicleCategory.id:" +
         this.selectedVehicleCategory.id +
           ",villeSource.code~" +
-          this.selectOrderTransport?.orderTransportInfoAller?.addressContactInitial.city +
+          source +
           ",villeDestination.code~" +
-          this.selectOrderTransport?.orderTransportInfoAller?.addressContactFinal.city
+          distination
 
       )
       .subscribe((data) => {
           console.log(data);
           this.catalogTransportIntern=data[0];
           this.loadContractAccountbyAccountSelected();
+          this.onSearchLastPriceByTransportIntern();
         });
 }
 
+onSearchLastPriceByTransportExterne(){
 
+  this.catalogTransportTypeExterns.forEach(element => {
+    let search  ='orderTransport.turnType.id:'+this.selectOrderTransport.turnType.id+
+                  ',transport.id:'+element.transport.id+
+                  ',orderTransport.account.id:'+this.selectOrderTransport.account.id;
+
+this.transportPlanService.getLastPriceTransportPlan(search).subscribe(
+  data =>{
+console.log(data);
+
+    element.tarifLastPriceExterne=data.purchasePrice;
+    console.log(element.tarifLastPriceExterne);
+
+  }
+);
+
+  });
+
+
+
+}
+
+onSearchLastPriceByTransportIntern(){
+
+
+    let search  ='orderTransport.turnType.id:'+this.selectOrderTransport.turnType.id+
+                  ',transport.id:'+this.catalogTransportIntern.transport.id+
+                  ',orderTransport.account.id:'+this.selectOrderTransport.account.id;
+
+this.transportPlanService.getLastPriceTransportPlan(search).subscribe(
+  data =>{
+console.log(data);
+
+this.catalogTransportIntern.tarifLastPriceIntern=data.salePrice;
+    console.log(this.catalogTransportIntern.tarifLastPriceIntern);
+
+  }
+);
+
+
+
+
+
+}
 
   loadContractAccountbyAccountSelected(){
     console.log("dateeeeeeeee");
@@ -163,6 +240,30 @@ catalogTransportTypes :CatalogTransportType []=[];
 
   }
 
+  onSearchAccountPricing(){
+this.catalogTransportTypeExterns.forEach(element => {
+  console.log(element.id);
+
+ this.accountPricingService.find('account.id:'+this.selectOrderTransport.account.id+
+                                 ',catalogTransportType.id:'+element.id).subscribe(
+      data => {
+        if(data[0] !=null){
+element.tarifClient=data[0].price;
+console.log(data[0].price);
+
+}else {
+  element.tarifClient=0;
+}
+      }
+    );
+
+
+});
+
+
+
+
+  }
 
   onRowTransportSelect(event){
 

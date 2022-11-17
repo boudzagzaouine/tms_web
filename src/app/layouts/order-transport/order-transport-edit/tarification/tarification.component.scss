@@ -189,3 +189,34 @@
   }
 }
 
+
+::ng-deep  .p-card-header{
+background: #293752;
+height: 55px;
+color: white;
+font-size: 14px;
+font-style: italic;
+font-weight: 500;
+
+border-top-left-radius: 10px;
+border-style: none;
+border-top-right-radius: 10px;
+text-align: center;
+padding-top: 10px;
+}
+
+::ng-deep  .p-card-content{
+  text-align: center;
+}
+
+::ng-deep .p-card-footer {
+  text-align: center;
+
+
+}
+.lblPrice {
+  font-weight: 700;
+    font-size: 23px;
+    color: #293752;
+}
+

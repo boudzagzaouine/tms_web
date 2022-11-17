@@ -1,3 +1,5 @@
+import { ContactService } from './../../../../shared/services/api/contact.service';
+import { Contact } from './../../../../shared/models/contact';
 import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
 import { AccountPricing } from './../../../../shared/models/account-pricing';
 import { ActivatedRoute, Route, Router } from "@angular/router";
@@ -28,6 +30,8 @@ export class TransportEditComponent implements OnInit {
   displayDialog: boolean;
   title = "Modifier un transport";
   selectAddress = new Address();
+  selectContact = new Contact();
+
   subscriptions = new Subscription();
   catalogueTransports: CatalogTransportType[] = [];
   accountPricings :AccountPricing[]=[];
@@ -46,6 +50,7 @@ export class TransportEditComponent implements OnInit {
     private accountPricingService :AccountPricingService,
     private authentificationService: AuthenticationService,
     private addressService: AddressService,
+    private contactService: ContactService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
     private toastr: ToastrService,
@@ -74,6 +79,12 @@ export class TransportEditComponent implements OnInit {
           console.log(this.selectAddress.code);
         })
       );
+      this.subscriptions.add(
+        this.contactService.generateCode().subscribe((code) => {
+          this.selectContact.code = code;
+          console.log(this.selectContact.code);
+        })
+      );
     } else {
       if (id) {
         this.transportService.findById(id).subscribe((data) => {
@@ -83,6 +94,9 @@ export class TransportEditComponent implements OnInit {
 
           if (this.selectedtransport.address !=null) {
             this.selectAddress = this.selectedtransport.address;
+          }
+          if (this.selectedtransport.contact !=null) {
+            this.selectContact = this.selectedtransport.contact;
           }
           this.initForm();
           this.loadCatalogByTransport();
@@ -123,6 +137,10 @@ export class TransportEditComponent implements OnInit {
       city: new FormControl(this.selectAddress.city),
       country: new FormControl(this.selectAddress.country),
       zip: new FormControl(this.selectAddress.zip),
+
+      nameContact: new FormControl(this.selectContact.name),
+      tel1: new FormControl(this.selectContact.tel1),
+      email: new FormControl(this.selectContact.email),
     });
   }
 
@@ -140,6 +158,9 @@ export class TransportEditComponent implements OnInit {
       this.transportForm.value["description"];
     this.selectedtransport.active = true;
 
+    this.selectContact.name =  this.selectedtransport.name;
+    this.selectContact.tel1 = this.transportForm.value["tel1"];
+    this.selectContact.email = this.transportForm.value["email"];
     // this.selectAddress.code = this.transportForm.value['code'];
     this.selectAddress.line1 = this.transportForm.value["line1"];
     this.selectAddress.line2 = this.transportForm.value["line2"];
@@ -154,6 +175,11 @@ export class TransportEditComponent implements OnInit {
       this.addressService.set(this.selectAddress).subscribe((dataA) => {
         this.selectedtransport.address = dataA;
         console.log(this.selectedtransport);
+
+        this.contactService.set(this.selectContact).subscribe((dataC) => {
+          this.selectedtransport.contact = dataC;
+
+
 
         this.transportService.set(this.selectedtransport).subscribe(
           (data) => {
@@ -205,7 +231,7 @@ export class TransportEditComponent implements OnInit {
           },
           () => this.spinner.hide()
         );
-      })
+      })  }) ///
     );
   }
 

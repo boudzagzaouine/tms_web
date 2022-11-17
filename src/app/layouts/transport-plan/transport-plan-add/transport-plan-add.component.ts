@@ -64,7 +64,8 @@ export class TransportPlanAddComponent implements OnInit {
   selectedContractAccount :ContractAccount=new ContractAccount();
 
   lastDeliveryTransports : TransportPlan[]=[];
-
+  lastDeliveryTransport : TransportPlan=new TransportPlan();
+   villeExterneForLast: string[]=[];
   constructor(private orderTransportService : OrderTransportService,
                 private transportPlanService :TransportPlanService,
                 private orderTransportInfoService : OrderTransportInfoService,
@@ -134,7 +135,9 @@ this.driverService.findAll().subscribe(
       driver:new FormControl(this.selectedTransportPlan.driver),
       vehicleCategory :new FormControl(this.selectedTransportPlan?.vehicleCategory?.code),
       transport :new FormControl(this.selectedTransportPlan?.transport?.name),
-      price :new FormControl(this.selectedTransportPlan.priceTTC),
+      price :new FormControl(this.selectedTransportPlan.salePrice),
+      purchasePrice :new FormControl(this.selectedTransportPlan.purchasePrice),
+
       date :new FormControl(new Date(this.selectedTransportPlan.date)),
 
     })
@@ -191,9 +194,24 @@ console.log(this.orderTransportList);
     if(this.isInterOrPrestataire=='Interne'){
      this.selectedTransportPlan.transport=this.selectDefaulTransport;
     }
-    this.transportPlanService.find('villeSource~'+this.selectedTransportPlan.villeSource+',villeDistination~'+this.selectedTransportPlan.villeDistination+',orderTransport.turnType.id:'+this.selectedTransportPlan.orderTransport.turnType.id+',vehicleCategory.id:'+this.selectedTransportPlan?.vehicleCategory?.id+',transport.id:'+this.selectedTransportPlan.transport.id).subscribe(
+
+
+
+
+
+
+
+    this.transportPlanService.getLastPriceTransportPlan('orderTransport.turnType.id:'+this.selectedTransportPlan.orderTransport.turnType.id+',vehicleCategory.id:'+this.selectedTransportPlan?.vehicleCategory?.id+',transport.id:'+this.selectedTransportPlan.transport.id).subscribe(
       data => {
-          this.lastDeliveryTransports=data;
+
+          this.lastDeliveryTransport=data;
+          this.villeExterneForLast.push(this.lastDeliveryTransport.villeSource);
+          this.villeExterneForLast.push(this.lastDeliveryTransport.villeDistination);
+          console.log(this.villeExterneForLast);
+
+
+          console.log(data);
+
       }
     );
   }
@@ -201,11 +219,11 @@ console.log(this.orderTransportList);
   onSelectedTarification(){
     if(this.isPriceContract=="Oui"){
 
-      this.selectedTransportPlan.priceTTC=this.selectedContractAccount.price;
+      this.selectedTransportPlan.salePrice=this.selectedContractAccount.price;
 
     }
     else if(this.isPriceContract=="Non"){
-      this.selectedTransportPlan.priceTTC=this.catalogTransportTypeList[0].amountTtc;
+      this.selectedTransportPlan.salePrice=this.catalogTransportTypeList[0].amountTtc;
 
     }
 this.initForm();
@@ -400,7 +418,7 @@ else{
                 this.selectedTransportPlan.transport=this.selectDefaulTransport;
            this.selectedTransportPlan.driver=this.selectedVehicle.driver;
            this.selectedTransportPlan.vehicleCategory=this.selectedVehicle.vehicleCategory;
-           this.selectedTransportPlan.priceTTC=this.selectOrderTransport.priceTTC;
+           this.selectedTransportPlan.salePrice=this.selectOrderTransport.priceTTC;
            if(this.selectedTransportPlan.orderTransport.turnType.id==1 || this.selectedTransportPlan.orderTransport.turnType.id==3){
                    this.selectedTransportPlan.villeSource=this.selectOrderTransport.orderTransportInfoAller.addressContactInitial.city;
            this.selectedTransportPlan.villeDistination=this.selectOrderTransport.orderTransportInfoAller.addressContactFinal.city;
@@ -428,7 +446,7 @@ else{
         }else if(this.isInterOrPrestataire=="Prestataire"){
           this.selectedTransportPlan.transport=this.selectedTransport.transport;
           this.selectedTransportPlan.vehicleCategory=this.selectedTransport.vehicleCategory;
-          this.selectedTransportPlan.priceTTC=this.selectOrderTransport.priceTTC;
+          this.selectedTransportPlan.salePrice=this.selectOrderTransport.priceTTC;
           this.selectedContractAccount=new ContractAccount();
           this.loadLastTranportPlan();
         }
@@ -494,7 +512,7 @@ this.searchContractAccount(searchcontract.getValue());
 
  let formValue = this.transportPlanForm.value;
 
- this.selectedTransportPlan.priceTTC=formValue['price'];
+ this.selectedTransportPlan.salePrice=formValue['price'];
  this.selectedTransportPlan.date=formValue['date'];
  this.selectedTransportPlan.turnStatus=this.selectStatusCree;
    this.transportPlanService.set(this.selectedTransportPlan).subscribe(

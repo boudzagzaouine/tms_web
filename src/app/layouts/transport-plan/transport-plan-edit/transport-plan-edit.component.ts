@@ -133,7 +133,7 @@ initForm(){
     driver:new FormControl(this.selectedTransportPlan.driver),
     vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
     transport :new FormControl(this.selectedTransportPlan.transport),
-    price :new FormControl(this.selectedTransportPlan.priceTTC),
+    price :new FormControl(this.selectedTransportPlan.salePrice),
     date :new FormControl(new Date (this.selectedTransportPlan.date)),
     status :new FormControl(this.selectedTransportPlan.turnStatus?.code),
 
@@ -189,7 +189,7 @@ onSubmit(close=false){
 
   let formValue = this.transportPlanForm.value;
 
-  this.selectedTransportPlan.priceTTC=formValue['price'];
+  this.selectedTransportPlan.salePrice=formValue['price'];
   this.selectedTransportPlan.date=formValue['date'];
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
      (data) => {

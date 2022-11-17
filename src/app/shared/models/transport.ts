@@ -1,3 +1,4 @@
+import { Contact } from './contact';
 import { Address } from './address';
 import { CatalogTransportType } from './CatalogTransportType';
 import { Owner } from './owner';
@@ -13,6 +14,7 @@ export class Transport {
   siret: number;
   description: number;
    address:Address;
+   contact:Contact;
   active:Boolean;
   owner:Owner;
   priceTurn:number=0;

@@ -33,7 +33,7 @@ export class EmsService<T> {
   getParents() {
     return this.proxy.getParents(this.controller);
   }
-  
+
   size() {
     return this.proxy.size(this.controller);
   }
@@ -93,5 +93,9 @@ generateSupplierInvoiceFromReception(t: T): Observable<T> {
   return this.proxy.generateSupplierInvoiceFromReception(this.controller, t);
 }
 
+
+getLastPriceTransportPlan(search: string) {
+  return this.proxy.getLastPriceTransportPlan(this.controller, search);
+}
 
 }

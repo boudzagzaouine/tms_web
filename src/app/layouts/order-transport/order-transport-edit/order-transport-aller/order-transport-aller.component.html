@@ -81,7 +81,27 @@
       />
       </div>
       <div class="form-group col-md-3">
-
+        <label class="font-weight-bold"
+        >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> *</label
+      >
+      <span
+      *ngIf="
+        (orderTransportInfoForm.get('numberOfPallet').touched &&
+        orderTransportInfoForm.get('numberOfPallet').invalid) ||
+        (isFormSubmitted &&
+        orderTransportInfoForm.get('numberOfPallet').invalid)
+      "
+      class="text-lighter"
+      style="color: red; font-size: xx-small"
+    >
+      {{ "Obligatoire" | translate }}
+    </span>
+    <input
+    formControlName="numberOfPallet"
+      type="text"
+      class="form-control"
+      pInputText
+    />
       </div>
         </div>
         <div class="row justify-content-around">
@@ -364,7 +384,7 @@
               <div class="form-group col-md-6">
                 <label class="font-weight-bold">{{
                   "Latitude" | translate
-                }}</label
+                }} *</label
                 >
                 <span
                 *ngIf="
@@ -389,7 +409,7 @@
       <div class="form-group col-md-6">
         <label class="font-weight-bold">{{
           "Longitude" | translate
-        }}</label
+        }} *</label
         >
         <span
         *ngIf="
@@ -401,7 +421,7 @@
         class="text-lighter"
         style="color: red; font-size: xx-small"
       >
-        {{ "Obligatoire" | translate }}
+        {{ "Obligatoire" | translate }}*
       </span>
         <br />
         <input
@@ -623,7 +643,7 @@
               <div class="form-group col-md-6">
                 <label class="font-weight-bold">{{
                   "Latitude" | translate
-                }}</label
+                }} *</label
                 >
                 <span
                 *ngIf="
@@ -648,7 +668,7 @@
       <div class="form-group col-md-6">
         <label class="font-weight-bold">{{
           "Longitude" | translate
-        }}</label
+        }} *</label
         >
         <span
         *ngIf="
@@ -815,6 +835,8 @@
     (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
      [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
      [editMode]="editModeOrderTransportInfoLine"
+     [typeInfo]="'Aller'"
+     [weightEnlevementMax]="weightMax"
     >
 
 

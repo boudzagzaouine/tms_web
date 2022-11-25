@@ -299,4 +299,18 @@ getLastPriceTransportPlan(controller: string, search: string): Observable<any> {
   return this.http.get<any>(fullurl);
 }
 
+getLastPriceTransportPlans(controller: string, search: string): Observable<any[]> {
+  const fullurl =
+      this.url +
+      controller +
+      '/getLastPriceTransports?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+      //console.log("fullurl");
+
+ // console.log(fullurl);
+  return this.http.get<any[]>(fullurl);
+}
+
 }

@@ -97,5 +97,7 @@ generateSupplierInvoiceFromReception(t: T): Observable<T> {
 getLastPriceTransportPlan(search: string) {
   return this.proxy.getLastPriceTransportPlan(this.controller, search);
 }
-
+getLastPriceTransportPlans(search: string) {
+  return this.proxy.getLastPriceTransportPlans(this.controller, search);
+}
 }

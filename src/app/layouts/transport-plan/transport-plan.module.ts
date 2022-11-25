@@ -35,6 +35,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransportPlanComponent } from './transport-plan.component';
 import {OrderListModule} from 'primeng/orderlist';
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   imports: [
@@ -73,8 +74,8 @@ import {OrderListModule} from 'primeng/orderlist';
      CardModule,
      TimelineModule,
      OrderListModule,
-     SelectButtonModule
-
+     SelectButtonModule,
+CheckboxModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent]
 })

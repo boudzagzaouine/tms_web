@@ -49,6 +49,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ContactEditComponent } from '../settings/account/account-edit/contact-edit/contact-edit.component';
 import { AddressEditComponent } from '../settings/account/account-edit/address-edit/address-edit.component';
 import {CheckboxModule} from 'primeng/checkbox';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   imports: [
@@ -87,6 +88,7 @@ import {CheckboxModule} from 'primeng/checkbox';
      CardModule,
      TimelineModule,
      CheckboxModule,
+     InputNumberModule
 
   ],
   declarations: [OrderTransportComponent,

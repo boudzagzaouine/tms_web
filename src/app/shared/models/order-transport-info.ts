@@ -15,10 +15,14 @@ export class OrderTransportInfo {
 
   orderTransportInfoLines: OrderTransportInfoLine[] = [];
   trajetUnique :Boolean =false;
-
-  weightTotal: number = 0;
-  capacityTotal: number = 0;
-  priceTTC: number = 0;
+  numberOfPallet:number;
+  weightTotal: number ;
+  capacityTotal: number ;
+  priceTTC: number ;
  type :string ;
   orderTransport :OrderTransport;
+
+  weightEnlevement: number ;
+  weightLivraison: number =0;
+
 }

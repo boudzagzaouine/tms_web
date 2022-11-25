@@ -23,7 +23,21 @@
       font-size: 15px;
 
   }
-  &.status-Indisponible {
+  &.status-Maintenance-Trajet {
+    background-color: var(--orange);
+    font-weight: 600;
+
+   font-size: 1rem;
+    color: #ffffff;
+}
+  &.status-Trajet-Maintenance {
+    background-color: var(--orange);
+    font-weight: 600;
+
+   font-size: 1rem;
+    color: #ffffff;
+}
+  &.status-Maintenance {
       background-color: #ffc107;
       font-weight: 600;
 
@@ -31,7 +45,7 @@
       color: #ffffff;
   }
 
-  &.status-Épuisé {
+  &.status-Trajet {
       background-color: #dc3545;
       color: #ffffff;
   }

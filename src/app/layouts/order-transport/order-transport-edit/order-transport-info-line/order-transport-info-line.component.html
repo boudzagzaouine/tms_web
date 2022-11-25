@@ -365,12 +365,15 @@ optionLabel="code"
                         {{ "Obligatoire" | translate }}
                       </span>
                         <br />
-                        <input
-                        formControlName="weight"
-                          type="text"
-                          class="form-control"
-                          pInputText
-                        />
+                        <p-inputNumber     formControlName="weight" (onInput)="inputWeightEnlevement($event)"
+                        ></p-inputNumber>
+                        <span
+                        *ngIf="showWeightMaxEnlevement==true"
+                        class="text-lighter"
+                        style="color: red; font-size: xx-small"
+                      >
+                      poids maximum autorisé : {{this.weightRestEnlevement}} (Kg)
+                      </span>
                       </div>
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">{{
@@ -400,20 +403,9 @@ optionLabel="code"
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
                           "Commentaire" | translate
-                        }} *</label
+                        }} </label
                         >
-                        <span
-                        *ngIf="
-                          (orderTransportInfoLineForm.controls['enlevement'].get('comment').touched &&
-                          orderTransportInfoLineForm.controls['enlevement'].get('comment').invalid) ||
-                          (isFormSubmitted &&
-                          orderTransportInfoLineForm.controls['enlevement'].get('comment').invalid)
-                        "
-                        class="text-lighter"
-                        style="color: red; font-size: xx-small"
-                      >
-                        {{ "Obligatoire" | translate }}
-                      </span>
+
                         <br />
                         <textarea pInputTextarea
                         formControlName="comment"
@@ -462,6 +454,7 @@ optionLabel="code"
                             class="form-control"
                             pInputText
                           />
+
                         </div>
 
                         <div class="form-group col-md-4">
@@ -482,12 +475,17 @@ optionLabel="code"
                           {{ "Obligatoire" | translate }}
                         </span>
                           <br />
-                          <input
-                          formControlName="weight"
-                            type="text"
-                            class="form-control"
-                            pInputText
-                          />
+
+                          <p-inputNumber     formControlName="weight" (onInput)="inputWeightLivraison($event)"
+                          ></p-inputNumber>
+                          <span
+                          *ngIf="weightMaxLivraison==true"
+                          class="text-lighter"
+                          style="color: red; font-size: xx-small"
+                        >
+                        Poids maximum autorisé : {{this.selectedOrderTransportInfoLine.weightMaxLivraison}} (Kg)
+                        </span>
+
                         </div>
                         <div class="form-group col-md-4">
                           <label class="font-weight-bold">{{
@@ -551,6 +549,7 @@ optionLabel="code"
   label="{{'Annuler' | translate }}"
 ></button>
 <button
+
     type="button"
     pButton
     (click)="onSubmit()"

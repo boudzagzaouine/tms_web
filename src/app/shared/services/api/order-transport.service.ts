@@ -1,3 +1,4 @@
+import { OrderTransportInfoLine } from './../../models/order-transport-info-line';
 import { TypeInfo } from './../../enum/type-info.enum';
 import { OrderTransportInfo } from './../../models/order-transport-info';
 import { OrderTransport } from './../../models/order-transport';
@@ -109,7 +110,23 @@ this.emitOnchange();}
     return this.selectOrderTransport.orderTransportInfoRetour ;
   }
 
+addLinesAller(orderTransportInfoLine:OrderTransportInfoLine[]){
 
+  this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines=orderTransportInfoLine;
+
+}
+  getLinesAller(){
+  return this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines:[];
+  }
+
+  addLinesRetour(orderTransportInfoLine:OrderTransportInfoLine[]){
+
+    this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines=orderTransportInfoLine;
+
+  }
+    getLinesRetour(){
+    return this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines: [];
+    }
 
 
 
@@ -128,6 +145,7 @@ this.emitOnchange();}
           this.selectOrderTransport.orderTransportInfoRetour.priceTTC -= price;
 
          }
+
 
 
 

@@ -1,3 +1,5 @@
+import { Observable } from "rxjs/Observable";
+import { MessageService } from "primeng/api";
 import { OrderTransportType } from "./../../../../shared/models/order-transport-type";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
 import { OrderTransportTypeService } from "./../../../../shared/services/api/order-transport-type.service";
@@ -6,7 +8,7 @@ import { OrderTransportInfoLine } from "./../../../../shared/models/order-transp
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { AccountService } from "./../../../../shared/services/api/account.service";
 import { Account } from "./../../../../shared/models/account";
-import { Subscription } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
 
@@ -18,6 +20,8 @@ import { OrderTransport } from "./../../../../shared/models/order-transport";
 export class OrderTransportInfoLineComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
   @Input() editMode: number;
+  @Input() typeInfo: string;
+  @Input() weightEnlevementMax: number;
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
     new EventEmitter<OrderTransportInfoLine>();
@@ -39,14 +43,23 @@ export class OrderTransportInfoLineComponent implements OnInit {
   selectedAccount: Account = new Account();
   selectedaccountEnlevementOrLivraison: string = "false";
 
+  showWeightMaxEnlevement: Boolean = false;
+  weightRestEnlevement: number;
+  weightMaxLivraison: Boolean = false;
+  lines: OrderTransportInfoLine[] = [];
+
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     private accountService: AccountService,
-    public orderTransportService: OrderTransportService
+    public orderTransportService: OrderTransportService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
-    console.log(this.selectedOrderTransportInfoLine);
+    console.log(this.typeInfo);
+    console.log(this.weightEnlevementMax);
+
+    this.initForm();
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
@@ -66,7 +79,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   initForm() {
     if (!this.editMode) {
-      this.selectedOrderTransportInfoLine = new OrderTransportInfoLine();
+      //this.selectedOrderTransportInfoLine = new OrderTransportInfoLine();
       this.selectedOrderTransportInfoLine.orderTransportType =
         this.orderTransportTypeList[0];
     }
@@ -132,8 +145,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
           Validators.required
         ),
         comment: new FormControl(
-          this.selectedOrderTransportInfoLine.commentEnlevement,
-          Validators.required
+          this.selectedOrderTransportInfoLine.commentEnlevement
         ),
       }),
       livraison: new FormGroup({
@@ -191,35 +203,48 @@ export class OrderTransportInfoLineComponent implements OnInit {
     if (this.orderTransportInfoLineForm.controls["general"].invalid) {
       return;
     }
-    let formvalue = this.orderTransportInfoLineForm.value;
-    this.getValueFromEnlevementForm();
-    this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
-      this.selectAddressContactDeliveryInfo;
+    if (
+      this.showWeightMaxEnlevement == true ||
+      this.weightMaxLivraison == true
+    ) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Erreur Poids",
+      });
+    } else {
+      let formvalue = this.orderTransportInfoLineForm.value;
+      this.getValueFromEnlevementForm();
+      this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
+        this.selectAddressContactDeliveryInfo;
 
-    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
-    this.destroyLivraison();
-      this.validateEnlevement();
-    }
-    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 2) {
-      this.destroyEnlevement();
-      this.validateLivraison();
-    }
-    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 3) {
-      this.validateEnlevement();
-      this.validateLivraison();
-    }
+      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
+        this.destroyLivraison();
+        this.validateEnlevement();
+      }
+      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 2) {
+        this.destroyEnlevement();
+        this.validateLivraison();
+      }
+      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 3) {
+        this.validateEnlevement();
+        this.validateLivraison();
+      }
 
-    console.log(this.selectedOrderTransportInfoLine);
+      console.log(this.selectedOrderTransportInfoLine);
 
-    this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
-    this.displayDialog = false;
+      this.orderTransportInfoLineAdded.emit(
+        this.selectedOrderTransportInfoLine
+      );
+      this.displayDialog = false;
+    }
   }
 
-  destroyEnlevement(){
-    this.selectedOrderTransportInfoLine.capacityEnlevement=null;
-    this.selectedOrderTransportInfoLine.weightEnlevement=null;
-    this.selectedOrderTransportInfoLine.numberOfPalletEnlevement=null;
-    this.selectedOrderTransportInfoLine.commentEnlevement=null;
+  destroyEnlevement() {
+    this.selectedOrderTransportInfoLine.capacityEnlevement = null;
+    this.selectedOrderTransportInfoLine.weightEnlevement = null;
+    this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = null;
+    this.selectedOrderTransportInfoLine.commentEnlevement = null;
   }
   validateEnlevement() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -236,11 +261,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.commentEnlevement =
       formvalue["enlevement"]["comment"];
   }
-  destroyLivraison(){
-    this.selectedOrderTransportInfoLine.capacityLivraison=null;
-    this.selectedOrderTransportInfoLine.weightLivraison=null;
-    this.selectedOrderTransportInfoLine.numberOfPalletLivraison=null;
-    this.selectedOrderTransportInfoLine.commentLivraison=null;
+  destroyLivraison() {
+    this.selectedOrderTransportInfoLine.capacityLivraison = null;
+    this.selectedOrderTransportInfoLine.weightLivraison = null;
+    this.selectedOrderTransportInfoLine.numberOfPalletLivraison = null;
+    this.selectedOrderTransportInfoLine.commentLivraison = null;
   }
   validateLivraison() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -261,6 +286,33 @@ export class OrderTransportInfoLineComponent implements OnInit {
   onSelectorderTransportType(event) {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
   }
+  inputWeightEnlevement(event) {
+    this.lines =
+      this.typeInfo == "Aller"
+        ? this.orderTransportService.getLinesAller()
+        : this.orderTransportService.getLinesRetour();
+
+    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
+      this.getWeightLine(this.lines,event.value);
+    }
+
+    //(event.value > this.selectedOrderTransportInfoLine.showWeightMaxEnlevement) ? this.showWeightMaxEnlevement=true : this.showWeightMaxEnlevement=false;
+  }
+  inputWeightLivraison(event) {
+    //  (event.value > this.selectedOrderTransportInfoLine.weightMaxLivraison) ? this.weightMaxLivraison=true : this.weightMaxLivraison=false;
+  }
+
+  getWeightLine(enlevementlines :OrderTransportInfoLine[],weight: number) {
+    let sumWeight: number = 0;
+    enlevementlines.forEach((element) => {
+      sumWeight += element.weightEnlevement;
+    });
+    this.weightRestEnlevement = this.weightEnlevementMax - sumWeight;
+    this.showWeightMaxEnlevement = false;
+    if (weight > this.weightRestEnlevement){
+      this.showWeightMaxEnlevement = true;
+    }
+  }
 
   onShowDialog() {
     let a = false;
@@ -275,10 +327,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
   onSelectAccount(event, type) {
     this.showDialogContactAddress = true;
     this.selectedAccount = this.selectedOrderTransport.account;
-    console.log(this.selectedAccount);
-
-    console.log(type);
-
     this.selectedaccountEnlevementOrLivraison = type;
   }
   onHideDialogGenerateContactAddress(event) {

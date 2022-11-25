@@ -18,4 +18,9 @@ export class OrderTransportInfoLine {
   commentLivraison : string ;
   lineNumber: number;
   orderTransportInfo :OrderTransportInfo;
+
+
+
+  weightMaxEnlevement : number;
+  weightMaxLivraison:number;
 }

@@ -53,7 +53,7 @@ export class VehicleListComponent implements OnInit {
   vehicleExportList: Array<Vehicle> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
-    
+
   home: MenuItem;
 
   constructor(private vehicleService: VehicleService,
@@ -75,11 +75,11 @@ export class VehicleListComponent implements OnInit {
     this.items = [
       {label: 'Véhicule'},
       {label: 'Lister',routerLink:'/core/vehicles/list'},
-   
+
   ];
-  
+
     this.home = {icon: 'pi pi-home'};
-    
+
     this.className = Vehicle.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
@@ -240,6 +240,7 @@ export class VehicleListComponent implements OnInit {
 
   }
 
+  
 
   onObjectEdited(event) {
 

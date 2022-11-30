@@ -339,12 +339,17 @@ optionLabel="code"
                         {{ "Obligatoire" | translate }}
                       </span>
                         <br />
-                        <input
-                        formControlName="numberOfPallets"
-                          type="text"
-                          class="form-control"
-                          pInputText
-                        />
+
+                        <p-inputNumber formControlName="numberOfPallets"
+                        (onInput)="inputPalletEnlevement($event)"
+                        ></p-inputNumber>
+                        <span
+                        *ngIf="showPalletMaxEnlevement==true"
+                        class="text-lighter"
+                        style="color: red; font-size: xx-small"
+                      >
+                      Nombre Pallete maximum autorisé : {{this.palletMaxEnlevement}} (Kg)
+                      </span>
                       </div>
 
                       <div class="form-group col-md-4">
@@ -372,7 +377,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      poids maximum autorisé : {{this.weightRestEnlevement}} (Kg)
+                      poids maximum autorisé : {{this.weightMaxEnlevement}} (Kg)
                       </span>
                       </div>
                       <div class="form-group col-md-4">
@@ -393,12 +398,15 @@ optionLabel="code"
                         {{ "Obligatoire" | translate }}
                       </span>
                         <br />
-                        <input
-                        formControlName="capacity"
-                          type="text"
-                          class="form-control"
-                          pInputText
-                        />
+                        <p-inputNumber     formControlName="capacity" (onInput)="inputCapacityEnlevement($event)"
+                        ></p-inputNumber>
+                        <span
+                        *ngIf="showCapacityMaxEnlevement==true"
+                        class="text-lighter"
+                        style="color: red; font-size: xx-small"
+                      >
+                      Volume maximum autorisé : {{this.capacityMaxEnlevement}} (Kg)
+                      </span>
                       </div>
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
@@ -448,12 +456,17 @@ optionLabel="code"
                           {{ "Obligatoire" | translate }}
                         </span>
                           <br />
-                          <input
-                          formControlName="numberOfPallets"
-                            type="text"
-                            class="form-control"
-                            pInputText
-                          />
+
+                          <p-inputNumber formControlName="numberOfPallets"
+                          (onInput)="inputPalletLivraison($event)"
+                          ></p-inputNumber>
+                          <span
+                          *ngIf="showPalletMaxLivraison==true"
+                          class="text-lighter"
+                          style="color: red; font-size: xx-small"
+                        >
+                        Nombre Pallete maximum autorisé : {{this.palletMaxLivraison}} (Kg)
+                        </span>
 
                         </div>
 
@@ -479,12 +492,12 @@ optionLabel="code"
                           <p-inputNumber     formControlName="weight" (onInput)="inputWeightLivraison($event)"
                           ></p-inputNumber>
                           <span
-                          *ngIf="weightMaxLivraison==true"
-                          class="text-lighter"
-                          style="color: red; font-size: xx-small"
-                        >
-                        Poids maximum autorisé : {{this.selectedOrderTransportInfoLine.weightMaxLivraison}} (Kg)
-                        </span>
+                        *ngIf="showWeightMaxLivraison==true"
+                        class="text-lighter"
+                        style="color: red; font-size: xx-small"
+                      >
+                      poids maximum autorisé : {{this.weightMaxLivraison}} (Kg)
+                      </span>
 
                         </div>
                         <div class="form-group col-md-4">
@@ -505,12 +518,16 @@ optionLabel="code"
                           {{ "Obligatoire" | translate }}
                         </span>
                           <br />
-                          <input
-                          formControlName="capacity"
-                            type="text"
-                            class="form-control"
-                            pInputText
-                          />
+
+                          <p-inputNumber     formControlName="capacity" (onInput)="inputCapacityLivraison($event)"
+                          ></p-inputNumber>
+                          <span
+                        *ngIf="showCapacityMaxLivraison==true"
+                        class="text-lighter"
+                        style="color: red; font-size: xx-small"
+                      >
+                      Volume maximum autorisé : {{this.capacityMaxLivraison}} (Kg)
+                      </span>
                         </div>
                         <div class="form-group col-md-12">
                           <label class="font-weight-bold">{{

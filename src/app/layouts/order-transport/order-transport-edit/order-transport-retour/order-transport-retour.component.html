@@ -81,7 +81,27 @@
       />
       </div>
       <div class="form-group col-md-3">
-
+        <label class="font-weight-bold"
+        >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> *</label
+      >
+      <span
+      *ngIf="
+        (orderTransportInfoForm.get('numberOfPallet').touched &&
+        orderTransportInfoForm.get('numberOfPallet').invalid) ||
+        (isFormSubmitted &&
+        orderTransportInfoForm.get('numberOfPallet').invalid)
+      "
+      class="text-lighter"
+      style="color: red; font-size: xx-small"
+    >
+      {{ "Obligatoire" | translate }}
+    </span>
+    <input
+    formControlName="numberOfPallet"
+      type="text"
+      class="form-control"
+      pInputText
+    />
       </div>
         </div>
         <div class="row justify-content-around">
@@ -155,7 +175,19 @@
         </p-table>
     </div>
 
-    <div class="p-grid mt-3">
+    <div class="row justify-content-around mt-3">
+
+    <div class="form-group col-md-12">
+
+    <div class="field-checkbox">
+      <p-checkbox  [binary]="true" inputId="binary" formControlName="trajetUnique" (onChange)="trajetUnique($event)"></p-checkbox>
+      <label class="font-weight-bold ml-3  " for="binary">Trajet Unique</label>
+  </div>
+</div>
+</div>
+
+
+    <div class="p-grid">
       <div class="p-col-12 p-md-6">
         <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
           <p-panel  [toggleable]="true">
@@ -167,11 +199,12 @@
           <div class="row justify-content-around">
 
             <div class="form-group col-md-6">
-              <span class="add" style="float: left;" *ngIf="   this.selectedOrderTransportInfo.packagingType?.id>0">
+              <span class="add" style="float: left;" >
 
                 <img
                 src="/assets/img/address.png" style="width: 30px ; height: 30px;">
-                <a (click)='onSelectAccountInitial(null,false)' class="ml-2">Rechercher une adresse</a></span>
+                <a (click)='onSelectAccountInitial()' class="ml-2">Rechercher une adresse</a>
+              </span>
           </div>
           <div class="form-group col-md-6">
           </div>
@@ -351,7 +384,7 @@
               <div class="form-group col-md-6">
                 <label class="font-weight-bold">{{
                   "Latitude" | translate
-                }}</label
+                }} *</label
                 >
                 <span
                 *ngIf="
@@ -376,7 +409,7 @@
       <div class="form-group col-md-6">
         <label class="font-weight-bold">{{
           "Longitude" | translate
-        }}</label
+        }} *</label
         >
         <span
         *ngIf="
@@ -388,7 +421,7 @@
         class="text-lighter"
         style="color: red; font-size: xx-small"
       >
-        {{ "Obligatoire" | translate }}
+        {{ "Obligatoire" | translate }}*
       </span>
         <br />
         <input
@@ -431,11 +464,11 @@
           <div class="row justify-content-around">
 
             <div class="form-group col-md-6">
-              <span class="add" style="float: left;" *ngIf="   this.selectedOrderTransportInfo.packagingType?.id>0">
+              <span class="add" style="float: left;" >
 
                 <img
                 src="/assets/img/address.png" style="width: 30px ; height: 30px;">
-                <a (click)='onSelectAccountFinal(null,false)' class="ml-2">Rechercher une adresse </a></span>
+                <a (click)='onSelectAccountFinal()' class="ml-2">Rechercher une adresse </a></span>
           </div>
           <div class="form-group col-md-6">
           </div>
@@ -610,7 +643,7 @@
               <div class="form-group col-md-6">
                 <label class="font-weight-bold">{{
                   "Latitude" | translate
-                }}</label
+                }} *</label
                 >
                 <span
                 *ngIf="
@@ -635,7 +668,7 @@
       <div class="form-group col-md-6">
         <label class="font-weight-bold">{{
           "Longitude" | translate
-        }}</label
+        }} *</label
         >
         <span
         *ngIf="
@@ -679,7 +712,7 @@
     </div>
 
 
-    <div class="row justify-content-around">
+    <div class="row justify-content-around " *ngIf="(this.selectedOrderTransportInfo.trajetUnique==false)">
 
       <div class="form-group col-md-6">
         <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
@@ -691,6 +724,7 @@
     <div class="form-group col-md-6">
     </div>
 
+    <div class="m-2">
     <p-table *ngIf="orderTransportInfoLines.length>0"
       [value]=" this.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
       [totalRecords]="orderTransportInfoLines">
@@ -704,8 +738,6 @@
             <th>{{ "Nombre Palette /Livraison " | translate }}</th>
             <th>{{ "Poids /Livraison" | translate }}</th>
 
-
-
             <th style="width: 15%;">{{ "Actions" | translate }}</th>
           </tr>
         </ng-template>
@@ -716,7 +748,6 @@
             <td>
               {{ line?.addressContactDeliveryInfo?.city }}
           </td>
-
           <td>
             {{ line?.numberOfPalletEnlevement  }}
         </td>
@@ -730,7 +761,6 @@
     <td>
       {{ line?.weightLivraison}}
   </td>
-
 
             <td>
               <button
@@ -755,7 +785,7 @@
         </ng-template>
 
       </p-table>
-
+</div>
 
     </div>
 
@@ -806,6 +836,11 @@
     (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
      [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
      [editMode]="editModeOrderTransportInfoLine"
+     [typeInfo]="'Retour'"
+     [weightMax]="weightMax"
+     [capacityMax]="capacityMax"
+     [palletMax]="numberOfPalletMax"
+
     >
 
 

@@ -67,9 +67,13 @@ export class OrderTransportInformationComponent implements OnInit {
     if (id) {
       this.OrderTransportService.findById(id).subscribe((data) => {
         this.selectedOrderTransport = data;
+        console.log(this.selectedOrderTransport);
+
         this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
           data=>{
                     this.OrderTransportService.addOrderTransportInfoAller(data[0]);
+
+
           }
         );
         this.OrderTransportService.cloneOrderTransport(

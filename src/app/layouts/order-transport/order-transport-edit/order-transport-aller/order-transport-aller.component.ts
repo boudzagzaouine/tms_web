@@ -14,6 +14,7 @@ import { OrderTransportInfo } from "./../../../../shared/models/order-transport-
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-order-transport-aller",
@@ -41,7 +42,9 @@ export class OrderTransportAllerComponent implements OnInit {
   idOrderTransportLine: number = 0;
   orderTransportInfoLines: OrderTransportInfoLine[] = [];
   selectOrderTransportInfoLine: OrderTransportInfoLine;
-  weightMax :number=0;
+  weightMax: number = 0;
+  capacityMax: number = 0;
+  numberOfPalletMax: number = 0;
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLine: boolean = false;
 
@@ -213,23 +216,46 @@ export class OrderTransportAllerComponent implements OnInit {
       return;
     }
 
-    this.loadForm();
-    this.nextstep.emit(true);
+    if(this.selectedOrderTransportInfo.trajetUnique==false){
+      if(this.selectedOrderTransportInfo.orderTransportInfoLines[0]==null){
+           this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Remplir Les Lignes",
+      });
+       } else {
+        this.selectedOrderTransportInfo.orderTransportInfoLines =
+        this.orderTransportInfoLines;
+        this.loadForm();
+        this.nextstep.emit(true);
+      }
+
+
+    }else {
+            this.selectedOrderTransportInfo.trajetUnique=true;
+            this.selectedOrderTransportInfo.orderTransportInfoLines =[];
+            this.loadForm();
+            this.nextstep.emit(true);
+
+    }
+
+
+
+
+
   }
   loadForm() {
     this.initFormInitial();
     this.initFormFinal();
-    this.selectedOrderTransportInfo.trajetUnique =
-      this.selectedOrderTransportInfo.trajetUnique != null
-        ? this.selectedOrderTransportInfo.trajetUnique
-        : false;
+
     this.selectedOrderTransportInfo.weightTotal =
       this.orderTransportInfoForm.value["weight"];
     this.selectedOrderTransportInfo.capacityTotal =
       this.orderTransportInfoForm.value["capacity"];
+      this.selectedOrderTransportInfo.numberOfPallet =
+      this.orderTransportInfoForm.value["numberOfPallet"];
     this.selectedOrderTransportInfo.packageDetails = this.packageDetails;
-    this.selectedOrderTransportInfo.orderTransportInfoLines =
-      this.orderTransportInfoLines;
+
     this.selectedOrderTransportInfo.type = TypeInfo.Aller.toString();
     this.orderTransportService.addOrderTransportInfoAller(
       this.selectedOrderTransportInfo
@@ -333,7 +359,24 @@ export class OrderTransportAllerComponent implements OnInit {
 
   trajetUnique(event) {
     console.log(event.checked);
-    this.selectedOrderTransportInfo.trajetUnique = event.checked;
+    this.selectedOrderTransportInfo.trajetUnique=event.checked;
+    if(event.checked==true){
+        if(this.orderTransportInfoLines[0]!=null){
+          this.confirmationService.confirm({
+            message: "Voulez vous vraiment Trajet Unique?",
+            accept: () => {
+              this.selectedOrderTransportInfo.trajetUnique =true;
+            },
+            reject:()=>{
+              this.selectedOrderTransportInfo.trajetUnique =false;
+
+              this.orderTransportInfoForm.patchValue({
+                trajetUnique:false
+              })
+            }
+          });
+        }
+    }
   }
 
   affectedContactAddressInfoSelected(event) {
@@ -392,7 +435,6 @@ export class OrderTransportAllerComponent implements OnInit {
         packageDetail.id = this.idPackageDetail;
       }
     }
-    // this.idPackageDetail = this.packageDetails.length>0 ; this.packageDetails.
     const orderline = this.packageDetails.find(
       (line) => line.containerType.id === packageDetail.containerType.id
     );
@@ -465,30 +507,44 @@ export class OrderTransportAllerComponent implements OnInit {
     );
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
-     this.orderTransportService.addLinesAller(this.orderTransportInfoLines);
-      // if (orderTransportInfoLine.orderTransportType.id == 1) {
-      //   this.selectedOrderTransportInfo.weightEnlevement -=
-      //     orderTransportInfoLine.weightEnlevement;
-      //     this.selectedOrderTransportInfo.weightLivraison=this.selectedOrderTransportInfo.weightLivraison==undefined?0 :this.selectedOrderTransportInfo.weightLivraison;
-      //     this.selectedOrderTransportInfo.weightLivraison +=
-      //     orderTransportInfoLine.weightEnlevement;
-      // }
-      // else if(orderTransportInfoLine.orderTransportType.id == 2){
-      //   this.selectedOrderTransportInfo.weightLivraison -=
-      //   orderTransportInfoLine.weightLivraison;
-      // }
+      this.orderTransportService.addLinesAller(this.orderTransportInfoLines);
+
     }
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
-    if (this.orderTransportInfoForm.value["weight"] == null || this.orderTransportInfoForm.value["weight"] == '') {
+    if (
+      this.orderTransportInfoForm.value["weight"] == null ||
+      this.orderTransportInfoForm.value["weight"] == ""
+    ) {
       this.messageService.add({
         severity: "error",
         summary: "Error",
-        detail: "Saisir le Poids",
+        detail: "Saisir  Poids",
+      });
+    } else if (
+      this.orderTransportInfoForm.value["capacity"] == null ||
+      this.orderTransportInfoForm.value["capacity"] == ""
+    ) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Saisir Volume",
+      });
+    } else if (
+      this.orderTransportInfoForm.value["numberOfPallet"] == null ||
+      this.orderTransportInfoForm.value["numberOfPallet"] == ""
+    ) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Saisir Nombre de palette",
       });
     } else {
-      this.weightMax=this.orderTransportInfoForm.value["weight"];
+      this.weightMax = this.orderTransportInfoForm.value["weight"];
+      this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
+      this.capacityMax = this.orderTransportInfoForm.value["capacity"];
+
       this.showDialogOrderTransportInfoLine = true;
 
       if (mode == true) {
@@ -497,15 +553,7 @@ export class OrderTransportAllerComponent implements OnInit {
       } else {
         this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
 
-        // this.selectedOrderTransportInfo.weightEnlevement =
-        //   this.selectedOrderTransportInfo.weightEnlevement == undefined
-        //     ? this.orderTransportInfoForm.value["weight"]
-        //     : this.selectedOrderTransportInfo.weightEnlevement;
-        // this.selectOrderTransportInfoLine.weightMaxEnlevement =
-        //   this.selectedOrderTransportInfo.weightEnlevement;
 
-        //   this.selectOrderTransportInfoLine.weightMaxLivraison =
-        //   this.selectedOrderTransportInfo.weightLivraison
         this.editModeOrderTransportInfoLine = false;
       }
     }
@@ -518,6 +566,7 @@ export class OrderTransportAllerComponent implements OnInit {
         this.orderTransportInfoLines = this.orderTransportInfoLines.filter(
           (l) => l.id !== id
         );
+        this.orderTransportService.addLinesAller(this.orderTransportInfoLines);
       },
     });
   }

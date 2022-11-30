@@ -187,7 +187,7 @@
 </div>
 
 
-    <div class="p-grid">
+    <div class="p-grid" >
       <div class="p-col-12 p-md-6">
         <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
           <p-panel  [toggleable]="true">
@@ -712,7 +712,7 @@
     </div>
 
 
-    <div class="row justify-content-around" *ngIf="(this.selectedOrderTransportInfo.trajetUnique==false)">
+    <div class="row justify-content-around " *ngIf="(this.selectedOrderTransportInfo.trajetUnique==false)">
 
       <div class="form-group col-md-6">
         <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
@@ -724,6 +724,7 @@
     <div class="form-group col-md-6">
     </div>
 
+    <div class="m-2">
     <p-table *ngIf="orderTransportInfoLines.length>0"
       [value]=" this.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
       [totalRecords]="orderTransportInfoLines">
@@ -784,7 +785,7 @@
         </ng-template>
 
       </p-table>
-
+</div>
 
     </div>
 
@@ -836,7 +837,10 @@
      [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
      [editMode]="editModeOrderTransportInfoLine"
      [typeInfo]="'Aller'"
-     [weightEnlevementMax]="weightMax"
+     [weightMax]="weightMax"
+     [capacityMax]="capacityMax"
+     [palletMax]="numberOfPalletMax"
+
     >
 
 

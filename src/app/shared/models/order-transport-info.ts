@@ -14,7 +14,7 @@ export class OrderTransportInfo {
   addressContactFinal: AddressContactOrderTransportInfo;
 
   orderTransportInfoLines: OrderTransportInfoLine[] = [];
-  trajetUnique :Boolean =false;
+  trajetUnique :Boolean =true;
   numberOfPallet:number;
   weightTotal: number ;
   capacityTotal: number ;

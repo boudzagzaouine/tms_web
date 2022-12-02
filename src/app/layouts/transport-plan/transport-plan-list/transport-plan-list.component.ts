@@ -30,7 +30,7 @@ export class TransportPlanListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   TransportPlanExportList: Array<TransportPlan> = [];
-  titleList = 'Liste des Ordre de Transports';
+  titleList = 'Liste des Plan de Transports';
   subscriptions= new Subscription();
 
   items: MenuItem[];
@@ -67,8 +67,9 @@ export class TransportPlanListComponent implements OnInit {
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
 
-   { field: 'priceTTC', header: 'Prix', type: 'number' },
+   { field: 'salePrice', header: 'Prix de Vente', type: 'number' },
 
+   { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
 
     ];
 

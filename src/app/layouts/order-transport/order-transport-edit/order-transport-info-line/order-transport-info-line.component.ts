@@ -1,3 +1,7 @@
+import { PaymentTypeService } from './../../../../shared/services/api/payment-type.service';
+import { PaymentType } from './../../../../shared/models/payment-method';
+import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
+import { TurnStatus } from './../../../../shared/models/turn-status';
 import { Observable } from "rxjs/Observable";
 import { MessageService } from "primeng/api";
 import { OrderTransportType } from "./../../../../shared/models/order-transport-type";
@@ -11,6 +15,7 @@ import { Account } from "./../../../../shared/models/account";
 import { Subject, Subscription } from "rxjs";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
+import { PaymentRule } from './../../../../shared/models/payment-rule';
 
 @Component({
   selector: "app-order-transport-info-line",
@@ -60,18 +65,19 @@ export class OrderTransportInfoLineComponent implements OnInit {
   palletMaxEnlevement: number=0;
   palletMaxLivraison: number=0;
   lines: OrderTransportInfoLine[] = [];
-
+  turnStatus : TurnStatus = new TurnStatus();
+  paymentTypeList : PaymentType[]=[];
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     private accountService: AccountService,
     public orderTransportService: OrderTransportService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private turnStatusService :TurnStatusService,
+    private paymentTypeService :PaymentTypeService,
+
   ) {}
 
   ngOnInit() {
-    console.log(this.typeInfo);
-    console.log(this.weightMax);
-
     this.initForm();
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
@@ -83,7 +89,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
-      this.initForm();
+           this.initForm();
+    });
+    this.paymentTypeService.findAll().subscribe((data) => {
+      this.paymentTypeList = data;
+
     });
     if (this.editMode) {
       this.selectAddressContactDeliveryInfo =
@@ -99,6 +109,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
       //this.selectedOrderTransportInfoLine = new OrderTransportInfoLine();
       this.selectedOrderTransportInfoLine.orderTransportType =
         this.orderTransportTypeList[0];
+
+
     }
 
     this.orderTransportInfoLineForm = new FormGroup({
@@ -147,6 +159,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
         deliveryInfoDate: new FormControl(
           new Date(this.selectAddressContactDeliveryInfo.date)
         ),
+
+
+
       }),
       enlevement: new FormGroup({
         numberOfPallets: new FormControl(
@@ -164,6 +179,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
         comment: new FormControl(
           this.selectedOrderTransportInfoLine.commentEnlevement
         ),
+        contreBL: new FormControl(
+          this.selectedOrderTransportInfoLine.contreBlEnlevement),
+          contreFacture: new FormControl(
+         this.selectedOrderTransportInfoLine?.contreFactureEnlevement
+         ),
+         paymentType: new FormControl(
+                this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
+         ),
       }),
       livraison: new FormGroup({
         numberOfPallets: new FormControl(
@@ -181,6 +204,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
         comment: new FormControl(
           this.selectedOrderTransportInfoLine.commentLivraison
         ),
+        contreBL: new FormControl(
+          this.selectedOrderTransportInfoLine?.contreBlLivraison),
+        contreFacture: new FormControl(
+         this.selectedOrderTransportInfoLine?.contreFactureLivraison
+         ),
+         paymentType: new FormControl(
+                this.selectedOrderTransportInfoLine?.paymentTypeLivraison
+         ),
       }),
     });
   }
@@ -212,6 +243,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["general"]["deliveryInfoLatitude"];
     this.selectAddressContactDeliveryInfo.longitude =
       formvalue["general"]["deliveryInfoLongitude"];
+
   }
 
   onSubmit() {
@@ -253,6 +285,18 @@ export class OrderTransportInfoLineComponent implements OnInit {
         this.validateEnlevement();
         this.validateLivraison();
       }
+      console.log(this.turnStatus);
+
+     if( this.selectedOrderTransportInfoLine.turnStatus==null){
+      console.log("status");
+
+  this.turnStatusService.find('id:'+1).subscribe(
+    data =>{
+      this.selectedOrderTransportInfoLine.turnStatus=data[0];
+    }
+  );
+
+     }
 
       console.log(this.selectedOrderTransportInfoLine);
 
@@ -268,6 +312,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.weightEnlevement = null;
     this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = null;
     this.selectedOrderTransportInfoLine.commentEnlevement = null;
+    this.selectedOrderTransportInfoLine.contreBlEnlevement = null;
+    this.selectedOrderTransportInfoLine.contreFactureEnlevement = null;
+    this.selectedOrderTransportInfoLine.paymentTypeEnlevement = null;
+
   }
   validateEnlevement() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -283,12 +331,17 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["enlevement"]["capacity"];
     this.selectedOrderTransportInfoLine.commentEnlevement =
       formvalue["enlevement"]["comment"];
+
   }
   destroyLivraison() {
     this.selectedOrderTransportInfoLine.capacityLivraison = null;
     this.selectedOrderTransportInfoLine.weightLivraison = null;
     this.selectedOrderTransportInfoLine.numberOfPalletLivraison = null;
     this.selectedOrderTransportInfoLine.commentLivraison = null;
+    this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
+    this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
+    this.selectedOrderTransportInfoLine.paymentTypeLivraison = null;
+
   }
   validateLivraison() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -305,9 +358,20 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["livraison"]["capacity"];
     this.selectedOrderTransportInfoLine.commentLivraison =
       formvalue["livraison"]["comment"];
+
+
   }
   onSelectorderTransportType(event) {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
+  }
+
+  onSelectPaymentTypeEnlevement(event){
+    this.selectedOrderTransportInfoLine.paymentTypeEnlevement = event.value;
+
+  }
+  onSelectPaymentTypeLivraison(event){
+    this.selectedOrderTransportInfoLine.paymentTypeLivraison = event.value;
+
   }
   inputWeightEnlevement(event) {
 
@@ -483,6 +547,28 @@ export class OrderTransportInfoLineComponent implements OnInit {
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
+
+  onChangeCBLEnlevement(event){
+
+
+  this.selectedOrderTransportInfoLine.contreBlEnlevement=event.checked;
+  console.log( this.selectedOrderTransportInfoLine.contreBlEnlevement);
+  }
+  onChangeCBLLivraison(event){
+    this.selectedOrderTransportInfoLine.contreBlLivraison=event.checked;
+    console.log( this.selectedOrderTransportInfoLine.contreBlLivraison);
+
+    }
+    onChangeCFEnlevement(event){
+      this.selectedOrderTransportInfoLine.contreFactureEnlevement=event.checked;
+      console.log( this.selectedOrderTransportInfoLine.contreFactureEnlevement);
+
+      }
+      onChangeCFLivraison(event){
+        this.selectedOrderTransportInfoLine.contreFactureLivraison=event.checked;
+        console.log( this.selectedOrderTransportInfoLine.contreFactureLivraison);
+
+        }
 
   ngOnDestroy() {
     this.subscrubtion.unsubscribe();

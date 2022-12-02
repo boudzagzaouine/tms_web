@@ -1,3 +1,4 @@
+import { Ville } from './ville';
 import { OrderTransportInfoLine } from './order-transport-info-line';
 import { AddressContactOrderTransportInfo } from './address-contact-order-transport-nfo';
 import { PackageDetail } from "./package-detail";
@@ -24,5 +25,9 @@ export class OrderTransportInfo {
 
   weightEnlevement: number ;
   weightLivraison: number =0;
+
+  villeSource :Ville;
+  villeDistination :Ville;
+  date: Date=new Date();
 
 }

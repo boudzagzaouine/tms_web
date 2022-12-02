@@ -1,3 +1,5 @@
+import { Ville } from './../../../../shared/models/ville';
+import { VilleService } from './../../../../shared/services/api/ville.service';
 import { TypeInfo } from './../../../../shared/enum/type-info.enum';
 import { OrderTransportService } from './../../../../shared/services/api/order-transport.service';
 import { AccountService } from './../../../../shared/services/api/account.service';
@@ -29,10 +31,7 @@ export class OrderTransportRetourComponent implements OnInit {
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
-  selectedAddressContactOrderTransportInfoInitial: AddressContactOrderTransportInfo =
-    new AddressContactOrderTransportInfo();
-  selectedAddressContactOrderTransportInfoFinal: AddressContactOrderTransportInfo =
-    new AddressContactOrderTransportInfo();
+
 
   idPackageDetail: number = 0;
   packageDetails: PackageDetail[] = [];
@@ -59,14 +58,15 @@ export class OrderTransportRetourComponent implements OnInit {
   packagingTypeList: PackagingType[] = [];
   accountList: Account[] = [];
   isFormSubmitted = false;
-
+  villeList :Ville[]=[];
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
     private accountService: AccountService,
     public orderTransportService: OrderTransportService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private villeService: VilleService
   ) {}
 
   ngOnInit() {
@@ -84,14 +84,7 @@ export class OrderTransportRetourComponent implements OnInit {
       this.orderTransportService.getorderTransportInfoRetour()
         ? this.orderTransportService.getorderTransportInfoRetour()
         : new OrderTransportInfo();
-    this.selectedAddressContactOrderTransportInfoInitial = this
-      .selectedOrderTransportInfo.addressContactInitial
-      ? this.selectedOrderTransportInfo.addressContactInitial
-      : new AddressContactOrderTransportInfo();
-    this.selectedAddressContactOrderTransportInfoFinal = this
-      .selectedOrderTransportInfo.addressContactFinal
-      ? this.selectedOrderTransportInfo.addressContactFinal
-      : new AddressContactOrderTransportInfo();
+
     this.packageDetails = this.selectedOrderTransportInfo.packageDetails
       ? this.selectedOrderTransportInfo.packageDetails
       : [];
@@ -122,90 +115,27 @@ export class OrderTransportRetourComponent implements OnInit {
         Validators.required
       ),
 
-      trajetUnique: new FormControl(
-        this.selectedOrderTransportInfo.trajetUnique
+
+      orderTransportInfoInitialCity: new FormControl(
+        this.selectedOrderTransportInfo.villeSource,
+        Validators.required
       ),
 
-      orderTransportInfoInitialName: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.name,
-        Validators.required
-      ),
-      orderTransportInfoInitialTel1: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.tel1,
-        Validators.required
-      ),
-      orderTransportInfoInitialEmail: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.email
-      ),
-      orderTransportInfoInitialCompany: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.company
-      ),
-      orderTransportInfoInitialLine1: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.line1,
-        Validators.required
-      ),
-      orderTransportInfoInitialCity: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.city,
-        Validators.required
-      ),
-      orderTransportInfoInitialZip: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.zip
-      ),
       orderTransportInfoInitialCountry: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.country,
-        Validators.required
-      ),
-      orderTransportInfoInitialLatitude: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.latitude,
-        Validators.required
-      ),
-      orderTransportInfoInitialLongitude: new FormControl(
-        this.selectedAddressContactOrderTransportInfoInitial.longitude,
-        Validators.required
+        'MAROC',
       ),
       orderTransportInfoInitialDate: new FormControl(
-        new Date(this.selectedAddressContactOrderTransportInfoInitial.date)
+       new Date(this.selectedOrderTransportInfo.date)
       ),
 
-      orderTransportInfoFinalName: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.name,
-        Validators.required
-      ),
-      orderTransportInfoFinalTel1: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.tel1,
-        Validators.required
-      ),
-      orderTransportInfoFinalEmail: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.email
-      ),
-      orderTransportInfoFinalCompany: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.company
-      ),
-      orderTransportInfoFinalLine1: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.line1,
-        Validators.required
-      ),
+
       orderTransportInfoFinalCity: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.city,
+        this.selectedOrderTransportInfo.villeDistination,
         Validators.required
       ),
-      orderTransportInfoFinalZip: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.zip
-      ),
+
       orderTransportInfoFinalCountry: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.country,
-        Validators.required
-      ),
-      orderTransportInfoFinalLatitude: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.latitude,
-        Validators.required
-      ),
-      orderTransportInfoFinalLongitude: new FormControl(
-        this.selectedAddressContactOrderTransportInfoFinal.longitude,
-        Validators.required
-      ),
-      orderTransportInfoFinalDate: new FormControl(
-        new Date(this.selectedAddressContactOrderTransportInfoFinal.date)
+        'MAROC',
       ),
     });
   }
@@ -216,37 +146,14 @@ export class OrderTransportRetourComponent implements OnInit {
       return;
     }
 
-    if(this.selectedOrderTransportInfo.trajetUnique==false){
-      if(this.selectedOrderTransportInfo.orderTransportInfoLines[0]==null){
-           this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Remplir Les Lignes",
-      });
-       } else {
-        this.selectedOrderTransportInfo.orderTransportInfoLines =
-        this.orderTransportInfoLines;
+
+
         this.loadForm();
         this.nextstep.emit(true);
-      }
-
-
-    }else {
-            this.selectedOrderTransportInfo.trajetUnique=true;
-            this.selectedOrderTransportInfo.orderTransportInfoLines =[];
-            this.loadForm();
-            this.nextstep.emit(true);
-
-    }
-
-
-
-
 
   }
   loadForm() {
-    this.initFormInitial();
-    this.initFormFinal();
+
 
     this.selectedOrderTransportInfo.weightTotal =
       this.orderTransportInfoForm.value["weight"];
@@ -254,6 +161,11 @@ export class OrderTransportRetourComponent implements OnInit {
       this.orderTransportInfoForm.value["capacity"];
       this.selectedOrderTransportInfo.numberOfPallet =
       this.orderTransportInfoForm.value["numberOfPallet"];
+      this.selectedOrderTransportInfo.date =
+      this.orderTransportInfoForm.value["orderTransportInfoInitialDate"];
+      this.selectedOrderTransportInfo.orderTransportInfoLines =
+      this.orderTransportInfoLines;
+
     this.selectedOrderTransportInfo.packageDetails = this.packageDetails;
 
     this.selectedOrderTransportInfo.type = TypeInfo.Retour.toString();
@@ -262,130 +174,24 @@ export class OrderTransportRetourComponent implements OnInit {
     );
   }
 
-  initFormInitial() {
-    let formValue = this.orderTransportInfoForm.value;
 
-    this.selectedAddressContactOrderTransportInfoInitial.name =
-      formValue["orderTransportInfoInitialName"];
-
-    this.selectedAddressContactOrderTransportInfoInitial.tel1 =
-      formValue["orderTransportInfoInitialTel1"];
-    this.selectedAddressContactOrderTransportInfoInitial.email =
-      formValue["orderTransportInfoInitialEmail"];
-    this.selectedAddressContactOrderTransportInfoInitial.company =
-      formValue["orderTransportInfoInitialCompany"];
-    this.selectedAddressContactOrderTransportInfoInitial.line1 =
-      formValue["orderTransportInfoInitialLine1"];
-    this.selectedAddressContactOrderTransportInfoInitial.city =
-      formValue["orderTransportInfoInitialCity"];
-    this.selectedAddressContactOrderTransportInfoInitial.zip =
-      formValue["orderTransportInfoInitialZip"];
-    this.selectedAddressContactOrderTransportInfoInitial.country =
-      formValue["orderTransportInfoInitialCountry"];
-    this.selectedAddressContactOrderTransportInfoInitial.latitude =
-      formValue["orderTransportInfoInitialLatitude"];
-    this.selectedAddressContactOrderTransportInfoInitial.longitude =
-      formValue["orderTransportInfoInitialLongitude"];
-    this.selectedAddressContactOrderTransportInfoInitial.date =
-      formValue["orderTransportInfoInitialDate"];
-
-    this.selectedOrderTransportInfo.addressContactInitial =
-      this.selectedAddressContactOrderTransportInfoInitial;
-  }
-
-  initFormFinal() {
-    let formValue = this.orderTransportInfoForm.value;
-
-    this.selectedAddressContactOrderTransportInfoFinal.name =
-      formValue["orderTransportInfoFinalName"];
-
-    this.selectedAddressContactOrderTransportInfoFinal.tel1 =
-      formValue["orderTransportInfoFinalTel1"];
-    this.selectedAddressContactOrderTransportInfoFinal.email =
-      formValue["orderTransportInfoFinalEmail"];
-    this.selectedAddressContactOrderTransportInfoFinal.company =
-      formValue["orderTransportInfoFinalCompany"];
-    this.selectedAddressContactOrderTransportInfoFinal.line1 =
-      formValue["orderTransportInfoFinalLine1"];
-    this.selectedAddressContactOrderTransportInfoFinal.city =
-      formValue["orderTransportInfoFinalCity"];
-    this.selectedAddressContactOrderTransportInfoFinal.zip =
-      formValue["orderTransportInfoFinalZip"];
-    this.selectedAddressContactOrderTransportInfoFinal.country =
-      formValue["orderTransportInfoFinalCountry"];
-    this.selectedAddressContactOrderTransportInfoFinal.longitude =
-      formValue["orderTransportInfoFinalLongitude"];
-    this.selectedAddressContactOrderTransportInfoFinal.latitude =
-      formValue["orderTransportInfoFinalLatitude"];
-    this.selectedAddressContactOrderTransportInfoFinal.date =
-      formValue["orderTransportInfoFinalDate"];
-    this.selectedOrderTransportInfo.addressContactFinal =
-      this.selectedAddressContactOrderTransportInfoFinal;
-  }
 
   // address
 
-  setInfoInitial(event) {
-    this.orderTransportInfoForm.patchValue({
-      orderTransportInfoInitialName: event.name,
-      orderTransportInfoInitialTel1: event.tel1,
-      orderTransportInfoInitialEmail: event.email,
-      orderTransportInfoInitialCompany: event.company,
-      orderTransportInfoInitialLine1: event.line1,
-      orderTransportInfoInitialCity: event.city,
-      orderTransportInfoInitialZip: event.zip,
-      orderTransportInfoInitialCountry: event.country,
-      orderTransportInfoInitialLatitude: event.latitude,
-      orderTransportInfoInitialLongitude: event.longitude,
-    });
-    this.orderTransportInfoForm.updateValueAndValidity();
-  }
 
-  setInfoFinal(event) {
-    this.orderTransportInfoForm.patchValue({
-      orderTransportInfoFinalName: event.name,
-      orderTransportInfoFinalTel1: event.tel1,
-      orderTransportInfoFinalEmail: event.email,
-      orderTransportInfoFinalCompany: event.company,
-      orderTransportInfoFinalLine1: event.line1,
-      orderTransportInfoFinalCity: event.city,
-      orderTransportInfoFinalZip: event.zip,
-      orderTransportInfoFinalLatitude: event.latitude,
-      orderTransportInfoFinalLongitude: event.longitude,
-      orderTransportInfoFinalCountry: event.country,
-    });
-    this.orderTransportInfoForm.updateValueAndValidity();
-  }
 
-  trajetUnique(event) {
-    console.log(event.checked);
-    this.selectedOrderTransportInfo.trajetUnique=event.checked;
-    if(event.checked==true){
-        if(this.orderTransportInfoLines[0]!=null){
-          this.confirmationService.confirm({
-            message: "Voulez vous vraiment Trajet Unique?",
-            accept: () => {
-              this.selectedOrderTransportInfo.trajetUnique =true;
-            },
-            reject:()=>{
-              this.selectedOrderTransportInfo.trajetUnique =false;
-
-              this.orderTransportInfoForm.patchValue({
-                trajetUnique:false
-              })
-            }
-          });
-        }
-    }
+  onSelectVilleSource(event){
+   this.selectedOrderTransportInfo.villeSource=event;
   }
+  onSelectVilleDistination(event){
+    this.selectedOrderTransportInfo.villeDistination=event;
+   }
 
-  affectedContactAddressInfoSelected(event) {
-    if (this.selectedaccountInitialOrFinal == "Initial") {
-      this.setInfoInitial(event);
-    } else if (this.selectedaccountInitialOrFinal == "Final") {
-      this.setInfoFinal(event);
-    }
-  }
+   onVilleSearch(event){
+    this.villeService
+    .find('code~' + event.query)
+    .subscribe(data => (this.villeList = data))
+   }
 
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
@@ -481,6 +287,7 @@ export class OrderTransportRetourComponent implements OnInit {
     });
 
     const size = this.orderTransportInfoLines.length;
+    this.idOrderTransportLine=size;
     if (size == 0) {
       this.idOrderTransportLine--;
       orderTransportInfoLine.id = this.idOrderTransportLine;
@@ -490,10 +297,10 @@ export class OrderTransportRetourComponent implements OnInit {
         orderTransportInfoLine.id == undefined ||
         orderTransportInfoLine.id == null
       ) {
-        this.idOrderTransportLine =
-          this.orderTransportInfoLines[
-            this.orderTransportInfoLines.length - 1
-          ].id;
+        // this.idOrderTransportLine =
+        //   this.orderTransportInfoLines[
+        //     this.orderTransportInfoLines.length - 1
+        //   ].id;
         this.idOrderTransportLine--;
         orderTransportInfoLine.id = this.idOrderTransportLine;
         let lastLine = this.orderTransportInfoLines[size - 1].lineNumber

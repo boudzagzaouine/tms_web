@@ -85,13 +85,13 @@ catalogTransportTypeExterns :CatalogTransportType []=[];
     let source ,distination,startDate ,endDate ;
 
     if(this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3 ){
-     source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
-     distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+     source =this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
+     distination=this.selectOrderTransport.orderTransportInfoAller?.villeDistination?.code;
 
 
     }else if(this.selectOrderTransport.turnType.id==2 ){
-     source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
-     distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
+     source =this.selectOrderTransport.orderTransportInfoRetour?.villeSource?.code;
+     distination=this.selectOrderTransport.orderTransportInfoRetour?.villeDistination?.code;
 
     }
             this.catalogTransportTypeService
@@ -118,13 +118,13 @@ catalogTransportTypeExterns :CatalogTransportType []=[];
     let source ,distination,startDate ,endDate ;
 
     if(this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3 ){
-     source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
-     distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
+     source =this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
+     distination=this.selectOrderTransport.orderTransportInfoAller?.villeDistination?.code;
 
 
     }else if(this.selectOrderTransport.turnType.id==2 ){
-     source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
-     distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
+     source =this.selectOrderTransport.orderTransportInfoRetour?.villeSource?.code;
+     distination=this.selectOrderTransport.orderTransportInfoRetour?.villeDistination?.code;
 
     }
 
@@ -144,9 +144,11 @@ catalogTransportTypeExterns :CatalogTransportType []=[];
       )
       .subscribe((data) => {
           console.log(data);
+          if(data[0]){
           this.catalogTransportIntern=data[0];
+
           this.loadContractAccountbyAccountSelected();
-          this.onSearchLastPriceByTransportIntern();
+          this.onSearchLastPriceByTransportIntern();}
         });
 }
 
@@ -176,23 +178,15 @@ console.log(data);
 onSearchLastPriceByTransportIntern(){
 
 
-    let search  ='orderTransport.turnType.id:'+this.selectOrderTransport.turnType.id+
-                  ',transport.id:'+this.catalogTransportIntern.transport.id+
-                  ',orderTransport.account.id:'+this.selectOrderTransport.account.id;
+    let search  ='orderTransport.turnType.id:'+this.selectOrderTransport?.turnType.id+
+                  ',transport.id:'+this.catalogTransportIntern?.transport.id+
+                  ',orderTransport.account.id:'+this.selectOrderTransport?.account.id;
 
 this.transportPlanService.getLastPriceTransportPlan(search).subscribe(
   data =>{
-console.log(data);
-
 this.catalogTransportIntern.tarifLastPriceIntern=data.salePrice;
-    console.log(this.catalogTransportIntern.tarifLastPriceIntern);
-
   }
 );
-
-
-
-
 
 }
 
@@ -201,21 +195,21 @@ this.catalogTransportIntern.tarifLastPriceIntern=data.salePrice;
  let source ,distination,startDate ,endDate ;
 
  if(this.selectOrderTransport.turnType.id==1 ){
-  source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
-  distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
-  startDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.date.toISOString();
-  endDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.date.toISOString();
+  source =this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
+  distination=this.selectOrderTransport.orderTransportInfoAller?.villeDistination?.code;
+  startDate=this.selectOrderTransport.orderTransportInfoAller?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoAller?.date.toISOString();
 
  }else if(this.selectOrderTransport.turnType.id==2 ){
-  source =this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.city;
-  distination=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.city;
-  startDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactInitial?.date.toISOString();
-  endDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.date.toISOString();
+  source =this.selectOrderTransport.orderTransportInfoRetour?.villeSource?.code;
+  distination=this.selectOrderTransport.orderTransportInfoRetour?.villeDistination?.code;
+  startDate=this.selectOrderTransport.orderTransportInfoRetour?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoRetour?.date.toISOString();
  } else if(this.selectOrderTransport.turnType.id==3 ){
-  source =this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.city;
-  distination=this.selectOrderTransport.orderTransportInfoAller?.addressContactFinal?.city;
-  startDate=this.selectOrderTransport.orderTransportInfoAller?.addressContactInitial?.date.toISOString();
-  endDate=this.selectOrderTransport.orderTransportInfoRetour?.addressContactFinal?.date.toISOString();
+  source =this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
+  distination=this.selectOrderTransport.orderTransportInfoAller?.villeDistination?.code;
+  startDate=this.selectOrderTransport.orderTransportInfoAller?.date.toISOString();
+  endDate=this.selectOrderTransport.orderTransportInfoRetour?.date.toISOString();
  }
 
 

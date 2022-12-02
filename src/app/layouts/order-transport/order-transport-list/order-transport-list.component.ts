@@ -68,7 +68,7 @@ export class OrderTransportListComponent implements OnInit {
       { field: 'turnType', child: 'code', header: 'Type', type: 'object' },
       { field: 'loadingType', header: 'Type de chargement', type: 'string' },
       { field: 'account', child: 'name', header: 'Client', type: 'object' },
-
+      { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
 
 
     ];
@@ -140,7 +140,7 @@ export class OrderTransportListComponent implements OnInit {
 
     const buffer = new EmsBuffer();
     if (this.dateLivraisonSearch != null && this.dateLivraisonSearch !== undefined) {
-      buffer.append(`dateDelivery~${this.dateLivraisonSearch}`);
+      buffer.append(`date~${this.dateLivraisonSearch}`);
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();

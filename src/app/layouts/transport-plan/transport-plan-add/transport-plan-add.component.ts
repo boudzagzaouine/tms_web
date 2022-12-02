@@ -170,9 +170,13 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectOrderTransport =
       event.id != null || event.id != undefined ? event : event.value[0];
     if (this.isInterOrPrestataire == "Interne") {
+      console.log("intern");
+
       this.loadVehicleByCategory();
       this.catalogTransportTypeList = [];
     } else if (this.isInterOrPrestataire == "Prestataire") {
+      console.log("prestataire");
+
       this.loadTransport();
       this.vehicleList = [];
     }
@@ -188,10 +192,10 @@ export class TransportPlanAddComponent implements OnInit {
           this.selectOrderTransport.vehicleCategory.tonnage +
           ",villeSource.code~" +
           this.selectOrderTransport?.orderTransportInfoAller
-            ?.addressContactInitial.city +
+            ?.villeSource.code +
           ",villeDestination.code~" +
           this.selectOrderTransport?.orderTransportInfoAller
-            ?.addressContactFinal.city
+            ?.villeDistination.code
       )
       .subscribe((data) => {
         if (data[0] != null || data[0] != undefined) {
@@ -214,22 +218,21 @@ export class TransportPlanAddComponent implements OnInit {
           this.vehicleList = data;
           this.vehicleList.forEach((vehicle) => {
             this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
-              if (vehicle.state == "Maintenance") {
-                vehicle.state += "-" + data;
-              } else {
+ console.log(data);
+
                 vehicle.state = data;
-              }
+                this.onSelectVehicleAvailable();
 
             });
 
-            this.searchVehicleInMaintenance(vehicle).subscribe((data) => {
-              if (vehicle.state == "Trajet") {
-                vehicle.state += "-" + data;
-              } else {
-                vehicle.state = data;
-              }
-              this.onSelectVehicleAvailable();
-            });
+            // this.searchVehicleInMaintenance(vehicle).subscribe((data) => {
+            //   if (vehicle.state == "Trajet") {
+            //     vehicle.state += "-" + data;
+            //   } else {
+            //     vehicle.state = data;
+            //   }
+            //   this.onSelectVehicleAvailable();
+            // });
           });
         } else {
           this.vehicleList = [];
@@ -248,25 +251,25 @@ export class TransportPlanAddComponent implements OnInit {
     }
   }
 
-  searchVehicleInMaintenance(vehicle: Vehicle): Observable<string> {
-    let state: string = "Disponible";
-    var subject = new Subject<string>();
+  // searchVehicleInMaintenance(vehicle: Vehicle): Observable<string> {
+  //   let state: string = "Disponible";
+  //   var subject = new Subject<string>();
 
-    this.maintenanceService
-      .sizeSearch("patrimony.id:" + vehicle.id + ",maintenanceState.id!" + 4)
-      .subscribe((data) => {
-        if (data && data > 0) {
-          console.log("maintenace");
+  //   this.maintenanceService
+  //     .sizeSearch("patrimony.id:" + vehicle.id + ",maintenanceState.id!" + 4)
+  //     .subscribe((data) => {
+  //       if (data && data > 0) {
+  //         console.log("maintenace");
 
-          state = "Maintenance";
-          subject.next(state);
-        } else {
-          state = "Disponible";
-          subject.next(state);
-        }
-      });
-    return subject.asObservable();
-  }
+  //         state = "Maintenance";
+  //         subject.next(state);
+  //       } else {
+  //         state = "Disponible";
+  //         subject.next(state);
+  //       }
+  //     });
+  //   return subject.asObservable();
+  // }
 
   searchVehicleInTranportPlan(vehicle: Vehicle): Observable<string> {
     let state: string = "Disponible";
@@ -379,10 +382,10 @@ export class TransportPlanAddComponent implements OnInit {
             this.selectOrderTransport.vehicleCategory.id +
             ",villeSource.code~" +
             this.selectOrderTransport?.orderTransportInfoAller
-              ?.addressContactInitial.city +
+              ?.villeSource.code +
             ",villeDestination.code~" +
             this.selectOrderTransport?.orderTransportInfoAller
-              ?.addressContactFinal.city +
+              ?.villeDistination.code +
             ",transport.id:" +
             this.selectDefaulTransport.id
         )
@@ -404,18 +407,18 @@ export class TransportPlanAddComponent implements OnInit {
             this.selectedTransportPlan.orderTransport.turnType.id == 3
           ) {
             this.selectedTransportPlan.villeSource =
-              this.selectOrderTransport.orderTransportInfoAller.addressContactInitial.city;
+              this.selectOrderTransport.orderTransportInfoAller.villeSource.code;
             this.selectedTransportPlan.villeDistination =
-              this.selectOrderTransport.orderTransportInfoAller.addressContactFinal.city;
+              this.selectOrderTransport.orderTransportInfoAller.villeDistination.code;
             // this.loadContractAccountbyAccountSelectedAller(
             //   this.selectedTransportPlan.vehicleCategory
             // );
           }
           if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
             this.selectedTransportPlan.villeSource =
-              this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial.city;
+              this.selectOrderTransport.orderTransportInfoRetour.villeSource.code;
             this.selectedTransportPlan.villeDistination =
-              this.selectOrderTransport.orderTransportInfoRetour.addressContactFinal.city;
+              this.selectOrderTransport.orderTransportInfoRetour.villeDistination.code;
             // this.loadContractAccountbyAccountSelectedRetour(
             //   this.selectedTransportPlan.vehicleCategory
             // );

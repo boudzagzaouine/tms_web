@@ -22,7 +22,6 @@ export class OrderTransport {
   account :Account;
   turnStatus:TurnStatus;
   vehicleCategory :VehicleCategory ;
-
   orderTransportInfoAller:OrderTransportInfo;
   orderTransportInfoRetour:OrderTransportInfo;
 

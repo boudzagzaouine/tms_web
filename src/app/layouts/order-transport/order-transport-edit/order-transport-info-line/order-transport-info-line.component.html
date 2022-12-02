@@ -6,7 +6,8 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '800px' }"
+[style]="{ width: '1000px' }"
+[position]="'right'"
 (onHide)='onShowDialog()'
 >
 <div>
@@ -309,15 +310,16 @@ optionLabel="code"
     </div>
     </div>
         </div>
+<div formGroupName="enlevement">
+        <div class="row  justify-content-around" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
+          <div class="form-group col-md-7">
 
-
-
-        <p-panel  [toggleable]="true" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
+        <p-panel  [toggleable]="true" >
           <ng-template pTemplate = "header" >
             <img src="./assets/img/depuis.png" width="30px"
             height="30px">          <span style="font-weight: 600"> Enlevement</span>
         </ng-template>
-        <div formGroupName="enlevement">
+        <div >
 
                     <div class="row justify-content-around">
 
@@ -348,7 +350,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      Nombre Pallete maximum autorisé : {{this.palletMaxEnlevement}} (Kg)
+                       maximum autorisé : {{this.palletMaxEnlevement}} (Kg)
                       </span>
                       </div>
 
@@ -377,7 +379,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      poids maximum autorisé : {{this.weightMaxEnlevement}} (Kg)
+                       maximum autorisé : {{this.weightMaxEnlevement}} (Kg)
                       </span>
                       </div>
                       <div class="form-group col-md-4">
@@ -405,7 +407,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      Volume maximum autorisé : {{this.capacityMaxEnlevement}} (Kg)
+                       maximum autorisé : {{this.capacityMaxEnlevement}} (Kg)
                       </span>
                       </div>
                       <div class="form-group col-md-12">
@@ -428,13 +430,89 @@ optionLabel="code"
         </div>
 
         </p-panel>
+</div>
+<div class="form-group col-md-5">
+  <p-panel  [toggleable]="true">
+    <ng-template pTemplate = "header" >
+      <img src="./assets/img/depuis.png" width="30px"
+      height="30px">          <span style="font-weight: 600"> Paiement</span>
+  </ng-template>
 
-          <p-panel  [toggleable]="true"  *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
+  <div class="row justify-content-around">
+    <div class="form-group col-md-12">
+      <label class="font-weight-bold">{{
+        "Mode Paiement" | translate
+      }} </label
+      >
+      </div>
+    <div class="form-group col-md-4">
+      <label class="font-weight-bold">{{
+        "Contre BL" | translate
+      }} </label
+      >
+
+      <br />
+      <p-toggleButton formControlName="contreBL"
+      onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLEnlevement($event)"
+      onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+      </div>
+
+      <div class="form-group col-md-5">
+        <label class="font-weight-bold">{{
+          "Contre Facture" | translate
+        }} </label
+        >
+
+        <br />
+        <p-toggleButton formControlName="contreFacture"
+        onLabel="Oui" offLabel="Non" (onChange)="onChangeCFEnlevement($event)"
+        onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+        </div>
+        <div class="form-group col-md-3">
+</div>
+
+
+</div>
+<div class="row justify-content-around">
+
+  <div class="form-group col-md-6">
+    <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
+    <p-dropdown
+  formControlName="paymentType"
+  [autoDisplayFirst]="false"
+  [options]="paymentTypeList"
+  optionLabel="code"
+  (onChange)="onSelectPaymentTypeEnlevement($event)"
+  [filter]="true"
+  appendTo="body"
+  [showClear]="true"
+  ></p-dropdown>
+
+  </div>
+  <div class="form-group col-md-6">
+  </div>
+  </div>
+</p-panel>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="row  justify-content-around" >
+  <div formGroupName="livraison" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
+    <div class="row  justify-content-around">
+      <div class="form-group col-md-7">
+
+          <p-panel  [toggleable]="true"  >
             <ng-template pTemplate = "header" >
               <img src="./assets/img/depuis.png" width="30px"
               height="30px">          <span style="font-weight: 600"> Livraison</span>
           </ng-template>
-          <div formGroupName="livraison">
+          <div >
 
                       <div class="row justify-content-around">
 
@@ -465,7 +543,7 @@ optionLabel="code"
                           class="text-lighter"
                           style="color: red; font-size: xx-small"
                         >
-                        Nombre Pallete maximum autorisé : {{this.palletMaxLivraison}} (Kg)
+                         maximum autorisé : {{this.palletMaxLivraison}} (Kg)
                         </span>
 
                         </div>
@@ -496,7 +574,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      poids maximum autorisé : {{this.weightMaxLivraison}} (Kg)
+                       maximum autorisé : {{this.weightMaxLivraison}} (Kg)
                       </span>
 
                         </div>
@@ -526,7 +604,7 @@ optionLabel="code"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
-                      Volume maximum autorisé : {{this.capacityMaxLivraison}} (Kg)
+                       maximum autorisé : {{this.capacityMaxLivraison}} (Kg)
                       </span>
                         </div>
                         <div class="form-group col-md-12">
@@ -547,7 +625,73 @@ optionLabel="code"
 
           </div>
         </p-panel>
+</div>
+<div class="form-group col-md-5">
 
+        <p-panel  [toggleable]="true">
+          <ng-template pTemplate = "header" >
+            <img src="./assets/img/depuis.png" width="30px"
+            height="30px">          <span style="font-weight: 600"> Paiement</span>
+        </ng-template>
+
+        <div class="row justify-content-around">
+     <div class="form-group col-md-12">
+            <label class="font-weight-bold">{{
+              "Mode Paiement" | translate
+            }} </label
+            >
+</div>
+          <div class="form-group col-md-4">
+            <label class="font-weight-bold">{{
+              "Contre BL" | translate
+            }} </label
+            >
+
+            <br />
+            <p-toggleButton formControlName="contreBL"
+            onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLLivraison($event)"
+            onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+            </div>
+
+            <div class="form-group col-md-5">
+              <label class="font-weight-bold">{{
+                "Contre Facture" | translate
+              }} </label
+              >
+
+              <br />
+              <p-toggleButton formControlName="contreFacture"
+              onLabel="Oui" offLabel="Non" (onChange)="onChangeCFLivraison($event)"
+              onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+              </div>
+              <div class="form-group col-md-3">
+      </div>
+
+
+      </div>
+       <div class="row justify-content-around">
+
+      <div class="form-group col-md-6">
+        <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
+        <p-dropdown
+      formControlName="paymentType"
+      [autoDisplayFirst]="false"
+      [options]="paymentTypeList"
+      optionLabel="code"
+      (onChange)="onSelectPaymentTypeLivraison($event)"
+      [filter]="true"
+      appendTo="body"
+      [showClear]="true"
+      ></p-dropdown>
+
+      </div>
+      <div class="form-group col-md-6">
+      </div>
+      </div>
+      </p-panel>
+      </div>
+    </div>
+</div></div>
 </div>
     </form>
 

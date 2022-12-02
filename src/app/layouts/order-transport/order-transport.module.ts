@@ -50,6 +50,7 @@ import { ContactEditComponent } from '../settings/account/account-edit/contact-e
 import { AddressEditComponent } from '../settings/account/account-edit/address-edit/address-edit.component';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 @NgModule({
   imports: [
@@ -88,8 +89,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
      CardModule,
      TimelineModule,
      CheckboxModule,
-     InputNumberModule
-
+     InputNumberModule,
+     ToggleButtonModule
   ],
   declarations: [OrderTransportComponent,
     OrderTransportEditComponent,

@@ -42,11 +42,11 @@
               <div class="product-item">
                   <div class="image-container" style="    margin-right: 10px;">
                           <!-- <img src="assets/showcase/images/demo/product/{{product.image}}" [alt]="product.name" class="product-image" /> -->
-                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.addressContactInitial?.date | date: 'yyyy'}}</h6>
+                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.date | date: 'yyyy'}}</h6>
                           <h6 style="    color: #4084bd;
                           font-size: 30px;
-                          font-weight: 600;">{{order?.orderTransportInfoAller?.addressContactInitial?.date | date: 'dd'}}</h6>
-                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.addressContactInitial?.date | date: 'MMMM'}}</h6>
+                          font-weight: 600;">{{order?.orderTransportInfoAller?.date | date: 'dd'}}</h6>
+                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.date | date: 'MMMM'}}</h6>
 
                         </div>
                   <div class="product-list-detail">
@@ -54,10 +54,10 @@
                       <h6 style="font-size: 14px;">{{order?.account?.name}}</h6>
 
                      <span *ngIf="order.turnType.id==1 || order.turnType.id==3"> <i class="pi pi-map-marker product-category-icon" style="color: #e74c3c;"></i>
-                     <span class="product-category">Aller : <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.addressContactInitial?.city}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.addressContactFinal?.city}}</span></span><br>
+                     <span class="product-category">Aller : <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeDistination?.code}}</span></span><br>
                     </span>
                     <span *ngIf="order.turnType.id==2 || order.turnType.id==3"> <i class="pi pi-map-marker product-category-icon" style="color: #e74c3c;"></i>
-                     <span class="product-category">Retour : <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.addressContactInitial?.city}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.addressContactFinal?.city}}</span></span>
+                     <span class="product-category">Retour : <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeDistiantion?.code}}</span></span>
                     </span>
                     </div>
                   <div class="product-list-action">

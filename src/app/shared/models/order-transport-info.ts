@@ -1,3 +1,4 @@
+import { TurnStatus } from './turn-status';
 import { Ville } from './ville';
 import { OrderTransportInfoLine } from './order-transport-info-line';
 import { AddressContactOrderTransportInfo } from './address-contact-order-transport-nfo';
@@ -13,7 +14,7 @@ export class OrderTransportInfo {
   packageDetails: PackageDetail[] = [];
   addressContactInitial: AddressContactOrderTransportInfo;
   addressContactFinal: AddressContactOrderTransportInfo;
-
+  turnStatus:TurnStatus;
   orderTransportInfoLines: OrderTransportInfoLine[] = [];
   trajetUnique :Boolean =true;
   numberOfPallet:number;

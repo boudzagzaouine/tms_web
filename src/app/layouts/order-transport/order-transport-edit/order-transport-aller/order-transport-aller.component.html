@@ -109,10 +109,10 @@
         <div class="form-group col-md-6">
           <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
           <span class="add" style="float: left;" *ngIf="   this.selectedOrderTransportInfo.packagingType?.id>0">
-            <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==2" src="/assets/img/add.png" style="width: 30px ; height: 30px;">
+            <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==2" src="./assets/img/add.png" style="width: 30px ; height: 30px;">
 
             <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==1
-            " src="/assets/img/add_pallet.png" style="width: 30px ; height: 30px;">
+            " src="./assets/img/add_pallet.png" style="width: 30px ; height: 30px;">
             <a (click)='onShowDialogPackageDetail(null,false)' class="ml-2">Ajouter Details d'emballage</a></span>
       </div>
       <div class="form-group col-md-6">
@@ -341,7 +341,7 @@
         <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
         <span class="add" style="float: left;">
 
-          <img src="/assets/img/turn.png" style="width: 30px ; height: 30px;">
+          <img src="./assets/img/turn.png" style="width: 30px ; height: 30px;">
           <a (click)='onShowDialogOrderTransportInfoLine(null,false)' class="ml-2">Ajouter Sous Trajet</a></span>
     </div>
     <div class="form-group col-md-6">

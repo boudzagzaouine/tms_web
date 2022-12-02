@@ -1,3 +1,5 @@
+import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
+import { TurnStatus } from './../../../../shared/models/turn-status';
 import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Ville } from './../../../../shared/models/ville';
 import { TypeInfo } from "./../../../../shared/enum/type-info.enum";
@@ -59,6 +61,7 @@ export class OrderTransportAllerComponent implements OnInit {
   accountList: Account[] = [];
   isFormSubmitted = false;
   villeList :Ville[]=[];
+  turnStatus : TurnStatus = new TurnStatus();
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
@@ -66,7 +69,8 @@ export class OrderTransportAllerComponent implements OnInit {
     private accountService: AccountService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
-    private villeService: VilleService
+    private villeService: VilleService,
+    private turnStatusService:TurnStatusService
   ) {}
 
   ngOnInit() {
@@ -153,7 +157,13 @@ export class OrderTransportAllerComponent implements OnInit {
 
   }
   loadForm() {
-
+    if( this.selectedOrderTransportInfo.turnStatus==null){
+    this.turnStatusService.find('id:'+1).subscribe(
+      data =>{
+        this.selectedOrderTransportInfo.turnStatus=data[0];
+      }
+    );
+    }
 
     this.selectedOrderTransportInfo.weightTotal =
       this.orderTransportInfoForm.value["weight"];

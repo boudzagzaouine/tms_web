@@ -95,6 +95,14 @@ export class OrderTransportRetourComponent implements OnInit {
       .orderTransportInfoLines
       ? this.selectedOrderTransportInfo.orderTransportInfoLines
       : [];
+      if( this.selectedOrderTransportInfo.turnStatus==null){
+        this.turnStatusService.find('id:'+1).subscribe(
+          data =>{
+            this.selectedOrderTransportInfo.turnStatus=data[0];
+            this.initForm();
+          }
+        );
+        }
     this.initForm();
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
@@ -131,6 +139,9 @@ export class OrderTransportRetourComponent implements OnInit {
        new Date(this.selectedOrderTransportInfo.date)
       ),
 
+      orderTransportInfoStatus : new FormControl(
+        this.selectedOrderTransportInfo?.turnStatus?.code
+      ),
 
       orderTransportInfoFinalCity: new FormControl(
         this.selectedOrderTransportInfo.villeDistination,

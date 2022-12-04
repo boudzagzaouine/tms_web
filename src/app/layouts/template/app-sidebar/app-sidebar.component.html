@@ -75,7 +75,7 @@ height: 100vh; padding-bottom: 10%;">
 
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/menu-transport" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Transport ' | translate}}</a>
+              {{'Tarification ' | translate}}</a>
           </li>
           <!-- <li *hasPermission="['PUMP_VIEW']">
             <a routerLink="/core/settings/menu-fuel" class="m-a"><i class="fa fa-circle-o"></i>
@@ -99,10 +99,19 @@ height: 100vh; padding-bottom: 10%;">
 
       <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
         <a class="text-white" routerLink="/core/settings/account"><i class="sidebar-item-icon fa " >
-            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
+            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
           </i>
 
           <span class="nav-label">{{'Client' | translate}}</span></a>
+
+      </li>
+
+      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+        <a class="text-white" routerLink="/core/settings/transport"><i class="sidebar-item-icon fa " >
+            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
+          </i>
+
+          <span class="nav-label">{{'Transport' | translate}}</span></a>
 
       </li>
 
@@ -226,7 +235,7 @@ height: 100vh; padding-bottom: 10%;">
         </ul>
       </li> -->
 
-      <!-- <li *hasPermission="['DIESELDECLARATION_VIEW']">
+      <li *hasPermission="['DIESELDECLARATION_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
           </i>
@@ -238,8 +247,8 @@ height: 100vh; padding-bottom: 10%;">
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
-      </li> -->
-<!--
+      </li>
+
       <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
@@ -252,7 +261,7 @@ height: 100vh; padding-bottom: 10%;">
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
-      </li> -->
+      </li>
 
       <!-- <li *hasPermission="['MAINTENANCEPLAN_VIEW','MAINTENANCEPLAN_CREATE','MAINTENANCE_CREATE','MAINTENANCE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa">

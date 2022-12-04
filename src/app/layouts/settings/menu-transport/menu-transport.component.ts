@@ -17,7 +17,7 @@ export class MenuTransportComponent implements OnInit {
 
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Transport' ,routerLink:'/core/settings/menu-transport'},
+      {label: 'Tarifs' ,routerLink:'/core/settings/menu-transport'},
 
   ];
 

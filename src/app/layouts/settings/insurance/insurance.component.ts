@@ -67,7 +67,7 @@ export class InsuranceComponent implements OnInit {
     this.className = Insurance.name;
     this.cols = [
       { field: 'code', header: 'Numéro assurance', type: 'string' },
-      { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
+      { field: 'patrimony', child: 'registrationNumber', header: 'Vehicule', type: 'object' },
       { field: 'supplier', child: 'code', header: 'Fournisseur', type: 'object' },
       { field: 'insuranceType', child: 'code', header: 'Type assurance', type: 'object' },
       { field: 'startDate', header: 'Date Début', type: 'date' },

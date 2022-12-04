@@ -35,7 +35,7 @@
   optionLabel="code"
   [filter]="true"
   [showClear]="true"
-  [placeholder]="this.selectedTransportPlan.vehicleCategory.code"
+  [placeholder]="this.selectedTransportPlan?.vehicleCategory?.code"
 
 ></p-dropdown>
 
@@ -252,7 +252,7 @@
 
       </div>
 
-        <p-table *ngIf=" this.selectedOrderTransportInfoRetour.orderTransportInfoLines.length>0"
+        <p-table *ngIf="this.selectedOrderTransportInfoRetour.orderTransportInfoLines.length>0"
           [value]=" this.selectedOrderTransportInfoRetour.orderTransportInfoLines" [lazy]="true" [rows]="5" [paginator]="true"
           [totalRecords]="this.selectedOrderTransportInfoRetour.orderTransportInfoLines">
             <ng-template pTemplate="header">

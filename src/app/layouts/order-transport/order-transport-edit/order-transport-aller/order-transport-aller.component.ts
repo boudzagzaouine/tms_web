@@ -62,6 +62,7 @@ export class OrderTransportAllerComponent implements OnInit {
   isFormSubmitted = false;
   villeList :Ville[]=[];
   turnStatus : TurnStatus = new TurnStatus();
+  statusList :TurnStatus[]=[];
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
@@ -74,6 +75,9 @@ export class OrderTransportAllerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.packagingTypeService.findAll().subscribe((data) => {
+      this.packagingTypeList = data;
+    });
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
     });
@@ -96,11 +100,22 @@ export class OrderTransportAllerComponent implements OnInit {
       .orderTransportInfoLines
       ? this.selectedOrderTransportInfo.orderTransportInfoLines
       : [];
+      if( this.selectedOrderTransportInfo.turnStatus==null){
+        this.turnStatusService.find('id:'+1).subscribe(
+          data =>{
+            this.selectedOrderTransportInfo.turnStatus=data[0];
+            this.initForm();
+          }
+        );
+        }
     this.initForm();
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
 
   initForm() {
+    console.log(this.selectedOrderTransportInfo.turnStatus);
+
+
     this.orderTransportInfoForm = new FormGroup({
       packagingType: new FormControl(
         this.selectedOrderTransportInfo.packagingType,
@@ -131,7 +146,9 @@ export class OrderTransportAllerComponent implements OnInit {
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)
       ),
-
+      orderTransportInfoStatus : new FormControl(
+        this.selectedOrderTransportInfo?.turnStatus?.code
+      ),
 
       orderTransportInfoFinalCity: new FormControl(
         this.selectedOrderTransportInfo.villeDistination,
@@ -157,13 +174,7 @@ export class OrderTransportAllerComponent implements OnInit {
 
   }
   loadForm() {
-    if( this.selectedOrderTransportInfo.turnStatus==null){
-    this.turnStatusService.find('id:'+1).subscribe(
-      data =>{
-        this.selectedOrderTransportInfo.turnStatus=data[0];
-      }
-    );
-    }
+
 
     this.selectedOrderTransportInfo.weightTotal =
       this.orderTransportInfoForm.value["weight"];

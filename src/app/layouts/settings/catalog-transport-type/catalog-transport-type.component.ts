@@ -1,6 +1,6 @@
 import { VilleService } from './../../../shared/services/api/ville.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { Ville } from './../../../shared/models/Ville';
+import { Ville } from './../../../shared/models/ville';
 import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { ToastrService } from 'ngx-toastr';

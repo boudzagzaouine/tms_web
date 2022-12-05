@@ -84,6 +84,17 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
   <div class="form-group col-md-12">
     <h4 class="divider donotcross" contenteditable>Aller</h4>
 </div>
+<div class="form-group col-md-12">
+  <button
+    pButton
+    pRipple
+    icon="pi pi-map-marker"
+    (click)="onShowDialogMapAller()"
+    type="button"
+    label="Itineraire"
+    class="p-button-outlined"
+  ></button>
+</div>
   <div class="form-group col-md-6">
 
   <p-card>
@@ -139,6 +150,8 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
 
 
         </div>
+
+
 
 
 
@@ -227,3 +240,11 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
   ></button>
 </div>
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
+
+<div *ngIf="showDialogMap == true">
+  <app-order-transport-itinerary
+    [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
+    (showDialog)="onHideDialogMapAller($event)"
+   
+  ></app-order-transport-itinerary>
+</div>

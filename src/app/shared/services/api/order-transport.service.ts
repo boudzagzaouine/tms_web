@@ -85,7 +85,14 @@ this.emitOnchange();}
     this.emitOnchange();
 
   }
+  addDistanceorderTransportInfoAller(dist: number){
+    console.log(dist);
 
+    this.selectOrderTransport.orderTransportInfoAller.numberKm=dist;
+  }
+  getDistanceorderTransportInfoAller(){
+   return this.selectOrderTransport.orderTransportInfoAller.numberKm;
+  }
   getorderTransportInfoAller(){
     if( this.selectOrderTransport?.orderTransportInfoAller!=null){
       if( this.selectOrderTransport?.orderTransportInfoAller?.orderTransportInfoLines!=null){

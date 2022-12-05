@@ -5,10 +5,10 @@ import { OrderTransportInfo } from './order-transport-info';
 import { AddressContactOrderTransportInfo } from './address-contact-order-transport-nfo';
 
 
-export class OrderTransportInfoLine {
+export class OrderTransportInfoLineType {
   id: number;
 
-  orderTransportInfoLine :OrderTransportInfoLine ;
+  //orderTransportInfoLine :OrderTransportInfoLine ;
 
   numberOfPallet:number;
   weight :number;

@@ -1,3 +1,4 @@
+import { Itinerary } from './../../../../shared/models/Itinerairy';
 import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
 import { TurnStatus } from './../../../../shared/models/turn-status';
 import { VilleService } from './../../../../shared/services/api/ville.service';
@@ -28,7 +29,10 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 export class OrderTransportAllerComponent implements OnInit {
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
-
+  itineraries : Array<Itinerary>=[];
+  itinerary :Itinerary= new Itinerary();
+  map:any;
+  mainLayer:any;
   orderTransportInfoForm: FormGroup;
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
@@ -112,6 +116,7 @@ export class OrderTransportAllerComponent implements OnInit {
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
 
+
   initForm() {
     console.log(this.selectedOrderTransportInfo.turnStatus);
 
@@ -171,6 +176,10 @@ export class OrderTransportAllerComponent implements OnInit {
 
         this.loadForm();
         this.nextstep.emit(true);
+
+    console.log("distance");
+    console.log(this.orderTransportService.getDistanceorderTransportInfoAller());
+
 
   }
   loadForm() {
@@ -409,5 +418,9 @@ export class OrderTransportAllerComponent implements OnInit {
 
   next() {
     this.validateForm();
+
   }
+
+
+
 }

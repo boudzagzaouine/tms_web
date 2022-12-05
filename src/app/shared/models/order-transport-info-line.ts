@@ -41,5 +41,7 @@ export class OrderTransportInfoLine {
   weightMaxLivraison:number;
 
 
+  type: string ;
+
 
 }

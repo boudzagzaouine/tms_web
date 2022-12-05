@@ -1,3 +1,4 @@
+import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OrderTransportInfoService } from './../../../../shared/services/api/order-transport-info.service';
@@ -18,7 +19,8 @@ export class OrderTransportVerificationComponent implements OnInit,OnDestroy {
   selectOrderTransport : OrderTransport = new OrderTransport();
   selectOrderTransportInfoAller :OrderTransportInfo= new OrderTransportInfo();
   selectOrderTransportInfoRetour :OrderTransportInfo= new OrderTransportInfo();
-
+  showDialogMap: boolean;
+  itineraryLignes: OrderTransportInfoLine = new OrderTransportInfoLine
   constructor(private orderTransportService :OrderTransportService,
     private orderTransportinfoService :OrderTransportInfoService,
     private toastr: ToastrService,
@@ -125,6 +127,14 @@ export class OrderTransportVerificationComponent implements OnInit,OnDestroy {
 this.previousstep.emit(true);
   }
 
+  onHideDialogMapAller(event) {
+    this.showDialogMap = event;
+  }
+  onShowDialogMapAller(){
+    console.log("hheho");
+
+    this.showDialogMap = true;
+  }
   ngOnDestroy() {
    // this.orderTransportService.clearObject();
     //this.subscriptions.unsubscribe();

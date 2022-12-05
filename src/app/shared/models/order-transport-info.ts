@@ -30,5 +30,6 @@ export class OrderTransportInfo {
   villeSource :Ville;
   villeDistination :Ville;
   date: Date=new Date();
-
+  numberKm : number ;
+  time:number ;
 }

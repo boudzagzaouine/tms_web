@@ -9,4 +9,6 @@ export class Ville {
   description: string;
   pays:Pays;
   owner:Owner;
+  latitude : number;
+    longitude : number;
 }

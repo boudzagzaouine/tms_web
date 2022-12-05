@@ -57,6 +57,7 @@ export class VehicleCategorieEditComponent implements OnInit {
       'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
       'fEmptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
       'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
+      'fPriceKm': new FormControl(this.selectedVehicleCategory.priceKm),
     });
 
   }
@@ -75,6 +76,8 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.tonnage = +this.vehicleCategoryForm.value['fTonnage'];
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
+    this.selectedVehicleCategory.priceKm = this.vehicleCategoryForm.value['fPriceKm'];
+
     this.selectedVehicleCategory.owner=this.authentificationService.getDefaultOwner();
 
     this.subscriptions.add(this.vehicleCategoryService.set(this.selectedVehicleCategory).subscribe(

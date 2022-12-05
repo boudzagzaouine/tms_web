@@ -22,7 +22,7 @@ export class VehicleCategory {
  pourcentageToDeliver:number;
  vehicles:Vehicle[]=[];
  transports :Transport[]=[];
-
+ priceKm : number;
  catalogTransportTypes:CatalogTransportType[]=[];
 
 }

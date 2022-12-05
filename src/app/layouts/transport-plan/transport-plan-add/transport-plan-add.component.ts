@@ -184,20 +184,34 @@ export class TransportPlanAddComponent implements OnInit {
 
   // List Prestataire from CatalogueTransport  By Category and turnType , Source ,Distination
   loadTransport() {
+
+  let source ,distination ;
+if(this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
+source =  this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code  ;
+distination = this.selectOrderTransport?.orderTransportInfoAller
+?.villeDistination.code ;
+}else {
+  source =  this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code  ;
+  distination = this.selectOrderTransport?.orderTransportInfoRetour
+  ?.villeDistination.code ;
+}
+
+
     this.catalogTransportTypeService
       .find(
-        "turnType.id:" +
+        "transport.interneOrExterne:false"+
+        ",turnType.id:" +
           this.selectOrderTransport.turnType.id +
           ",vehicleCategory.tonnage >" +
           this.selectOrderTransport.vehicleCategory.tonnage +
-          ",villeSource.code~" +
-          this.selectOrderTransport?.orderTransportInfoAller
-            ?.villeSource.code +
-          ",villeDestination.code~" +
-          this.selectOrderTransport?.orderTransportInfoAller
-            ?.villeDistination.code
+          ",villeSource.code~" + source
+         +
+          ",villeDestination.code~" +distination
+
       )
       .subscribe((data) => {
+        console.log(data);
+
         if (data[0] != null || data[0] != undefined) {
           this.catalogTransportTypeList = data;
         } else {
@@ -372,7 +386,27 @@ export class TransportPlanAddComponent implements OnInit {
   generatePlanTransport() {
     this.selectedTransportPlan.orderTransport = this.selectOrderTransport;
     console.log(this.selectOrderTransport);
-
+    if (
+      this.selectedTransportPlan.orderTransport.turnType.id == 1 ||
+      this.selectedTransportPlan.orderTransport.turnType.id == 3
+    ) {
+      this.selectedTransportPlan.villeSource =
+        this.selectOrderTransport.orderTransportInfoAller.villeSource.code;
+      this.selectedTransportPlan.villeDistination =
+        this.selectOrderTransport.orderTransportInfoAller.villeDistination.code;
+      // this.loadContractAccountbyAccountSelectedAller(
+      //   this.selectedTransportPlan.vehicleCategory
+      // );
+    }
+    if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
+      this.selectedTransportPlan.villeSource =
+        this.selectOrderTransport.orderTransportInfoRetour.villeSource.code;
+      this.selectedTransportPlan.villeDistination =
+        this.selectOrderTransport.orderTransportInfoRetour.villeDistination.code;
+      // this.loadContractAccountbyAccountSelectedRetour(
+      //   this.selectedTransportPlan.vehicleCategory
+      // );
+    }
     if (this.isInterOrPrestataire == "Interne") {
       this.catalogTransportTypeService
         .find(
@@ -402,27 +436,7 @@ export class TransportPlanAddComponent implements OnInit {
             this.selectedVehicle.vehicleCategory;
           this.selectedTransportPlan.salePrice =
             this.selectOrderTransport.priceTTC;
-          if (
-            this.selectedTransportPlan.orderTransport.turnType.id == 1 ||
-            this.selectedTransportPlan.orderTransport.turnType.id == 3
-          ) {
-            this.selectedTransportPlan.villeSource =
-              this.selectOrderTransport.orderTransportInfoAller.villeSource.code;
-            this.selectedTransportPlan.villeDistination =
-              this.selectOrderTransport.orderTransportInfoAller.villeDistination.code;
-            // this.loadContractAccountbyAccountSelectedAller(
-            //   this.selectedTransportPlan.vehicleCategory
-            // );
-          }
-          if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
-            this.selectedTransportPlan.villeSource =
-              this.selectOrderTransport.orderTransportInfoRetour.villeSource.code;
-            this.selectedTransportPlan.villeDistination =
-              this.selectOrderTransport.orderTransportInfoRetour.villeDistination.code;
-            // this.loadContractAccountbyAccountSelectedRetour(
-            //   this.selectedTransportPlan.vehicleCategory
-            // );
-          }
+
           this.loadLastTranportPlanPrestataires();
           this.initForm();
         });

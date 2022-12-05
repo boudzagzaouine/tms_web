@@ -57,7 +57,7 @@
                      <span class="product-category">Aller : <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeDistination?.code}}</span></span><br>
                     </span>
                     <span *ngIf="order.turnType.id==2 || order.turnType.id==3"> <i class="pi pi-map-marker product-category-icon" style="color: #e74c3c;"></i>
-                     <span class="product-category">Retour : <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeDistiantion?.code}}</span></span>
+                     <span class="product-category">Retour : <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeDistination?.code}}</span></span>
                     </span>
                     </div>
                   <div class="product-list-action">
@@ -421,8 +421,8 @@ formControlName="purchasePrice"
 
         <tr>
           <th>{{ "Catégorie" | translate }}</th>
-          <th>{{ "Source" | translate }}</th>
-          <th>{{ "Destination" | translate }}</th>
+          <!-- <th>{{ "Source" | translate }}</th> -->
+          <!-- <th>{{ "Destination" | translate }}</th> -->
           <th>{{ "Date" | translate }}</th>
 
           <th>{{ "prix" | translate }}</th>
@@ -432,12 +432,11 @@ formControlName="purchasePrice"
       <ng-template pTemplate="body" let-line>
         <tr>
           <td>{{ line?.vehicleCategory?.code }}</td>
-          <td>{{ line?.villeSource }}</td>
-          <td>{{ line?.villeDistination }}</td>
-          <td>{{ line?.date }}</td>
+          <!-- <td>{{ line?.villeSource }}</td> -->
+          <!-- <td>{{ line?.villeDistination }}</td> -->
+          <td>{{ line?.date |date :'dd-MM-yyyy'}}</td>
           <td>
-            {{ line?.purchasePrice
-             }}
+            {{ line?.salePrice}}
         </td>
 
 

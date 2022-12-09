@@ -366,7 +366,20 @@
   [dataKey]="name"
 ></p-dropdown>
   </div>
-  <div class="form-group col-md-3 divLineInfo" *ngIf="isInterOrPrestataire=='Interne'"></div>
+  <div class="form-group col-md-3 divLineInfo" *ngIf="isInterOrPrestataire=='Interne'">
+
+    <label class="font-weight-bold"
+    >{{ "cout de revient (DH)" | translate }} *</label>
+  <br />
+  <input
+  formControlName="purchasePrice"
+
+    type="text"
+    class="form-control"
+    pInputText
+  />
+
+  </div>
  <div class="form-group col-md-6  divLineInfo" *ngIf="isInterOrPrestataire=='Prestataire'" >
 </div>
 <div class="form-group col-md-3  divLineInfo" *ngIf="isInterOrPrestataire=='Prestataire'" >

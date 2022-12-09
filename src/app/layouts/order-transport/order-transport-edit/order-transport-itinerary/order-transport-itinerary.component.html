@@ -1,4 +1,4 @@
-<p-dialog
+<!-- <p-dialog
   [(visible)]="displayDialog"
   [focusOnShow]="false"
   [responsive]="true"
@@ -8,11 +8,13 @@
   [baseZIndex]="10000"
   [position]="'right'"
   (onHide)="onHideDialog()"
->
-  <div class="map-wrapper" style="background-color: aliceblue">
+> -->
+  <div class="map-wrapper" style="background-color: aliceblue" style="height: 250px; margin-left: 15px;
+  margin-right: 15px;
+  margin-top: -10px;">
     <div class="map-border" style="background-color: aliceblue">
       <div id="map">
-        <div class="leaflet-control-container">
+        <!-- <div class="leaflet-control-container">
           <div class="leaflet-top leaflet-right">
             <button
               pButton
@@ -27,7 +29,7 @@
               color: black;"
             ></button>
           </div>
-        </div>
+        </div> -->
       </div>
       <div style="background-color: aliceblue" class="p-3">
 
@@ -36,8 +38,8 @@
        <span style="font-weight: bold;line-height: 20px;
        white-space: normal;font-size: 16px;"> ({{ distance | number: "1.2-2" }} km)</span>
       </div>
-      <div class="leaflet-top leaflet-right">
-        <button
+    <!--  <div class="leaflet-top leaflet-right">
+         <button
           pButton
           pRipple
           type="button"
@@ -49,7 +51,7 @@
           border: 2px solid rgb(0 0 0 / 42%);
           color: black;"
         ></button>
-      </div>
+      </div>-->
     </div>
   </div>
-</p-dialog>
+<!-- </p-dialog> -->

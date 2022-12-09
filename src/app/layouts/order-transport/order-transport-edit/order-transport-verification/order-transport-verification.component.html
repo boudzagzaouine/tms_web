@@ -80,11 +80,11 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
 
 
 
- <div class="mt-3 row justify-content-around" *ngIf="this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3">
+ <div class="mt-3 row justify-content-around"  *ngIf="this.selectOrderTransport.turnType.id==1 || this.selectOrderTransport.turnType.id==3">
   <div class="form-group col-md-12">
     <h4 class="divider donotcross" contenteditable>Aller</h4>
 </div>
-<div class="form-group col-md-12">
+<!-- <div class="form-group col-md-12">
   <button
     pButton
     pRipple
@@ -94,133 +94,73 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
     label="Itineraire"
     class="p-button-outlined"
   ></button>
-</div>
-  <div class="form-group col-md-6">
-
+</div> -->
+  <div class="form-group col-md-12">
   <p-card>
-  <p> <b>Depuis</b></p>
-    <table>
-
-      <tr>
-
-        <th rowspan="4"width="40%">    <img src="./assets/img/depuis.png" width="30px">
-        </th>
-
-        <td>
-
- <h5>{{this.selectOrderTransportInfoAller?.villeSource?.code}}, MAROC</h5>
-
-
-
-        </td>
-
-      </tr>
-
-    </table>
-
-
-
+    <div>
+      <span style="margin-left: -15%;
+      margin-right: 15%;">
+    <span style="position: absolute;
+    margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoAller?.villeSource?.code}}, MAROC</span>
+</span>
+    <span style="position: absolute;
+    margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoAller?.villeDistination?.code}}, MAROC</span>
+  </div>
     </p-card>
     </div>
-    <div class="form-group col-md-6">
-      <p-card>
-        <p> <b>Vers</b></p>
+    <div class="form-group col-md-12">
+      <div style="height: 250px">
 
-      <table>
-
-        <tr>
-          <th rowspan="4"width="40%">    <img src="./assets/img/vers.png" width="30px">
-          </th>
-
-          <td>
-
-   <h5>{{this.selectOrderTransportInfoAller?.villeDistination?.code}}, MAROC</h5>
-
-
-          </td>
-
-        </tr>
-
-      </table>
-
-    </p-card>
-
-
-
-
-
+      <app-order-transport-itinerary
+      [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
+           (itineraryInfo)="onSelectedItineraryInfo($event)"
+    ></app-order-transport-itinerary>
+      </div>
         </div>
-
-
-
-
-
       </div>
 
-
-      <div class="mt-3 row justify-content-around" *ngIf="this.selectOrderTransport.turnType.id==2 || this.selectOrderTransport.turnType.id==3">
+      <div class="mt-3 row justify-content-around"  *ngIf="this.selectOrderTransport.turnType.id==2 || this.selectOrderTransport.turnType.id==3">
         <div class="form-group col-md-12">
           <h4 class="divider donotcross" contenteditable>Retour</h4>
       </div>
-
-        <div class="form-group col-md-6">
-
-      <p-card>
-      <p> <b>Depuis</b></p>
-        <table>
-
-          <tr>
-
-            <th rowspan="4"width="40%">    <img src="./assets/img/depuis.png" width="30px">
-            </th>
-
-            <td>
-
-     <h5>{{this.selectOrderTransportInfoRetour.villeSource.code}} , MAROC</h5>
-
-            </td>
-
-          </tr>
-
-        </table>
-
-
-
-        </p-card>
+      <!-- <div class="form-group col-md-12">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-map-marker"
+          (click)="onShowDialogMapAller()"
+          type="button"
+          label="Itineraire"
+          class="p-button-outlined"
+        ></button>
+      </div> -->
+        <div class="form-group col-md-12">
+        <p-card>
+          <div>
+            <span style="margin-left: -15%;
+            margin-right: 15%;">
+          <span style="position: absolute;
+          margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.villeSource?.code}}, MAROC</span>
+      </span>
+          <span style="position: absolute;
+          margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.villeDistination?.code}}, MAROC</span>
         </div>
-        <div class="form-group col-md-6">
-          <p-card>
-            <p> <b>Vers</b></p>
+          </p-card>
+          </div>
+          <div class="form-group col-md-12">
+            <div style="height: 250px">
 
-          <table>
-
-            <tr>
-              <th rowspan="4"width="40%">    <img src="./assets/img/vers.png" width="30px">
-              </th>
-
-              <td>
-
-       <h5>{{this.selectOrderTransportInfoRetour.villeDistination.code}},MAROC</h5>
-
-              </td>
-
-            </tr>
-
-          </table>
-
-        </p-card>
-
-
-
-
-
+            <app-order-transport-itinerary-retour
+            [orderTransportInfoLignes]="this.selectOrderTransportInfoRetour.orderTransportInfoLines"
+                 (itineraryInfo)="onSelectedItineraryInfoRetour($event)"
+          ></app-order-transport-itinerary-retour>
+            </div>
+              </div>
             </div>
 
 
-          </div>
 
-
-<div class="text-center mt-3 mr-3 ml-3">
+<div class="text-center mt-5 mr-3 ml-3">
   <a class="btn btn-primary m-1" [routerLink]="['/core/order-transport/list']">
     {{ "Fermer" | translate }}
   </a>
@@ -241,10 +181,10 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
 </div>
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
 
-<div *ngIf="showDialogMap == true">
-  <app-order-transport-itinerary
+<!-- <div *ngIf="showDialogMap == true"> -->
+  <!-- <app-order-transport-itinerary
     [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
     (showDialog)="onHideDialogMapAller($event)"
-   
-  ></app-order-transport-itinerary>
-</div>
+
+  ></app-order-transport-itinerary> -->
+ <!-- </div> -->

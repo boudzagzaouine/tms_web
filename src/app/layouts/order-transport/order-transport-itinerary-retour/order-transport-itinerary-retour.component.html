@@ -1,0 +1,57 @@
+<!-- <p-dialog
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '60%', height: '70%' }"
+  [baseZIndex]="10000"
+  [position]="'right'"
+  (onHide)="onHideDialog()"
+> -->
+<div class="mapRetour-wrapper" style="background-color: aliceblue" style="height: 250px; margin-left: 15px;
+margin-right: 15px;
+margin-top: -10px;">
+  <div class="mapRetour-border" style="background-color: aliceblue">
+    <div id="mapRetour">
+      <!-- <div class="leaflet-control-container">
+        <div class="leaflet-top leaflet-right">
+          <button
+            pButton
+            pRipple
+            type="button"
+            (click)="onHideDialog()"
+            icon="pi pi-times"
+            class="p-button-outlined p-button-secondary leaflet-control"
+            style="background-color: rgb(255, 255, 255);
+            outline: none;
+            border: 2px solid rgb(0 0 0 / 42%);
+            color: black;"
+          ></button>
+        </div>
+      </div> -->
+    </div>
+    <div style="background-color: aliceblue" class="p-3">
+
+     <span style="color:#188038;font-weight: bold;line-height: 24px;
+     white-space: normal;font-size: 18px;"> {{this.heur}} h {{this.minute }} min</span>
+     <span style="font-weight: bold;line-height: 20px;
+     white-space: normal;font-size: 16px;"> ({{ distance | number: "1.2-2" }} km)</span>
+    </div>
+  <!--  <div class="leaflet-top leaflet-right">
+       <button
+        pButton
+        pRipple
+        type="button"
+        (click)="onHideDialog()"
+        icon="pi pi-times"
+        class="p-button-outlined p-button-secondary leaflet-control"
+        style="background-color: rgb(255, 255, 255);
+        outline: none;
+        border: 2px solid rgb(0 0 0 / 42%);
+        color: black;"
+      ></button>
+    </div>-->
+  </div>
+</div>
+<!-- </p-dialog> -->

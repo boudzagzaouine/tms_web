@@ -6,14 +6,14 @@ import { OrderTransportService } from './../../../../shared/services/api/order-t
 import { ToastrService } from 'ngx-toastr';
 import { OrderTransportInfo } from './../../../../shared/models/order-transport-info';
 import { OrderTransport } from './../../../../shared/models/order-transport';
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-order-transport-verification',
   templateUrl: './order-transport-verification.component.html',
   styleUrls: ['./order-transport-verification.component.scss']
 })
-export class OrderTransportVerificationComponent implements OnInit,OnDestroy {
+export class OrderTransportVerificationComponent implements OnInit,AfterViewInit,OnDestroy {
 
   @Output() previousstep = new EventEmitter<boolean>();
   selectOrderTransport : OrderTransport = new OrderTransport();
@@ -39,6 +39,12 @@ export class OrderTransportVerificationComponent implements OnInit,OnDestroy {
 
   }
 
+  ngAfterViewInit() {
+    this.selectOrderTransport=this.orderTransportService.getOrderTransport();
+    this.selectOrderTransportInfoAller=this.orderTransportService.getOrderTransport().orderTransportInfoAller;
+    this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
+
+  }
 
   onSubmit(close =false){
     this.spinner.show();
@@ -139,4 +145,16 @@ this.previousstep.emit(true);
    // this.orderTransportService.clearObject();
     //this.subscriptions.unsubscribe();
   }
+
+  onSelectedItineraryInfo(event){
+    console.log("infoooooooooooo");
+    console.log(event);
+
+   }
+   onSelectedItineraryInfoRetour(event){
+    console.log("infoooooooooooo Retour");
+    console.log(event);
+
+   }
+
 }

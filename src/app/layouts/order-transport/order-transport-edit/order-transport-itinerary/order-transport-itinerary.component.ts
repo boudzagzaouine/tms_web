@@ -1,10 +1,9 @@
 import { itineraryInfo } from './../../../../shared/models/itineraryInfo';
-import { Marker } from 'leaflet';
+import { Marker, Icon,icon } from 'leaflet';
 import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
 import { Itinerary } from './../../../../shared/models/Itinerairy';
-import { Icon } from 'leaflet';
-import { icon } from 'leaflet';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+
+import { Component, OnInit, Output, EventEmitter, Input, enableProdMode } from '@angular/core';
 import  * as L  from 'leaflet';
 import 'leaflet-routing-machine';
 
@@ -31,13 +30,16 @@ export class OrderTransportItineraryComponent implements OnInit {
   minute : any ;
 
 
- private defaultIcon: Icon = icon({
-   iconUrl: "./assets/img/markerWarehouse.png",
+ private iconEnlevement: Icon = icon({
+   iconUrl: "./assets/img/enlevement.png",
       iconSize:    [40, 40],
  });
-
- private defaultIcon2: Icon = icon({
-   iconUrl: "./assets/img/markerWarehouse3.png",
+ private iconEnlevementLivraison: Icon = icon({
+  iconUrl: "./assets/img/EnlLiv.png",
+     iconSize:    [40, 40],
+});
+ private iconLivraison: Icon = icon({
+   iconUrl: "./assets/img/livraison.png",
       iconSize:    [40, 40],
  });
 
@@ -62,15 +64,19 @@ export class OrderTransportItineraryComponent implements OnInit {
      this.itinerary.lat= ligne.addressContactDeliveryInfo.latitude;
      this.itinerary.lon=ligne.addressContactDeliveryInfo.longitude;
      this.itinerary.description=ligne.addressContactDeliveryInfo.name;
+     this.itinerary.type=ligne.orderTransportType.code;
+
      this.itineraries.push(this.itinerary);
     });
 
  }
 
  ngAfterViewInit(){
-  Marker.prototype.options.icon = this.defaultIcon;
+  Marker.prototype.options.icon = this.iconEnlevement;
   this.createLayer();
     this.createRoute();
+
+
  }
 
 
@@ -96,23 +102,41 @@ export class OrderTransportItineraryComponent implements OnInit {
  this.heur=  this.time.split('.',2)[0];
  this.minute=this.time.split('.',2)[1].substring(0,2);
 
+ this.selectItineraryInfo.distance=this.distance;
+ this.selectItineraryInfo.heur=this.heur;
+ this.selectItineraryInfo.minute=this.minute;
+ this.selectItineraryInfo.time=this.time;
+ this.itineraryInfo.emit(this.selectItineraryInfo);
+
 
 
  new Date()
  }
  ).addTo(this.map).hide();
-this.map.dragging.disable();
+
 
  for (var i in this.itineraries) {
    L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
      title: this.itineraries[i].description,
-     icon: this.itineraries[i].type=="depot" ?this.defaultIcon2 :this.defaultIcon
-   }).addTo(this.map).bindPopup("<b>" + this.itineraries[i].description + "</b>").openPopup();
+     //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
+     icon:this.showMarkerByTurnType(this.itineraries[i].type)
+   }).addTo(this.map).bindPopup("<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description + "</b>").openPopup();
  }
    this.mainLayer.addTo(this.map);
 
  // this.recuperateDistance();
  }
+
+  showMarkerByTurnType(type :string){
+    if(type =="LIVRAISON"){
+     return this.iconLivraison;
+    }else if(type =="ENLEVEMENT"){
+      return this.iconEnlevement;
+    }else{
+      return this.iconEnlevementLivraison;
+    }
+
+  }
 
  createLayer(){
    this.mainLayer =L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{

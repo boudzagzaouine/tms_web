@@ -69,6 +69,21 @@ this.emitOnchange();}
 
   }
 
+  addItineraryAller(distance: number , time :number ){
+this.selectOrderTransport.orderTransportInfoAller.numberKm=distance;
+this.selectOrderTransport.orderTransportInfoAller.time=time;
+  }
+  getItineraryAller(){
+    console.log("distance");
+
+    console.log(this.selectOrderTransport.orderTransportInfoAller.numberKm );
+
+  }
+  addItineraryRetour(distance: number , time :number ){
+    this.selectOrderTransport.orderTransportInfoRetour.numberKm=distance;
+    this.selectOrderTransport.orderTransportInfoRetour.time=time;
+  }
+
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){
 
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;

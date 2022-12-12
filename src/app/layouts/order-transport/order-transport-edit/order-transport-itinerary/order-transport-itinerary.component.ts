@@ -1,3 +1,4 @@
+import { OrderTransportService } from './../../../../shared/services/api/order-transport.service';
 import { itineraryInfo } from './../../../../shared/models/itineraryInfo';
 import { Marker, Icon,icon } from 'leaflet';
 import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
@@ -44,7 +45,7 @@ export class OrderTransportItineraryComponent implements OnInit {
  });
 
  display: boolean = false;
-  constructor() { }
+  constructor(private orderTransportService: OrderTransportService) { }
 
 
   ngOnInit() {
@@ -101,6 +102,9 @@ export class OrderTransportItineraryComponent implements OnInit {
  this.time= (e.routes[0].summary.totalTime/3600).toString();
  this.heur=  this.time.split('.',2)[0];
  this.minute=this.time.split('.',2)[1].substring(0,2);
+
+this.orderTransportService.addItineraryAller(this.distance,e.routes[0].summary.totalTime);
+console.log( this.orderTransportService.getItineraryAller());
 
  this.selectItineraryInfo.distance=this.distance;
  this.selectItineraryInfo.heur=this.heur;

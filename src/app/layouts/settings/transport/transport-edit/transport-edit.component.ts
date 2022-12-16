@@ -1,3 +1,4 @@
+import { TransportProduct } from './../../../../shared/models/transport-product';
 import { ContactService } from './../../../../shared/services/api/contact.service';
 import { Contact } from './../../../../shared/models/contact';
 import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
@@ -42,7 +43,10 @@ export class TransportEditComponent implements OnInit {
   editModeCatalogue: boolean;
   selectCatalogueTransport: CatalogTransportType = new CatalogTransportType();
   selectAccountPricing: AccountPricing = new AccountPricing();
+  selectedTransportProduct = new TransportProduct();
+  editModeTransportProduct: Boolean=false;
 
+  showDialogTransportProduct:Boolean=false;
   catalogueTransportId: number = 0;
   constructor(
     private transportService: TransportServcie,
@@ -408,6 +412,50 @@ export class TransportEditComponent implements OnInit {
     this.showDialogCatalogue = event;
   }
 
+
+  onHideDialogTransportProduct(event) {
+    this.showDialogTransportProduct = event;
+  }
+
+  onShowDialogTransportProduct(line, mode) {
+    this.showDialogTransportProduct = true;
+
+    if (mode == true) {
+
+
+      this.selectedTransportProduct = line;
+      this.editModeTransportProduct = true;
+    } else if (mode == false) {
+
+      this.selectedTransportProduct = new TransportProduct();
+      this.editModeTransportProduct = false;
+    }
+  }
+
+  onLineEditedTransportProduct(line: TransportProduct) {
+    console.log(line);
+
+    if (
+      this.selectedtransport.transportProducts == null ||
+      this.selectedtransport.transportProducts == undefined
+    ) {
+      this.selectedtransport.transportProducts = [];
+    }
+    this.selectedtransport.transportProducts =  this.selectedtransport.transportProducts.filter(
+      (l) => l.product.code !== line.product.code
+    );
+    this.selectedtransport.transportProducts.push(line);
+
+  }
+  onDeleteTransportProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedtransport.transportProducts =
+        this.selectedtransport.transportProducts.filter((l) => l.product.code !== productCode);
+      },
+    });
+  }
 
 
   ngOnDestroy() {

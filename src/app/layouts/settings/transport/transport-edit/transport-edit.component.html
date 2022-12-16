@@ -121,7 +121,7 @@ showEffect="fade"
 
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
         <div class="card " style=" border:none">
           <div class="card-header" style="background-color: #f7f7f7; border:none">
@@ -211,7 +211,7 @@ showEffect="fade"
         </div>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
 
 
@@ -299,7 +299,68 @@ showEffect="fade"
       </ng-template>
   </p-tabPanel>
 
+  <p-tabPanel header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-3">
 
+
+    <div class="card  ">
+      <div class="card-header" style="background-color: #f7f7f7;">
+        <div class="row">
+
+          <div class="col-xs-4 col-md-4 pull-left">
+            <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogTransportProduct(selectedTransportProduct,false)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class=" col-xs-4 col-md-6 pull-center">
+            <span style="font-size: 16px; color: #5f5b5b;">
+              <b> {{ "Liste Catalogues" | translate }}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body border-top-primary">
+        <p-table [value]=" this.selectedtransport?.transportProducts" [lazy]="true" [rows]="8"
+          [paginator]="true" [totalRecords]=" this.selectedtransport
+      ?.transportProducts?.length" >
+          <ng-template pTemplate="header">
+            <tr>
+
+              <th>{{'Service' | translate}}</th>
+              <th>{{'Prix HT '| translate}}</th>
+              <th>{{'TVA' | translate}}</th>
+              <th>{{'Pric TTC '| translate}}</th>
+              <!-- <th>{{ "Prix" | translate }}</th> -->
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.product?.code}}</td>
+              <td>{{line?.priceHT}}</td>
+              <td>{{line?.vat?.value}}</td>
+              <td>{{line?.priceTTC}}</td>
+
+              <td>
+
+                <button  type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogTransportProduct(line,true)">
+                  <!--ADD-->
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteTransportProduct(line?.product?.code)">
+                  <!--ADD-->
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      </div>
+    </div>
+
+  </p-tabPanel>
 
 </p-tabView>
 
@@ -368,4 +429,15 @@ showEffect="fade"
      [selectedAccountPricing]="selectAccountPricing"
      [editMode]="editModeAccountPricing"
     ></app-account-pricing-edit>
+</div>
+
+<div *ngIf="showDialogTransportProduct == true">
+
+
+  <app-transport-product-edit
+  (showDialog)="onHideDialogTransportProduct($event)"
+ (transportProductEdited)="onLineEditedTransportProduct($event)"
+   [selectedTransportProduct]="this.selectedTransportProduct"
+   [editMode]="editModeTransportProduct"></app-transport-product-edit>
+
 </div>

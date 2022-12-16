@@ -1,3 +1,10 @@
+import { TransportProductEditComponent } from './transport/transport-edit/transport-product-edit/transport-product-edit.component';
+import { ProductServiceEditComponent } from './product-service/product-service-edit/product-service-edit.component';
+import { ProductServiceComponent } from './product-service/product-service.component';
+import { ProductService } from './../../shared/services/api/product.service';
+import { ServiceTypeEditComponent } from './service-type/service-type-edit/service-type-edit.component';
+import { MenuServiceComponent } from './menu-service/menu-service.component';
+import { ServiceTypeComponent } from './service-type/service-type.component';
 import { AccountPricingEditComponent } from './transport/transport-edit/account-pricing-edit/account-pricing-edit.component';
 import { CatalogueTransportEditComponent } from './transport/transport-edit/catalogue-transport-edit/catalogue-transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
@@ -227,8 +234,9 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
      MenuAccountComponent,
      ContractAccountComponent,
      ContractAccountEditComponent,
-     //ContactEditComponent,
-     //AddressEditComponent,
+     //
+     ContactEditComponent,
+     AddressEditComponent,
      SupplierProductEditComponent,
      SinisterTypeComponent,
      SinisterTypeEditComponent,
@@ -245,7 +253,13 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
      MenuFuelComponent,
      MenuTransportComponent,
      CatalogueTransportEditComponent,
-     AccountPricingEditComponent
+     AccountPricingEditComponent,
+     ServiceTypeComponent,
+     ServiceTypeEditComponent,
+    MenuServiceComponent,
+    ProductServiceComponent,
+    ProductServiceEditComponent,
+    TransportProductEditComponent
 
 
 
@@ -288,6 +302,10 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
     InputSwitchModule,
     NgxPermissionsModule.forChild(),
     FileUploadModule
+  ],
+  exports :[
+    ContactEditComponent,
+    AddressEditComponent,
   ]
 })
 export class SettingsModule { }

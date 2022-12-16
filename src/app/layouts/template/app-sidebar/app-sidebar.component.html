@@ -77,6 +77,11 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/menu-transport" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Tarification ' | translate}}</a>
           </li>
+
+          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+            <a routerLink="/core/settings/menu-service" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Service ' | translate}}</a>
+          </li>
           <!-- <li *hasPermission="['PUMP_VIEW']">
             <a routerLink="/core/settings/menu-fuel" class="m-a"><i class="fa fa-circle-o"></i>
               {{' Carburant' | translate}}</a>

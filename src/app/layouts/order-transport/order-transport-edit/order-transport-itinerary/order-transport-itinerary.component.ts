@@ -99,6 +99,8 @@ export class OrderTransportItineraryComponent implements OnInit {
  }).on('routesfound',(e)=>{
    console.log(e);
  this.distance=e.routes[0].summary.totalDistance/1000 as number;
+ console.log(e.routes[0].summary.totalTime);
+
  this.time= (e.routes[0].summary.totalTime/3600).toString();
  this.heur=  this.time.split('.',2)[0];
  this.minute=this.time.split('.',2)[1].substring(0,2);

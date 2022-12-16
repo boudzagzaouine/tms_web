@@ -341,10 +341,15 @@ optionLabel="code"
                         {{ "Obligatoire" | translate }}
                       </span>
                         <br />
-
-                        <p-inputNumber formControlName="numberOfPallets"
+                        <div class="p-inputgroup">
+                          <!-- <input type="text" pInputText formControlName="weight" (onInput)="inputWeightEnlevement($event,false)"> -->
+                          <p-inputNumber     formControlName="numberOfPallets" (onInput)="inputPalletEnlevement($event,false)"
+                          ></p-inputNumber>
+                          <button type="button" pButton pRipple icon="pi pi-check" (click)="inputPalletEnlevement(0,true)" styleClass="p-button-warn"></button>
+                      </div>
+                        <!-- <p-inputNumber formControlName="numberOfPallets"
                         (onInput)="inputPalletEnlevement($event)"
-                        ></p-inputNumber>
+                        ></p-inputNumber> -->
                         <span
                         *ngIf="showPalletMaxEnlevement==true"
                         class="text-lighter"
@@ -372,8 +377,14 @@ optionLabel="code"
                         {{ "Obligatoire" | translate }}
                       </span>
                         <br />
-                        <p-inputNumber     formControlName="weight" (onInput)="inputWeightEnlevement($event)"
-                        ></p-inputNumber>
+                        <div class="p-inputgroup">
+                          <!-- <input type="text" pInputText formControlName="weight" (onInput)="inputWeightEnlevement($event,false)"> -->
+                          <p-inputNumber     formControlName="weight" (onInput)="inputWeightEnlevement($event)"
+                          ></p-inputNumber>
+                          <button type="button" pButton pRipple icon="pi pi-check" (click)="inputWeightEnlevement(0,true)" styleClass="p-button-warn"></button>
+                      </div>
+                        <!-- <p-inputNumber     formControlName="weight" (onInput)="inputWeightEnlevement($event)"
+                        ></p-inputNumber> -->
                         <span
                         *ngIf="showWeightMaxEnlevement==true"
                         class="text-lighter"
@@ -385,9 +396,9 @@ optionLabel="code"
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">{{
                           "Volume" | translate
-                        }}<span style="font-size: 9px;">Mètre cube (m3)</span> *</label
+                        }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
                         >
-                        <span
+                        <!-- <span
                         *ngIf="
                           (orderTransportInfoLineForm.controls['enlevement'].get('capacity').touched &&
                           orderTransportInfoLineForm.controls['enlevement'].get('capacity').invalid) ||
@@ -398,17 +409,18 @@ optionLabel="code"
                         style="color: red; font-size: xx-small"
                       >
                         {{ "Obligatoire" | translate }}
-                      </span>
+                      </span> -->
                         <br />
-                        <p-inputNumber     formControlName="capacity" (onInput)="inputCapacityEnlevement($event)"
+<!-- (onInput)="inputCapacityEnlevement($event,false)" -->
+                        <p-inputNumber     formControlName="capacity"
                         ></p-inputNumber>
-                        <span
+                        <!-- <span
                         *ngIf="showCapacityMaxEnlevement==true"
                         class="text-lighter"
                         style="color: red; font-size: xx-small"
                       >
                        maximum autorisé : {{this.capacityMaxEnlevement}} (Kg)
-                      </span>
+                      </span> -->
                       </div>
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
@@ -534,10 +546,15 @@ optionLabel="code"
                           {{ "Obligatoire" | translate }}
                         </span>
                           <br />
-
-                          <p-inputNumber formControlName="numberOfPallets"
+                          <div class="p-inputgroup">
+                            <!-- <input type="text" pInputText formControlName="weight" (onInput)="inputWeightEnlevement($event,false)"> -->
+                            <p-inputNumber     formControlName="numberOfPallets" (onInput)="inputPalletLivraison($event,false)"
+                            ></p-inputNumber>
+                            <button type="button" pButton pRipple icon="pi pi-check" (click)="inputPalletLivraison(0,true)" styleClass="p-button-warn"></button>
+                        </div>
+                          <!-- <p-inputNumber formControlName="numberOfPallets"
                           (onInput)="inputPalletLivraison($event)"
-                          ></p-inputNumber>
+                          ></p-inputNumber> -->
                           <span
                           *ngIf="showPalletMaxLivraison==true"
                           class="text-lighter"
@@ -566,9 +583,14 @@ optionLabel="code"
                           {{ "Obligatoire" | translate }}
                         </span>
                           <br />
-
-                          <p-inputNumber     formControlName="weight" (onInput)="inputWeightLivraison($event)"
-                          ></p-inputNumber>
+                          <div class="p-inputgroup">
+                            <!-- <input type="text" pInputText formControlName="weight" (onInput)="inputWeightEnlevement($event,false)"> -->
+                            <p-inputNumber     formControlName="weight" (onInput)="inputWeightLivraison($event,false)"
+                            ></p-inputNumber>
+                            <button type="button" pButton pRipple icon="pi pi-check" (click)="inputWeightLivraison(0,true)" styleClass="p-button-warn"></button>
+                        </div>
+                          <!-- <p-inputNumber     formControlName="weight" (onInput)="inputWeightLivraison($event)"
+                          ></p-inputNumber> -->
                           <span
                         *ngIf="showWeightMaxLivraison==true"
                         class="text-lighter"
@@ -583,7 +605,7 @@ optionLabel="code"
                             "Volume" | translate
                           }}<span style="font-size: 9px;"> Mètre cube (m3)</span> *</label
                           >
-                          <span
+                          <!-- <span
                           *ngIf="
                             (orderTransportInfoLineForm.controls['livraison'].get('capacity').touched &&
                             orderTransportInfoLineForm.controls['livraison'].get('capacity').invalid) ||
@@ -594,7 +616,7 @@ optionLabel="code"
                           style="color: red; font-size: xx-small"
                         >
                           {{ "Obligatoire" | translate }}
-                        </span>
+                        </span> -->
                           <br />
 
                           <p-inputNumber     formControlName="capacity" (onInput)="inputCapacityLivraison($event)"

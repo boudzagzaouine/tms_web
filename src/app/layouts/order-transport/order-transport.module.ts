@@ -1,4 +1,4 @@
-import { OrderTransportItineraryRetourComponent } from './order-transport-itinerary-retour/order-transport-itinerary-retour.component';
+import { OrderTransportItineraryRetourComponent } from './order-transport-edit/order-transport-itinerary-retour/order-transport-itinerary-retour.component';
 import { OrderTransportItineraryComponent } from './order-transport-edit/order-transport-itinerary/order-transport-itinerary.component';
 
 
@@ -105,8 +105,8 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     OrderTransportInfoLineComponent,
     TarificationComponent,
     OrderTransportVerificationComponent,
-    ContactEditComponent,
-    AddressEditComponent,
+    //ContactEditComponent,
+    //AddressEditComponent,
     OrderTransportItineraryComponent,
     OrderTransportItineraryRetourComponent
   ]

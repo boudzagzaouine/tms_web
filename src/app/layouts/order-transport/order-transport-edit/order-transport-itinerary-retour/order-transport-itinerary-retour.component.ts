@@ -1,7 +1,7 @@
-import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
-import { Itinerary } from './../../../shared/models/Itinerairy';
-import { OrderTransportInfoLine } from './../../../shared/models/order-transport-info-line';
-import { itineraryInfo } from './../../../shared/models/itineraryInfo';
+import { OrderTransportService } from '../../../../shared/services/api/order-transport.service';
+import { Itinerary } from '../../../../shared/models/Itinerairy';
+import { OrderTransportInfoLine } from '../../../../shared/models/order-transport-info-line';
+import { itineraryInfo } from '../../../../shared/models/itineraryInfo';
 import { Marker, Icon,icon } from 'leaflet';
 
 import { Component, OnInit, Output, EventEmitter, Input, enableProdMode } from '@angular/core';

@@ -59,9 +59,9 @@
 
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
-          >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> *</label
+          >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
         >
-        <span
+        <!-- <span
         *ngIf="
           (orderTransportInfoForm.get('capacity').touched &&
           orderTransportInfoForm.get('capacity').invalid) ||
@@ -72,7 +72,7 @@
         style="color: red; font-size: xx-small"
       >
         {{ "Obligatoire" | translate }}
-      </span>
+      </span> -->
       <input
       formControlName="capacity"
         type="text"
@@ -332,7 +332,7 @@
   </div>
   <div class="form-group col-md-3">
     <label class="font-weight-bold"
-      >{{ "Staut" | translate }} *</label
+      >{{ "Statut" | translate }} *</label
     >
     <input
     formControlName="orderTransportInfoStatus"

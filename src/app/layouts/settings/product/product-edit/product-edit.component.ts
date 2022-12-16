@@ -126,6 +126,7 @@ console.log(this.selectedProduct);
   this.selectedProduct.minStock = this.productForm.value[
     'qntMin'
   ];
+  this.selectedProduct.service=false;
   if (this.productForm.value['component'] === true) {
     this.selectedProduct.component = true;
   } else {

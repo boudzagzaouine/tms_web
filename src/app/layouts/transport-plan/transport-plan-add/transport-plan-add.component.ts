@@ -1,3 +1,4 @@
+import { TransportPlanProductService } from './../../../shared/models/transport-plan-product-service';
 import { Observable, Subscription } from "rxjs";
 import { Subject } from "rxjs";
 import { MaintenancePlan } from "./../../../shared/models/maintenance-plan";
@@ -28,7 +29,7 @@ import { Vehicle } from "./../../../shared/models/vehicle";
 import { OrderTransportInfoService } from "./../../../shared/services/api/order-transport-info.service";
 import { OrderTransport } from "./../../../shared/models/order-transport";
 import { OrderTransportService } from "./../../../shared/services/api/order-transport.service";
-import { MenuItem } from "primeng/api";
+import { ConfirmationService, MenuItem } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -70,6 +71,9 @@ export class TransportPlanAddComponent implements OnInit {
   //lastDeliveryTransport: TransportPlan = new TransportPlan();
   villeExterneForLast: string[] = [];
   subscriptions = new Subscription();
+  selectedTransportProductService = new TransportPlanProductService();
+  editModeTransportProduct: Boolean=false;
+  showDialogTransportProduct:Boolean=false;
 
   constructor(
     private orderTransportService: OrderTransportService,
@@ -84,7 +88,8 @@ export class TransportPlanAddComponent implements OnInit {
     private toastr: ToastrService,
     private contractAccountService: ContractAccountService,
     private router: Router,
-    private maintenanceService: MaintenanceService
+    private maintenanceService: MaintenanceService,
+    private confirmationService:ConfirmationService
   ) {}
 
   ngOnInit() {
@@ -436,7 +441,7 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
             this.selectedVehicle.vehicleCategory;
           this.selectedTransportPlan.salePrice =
             this.selectOrderTransport.priceTTC;
-
+            this.selectedTransportPlan.purchasePrice =this.calculateCostPrice();
           this.loadLastTranportPlanPrestataires();
           this.initForm();
         });
@@ -451,6 +456,22 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
     }
 
     this.initForm();
+  }
+
+  calculateCostPrice() : number{
+   let sumDistance :number = 0;
+
+   if(this.selectedTransportPlan.orderTransport.turnType.id==1 || this.selectedTransportPlan.orderTransport.turnType.id==3){
+    sumDistance += this.selectOrderTransport.orderTransportInfoAller.numberKm;
+   }
+   if(this.selectedTransportPlan.orderTransport.turnType.id==2 || this.selectedTransportPlan.orderTransport.turnType.id==3){
+    sumDistance += this.selectOrderTransport.orderTransportInfoRetour.numberKmRetour;
+   }
+ console.log(sumDistance);
+ console.log(this.selectedTransportPlan.vehicleCategory.priceKm);
+
+
+   return (sumDistance* this.selectedTransportPlan.vehicleCategory.priceKm);
   }
 
   // fin interne
@@ -511,6 +532,52 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
       );
     }
   }
+
+
+  onHideDialogTransportProduct(event) {
+    this.showDialogTransportProduct = event;
+  }
+
+  onShowDialogTransportProduct(line, mode) {
+    this.showDialogTransportProduct = true;
+
+    if (mode == true) {
+
+
+      this.selectedTransportProductService= line;
+      this.editModeTransportProduct = true;
+    } else if (mode == false) {
+
+      this.selectedTransportProductService = new TransportPlanProductService();
+      this.editModeTransportProduct = false;
+    }
+  }
+
+  onLineEditedTransportProduct(line: TransportPlanProductService) {
+    console.log(line);
+
+    if (
+      this.selectedTransportPlan.transportPlanProductServices == null ||
+      this.selectedTransportPlan.transportPlanProductServices == undefined
+    ) {
+      this.selectedTransportPlan.transportPlanProductServices = [];
+    }
+    this.selectedTransportPlan.transportPlanProductServices =   this.selectedTransportPlan.transportPlanProductServices.filter(
+      (l) => l.product.code !== line.product.code
+    );
+    this.selectedTransportPlan.transportPlanProductServices.push(line);
+
+  }
+  onDeleteTransportProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedTransportPlan.transportPlanProductServices =
+        this.selectedTransportPlan.transportPlanProductServices.filter((l) => l.product.code !== productCode);
+      },
+    });
+  }
+
 
 
    // search contract by account aller

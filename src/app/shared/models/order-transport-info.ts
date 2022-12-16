@@ -32,4 +32,7 @@ export class OrderTransportInfo {
   date: Date=new Date();
   numberKm : number ;
   time:number ;
+
+  numberKmRetour : number ;
+  timeRetour:number ;
 }

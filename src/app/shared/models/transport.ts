@@ -1,3 +1,4 @@
+import { TransportProduct } from './transport-product';
 import { Contact } from './contact';
 import { Address } from './address';
 import { CatalogTransportType } from './CatalogTransportType';
@@ -22,7 +23,7 @@ export class Transport {
   priceContrat:number=0;
   interneOrExterne:Boolean=false;
 
-
+  transportProducts:TransportProduct[]=[];
 
 
 

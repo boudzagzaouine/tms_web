@@ -1,0 +1,16 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<p-tabView >
+ <p-tabPanel *hasPermission="['PRODUCT_VIEW']"  header='{{"Service"|translate }}'  headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <app-product-service></app-product-service>
+      </ng-template>
+  </p-tabPanel>
+
+  <p-tabPanel *hasPermission="['PRODUCT_TYPE_VIEW']"  header='{{"Type de Service"| translate }}'   headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+                 <app-service-type></app-service-type>
+      </ng-template>
+  </p-tabPanel>
+
+</p-tabView>

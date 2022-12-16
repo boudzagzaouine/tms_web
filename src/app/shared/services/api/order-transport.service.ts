@@ -80,8 +80,8 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
 
   }
   addItineraryRetour(distance: number , time :number ){
-    this.selectOrderTransport.orderTransportInfoRetour.numberKm=distance;
-    this.selectOrderTransport.orderTransportInfoRetour.time=time;
+    this.selectOrderTransport.orderTransportInfoRetour.numberKmRetour=distance;
+    this.selectOrderTransport.orderTransportInfoRetour.timeRetour=time;
   }
 
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){

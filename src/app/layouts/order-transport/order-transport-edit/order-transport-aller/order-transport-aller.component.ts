@@ -135,8 +135,7 @@ export class OrderTransportAllerComponent implements OnInit {
         Validators.required
       ),
       capacity: new FormControl(
-        this.selectedOrderTransportInfo.capacityTotal,
-        Validators.required
+        this.selectedOrderTransportInfo.capacityTotal
       ),
 
 
@@ -359,16 +358,18 @@ export class OrderTransportAllerComponent implements OnInit {
         summary: "Error",
         detail: "Saisir  Poids",
       });
-    } else if (
-      this.orderTransportInfoForm.value["capacity"] == null ||
-      this.orderTransportInfoForm.value["capacity"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir Volume",
-      });
-    } else if (
+   }
+     // else if (
+    //   this.orderTransportInfoForm.value["capacity"] == null ||
+    //   this.orderTransportInfoForm.value["capacity"] == ""
+    // ) {
+    //   this.messageService.add({
+    //     severity: "error",
+    //     summary: "Error",
+    //     detail: "Saisir Volume",
+    //   });
+    // }
+     else if (
       this.orderTransportInfoForm.value["numberOfPallet"] == null ||
       this.orderTransportInfoForm.value["numberOfPallet"] == ""
     ) {
@@ -380,7 +381,7 @@ export class OrderTransportAllerComponent implements OnInit {
     } else {
       this.weightMax = this.orderTransportInfoForm.value["weight"];
       this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
-      this.capacityMax = this.orderTransportInfoForm.value["capacity"];
+      //this.capacityMax = this.orderTransportInfoForm.value["capacity"];
 
       this.showDialogOrderTransportInfoLine = true;
 
@@ -421,7 +422,7 @@ export class OrderTransportAllerComponent implements OnInit {
 
   }
 
- 
+
 
 
 

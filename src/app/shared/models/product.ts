@@ -1,3 +1,4 @@
+import { ServiceType } from './service-type';
 import {Vat} from './vat';
 import {Owner} from './owner';
 import {Uom} from './uom';
@@ -41,6 +42,8 @@ export class Product {
   purshasePriceTTCUB: number;
   minStock: number;
   component:Boolean=false;
+  serviceType:ServiceType;
+  service:Boolean=false;
 
 
     constructor() {

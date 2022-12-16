@@ -122,8 +122,7 @@ export class OrderTransportRetourComponent implements OnInit {
         Validators.required
       ),
       capacity: new FormControl(
-        this.selectedOrderTransportInfo.capacityTotal,
-        Validators.required
+        this.selectedOrderTransportInfo.capacityTotal
       ),
 
 
@@ -349,16 +348,18 @@ export class OrderTransportRetourComponent implements OnInit {
         summary: "Error",
         detail: "Saisir  Poids",
       });
-    } else if (
-      this.orderTransportInfoForm.value["capacity"] == null ||
-      this.orderTransportInfoForm.value["capacity"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir Volume",
-      });
-    } else if (
+    }
+    // else if (
+    //   this.orderTransportInfoForm.value["capacity"] == null ||
+    //   this.orderTransportInfoForm.value["capacity"] == ""
+    // ) {
+    //   this.messageService.add({
+    //     severity: "error",
+    //     summary: "Error",
+    //     detail: "Saisir Volume",
+    //   });
+    // }
+     else if (
       this.orderTransportInfoForm.value["numberOfPallet"] == null ||
       this.orderTransportInfoForm.value["numberOfPallet"] == ""
     ) {

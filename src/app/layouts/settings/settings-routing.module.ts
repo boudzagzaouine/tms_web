@@ -1,3 +1,4 @@
+import { MenuServiceComponent } from './menu-service/menu-service.component';
 import { TransportEditComponent } from './transport/transport-edit/transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
 import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
@@ -119,6 +120,7 @@ const routes: Routes = [
       { path: 'menu-fuel', component: MenuFuelComponent},
       { path: 'menu-transport', component: MenuTransportComponent},
       { path: 'test', component: TestDataTableComponent},
+      { path: 'menu-service', component: MenuServiceComponent},
 
 
     ]

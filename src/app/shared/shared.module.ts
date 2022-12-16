@@ -1,3 +1,5 @@
+import { TransportProductService } from './services/api/transport-product.service';
+import { ServiceTypeService } from './services/api/service-type.service';
 import { PaymentTypeService } from './services/api/payment-type.service';
 import { AccountPricingService } from './services/api/account-pricing.service';
 import { OrderTransportTypeService } from './services/api/order-transport-type.service';
@@ -315,7 +317,9 @@ export class SharedModule {
         OrderTransportInfoService,
         TransportPlanService,
         AccountPricingService,
-        PaymentTypeService
+        PaymentTypeService,
+        ServiceTypeService,
+        TransportProductService
       ],
 
     };

@@ -169,8 +169,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
           Validators.required
         ),
         capacity: new FormControl(
-          this.selectedOrderTransportInfoLine.capacityEnlevement,
-          Validators.required
+          this.selectedOrderTransportInfoLine.capacityEnlevement
         ),
         weight: new FormControl(
           this.selectedOrderTransportInfoLine.weightEnlevement,
@@ -194,8 +193,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
           Validators.required
         ),
         capacity: new FormControl(
-          this.selectedOrderTransportInfoLine.capacityLivraison,
-          Validators.required
+          this.selectedOrderTransportInfoLine.capacityLivraison
         ),
         weight: new FormControl(
           this.selectedOrderTransportInfoLine.weightLivraison,
@@ -269,19 +267,25 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
       if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
         console.log("enlev");
-
+        if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
+          return;
+        }
         this.destroyLivraison();
         this.validateEnlevement();
       }
       if (this.selectedOrderTransportInfoLine.orderTransportType.id == 2) {
         console.log("livr");
-
+        if (this.orderTransportInfoLineForm.controls["livraison"].invalid) {
+          return;
+        }
         this.destroyEnlevement();
         this.validateLivraison();
       }
       if (this.selectedOrderTransportInfoLine.orderTransportType.id == 3) {
         console.log("enl / liv");
-
+        if (this.orderTransportInfoLineForm.controls["enlevement"].invalid && this.orderTransportInfoLineForm.controls["livraison"].invalid) {
+          return;
+        }
         this.validateEnlevement();
         this.validateLivraison();
       }
@@ -373,39 +377,42 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = event.value;
 
   }
-  inputWeightEnlevement(event) {
+  inputWeightEnlevement(event,show:boolean) {
 
       // this.getWeightLine(this.lines,event.value);
 
       let sumWeightEnlevement: number = 0;
       let enlevementLigne =this.lines;
+      let lastWeight:number=0;
+      let formvalue = this.orderTransportInfoLineForm.value;
+
       enlevementLigne.forEach((element) => {
          sumWeightEnlevement += element.weightEnlevement;
        });
        this.showWeightMaxEnlevement = false;
        if(this.selectedOrderTransportInfoLine.orderTransportType.id==1 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
          this.weightMaxEnlevement = this.weightMax - sumWeightEnlevement;
+         lastWeight=this.selectedOrderTransportInfoLine.weightEnlevement?this.selectedOrderTransportInfoLine.weightEnlevement:0;
+   this.weightMaxEnlevement=this.weightMaxEnlevement+lastWeight;
+         console.log(lastWeight);
+ console.log(this.weightMaxEnlevement);
+         if(show==true){
+         // lastWeight=formvalue["enlevement"]["weight"]?formvalue["enlevement"]["weight"]:0;
+          this.orderTransportInfoLineForm.controls["enlevement"].patchValue({
+            weight:this.weightMaxEnlevement==0?lastWeight:this.weightMaxEnlevement
+          });
+         }
+
        if (event.value > this.weightMaxEnlevement){
          this.showWeightMaxEnlevement = true;
        }
       }
+      console.log(this.showWeightMaxEnlevement);
+
 
   }
 
-  inputPalletEnlevement(event){
-    let sumPalletEnlevement: number = 0;
-      let enlevementLigne =this.lines;
-      enlevementLigne.forEach((element) => {
-        sumPalletEnlevement += element.numberOfPalletEnlevement;
-       });
-       this.showPalletMaxEnlevement = false;
-       if(this.selectedOrderTransportInfoLine.orderTransportType.id==1 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
-         this.palletMaxEnlevement = this.palletMax - sumPalletEnlevement;
-       if (event.value > this.palletMaxEnlevement){
-         this.showPalletMaxEnlevement = true;
-       }
-      }
-  }
+
 
   inputCapacityEnlevement(event) {
 
@@ -417,15 +424,42 @@ export class OrderTransportInfoLineComponent implements OnInit {
      this.showCapacityMaxEnlevement = false;
      if(this.selectedOrderTransportInfoLine.orderTransportType.id==1 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
        this.capacityMaxEnlevement = this.capacityMax - sumCapacityEnlevement;
+
      if (event.value > this.capacityMaxEnlevement){
        this.showCapacityMaxEnlevement = true;
      }
     }
   }
+ inputPalletEnlevement(event,show:boolean){
+    let sumPalletEnlevement: number = 0;
+      let enlevementLigne =this.lines;
+      let lastNumberPalette:number=0;
+      let formvalue = this.orderTransportInfoLineForm.value;
+      enlevementLigne.forEach((element) => {
+        sumPalletEnlevement += element.numberOfPalletEnlevement;
+       });
+       this.showPalletMaxEnlevement = false;
+       if(this.selectedOrderTransportInfoLine.orderTransportType.id==1 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
+         this.palletMaxEnlevement = this.palletMax - sumPalletEnlevement;
+          lastNumberPalette=this.selectedOrderTransportInfoLine.numberOfPalletEnlevement?this.selectedOrderTransportInfoLine.numberOfPalletEnlevement:0;
+          this.palletMaxEnlevement= this.palletMaxEnlevement+lastNumberPalette;
+         if(show==true){
+          console.log( this.palletMaxEnlevement);
 
-  inputWeightLivraison(event) {
+          this.orderTransportInfoLineForm.controls["enlevement"].patchValue({
+            numberOfPallets:this.palletMaxEnlevement==0?lastNumberPalette:this.palletMaxEnlevement
+          });
+         }
+       if (event.value > this.palletMaxEnlevement){
+         this.showPalletMaxEnlevement = true;
+       }
+      }
+  }
+  inputWeightLivraison(event,show:boolean) {
     let sumWeightLivraison: number = 0;
     let sumWeightEnlevement: number = 0;
+    let lastWeight:number=0;
+    let formvalue = this.orderTransportInfoLineForm.value;
 
       let livraisonLigne =this.lines;
       livraisonLigne.forEach((element) => {
@@ -435,12 +469,57 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.showWeightMaxLivraison = false;
     if(this.selectedOrderTransportInfoLine.orderTransportType.id==2 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
       this.weightMaxLivraison=sumWeightEnlevement-sumWeightLivraison;
+      lastWeight=this.selectedOrderTransportInfoLine.weightLivraison?this.selectedOrderTransportInfoLine.weightLivraison:0;
+      this.weightMaxLivraison=this.weightMaxLivraison+lastWeight;
+      if(show==true){
+        console.log( this.weightMaxLivraison);
+
+
+        this.orderTransportInfoLineForm.controls["livraison"].patchValue({
+          weight:this.weightMaxLivraison==0? lastWeight:this.weightMaxLivraison
+
+        });
+       }
         if(event.value > this.weightMaxLivraison){
           this.showWeightMaxLivraison = true;
         }
     }
   }
+  inputPalletLivraison(event,show: boolean) {
+    let sumPalletLivraison: number = 0;
+    let sumPalletEnlevement: number = 0;
+  let lastNumberPallet:number=0;
 
+  let formvalue = this.orderTransportInfoLineForm.value;
+
+
+      let livraisonLigne =this.lines;
+      livraisonLigne.forEach((element) => {
+        sumPalletEnlevement += element.numberOfPalletEnlevement;
+        sumPalletLivraison += element.numberOfPalletLivraison;
+      });
+    this.showPalletMaxLivraison = false;
+    if(this.selectedOrderTransportInfoLine.orderTransportType.id==2 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
+
+      this.palletMaxLivraison=sumPalletEnlevement-sumPalletLivraison;
+      lastNumberPallet=this.selectedOrderTransportInfoLine.numberOfPalletLivraison?this.selectedOrderTransportInfoLine.numberOfPalletLivraison:0;
+      this.palletMaxLivraison=this.palletMaxLivraison+lastNumberPallet;
+      if(show==true){
+        console.log( this.palletMaxLivraison);
+        this.orderTransportInfoLineForm.controls["livraison"].patchValue({
+          numberOfPallets:this.palletMaxLivraison==0?lastNumberPallet:this.palletMaxLivraison
+        });
+
+       }
+        if(event.value > this.palletMaxLivraison){
+          this.showPalletMaxLivraison = true;
+        }
+
+    }
+
+
+
+  }
   inputCapacityLivraison(event) {
     let sumCapacityLivraison: number = 0;
     let sumCapacityEnlevement: number = 0;
@@ -459,27 +538,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
     }
   }
 
-  inputPalletLivraison(event) {
-    let sumPalletLivraison: number = 0;
-    let sumPalletEnlevement: number = 0;
 
-      let livraisonLigne =this.lines;
-      livraisonLigne.forEach((element) => {
-        sumPalletEnlevement += element.numberOfPalletEnlevement;
-        sumPalletLivraison += element.numberOfPalletLivraison;
-      });
-    this.showPalletMaxLivraison = false;
-    if(this.selectedOrderTransportInfoLine.orderTransportType.id==2 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
-      this.palletMaxLivraison=sumPalletEnlevement-sumPalletLivraison;
-        if(event.value > this.palletMaxLivraison){
-          this.showPalletMaxLivraison = true;
-        }
-
-    }
-
-
-
-  }
 
 
   // getWeightLine(enlLivLines :OrderTransportInfoLine[],weight: number) {

@@ -1,3 +1,4 @@
+import { TransportPlanServiceEditComponent } from './transport-plan-add/transport-plan-service-edit/transport-plan-service-edit.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
@@ -77,6 +78,6 @@ import {CheckboxModule} from 'primeng/checkbox';
      SelectButtonModule,
 CheckboxModule
   ],
-  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent]
+  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent]
 })
 export class TransportPlanModule { }

@@ -1,3 +1,5 @@
+import { TransportPlanProductService } from './transport-plan-product-service';
+import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
 import {  TurnStatus } from './turn-status';
 import { OrderTransport } from './order-transport';
@@ -28,6 +30,7 @@ export class TransportPlan {
   villeSource :string;
   villeDistination : string;
 
+  transportPlanProductServices:TransportPlanProductService[]=[];
 
 
 

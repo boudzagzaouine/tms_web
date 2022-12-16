@@ -92,7 +92,9 @@
 .btn-filter {
     width: 150px;
 }
-
+.p-button.p-button-icon-only{
+  height: 32px !important;
+}
 .p-calendar,
 .p-inputnumber,
 .p-dropdown,
@@ -102,7 +104,8 @@
 .p-inputtext {
    margin: 0px !important;
     width: 100% !important;
-    height: 32px;
+    height: 32px !important;
+
 }
 
 p-autocomplete {

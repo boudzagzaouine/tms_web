@@ -53,9 +53,7 @@ export class VehicleCategorieEditComponent implements OnInit {
       'fLength': new FormControl((this.selectedVehicleCategory.length), Validators.required),
       'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
       'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
-      'fDepth': new FormControl(this.selectedVehicleCategory.depth, Validators.required),
       'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
-      'fEmptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight, Validators.required),
       'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
       'fPriceKm': new FormControl(this.selectedVehicleCategory.priceKm),
     });

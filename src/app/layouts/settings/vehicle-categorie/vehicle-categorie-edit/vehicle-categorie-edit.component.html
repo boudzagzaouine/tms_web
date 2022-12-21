@@ -106,31 +106,6 @@
           <div class="row justify-content-around">
             <div class="form-group col-sm-6">
               <label class="font-weight-bold"
-                >{{ "Profondeur" | translate }}<span style="font-size: 9px;"> (cm)</span>  *</label
-              >
-              <span
-                *ngIf="
-                  (vehicleCategoryForm.get('fDepth').touched &&
-                    vehicleCategoryForm.get('fDepth').invalid) ||
-                  (isFormSubmitted && vehicleCategoryForm.get('fDepth').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small;"
-              >
-              {{ 'Obligatoire'  | translate }}
-
-              </span>
-              <br />
-              <input
-                type="text"
-                class="form-control"
-                pInputText
-                formControlName="fDepth"
-                pKeyFilter="num"
-              />
-            </div>
-            <div class="form-group col-sm-6">
-              <label class="font-weight-bold"
                 >{{ "Hauteur" | translate }}<span style="font-size: 9px;"> (cm)</span> *</label
               >
               <span
@@ -154,6 +129,32 @@
                 pKeyFilter="num"
               />
             </div>
+            <div class="form-group col-sm-6">
+              <!-- <label class="font-weight-bold"
+                >{{ "Profondeur" | translate }}<span style="font-size: 9px;"> (cm)</span>  *</label
+              >
+              <span
+                *ngIf="
+                  (vehicleCategoryForm.get('fDepth').touched &&
+                    vehicleCategoryForm.get('fDepth').invalid) ||
+                  (isFormSubmitted && vehicleCategoryForm.get('fDepth').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small;"
+              >
+              {{ 'Obligatoire'  | translate }}
+
+              </span>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                pInputText
+                formControlName="fDepth"
+                pKeyFilter="num"
+              /> -->
+            </div>
+
           </div>
           <div class="row">
             <div class="form-group col-sm-6">

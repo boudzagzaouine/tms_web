@@ -52,11 +52,8 @@ export class VehicleCategorieComponent implements OnInit {
       { field: 'description', header: 'Description', type: 'string' },
       { field: 'length', header: 'Longueur', type: 'number' },
       { field: 'width', header: 'Largeur', type: 'number' },
-      { field: 'depth', header: 'Profondeur', type: 'number' },
       { field: 'height', header: 'Hauteur', type: 'number' },
       { field: 'tonnage', header: 'Tonnage', type: 'number' },
-      { field: 'emptyWeight', header: 'Poids à Vide', type: 'number' },
-      { field: 'totalWeight', header: 'Poids Total', type: 'number' },
     ];
 
     this.loadData();

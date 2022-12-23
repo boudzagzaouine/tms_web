@@ -1,3 +1,4 @@
+import { ActivityAreaService } from './services/api/activity-area.service';
 import { TransportProductService } from './services/api/transport-product.service';
 import { ServiceTypeService } from './services/api/service-type.service';
 import { PaymentTypeService } from './services/api/payment-type.service';
@@ -319,7 +320,8 @@ export class SharedModule {
         AccountPricingService,
         PaymentTypeService,
         ServiceTypeService,
-        TransportProductService
+        TransportProductService,
+        ActivityAreaService
       ],
 
     };

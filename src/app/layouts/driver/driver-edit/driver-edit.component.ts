@@ -107,14 +107,15 @@ export class DriverEditComponent implements OnInit {
           this.BadgeDriverList = data;
    
         }))
-    }else{
-
-      this.subscriptions.add( this.driverService.generateCode().subscribe(
-        code => {
-       this.selectedDriver.code = code;
-        this.initForm();
-      }));
     }
+    // else{
+
+    //   this.subscriptions.add( this.driverService.generateCode().subscribe(
+    //     code => {
+    //    this.selectedDriver.code = code;
+    //     this.initForm();
+    //   }));
+    // }
 
 
 
@@ -188,7 +189,7 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
     this.selectedDriver.fax = formValue['fax'];
-    this.selectedDriver.carte = formValue['carte'];
+    this.selectedDriver.subscriptionCard = formValue['card'];
 
     this.selectedDriver.charged = formValue['charged'];
     this.selectedDriver.salary = formValue['salary'];

@@ -26,10 +26,10 @@
               {{'Obligatoire'| translate}}
             </span>
             <br />
-            <input type="text" class="form-control" [attr.disabled]="true" pInputText formControlName="code"
+            <input type="text" class="form-control"  pInputText formControlName="code"
               [ngClass]="{'is-invalid': accountForm.get('code').touched && accountForm.get('code').invalid}" />
           </div>
-
+          <!-- [attr.disabled]="true" -->
 
             <div class="form-group col-sm-12 col-md-4">
             <label class="font-weight-bold">{{'Nom' | translate}} *</label>

@@ -1,3 +1,6 @@
+import { ActivityAreaComponent } from './activity-area/activity-area.component';
+import { CompanyComponent } from './company/company.component';
+import { Company } from './../../shared/models/company';
 import { MenuServiceComponent } from './menu-service/menu-service.component';
 import { TransportEditComponent } from './transport/transport-edit/transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
@@ -121,7 +124,8 @@ const routes: Routes = [
       { path: 'menu-transport', component: MenuTransportComponent},
       { path: 'test', component: TestDataTableComponent},
       { path: 'menu-service', component: MenuServiceComponent},
-
+      { path: 'company', component: CompanyComponent},
+      { path: 'activity-area', component: ActivityAreaComponent},
 
     ]
   }

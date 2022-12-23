@@ -85,12 +85,12 @@ export class AccountEditComponent implements OnInit {
         return Number(a.day.value) - Number(b.day.value);
       });
       this.title = "Ajouter un Client";
-      this.subscriptions.add(
-        this.accountService.generateCode().subscribe((code) => {
-          this.selectedAccount.code = code;
-          this.initForm();
-        })
-      );
+      // this.subscriptions.add(
+      //   this.accountService.generateCode().subscribe((code) => {
+      //     this.selectedAccount.code = code;
+      //     this.initForm();
+      //   })
+      // );
 
       this.subscriptions.add(
         this.addressService.generateCode().subscribe((code) => {

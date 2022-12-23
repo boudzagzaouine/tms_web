@@ -1,3 +1,7 @@
+import { ActivityAreaEditComponent } from './activity-area/activity-area-edit/activity-area-edit.component';
+import { ActivityAreaComponent } from './activity-area/activity-area.component';
+import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+import { CompanyComponent } from './company/company.component';
 import { TransportProductEditComponent } from './transport/transport-edit/transport-product-edit/transport-product-edit.component';
 import { ProductServiceEditComponent } from './product-service/product-service-edit/product-service-edit.component';
 import { ProductServiceComponent } from './product-service/product-service.component';
@@ -259,7 +263,12 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
     MenuServiceComponent,
     ProductServiceComponent,
     ProductServiceEditComponent,
-    TransportProductEditComponent
+    TransportProductEditComponent,
+    CompanyComponent,
+    CompanyEditComponent,
+    ActivityAreaComponent,
+    ActivityAreaEditComponent
+
 
 
 

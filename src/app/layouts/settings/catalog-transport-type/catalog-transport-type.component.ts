@@ -60,9 +60,9 @@ export class CatalogTransportTypeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.transportService.findById(10147).subscribe(
+    this.transportService.find('interneOrExterne:true').subscribe(
       data =>{
-        this.defaultTransport=data;
+        this.defaultTransport=data[0];
 
         //this.loadData();
 
@@ -131,7 +131,7 @@ export class CatalogTransportTypeComponent implements OnInit {
 
   loadData() {
     if(this.searchQuery=='' ||this.searchQuery==null){
-          this.searchQuery +='transport.id:'+10147;
+          this.searchQuery +='interneOrExterne:true';
 
     }
     console.log("search");

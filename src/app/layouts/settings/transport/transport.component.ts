@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 export class TransportComponent implements OnInit {
 
   page = 0;
-  size = 5;
+  size = 10;
   collectionSize: number;
   searchQuery = '';
   nameSearch: string;
@@ -32,7 +32,7 @@ export class TransportComponent implements OnInit {
   editMode: number;
   className: string;
   transportExportList: Array<Transport> = [];
-  titleList = 'Liste des Transports';
+  titleList = 'liste des Transporteurs';
   subscriptions= new Subscription();
   items: MenuItem[];
   home: MenuItem;
@@ -47,10 +47,10 @@ export class TransportComponent implements OnInit {
 
 
   ngOnInit() {
-    this.searchQuery = 'interneOrExterne:false';
+    ///this.searchQuery = 'interneOrExterne:false';
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Transport' ,routerLink:'/core/settings/transport'},
+      {label: 'Transporteur' ,routerLink:'/core/settings/transport'},
 
   ];
   this.home = {icon: 'pi pi-home'};
@@ -67,6 +67,7 @@ export class TransportComponent implements OnInit {
       { field: 'address', child: 'city', header: 'Ville', type: 'object' },
       { field: 'address', child: 'country', header: 'Pays', type: 'object' },
     ];
+   // this.searchQuery = 'interneOrExterne:false'
 
     this.loadData();
 
@@ -144,7 +145,7 @@ export class TransportComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    buffer.append(`interneOrExterne:false`);
+    // buffer.append(`interneOrExterne:false`);
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);
     }
@@ -173,8 +174,9 @@ export class TransportComponent implements OnInit {
     this.nameSearch = null;
     this.codeSearch=null;
     this.page = 0;
-    this.searchQuery = 'interneOrExterne:false';
-    this.loadData(this.searchQuery);
+    // this.searchQuery = 'interneOrExterne:false';
+    //this.searchQuery = 'interneOrExterne:false'
+    this.loadData();
   }
 
   onObjectEdited(event) {
@@ -240,6 +242,8 @@ export class TransportComponent implements OnInit {
 
   onShowDialog(event) {
     this.showDialog = event;
+    //this.searchQuery = 'interneOrExterne:false'
+
     this.loadData();
   }
 

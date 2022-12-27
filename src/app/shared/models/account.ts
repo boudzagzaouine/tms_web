@@ -23,7 +23,7 @@ export class Account {
     maxCredit: number;
     wholesale: boolean = false;
     plannings :Planning[]=[];
-    deliveryDate : Date= new Date();
+    deliveryDate : Date;
     contacts :Contact[]=[];
     addresses:Address[]=[];
 

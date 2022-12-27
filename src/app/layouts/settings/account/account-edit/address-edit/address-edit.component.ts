@@ -65,7 +65,7 @@ export class AddressEditComponent implements OnInit {
 
             this.addressCode = data;
             this.selectedAddress.code= this.addressCode;
-            console.log();
+            console.log(this.selectedAddress.code);
 
     }
   );
@@ -121,9 +121,10 @@ export class AddressEditComponent implements OnInit {
     }
    // this.selectedAddress.code = this.addressCode;
     this.selectedAddress.line1 = this.addressForm.value['line1'];
+    this.selectedAddress.addressType = 2; // 2 address facuture
+
     this.selectedAddress.line2 = this.addressForm.value['line2'];
-    //this.selectedAddress.country= this.addressForm.value['country'];
-    //this.selectedAddress.city = this.addressForm.value['city'];
+
     this.selectedAddress.zip = this.addressForm.value['zip'];
     this.selectedAddress.latitude = this.addressForm.value['latitude'];
     this.selectedAddress.longitude = this.addressForm.value['longtitude'];
@@ -144,9 +145,10 @@ export class AddressEditComponent implements OnInit {
 
   onSelectCountry(event){
     this.selectedAddress.country=event.value.code;
+    this.selectedAddress.pays=event.value;
 console.log(this.selectedAddress.country);
 
- this.villeService.find("pays.code~"+event.value.code).subscribe(
+ this.villeService.findAll().subscribe(
   data=> {
   this.cityList=data;
   console.log(data);
@@ -158,6 +160,8 @@ console.log(this.selectedAddress.country);
 
   onSelectCity(event){
     this.selectedAddress.city=event.value.code;
+    this.selectedAddress.ville=event.value;
+   console.log( this.selectedAddress.city);
 
 
   }

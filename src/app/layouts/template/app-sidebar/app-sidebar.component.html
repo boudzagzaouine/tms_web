@@ -58,7 +58,7 @@ height: 100vh; padding-bottom: 10%;">
 
           <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
             <a routerLink="/core/settings/holiday" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Jour férier ' | translate}}</a>
+              {{'Jour Fériés ' | translate}}</a>
           </li>
           <li *hasPermission="['CATEGORY_VEHICLE_VIEW','CONTRACT_TYPE_VIEW','CONSUMPTION_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
@@ -84,12 +84,18 @@ height: 100vh; padding-bottom: 10%;">
           </li>
 
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
-            <a routerLink="/core/settings/company" class="m-a"><i class="fa fa-circle-o"></i>
+            <a routerLink="/core/settings/menu-company" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Société' | translate}}</a>
           </li>
+
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
-            <a routerLink="/core/settings/activity-area" class="m-a"><i class="fa fa-circle-o"></i>
-              {{"Secteur d'activité" | translate}}</a>
+            <a routerLink="/core/settings/menu-address" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Adresse" | translate}}</a>
+          </li>
+
+          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+            <a routerLink="/core/settings/data-recovery" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Reprise des données" | translate}}</a>
           </li>
           <!-- <li *hasPermission="['PUMP_VIEW']">
             <a routerLink="/core/settings/menu-fuel" class="m-a"><i class="fa fa-circle-o"></i>
@@ -109,6 +115,14 @@ height: 100vh; padding-bottom: 10%;">
 
         </ul>
       </li>
+      <!-- <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+        <a class="text-white" routerLink="/core/pricing-internal/edit"><i class="sidebar-item-icon fa " >
+            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
+          </i>
+
+          <span class="nav-label">{{'Tarification' | translate}}</span></a>
+
+      </li> -->
 
 
       <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
@@ -125,20 +139,20 @@ height: 100vh; padding-bottom: 10%;">
             <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
           </i>
 
-          <span class="nav-label">{{'Transport' | translate}}</span></a>
+          <span class="nav-label">{{'Transporteur' | translate}}</span></a>
 
       </li>
 
 
 
-      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+      <!-- <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
         <a class="text-white" routerLink="/core/settings/suppliers"><i class="sidebar-item-icon fa " >
             <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
           </i>
 
           <span class="nav-label">{{'Fournisseur' | translate}}</span></a>
 
-      </li>
+      </li> -->
 
 
 
@@ -171,7 +185,7 @@ height: 100vh; padding-bottom: 10%;">
           <a  class="text-white"><i class="sidebar-item-icon fa " >
               <img src="./assets/img/Menu/vehicle.png" width="25px" height="25px">
             </i>
-            <span class="nav-label">{{'disponibilité Patrimoine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+            <span class="nav-label">{{'Disponibilité Patrimoine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
           <ul class="nav-2-level collapse" >
 
             <li *hasPermission="['VEHICLE_VIEW']">
@@ -249,7 +263,7 @@ height: 100vh; padding-bottom: 10%;">
         </ul>
       </li> -->
 
-      <li *hasPermission="['DIESELDECLARATION_VIEW']">
+      <!-- <li *hasPermission="['DIESELDECLARATION_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
           </i>
@@ -261,9 +275,9 @@ height: 100vh; padding-bottom: 10%;">
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
-      <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
+      <!-- <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
           </i>
@@ -275,7 +289,7 @@ height: 100vh; padding-bottom: 10%;">
                 width="15px" height="15px"> {{'Lister' | translate}}</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!-- <li *hasPermission="['MAINTENANCEPLAN_VIEW','MAINTENANCEPLAN_CREATE','MAINTENANCE_CREATE','MAINTENANCE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa">
@@ -416,7 +430,7 @@ height: 100vh; padding-bottom: 10%;">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
           </i>
-          <span class="nav-label">{{'Order Transport' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+          <span class="nav-label">{{'Ordre Transport' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
           <li >
             <a routerLink="/core/order-transport/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"

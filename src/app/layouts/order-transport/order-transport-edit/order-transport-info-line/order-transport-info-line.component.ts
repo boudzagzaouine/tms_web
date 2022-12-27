@@ -108,7 +108,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
     if (!this.editMode) {
       //this.selectedOrderTransportInfoLine = new OrderTransportInfoLine();
       this.selectedOrderTransportInfoLine.orderTransportType =
-        this.orderTransportTypeList[0];
+        this.orderTransportTypeList.filter(f=> f.id==1)[0];
 
 
     }

@@ -52,6 +52,9 @@ const routes: Routes = [
         { path: 'supplier-invoice', loadChildren: () => import('./supplier-invoice/supplier-invoice.module').then(m => m.SupplierInvoiceModule) },
         { path: 'order-transport', loadChildren: () => import('./order-transport/order-transport.module').then(m => m.OrderTransportModule) },
         { path: 'transport-plan', loadChildren: () => import('./transport-plan/transport-plan.module').then(m => m.TransportPlanModule) },
+        { path: 'default-index', loadChildren: () => import('./default/default.module').then(m => m.DefaultModule) },
+        { path: 'pricing-internal', loadChildren: () => import('./pricing-internal/pricing-internal.module').then(m => m.PricingInternalModule) },
+
 
 
     ],

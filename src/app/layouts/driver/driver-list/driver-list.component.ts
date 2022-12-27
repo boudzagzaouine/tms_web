@@ -29,11 +29,13 @@ export class DriverListComponent implements OnInit {
   collectionSize: number;
   cinSearch: string;
   codeSearch: string;
+  nameSearch: string;
+
   contratSearch: string;
   badgeTypeSearch: BadgeType;
   selectedDrivers: Array<Vehicle> = [];
   drivercodeList: Array<Driver> = [];
-
+  driverNameList:Array<Driver>=[];
   loading: boolean;
   searchQuery = '';
   driverList: Array<Driver> = [];
@@ -47,7 +49,7 @@ export class DriverListComponent implements OnInit {
   subscriptions= new Subscription ();
 
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private driverService: DriverService,
     private spinner: NgxSpinnerService,
@@ -63,19 +65,18 @@ export class DriverListComponent implements OnInit {
     this.items = [
       {label: 'Chauffeur'},
       {label: 'Lister'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.className = Driver.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'cin', header: 'Cin', type: 'string' },
-      { field: 'birthDate', header: 'Date Naissance', type: 'date' },
-
-      { field: 'carte', header: "Carte d'abonnement", type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'cin', header: 'CIN', type: 'string' },
+      { field: 'birthDate', header: 'Date Naissance', type: 'date' },
+      { field: 'carte', header: "Carte d'abonnement", type: 'string' },
       { field: 'tele1', header: 'Téléphone', type: 'string' },
       { field: 'fax', header: 'Fax', type: 'string' },
       { field: 'email', header: 'Email', type: 'string' },
@@ -138,6 +139,12 @@ export class DriverListComponent implements OnInit {
   ondriverCodeSearch(event: any) {
     this.subscriptions.add(this.driverService.find('code~' + event.query).subscribe(
       data => this.drivercodeList = data.map(f => f.code)
+    ));
+  }
+
+  ondriverNameSearch(event: any) {
+    this.subscriptions.add(this.driverService.find('name~' + event.query).subscribe(
+      data => this.driverNameList = data.map(f => f.name)
     ));
   }
   loadBadge() {
@@ -215,9 +222,16 @@ export class DriverListComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-    if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
-      buffer.append(`badgeTypeDrivers.badgeType.code~${this.badgeTypeSearch.code}`);
+
+    if (this.nameSearch != null && this.nameSearch !== '') {
+      buffer.append(`name~${this.nameSearch}`);
     }
+    // if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
+    //   buffer.append(`badgeTypeDrivers.badgeType.code~${this.badgeTypeSearch.code}`);
+    // }
+
+     console.log(buffer.getValue());
+
 
     this.page = 0;
     const searchQuery = buffer.getValue();
@@ -240,9 +254,13 @@ export class DriverListComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`driver.code~${this.codeSearch}`);
     }
+    if (this.nameSearch != null && this.nameSearch !== '') {
+      buffer.append(`driver.name~${this.nameSearch}`);
+    }
     if (this.badgeTypeSearch != null && this.badgeTypeSearch.code !== '') {
       buffer.append(`badgeType.code~${this.badgeTypeSearch.code}`);
     }
+console.log(buffer.getValue());
 
 
     this.page = 0;
@@ -257,7 +275,7 @@ export class DriverListComponent implements OnInit {
     this.cinSearch = null;
     this.badgeTypeSearch = null;
     this.page = 0;
-
+  this.nameSearch=null;
     this.searchQuery = '';
     this.loadData();
   }

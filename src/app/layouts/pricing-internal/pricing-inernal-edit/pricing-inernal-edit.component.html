@@ -1,0 +1,22 @@
+
+<p-tabView>
+
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-3">
+      <ng-template pTemplate="content">
+<app-pricing-standard></app-pricing-standard>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-3">
+      <ng-template pTemplate="content">
+
+      </ng-template>
+  </p-tabPanel>
+
+  <p-tabPanel header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-3">
+
+    <ng-template pTemplate="content">
+
+    </ng-template>
+  </p-tabPanel>
+
+</p-tabView>

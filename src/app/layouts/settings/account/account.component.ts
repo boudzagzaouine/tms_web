@@ -33,7 +33,7 @@ export class AccountComponent implements OnInit {
   editMode: number;
   className: string;
   accountExportList: Array<Account> = [];
-  titleList = 'Liste des Client';
+  titleList = 'Liste des Clients';
   subscriptions= new Subscription();
   items: MenuItem[];
   home: MenuItem;
@@ -60,8 +60,8 @@ export class AccountComponent implements OnInit {
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
       { field: 'telephone', header: 'Telephone', type: 'string' },
-    { field: 'company', child: 'code', header: 'Société', type: 'object' },
-    { field: 'deliveryDate', header: 'heure preferentielle de livraison', type: 'date' },
+    { field: 'company', child: 'name', header: 'Société', type: 'object' },
+    { field: 'deliveryDate', header: 'heure preferentielle de livraison', type: 'time' },
 
      // { field: 'contact', child: 'name', header: 'Nom', type: 'object' },
     //   { field: 'contact', child: 'tel1', header: 'Telephone 1', type: 'object' },
@@ -106,6 +106,7 @@ export class AccountComponent implements OnInit {
     ));
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData();
   }

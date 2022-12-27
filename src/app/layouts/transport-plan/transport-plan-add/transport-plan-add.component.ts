@@ -105,7 +105,7 @@ export class TransportPlanAddComponent implements OnInit {
 
     this.loadOrderTransport();
 
-    this.transportService.find("id:" + 10147).subscribe((data) => {
+    this.transportService.find("interneOrExterne:true").subscribe((data) => {
       this.selectDefaulTransport = data[0];
     });
     this.turnStatusService.find("id:" + 1).subscribe((data) => {

@@ -215,16 +215,16 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     } else {
       this.selectedVehicle.vehicleProducts=this.selectedVehicle.vehicleProducts?this.selectedVehicle.vehicleProducts:[];
 
-      this.subscriptions.add(this.vehicleService.generateCode().subscribe(
-        code => {
-          console.log("code");
+    //   this.subscriptions.add(this.vehicleService.generateCode().subscribe(
+    //     code => {
+    //       console.log("code");
 
-          console.log(code);
+    //       console.log(code);
 
-       this.selectedVehicle.code = code;
-        this.initForm();
-    }
-    ));
+    //    this.selectedVehicle.code = code;
+    //     this.initForm();
+    // }
+    // ));
     }
 
     this.subscriptions.add(this.consumptionTypeService.findAll().subscribe(
@@ -281,7 +281,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
 console.log(item);
 
 return this.productTypeChildList =this.selectedVehicle.vehicleProducts.filter(f=> f.productType.productType.id==item.productType.productType.id);
-  
+
   }
 
   onSelectProductTypeCild(productTypeChild){

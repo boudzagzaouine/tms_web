@@ -33,7 +33,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
   patrimonyCodeList: Array<Patrimony> = [];
 
   className: string;
-  titleList = 'Liste Des disponibilité';
+  titleList = 'Liste des Disponibilités';
   cols: any[];
   editMode: number;
   showDialog: boolean;
@@ -73,9 +73,9 @@ export class VehicleAvailabilityListComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
-      { field: 'interventionDate', header: 'Date intervention Planifié', type: 'date' },
-      { field: 'maintenanceState', child: 'code', header: 'Status', type: 'object' },
-      { field: 'blocking', child: 'code', header: 'Status action', type: 'string' },
+      { field: 'interventionDate', header: 'Date intervention Planifiée', type: 'date' },
+      { field: 'maintenanceState', child: 'code', header: 'Statut', type: 'object' },
+      { field: 'blocking', child: 'code', header: 'Statut Action', type: 'string' },
 
     ];
   }

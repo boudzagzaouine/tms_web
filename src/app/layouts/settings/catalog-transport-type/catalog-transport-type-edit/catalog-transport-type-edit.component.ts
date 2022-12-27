@@ -65,9 +65,11 @@ export class CatalogTransportTypeEditComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-this.transportService.findById(10147).subscribe(
+this.transportService.find('interneOrExterne:true').subscribe(
   data =>{
-    this.defaultTransport=data;
+    this.defaultTransport=data[0];
+    console.log(data[0]);
+
     this.transport=this.defaultTransport.id;
   }
 );
@@ -259,7 +261,6 @@ console.log(data);
   onSelectVilleDestination(event: any) {
     this.selectCatalogTransportType.villeDestination = event;
     this.villeDestination = this.selectCatalogTransportType.villeDestination.id;
-
   }
 
 

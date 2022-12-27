@@ -85,7 +85,7 @@ export class AuthenticationService implements OnDestroy{
                             CURRENT_USER,
                             JSON.stringify(user)
                         );
-                        this.router.navigate(['/']);
+                        this.router.navigate(['/core']);
                         this.toast.success('Successfully logged in', 'Welcome');
                         this.spinner.hide();
                     } else {

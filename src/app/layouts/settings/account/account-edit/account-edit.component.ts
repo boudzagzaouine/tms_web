@@ -138,7 +138,7 @@ export class AccountEditComponent implements OnInit {
       email: new FormControl(this.selectedAccount.email),
 
       company: new FormControl(this.selectedAccount.company),
-      deliveryDate: new FormControl(deliveryDate),
+      deliveryDate: new FormControl(this.selectedAccount.deliveryDate),
     });
   }
 
@@ -200,7 +200,7 @@ export class AccountEditComponent implements OnInit {
   onCompanySearch(event: any) {
     this.subscriptions.add(
       this.companyService
-        .find("code~" + event.query)
+        .find("name~" + event.query)
         .subscribe((data) => (this.companies = data))
     );
   }

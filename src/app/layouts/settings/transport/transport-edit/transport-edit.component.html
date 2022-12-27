@@ -73,15 +73,20 @@ showEffect="fade"
           <div class="form-group col-sm-4">
             <label class="font-weight-bold">{{'Pays' | translate}} </label>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="country"
-           />
+            <!-- <input type="text" class="form-control" pInputText formControlName="country"  /> -->
+            <p-autoComplete  formControlName="country" [suggestions]="paysList"
+            (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
+          </p-autoComplete>
+
           </div>
 
           <div class="form-group col-sm-4">
             <label class="font-weight-bold">{{'Ville' | translate}} </label>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="city"
-           />
+            <!-- <input type="text" class="form-control" pInputText formControlName="city"/> -->
+            <p-autoComplete  formControlName="city" [suggestions]="villeList"
+            (onSelect)="onSelectVille($event)" (completeMethod)="onVilleSearch($event)" field="code">
+          </p-autoComplete>
           </div>
           <div class="form-group col-sm-4">
             <label class="font-weight-bold">{{'Code Postale' | translate}} </label>
@@ -94,12 +99,12 @@ showEffect="fade"
         <div class="row  justify-content-around">
 
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Addresse ' | translate}} *</label>
-            <span *ngIf="(transportForm.get('line1').touched && transportForm.get('line1').invalid) ||
+            <label class="font-weight-bold">{{'Addresse ' | translate}} </label>
+            <!-- <span *ngIf="(transportForm.get('line1').touched && transportForm.get('line1').invalid) ||
             (isFormSubmitted && transportForm.get('line1').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
-            </span>
+            </span> -->
             <input type="text" class="form-control" pInputText formControlName="line1"
            />
           </div>

@@ -28,13 +28,13 @@
             type="text"
             class="form-control"
             pInputText
-            formControlName="code" 
+            formControlName="code"
           />
           <!-- [attr.disabled]="true" -->
         </div>
 
         <div class="form-group col-md-3">
-          <label class="font-weight-bold ">{{ "Cin" | translate }} *</label>
+          <label class="font-weight-bold ">{{ "CIN" | translate }} *</label>
           <span
             *ngIf="
               (driverForm.get('cin').touched &&
@@ -102,7 +102,7 @@
             [monthNavigator]="true"
             [yearNavigator]="true"
             dateFormat="dd-mm-yy"
-           
+
             formControlName="visiteMedicale"
             yearRange="1970:2100"
           ></p-calendar>
@@ -190,7 +190,7 @@
           formControlName="dateOfAssignment"
           yearRange="1970:2100"
         ></p-calendar>
-        
+
         </div>
 
         <div class="form-group col-md-3">
@@ -203,7 +203,7 @@
             formControlName="salary"
           />
         </div>
-        
+
         <div class="form-group col-md-3">
           <label class="font-weight-bold ">{{ "charge" | translate }}</label
           ><br />
@@ -221,14 +221,14 @@
       <div class="card m-5 ">
         <div class="card-header" style="background-color: #f7f7f7;">
          <div class="row">
-      
+
           <div class="col-xs-4 col-md-4 pull-left">
             <button
-      
+
               type="button"
               class="btn btn-sm btn-primary mx-1"
               (click)="onShowDialogBadge(selectedBadgeDriver,false)"
-              >   
+              >
               <i class="fa fa-plus"></i>
             </button>
           </div>
@@ -249,7 +249,7 @@
                 <th>{{ 'Date de délivrance ' | translate}}</th>
                 <th>{{ 'Date de fin De validité ' | translate}}</th>
                 <th style="width:10%">{{ 'Action ' | translate}}</th>
-               
+
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-badgeL>
@@ -258,9 +258,9 @@
                 <td>{{ badgeL?.badgeNumber }}</td>
                 <td>{{ badgeL?.deliveranceDate | date: 'dd-MM-yyyy'}}</td>
                 <td>{{ badgeL?.validityEndDate | date: 'dd-MM-yyyy'}}</td>
-             
+
                 <td>
-      
+
                   <button
                   type="button"
                   class="btn btn-sm btn-primary mx-1"
@@ -278,13 +278,13 @@
                 </td>
               </tr>
             </ng-template>
-      
+
           </p-table>
         </div>
       </div>
 
 
-      
+
         <div class="text-center">
           <a
             class="btn btn-primary m-1"

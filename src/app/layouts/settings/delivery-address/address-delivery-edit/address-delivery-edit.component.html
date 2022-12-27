@@ -1,0 +1,170 @@
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '450px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="addressForm">
+
+
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-md-6">
+            <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+            <span *ngIf="(addressForm.get('name').touched && addressForm.get('name').invalid) ||
+            (isFormSubmitted && addressForm.get('name').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+          {{'Obligatoire'| translate}}
+        </span>
+
+      <input type="text" class="form-control" formControlName="name" pInputText />
+
+
+          </div>
+          <div class="form-group col-md-6">
+</div>
+</div>
+          <div class="row  justify-content-around">
+
+
+          <div class="form-group col-md-6">
+            <label class="font-weight-bold">{{'Première ligne d adresse' | translate}} *</label>
+            <span *ngIf="(addressForm.get('line1').touched && addressForm.get('line1').invalid) ||
+            (isFormSubmitted && addressForm.get('line1').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+          {{'Obligatoire'| translate}}
+        </span>
+
+      <input type="text" class="form-control" formControlName="line1" pInputText />
+
+
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="font-weight-bold">{{'Deuxième ligne d adresse' | translate}}</label><br />
+
+      <input type="text" class="form-control" formControlName="line2" pInputText />
+
+
+          </div>
+
+
+
+          <div class="form-group col-md-6 ">
+            <label class="font-weight-bold">{{'Pays'| translate}} *</label>
+            <span *ngIf="(addressForm.get('country').touched && addressForm.get('country').invalid) ||
+            (isFormSubmitted && addressForm.get('country').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+          {{'Obligatoire'| translate}}
+        </span>
+        <p-dropdown
+        [autoDisplayFirst]="false"
+        [options]="countryList"
+        optionLabel="code"
+        formControlName="country"
+        [placeholder]=" this.selectedAddress.country"
+        (onChange)="onSelectCountry($event)"
+        [filter]="true"
+        [showClear]="true"
+      ></p-dropdown>
+            <!-- <input type="text" class="form-control" formControlName="country" pInputText /> -->
+          </div>
+          <div class="form-group col-md-6 ">
+            <label class="font-weight-bold">{{'Ville'| translate}} *</label>
+            <span *ngIf="(addressForm.get('city').touched && addressForm.get('city').invalid) ||
+            (isFormSubmitted && addressForm.get('city').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+          {{'Obligatoire'| translate}}
+        </span>
+        <p-dropdown
+        [autoDisplayFirst]="false"
+        [options]="cityList"
+        optionLabel="code"
+        formControlName="city"
+        [placeholder]=" this.selectedAddress.city"
+        (onChange)="onSelectCity($event)"
+        [filter]="true"
+        [showClear]="true"
+      ></p-dropdown>
+               <!-- <input type="text" class="form-control" formControlName="city" pInputText /> -->
+
+            </div>
+
+            <div class="form-group col-md-6 ">
+              <label class="font-weight-bold">{{'Code postal'| translate}}</label><br />
+                 <input type="text" class="form-control" formControlName="zip" pInputText />
+
+              </div>
+              <div class="form-group col-md-6 "></div>
+
+              <div class="form-group col-md-6 ">
+                <label class="font-weight-bold">{{'Latitude'| translate}}</label><br />
+                   <input type="text" class="form-control" formControlName="latitude" pInputText />
+
+                </div>
+
+                <div class="form-group col-md-6 ">
+                  <label class="font-weight-bold">{{'Longtitude'| translate}}</label><br />
+                     <input type="text" class="form-control" formControlName="longtitude" pInputText />
+
+                  </div>
+
+        </div>
+
+
+        <!-- <div class="row  justify-content-around">
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold ">{{'Code' | translate}} *</label>
+            <span *ngIf="(addressForm.get('code').touched && addressForm.get('code').invalid) ||
+            (isFormSubmitted && addressForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{' Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+              (keydown.space)="$event.preventDefault()" />
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold ">{{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
+          </div>
+
+
+
+          <div class="col-md-3"></div>
+
+        </div> -->
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="p-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

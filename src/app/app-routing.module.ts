@@ -4,7 +4,8 @@ import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
 
-  { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule), canActivate: [AuthGuard] },
+  // { path: '', loadChildren: () => import('./index/index.module').then(m => m.IndexModule), canActivate: [AuthGuard] },
+  { path: '', loadChildren:  () => import('./layouts/layout.module').then(m => m.LayoutModule), canActivate: [AuthGuard] },
   { path: 'core', loadChildren: () => import('./layouts/layout.module').then(m => m.LayoutModule), canActivate: [AuthGuard] },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   { path: 'not-found', loadChildren: () => import('./error-404/error-404.module').then(m => m.Error404Module) },

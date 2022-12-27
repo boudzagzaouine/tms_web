@@ -32,7 +32,7 @@ export class OrderTransportListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   OrderTransportExportList: Array<OrderTransport> = [];
-  titleList = 'Liste des Ordre de Transports';
+  titleList = 'Liste des Ordres de Transport';
   subscriptions= new Subscription();
 
   items: MenuItem[];

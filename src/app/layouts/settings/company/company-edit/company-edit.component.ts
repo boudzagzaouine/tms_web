@@ -1,3 +1,6 @@
+import { ActivityAreaService } from './../../../../shared/services/api/activity-area.service';
+import { Address } from './../../../../shared/models/address';
+import { ActivityArea } from './../../../../shared/models/activity-area';
 import { MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -18,15 +21,16 @@ export class CompanyEditComponent implements OnInit {
   @Input() selectedCompany = new Company();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-
+  activityAreaList:Array<ActivityArea>=[];
   companyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Sociéte';
   subscriptions= new Subscription();
-
+  selectedAddress :Address = new Address();
   constructor(private companyService: CompanyService,
     private authentificationService:AuthenticationService,
+    private areaActivityService:ActivityAreaService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private messageService: MessageService
@@ -38,6 +42,7 @@ export class CompanyEditComponent implements OnInit {
     if (this.editMode === 1) {
       this.selectedCompany = new Company();
       this.title = 'Ajouter Sociéte';
+      this.selectedAddress = new Address();
 
 this.companyService.generateCode().subscribe(
   data => {
@@ -48,7 +53,15 @@ this.companyService.generateCode().subscribe(
   }
 );
 
+this.areaActivityService.findAll().subscribe(
+  data=>{
+    this.activityAreaList=data;
+  }
+);
 
+
+    }else{
+      this.selectedAddress=this.selectedCompany.address;
     }
 
     this.displayDialog = true;
@@ -60,8 +73,28 @@ this.companyService.generateCode().subscribe(
   initForm() {
     this.companyForm = new FormGroup({
       'code': new FormControl(this.selectedCompany.code, Validators.required),
-      'description': new FormControl(this.selectedCompany.description),
-      'name': new FormControl(this.selectedCompany.name),
+      'name': new FormControl(this.selectedCompany.name, Validators.required),
+      'activityArea': new FormControl(this.selectedCompany.activityArea),
+
+      'nameAdd': new FormControl(this.selectedAddress.code, Validators.required),
+      'line1': new FormControl(this.selectedAddress.line1, Validators.required),
+      'line2': new FormControl(this.selectedAddress.line2),
+      'zip': new FormControl(this.selectedAddress.zip),
+      'city': new FormControl(this.selectedAddress.city),
+      'country': new FormControl(this.selectedAddress.country),
+
+      'tradeRegister': new FormControl(this.selectedCompany.tradeRegister, Validators.required),
+      'tax': new FormControl(this.selectedCompany.professionalTax),
+      'if': new FormControl(this.selectedCompany.fiscalIdentifier),
+       'cnss': new FormControl(this.selectedCompany.cnssNumber),
+       'fiscal': new FormControl(this.selectedCompany.fiscalIdentifier),
+       'ice': new FormControl(this.selectedCompany.commonIdentifierOfCompany),
+
+
+
+
+
+
 
     });
   }
@@ -71,9 +104,24 @@ this.companyService.generateCode().subscribe(
     this.isFormSubmitted = true;
     if (this.companyForm.invalid) { return; }
     this.spinner.show();
-    this.selectedCompany.code = this.companyForm.value['code'];
-    this.selectedCompany.description = this.companyForm.value['description'];
     this.selectedCompany.name = this.companyForm.value['name'];
+
+    this.selectedAddress.code = this.companyForm.value['nameAdd'];
+    this.selectedAddress.line1 = this.companyForm.value['line1'];
+    this.selectedAddress.line2 = this.companyForm.value['line2'];
+    this.selectedAddress.zip = this.companyForm.value['zip'];
+    this.selectedAddress.city = this.companyForm.value['city'];
+    this.selectedAddress.country = this.companyForm.value['country'];
+
+    this.selectedCompany.tradeRegister = this.companyForm.value['tradeRegister'];
+this.selectedCompany.address=this.selectedAddress;
+    this.selectedCompany.professionalTax = this.companyForm.value['tax'];
+    this.selectedCompany.fiscalIdentifier = this.companyForm.value['if'];
+    this.selectedCompany.cnssNumber = this.companyForm.value['cnss'];
+    this.selectedCompany.fiscalIdentifier = this.companyForm.value['fiscal'];
+    this.selectedCompany.commonIdentifierOfCompany = this.companyForm.value['ice'];
+
+
 
  this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
  console.log("owner");
@@ -100,6 +148,11 @@ this.companyService.generateCode().subscribe(
     ));
 
   }
+
+  onSelectActivityArea(event){
+  this.selectedCompany.activityArea=event.value;
+  }
+
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);

@@ -1,3 +1,10 @@
+import { CityEditComponent } from './city/city-edit/city-edit.component';
+import { MenuAddressComponent } from './menu-address/menu-address.component';
+import { CityComponent } from './city/city.component';
+import { MenuCompanyComponent } from './menu-company/menu-company.component';
+import { DataRecoveryComponent } from './data-recovery/data-recovery.component';
+import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
+import { AddressDelivery } from './../../shared/import/address-delivery';
 import { ActivityAreaEditComponent } from './activity-area/activity-area-edit/activity-area-edit.component';
 import { ActivityAreaComponent } from './activity-area/activity-area.component';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
@@ -149,6 +156,8 @@ import { SinisterComponent } from './sinister/sinister.component';
 import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.component';
 import {FileUploadModule} from 'primeng/fileupload';
 import { SubscriptionCardTypeComponent } from './subscription-card-type/subscription-card-type.component';
+import { AddressDeliveryEditComponent } from './delivery-address/address-delivery-edit/address-delivery-edit.component';
+import {CardModule} from 'primeng/card';
 
 
 
@@ -267,7 +276,14 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
     CompanyComponent,
     CompanyEditComponent,
     ActivityAreaComponent,
-    ActivityAreaEditComponent
+    ActivityAreaEditComponent,
+    AddressDeliveryEditComponent,
+    DeliveryAddressComponent,
+    DataRecoveryComponent,
+    MenuCompanyComponent,
+    CityComponent,
+    CityEditComponent,
+    MenuAddressComponent
 
 
 
@@ -310,7 +326,8 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
     NgxPrintModule,
     InputSwitchModule,
     NgxPermissionsModule.forChild(),
-    FileUploadModule
+    FileUploadModule,
+    CardModule
   ],
   exports :[
     ContactEditComponent,

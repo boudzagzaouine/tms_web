@@ -12,6 +12,13 @@
       <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
       <input type="text" pInputText [(ngModel)]="descriptionSearch" />
     </div>
+
+    <div class="col-md-2" >
+      <label class="font-weight-bold">{{'Nom' |translate}}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameList"
+      (completeMethod)="onNameSearch($event)"></p-autoComplete>
+    </div>
   </div>
   <br />
 

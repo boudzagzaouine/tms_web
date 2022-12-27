@@ -8,7 +8,7 @@ export class AddressContactOrderTransportInfo {
   name: string;
   tel1: String;
   email: String;
-  company: Company;
+  company: String;
 
 
   line1: string;

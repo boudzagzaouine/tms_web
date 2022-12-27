@@ -20,8 +20,12 @@ export class CompanyComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  nameSearch: string;
+
   descriptionSearch = '';
   codeList: Array<Company> = [];
+  nameList: Array<Company> = [];
+
   cols: any[];
   companyList: Array<Company> = [];
   selectedCompanys: Array<Company> = [];
@@ -46,8 +50,28 @@ export class CompanyComponent implements OnInit {
     this.className = Company.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
-      { field: 'description', header: 'Description', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
+      { field: 'activityArea', header: "Secteur d'activité", type: 'string' },
+
+
+      { field: 'address',  child:'name', header: 'Nom Adress', type: 'object' },
+      { field: 'address',child:'line1',    header: 'Line 1', type: 'object' },
+      { field: 'address',child:'line2',   header: 'Nom', type: 'object' },
+      { field: 'address',child:'zip',    header: 'Nom', type: 'object' },
+      { field: 'address',child:'city',    header: 'Nom', type: 'object' },
+      { field: 'address',child:'country', header: 'Nom', type: 'object' },
+
+      { field: 'tradeRegister', header: 'Nom', type: 'string' },
+      { field: 'professionalTax', header: "Tax Professionnelle", type: 'string' },
+      { field: 'fiscalIdentifier', header: 'IF', type: 'string' },
+      { field: 'cnssNumber', header: "CNSS", type: 'string' },
+      { field: 'fiscalIdentifier', header: "Classification Fiscale", type: 'string' },
+
+
+
+      
+
+
 
 
     ];
@@ -126,6 +150,9 @@ export class CompanyComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
+    if (this.nameSearch != null && this.nameSearch !== '') {
+      buffer.append(`name~${this.nameSearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -136,9 +163,16 @@ export class CompanyComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   }
+
+  onNameSearch(event: any) {
+    this.subscriptions.add(this.companyService.find('name~' + event.query).subscribe(
+      data => this.nameList = data.map(f => f.name)
+    ));
+  }
   reset() {
     this.codeSearch = null;
     this.descriptionSearch = null;
+    this.nameSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

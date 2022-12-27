@@ -145,6 +145,9 @@ export class DataTableComponent implements OnInit {
     else if (event === "object2") {
       res = 6;
     }
+    else if (event === "time") {
+      res = 7;
+    }
 
 
     return res;

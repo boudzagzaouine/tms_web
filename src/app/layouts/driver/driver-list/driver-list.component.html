@@ -3,6 +3,8 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
     <div class="row">
+
+
        <div class="col-md-2">
         <label class="font-weight-bold ">{{"Code" | translate}}</label><br />
         <p-autoComplete
@@ -12,14 +14,22 @@
       ></p-autoComplete>
       </div>
       <div class="col-md-2">
-        <label class="font-weight-bold"> {{"Cin" | translate}}</label><br />
+        <label class="font-weight-bold ">{{"Nom" | translate}}</label><br />
+        <p-autoComplete
+        [(ngModel)]="nameSearch"
+        [suggestions]="driverNameList"
+        (completeMethod)="ondriverNameSearch($event)"
+      ></p-autoComplete>
+      </div>
+      <div class="col-md-2">
+        <label class="font-weight-bold"> {{"CIN" | translate}}</label><br />
 
         <input type="text" pInputText [(ngModel)]="cinSearch" />
       </div>
 
 
 
-      <div class="col-md-2">
+      <!-- <div class="col-md-2">
         <label class="font-weight-bold ">{{"Badge" | translate}}</label><br />
         <p-dropdown
           [options]="badgesTypeList"
@@ -28,7 +38,7 @@
           [(ngModel)]="badgeTypeSearch"
         >
         </p-dropdown>
-      </div>
+      </div> -->
     </div>
     <br />
     <br />
@@ -37,7 +47,7 @@
       <button type="button" class="btn btn-primary mr-2" (click)="reset()">
         <i class="fa fa-refresh mr-2"></i>
         {{ "Réinitialiser" | translate }}      </button>
-      <button type="button" class="btn btn-success" (click)="onSeachDriverBadge()">
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
         <i class="fa fa-search mr-2"></i>
         {{ "Rechercher" | translate }}      </button>
     </div>

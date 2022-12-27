@@ -30,7 +30,7 @@ export class TransportPlanListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   TransportPlanExportList: Array<TransportPlan> = [];
-  titleList = 'Liste des Plan de Transports';
+  titleList = 'Liste des Plans de Transport';
   subscriptions= new Subscription();
 
   items: MenuItem[];
@@ -63,7 +63,7 @@ export class TransportPlanListComponent implements OnInit {
       //{ field: 'code', header: 'Code', type: 'string' },
      // { field: 'date', header: 'Date', type: 'date' },
 
-      { field: 'orderTransport', child: 'code', header: 'Order', type: 'object' },
+      { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
       { field: 'orderTransport', child: 'turnType',child2:'code', header: 'Type', type: 'object2' },

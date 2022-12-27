@@ -1,3 +1,8 @@
+import { MenuAddressComponent } from './menu-address/menu-address.component';
+import { CityComponent } from './city/city.component';
+import { MenuCompanyComponent } from './menu-company/menu-company.component';
+import { DataRecoveryComponent } from './data-recovery/data-recovery.component';
+import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { ActivityAreaComponent } from './activity-area/activity-area.component';
 import { CompanyComponent } from './company/company.component';
 import { Company } from './../../shared/models/company';
@@ -126,6 +131,11 @@ const routes: Routes = [
       { path: 'menu-service', component: MenuServiceComponent},
       { path: 'company', component: CompanyComponent},
       { path: 'activity-area', component: ActivityAreaComponent},
+      { path: 'delivery-address', component: DeliveryAddressComponent},
+      { path: 'data-recovery', component: DataRecoveryComponent},
+      { path: 'menu-company', component: MenuCompanyComponent},
+      { path: 'city', component: CityComponent},
+      { path: 'menu-address', component: MenuAddressComponent}
 
     ]
   }

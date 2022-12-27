@@ -7,7 +7,7 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '500px' }"
+[style]="{ width: '800px' }"
 (onHide)='onShowDialog()'
 >
 <div>
@@ -16,7 +16,7 @@ showEffect="fade"
       <form [formGroup]="companyForm">
 
         <div class="row  justify-content-around">
-          <div class="form-group col-sm-6">
+          <div class="form-group col-sm-3">
             <label class="font-weight-bold">{{'Code' | translate}} *</label>
             <span *ngIf="(companyForm.get('code').touched && companyForm.get('code').invalid) ||
             (isFormSubmitted && companyForm.get('code').invalid)" class="text-lighter"
@@ -29,28 +29,132 @@ showEffect="fade"
            />
           </div>
 
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="description" />
+ <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'Nom' | translate}}*</label>
+            <input type="text" class="form-control" pInputText formControlName="name" />
+            <span *ngIf="(companyForm.get('name').touched && companyForm.get('name').invalid) ||
+            (isFormSubmitted && companyForm.get('name').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
           </div>
-          <div class="col-md-3"></div>
+
+
+
+ <div class="form-group col-sm-3">
+  <label class="font-weight-bold"> {{"Secteur d'activité" | translate}}</label><br />
+  <p-dropdown [autoDisplayFirst]="false" [options]="activityAreaList" optionLabel="code" [filter]="true"
+  [showClear]="true"  (onChange)="onSelectActivityArea($event)"
+  formControlName="activityArea">
+</p-dropdown></div>
+
+<div class="form-group col-sm-3">
+
+</div>
 
         </div>
 
 
         <div class="row  justify-content-around">
 
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Nom Adresse ' | translate}} *</label>
+            <span *ngIf="(companyForm.get('nameAdd').touched && companyForm.get('nameAdd').invalid) ||
+            (isFormSubmitted && companyForm.get('nameAdd').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="nameAdd"
+           />
+
+          </div>
+
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Pays' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="country"
+           />
+
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Ville' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="city"
+            />
+          </div>
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Code Postal' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="zip"
+           />
+          </div>
+        </div>
+
+        <div class="row  justify-content-around">
           <div class="form-group col-sm-6">
-            <label class="font-weight-bold"> {{'Nom' | translate}}</label><br />
-            <input type="text" class="form-control" pInputText formControlName="name" />
+            <label class="font-weight-bold">{{'Line 1 ' | translate}} *</label>
+            <span *ngIf="(companyForm.get('line1').touched && companyForm.get('line1').invalid) ||
+            (isFormSubmitted && companyForm.get('line1').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="line1"
+           />
           </div>
 
           <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Line 2' | translate}} </label>
 
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="line2"
+           />
           </div>
 
+        </div>
 
-          <div class="col-md-3"></div>
+
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'Registre du Commerce' | translate}}*</label><br />
+            <span *ngIf="(companyForm.get('tradeRegister').touched && companyForm.get('tradeRegister').invalid) ||
+            (isFormSubmitted && companyForm.get('tradeRegister').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="tradeRegister" />
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'Tax Professionnelle' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="tax" />
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'IF' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="if" />
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'Numéro CNSS' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="cnss" />
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'Classification Fiscale' | translate}}*</label><br />
+            <input type="text" class="form-control" pInputText formControlName="fiscal" />
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold"> {{'ICE' | translate}} </label><br />
+            <input type="text" class="form-control" pInputText formControlName="ice" />
+          </div>
+
+          <div class="col-md-6"></div>
 
         </div>
 

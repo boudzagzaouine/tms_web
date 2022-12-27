@@ -1,3 +1,4 @@
+import { Ville } from './../../../../shared/models/ville';
 import { AccountService } from './../../../../shared/services/api/account.service';
 import { AddressService } from './../../../../shared/services/api/address.service';
 import { ToastrService } from 'ngx-toastr';
@@ -47,7 +48,7 @@ export class GenerateAddressContactComponent implements OnInit {
 this.accountService.find('id:'+this.selectedAccount.id).subscribe(
   data =>{
   this.contactList=data[0].contacts;
-  this.addressList=data[0].addresses;
+
 
   }
 );
@@ -67,14 +68,18 @@ this.accountService.find('id:'+this.selectedAccount.id).subscribe(
 addressContactDeliveryInfo.name=contact.name;
 addressContactDeliveryInfo.email=contact.email;
 addressContactDeliveryInfo.tel1=contact.tel1;
-addressContactDeliveryInfo.company=this.selectedAccount.company;
+addressContactDeliveryInfo.company=this.selectedAccount?.company?.code;
 
 addressContactDeliveryInfo.line1=this.selectedAddress.line1;
-addressContactDeliveryInfo.city=this.selectedAddress.city;
+addressContactDeliveryInfo.city=this.selectedAddress?.ville?.code;
 addressContactDeliveryInfo.zip=this.selectedAddress.zip;
-addressContactDeliveryInfo.country=this.selectedAddress.country;
-addressContactDeliveryInfo.latitude=this.selectedAddress.latitude;
-addressContactDeliveryInfo.longitude=this.selectedAddress.longitude;
+addressContactDeliveryInfo.country=this.selectedAddress?.pays?.code;
+addressContactDeliveryInfo.latitude=this.selectedAddress.latitude!=null ? this.selectedAddress.latitude :this.selectedAddress?.ville?.latitude;
+console.log(this.selectedAddress?.ville?.latitude);
+
+addressContactDeliveryInfo.longitude=this.selectedAddress.longitude !=null ? this.selectedAddress.longitude : this.selectedAddress?.ville?.longitude;
+console.log(this.selectedAddress?.ville?.longitude);
+
 this.addressContactDeliveryInfo.emit(addressContactDeliveryInfo);
 
 this.displayDialog=false;
@@ -120,7 +125,7 @@ this.displayDialog=false;
 
   onLineEditedAddress(line: Address) {
     console.log(this.selectedAccount);
- line.account =this.selectedAccount;
+ //line.account =this.selectedAccount;
     this.addressService.set(line).subscribe(
       data=> {
               console.log(data);
@@ -131,5 +136,33 @@ this.displayDialog=false;
 
      console.log(line);
   }
+
+
+   onSearchAddressName(search){
+    console.log(search.query);
+
+    let searchName =",name~"+search.query;
+    this.addressService.find('addressType:'+1+searchName).subscribe(
+      data =>{
+      this.addressList=data;
+
+      }
+    );
+
+   }
+
+   onSelectAddress(event){
+console.log(event.name);
+
+    this.addressService.find('name:'+event.name).subscribe(
+      data =>{
+      this.addressList=data;
+
+      }
+    );
+
+
+   }
+
 
 }

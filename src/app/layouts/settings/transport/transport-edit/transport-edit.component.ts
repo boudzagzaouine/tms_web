@@ -1,3 +1,7 @@
+import { PaysService } from './../../../../shared/services/api/pays.service';
+import { VilleService } from './../../../../shared/services/api/ville.service';
+import { Ville } from './../../../../shared/models/ville';
+import { Pays } from './../../../../shared/models/pays';
 import { TransportProduct } from './../../../../shared/models/transport-product';
 import { ContactService } from './../../../../shared/services/api/contact.service';
 import { Contact } from './../../../../shared/models/contact';
@@ -29,7 +33,7 @@ export class TransportEditComponent implements OnInit {
   transportForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = "Modifier un transport";
+  title = "Modifier un Transporteur";
   selectAddress = new Address();
   selectContact = new Contact();
 
@@ -48,6 +52,10 @@ export class TransportEditComponent implements OnInit {
 
   showDialogTransportProduct:Boolean=false;
   catalogueTransportId: number = 0;
+
+  paysList: Pays[] = [];
+  villeList: Ville[] = [];
+
   constructor(
     private transportService: TransportServcie,
     private catalogTransporTypeService: CatalogTransportTypeServcie,
@@ -60,22 +68,36 @@ export class TransportEditComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private villeService: VilleService,
+    private paysService :PaysService,
   ) {}
 
   ngOnInit() {
     let id = this.activatedRoute.snapshot.params["id"];
     if (!id) {
-      this.title = "Ajouter un transport";
+      this.title = "Ajouter un Transporteur";
       this.editMode === 1;
       this.selectedtransport = new Transport();
-
+      this.selectedtransport.interneOrExterne=false;
       this.transportService.generateCode().subscribe((code) => {
         this.selectedtransport.code = code;
         console.log(this.selectedtransport.code);
-
         this.initForm();
       });
+
+
+      this.subscriptions.add(
+        this.paysService.findById(1).subscribe((data) => {
+          this.selectAddress.pays = data;
+          console.log("pays");
+          console.log(data);
+
+
+          this.initForm();
+
+        })
+      );
 
       this.subscriptions.add(
         this.addressService.generateCode().subscribe((code) => {
@@ -133,13 +155,11 @@ export class TransportEditComponent implements OnInit {
       name: new FormControl(this.selectedtransport.name, Validators.required),
       description: new FormControl(this.selectedtransport.description),
       line1: new FormControl(
-        this.selectAddress.line1,
-
-        Validators.required
+        this.selectAddress.line1
       ),
       line2: new FormControl(this.selectAddress.line2),
-      city: new FormControl(this.selectAddress.city),
-      country: new FormControl(this.selectAddress.country),
+      city: new FormControl(this.selectAddress.ville),
+      country: new FormControl(this.selectAddress.pays),
       zip: new FormControl(this.selectAddress.zip),
 
       nameContact: new FormControl(this.selectContact.name),
@@ -156,7 +176,7 @@ export class TransportEditComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.selectedtransport.interneOrExterne = false;
+
     this.selectedtransport.name = this.transportForm.value["name"];
     this.selectedtransport.description =
       this.transportForm.value["description"];
@@ -168,8 +188,8 @@ export class TransportEditComponent implements OnInit {
     // this.selectAddress.code = this.transportForm.value['code'];
     this.selectAddress.line1 = this.transportForm.value["line1"];
     this.selectAddress.line2 = this.transportForm.value["line2"];
-    this.selectAddress.city = this.transportForm.value["city"];
-    this.selectAddress.country = this.transportForm.value["country"];
+    this.selectAddress.city = this.selectAddress.ville?.code;
+    this.selectAddress.country = this.selectAddress.pays?.code;
     this.selectAddress.zip = this.transportForm.value["zip"];
     this.selectAddress.owner = this.authentificationService.getDefaultOwner();
     this.selectedtransport.owner =
@@ -291,7 +311,24 @@ export class TransportEditComponent implements OnInit {
     });
   }
 
+  onSelectPays(event: any) {
+    this.selectAddress.pays = event;
+  }
+  onSelectVille(event: any) {
+    this.selectAddress.ville = event;
+  }
 
+  onVilleSearch(event: any) {
+    this.villeService
+      .find('code~' + event.query)
+      .subscribe(data => (this.villeList = data));
+  }
+
+  onPaysSearch(event: any) {
+    this.paysService
+      .find('code~' + event.query)
+      .subscribe(data => (this.paysList = data));
+  }
 
   onShowDialogCatalogue(line, mode) {
     this.showDialogCatalogue = true;

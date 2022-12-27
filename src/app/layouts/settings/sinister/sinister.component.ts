@@ -60,12 +60,12 @@ export class SinisterComponent implements OnInit {
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
       { field: 'vehicle', child: 'code', header: 'Véhicule', type: 'object' },
-      { field: 'driver', child: 'code', header: 'Driver', type: 'object' },
+      { field: 'driver', child: 'code', header: 'Chauffeur', type: 'object' },
       { field: 'supplier', child: 'contact',child2:"name", header: 'Assureur', type: 'object2' },
       { field: 'sinisterType', child: 'code', header: 'Véhicule', type: 'object' },
       { field: 'date', header: 'date', type: 'date' },
       { field: 'venue', header: 'Lieu', type: 'string' },
-      { field: 'repayment', header: 'remboursement', type: 'string' },
+      { field: 'repayment', header: 'Remboursement', type: 'string' },
 
     ];
 

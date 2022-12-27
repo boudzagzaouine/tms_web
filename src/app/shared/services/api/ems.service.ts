@@ -100,4 +100,11 @@ getLastPriceTransportPlan(search: string) {
 getLastPriceTransportPlans(search: string) {
   return this.proxy.getLastPriceTransportPlans(this.controller, search);
 }
+
+
+
+addDataExchangeAddressDelivery(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeAddressDelivery(this.controller, t);
+}
+
 }

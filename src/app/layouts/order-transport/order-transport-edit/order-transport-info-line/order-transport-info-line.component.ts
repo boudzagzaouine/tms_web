@@ -92,6 +92,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
            this.initForm();
     });
     this.paymentTypeService.findAll().subscribe((data) => {
+      console.log("paiment type ");
+  console.log(data);
+
       this.paymentTypeList = data;
 
     });

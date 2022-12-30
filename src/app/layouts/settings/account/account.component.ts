@@ -1,3 +1,5 @@
+import { CompanyService } from './../../../shared/services/api/company.service';
+import { Company } from './../../../shared/models/company';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,18 +24,19 @@ export class AccountComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   nameSearch: string;
+  companySearch:string;
 
   selectAccounts: Array<Account> = [];
   accountList: Array<Account> = [];
   codeaccountList: Array<Account> = [];
   nameAccountList: Array<Account> = [];
-
+  companyList:Array<Company>=[];
   cols: any[];
   showDialog: boolean;
   editMode: number;
   className: string;
   accountExportList: Array<Account> = [];
-  titleList = 'Liste des Clients';
+  titleList = 'Liste des Comptes';
   subscriptions= new Subscription();
   items: MenuItem[];
   home: MenuItem;
@@ -44,6 +47,7 @@ export class AccountComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private companyService : CompanyService,
     private router: Router) { }
 
   ngOnInit() {
@@ -120,6 +124,11 @@ export class AccountComponent implements OnInit {
       data => this.nameAccountList = data.map(f => f.name)
     ));
   }
+  onCompanySearch(event:any){
+    this.subscriptions.add(this.companyService.find('name~' + event.query).subscribe(
+      data => this.companyList = data.map(f => f.name)
+    ));
+  }
 
   onExportExcel(event) {
 
@@ -171,7 +180,9 @@ export class AccountComponent implements OnInit {
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);
     }
-
+    if (this.companySearch != null && this.companySearch !== '') {
+      buffer.append(`company.name~${this.companySearch}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData();
@@ -186,6 +197,8 @@ export class AccountComponent implements OnInit {
     this.searchQuery = '';
     this.codeSearch='';
     this.nameSearch='';
+    this.companySearch='';
+
     this.loadData();
   }
 

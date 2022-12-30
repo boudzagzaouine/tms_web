@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { Pays } from './../../../../../shared/models/pays';
 import { Ville } from './../../../../../shared/models/ville';
 import { PaysService } from './../../../../../shared/services/api/pays.service';
@@ -11,7 +12,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-address-edit',
   templateUrl: './address-edit.component.html',
-  styleUrls: ['./address-edit.component.css']
+  styleUrls: ['./address-edit.component.css'],
+  providers:[ConfirmationService]
 })
 export class AddressEditComponent implements OnInit {
 
@@ -33,7 +35,8 @@ export class AddressEditComponent implements OnInit {
     private authentificationService: AuthenticationService,
     private addressService : AddressService,
     private  villeService :VilleService ,
-    private paysService :PaysService
+    private paysService :PaysService,
+    private confirmationService:ConfirmationService
 
 
 
@@ -65,6 +68,8 @@ export class AddressEditComponent implements OnInit {
 
             this.addressCode = data;
             this.selectedAddress.code= this.addressCode;
+            this.selectedAddress.addressType = 1; // 2 address Livraison
+
             console.log(this.selectedAddress.code);
 
     }
@@ -121,7 +126,6 @@ export class AddressEditComponent implements OnInit {
     }
    // this.selectedAddress.code = this.addressCode;
     this.selectedAddress.line1 = this.addressForm.value['line1'];
-    this.selectedAddress.addressType = 2; // 2 address facuture
 
     this.selectedAddress.line2 = this.addressForm.value['line2'];
 
@@ -131,8 +135,24 @@ export class AddressEditComponent implements OnInit {
     this.selectedAddress.owner = this.authentificationService.getDefaultOwner();
     console.log(this.selectedAddress);
 
-    this.addressEdited.emit(this.selectedAddress);
-    this.displayDialog = false;
+    if(this.selectedAddress.latitude==null || this.selectedAddress.longitude==null){
+  this.confirmationService.confirm({
+      message: "Voulez-vous affecter coordonner de ville",
+      accept: () => {
+        this.selectedAddress.latitude = this.selectedAddress.ville.latitude;
+        console.log(this.selectedAddress.latitude);
+
+        this.selectedAddress.longitude = this.selectedAddress.ville.longitude;
+        this.addressEdited.emit(this.selectedAddress);
+        this.displayDialog = false;
+      },
+    });
+    }else{
+      this.addressEdited.emit(this.selectedAddress);
+      this.displayDialog = false;
+    }
+
+
 
   }
 

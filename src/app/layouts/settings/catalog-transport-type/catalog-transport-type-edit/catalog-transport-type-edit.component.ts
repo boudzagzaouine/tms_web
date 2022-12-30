@@ -87,11 +87,7 @@ this.transportService.find('interneOrExterne:true').subscribe(
     );
 
 
-    this.transportService.findAll().subscribe(
-      data => {
-        this.transportList = data;
-      }
-    );
+
     this.villeService.findAll().subscribe(
       data => {
         this.villeList = data;
@@ -120,22 +116,31 @@ console.log(this.selectCatalogTransportType);
 
   initForm() {
     this.transportCatVehicleForm = new FormGroup({
+ 'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
+      //'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
+      'fVilleSource': new FormControl(this.selectCatalogTransportType.villeSource, Validators.required),
+      'fVilleDestination': new FormControl(this.selectCatalogTransportType.villeDestination, Validators.required),
+
+         'fTurnType': new FormControl(this.selectCatalogTransportType.turnType, Validators.required),
 
       'fAmountHt': new FormControl(this.selectCatalogTransportType.amountHt, Validators.required),
       'fAmountTtc': new FormControl(this.selectCatalogTransportType.amountTtc, Validators.required),
       'fAmountTva': new FormControl(this.selectCatalogTransportType.amountTva, Validators.required),
-      'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
-      //'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
-      'fVilleSource': new FormControl(this.selectCatalogTransportType.villeSource, Validators.required),
-      'fVilleDestination': new FormControl(this.selectCatalogTransportType.villeDestination, Validators.required),
-      'fVat': new FormControl(
+'fVat': new FormControl(
 
          this.editMode!=1 ?this.selectCatalogTransportType.vat.value:this.selectCatalogTransportType.vat,
 
          Validators.required),
-         'fTurnType': new FormControl(this.selectCatalogTransportType.turnType, Validators.required),
 
 
+         'fGroupingAmountHt': new FormControl(this.selectCatalogTransportType.groupingAmountHt, Validators.required),
+         'fGroupingAmountTtc': new FormControl(this.selectCatalogTransportType.groupingAmountTtc, Validators.required),
+         'fGroupingAmountTva': new FormControl(this.selectCatalogTransportType.groupingAmountTva, Validators.required),
+         'fGroupingVat': new FormControl(
+
+          this.editMode!=1 ?this.selectCatalogTransportType.groupingVat.value:this.selectCatalogTransportType.groupingVat,
+
+          Validators.required),
     });
   }
   onSubmit() {
@@ -191,6 +196,11 @@ console.log(data);
     this.selectCatalogTransportType.amountHt = this.transportCatVehicleForm.value['fAmountHt'];
     this.selectCatalogTransportType.amountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
     this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
+
+    this.selectCatalogTransportType.groupingAmountHt = this.transportCatVehicleForm.value['fGroupingAmountHt'];
+    this.selectCatalogTransportType.groupingAmountTtc = this.transportCatVehicleForm.value['fGroupingAmountTtc'];
+    this.selectCatalogTransportType.groupingAmountTva = this.transportCatVehicleForm.value['fGroupingAmountTva'];
+
     this.selectCatalogTransportType.turnType = this.transportCatVehicleForm.value['fTurnType'];
     this.selectCatalogTransportType.interneOrExterne = true;
 
@@ -198,7 +208,7 @@ console.log(data);
      this.selectCatalogTransportType.transport = this.defaultTransport;
      this.selectCatalogTransportType.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
      this.selectCatalogTransportType.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
-    this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];;
+   // this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];
     this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
     console.log(this.selectCatalogTransportType);
 
@@ -250,7 +260,15 @@ console.log(data);
 
   onSelectVat(event) {
 
-    this.vat= this.vatList.filter(f=> f.value== event.value)[0];
+    this.vat= event.value;
+    this.selectCatalogTransportType.vat=event.value;
+
+    this.onPriceChange(1);
+  }
+
+  onSelectGroupingVat(event) {
+  this.selectCatalogTransportType.groupingVat=event.value;
+    this.vat= event.value;
     this.onPriceChange(1);
   }
   onSelectVilleSource(event: any) {
@@ -298,6 +316,42 @@ console.log(data);
       this.transportCatVehicleForm.patchValue({
         'fAmountHt': PriceHt.toFixed(2),
         'fAmountTva':  amountTva.toFixed(2),
+      });
+    }
+
+  }
+
+
+  onGroupingPriceChange(n: Number) {
+    let PriceHt = +this.transportCatVehicleForm.value['fGroupingAmountHt'];
+    let PriceTTC = +this.transportCatVehicleForm.value['fGroupingAmountTtc'];
+    let vat = this.transportCatVehicleForm.value['fGroupingVat'];
+    console.log(vat);
+
+
+    if (PriceHt === undefined || PriceHt == null) {
+      PriceHt = 0;
+    } if (PriceTTC === undefined || PriceTTC == null) {
+      PriceTTC = 0;
+    } if (vat === undefined || vat == null) {
+      vat = 0;
+    }
+
+    if (n === 1) {
+      const amountTva = (PriceHt / 100) * vat;
+    const priceTTC = PriceHt + amountTva;
+    this.transportCatVehicleForm.patchValue({
+      'fGroupingAmountTtc': priceTTC.toFixed(2),
+      'fGroupingAmountTva': amountTva.toFixed(2),
+    });
+
+    }if (n === 2) {
+
+    PriceHt = PriceTTC / (1 + vat / 100);
+    const amountTva = (PriceHt / 100) * vat;
+      this.transportCatVehicleForm.patchValue({
+        'fGroupingAmountHt': PriceHt.toFixed(2),
+        'fGroupingAmountTva':  amountTva.toFixed(2),
       });
     }
 

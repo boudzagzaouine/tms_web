@@ -55,13 +55,13 @@ export class CompanyComponent implements OnInit {
 
 
       { field: 'address',  child:'name', header: 'Nom Adress', type: 'object' },
-      { field: 'address',child:'line1',    header: 'Line 1', type: 'object' },
-      { field: 'address',child:'line2',   header: 'Nom', type: 'object' },
-      { field: 'address',child:'zip',    header: 'Nom', type: 'object' },
-      { field: 'address',child:'city',    header: 'Nom', type: 'object' },
-      { field: 'address',child:'country', header: 'Nom', type: 'object' },
+      { field: 'address',child:'line1',    header: "Premiére Ligne d'adresse Facturation", type: 'object' },
+      { field: 'address',child:'line2',   header: "Deuxiéme Ligne d'adresse Facturation", type: 'object' },
+      { field: 'address',child:'zip',    header: 'Code Postal Facturation', type: 'object' },
+      { field: 'address',child:'city',    header: 'Pays de Facturation', type: 'object' },
+      { field: 'address',child:'country', header: 'Ville de Facturation', type: 'object' },
 
-      { field: 'tradeRegister', header: 'Nom', type: 'string' },
+      { field: 'tradeRegister', header: 'Registre du Commerce', type: 'string' },
       { field: 'professionalTax', header: "Tax Professionnelle", type: 'string' },
       { field: 'fiscalIdentifier', header: 'IF', type: 'string' },
       { field: 'cnssNumber', header: "CNSS", type: 'string' },
@@ -69,7 +69,7 @@ export class CompanyComponent implements OnInit {
 
 
 
-      
+
 
 
 
@@ -147,9 +147,7 @@ export class CompanyComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }
-    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
-      buffer.append(`description~${this.descriptionSearch}`);
-    }
+
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);
     }

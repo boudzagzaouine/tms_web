@@ -2,15 +2,23 @@
 
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Client' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Compte' | translate }}"   headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-account></app-account>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Contrat Client' | translate}}"  headerStyleClass="onglet-p-2">
+
+
+  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Société' | translate }}"   headerStyleClass="onglet-p-2">
+    <ng-template pTemplate="content">
+               <app-company></app-company>
+    </ng-template>
+</p-tabPanel>
+
+  <!-- <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Contrat Client' | translate}}"  headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <app-contract-account></app-contract-account>
       </ng-template>
-  </p-tabPanel>
+  </p-tabPanel> -->
 
 </p-tabView>

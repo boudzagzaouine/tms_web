@@ -14,6 +14,12 @@
       <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameAccountList"
       (completeMethod)="onNameSearch($event)"></p-autoComplete>
     </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Société" | translate }}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="companySearch" [suggestions]="companyList"
+      (completeMethod)="onCompanySearch($event)"></p-autoComplete>
+    </div>
   </div>
   <br />
 

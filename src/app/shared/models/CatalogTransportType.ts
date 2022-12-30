@@ -19,6 +19,12 @@ export class CatalogTransportType {
   amountTtc: number;
   amountTva: number;
   vat: Vat;
+
+  groupingAmountHt: number;
+  groupingAmountTtc: number;
+  groupingAmountTva: number;
+  groupingVat: Vat;
+
   interneOrExterne:Boolean;
   owner:Owner;
 

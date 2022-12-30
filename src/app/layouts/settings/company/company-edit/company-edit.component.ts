@@ -61,7 +61,7 @@ this.areaActivityService.findAll().subscribe(
 
 
     }else{
-      this.selectedAddress=this.selectedCompany.address;
+      this.selectedAddress=this.selectedCompany.address ?this.selectedCompany.address : new Address();
     }
 
     this.displayDialog = true;

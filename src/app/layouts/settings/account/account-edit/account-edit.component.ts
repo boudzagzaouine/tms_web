@@ -44,7 +44,7 @@ export class AccountEditComponent implements OnInit {
   planningN: Planning = new Planning();
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = "Modifier un Client";
+  title = "Modifier un Compte";
   subscriptions = new Subscription();
   size: number;
   showDialogPlanning: boolean;
@@ -84,7 +84,7 @@ export class AccountEditComponent implements OnInit {
       this.selectedAccount.plannings = this.plannings.sort(function (a, b) {
         return Number(a.day.value) - Number(b.day.value);
       });
-      this.title = "Ajouter un Client";
+      this.title = "Ajouter un Compte";
       // this.subscriptions.add(
       //   this.accountService.generateCode().subscribe((code) => {
       //     this.selectedAccount.code = code;

@@ -1,3 +1,4 @@
+import { CatalogPricingComponent } from './catalog-pricing/catalog-pricing.component';
 import { MenuAddressComponent } from './menu-address/menu-address.component';
 import { CityComponent } from './city/city.component';
 import { MenuCompanyComponent } from './menu-company/menu-company.component';
@@ -135,7 +136,8 @@ const routes: Routes = [
       { path: 'data-recovery', component: DataRecoveryComponent},
       { path: 'menu-company', component: MenuCompanyComponent},
       { path: 'city', component: CityComponent},
-      { path: 'menu-address', component: MenuAddressComponent}
+      { path: 'menu-address', component: MenuAddressComponent},
+      { path: 'catalog-pricing', component: CatalogPricingComponent}
 
     ]
   }

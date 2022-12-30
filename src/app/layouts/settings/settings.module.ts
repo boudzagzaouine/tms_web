@@ -1,3 +1,6 @@
+import { CatalogPricingEditComponent } from './catalog-pricing/catalog-pricing-edit/catalog-pricing-edit.component';
+import { CatalogPricingComponent } from './catalog-pricing/catalog-pricing.component';
+import { CatalogPricing } from './../../shared/models/catalog-pricing';
 import { CityEditComponent } from './city/city-edit/city-edit.component';
 import { MenuAddressComponent } from './menu-address/menu-address.component';
 import { CityComponent } from './city/city.component';
@@ -283,7 +286,10 @@ import {CardModule} from 'primeng/card';
     MenuCompanyComponent,
     CityComponent,
     CityEditComponent,
-    MenuAddressComponent
+    MenuAddressComponent,
+    CatalogPricingComponent,
+    CatalogPricingEditComponent,
+    
 
 
 

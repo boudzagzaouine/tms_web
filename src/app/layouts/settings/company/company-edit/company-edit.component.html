@@ -30,13 +30,14 @@ showEffect="fade"
           </div>
 
  <div class="form-group col-sm-3">
-            <label class="font-weight-bold"> {{'Nom' | translate}}*</label>
-            <input type="text" class="form-control" pInputText formControlName="name" />
-            <span *ngIf="(companyForm.get('name').touched && companyForm.get('name').invalid) ||
+            <label class="font-weight-bold"> {{'Nom' | translate}} *</label>
+              <span *ngIf="(companyForm.get('name').touched && companyForm.get('name').invalid) ||
             (isFormSubmitted && companyForm.get('name').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>
+            <input type="text" class="form-control" pInputText formControlName="name" />
+
           </div>
 
 
@@ -57,8 +58,8 @@ showEffect="fade"
 
         <div class="row  justify-content-around">
 
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Nom Adresse ' | translate}} *</label>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{"Nom d'adresse de Facturation " | translate}} *</label>
             <span *ngIf="(companyForm.get('nameAdd').touched && companyForm.get('nameAdd').invalid) ||
             (isFormSubmitted && companyForm.get('nameAdd').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -67,12 +68,41 @@ showEffect="fade"
             <br />
             <input type="text" class="form-control" pInputText formControlName="nameAdd"
            />
+</div><div class="form-group col-sm-6"></div>
+          </div>
+
+          <div class="row  justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{"Premiére Ligne d'adresse Facturation" | translate}} *</label>
+              <span *ngIf="(companyForm.get('line1').touched && companyForm.get('line1').invalid) ||
+              (isFormSubmitted && companyForm.get('line1').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                 {{'Obligatoire' | translate }}
+              </span>
+              <input type="text" class="form-control" pInputText formControlName="line1"
+             />
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{"Deuxiéme Ligne d'adresse Facturation" | translate}} </label>
+
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="line2"
+             />
+            </div>
 
           </div>
 
+          <div class="row  justify-content-around">
 
+              <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Code Postal Facturation' | translate}} </label>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="zip"
+           />
+          </div>
           <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Pays' | translate}} </label>
+            <label class="font-weight-bold">{{'Pays de Facturation' | translate}} </label>
             <br />
             <input type="text" class="form-control" pInputText formControlName="country"
            />
@@ -80,47 +110,21 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Ville' | translate}} </label>
+            <label class="font-weight-bold">{{'Ville de Facturation' | translate}} </label>
             <br />
             <input type="text" class="form-control" pInputText formControlName="city"
             />
           </div>
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Code Postal' | translate}} </label>
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="zip"
-           />
-          </div>
+          <div class="form-group col-sm-3"></div>
         </div>
 
-        <div class="row  justify-content-around">
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Line 1 ' | translate}} *</label>
-            <span *ngIf="(companyForm.get('line1').touched && companyForm.get('line1').invalid) ||
-            (isFormSubmitted && companyForm.get('line1').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
-            <input type="text" class="form-control" pInputText formControlName="line1"
-           />
-          </div>
-
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{'Line 2' | translate}} </label>
-
-            <br />
-            <input type="text" class="form-control" pInputText formControlName="line2"
-           />
-          </div>
-
-        </div>
 
 
 
         <div class="row  justify-content-around">
 
           <div class="form-group col-sm-3">
-            <label class="font-weight-bold"> {{'Registre du Commerce' | translate}}*</label><br />
+            <label class="font-weight-bold"> {{'Registre du Commerce' | translate}} *</label><br />
             <span *ngIf="(companyForm.get('tradeRegister').touched && companyForm.get('tradeRegister').invalid) ||
             (isFormSubmitted && companyForm.get('tradeRegister').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">

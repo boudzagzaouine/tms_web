@@ -3,16 +3,16 @@
   <div>
     <div class="modal-body">
       <div class="card-body">
-        <form [formGroup]="transportCatVehicleForm">
+        <form [formGroup]="catalogPricingForm">
 
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Type " | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fTurnType').touched &&
-                    transportCatVehicleForm.get('fTurnType').invalid) ||
+                  (catalogPricingForm.get('fTurnType').touched &&
+                    catalogPricingForm.get('fTurnType').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fTurnType').invalid)
+                    catalogPricingForm.get('fTurnType').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -26,10 +26,10 @@
  <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Categorie Véhicule" | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fVehicleCategory').touched &&
-                    transportCatVehicleForm.get('fVehicleCategory').invalid) ||
+                  (catalogPricingForm.get('fVehicleCategory').touched &&
+                    catalogPricingForm.get('fVehicleCategory').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fVehicleCategory').invalid)
+                    catalogPricingForm.get('fVehicleCategory').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -43,10 +43,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Ville Source " | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fVilleSource').touched &&
-                    transportCatVehicleForm.get('fVilleSource').invalid) ||
+                  (catalogPricingForm.get('fVilleSource').touched &&
+                    catalogPricingForm.get('fVilleSource').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fVilleSource').invalid)
+                    catalogPricingForm.get('fVilleSource').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -62,10 +62,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Ville Destination" | translate }} *</label>
               <span *ngIf="
-                  (transportCatVehicleForm.get('fVilleDestination').touched &&
-                    transportCatVehicleForm.get('fVilleDestination').invalid) ||
+                  (catalogPricingForm.get('fVilleDestination').touched &&
+                    catalogPricingForm.get('fVilleDestination').invalid) ||
                   (isFormSubmitted &&
-                    transportCatVehicleForm.get('fVilleDestination').invalid)
+                    catalogPricingForm.get('fVilleDestination').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -87,10 +87,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fAmountHt').touched &&
-                        transportCatVehicleForm.get('fAmountHt').invalid) ||
+                      (catalogPricingForm.get('fAmountHt').touched &&
+                        catalogPricingForm.get('fAmountHt').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fAmountHt').invalid)
+                        catalogPricingForm.get('fAmountHt').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
                   </span>
@@ -102,10 +102,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fVat').touched &&
-                        transportCatVehicleForm.get('fVat').invalid) ||
+                      (catalogPricingForm.get('fVat').touched &&
+                        catalogPricingForm.get('fVat').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fVat').invalid)
+                        catalogPricingForm.get('fVat').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
                   </span>
@@ -123,10 +123,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fAmountTtc').touched &&
-                        transportCatVehicleForm.get('fAmountTtc').invalid) ||
+                      (catalogPricingForm.get('fAmountTtc').touched &&
+                        catalogPricingForm.get('fAmountTtc').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fAmountTtc').invalid)
+                        catalogPricingForm.get('fAmountTtc').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
 
@@ -140,10 +140,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fAmountTva').touched &&
-                        transportCatVehicleForm.get('fAmountTva').invalid) ||
+                      (catalogPricingForm.get('fAmountTva').touched &&
+                        catalogPricingForm.get('fAmountTva').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fAmountTva').invalid)
+                        catalogPricingForm.get('fAmountTva').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
 
@@ -167,10 +167,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fGroupingAmountHt').touched &&
-                        transportCatVehicleForm.get('fGroupingAmountHt').invalid) ||
+                      (catalogPricingForm.get('fGroupingAmountHt').touched &&
+                        catalogPricingForm.get('fGroupingAmountHt').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fGroupingAmountHt').invalid)
+                        catalogPricingForm.get('fGroupingAmountHt').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
                   </span>
@@ -182,10 +182,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fGroupingVat').touched &&
-                        transportCatVehicleForm.get('fGroupingVat').invalid) ||
+                      (catalogPricingForm.get('fGroupingVat').touched &&
+                        catalogPricingForm.get('fGroupingVat').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fGroupingVat').invalid)
+                        catalogPricingForm.get('fGroupingVat').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
                   </span>
@@ -203,10 +203,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fGroupingAmountTtc').touched &&
-                        transportCatVehicleForm.get('fGroupingAmountTtc').invalid) ||
+                      (catalogPricingForm.get('fGroupingAmountTtc').touched &&
+                        catalogPricingForm.get('fGroupingAmountTtc').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fAmountTtc').invalid)
+                        catalogPricingForm.get('fAmountTtc').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
 
@@ -220,10 +220,10 @@
                 <div class="form-group col-sm-6">
                   <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
                   <span *ngIf="
-                      (transportCatVehicleForm.get('fGroupingAmountTva').touched &&
-                        transportCatVehicleForm.get('fGroupingAmountTva').invalid) ||
+                      (catalogPricingForm.get('fGroupingAmountTva').touched &&
+                        catalogPricingForm.get('fGroupingAmountTva').invalid) ||
                       (isFormSubmitted &&
-                        transportCatVehicleForm.get('fGrouping AmountTva').invalid)
+                        catalogPricingForm.get('fGrouping AmountTva').invalid)
                     " class="text-lighter" style="color: red; font-size: xx-small;">
                     {{ 'Obligatoire' | translate}}
 

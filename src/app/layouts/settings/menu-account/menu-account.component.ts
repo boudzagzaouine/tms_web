@@ -18,7 +18,7 @@ export class MenuAccountComponent implements OnInit {
 
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Client' ,routerLink:'/core/settings/account'},
+      {label: 'Compte' ,routerLink:'/core/settings/account'},
 
   ];
 

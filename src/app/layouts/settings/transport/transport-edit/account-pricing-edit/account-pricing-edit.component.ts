@@ -248,39 +248,39 @@ if(isEmpty==0){
   console.log("search");
   this.spinner.show();
 
-  this.catalogTransportTypeService.find(`transport.id:${this.selectedAccountPricing.transport.id},turnType.id:${this.selectedCatalogTransport.turnType.id},vehicleCategory.id:${this.selectedCatalogTransport.vehicleCategory.id},villeSource.id:${this.selectedCatalogTransport.villeSource.id},villeDestination.id:${this.selectedCatalogTransport.villeDestination.id}`).subscribe(
-      data => {
-        console.log(data);
-        console.log(this.idExisteCatalog);
+//   this.catalogTransportTypeService.find(`transport.id:${this.selectedAccountPricing.transport.id},turnType.id:${this.selectedCatalogTransport.turnType.id},vehicleCategory.id:${this.selectedCatalogTransport.vehicleCategory.id},villeSource.id:${this.selectedCatalogTransport.villeSource.id},villeDestination.id:${this.selectedCatalogTransport.villeDestination.id}`).subscribe(
+//       data => {
+//         console.log(data);
+//         console.log(this.idExisteCatalog);
 
-        if(data[0] != null || data[0] != undefined ){
- console.log("data");
- console.log(data);
- this.selectedCatalogTransport=data[0];
- this.initForm();
- this.messageService.add({severity:'info', summary: 'existe', detail: 'existe'});
- this.idExisteCatalog=false;
-        }
-        else {
-          this.idExisteCatalog=true;
-          this.selectedCatalogTransport.amountHt=0;
-          this.messageService.add({severity:'info', summary: "Trajet n'existe pas", detail: ""});
+//         if(data[0] != null || data[0] != undefined ){
+//  console.log("data");
+//  console.log(data);
+//  this.selectedCatalogTransport=data[0];
+//  this.initForm();
+//  this.messageService.add({severity:'info', summary: 'existe', detail: 'existe'});
+//  this.idExisteCatalog=false;
+//         }
+//         else {
+//           this.idExisteCatalog=true;
+//           this.selectedCatalogTransport.amountHt=0;
+//           this.messageService.add({severity:'info', summary: "Trajet n'existe pas", detail: ""});
 
-          this.initForm();
-        }
-        console.log(this.idExisteCatalog);
+//           this.initForm();
+//         }
+//         console.log(this.idExisteCatalog);
 
-      },
-      error => {
-       // this.toastr.error(error.error.message, 'Erreur');
-       this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+//       },
+//       error => {
+//        // this.toastr.error(error.error.message, 'Erreur');
+//        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
 
 
-        this.spinner.hide();
-      },
+//         this.spinner.hide();
+//       },
 
-      () => this.spinner.hide()
-    );
+//       () => this.spinner.hide()
+//     );
 }
 
   }

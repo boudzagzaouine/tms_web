@@ -116,11 +116,11 @@
 ></app-data-table>
 
 <div *ngIf="showDialog == true">
-  <app-catalog-pricing-edit
+  <app-company-pricing-edit
     [editMode]="editMode"
-    [selectCatalogPricing]="selectCatalogPricings[0]"
+    [selectAccountPricing]="selectAccountPricings[0]"
     (showDialog)="onShowDialog($event)"
-  ></app-catalog-pricing-edit>
+  ></app-company-pricing-edit>
 </div>
 
 <ngx-spinner

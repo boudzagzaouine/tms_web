@@ -1,5 +1,5 @@
 
-
+<!--
 <p-dialog
 header="{{ title | translate }}"
 [(visible)]="displayDialog"
@@ -9,10 +9,12 @@ showEffect="fade"
 [modal]="true"
 [style]="{ width: '800px' }"
 (onHide)='onShowDialog()'
->
-<div>
-  <div class="modal-body">
-    <div class="card-body">
+> -->
+<div class="card mt-1">
+  <div class="card-header">
+    <span class="h4">{{   this.title | translate }}</span>
+  </div>
+  <div class="card-body border-top-primary" >
       <form [formGroup]="companyForm">
 
         <div class="row  justify-content-around">
@@ -167,9 +169,35 @@ showEffect="fade"
 
       </form>
     </div>
+
+    <p-tabView [activeIndex]="0" >
+      <p-tabPanel header="{{ 'Contrat ' | translate}}"  headerStyleClass="onglet-p-5">
+<span *ngIf="this.showContrat==true">
+   <app-company-pricing [selectedCompany]="this.selectedCompany"></app-company-pricing>
+</span>
+      </p-tabPanel>
+
+      </p-tabView>
+
+
+
+
+<div class="text-center mt-3 mr-3 ml-3" >
+
+  <div class="text-center mt-3 mr-3 ml-3" >
+    <a class="btn btn-primary m-1" [routerLink]="['/core/settings/company']">
+      {{'Fermer' | translate}}
+    </a>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+      {{'Valider et continuer' | translate }}
+    </button>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+      {{ "Valider" | translate }}
+    </button>
   </div>
 </div>
-<p-footer>
+</div>
+<!-- <p-footer>
   <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
     <button
@@ -187,6 +215,6 @@ showEffect="fade"
       label="{{ 'Valider' | translate }}"
     ></button>
   </div>
-</p-footer>
-</p-dialog>
+</p-footer> -->
+<!-- </p-dialog> -->
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>

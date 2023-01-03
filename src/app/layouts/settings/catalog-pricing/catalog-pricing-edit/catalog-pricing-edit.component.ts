@@ -1,3 +1,9 @@
+import { Pays } from './../../../../shared/models/pays';
+import { PaysService } from './../../../../shared/services/api/pays.service';
+import { VehicleTray } from './../../../../shared/models/vehicle-tray';
+import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
+import { LoadingType } from './../../../../shared/models/loading-type';
+import { LoadingTypeService } from './../../../../shared/services/api/loading-type.service';
 import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
 import { CatalogPricingService } from './../../../../shared/services/api/agent.service copy';
 import { MessageService } from 'primeng/api';
@@ -38,20 +44,27 @@ export class CatalogPricingEditComponent implements OnInit {
   displayDialog: boolean;
   isFormSubmitted = false;
   title = 'Modifier  Tarif';
-  turnType:number;
+  turnTypeid:number;
   transport : number;
-  catVehicle : number;
-  villeSource : number;
-  villeDestination : number ;
-  defaultTransport :Transport = new Transport();
+  catVehicleId : number;
+  villeSourceId : number;
+  villeDestinationId : number ;
+  loadingTypeId: number;
+  vehicleTrayId:number;
+  loadingTypeList:Array<LoadingType>=[];
+  vehicleTrayList:Array<VehicleTray>=[];
+  paysList:Array<Pays>=[];
   constructor(
     private catalogPricingService: CatalogPricingService,
     private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private turnTypeService:TurnTypeService,
+    private loadingTypeService : LoadingTypeService,
+    private vehicleTrayService : VehicleTrayService,
     private transportService: TransportServcie,
     private vatService: VatService,
     private villeService: VilleService,
+    private paysService:PaysService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
@@ -59,49 +72,18 @@ export class CatalogPricingEditComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-this.transportService.find('interneOrExterne:true').subscribe(
-  data =>{
-    this.defaultTransport=data[0];
-    console.log(data[0]);
-
-    this.transport=this.defaultTransport.id;
-  }
-);
-
     this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.vehicleCategorieList = data;
       }
     );
 
-    this.turnTypeService.findAll().subscribe(
-      data => {
-        this.turnTypeList = data;
-      }
-    );
-
-
-
-    this.villeService.findAll().subscribe(
-      data => {
-        this.villeList = data;
-      }
-    );
-    this.vatService.findAll().subscribe(
-      data => {
-        this.vatList = data;
-        console.log("List Vat");
-
-        console.log(this.vatList);
-
-      }
-    );
+      this.load();
     if (this.editMode === 1) {
       this.selectCatalogPricing = new CatalogPricing();
       this.title = 'Ajouter  Tarif';
 
     }
-console.log(this.selectCatalogPricing);
 
     this.displayDialog = true;
     this.initForm();
@@ -110,21 +92,21 @@ console.log(this.selectCatalogPricing);
 
   initForm() {
     this.catalogPricingForm = new FormGroup({
-      'fVehicleCategory': new FormControl(this.selectCatalogPricing.vehicleCategory, Validators.required),
-      'fVehicleTray': new FormControl(this.selectCatalogPricing.vehicleTray, Validators.required),
-      'fLoadingType': new FormControl(this.selectCatalogPricing.loadingType, Validators.required),
-      'fTurnType': new FormControl(this.selectCatalogPricing.turnType, Validators.required),
+      'fVehicleCategory': new FormControl(this.selectCatalogPricing?.vehicleCategory, Validators.required),
+      'fVehicleTray': new FormControl(this.selectCatalogPricing?.vehicleTray, Validators.required),
+      'fLoadingType': new FormControl(this.selectCatalogPricing?.loadingType, Validators.required),
+      'fTurnType': new FormControl(this.selectCatalogPricing?.turnType, Validators.required),
 
-      'fPaysSource': new FormControl(this.selectCatalogPricing.paysSource, Validators.required),
-      'fVilleSource': new FormControl(this.selectCatalogPricing.villeSource, Validators.required),
-      'fPaysDestination': new FormControl(this.selectCatalogPricing.paysDestination, Validators.required),
-      'fVilleDestination': new FormControl(this.selectCatalogPricing.villeDestination, Validators.required),
+      'fPaysSource': new FormControl(this.selectCatalogPricing?.paysSource, Validators.required),
+      'fVilleSource': new FormControl(this.selectCatalogPricing?.villeSource, Validators.required),
+      'fPaysDestination': new FormControl(this.selectCatalogPricing?.paysDestination, Validators.required),
+      'fVilleDestination': new FormControl(this.selectCatalogPricing?.villeDestination, Validators.required),
 
       'fPurchaseAmountHt': new FormControl(this.selectCatalogPricing.purchaseAmountHt, Validators.required),
-      'fPurrchaseAmountTtc': new FormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
+      'fPurchaseAmountTtc': new FormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
       'fPurchaseAmountTva': new FormControl(this.selectCatalogPricing.purchaseAmountTva, Validators.required),
-      'fVat': new FormControl(
-         this.editMode!=1 ?this.selectCatalogPricing.purchaseVat.value:this.selectCatalogPricing.purchaseVat,
+      'fPurchaseVat': new FormControl(
+         this.editMode!=1 ?this.selectCatalogPricing?.purchaseVat?.value:this.selectCatalogPricing?.purchaseVat,
          Validators.required),
 
 
@@ -133,16 +115,21 @@ console.log(this.selectCatalogPricing);
          'fSaleAmountTva': new FormControl(this.selectCatalogPricing.saleAmountTva, Validators.required),
          'fSaleVat': new FormControl(
 
-          this.editMode!=1 ?this.selectCatalogPricing.saleVat.value:this.selectCatalogPricing.saleVat,
+          this.editMode!=1 ?this.selectCatalogPricing?.saleVat?.value:this.selectCatalogPricing?.saleVat,
 
           Validators.required),
     });
   }
   onSubmit() {
+    console.log(this.catalogPricingForm);
     this.isFormSubmitted = true;
     if (this.catalogPricingForm.invalid) { return; }
 
     this.spinner.show();
+console.log(this.editMode);
+
+
+console.log(this.selectCatalogPricing);
 
     if (this.editMode === 1) {
 
@@ -155,13 +142,13 @@ console.log(this.selectCatalogPricing);
     }
 
 
-    this.selectCatalogPricing = new CatalogPricing();
+   // this.selectCatalogPricing = new CatalogPricing();
 
 
   }
 
   existTransport() {
-    this.catalogPricingService.sizeSearch(`transport.id:${this.transport},turnType.id:${this.turnType},vehicleCategory.id:${this.catVehicle},villeSource.id:${this.villeSource},villeDestination.id:${this.villeDestination}`).subscribe(
+    this.catalogPricingService.sizeSearch(`loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},villeSource.id:${this.villeSourceId},villeDestination.id:${this.villeDestinationId}`).subscribe(
       data => {
 console.log(data);
 
@@ -188,22 +175,20 @@ console.log(data);
   }
   insertcatalogTransport(){
 
-    this.selectCatalogPricing.purchaseAmountHt = this.catalogPricingForm.value['fAmountHt'];
-    this.selectCatalogPricing.purchaseAmountTtc = this.catalogPricingForm.value['fAmountTtc'];
-    this.selectCatalogPricing.purchaseAmountTva = this.catalogPricingForm.value['fAmountTva'];
+    this.selectCatalogPricing.purchaseAmountHt = this.catalogPricingForm.value['fPurchaseAmountHt'];
+    this.selectCatalogPricing.purchaseAmountTtc = this.catalogPricingForm.value['fPurchaseAmountTtc'];
+    this.selectCatalogPricing.purchaseAmountTva = this.catalogPricingForm.value['fPurchaseAmountTva'];
 
-    this.selectCatalogPricing.saleAmountHt = this.catalogPricingForm.value['fGroupingAmountHt'];
-    this.selectCatalogPricing.saleAmountTtc = this.catalogPricingForm.value['fGroupingAmountTtc'];
-    this.selectCatalogPricing.saleAmountTva = this.catalogPricingForm.value['fGroupingAmountTva'];
+    this.selectCatalogPricing.saleAmountHt = this.catalogPricingForm.value['fSaleAmountHt'];
+    this.selectCatalogPricing.saleAmountTtc = this.catalogPricingForm.value['fSaleAmountTtc'];
+    this.selectCatalogPricing.saleAmountTva = this.catalogPricingForm.value['fSaleAmountTva'];
 
-    this.selectCatalogPricing.turnType = this.catalogPricingForm.value['fTurnType'];
+    // this.selectCatalogPricing.turnType = this.catalogPricingForm.value['fTurnType'];
 
-     this.selectCatalogPricing.vehicleCategory = this.catalogPricingForm.value['fVehicleCategory'];
-     this.selectCatalogPricing.transport = this.defaultTransport;
-     this.selectCatalogPricing.villeDestination = this.catalogPricingForm.value['fVilleDestination'];
-     this.selectCatalogPricing.villeSource = this.catalogPricingForm.value['fVilleSource'];
+    //  this.selectCatalogPricing.vehicleCategory = this.catalogPricingForm.value['fVehicleCategory'];
+    //  this.selectCatalogPricing.villeDestination = this.catalogPricingForm.value['fVilleDestination'];
+    //  this.selectCatalogPricing.villeSource = this.catalogPricingForm.value['fVilleSource'];
    // this.selectCatalogPricing.vat =  this.vatList.filter(f=> f.value== this.catalogPricingForm.value['fVat'])[0];
-    this.selectCatalogPricing.owner=this.authentificationService.getDefaultOwner();
     console.log(this.selectCatalogPricing);
 
     this.catalogPricingService.set(this.selectCatalogPricing).subscribe(
@@ -229,18 +214,23 @@ console.log(data);
 
   onSelectVehicleCateory(event: any) {
     this.selectCatalogPricing.vehicleCategory = event.value;
-    this.catVehicle= this.selectCatalogPricing.vehicleCategory.id;
+    this.catVehicleId=this.selectCatalogPricing.vehicleCategory.id;
   }
   onSelectTurnType(event: any) {
     this.selectCatalogPricing.turnType = event.value;
-    this.turnType=  this.selectCatalogPricing.turnType.id;
+    this.turnTypeid=this.selectCatalogPricing.turnType.id;
+   // this.catVehicleId=event.value.code;
+  }
 
-   // this.catVehicle=event.value.code;
+  onSelectloadingType(event){
+   this.selectCatalogPricing.loadingType=event.value;
+   this.loadingTypeId=this.selectCatalogPricing.loadingType.id;
   }
-  onSelectTransport(event: any) {
-    this.selectCatalogPricing.transport = event;
-    this.transport=this.selectCatalogPricing.transport.id;
+  onSelectvehicleTray(event){
+    this.selectCatalogPricing.vehicleTray=event.value;
+   this.vehicleTrayId=this.selectCatalogPricing.vehicleTray.id;
   }
+
   onTransportSearch(event: any) {
     this.transportService
       .find('code~' + event.query)
@@ -252,38 +242,37 @@ console.log(data);
       .subscribe(data => (this.villeList = data));
   }
 
-  onSelectVat(event) {
-
-    this.vat= event.value;
-    this.selectCatalogPricing.vat=event.value;
-
-    this.onPriceChange(1);
+  onSelectPurchaseVat(event) {
+    this.selectCatalogPricing.purchaseVat= this.vatList.filter(f=> f.value== event.value)[0];
+    this.onPurcahsePriceChange(1);
   }
 
-  onSelectGroupingVat(event) {
-  this.selectCatalogPricing.groupingVat=event.value;
-    this.vat= event.value;
-    this.onPriceChange(1);
+  onSelectSaleVat(event) {
+    this.selectCatalogPricing.saleVat=this.vatList.filter(f=> f.value== event.value)[0];
+    this.onSalePriceChange(1);
+  }
+
+  onSelectPaysSource(event){
+    this.selectCatalogPricing.paysSource = event.value;
   }
   onSelectVilleSource(event: any) {
     this.selectCatalogPricing.villeSource = event;
-    this.villeSource= this.selectCatalogPricing.villeSource.id;
+    this.villeSourceId = this.selectCatalogPricing.villeSource.id;
+  }
 
+  onSelectPaysDistination(event){
+    this.selectCatalogPricing.paysDestination = event.value;
   }
   onSelectVilleDestination(event: any) {
     this.selectCatalogPricing.villeDestination = event;
-    this.villeDestination = this.selectCatalogPricing.villeDestination.id;
+    this.villeDestinationId = this.selectCatalogPricing.villeDestination.id;
   }
 
 
-
-
-
-
-  onPriceChange(n: Number) {
-    let PriceHt = +this.catalogPricingForm.value['fAmountHt'];
-    let PriceTTC = +this.catalogPricingForm.value['fAmountTtc'];
-    let vat = this.catalogPricingForm.value['fVat'];
+  onPurcahsePriceChange(n: Number) {
+    let PriceHt = +this.catalogPricingForm.value['fPurchaseAmountHt'];
+    let PriceTTC = +this.catalogPricingForm.value['fPurchaseAmountTtc'];
+    let vat = this.catalogPricingForm.value['fPurchaseVat'];
     console.log(vat);
 
 
@@ -299,8 +288,8 @@ console.log(data);
       const amountTva = (PriceHt / 100) * vat;
     const priceTTC = PriceHt + amountTva;
     this.catalogPricingForm.patchValue({
-      'fAmountTtc': priceTTC.toFixed(2),
-      'fAmountTva': amountTva.toFixed(2),
+      'fPurchaseAmountTtc': priceTTC.toFixed(2),
+      'fPurchaseAmountTva': amountTva.toFixed(2),
     });
 
     }if (n === 2) {
@@ -308,18 +297,53 @@ console.log(data);
     PriceHt = PriceTTC / (1 + vat / 100);
     const amountTva = (PriceHt / 100) * vat;
       this.catalogPricingForm.patchValue({
-        'fAmountHt': PriceHt.toFixed(2),
-        'fAmountTva':  amountTva.toFixed(2),
+        'fPurchaseAmountHt': PriceHt.toFixed(2),
+        'fPurchaseAmountTva':  amountTva.toFixed(2),
       });
     }
 
   }
 
+  load(){
+    this.turnTypeService.findAll().subscribe(
+      data => {
+        this.turnTypeList = data;
+      }
+    );
+    this.villeService.findAll().subscribe(
+      data => {
+        this.villeList = data;
+      }
+    );
+    this.vatService.findAll().subscribe(
+      data => {
+        this.vatList = data;
+      }
+    );
 
-  onGroupingPriceChange(n: Number) {
-    let PriceHt = +this.catalogPricingForm.value['fGroupingAmountHt'];
-    let PriceTTC = +this.catalogPricingForm.value['fGroupingAmountTtc'];
-    let vat = this.catalogPricingForm.value['fGroupingVat'];
+    this.loadingTypeService.findAll().subscribe(
+      data => {
+        this.loadingTypeList = data;
+      }
+    );
+
+    this.vehicleTrayService.findAll().subscribe(
+      data => {
+        this.vehicleTrayList = data;
+      }
+    );
+
+    this.paysService.findAll().subscribe(
+      data => {
+        this.paysList = data;
+      }
+    );
+  }
+
+  onSalePriceChange(n: Number) {
+    let PriceHt = +this.catalogPricingForm.value['fSaleAmountHt'];
+    let PriceTTC = +this.catalogPricingForm.value['fSaleAmountTtc'];
+    let vat = this.catalogPricingForm.value['fSaleVat'];
     console.log(vat);
 
 
@@ -335,8 +359,8 @@ console.log(data);
       const amountTva = (PriceHt / 100) * vat;
     const priceTTC = PriceHt + amountTva;
     this.catalogPricingForm.patchValue({
-      'fGroupingAmountTtc': priceTTC.toFixed(2),
-      'fGroupingAmountTva': amountTva.toFixed(2),
+      'fSaleAmountTtc': priceTTC.toFixed(2),
+      'fSaleAmountTva': amountTva.toFixed(2),
     });
 
     }if (n === 2) {
@@ -344,8 +368,8 @@ console.log(data);
     PriceHt = PriceTTC / (1 + vat / 100);
     const amountTva = (PriceHt / 100) * vat;
       this.catalogPricingForm.patchValue({
-        'fGroupingAmountHt': PriceHt.toFixed(2),
-        'fGroupingAmountTva':  amountTva.toFixed(2),
+        'fSaleAmountHt': PriceHt.toFixed(2),
+        'fSaleAmountTva':  amountTva.toFixed(2),
       });
     }
 

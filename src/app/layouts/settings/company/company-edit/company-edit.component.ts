@@ -1,3 +1,5 @@
+import { AccountPricing } from './../../../../shared/models/account-pricing';
+import { ActivatedRoute } from '@angular/router';
 import { ActivityAreaService } from './../../../../shared/services/api/activity-area.service';
 import { Address } from './../../../../shared/models/address';
 import { ActivityArea } from './../../../../shared/models/activity-area';
@@ -18,10 +20,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CompanyEditComponent implements OnInit {
 
-  @Input() selectedCompany = new Company();
-  @Input() editMode: number;
-  @Output() showDialog = new EventEmitter<boolean>();
+  @Output() companyEdited = new EventEmitter<Company>();
+   selectedCompany = new Company();
+  editMode: number;
   activityAreaList:Array<ActivityArea>=[];
+  accountPricingList:Array<AccountPricing>=[];
+  showContrat :Boolean = false;
   companyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -33,13 +37,21 @@ export class CompanyEditComponent implements OnInit {
     private areaActivityService:ActivityAreaService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private activatedRoute: ActivatedRoute,
+
   ) { }
 
   ngOnInit() {
+    this.areaActivityService.findAll().subscribe(
+      data=>{
+        this.activityAreaList=data;
+      }
+    );
 
-
-    if (this.editMode === 1) {
+    let id = this.activatedRoute.snapshot.params["id"];
+    if (!id) {
+    this.editMode === 1
       this.selectedCompany = new Company();
       this.title = 'Ajouter Sociéte';
       this.selectedAddress = new Address();
@@ -53,18 +65,26 @@ this.companyService.generateCode().subscribe(
   }
 );
 
-this.areaActivityService.findAll().subscribe(
-  data=>{
-    this.activityAreaList=data;
-  }
+
+
+this.showContrat=true;
+
+    }else{
+this.companyService.findById(id).subscribe(
+data=>{
+  this.selectedCompany=data;
+  this.selectedAddress=this.selectedCompany.address ?this.selectedCompany.address : new Address();
+  this.initForm();
+  this.showContrat=true;
+
+}
+
 );
 
 
-    }else{
-      this.selectedAddress=this.selectedCompany.address ?this.selectedCompany.address : new Address();
     }
 
-    this.displayDialog = true;
+
     this.initForm();
 
 
@@ -100,7 +120,7 @@ this.areaActivityService.findAll().subscribe(
   }
 
 
-  onSubmit() {
+  onSubmit(close=false) {
     this.isFormSubmitted = true;
     if (this.companyForm.invalid) { return; }
     this.spinner.show();
@@ -153,10 +173,7 @@ this.selectedCompany.address=this.selectedAddress;
   this.selectedCompany.activityArea=event.value;
   }
 
-  onShowDialog() {
-    let a = false;
-    this.showDialog.emit(a);
-  }
+
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

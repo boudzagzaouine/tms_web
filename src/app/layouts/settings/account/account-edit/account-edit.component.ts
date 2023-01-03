@@ -8,7 +8,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmationService, MessageService,MenuItem } from "primeng/api";
 import { Subscription } from "rxjs";
 import { Planning } from "./../../../../shared/models/planning";
 import { Account, Address, Contact } from "./../../../../shared/models";
@@ -50,6 +50,9 @@ export class AccountEditComponent implements OnInit {
   showDialogPlanning: boolean;
   showDialogContact: boolean;
   showDialogAddress: boolean;
+  items: MenuItem[];
+
+  home: MenuItem;
   constructor(
     private accountService: AccountService,
     private authentificationService: AuthenticationService,
@@ -66,6 +69,13 @@ export class AccountEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.items = [
+      {label: 'Compte'},
+      {label: 'Editer' ,routerLink:'/core/account/edit'},
+
+  ];
+
+  this.home = {icon: 'pi pi-home'};
 
 
     this.subscriptions.add(

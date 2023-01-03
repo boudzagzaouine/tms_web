@@ -1,15 +1,7 @@
-<!-- <p-dialog
-  header="{{ title | translate }}"
-  [(visible)]="displayDialog"
-  [focusOnShow]="false"
-  [responsive]="true"
-  showEffect="fade"
-  [modal]="true"
-  [style]="{ width: '80%' }"
-  (onHide)="onShowDialog()"
-> -->
 
-<div class="card mt-4">
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+
+<div class="card mt-1">
   <div class="card-header">
     <span class="h4">{{   this.title | translate }}</span>
   </div>
@@ -26,8 +18,8 @@
               {{'Obligatoire'| translate}}
             </span>
             <br />
-            <input type="text" class="form-control"  pInputText formControlName="code"
-              [ngClass]="{'is-invalid': accountForm.get('code').touched && accountForm.get('code').invalid}" />
+            <input type="text" class="form-control"  pInputText formControlName="code" />
+
           </div>
           <!-- [attr.disabled]="true" -->
 
@@ -39,8 +31,7 @@
               {{'Obligatoire'| translate}}
             </span>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="name"
-              [ngClass]="{'is-invalid': accountForm.get('name').touched && accountForm.get('name').invalid}" />
+            <input type="text" class="form-control" pInputText formControlName="name" />
           </div>
 
           <div class="col-sm-12 col-md-4">

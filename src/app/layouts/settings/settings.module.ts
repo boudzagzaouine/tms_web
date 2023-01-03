@@ -1,3 +1,5 @@
+import { CompanyPricingComponent } from './company/company-edit/company-pricing/company-pricing.component';
+import { CompanyPricingEditComponent } from './company/company-edit/company-pricing/company-pricing-edit/company-pricing-edit.component';
 import { CatalogPricingEditComponent } from './catalog-pricing/catalog-pricing-edit/catalog-pricing-edit.component';
 import { CatalogPricingComponent } from './catalog-pricing/catalog-pricing.component';
 import { CatalogPricing } from './../../shared/models/catalog-pricing';
@@ -289,7 +291,9 @@ import {CardModule} from 'primeng/card';
     MenuAddressComponent,
     CatalogPricingComponent,
     CatalogPricingEditComponent,
-    
+    CompanyPricingEditComponent,
+    CompanyPricingComponent
+
 
 
 

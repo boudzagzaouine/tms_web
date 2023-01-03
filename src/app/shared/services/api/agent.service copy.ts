@@ -10,7 +10,7 @@ import { Agent } from '../../models/agent';
 export class CatalogPricingService  extends EmsService<CatalogPricing> {
 
   constructor(proxy: ProxyService) {
-    super(proxy, 'CatalogPricing');
+    super(proxy, 'CatalogPricings');
   }
 
 }

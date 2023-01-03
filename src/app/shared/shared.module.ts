@@ -1,3 +1,6 @@
+import { VehicleTrayService } from './services/api/vehicle-tray.service';
+import { LoadingTypeService } from './services/api/loading-type.service';
+import { CatalogPricingService } from './services/api/agent.service copy';
 import { AddressDeliveryService } from './services/api/AddressDeliveryService.service';
 import { ActivityAreaService } from './services/api/activity-area.service';
 import { TransportProductService } from './services/api/transport-product.service';
@@ -323,7 +326,10 @@ export class SharedModule {
         ServiceTypeService,
         TransportProductService,
         ActivityAreaService,
-        AddressDeliveryService
+        AddressDeliveryService,
+        CatalogPricingService,
+        LoadingTypeService,
+        VehicleTrayService
       ],
 
     };

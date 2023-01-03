@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -42,7 +43,8 @@ export class CompanyComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private primengConfig: PrimeNGConfig,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -182,8 +184,14 @@ export class CompanyComponent implements OnInit {
     this.selectedCompanys = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
-    } else {
-      this.showDialog = true;
+    } else if(this.editMode ===1) {
+      console.log(  this.selectedCompanys);
+    this.router.navigate(['/core/settings/company-edit']);
+
+     // this.showDialog = true;
+    }else if(this.editMode ===2) {
+      this.router.navigate(['/core/settings/company-edit',  this.selectedCompanys[0].id]);
+
     }
 
   }

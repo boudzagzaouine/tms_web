@@ -1,36 +1,36 @@
-import { TurnType } from './../../../shared/models/turn-Type';
-import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
-import { VehicleTrayService } from './../../../shared/services/api/vehicle-tray.service';
-import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
-import { LoadingType } from './../../../shared/models/loading-type';
-import { VehicleTray } from './../../../shared/models/vehicle-tray';
-import { CatalogPricingService } from './../../../shared/services/api/agent.service copy';
-import { CatalogPricing } from './../../../shared/models/catalog-pricing';
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { Company } from './../../../../../shared/models/company';
+import { EmsBuffer } from './../../../../../shared/utils/ems-buffer';
+import { VehicleTrayService } from './../../../../../shared/services/api/vehicle-tray.service';
+import { TurnTypeService } from './../../../../../shared/services/api/turn-type.service';
+import { LoadingTypeService } from './../../../../../shared/services/api/loading-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { TransportServcie } from './../../../shared/services/api/transport.service';
-import { VilleService } from './../../../shared/services/api/ville.service';
-import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
+import { GlobalService } from './../../../../../shared/services/api/global.service';
+import { VilleService } from './../../../../../shared/services/api/ville.service';
+import { VehicleCategoryService } from './../../../../../shared/services/api/vehicle-category.service';
+import { AccountPricingService } from './../../../../../shared/services/api/account-pricing.service';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
-import { Ville } from './../../../shared/models/ville';
-import { Transport } from './../../../shared/models/transport';
-import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { Component, OnInit } from '@angular/core';
+import { Ville } from './../../../../../shared/models/ville';
+import { TurnType } from './../../../../../shared/models/turn-Type';
+import { LoadingType } from './../../../../../shared/models/loading-type';
+import { VehicleTray } from './../../../../../shared/models/vehicle-tray';
+import { VehicleCategory } from './../../../../../shared/models/vehicle-category';
+import { AccountPricing } from './../../../../../shared/models/account-pricing';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-catalog-pricing',
-  templateUrl: './catalog-pricing.component.html',
-  styleUrls: ['./catalog-pricing.component.css']
+  selector: 'app-company-pricing',
+  templateUrl: './company-pricing.component.html',
+  styleUrls: ['./company-pricing.component.scss']
 })
-export class CatalogPricingComponent implements OnInit {
+export class CompanyPricingComponent implements OnInit {
 
+  @Input() selectedCompany :Company = new Company();
   page = 0;
   size = 10;
   collectionSize: number;
 
-  selectCatalogPricings: Array<CatalogPricing> = [];
+  selectAccountPricings: Array<AccountPricing> = [];
   searchQuery = '';
   codeSearch: string;
   vehicleCategorySearch: VehicleCategory;
@@ -38,7 +38,7 @@ export class CatalogPricingComponent implements OnInit {
   loadingTypeSearch:LoadingType;
   turnTypeSearch:TurnType;
 
-  transportCatVehicleList: Array<CatalogPricing> = [];
+  transportCatVehicleList: Array<AccountPricing> = [];
   categorieVehicleList: Array<VehicleCategory> = [];
   turnTypeList: Array<TurnType> = [];
 
@@ -54,12 +54,12 @@ export class CatalogPricingComponent implements OnInit {
   editMode: number;
   className: string;
   titleList = 'Liste de Tarifs';
-  catalogPricingExportList: Array<CatalogPricing> = [];
+  accountPricingExportList: Array<AccountPricing> = [];
   items: MenuItem[];
   home: MenuItem;
 
   constructor(
-    private catalogPricingService: CatalogPricingService,
+    private accountPricingService: AccountPricingService,
     private vehicleCategoryService: VehicleCategoryService,
     private villeService: VilleService,
     private globalService: GlobalService,
@@ -74,6 +74,9 @@ export class CatalogPricingComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log(this.selectedCompany);
+
+
     this.load();
     this.items = [
       {label: 'Paramétrage'},
@@ -83,7 +86,7 @@ export class CatalogPricingComponent implements OnInit {
 
   this.home = {icon: 'pi pi-home'};
 
-    this.className = CatalogPricing.name;
+    this.className = AccountPricing.name;
     this.cols = [
       {
         field: 'loadingType',
@@ -122,8 +125,12 @@ export class CatalogPricingComponent implements OnInit {
       { field: 'saleAmountHt', header: 'Prix Vente', type: 'number' },
 
     ];
+    if(this.selectedCompany.id !=null || this.selectedCompany.id != undefined){
+      this.searchQuery="company.id:"+this.selectedCompany.id;
+      this.loadData();
 
-     this.loadData();
+  }
+
 
 
   }
@@ -132,12 +139,12 @@ export class CatalogPricingComponent implements OnInit {
 
 
     this.spinner.show();
-    this.catalogPricingService
+    this.accountPricingService
       .sizeSearch(this.searchQuery)
       .subscribe(data => {
         this.collectionSize = data;
       });
-    this.catalogPricingService
+    this.accountPricingService
       .findPagination(this.page, this.size, this.searchQuery)
       .subscribe(
         data => {
@@ -157,23 +164,27 @@ export class CatalogPricingComponent implements OnInit {
   }
   loadDataLazy(event) {
     this.page = event.first / this.size;
-    this.loadData();
+    if(this.selectedCompany.id !=null || this.selectedCompany.id != undefined){
+      this.searchQuery="company.id:"+this.selectedCompany.id;
+      this.loadData();
+
+  }
   }
   onExportExcel(event) {
-    this.catalogPricingService.find(this.searchQuery).subscribe(
+    this.accountPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogPricingExportList = data;
+        this.accountPricingExportList = data;
         if (event != null) {
           this.globalService.generateExcel(
             event,
-            this.catalogPricingExportList,
+            this.accountPricingExportList,
             this.className,
             this.titleList
           );
         } else {
           this.globalService.generateExcel(
             this.cols,
-            this.catalogPricingExportList,
+            this.accountPricingExportList,
             this.className,
             this.titleList
           );
@@ -188,12 +199,12 @@ export class CatalogPricingComponent implements OnInit {
     );
   }
   onExportPdf(event) {
-    this.catalogPricingService.find(this.searchQuery).subscribe(
+    this.accountPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogPricingExportList = data;
+        this.accountPricingExportList = data;
         this.globalService.generatePdf(
           event,
-          this.catalogPricingExportList,
+          this.accountPricingExportList,
           this.className,
           this.titleList
         );
@@ -266,7 +277,7 @@ export class CatalogPricingComponent implements OnInit {
 
   onObjectEdited(event) {
     this.editMode = event.operationMode;
-    this.selectCatalogPricings = event.object;
+    this.selectAccountPricings = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -275,12 +286,12 @@ export class CatalogPricingComponent implements OnInit {
   }
 
   onDeleteAll() {
-    if (this.selectCatalogPricings.length >= 1) {
+    if (this.selectAccountPricings.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
-          const ids = this.selectCatalogPricings.map(x => x.id);
-          this.catalogPricingService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectAccountPricings.map(x => x.id);
+          this.accountPricingService.deleteAllByIds(ids).subscribe(
             data => {
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
 
@@ -300,7 +311,7 @@ export class CatalogPricingComponent implements OnInit {
           );
         }
       });
-    } else if (this.selectCatalogPricings.length < 1) {
+    } else if (this.selectAccountPricings.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
   }
@@ -331,5 +342,6 @@ export class CatalogPricingComponent implements OnInit {
 
     this.loadData();
   }
+
 
 }

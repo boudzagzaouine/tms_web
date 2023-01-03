@@ -359,10 +359,10 @@ export class TransportEditComponent implements OnInit {
     this.showDialogAccountPricing = true;
 
     this.selectAccountPricing = new AccountPricing();
-    this.selectAccountPricing.transport = this.selectedtransport
-      ? this.selectedtransport
-      : new Transport();
-      this.selectAccountPricing.catalogTransportType = catalogue;
+   // this.selectAccountPricing.transport = this.selectedtransport
+     // ? this.selectedtransport
+     // : new Transport();
+     // this.selectAccountPricing.catalogTransportType = catalogue;
 
     console.log(this.selectAccountPricing);
 
@@ -377,9 +377,9 @@ export class TransportEditComponent implements OnInit {
       this.selectAccountPricing = line;
       console.log(this.selectedtransport);
 
-      this.selectAccountPricing.transport = this.selectedtransport
-        ? this.selectedtransport
-        : new Transport();
+     // this.selectAccountPricing.transport = this.selectedtransport
+     //   ? this.selectedtransport
+     //   : new Transport();
       console.log(this.selectAccountPricing);
 
       this.editModeAccountPricing = true;
@@ -387,9 +387,9 @@ export class TransportEditComponent implements OnInit {
       console.log("ajouter");
 
       this.selectAccountPricing = new AccountPricing();
-      this.selectAccountPricing.transport = this.selectedtransport
-        ? this.selectedtransport
-        : new Transport();
+    //  this.selectAccountPricing.transport = this.selectedtransport
+      //  ? this.selectedtransport
+      //  : new Transport();
       console.log(this.selectAccountPricing);
 
       this.editModeAccountPricing = false;
@@ -406,10 +406,10 @@ export class TransportEditComponent implements OnInit {
 
       const orderline = this.accountPricings.find(
         (line) =>
-          line.catalogTransportType.turnType.id === accountPricing.catalogTransportType.turnType.id &&
-          line.catalogTransportType.vehicleCategory.id === accountPricing.catalogTransportType.vehicleCategory.id &&
-          line.catalogTransportType.villeSource.id === accountPricing.catalogTransportType.villeSource.id &&
-          line.catalogTransportType.villeDestination.id === accountPricing.catalogTransportType.villeDestination.id &&
+        //  line.catalogTransportType.turnType.id === accountPricing.catalogTransportType.turnType.id &&
+      //    line.catalogTransportType.vehicleCategory.id === accountPricing.catalogTransportType.vehicleCategory.id &&
+       //   line.catalogTransportType.villeSource.id === accountPricing.catalogTransportType.villeSource.id &&
+       //   line.catalogTransportType.villeDestination.id === accountPricing.catalogTransportType.villeDestination.id &&
           line.account.id === accountPricing.account.id
       );
       if (orderline == null) {

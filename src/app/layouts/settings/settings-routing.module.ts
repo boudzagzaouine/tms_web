@@ -1,3 +1,4 @@
+import { CompanyEditComponent } from './company/company-edit/company-edit.component';
 import { CatalogPricingComponent } from './catalog-pricing/catalog-pricing.component';
 import { MenuAddressComponent } from './menu-address/menu-address.component';
 import { CityComponent } from './city/city.component';
@@ -131,6 +132,9 @@ const routes: Routes = [
       { path: 'test', component: TestDataTableComponent},
       { path: 'menu-service', component: MenuServiceComponent},
       { path: 'company', component: CompanyComponent},
+      { path: 'company-edit', component: CompanyEditComponent},
+      { path: 'company-edit/:id', component: CompanyEditComponent},
+
       { path: 'activity-area', component: ActivityAreaComponent},
       { path: 'delivery-address', component: DeliveryAddressComponent},
       { path: 'data-recovery', component: DataRecoveryComponent},

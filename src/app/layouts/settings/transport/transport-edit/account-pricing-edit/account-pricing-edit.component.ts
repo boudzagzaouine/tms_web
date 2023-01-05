@@ -83,11 +83,11 @@ export class AccountPricingEditComponent implements OnInit {
 
     if (this.editMode === false) {
         this.title = 'Ajouter  Tarif Client';
-        this.selectedCatalogTransport=this.selectedAccountPricing.catalogTransportType?this.selectedAccountPricing.catalogTransportType: new CatalogTransportType() ;
+      //  this.selectedCatalogTransport=this.selectedAccountPricing.catalogTransportType?this.selectedAccountPricing.catalogTransportType: new CatalogTransportType() ;
 
       }
       else{
-        this.selectedCatalogTransport=this.selectedAccountPricing.catalogTransportType;
+      //  this.selectedCatalogTransport=this.selectedAccountPricing.catalogTransportType;
       }
       this.displayDialog = true;
       this.initForm();
@@ -105,8 +105,8 @@ export class AccountPricingEditComponent implements OnInit {
       'fVilleSource': new FormControl(this.selectedCatalogTransport.villeSource, Validators.required),
       'fVilleDestination': new FormControl(this.selectedCatalogTransport.villeDestination, Validators.required),
       'fTurnType': new FormControl(this.selectedCatalogTransport.turnType, Validators.required),
-      'fPrice': new FormControl(this.selectedAccountPricing.price, Validators.required),
-      'fAccount': new FormControl(this.selectedAccountPricing.account, Validators.required),
+      //'fPrice': new FormControl(this.selectedAccountPricing.price, Validators.required),
+      //'fAccount': new FormControl(this.selectedAccountPricing.account, Validators.required),
 
 
     });
@@ -118,29 +118,29 @@ export class AccountPricingEditComponent implements OnInit {
     if (this.accountPricingForm.invalid) { return; }
 
     this.spinner.show();
-  this.selectedAccountPricing.price=this.accountPricingForm.value['fPrice'];
-console.log(this.selectedAccountPricing.price);
+ // this.selectedAccountPricing.price=this.accountPricingForm.value['fPrice'];
+//console.log(this.selectedAccountPricing.price);
 
-if(this.selectedAccountPricing.transport !=null && this.selectedAccountPricing.transport.id >0){
+// if(this.selectedAccountPricing.transport !=null && this.selectedAccountPricing.transport.id >0){
 
-  if( this.selectedCatalogTransport.id){
-    this.selectedAccountPricing.catalogTransportType=this.selectedCatalogTransport;
-    //this.selectedAccountPricing.transport=this.selectedCatalogTransport.transport;
-    if(this.selectedAccountPricing !=null && this.selectedAccountPricing.id >0){
-      this.addAccountPricing();
-      }
-      else {
-        this.existTransport();
-      }
-  }
-}
-else{
-  console.log("not existe transport");
-console.log(this.selectedAccountPricing);
+//   if( this.selectedCatalogTransport.id){
+//   //  this.selectedAccountPricing.catalogTransportType=this.selectedCatalogTransport;
+//     //this.selectedAccountPricing.transport=this.selectedCatalogTransport.transport;
+//     if(this.selectedAccountPricing !=null && this.selectedAccountPricing.id >0){
+//       this.addAccountPricing();
+//       }
+//       else {
+//         this.existTransport();
+//        }
+//    }
+// }
+// else{
+//   console.log("not existe transport");
+// console.log(this.selectedAccountPricing);
 
-        this.accountPricingAdded.emit(this.selectedAccountPricing);
+//         this.accountPricingAdded.emit(this.selectedAccountPricing);
 
-}
+// }
 
   }
 
@@ -165,27 +165,27 @@ console.log(this.selectedAccountPricing);
   }
 
   existTransport() {
-    this.accountPricingService.sizeSearch(`transport.id:${this.selectedAccountPricing.transport.id},account.id:${this.selectedAccountPricing.account.id},catalogTransportType.id:${this.selectedAccountPricing.catalogTransportType.id}`).subscribe(
-      data => {
-console.log(data);
+//     this.accountPricingService.sizeSearch(`transport.id:${this.selectedAccountPricing.transport.id},account.id:${this.selectedAccountPricing.account.id},catalogTransportType.id:${this.selectedAccountPricing.catalogTransportType.id}`).subscribe(
+//       data => {
+// console.log(data);
 
-        if (data > 0) {
-          this.messageService.add({severity:'error', summary: 'Edition', detail: 'Elément Existe Déja'});
-        } else {
-          this.addAccountPricing();
-        }
-        this.spinner.hide();
+//         if (data > 0) {
+//           this.messageService.add({severity:'error', summary: 'Edition', detail: 'Elément Existe Déja'});
+//         } else {
+//           this.addAccountPricing();
+//         }
+//         this.spinner.hide();
 
-      },
-      error => {
-       this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+//       },
+//       error => {
+//        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
 
 
-        this.spinner.hide();
-      },
+//         this.spinner.hide();
+//       },
 
-      () => this.spinner.hide()
-    );
+//       () => this.spinner.hide()
+//     );
   }
 
   onSelectVehicleCateory(event: any) {
@@ -222,7 +222,7 @@ console.log(data);
 
   }
   onSelectAccount(event: any) {
-    this.selectedAccountPricing.account = event;
+   // this.selectedAccountPricing.account = event;
 
 
   }

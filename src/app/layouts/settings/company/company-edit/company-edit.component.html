@@ -10,6 +10,8 @@ showEffect="fade"
 [style]="{ width: '800px' }"
 (onHide)='onShowDialog()'
 > -->
+
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <div class="card mt-1">
   <div class="card-header">
     <span class="h4">{{   this.title | translate }}</span>
@@ -168,18 +170,18 @@ showEffect="fade"
 
 
       </form>
-    </div>
+
 
     <p-tabView [activeIndex]="0" >
-      <p-tabPanel header="{{ 'Contrat ' | translate}}"  headerStyleClass="onglet-p-5">
+      <p-tabPanel header="{{ 'Tarif ' | translate}}"  headerStyleClass="onglet-p-5">
 <span *ngIf="this.showContrat==true">
-   <app-company-pricing [selectedCompany]="this.selectedCompany"></app-company-pricing>
+   <app-company-pricing [selectedCompany]="this.selectedCompany" (accountPricingListEdited)="onAcountPricingEdited($event)"></app-company-pricing>
 </span>
       </p-tabPanel>
 
       </p-tabView>
 
-
+ </div>
 
 
 <div class="text-center mt-3 mr-3 ml-3" >

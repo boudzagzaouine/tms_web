@@ -1,14 +1,18 @@
+import { AddressService } from './../../../../shared/services/api/address.service';
+import { element } from 'protractor';
+import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
 import { AccountPricing } from './../../../../shared/models/account-pricing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityAreaService } from './../../../../shared/services/api/activity-area.service';
 import { Address } from './../../../../shared/models/address';
 import { ActivityArea } from './../../../../shared/models/activity-area';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { CompanyService } from './../../../../shared/services/api/company.service';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -21,10 +25,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CompanyEditComponent implements OnInit {
 
   @Output() companyEdited = new EventEmitter<Company>();
+  @Input() accountPricingList :AccountPricing []= [];
    selectedCompany = new Company();
   editMode: number;
   activityAreaList:Array<ActivityArea>=[];
-  accountPricingList:Array<AccountPricing>=[];
   showContrat :Boolean = false;
   companyForm: FormGroup;
   isFormSubmitted = false;
@@ -32,6 +36,8 @@ export class CompanyEditComponent implements OnInit {
   title = 'Modifier Sociéte';
   subscriptions= new Subscription();
   selectedAddress :Address = new Address();
+  items:MenuItem[];
+  home:MenuItem;
   constructor(private companyService: CompanyService,
     private authentificationService:AuthenticationService,
     private areaActivityService:ActivityAreaService,
@@ -39,10 +45,20 @@ export class CompanyEditComponent implements OnInit {
     private toastr: ToastrService,
     private messageService: MessageService,
     private activatedRoute: ActivatedRoute,
+    private router:Router,
+    private accountPricingService:AccountPricingService,
+    private addressService :AddressService,
 
   ) { }
 
   ngOnInit() {
+
+    this.items = [
+      { label: "Paramétrage" },
+      { label: "Société", routerLink: "/core/settings/company-edit" },
+    ];
+
+    this.home = { icon: "pi pi-home" };
     this.areaActivityService.findAll().subscribe(
       data=>{
         this.activityAreaList=data;
@@ -55,6 +71,7 @@ export class CompanyEditComponent implements OnInit {
       this.selectedCompany = new Company();
       this.title = 'Ajouter Sociéte';
       this.selectedAddress = new Address();
+
 
 this.companyService.generateCode().subscribe(
   data => {
@@ -127,20 +144,32 @@ data=>{
     this.selectedCompany.name = this.companyForm.value['name'];
 
     this.selectedAddress.code = this.companyForm.value['nameAdd'];
+    this.selectedAddress.name = this.companyForm.value['nameAdd'];
+
     this.selectedAddress.line1 = this.companyForm.value['line1'];
     this.selectedAddress.line2 = this.companyForm.value['line2'];
     this.selectedAddress.zip = this.companyForm.value['zip'];
     this.selectedAddress.city = this.companyForm.value['city'];
     this.selectedAddress.country = this.companyForm.value['country'];
-
     this.selectedCompany.tradeRegister = this.companyForm.value['tradeRegister'];
+    console.log(this.selectedAddress);
+
+
+if(this.selectedAddress.code){
+  console.log("address");
+console.log(this.selectedAddress);
+
 this.selectedCompany.address=this.selectedAddress;
+}
     this.selectedCompany.professionalTax = this.companyForm.value['tax'];
     this.selectedCompany.fiscalIdentifier = this.companyForm.value['if'];
     this.selectedCompany.cnssNumber = this.companyForm.value['cnss'];
     this.selectedCompany.fiscalIdentifier = this.companyForm.value['fiscal'];
     this.selectedCompany.commonIdentifierOfCompany = this.companyForm.value['ice'];
 
+    console.log("address");
+
+console.log(this.selectedCompany.address);
 
 
  this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
@@ -148,7 +177,7 @@ this.selectedCompany.address=this.selectedAddress;
 
  console.log(this.selectedCompany.owner);
 
-    this.subscriptions.add( this.companyService.set(this.selectedCompany).subscribe(
+ this.subscriptions.add( this.companyService.set(this.selectedCompany).subscribe(
       data => {
         //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
         this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
@@ -157,6 +186,13 @@ this.selectedCompany.address=this.selectedAddress;
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
+
+        this.companyForm.reset();
+        if (close) {
+          this.router.navigate(['/core/settings/company']);
+        } else {
+          this.router.navigate(['/core/settings/company-edit']);
+        }
       },
       error => {
         this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
@@ -166,14 +202,18 @@ this.selectedCompany.address=this.selectedAddress;
       },
       () => this.spinner.hide()
     ));
-
   }
 
   onSelectActivityArea(event){
   this.selectedCompany.activityArea=event.value;
   }
 
+  onAcountPricingEdited(acountPricings : AccountPricing[]){
 
+    console.log(acountPricings);
+    this.selectedCompany.accountPricingList=acountPricings;
+
+  }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

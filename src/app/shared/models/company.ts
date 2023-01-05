@@ -1,3 +1,4 @@
+import { AccountPricing } from './account-pricing';
 import { ActivityArea } from './activity-area';
 import { Owner } from './owner';
 import { Address } from './address';
@@ -22,7 +23,7 @@ export class Company {
     activityArea : ActivityArea;
     creationDate = new Date();
     updateDate = new Date();
-
+    accountPricingList: AccountPricing[]=[];
 
 
 }

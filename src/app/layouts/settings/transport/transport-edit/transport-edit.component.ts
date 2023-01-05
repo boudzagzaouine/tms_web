@@ -403,15 +403,15 @@ export class TransportEditComponent implements OnInit {
       this.loadAccountPricingByTransport();
     } else {
       console.log("Nouve Transport ");
-
-      const orderline = this.accountPricings.find(
-        (line) =>
-        //  line.catalogTransportType.turnType.id === accountPricing.catalogTransportType.turnType.id &&
-      //    line.catalogTransportType.vehicleCategory.id === accountPricing.catalogTransportType.vehicleCategory.id &&
-       //   line.catalogTransportType.villeSource.id === accountPricing.catalogTransportType.villeSource.id &&
-       //   line.catalogTransportType.villeDestination.id === accountPricing.catalogTransportType.villeDestination.id &&
-          line.account.id === accountPricing.account.id
-      );
+      const orderline=null;
+      // const orderline = this.accountPricings.find(
+      //   (line) =>
+      //   //  line.catalogTransportType.turnType.id === accountPricing.catalogTransportType.turnType.id &&
+      // //    line.catalogTransportType.vehicleCategory.id === accountPricing.catalogTransportType.vehicleCategory.id &&
+      //  //   line.catalogTransportType.villeSource.id === accountPricing.catalogTransportType.villeSource.id &&
+      //  //   line.catalogTransportType.villeDestination.id === accountPricing.catalogTransportType.villeDestination.id &&
+      //     //line.account.id === accountPricing.account.id
+      // );
       if (orderline == null) {
         this.accountPricings.push(accountPricing);
       } else {

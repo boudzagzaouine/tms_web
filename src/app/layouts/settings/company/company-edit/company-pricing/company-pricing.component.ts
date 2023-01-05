@@ -1,49 +1,49 @@
-import { Company } from './../../../../../shared/models/company';
-import { EmsBuffer } from './../../../../../shared/utils/ems-buffer';
-import { VehicleTrayService } from './../../../../../shared/services/api/vehicle-tray.service';
-import { TurnTypeService } from './../../../../../shared/services/api/turn-type.service';
-import { LoadingTypeService } from './../../../../../shared/services/api/loading-type.service';
-import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalService } from './../../../../../shared/services/api/global.service';
-import { VilleService } from './../../../../../shared/services/api/ville.service';
-import { VehicleCategoryService } from './../../../../../shared/services/api/vehicle-category.service';
-import { AccountPricingService } from './../../../../../shared/services/api/account-pricing.service';
-import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
-import { Ville } from './../../../../../shared/models/ville';
-import { TurnType } from './../../../../../shared/models/turn-Type';
-import { LoadingType } from './../../../../../shared/models/loading-type';
-import { VehicleTray } from './../../../../../shared/models/vehicle-tray';
-import { VehicleCategory } from './../../../../../shared/models/vehicle-category';
-import { AccountPricing } from './../../../../../shared/models/account-pricing';
-import { Component, Input, OnInit } from '@angular/core';
+import { Company } from "./../../../../../shared/models/company";
+import { EmsBuffer } from "./../../../../../shared/utils/ems-buffer";
+import { VehicleTrayService } from "./../../../../../shared/services/api/vehicle-tray.service";
+import { TurnTypeService } from "./../../../../../shared/services/api/turn-type.service";
+import { LoadingTypeService } from "./../../../../../shared/services/api/loading-type.service";
+import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
+import { GlobalService } from "./../../../../../shared/services/api/global.service";
+import { VilleService } from "./../../../../../shared/services/api/ville.service";
+import { VehicleCategoryService } from "./../../../../../shared/services/api/vehicle-category.service";
+import { AccountPricingService } from "./../../../../../shared/services/api/account-pricing.service";
+import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
+import { Ville } from "./../../../../../shared/models/ville";
+import { TurnType } from "./../../../../../shared/models/turn-Type";
+import { LoadingType } from "./../../../../../shared/models/loading-type";
+import { VehicleTray } from "./../../../../../shared/models/vehicle-tray";
+import { VehicleCategory } from "./../../../../../shared/models/vehicle-category";
+import { AccountPricing } from "./../../../../../shared/models/account-pricing";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-company-pricing',
-  templateUrl: './company-pricing.component.html',
-  styleUrls: ['./company-pricing.component.scss']
+  selector: "app-company-pricing",
+  templateUrl: "./company-pricing.component.html",
+  styleUrls: ["./company-pricing.component.scss"],
 })
 export class CompanyPricingComponent implements OnInit {
-
-  @Input() selectedCompany :Company = new Company();
+  @Input() selectedCompany: Company = new Company();
+  @Output() accountPricingListEdited = new EventEmitter<AccountPricing[]>();
   page = 0;
   size = 10;
   collectionSize: number;
 
   selectAccountPricings: Array<AccountPricing> = [];
-  searchQuery = '';
+  searchQuery = "";
   codeSearch: string;
   vehicleCategorySearch: VehicleCategory;
   vehicleTraySearch: VehicleTray;
-  loadingTypeSearch:LoadingType;
-  turnTypeSearch:TurnType;
+  loadingTypeSearch: LoadingType;
+  turnTypeSearch: TurnType;
 
-  transportCatVehicleList: Array<AccountPricing> = [];
+  accountPricingList: Array<AccountPricing> = [];
   categorieVehicleList: Array<VehicleCategory> = [];
   turnTypeList: Array<TurnType> = [];
 
-  vehicleTrayList:Array<VehicleTray>=[];
-  loadingTypeList:Array<LoadingType>=[];
+  vehicleTrayList: Array<VehicleTray> = [];
+  loadingTypeList: Array<LoadingType> = [];
 
   villeSourceSearch: Ville;
   villeDestinationSearch: Ville;
@@ -53,11 +53,11 @@ export class CompanyPricingComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste de Tarifs';
+  titleList = "Liste de Tarifs";
   accountPricingExportList: Array<AccountPricing> = [];
   items: MenuItem[];
   home: MenuItem;
-
+  idAcountPricing: number = 0;
   constructor(
     private accountPricingService: AccountPricingService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -66,113 +66,124 @@ export class CompanyPricingComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private messageService: MessageService,
-    private loadingTypeService:LoadingTypeService,
+    private loadingTypeService: LoadingTypeService,
     private turnTypeService: TurnTypeService,
-    private vehicleTrayService:VehicleTrayService,
+    private vehicleTrayService: VehicleTrayService,
     private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
-
     console.log(this.selectedCompany);
-
 
     this.load();
     this.items = [
-      {label: 'Paramétrage'},
-      {label: 'Catégorie Transport' ,routerLink:'/core/settings/path'},
+      { label: "Paramétrage" },
+      { label: "Catégorie Transport", routerLink: "/core/settings/path" },
+    ];
 
-  ];
-
-  this.home = {icon: 'pi pi-home'};
+    this.home = { icon: "pi pi-home" };
 
     this.className = AccountPricing.name;
     this.cols = [
       {
-        field: 'loadingType',
-        child: 'code',
-        header: 'Type Chargement',
-        type: 'object'
+        field: "loadingType",
+        child: "code",
+        header: "Type Chargement",
+        type: "object",
       },
       {
-        field: 'turnType',
-        child: 'code',
-        header: 'Type',
-        type: 'object'
+        field: "turnType",
+        child: "code",
+        header: "Type",
+        type: "object",
       },
 
       {
-        field: 'vehicleCategory',
-        child: 'code',
-        header: 'Catégorie de Véhicle',
-        type: 'object'
+        field: "vehicleCategory",
+        child: "code",
+        header: "Catégorie de Véhicle",
+        type: "object",
       },
 
       {
-        field: 'villeSource',
-        child: 'code',
-        header: 'Ville Source',
-        type: 'object'
+        field: "vehicleTray",
+        child: "code",
+        header: "Plateau",
+        type: "object",
       },
 
       {
-        field: 'villeDestination',
-        child: 'code',
-        header: 'Ville Destination',
-        type: 'object'
+        field: "villeSource",
+        child: "code",
+        header: "Ville Source",
+        type: "object",
       },
-      { field: 'purchaseAmountHt', header: 'Prix Achat ', type: 'number' },
-      { field: 'saleAmountHt', header: 'Prix Vente', type: 'number' },
 
+      {
+        field: "villeDestination",
+        child: "code",
+        header: "Ville Destination",
+        type: "object",
+      },
+      { field: "saleAmountHt", header: "Prix HT ", type: "number" },
+      {
+        field: "saleVat",
+        child: "value",
+        header: "TVA",
+        type: "object",
+      },
+      { field: "saleAmountTtc", header: "Prix TTC", type: "number" },
     ];
-    if(this.selectedCompany.id !=null || this.selectedCompany.id != undefined){
-      this.searchQuery="company.id:"+this.selectedCompany.id;
+    if (
+      this.selectedCompany.id != null ||
+      this.selectedCompany.id != undefined
+    ) {
+      this.searchQuery = "company.id:" + this.selectedCompany.id;
       this.loadData();
-
-  }
-
-
-
+    }
   }
 
   loadData() {
-
-
     this.spinner.show();
     this.accountPricingService
       .sizeSearch(this.searchQuery)
-      .subscribe(data => {
+      .subscribe((data) => {
         this.collectionSize = data;
       });
     this.accountPricingService
       .findPagination(this.page, this.size, this.searchQuery)
       .subscribe(
-        data => {
-          this.transportCatVehicleList = data;
-          console.log(data);
-
+        (data) => {
+          this.accountPricingList = data;
           this.spinner.hide();
         },
-        error => {
+        (error) => {
           this.spinner.hide();
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-
-         // this.toastr.error(error.err.message + 'Erreur de connexion');
+          this.messageService.add({
+            severity: "error",
+            summary: "Erreur",
+            detail: "Erreur",
+          });
         },
         () => this.spinner.hide()
       );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    if(this.selectedCompany.id !=null || this.selectedCompany.id != undefined){
-      this.searchQuery="company.id:"+this.selectedCompany.id;
-      this.loadData();
+    if (
+      this.selectedCompany.id != null ||
+      this.selectedCompany.id != undefined
+    ) {
+      this.searchQuery = "company.id:" + this.selectedCompany.id;
+      console.log("load data");
 
-  }
+      this.loadData();
+    }
   }
   onExportExcel(event) {
     this.accountPricingService.find(this.searchQuery).subscribe(
-      data => {
+      (data) => {
         this.accountPricingExportList = data;
         if (event != null) {
           this.globalService.generateExcel(
@@ -191,8 +202,12 @@ export class CompanyPricingComponent implements OnInit {
         }
         this.spinner.hide();
       },
-      error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+      (error) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Erreur",
+          detail: "Erreur",
+        });
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -200,7 +215,7 @@ export class CompanyPricingComponent implements OnInit {
   }
   onExportPdf(event) {
     this.accountPricingService.find(this.searchQuery).subscribe(
-      data => {
+      (data) => {
         this.accountPricingExportList = data;
         this.globalService.generatePdf(
           event,
@@ -210,8 +225,12 @@ export class CompanyPricingComponent implements OnInit {
         );
         this.spinner.hide();
       },
-      error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+      (error) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Erreur",
+          detail: "Erreur",
+        });
 
         this.spinner.hide();
       },
@@ -221,27 +240,34 @@ export class CompanyPricingComponent implements OnInit {
   onSearchClicked() {
     const buffer = new EmsBuffer();
 
-    if (this.turnTypeSearch != null && this.turnTypeSearch.code !== '') {
+    buffer.append(`company.id:${this.selectedCompany.id}`);
+
+    if (this.turnTypeSearch != null && this.turnTypeSearch.code !== "") {
       buffer.append(`turnType.code~${this.turnTypeSearch.code}`);
     }
-    if (this.loadingTypeSearch != null && this.loadingTypeSearch.code !== '') {
+    if (this.loadingTypeSearch != null && this.loadingTypeSearch.code !== "") {
       buffer.append(`loadingType.code~${this.loadingTypeSearch.code}`);
     }
-    if (this.vehicleCategorySearch != null && this.vehicleCategorySearch.code !== '') {
+    if (
+      this.vehicleCategorySearch != null &&
+      this.vehicleCategorySearch.code !== ""
+    ) {
       buffer.append(`vehicleCategory.code~${this.vehicleCategorySearch.code}`);
     }
-    if (this.vehicleTraySearch != null && this.vehicleTraySearch.code !== '') {
+    if (this.vehicleTraySearch != null && this.vehicleTraySearch.code !== "") {
       buffer.append(`vehicleTray.code~${this.vehicleTraySearch.code}`);
     }
 
-    if (this.villeSourceSearch != null && this.villeSourceSearch.code !== '') {
+    if (this.villeSourceSearch != null && this.villeSourceSearch.code !== "") {
       buffer.append(`villeSource.code~${this.villeSourceSearch.code}`);
     }
     if (
       this.villeDestinationSearch != null &&
-      this.villeDestinationSearch.code !== ''
+      this.villeDestinationSearch.code !== ""
     ) {
-      buffer.append(`villeDestination.code~${this.villeDestinationSearch.code}`);
+      buffer.append(
+        `villeDestination.code~${this.villeDestinationSearch.code}`
+      );
     }
 
     this.page = 0;
@@ -251,14 +277,16 @@ export class CompanyPricingComponent implements OnInit {
 
   onCategoryVehicleSearch(event: any) {
     this.vehicleCategoryService
-      .find('code~' + event.query)
-      .subscribe(data => (this.categorieVehicleList = data.map(f => f.code)));
+      .find("code~" + event.query)
+      .subscribe(
+        (data) => (this.categorieVehicleList = data.map((f) => f.code))
+      );
   }
 
   onVilleSouceSearch(event: any) {
     this.villeService
-      .find('code~' + event.query)
-      .subscribe(data => (this.villeSourceList = data));
+      .find("code~" + event.query)
+      .subscribe((data) => (this.villeSourceList = data));
   }
 
   reset() {
@@ -266,21 +294,23 @@ export class CompanyPricingComponent implements OnInit {
     this.villeSourceSearch = null;
     this.villeDestinationSearch = null;
     this.loadingTypeSearch = null;
-  this.vehicleTraySearch=null;
-  this.turnTypeSearch=null;
-
+    this.vehicleTraySearch = null;
+    this.turnTypeSearch = null;
     this.page = 0;
-    this.searchQuery='';
-
+    this.searchQuery = "company.id:" + this.selectedCompany.id;
     this.loadData();
   }
 
   onObjectEdited(event) {
+
     this.editMode = event.operationMode;
+    console.log(this.editMode);
+
     this.selectAccountPricings = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
+
       this.showDialog = true;
     }
   }
@@ -288,12 +318,16 @@ export class CompanyPricingComponent implements OnInit {
   onDeleteAll() {
     if (this.selectAccountPricings.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Supprimer ?',
+        message: "Voulez vous vraiment Supprimer ?",
         accept: () => {
-          const ids = this.selectAccountPricings.map(x => x.id);
+          const ids = this.selectAccountPricings.map((x) => x.id);
           this.accountPricingService.deleteAllByIds(ids).subscribe(
-            data => {
-              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+            (data) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "Suppression",
+                detail: "Elément Supprimer avec Succés",
+              });
 
               // this.toastr.success(
               //   'Elément Supprimer avec Succés',
@@ -302,46 +336,80 @@ export class CompanyPricingComponent implements OnInit {
 
               this.loadData();
             },
-            error => {
-              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+            (error) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "Erreur",
+                detail: "Erreur",
+              });
 
               //this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           );
-        }
+        },
       });
     } else if (this.selectAccountPricings.length < 1) {
-      this.toastr.warning('aucun ligne sélectionnée');
+      this.toastr.warning("aucun ligne sélectionnée");
     }
   }
 
-  load(){
-
-    this.turnTypeService.findAll().subscribe(data => {
+  load() {
+    this.turnTypeService.findAll().subscribe((data) => {
       this.turnTypeList = data;
     });
-    this.loadingTypeService.findAll().subscribe(data => {
+    this.loadingTypeService.findAll().subscribe((data) => {
       this.loadingTypeList = data;
     });
 
-    this.vehicleTrayService.findAll().subscribe(data => {
+    this.vehicleTrayService.findAll().subscribe((data) => {
       this.vehicleTrayList = data;
     });
-    this.vehicleCategoryService.findAll().subscribe(data => {
+    this.vehicleCategoryService.findAll().subscribe((data) => {
       this.categorieVehicleList = data;
     });
 
-    this.villeService.findAll().subscribe(data => {
+    this.villeService.findAll().subscribe((data) => {
       this.villeSourceList = data;
     });
   }
 
   onShowDialog(event) {
+    console.log(event);
+
     this.showDialog = event;
 
-    this.loadData();
+    if (
+      this.selectedCompany.id != null ||
+      this.selectedCompany.id != undefined
+    ) {
+      this.searchQuery = "company.id:" + this.selectedCompany.id;
+      console.log("load data");
+
+      this.loadData();
+    }
   }
 
+  onLineEdited(accountPricingEdited: AccountPricing) {
+    const acountPricing = this.accountPricingList.find(
+      (f) => f.turnType.id == accountPricingEdited.turnType.id &&
+             f.loadingType.id == accountPricingEdited.loadingType.id &&
+             f.vehicleCategory.id == accountPricingEdited.vehicleCategory.id &&
+             f.vehicleTray.id == accountPricingEdited.vehicleTray.id &&
+             f.villeSource.id == accountPricingEdited.villeSource.id &&
+             f.villeDestination.id == accountPricingEdited.villeDestination.id
+    );
+    if (acountPricing == null) {
+      this.idAcountPricing--;
+      accountPricingEdited.id = this.idAcountPricing;
+      this.accountPricingList.push(accountPricingEdited);
+      this.accountPricingListEdited.emit(this.accountPricingList);
+    }else {
+      if(this.editMode==1){
+        this.toastr.error("Erreur", 'Elément Existe Déja');
+      }
+    }
 
+
+  }
 }

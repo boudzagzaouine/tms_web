@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
+import { ConfirmationService, PrimeNGConfig, MessageService, MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../../shared/services/api/global.service';
@@ -26,7 +26,8 @@ export class CompanyComponent implements OnInit {
   descriptionSearch = '';
   codeList: Array<Company> = [];
   nameList: Array<Company> = [];
-
+  items: MenuItem[];
+  home: MenuItem;
   cols: any[];
   companyList: Array<Company> = [];
   selectedCompanys: Array<Company> = [];
@@ -48,6 +49,12 @@ export class CompanyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.items = [
+      { label: "Paramétrage" },
+      { label: "Société", routerLink: "/core/settings/company" },
+    ];
+
+    this.home = { icon: "pi pi-home" };
     this.primengConfig.ripple = true;
     this.className = Company.name;
     this.cols = [

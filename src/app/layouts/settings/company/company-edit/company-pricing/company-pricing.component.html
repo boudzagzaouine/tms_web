@@ -1,5 +1,5 @@
 <!-- <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb> -->
-<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true" [collapsed]="true">
   <div class="row">
 
     <div class="col-md-2">
@@ -99,7 +99,7 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="transportCatVehicleList"
+  [objectList]="accountPricingList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
@@ -117,9 +117,12 @@
 
 <div *ngIf="showDialog == true">
   <app-company-pricing-edit
-    [editMode]="editMode"
+     (showDialog)="onShowDialog($event)"
+     [editMode]="editMode"
     [selectAccountPricing]="selectAccountPricings[0]"
-    (showDialog)="onShowDialog($event)"
+    [selectedCompany]="this.selectedCompany"
+    (acountPricingEdited)="onLineEdited($event)"
+    [accountPricings]="accountPricingList"
   ></app-company-pricing-edit>
 </div>
 

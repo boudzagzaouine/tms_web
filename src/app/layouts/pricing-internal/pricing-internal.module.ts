@@ -58,6 +58,8 @@ import { PricingStandardEditComponent } from './pricing-standard/pricing-standar
 FullCalendarModule,
 ToastModule
   ],
-  declarations: [PricingInternalComponent,PricingInernalEditComponent,PricingStandardComponent,PricingStandardEditComponent]
+  declarations: [PricingInternalComponent,
+    //PricingInernalEditComponent,PricingStandardComponent,PricingStandardEditComponent
+  ]
 })
 export class PricingInternalModule { }

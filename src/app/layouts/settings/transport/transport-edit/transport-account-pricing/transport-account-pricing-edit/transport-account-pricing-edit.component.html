@@ -4,16 +4,42 @@
   <div>
     <div class="modal-body">
       <div class="card-body">
-        <form [formGroup]="accountPricingForm">
+        <form [formGroup]="catalogTransportAccountPricingForm">
+          <div class="row justify-content-around">
+
+
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{ "Société " | translate }} *</label>
+            <span *ngIf="
+                (catalogTransportAccountPricingForm.get('fCompany').touched &&
+                  catalogTransportAccountPricingForm.get('fCompany').invalid) ||
+                (isFormSubmitted &&
+                  catalogTransportAccountPricingForm.get('fCompany').invalid)
+              " class="text-lighter" style="color: red; font-size: xx-small;">
+              {{ 'Obligatoire' | translate}}
+
+            </span>
+
+
+            <p-autoComplete [disabled]="(editMode==2)" formControlName="fCompany" [suggestions]="companyList"
+              (onSelect)="onSelectCompany($event)" (completeMethod)="onCompanySearch($event)" field="name">
+            </p-autoComplete>
+
+          </div>
+
+          <div class="form-group col-sm-9">
+</div>
+
+</div>
 
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Type " | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fTurnType').touched &&
-                    accountPricingForm.get('fTurnType').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fTurnType').touched &&
+                    catalogTransportAccountPricingForm.get('fTurnType').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fTurnType').invalid)
+                    catalogTransportAccountPricingForm.get('fTurnType').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -27,10 +53,10 @@
  <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Categorie Véhicule" | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fVehicleCategory').touched &&
-                    accountPricingForm.get('fVehicleCategory').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fVehicleCategory').touched &&
+                    catalogTransportAccountPricingForm.get('fVehicleCategory').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fVehicleCategory').invalid)
+                    catalogTransportAccountPricingForm.get('fVehicleCategory').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -43,10 +69,10 @@
   <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Plateau" | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fVehicleTray').touched &&
-                    accountPricingForm.get('fVehicleTray').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fVehicleTray').touched &&
+                    catalogTransportAccountPricingForm.get('fVehicleTray').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fVehicleTray').invalid)
+                    catalogTransportAccountPricingForm.get('fVehicleTray').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -59,10 +85,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Type Chargement" | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fLoadingType').touched &&
-                    accountPricingForm.get('fLoadingType').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fLoadingType').touched &&
+                    catalogTransportAccountPricingForm.get('fLoadingType').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fLoadingType').invalid)
+                    catalogTransportAccountPricingForm.get('fLoadingType').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -81,10 +107,10 @@
               <div class="form-group col-sm-3">
                 <label class="font-weight-bold">{{ "Pays Source" | translate }} *</label>
                 <span *ngIf="
-                    (accountPricingForm.get('fPaysSource').touched &&
-                      accountPricingForm.get('fPaysSource').invalid) ||
+                    (catalogTransportAccountPricingForm.get('fPaysSource').touched &&
+                      catalogTransportAccountPricingForm.get('fPaysSource').invalid) ||
                     (isFormSubmitted &&
-                      accountPricingForm.get('fPaysSource').invalid)
+                      catalogTransportAccountPricingForm.get('fPaysSource').invalid)
                   " class="text-lighter" style="color: red; font-size: xx-small;">
                   {{ 'Obligatoire' | translate}}
 
@@ -98,10 +124,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Ville Source " | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fVilleSource').touched &&
-                    accountPricingForm.get('fVilleSource').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fVilleSource').touched &&
+                    catalogTransportAccountPricingForm.get('fVilleSource').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fVilleSource').invalid)
+                    catalogTransportAccountPricingForm.get('fVilleSource').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -116,10 +142,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Pays Distination" | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fPaysDestination').touched &&
-                    accountPricingForm.get('fPaysDestination').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fPaysDestination').touched &&
+                    catalogTransportAccountPricingForm.get('fPaysDestination').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fPaysDestination').invalid)
+                    catalogTransportAccountPricingForm.get('fPaysDestination').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -133,10 +159,10 @@
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Ville Destination" | translate }} *</label>
               <span *ngIf="
-                  (accountPricingForm.get('fVilleDestination').touched &&
-                    accountPricingForm.get('fVilleDestination').invalid) ||
+                  (catalogTransportAccountPricingForm.get('fVilleDestination').touched &&
+                    catalogTransportAccountPricingForm.get('fVilleDestination').invalid) ||
                   (isFormSubmitted &&
-                    accountPricingForm.get('fVilleDestination').invalid)
+                    catalogTransportAccountPricingForm.get('fVilleDestination').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -154,36 +180,35 @@
 
 
 <div class="form-group col-sm-12">
-   <p-fieldset legend="Vente" [toggleable]="true">
+   <p-fieldset legend="Achat" [toggleable]="true">
 
     <div class="row justify-content-around">
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
         <span *ngIf="
-            (accountPricingForm.get('fSaleAmountHt').touched &&
-              accountPricingForm.get('fSaleAmountHt').invalid) ||
+            (catalogTransportAccountPricingForm.get('fPurchaseAmountHt').touched &&
+              catalogTransportAccountPricingForm.get('fPurchaseAmountHt').invalid) ||
             (isFormSubmitted &&
-              accountPricingForm.get('fSaleAmountHt').invalid)
+              catalogTransportAccountPricingForm.get('fPurchaseAmountHt').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
         <br />
 
 
-          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(1)"  [minFractionDigits]="2"
-          formControlName="fSaleAmountHt"
+          <p-inputNumber inputId="locale-user" (keyup)="onPurchasePriceChange(1)"  [minFractionDigits]="2"
+          formControlName="fPurchaseAmountHt"
         >
          </p-inputNumber>
-
       </div>
 
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
         <span *ngIf="
-            (accountPricingForm.get('fSaleVat').touched &&
-              accountPricingForm.get('fSaleVat').invalid) ||
+            (catalogTransportAccountPricingForm.get('fPurchaseVat').touched &&
+              catalogTransportAccountPricingForm.get('fPurchaseVat').invalid) ||
             (isFormSubmitted &&
-              accountPricingForm.get('fSaleVat').invalid)
+              catalogTransportAccountPricingForm.get('fPurchaseVat').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
@@ -194,41 +219,18 @@
            optionLabel="value"
            [appendTo]="'body'"
           [showClear]="true"
-           (onChange)="onSelectSaleVat($event)"
-            formControlName="fSaleVat"></p-dropdown>
+           (onChange)="onSelectPurchaseVat($event)"
+            formControlName="fPurchaseVat"></p-dropdown>
 
       </div>
 
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
         <span *ngIf="
-            (accountPricingForm.get('fSaleAmountTtc').touched &&
-              accountPricingForm.get('fSaleAmountTtc').invalid) ||
+            (catalogTransportAccountPricingForm.get('fPurchaseAmountTtc').touched &&
+              catalogTransportAccountPricingForm.get('fPurchaseAmountTtc').invalid) ||
             (isFormSubmitted &&
-              accountPricingForm.get('fSaleAmountTtc').invalid)
-          " class="text-lighter" style="color: red; font-size: xx-small;">
-          {{ 'Obligatoire' | translate}}
-
-        </span>
-        <br />
-
-
-
-          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(2)"
-          [minFractionDigits]="2"
-          formControlName="fSaleAmountTtc"
-        >
-         </p-inputNumber>
-
-
-      </div>
-      <div class="form-group col-sm-6">
-        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
-        <span *ngIf="
-            (accountPricingForm.get('fSaleAmountTva').touched &&
-              accountPricingForm.get('fSaleAmountTva').invalid) ||
-            (isFormSubmitted &&
-              accountPricingForm.get('fSaleAmountTva').invalid)
+              catalogTransportAccountPricingForm.get('fPurchaseAmountTtc').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
 
@@ -236,9 +238,31 @@
         <br />
 
           <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-          formControlName="fSaleAmountTva"
+           formControlName="fPurchaseAmountTtc"
+          (keyup)="onPurchasePriceChange(2)">
+          </p-inputNumber>
+
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
+        <span *ngIf="
+            (catalogTransportAccountPricingForm.get('fPurchaseAmountTva').touched &&
+              catalogTransportAccountPricingForm.get('fPurchaseAmountTva').invalid) ||
+            (isFormSubmitted &&
+              catalogTransportAccountPricingForm.get('fPurchaseAmountTva').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+        <!-- <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
+          (keydown.space)="$event.preventDefault()" /> -->
+
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="fPurchaseAmountTva"
         >
          </p-inputNumber>
+
 
       </div>
     </div>

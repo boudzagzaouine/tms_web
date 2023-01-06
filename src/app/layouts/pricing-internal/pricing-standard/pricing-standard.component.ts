@@ -1,3 +1,5 @@
+import { CatalogTransportPricingService } from './../../../shared/services/api/catalog-transport-pricing.service';
+import { CatalogTransportPricing } from './../../../shared/models/CatalogTransportPricing';
 import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
 import { TurnType } from './../../../shared/models/turn-Type';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -14,9 +16,7 @@ import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api'
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
 import { Subscription } from 'rxjs';
-import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -38,18 +38,18 @@ export class PricingStandardComponent implements OnInit {
   villeList: Array<Ville> = [];
 
   cols: any[];
-  catalogTransportTypeList: Array<CatalogTransportType> = [];
-  selectedCatalogTransportTypes: Array<CatalogTransportType> = [];
+  catalogTransportPricingList: Array<CatalogTransportPricing> = [];
+  selectedCatalogTransportPricings: Array<CatalogTransportPricing> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
   titleList = 'Liste Tarifs Standard';
-  catalogTransportTypeExportList: Array<CatalogTransportType> = [];
+  catalogTransportPricingExportList: Array<CatalogTransportPricing> = [];
   subscriptions= new Subscription();
   defaultTransport : Transport = new Transport();
   vehicleCategoryList: Array<VehicleCategory> = [];
   turnTypeList:Array<TurnType>=[];
-  constructor(private catalogTransportTypeService: CatalogTransportTypeServcie ,
+  constructor(private catalogTransportPricingService: CatalogTransportPricingService ,
     private globalService: GlobalService,
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
@@ -74,7 +74,7 @@ export class PricingStandardComponent implements OnInit {
 
 
     this.primengConfig.ripple = true;
-    this.className = CatalogTransportType.name;
+    //this.className = CatalogTransportPricing.name;
     this.cols = [
       { field: 'turnType',child:"code", header: 'Type', type: 'object' },
       { field: 'vehicleCategory',child:"code", header: 'Catégorie', type: 'object' },
@@ -102,13 +102,13 @@ export class PricingStandardComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.subscriptions.add(this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.catalogTransportPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogTransportTypeExportList = data;
+        this.catalogTransportPricingExportList = data;
         if (event != null) {
-          this.globalService.generateExcel(event, this.catalogTransportTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.catalogTransportPricingExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.catalogTransportTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.catalogTransportPricingExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -122,10 +122,10 @@ export class PricingStandardComponent implements OnInit {
 
   }
   onExportPdf(event) {
-    this.subscriptions.add(this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.catalogTransportPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogTransportTypeExportList = data;
-        this.globalService.generatePdf(event, this.catalogTransportTypeExportList, this.className, this.titleList);
+        this.catalogTransportPricingExportList = data;
+        this.globalService.generatePdf(event, this.catalogTransportPricingExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -141,14 +141,14 @@ export class PricingStandardComponent implements OnInit {
 console.log(search);
 
     this.spinner.show();
-    this.subscriptions.add(this.catalogTransportTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.catalogTransportPricingService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add(this.catalogTransportTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.catalogTransportPricingService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.catalogTransportTypeList = data;
+        this.catalogTransportPricingList = data;
 
         this.spinner.hide();
       },
@@ -210,7 +210,7 @@ console.log(search);
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedCatalogTransportTypes = event.object;
+    this.selectedCatalogTransportPricings = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -221,12 +221,12 @@ console.log(search);
 
   onDeleteAll() {
 
-    if (this.selectedCatalogTransportTypes.length >= 1) {
+    if (this.selectedCatalogTransportPricings.length >= 1) {
       this.confirmationService.confirm({
         message: ' Voulez vous vraiment Supprimer  ?',
         accept: () => {
-          const ids = this.selectedCatalogTransportTypes.map(x => x.id);
-          this.subscriptions.add(this.catalogTransportTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedCatalogTransportPricings.map(x => x.id);
+          this.subscriptions.add(this.catalogTransportPricingService.deleteAllByIds(ids).subscribe(
             data => {
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
@@ -242,7 +242,7 @@ console.log(search);
           ));
         }
       });
-    } else if (this.selectedCatalogTransportTypes.length < 1) {
+    } else if (this.selectedCatalogTransportPricings.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 

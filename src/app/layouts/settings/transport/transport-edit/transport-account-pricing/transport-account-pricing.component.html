@@ -1,0 +1,143 @@
+<!-- <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb> -->
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true" [collapsed]="true">
+  <div class="row">
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Type Chargement" | translate
+      }}</label
+      ><br />
+      <p-dropdown
+      [options]="loadingTypeList"
+      optionLabel="code"
+      [autoDisplayFirst]="false"
+      [(ngModel)]="loadingTypeSearch" filter="true"
+    >
+    </p-dropdown>
+    </div>
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Type " | translate
+      }}</label
+      ><br />
+      <p-dropdown
+      [options]="turnTypeList"
+      optionLabel="code"
+      [autoDisplayFirst]="false"
+      [(ngModel)]="turnTypeSearch" filter="true"
+    >
+    </p-dropdown>
+    </div>
+
+
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Catégorie de véhicule" | translate
+      }}</label
+      ><br />
+      <p-dropdown
+      [options]="categorieVehicleList"
+      optionLabel="code"
+      [autoDisplayFirst]="false"
+      [(ngModel)]="vehicleCategorySearch" filter="true"
+    >
+    </p-dropdown>
+    </div>
+ <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Type Véhicule" | translate
+      }}</label
+      ><br />
+      <p-dropdown
+      [options]="vehicleTrayList"
+      optionLabel="code"
+      [autoDisplayFirst]="false"
+      [(ngModel)]="vehicleTraySearch" filter="true"
+    >
+    </p-dropdown>
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Ville Source" | translate
+      }}</label
+      ><br />
+
+      <p-autoComplete [(ngModel)]="villeSourceSearch" [suggestions]="villeSourceList"
+      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
+
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{
+        "Ville Destination" | translate
+      }}</label
+      ><br />
+
+      <p-autoComplete [(ngModel)]="villeDestinationSearch" [suggestions]="villeSourceList"
+      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
+
+    </div>
+
+
+  </div>
+  <br />
+
+  <div class="text-center">
+    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i> {{ "Réinitialiser" | translate }}
+
+    </button>
+
+    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+      <i class="fa fa-search mr-2"></i> {{ "Rechercher" | translate }}
+
+    </button>
+  </div>
+</p-panel>
+
+<app-data-table
+  [className]="className"
+  [cols]="cols"
+  [objectList]="catalogTransportAccountPricingList"
+  [collectionSize]="collectionSize"
+  [size]="size"
+  (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdf($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
+  [listName]="titleList"
+  [viewBtnVisible]="'false'"
+
+  [permissionCreate]="['CATALOG_TRANSPORT_CREATE']"
+  [permissionDelete]="['CATALOG_TRANSPORT_DELETE']"
+  [permissionEdit]="['CATALOG_TRANSPORT_EDIT']"
+></app-data-table>
+
+<div *ngIf="showDialog == true">
+  <app-transport-account-pricing-edit
+     (showDialog)="onShowDialog($event)"
+     [editMode]="editMode"
+    [selectCatalogTransportAccountPricing]="selectCatalogTransportAccountPricings[0]"
+    [selectedTransport]="this.selectedTransport"
+    (acountPricingEdited)="onLineEdited($event)"
+    [catalogTransportAccountPricings]="catalogTransportAccountPricingList"
+  ></app-transport-account-pricing-edit>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'Oui'"
+  [rejectLabel]="'Non'"
+>
+</p-confirmDialog>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

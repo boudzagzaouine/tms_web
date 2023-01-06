@@ -1,3 +1,5 @@
+import { CatalogTransportAccountPricingService } from './services/api/catalog-transport-account-pricing.service';
+import { CatalogTransportPricingService } from './services/api/catalog-transport-pricing.service';
 import { VehicleTrayService } from './services/api/vehicle-tray.service';
 import { LoadingTypeService } from './services/api/loading-type.service';
 import { CatalogPricingService } from './services/api/agent.service copy';
@@ -98,7 +100,6 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { DeliveryLineService } from './services/api/delivery-line.service';
 import { DeliveryService } from './services/api/Delivery.service';
 import { VatService } from './services/api/vat.service';
-import { CatalogTransportTypeServcie } from './services/api/Catalog-Transport-Type.service';
 import { ZoneServcie } from './services/api/zone.service';
 import { TransportServcie } from './services/api/transport.service';
 import { TransportCategoryVehicleService } from './services/api/transport-category-vehicle.service';
@@ -234,7 +235,7 @@ export class SharedModule {
         TransportCategoryVehicleService,
         TransportServcie,
         ZoneServcie,
-        CatalogTransportTypeServcie,
+        CatalogTransportPricingService,
         VatService,
         DeliveryService,
         DeliveryLineService,
@@ -329,7 +330,8 @@ export class SharedModule {
         AddressDeliveryService,
         CatalogPricingService,
         LoadingTypeService,
-        VehicleTrayService
+        VehicleTrayService,
+        CatalogTransportAccountPricingService
       ],
 
     };

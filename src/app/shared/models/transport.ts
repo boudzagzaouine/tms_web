@@ -1,7 +1,8 @@
+import { CatalogTransportAccountPricing } from './catalog-transport-account-pricing';
+import { CatalogTransportPricing } from './CatalogTransportPricing';
 import { TransportProduct } from './transport-product';
 import { Contact } from './contact';
 import { Address } from './address';
-import { CatalogTransportType } from './CatalogTransportType';
 import { Owner } from './owner';
 
 
@@ -19,7 +20,8 @@ export class Transport {
   active:Boolean;
   owner:Owner;
   priceTurn:number=0;
-  catalogTransportTypes:CatalogTransportType[]=[];
+  catalogTransportPricings:CatalogTransportPricing[]=[];
+  catalogTransportAccountPricings:CatalogTransportAccountPricing[]=[];
   priceContrat:number=0;
   interneOrExterne:Boolean=false;
 

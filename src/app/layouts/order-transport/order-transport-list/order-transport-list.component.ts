@@ -66,8 +66,8 @@ export class OrderTransportListComponent implements OnInit {
       { field: 'date', header: 'Date', type: 'date' },
 
       { field: 'turnType', child: 'code', header: 'Type', type: 'object' },
-      { field: 'loadingType', header: 'Type de chargement', type: 'string' },
-      { field: 'account', child: 'name', header: 'Client', type: 'object' },
+      { field: 'loadingType', child: 'code', header: 'Type de chargement', type: 'object' },
+      { field: 'company', child: 'name', header: 'Société', type: 'object' },
       { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
 
 

@@ -1,9 +1,11 @@
-import { Ville } from './../../../../shared/models/ville';
 import { AccountService } from './../../../../shared/services/api/account.service';
+import { Account } from './../../../../shared/models/account';
+import { Ville } from './../../../../shared/models/ville';
+import { CompanyService } from './../../../../shared/services/api/company.service';
 import { AddressService } from './../../../../shared/services/api/address.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContactService } from './../../../../shared/services/api/contact.service';
-import { Account } from './../../../../shared/models/account';
+import { Company } from './../../../../shared/models/company';
 import { Contact } from './../../../../shared/models/contact';
 import { AddressContactOrderTransportInfo } from './../../../../shared/models/address-contact-order-transport-nfo';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
@@ -20,6 +22,7 @@ export class GenerateAddressContactComponent implements OnInit {
   @Output () addressContactDeliveryInfo =new EventEmitter<AddressContactOrderTransportInfo>();
   @Input () selectedAccount : Account = new Account();
   contactList :Contact[]= [];
+  accountList :Account[]= [];
 
   selectedContact :Contact = new Contact();
   selectedAddress:Address = new Address();
@@ -30,45 +33,48 @@ export class GenerateAddressContactComponent implements OnInit {
   showDialogAddress :Boolean=false;
   constructor(
     private contactService :ContactService,
+    private accountService:AccountService,
     private addressService:AddressService,
     private toastr :ToastrService,
-    private accountService :AccountService,
+    private companyService :CompanyService,
   ) { }
 
 
 
   ngOnInit() {
 
-//     let contactAccount : Contact = new Contact;
-//     contactAccount.name=this.selectedAccount.name;
-//     contactAccount.tel1=this.selectedAccount.telephone;
-//     contactAccount.email=this.selectedAccount.email;
-//  this.contactList.push(contactAccount);
+console.log(this.selectedAccount);
 
-this.accountService.find('id:'+this.selectedAccount.id).subscribe(
+this.accountService.findById(this.selectedAccount.id).subscribe(
   data =>{
-  this.contactList=data[0].contacts;
+    console.log(data);
+  let contact :Contact=new Contact()
+  this.contactList=data.contacts;
+  contact.name=this.selectedAccount.name;
+  contact.tel1=this.selectedAccount.telephone;
+  contact.email=this.selectedAccount.email;
+this.contactList.push(contact);
 
-
+this.addressList=data.addresses.filter(f=>f.addressType==1);
   }
 );
 
 
 
-    // this.contactList.push(...this.selectedAccount.contacts);
-    // this.addressList.push(...this.selectedAccount.addresses);
     this.displayDialog = true;
   }
 
   onSubmit(){
     let addressContactDeliveryInfo = new AddressContactOrderTransportInfo();
- let contact = new Contact();
- contact = this.selectedContact.code !=null ?this.selectedContact :   this.contactList[0];
+ let account = new Account();
+//  contact = this.selectedContact.code !=null ?this.selectedContact :   this.contactList[0];
 
-addressContactDeliveryInfo.name=contact.name;
-addressContactDeliveryInfo.email=contact.email;
-addressContactDeliveryInfo.tel1=contact.tel1;
-addressContactDeliveryInfo.company=this.selectedAccount?.company?.code;
+account = this.selectedAccount.code !=null ?this.selectedAccount :   this.accountList[0];
+
+addressContactDeliveryInfo.name=account.name;
+addressContactDeliveryInfo.email=account.email;
+addressContactDeliveryInfo.tel1=account.telephone;
+addressContactDeliveryInfo.company=this.selectedContact?.code;
 
 addressContactDeliveryInfo.line1=this.selectedAddress.line1;
 addressContactDeliveryInfo.city=this.selectedAddress?.ville?.code;
@@ -102,7 +108,7 @@ this.displayDialog=false;
     this.showDialogContact = event;
   }
   onLineEditedContact(line: Contact) {
-    console.log(this.selectedAccount);
+
  line.account =this.selectedAccount;
     this.contactService.set(line).subscribe(
       data=> {
@@ -124,8 +130,8 @@ this.displayDialog=false;
   }
 
   onLineEditedAddress(line: Address) {
-    console.log(this.selectedAccount);
- //line.account =this.selectedAccount;
+
+ line.account =this.selectedAccount;
     this.addressService.set(line).subscribe(
       data=> {
               console.log(data);

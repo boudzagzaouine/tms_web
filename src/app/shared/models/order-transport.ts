@@ -1,3 +1,5 @@
+import { VehicleTray } from './vehicle-tray';
+import { Company } from './company';
 import { OrderTransportInfo } from './order-transport-info';
 import { VehicleCategory } from './vehicle-category';
 import { Vehicle } from './vehicle';
@@ -18,15 +20,17 @@ export class OrderTransport {
   code: string;
   date:Date = new Date();
   turnType:TurnType; // aller-retour
-  loadingType:string; // complet
-  account :Account;
+  loadingType:LoadingType; // complet
+  company :Company;
   turnStatus:TurnStatus;
   vehicleCategory :VehicleCategory ;
+  vehicleTray:VehicleTray;
   orderTransportInfoAller:OrderTransportInfo;
   orderTransportInfoRetour:OrderTransportInfo;
 
   weightTotal: number = 0;
   capacityTotal: number = 0;
-  priceTTC: number = 0;
+  priceHT: number = 0;
+  marginRate:number=0;
   owner :Owner;
 }

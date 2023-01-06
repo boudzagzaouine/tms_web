@@ -1,3 +1,5 @@
+import { CatalogTransportPricing } from './../../../../shared/models/CatalogTransportPricing';
+import { CatalogTransportPricingService } from './../../../../shared/services/api/catalog-transport-pricing.service';
 import { TurnTypeService } from './../../../../shared/services/api/turn-type.service';
 import { TurnType } from './../../../../shared/models/turn-Type';
 import { Ville } from './../../../../shared/models/ville';
@@ -13,8 +15,6 @@ import { TransportServcie } from './../../../../shared/services/api/transport.se
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
-import { CatalogTransportType } from './../../../../shared/models/CatalogTransportType';
-import { CatalogTransportTypeServcie } from './../../../../shared/services/api/Catalog-Transport-Type.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthenticationService } from './../../../../shared/services';
@@ -27,10 +27,10 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./catalog-transport-type-edit.component.css'],
   providers: [RoundPipe]
 })
-export class CatalogTransportTypeEditComponent implements OnInit {
+export class CatalogTransportPricingEditComponent implements OnInit {
 
 
-  @Input() selectCatalogTransportType = new CatalogTransportType();
+  @Input() selectCatalogTransportPricing = new CatalogTransportPricing();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
@@ -51,7 +51,7 @@ export class CatalogTransportTypeEditComponent implements OnInit {
   villeDestination : number ;
   defaultTransport :Transport = new Transport();
   constructor(
-    private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private catalogTransportPricingService: CatalogTransportPricingService,
     private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private turnTypeService:TurnTypeService,
@@ -103,11 +103,11 @@ this.transportService.find('interneOrExterne:true').subscribe(
       }
     );
     if (this.editMode === 1) {
-      this.selectCatalogTransportType = new CatalogTransportType();
+      this.selectCatalogTransportPricing = new CatalogTransportPricing();
       this.title = 'Ajouter  Tarif';
 
     }
-console.log(this.selectCatalogTransportType);
+console.log(this.selectCatalogTransportPricing);
 
     this.displayDialog = true;
     this.initForm();
@@ -116,29 +116,29 @@ console.log(this.selectCatalogTransportType);
 
   initForm() {
     this.transportCatVehicleForm = new FormGroup({
- 'fVehicleCategory': new FormControl(this.selectCatalogTransportType.vehicleCategory, Validators.required),
-      //'fTransport': new FormControl(this.selectCatalogTransportType.transport, Validators.required),
-      'fVilleSource': new FormControl(this.selectCatalogTransportType.villeSource, Validators.required),
-      'fVilleDestination': new FormControl(this.selectCatalogTransportType.villeDestination, Validators.required),
+ 'fVehicleCategory': new FormControl(this.selectCatalogTransportPricing.vehicleCategory, Validators.required),
+      //'fTransport': new FormControl(this.selectCatalogTransportPricing.transport, Validators.required),
+      'fVilleSource': new FormControl(this.selectCatalogTransportPricing.villeSource, Validators.required),
+      'fVilleDestination': new FormControl(this.selectCatalogTransportPricing.villeDestination, Validators.required),
 
-         'fTurnType': new FormControl(this.selectCatalogTransportType.turnType, Validators.required),
+         'fTurnType': new FormControl(this.selectCatalogTransportPricing.turnType, Validators.required),
 
-      'fAmountHt': new FormControl(this.selectCatalogTransportType.amountHt, Validators.required),
-      'fAmountTtc': new FormControl(this.selectCatalogTransportType.amountTtc, Validators.required),
-      'fAmountTva': new FormControl(this.selectCatalogTransportType.amountTva, Validators.required),
+      'fAmountHt': new FormControl(this.selectCatalogTransportPricing.purchaseAmountHt, Validators.required),
+      'fAmountTtc': new FormControl(this.selectCatalogTransportPricing.purchaseAmountTtc, Validators.required),
+      'fAmountTva': new FormControl(this.selectCatalogTransportPricing.purchaseAmountTva, Validators.required),
 'fVat': new FormControl(
 
-         this.editMode!=1 ?this.selectCatalogTransportType.vat.value:this.selectCatalogTransportType.vat,
+         this.editMode!=1 ?this.selectCatalogTransportPricing.purchaseVat.value:this.selectCatalogTransportPricing.purchaseAmountHt,
 
          Validators.required),
 
 
-         'fGroupingAmountHt': new FormControl(this.selectCatalogTransportType.groupingAmountHt, Validators.required),
-         'fGroupingAmountTtc': new FormControl(this.selectCatalogTransportType.groupingAmountTtc, Validators.required),
-         'fGroupingAmountTva': new FormControl(this.selectCatalogTransportType.groupingAmountTva, Validators.required),
+         'fGroupingAmountHt': new FormControl(this.selectCatalogTransportPricing.purchaseAmountHt, Validators.required),
+         'fGroupingAmountTtc': new FormControl(this.selectCatalogTransportPricing.purchaseAmountTtc, Validators.required),
+         'fGroupingAmountTva': new FormControl(this.selectCatalogTransportPricing.purchaseAmountTva, Validators.required),
          'fGroupingVat': new FormControl(
 
-          this.editMode!=1 ?this.selectCatalogTransportType.groupingVat.value:this.selectCatalogTransportType.groupingVat,
+          this.editMode!=1 ?this.selectCatalogTransportPricing.purchaseVat.value:this.selectCatalogTransportPricing.purchaseAmountHt,
 
           Validators.required),
     });
@@ -160,13 +160,13 @@ console.log(this.selectCatalogTransportType);
     }
 
 
-    this.selectCatalogTransportType = new CatalogTransportType();
+    this.selectCatalogTransportPricing = new CatalogTransportPricing();
 
 
   }
 
   existTransport() {
-    this.catalogTransportTypeService.sizeSearch(`transport.id:${this.transport},turnType.id:${this.turnType},vehicleCategory.id:${this.catVehicle},villeSource.id:${this.villeSource},villeDestination.id:${this.villeDestination}`).subscribe(
+    this.catalogTransportPricingService.sizeSearch(`transport.id:${this.transport},turnType.id:${this.turnType},vehicleCategory.id:${this.catVehicle},villeSource.id:${this.villeSource},villeDestination.id:${this.villeDestination}`).subscribe(
       data => {
 console.log(data);
 
@@ -193,29 +193,25 @@ console.log(data);
   }
   insertcatalogTransport(){
 
-    this.selectCatalogTransportType.amountHt = this.transportCatVehicleForm.value['fAmountHt'];
-    this.selectCatalogTransportType.amountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
-    this.selectCatalogTransportType.amountTva = this.transportCatVehicleForm.value['fAmountTva'];
+    this.selectCatalogTransportPricing.purchaseAmountHt = this.transportCatVehicleForm.value['fAmountHt'];
+    this.selectCatalogTransportPricing.purchaseAmountTtc = this.transportCatVehicleForm.value['fAmountTtc'];
+    this.selectCatalogTransportPricing.purchaseAmountTva = this.transportCatVehicleForm.value['fAmountTva'];
 
-    this.selectCatalogTransportType.groupingAmountHt = this.transportCatVehicleForm.value['fGroupingAmountHt'];
-    this.selectCatalogTransportType.groupingAmountTtc = this.transportCatVehicleForm.value['fGroupingAmountTtc'];
-    this.selectCatalogTransportType.groupingAmountTva = this.transportCatVehicleForm.value['fGroupingAmountTva'];
 
-    this.selectCatalogTransportType.turnType = this.transportCatVehicleForm.value['fTurnType'];
-    this.selectCatalogTransportType.interneOrExterne = true;
+    this.selectCatalogTransportPricing.turnType = this.transportCatVehicleForm.value['fTurnType'];
 
-     this.selectCatalogTransportType.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
-     this.selectCatalogTransportType.transport = this.defaultTransport;
-     this.selectCatalogTransportType.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
-     this.selectCatalogTransportType.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
-   // this.selectCatalogTransportType.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];
-    this.selectCatalogTransportType.owner=this.authentificationService.getDefaultOwner();
-    console.log(this.selectCatalogTransportType);
+     this.selectCatalogTransportPricing.vehicleCategory = this.transportCatVehicleForm.value['fVehicleCategory'];
+     this.selectCatalogTransportPricing.transport = this.defaultTransport;
+     this.selectCatalogTransportPricing.villeDestination = this.transportCatVehicleForm.value['fVilleDestination'];
+     this.selectCatalogTransportPricing.villeSource = this.transportCatVehicleForm.value['fVilleSource'];
+   // this.selectCatalogTransportPricing.vat =  this.vatList.filter(f=> f.value== this.transportCatVehicleForm.value['fVat'])[0];
+    //this.selectCatalogTransportPricing.owner=this.authentificationService.getDefaultOwner();
+    console.log(this.selectCatalogTransportPricing);
 
-    this.catalogTransportTypeService.set(this.selectCatalogTransportType).subscribe(
+    this.catalogTransportPricingService.set(this.selectCatalogTransportPricing).subscribe(
       data => {
         this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément Enregistré Avec Succès'});
- console.log(this.selectCatalogTransportType);
+ console.log(this.selectCatalogTransportPricing);
 
         //this.toastr.success('Elément Enregistré Avec Succès', 'Edition');
         this.displayDialog = false;
@@ -234,18 +230,18 @@ console.log(data);
   }
 
   onSelectVehicleCateory(event: any) {
-    this.selectCatalogTransportType.vehicleCategory = event.value;
-    this.catVehicle= this.selectCatalogTransportType.vehicleCategory.id;
+    this.selectCatalogTransportPricing.vehicleCategory = event.value;
+    this.catVehicle= this.selectCatalogTransportPricing.vehicleCategory.id;
   }
   onSelectTurnType(event: any) {
-    this.selectCatalogTransportType.turnType = event.value;
-    this.turnType=  this.selectCatalogTransportType.turnType.id;
+    this.selectCatalogTransportPricing.turnType = event.value;
+    this.turnType=  this.selectCatalogTransportPricing.turnType.id;
 
    // this.catVehicle=event.value.code;
   }
   onSelectTransport(event: any) {
-    this.selectCatalogTransportType.transport = event;
-    this.transport=this.selectCatalogTransportType.transport.id;
+    this.selectCatalogTransportPricing.transport = event;
+    this.transport=this.selectCatalogTransportPricing.transport.id;
   }
   onTransportSearch(event: any) {
     this.transportService
@@ -261,24 +257,24 @@ console.log(data);
   onSelectVat(event) {
 
     this.vat= event.value;
-    this.selectCatalogTransportType.vat=event.value;
+    this.selectCatalogTransportPricing.purchaseVat=event.value;
 
     this.onPriceChange(1);
   }
 
   onSelectGroupingVat(event) {
-  this.selectCatalogTransportType.groupingVat=event.value;
+  this.selectCatalogTransportPricing.purchaseVat=event.value;
     this.vat= event.value;
     this.onPriceChange(1);
   }
   onSelectVilleSource(event: any) {
-    this.selectCatalogTransportType.villeSource = event;
-    this.villeSource= this.selectCatalogTransportType.villeSource.id;
+    this.selectCatalogTransportPricing.villeSource = event;
+    this.villeSource= this.selectCatalogTransportPricing.villeSource.id;
 
   }
   onSelectVilleDestination(event: any) {
-    this.selectCatalogTransportType.villeDestination = event;
-    this.villeDestination = this.selectCatalogTransportType.villeDestination.id;
+    this.selectCatalogTransportPricing.villeDestination = event;
+    this.villeDestination = this.selectCatalogTransportPricing.villeDestination.id;
   }
 
 

@@ -1,3 +1,5 @@
+import { CatalogTransportPricing } from './../../../shared/models/CatalogTransportPricing';
+import { CatalogTransportPricingService } from './../../../shared/services/api/catalog-transport-pricing.service';
 import { PackagingType } from './../../../shared/models/packaging-type';
 import { SaleOrderLineService } from "./../../../shared/services/api/sale-order-line.service";
 import { TurnLineService } from "./../../../shared/services/api/turn-line.service";
@@ -51,8 +53,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subject, Subscription } from "rxjs";
 import { TurnSoPo } from "./../../../shared/models/turn-so-po";
 import { TurnSoPoService } from "./../../../shared/services/api/turn-so-po.service";
-import { CatalogTransportTypeServcie } from "./../../../shared/services/api/Catalog-Transport-Type.service";
-import { CatalogTransportType } from "./../../../shared/models/CatalogTransportType";
+
 import { AddressInfo } from "./../../../shared/models/adress-info";
 import { PurchaseOrderLineService } from "./../../../shared/services/api/purchase-order-line.service";
 import { TestBed } from "@angular/core/testing";
@@ -146,7 +147,7 @@ export class TurnEditComponent implements OnInit {
     private turnTypeService: TurnTypeService,
     private purchaseOrderService: PurchaseOrderService,
     private activatedRoute: ActivatedRoute,
-    private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private catalogTransportPricingService: CatalogTransportPricingService,
     private stockService: StockService,
     private holidayService: HolidayService,
     private planningService: PlanningService,
@@ -659,7 +660,7 @@ this.turnSoList.forEach((element) => {
   calculatePriceTurnSo() {
     let sum: number = 0;
     let totalSum: number = 0;
-    let catalogTransports: CatalogTransportType;
+    let catalogTransports: CatalogTransportPricing;
     let cat: VehicleCategory[] = [];
     this.chargeForm();
     this.turnSoList.forEach((f, index) => {
@@ -693,7 +694,7 @@ this.turnSoList.forEach((element) => {
   calculatePriceTurnPo() {
     let sum: number = 0;
     let totalSum: number = 0;
-    let catalogTransports: CatalogTransportType;
+    let catalogTransports: CatalogTransportPricing;
     //this.chargeForm();
     // this.turnPoList.forEach((f, index) => {
     //   this.catalogTransportTypeService.find('vehicleCategory.id:' + this.turnAdded.vehicle.vehicleCategory.id + ',zoneSource.code~' + 'FES' + ',zoneDestination.code~' + f.purshaseOrder.supplier.address.city + ',transport.id:' + this.turnAdded.transport.id).subscribe(

@@ -1,4 +1,4 @@
-import { CatalogTransportType } from './../../models/CatalogTransportType';
+import { CatalogTransportPricing } from './../../models/CatalogTransportPricing';
 import { EmsService } from './ems.service';
 import { Badge } from './../../models/badge';
 import { Injectable } from '@angular/core';
@@ -6,9 +6,9 @@ import { ProxyService } from './proxy.service';
 import { TransportCategoryVehicle } from '../../models/transport-category-vehicle';
 
 @Injectable()
-export class CatalogTransportTypeServcie extends EmsService<CatalogTransportType> {
+export class CatalogTransportPricingService extends EmsService<CatalogTransportPricing> {
 
     constructor(proxy: ProxyService) {
-      super(proxy, 'CatalogTransportTypes');
+      super(proxy, 'CatalogTransportPricings');
     }
 }

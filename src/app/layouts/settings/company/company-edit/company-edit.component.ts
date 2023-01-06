@@ -24,7 +24,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CompanyEditComponent implements OnInit {
 
-  @Output() companyEdited = new EventEmitter<Company>();
   @Input() accountPricingList :AccountPricing []= [];
    selectedCompany = new Company();
   editMode: number;

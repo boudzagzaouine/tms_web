@@ -59,6 +59,9 @@
               (onChange)="onSelectLoadingTypes($event)"
               [filter]="true"
               [showClear]="true"
+              optionLabel="code"
+              placeholder="{{selectedOrderTransport?.loadingType?.code}}"
+
 
             ></p-dropdown>
 
@@ -135,16 +138,16 @@
   <div class="mt-3 row justify-content-around">
  <div class="form-group col-md-3">
               <label class="font-weight-bold"
-                >{{ "Client" | translate }} *</label
+                >{{ "Société" | translate }} *</label
               >
               <span
                 *ngIf="
-                  (OrderTransportForm.get('account')
+                  (OrderTransportForm.get('company')
                     .touched &&
-                    OrderTransportForm.get('account')
+                    OrderTransportForm.get('company')
                       .invalid) ||
                   (isFormSubmitted &&
-                    OrderTransportForm.get('account')
+                    OrderTransportForm.get('company')
                       .invalid)
                 "
                 class="text-lighter"
@@ -154,10 +157,10 @@
               </span>
               <br />
               <p-autoComplete
-                formControlName="account"
-                [suggestions]="accountList"
-                (onSelect)="onSelectAccount($event)"
-                (completeMethod)="onAccountSearch($event)"
+                formControlName="company"
+                [suggestions]="companyList"
+                (onSelect)="onSelectCompany($event)"
+                (completeMethod)="onCompanySearch($event)"
                 field="name"
               ></p-autoComplete>
             </div>
@@ -189,6 +192,37 @@
                 [filter]="true"
                 [showClear]="true"
                 [placeholder]="this.selectedOrderTransport?.vehicleCategory?.code"
+              ></p-dropdown>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Plateau" | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (OrderTransportForm.get('vehicleTray')
+                    .touched &&
+                    OrderTransportForm.get('vehicleTray')
+                      .invalid) ||
+                  (isFormSubmitted &&
+                    OrderTransportForm.get('vehicleTray')
+                      .invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
+              <p-dropdown
+                formControlName="vehicleTray"
+                [autoDisplayFirst]="false"
+                [options]="vehicleTrayList"
+                (onChange)="onSelectVehicleTray($event)"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [placeholder]="this.selectedOrderTransport?.vehicleTray?.code"
               ></p-dropdown>
             </div>
 

@@ -1,3 +1,7 @@
+import { TransportAccountPricingEditComponent } from './transport/transport-edit/transport-account-pricing/transport-account-pricing-edit/transport-account-pricing-edit.component';
+import { TransportAccountPricingComponent } from './transport/transport-edit/transport-account-pricing/transport-account-pricing.component';
+import { TransportCatalogPricingEditComponent } from './transport/transport-edit/transport-catalog-pricing/transport-catalog-pricing-edit/transport-catalog-pricing-edit.component';
+import { TransportCatalogPricingComponent } from './transport/transport-edit/transport-catalog-pricing/transport-catalog-pricing.component';
 import { CompanyPricingComponent } from './company/company-edit/company-pricing/company-pricing.component';
 import { CompanyPricingEditComponent } from './company/company-edit/company-pricing/company-pricing-edit/company-pricing-edit.component';
 import { CatalogPricingEditComponent } from './catalog-pricing/catalog-pricing-edit/catalog-pricing-edit.component';
@@ -21,8 +25,6 @@ import { ProductService } from './../../shared/services/api/product.service';
 import { ServiceTypeEditComponent } from './service-type/service-type-edit/service-type-edit.component';
 import { MenuServiceComponent } from './menu-service/menu-service.component';
 import { ServiceTypeComponent } from './service-type/service-type.component';
-import { AccountPricingEditComponent } from './transport/transport-edit/account-pricing-edit/account-pricing-edit.component';
-import { CatalogueTransportEditComponent } from './transport/transport-edit/catalogue-transport-edit/catalogue-transport-edit.component';
 import { MenuTransportComponent } from './menu-transport/menu-transport.component';
 import { MenuFuelComponent } from './menu-fuel/menu-fuel.component';
 import { MenuSubscriptionCardComponent } from './menu-subscription-card/menu-subscription-card.component';
@@ -87,8 +89,6 @@ import { InsuranceTypeEditComponent } from './insurance-type/insurance-type-edit
 import { TermEditComponent } from './insurance-type/insurance-type-edit/term-edit/term-edit.component';
 import { TransportCategoryVehicleComponent } from './transport-category-vehicle/transport-category-vehicle.component';
 import { TransportCategoryVehicleEditComponent } from './transport-category-vehicle/transport-category-vehicle-edit/transport-category-vehicle-edit.component';
-import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-transport-type.component';
-import { CatalogTransportTypeEditComponent } from './catalog-transport-type/catalog-transport-type-edit/catalog-transport-type-edit.component';
 import { ComsumptionTypeComponent } from './comsumption-type/comsumption-type.component';
 import { ConsumptionTypeEditComponent } from './comsumption-type/consumption-type-edit/consumption-type-edit.component';
 import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
@@ -199,8 +199,6 @@ import {CardModule} from 'primeng/card';
     TermEditComponent,
     TransportCategoryVehicleComponent,
     TransportCategoryVehicleEditComponent,
-    CatalogTransportTypeComponent,
-    CatalogTransportTypeEditComponent,
     ComsumptionTypeComponent,
     ConsumptionTypeEditComponent,
     MenuInsuranceComponent,
@@ -270,8 +268,6 @@ import {CardModule} from 'primeng/card';
      MenuSubscriptionCardComponent,
      MenuFuelComponent,
      MenuTransportComponent,
-     CatalogueTransportEditComponent,
-     AccountPricingEditComponent,
      ServiceTypeComponent,
      ServiceTypeEditComponent,
     MenuServiceComponent,
@@ -292,7 +288,11 @@ import {CardModule} from 'primeng/card';
     CatalogPricingComponent,
     CatalogPricingEditComponent,
     CompanyPricingEditComponent,
-    CompanyPricingComponent
+    CompanyPricingComponent,
+    TransportCatalogPricingComponent,
+    TransportCatalogPricingEditComponent,
+    TransportAccountPricingComponent,
+    TransportAccountPricingEditComponent
 
 
 

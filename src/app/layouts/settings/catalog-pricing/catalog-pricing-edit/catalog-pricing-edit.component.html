@@ -165,8 +165,13 @@
                     {{ 'Obligatoire' | translate}}
                   </span>
                   <br />
-                  <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(1)" pInputText
-                    formControlName="fPurchaseAmountHt" />
+                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(1)" pInputText
+                    formControlName="fPurchaseAmountHt" /> -->
+
+                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(1)"  [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountHt"
+                  >
+                   </p-inputNumber>
                 </div>
 
                 <div class="form-group col-sm-6">
@@ -204,9 +209,13 @@
 
                   </span>
                   <br />
-                  <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(2)" pInputText
-                    formControlName="fPurchaseAmountTtc" />
+                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(2)" pInputText
+                    formControlName="fPurchaseAmountTtc" /> -->
 
+                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(2)"  [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountTtc"
+                  >
+                   </p-inputNumber>
 
                 </div>
                 <div class="form-group col-sm-6">
@@ -221,11 +230,14 @@
 
                   </span>
                   <br />
-                  <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
-                    (keydown.space)="$event.preventDefault()" />
+                  <!-- <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
+                    (keydown.space)="$event.preventDefault()" /> -->
 
 
-
+                    <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountTva"
+                  >
+                   </p-inputNumber>
                 </div>
               </div>
 
@@ -247,8 +259,13 @@
           {{ 'Obligatoire' | translate}}
         </span>
         <br />
-        <input type="text" class="form-control" (keyup)="onSalePriceChange(1)" pInputText
-          formControlName="fSaleAmountHt" />
+        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(1)" pInputText
+          formControlName="fSaleAmountHt" /> -->
+
+          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(1)" [minFractionDigits]="2"
+                    formControlName="fSaleAmountHt"
+                  >
+                   </p-inputNumber>
       </div>
 
       <div class="form-group col-sm-6">
@@ -285,9 +302,14 @@
 
         </span>
         <br />
-        <input type="text" class="form-control" (keyup)="onSalePriceChange(2)" pInputText
-          formControlName="fSaleAmountTtc" />
+        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(2)" pInputText
+          formControlName="fSaleAmountTtc" /> -->
 
+
+          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(2)" [minFractionDigits]="2"
+                    formControlName="fSaleAmountTtc"
+                  >
+                   </p-inputNumber>
 
       </div>
       <div class="form-group col-sm-6">
@@ -302,8 +324,14 @@
 
         </span>
         <br />
-        <input type="text" class="form-control" pInputText formControlName="fSaleAmountTva"
-          (keydown.space)="$event.preventDefault()" />
+        <!-- <input type="text" class="form-control" pInputText formControlName="fSaleAmountTva"
+          (keydown.space)="$event.preventDefault()" /> -->
+
+
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="fSaleAmountTva"
+        >
+         </p-inputNumber>
 
 
 

@@ -1,3 +1,5 @@
+import { CatalogTransportPricingService } from './../../../shared/services/api/catalog-transport-pricing.service';
+import { CatalogTransportPricing } from './../../../shared/models/CatalogTransportPricing';
 import { VilleService } from './../../../shared/services/api/ville.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { Ville } from './../../../shared/models/ville';
@@ -7,9 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
-import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
-import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Component, OnInit } from '@angular/core';
 
@@ -18,17 +18,17 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './catalog-transport-type.component.html',
   styleUrls: ['./catalog-transport-type.component.css']
 })
-export class CatalogTransportTypeComponent implements OnInit {
+export class CatalogTransportPricingComponent implements OnInit {
   page = 0;
   size = 10;
   collectionSize: number;
 
-  selectCatalogTransportTypes: Array<CatalogTransportType> = [];
+  selectCatalogTransportPricings: Array<CatalogTransportPricing> = [];
   searchQuery = '';
   codeSearch: string;
   vehicleCategorySearch: VehicleCategory;
   transportSearch: Transport;
-  transportCatVehicleList: Array<CatalogTransportType> = [];
+  transportCatVehicleList: Array<CatalogTransportPricing> = [];
   categorieVehicleList: Array<VehicleCategory> = [];
   transportList: Array<Transport> = [];
 
@@ -41,13 +41,13 @@ export class CatalogTransportTypeComponent implements OnInit {
   editMode: number;
   className: string;
   titleList = 'Liste de Tarifs';
-  catalogTransportTypeExportList: Array<CatalogTransportType> = [];
+  catalogTransportPricingExportList: Array<CatalogTransportPricing> = [];
   items: MenuItem[];
   home: MenuItem;
   defaultTransport :Transport = new Transport();
 
   constructor(
-    private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private catalogTransportPricingService: CatalogTransportPricingService,
     private vehicleCategoryService: VehicleCategoryService,
     private villeService: VilleService,
     private transportService: TransportServcie,
@@ -76,7 +76,7 @@ export class CatalogTransportTypeComponent implements OnInit {
 
   this.home = {icon: 'pi pi-home'};
 
-    this.className = CatalogTransportType.name;
+    this.className = CatalogTransportPricing.name;
     this.cols = [
       {
         field: 'turnType',
@@ -138,12 +138,12 @@ export class CatalogTransportTypeComponent implements OnInit {
 console.log(this.searchQuery);
 
     this.spinner.show();
-    this.catalogTransportTypeService
+    this.catalogTransportPricingService
       .sizeSearch(this.searchQuery)
       .subscribe(data => {
         this.collectionSize = data;
       });
-    this.catalogTransportTypeService
+    this.catalogTransportPricingService
       .findPagination(this.page, this.size, this.searchQuery)
       .subscribe(
         data => {
@@ -166,20 +166,20 @@ console.log(this.searchQuery);
     this.loadData();
   }
   onExportExcel(event) {
-    this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+    this.catalogTransportPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogTransportTypeExportList = data;
+        this.catalogTransportPricingExportList = data;
         if (event != null) {
           this.globalService.generateExcel(
             event,
-            this.catalogTransportTypeExportList,
+            this.catalogTransportPricingExportList,
             this.className,
             this.titleList
           );
         } else {
           this.globalService.generateExcel(
             this.cols,
-            this.catalogTransportTypeExportList,
+            this.catalogTransportPricingExportList,
             this.className,
             this.titleList
           );
@@ -194,12 +194,12 @@ console.log(this.searchQuery);
     );
   }
   onExportPdf(event) {
-    this.catalogTransportTypeService.find(this.searchQuery).subscribe(
+    this.catalogTransportPricingService.find(this.searchQuery).subscribe(
       data => {
-        this.catalogTransportTypeExportList = data;
+        this.catalogTransportPricingExportList = data;
         this.globalService.generatePdf(
           event,
-          this.catalogTransportTypeExportList,
+          this.catalogTransportPricingExportList,
           this.className,
           this.titleList
         );
@@ -271,7 +271,7 @@ console.log(this.searchQuery);
 
   onObjectEdited(event) {
     this.editMode = event.operationMode;
-    this.selectCatalogTransportTypes = event.object;
+    this.selectCatalogTransportPricings = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -280,12 +280,12 @@ console.log(this.searchQuery);
   }
 
   onDeleteAll() {
-    if (this.selectCatalogTransportTypes.length >= 1) {
+    if (this.selectCatalogTransportPricings.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Supprimer ?',
         accept: () => {
-          const ids = this.selectCatalogTransportTypes.map(x => x.id);
-          this.catalogTransportTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectCatalogTransportPricings.map(x => x.id);
+          this.catalogTransportPricingService.deleteAllByIds(ids).subscribe(
             data => {
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
 
@@ -306,7 +306,7 @@ console.log(this.searchQuery);
           );
         }
       });
-    } else if (this.selectCatalogTransportTypes.length < 1) {
+    } else if (this.selectCatalogTransportPricings.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
   }

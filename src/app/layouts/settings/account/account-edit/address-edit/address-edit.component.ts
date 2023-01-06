@@ -23,7 +23,7 @@ export class AddressEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier un Plan';
+  title = 'Modifier un Address';
   addressForm: FormGroup;
   addressCode :string ;
   addressTypeList:any[]=[];
@@ -63,17 +63,17 @@ export class AddressEditComponent implements OnInit {
 
       console.log("new");
       this.selectedAddress = new Address();
-  this.addressService.generateCode().subscribe(
-    data=> {
+  // this.addressService.generateCode().subscribe(
+  //   data=> {
 
-            this.addressCode = data;
-            this.selectedAddress.code= this.addressCode;
-            this.selectedAddress.addressType = 1; // 2 address Livraison
+  //           this.addressCode = data;
+  //           this.selectedAddress.code= this.addressCode;
+  //           this.selectedAddress.addressType = 1; // 2 address Livraison
 
-            console.log(this.selectedAddress.code);
+  //           console.log(this.selectedAddress.code);
 
-    }
-  );
+  //   }
+  // );
 
 
     }
@@ -113,7 +113,7 @@ export class AddressEditComponent implements OnInit {
   onSelectAddressType(event){
 
     this.selectedAddress.addressTypeTms=event.value;
-
+    this.selectedAddress.addressType=this.selectedAddress.addressTypeTms=="Livraison"?1:2;
 
 
   }
@@ -124,7 +124,10 @@ export class AddressEditComponent implements OnInit {
     if (this.addressForm.invalid) {
       return;
     }
-   // this.selectedAddress.code = this.addressCode;
+  this.selectedAddress.code = this.addressForm.value['code'];
+  this.selectedAddress.name = this.selectedAddress.code;
+  this.selectedAddress.addressType = 1;//livraison
+
     this.selectedAddress.line1 = this.addressForm.value['line1'];
 
     this.selectedAddress.line2 = this.addressForm.value['line2'];

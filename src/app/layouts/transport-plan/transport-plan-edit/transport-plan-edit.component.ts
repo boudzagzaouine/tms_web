@@ -15,8 +15,6 @@ import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Driver } from './../../../shared/models/driver';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Transport } from './../../../shared/models/transport';
-import { CatalogTransportType } from './../../../shared/models/CatalogTransportType';
-import { CatalogTransportTypeServcie } from './../../../shared/services/api/Catalog-Transport-Type.service';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { VehicleCategorieComponent } from './../../settings/vehicle-categorie/vehicle-categorie.component';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';

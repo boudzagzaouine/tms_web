@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { PaymentType } from './payment-method';
 import { PaymentRule } from './payment-rule';
 import { TurnStatus } from './turn-status';
@@ -13,7 +14,7 @@ export class OrderTransportInfoLine {
   addressContactDeliveryInfo :AddressContactOrderTransportInfo ;
   lineNumber: number;
   orderTransportInfo :OrderTransportInfo;
-
+  account:Account;
 
   numberOfPalletEnlevement:number;
   weightEnlevement :number;

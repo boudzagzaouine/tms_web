@@ -1,4 +1,4 @@
-import { CatalogTransportType } from './CatalogTransportType';
+import { CatalogTransportPricing } from './CatalogTransportPricing';
 import { InsuranceType } from './insurance-Type';
 import { Owner } from './owner';
 import { Transport } from './transport';
@@ -23,6 +23,6 @@ export class VehicleCategory {
  vehicles:Vehicle[]=[];
  transports :Transport[]=[];
  priceKm : number;
- catalogTransportTypes:CatalogTransportType[]=[];
+ catalogTransportPricings:CatalogTransportPricing[]=[];
 
 }

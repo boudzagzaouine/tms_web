@@ -126,177 +126,23 @@ showEffect="fade"
 
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-3">
+  <p-tabPanel [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
         <div class="card " style=" border:none">
-          <div class="card-header" style="background-color: #f7f7f7; border:none">
-           <div class="row">
-
-
-          <div class="col-xs-4 col-md-4 pull-left">
-            <button
-
-              type="button"
-              class="btn btn-sm btn-primary mx-1"
-              (click)="onShowDialogCatalogue(selectedtransport,false)"
-              ><!--ADD-->
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
-            <div class=" col-xs-4 col-md-6 pull-center">
-              <span style="font-size: 14px; color: #5f5b5b;">
-                <b> {{ "Liste  Tarifs Standard" | translate }}</b></span
-              >
-            </div>
-          </div></div>
-          <div class="card-body border-top-primary" style="    padding: 0px;">
-            <p-table
-              [value]="catalogueTransports"
-              [rows]="10"
-              [paginator]="true"
-              [lazy]="true"
-              [totalRecords]="catalogueTransports?.length"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>{{ "Type" | translate }}</th>
-                  <th>{{ "Catégorie" | translate }}</th>
-                  <th>{{ "Source" | translate }}</th>
-                  <th>{{ "Destination" | translate }}</th>
-                  <th>{{ "Montant Ht" | translate }}</th>
-                  <th>{{ "Montant TVA" | translate }}</th>
-                  <th>{{ "TVA" | translate }}</th>
-
-                  <th style="width: 15%;">{{ "Actions" | translate }}</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-catalogue>
-                <tr>
-                  <td>{{ catalogue?.turnType?.code }}</td>
-                  <td>{{ catalogue?.vehicleCategory?.code }}</td>
-                  <td>{{ catalogue?.villeSource?.code }}</td>
-                  <td>{{ catalogue?.villeDestination?.code }}</td>
-                  <td>{{ catalogue?.amountHt }}</td>
-                  <td>{{ catalogue?.amountTtc }}</td>
-                  <td>{{ catalogue?.amountTva }}</td>
-
-
-                  <td>
-                    <button
-
-                    type="button"
-                    class="btn btn-sm btn-secondary mx-1"
-                    title="Generer Tarif Client."
-                    (click)="onShowDialogAccountPricingByCatalogue(catalogue,true)"
-                    ><!--ADD-->
-                    <i class="fa fa-user-circle-o"></i>
-                  </button>
-                    <button
-
-                    type="button"
-                    class="btn btn-sm btn-primary mx-1"
-                    (click)="onShowDialogCatalogue(catalogue,true)"
-                    ><!--ADD-->
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                  <button
-
-                  type="button"
-                  class="btn btn-sm btn-danger mx-1"
-                  (click)="onDeleteCatalogue(catalogue.id)"
-                  ><!--ADD-->
-                  <i class="fa fa-trash"></i>
-                </button>
-
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
+          <span *ngIf="this.showTransportCatalogPricing==true">
+          <app-transport-catalog-pricing [selectedTransport]="this.selectedTransport" (catalogTransportPricingListEdited)="onCatalogTransportPricingEdited($event)"></app-transport-catalog-pricing>
+        </span>
         </div>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-3">
+  <p-tabPanel  [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
 
 
         <div class="card " style=" border:none">
-          <div class="card-header" style="background-color: #f7f7f7; border:none">
-           <div class="row">
-
-
-          <div class="col-xs-4 col-md-4 pull-left">
-            <button
-
-              type="button"
-              class="btn btn-sm btn-primary mx-1"
-              (click)="onShowDialogAccountPricing(selectedtransport,false)"
-              ><!--ADD-->
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
-            <div class=" col-xs-4 col-md-6 pull-center">
-              <span style="font-size: 14px; color: #5f5b5b;">
-                <b> {{ "Liste  Tarifs Standard" | translate }}</b></span
-              >
-            </div>
-          </div></div>
-          <div class="card-body border-top-primary" style="    padding: 0px;">
-            <p-table
-              [value]="accountPricings"
-              [rows]="10"
-              [paginator]="true"
-              [lazy]="true"
-              [totalRecords]="accountPricings?.length"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>{{ "Client" | translate }}</th>
-
-                  <th>{{ "Type" | translate }}</th>
-                  <th>{{ "Catégorie" | translate }}</th>
-                  <th>{{ "Source" | translate }}</th>
-                  <th>{{ "Destination" | translate }}</th>
-                  <th>{{ "Montant Ht" | translate }}</th>
-                  <th>{{ "Prix Client" | translate }}</th>
-
-                  <th style="width: 15%;">{{ "Actions" | translate }}</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-pricing>
-                <tr>
-                  <td>{{ pricing?.account?.name }}</td>
-                  <td>{{ pricing?.catalogTransportType?.turnType?.code }}</td>
-                  <td>{{ pricing?.catalogTransportType?.vehicleCategory?.code }}</td>
-                  <td>{{ pricing?.catalogTransportType?.villeSource?.code }}</td>
-                  <td>{{ pricing?.catalogTransportType?.villeDestination?.code }}</td>
-                  <td>{{ pricing?.catalogTransportType?.amountHt }}</td>
-                  <td>{{ pricing?.price }}</td>
-
-
-                  <td>
-                    <button
-
-                    type="button"
-                    class="btn btn-sm btn-primary mx-1"
-                    (click)="onShowDialogAccountPricing(pricing,true)"
-                    ><!--ADD-->
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                  <button
-
-                  type="button"
-                  class="btn btn-sm btn-danger mx-1"
-                  (click)="onDeleteAccountPricing(catalogue.id)"
-                  ><!--ADD-->
-                  <i class="fa fa-trash"></i>
-                </button>
-
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
+          <span *ngIf="this.showTransportCatalogPricing==true">
+            <app-transport-account-pricing [selectedTransport]="this.selectedTransport" (catalogTransportAccountPricingListEdited)="onCatalogTransportAccountPricingEdited($event)"></app-transport-account-pricing>
+          </span>
         </div>
 
 
@@ -304,7 +150,7 @@ showEffect="fade"
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-3">
+  <p-tabPanel  header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-3">
 
 
     <div class="card  ">
@@ -323,8 +169,8 @@ showEffect="fade"
         </div>
       </div>
       <div class="card-body border-top-primary">
-        <p-table [value]=" this.selectedtransport?.transportProducts" [lazy]="true" [rows]="8"
-          [paginator]="true" [totalRecords]=" this.selectedtransport
+        <p-table [value]=" this.selectedTransport?.transportProducts" [lazy]="true" [rows]="8"
+          [paginator]="true" [totalRecords]=" this.selectedTransport
       ?.transportProducts?.length" >
           <ng-template pTemplate="header">
             <tr>
@@ -417,24 +263,7 @@ showEffect="fade"
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 
 
-<div *ngIf="showDialogCatalogue == true">
-  <app-catalogue-transport-edit
-    (showDialog)="onHideDialogCAtalogue($event)"
-    (catalogTransportTypeAdded)="onLineCatalogueEdited($event)"
-     [selectCatalogTransportType]="selectCatalogueTransport"
-     [editMode]="editModeCatalogue"
-    ></app-catalogue-transport-edit>
-</div>
 
-
-<div *ngIf="showDialogAccountPricing == true">
-  <app-account-pricing-edit
-    (showDialog)="onHideDialogAccountPricing($event)"
-    (accountPricingAdded)="onLineAccountPricingEdited($event)"
-     [selectedAccountPricing]="selectAccountPricing"
-     [editMode]="editModeAccountPricing"
-    ></app-account-pricing-edit>
-</div>
 
 <div *ngIf="showDialogTransportProduct == true">
 

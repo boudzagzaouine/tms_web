@@ -1,3 +1,7 @@
+import { Itinerary } from './../../../../shared/models/Itinerairy';
+import { CompanyService } from './../../../../shared/services/api/company.service';
+import { TurnStatus } from './../../../../shared/models/turn-status';
+import { Company } from './../../../../shared/models/company';
 import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
 import { Ville } from './../../../../shared/models/ville';
 import { VilleService } from './../../../../shared/services/api/ville.service';
@@ -27,7 +31,6 @@ export class OrderTransportRetourComponent implements OnInit {
 
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
-
   orderTransportInfoForm: FormGroup;
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
@@ -48,31 +51,33 @@ export class OrderTransportRetourComponent implements OnInit {
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLine: boolean = false;
 
-  selectedAccount: Account = new Account();
-  // isExistAccountOrderTypeRetourInitial: string = "false";
-  //isExistAccountOrderTypeRetourDistinataire: string = "false";
+  selectedCompany: Company = new Company();
   selectedaccountInitialOrFinal: string = "false";
   showDialogContactAddress: boolean = false;
   showDialogPackageDetail: boolean = false;
 
   containerTypeList: ContainerType[] = [];
   packagingTypeList: PackagingType[] = [];
-  accountList: Account[] = [];
+  accountList: Company[] = [];
   isFormSubmitted = false;
   villeList :Ville[]=[];
-
+  turnStatus : TurnStatus = new TurnStatus();
+  statusList :TurnStatus[]=[];
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
-    private accountService: AccountService,
+    private accountService: CompanyService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
     private villeService: VilleService,
-    private turnStatusService: TurnStatusService
+    private turnStatusService:TurnStatusService
   ) {}
 
   ngOnInit() {
+    this.packagingTypeService.findAll().subscribe((data) => {
+      this.packagingTypeList = data;
+    });
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
     });
@@ -107,19 +112,21 @@ export class OrderTransportRetourComponent implements OnInit {
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
 
+
   initForm() {
+    console.log(this.selectedOrderTransportInfo.turnStatus);
+
+
     this.orderTransportInfoForm = new FormGroup({
       packagingType: new FormControl(
         this.selectedOrderTransportInfo.packagingType,
         Validators.required
       ),
       numberOfPallet: new FormControl(
-        this.selectedOrderTransportInfo.numberOfPallet,
-        Validators.required
+        this.selectedOrderTransportInfo.numberOfPallet
       ),
       weight: new FormControl(
-        this.selectedOrderTransportInfo.weightTotal,
-        Validators.required
+        this.selectedOrderTransportInfo.weightTotal
       ),
       capacity: new FormControl(
         this.selectedOrderTransportInfo.capacityTotal
@@ -137,7 +144,6 @@ export class OrderTransportRetourComponent implements OnInit {
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)
       ),
-
       orderTransportInfoStatus : new FormControl(
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
@@ -158,21 +164,18 @@ export class OrderTransportRetourComponent implements OnInit {
     if (this.orderTransportInfoForm.invalid) {
       return;
     }
-
-
-
+    if(this.orderTransportInfoLines[0] !=null){
         this.loadForm();
         this.nextstep.emit(true);
+}else {
+  this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
+
+}
+
 
   }
   loadForm() {
-    if( this.selectedOrderTransportInfo.turnStatus==null){
-      this.turnStatusService.find('id:'+1).subscribe(
-        data =>{
-          this.selectedOrderTransportInfo.turnStatus=data[0];
-        }
-      );
-      }
+
 
     this.selectedOrderTransportInfo.weightTotal =
       this.orderTransportInfoForm.value["weight"];
@@ -224,21 +227,21 @@ export class OrderTransportRetourComponent implements OnInit {
 
   // account
 
-  onAccountSearch(event: any) {
+  onCompanySearch(event: any) {
     this.accountService
       .find("name~" + event.query)
       .subscribe((data) => (this.accountList = data));
   }
 
-  onSelectAccountInitial() {
+  onSelectCompanyInitial() {
     this.showDialogContactAddress = true;
-    this.selectedAccount = this.selectedOrderTransport.account;
+    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Initial";
   }
 
-  onSelectAccountFinal() {
+  onSelectCompanyFinal() {
     this.showDialogContactAddress = true;
-    this.selectedAccount = this.selectedOrderTransport.account;
+    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Final";
   }
   // fin account
@@ -339,52 +342,23 @@ export class OrderTransportRetourComponent implements OnInit {
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
-    if (
-      this.orderTransportInfoForm.value["weight"] == null ||
-      this.orderTransportInfoForm.value["weight"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir  Poids",
-      });
-    }
-    // else if (
-    //   this.orderTransportInfoForm.value["capacity"] == null ||
-    //   this.orderTransportInfoForm.value["capacity"] == ""
-    // ) {
-    //   this.messageService.add({
-    //     severity: "error",
-    //     summary: "Error",
-    //     detail: "Saisir Volume",
-    //   });
-    // }
-     else if (
-      this.orderTransportInfoForm.value["numberOfPallet"] == null ||
-      this.orderTransportInfoForm.value["numberOfPallet"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir Nombre de palette",
-      });
+
+
+    this.weightMax = this.orderTransportInfoForm.value["weight"];
+    this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
+    this.showDialogOrderTransportInfoLine = true;
+
+    if (mode == true) {
+      this.selectOrderTransportInfoLine = line;
+      this.editModeOrderTransportInfoLine = true;
     } else {
-      this.weightMax = this.orderTransportInfoForm.value["weight"];
-      this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
-      this.capacityMax = this.orderTransportInfoForm.value["capacity"];
-
-      this.showDialogOrderTransportInfoLine = true;
-
-      if (mode == true) {
-        this.selectOrderTransportInfoLine = line;
-        this.editModeOrderTransportInfoLine = true;
-      } else {
-        this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
+      this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
 
 
-        this.editModeOrderTransportInfoLine = false;
-      }
+      this.editModeOrderTransportInfoLine = false;
     }
+
+
   }
 
   onDeleteOrderTransportInfoLine(id: number) {
@@ -408,6 +382,10 @@ export class OrderTransportRetourComponent implements OnInit {
   }
 
   next() {
+
     this.validateForm();
+
   }
+
+
 }

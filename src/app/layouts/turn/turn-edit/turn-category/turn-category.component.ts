@@ -1,11 +1,11 @@
+import { CatalogTransportPricing } from './../../../../shared/models/CatalogTransportPricing';
+import { CatalogTransportPricingService } from './../../../../shared/services/api/catalog-transport-pricing.service';
 import { LocationContainerInVehicle } from './../../../../shared/models/location-container-In-Vehicle';
 import { Stock } from './../../../../shared/models/stock';
 import { LoadCategorySaleOrder } from './../../../../shared/models/load-category-saleOrder';
-import { CatalogTransportTypeServcie } from './../../../../shared/services/api/Catalog-Transport-Type.service';
 import { TransportServcie } from './../../../../shared/services/api/transport.service';
 import { Transport } from './../../../../shared/models/transport';
 import { SaleOrder } from './../../../../shared/models/sale-order';
-import { CatalogTransportType } from './../../../../shared/models/CatalogTransportType';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { TurnSoPo } from './../../../../shared/models/turn-so-po';
@@ -31,7 +31,7 @@ export class TurnCategoryComponent implements OnInit {
 
   constructor(private vehicleCategoryService :VehicleCategoryService,
               private transportService : TransportServcie,
-              private catalogTransportTypeService:CatalogTransportTypeServcie) { }
+              private catalogTransportPricingService:CatalogTransportPricingService) { }
 
   ngOnInit() {
     this.displayDialog = true;
@@ -82,7 +82,7 @@ export class TurnCategoryComponent implements OnInit {
     }
   }
   onSearchVehicleToDeliveByCategorySelected() {
-    let catalog: CatalogTransportType = new CatalogTransportType();
+    let catalog: CatalogTransportPricing = new CatalogTransportPricing();
     let vehicleCats: VehicleCategory[] = [];
     let saleorders: SaleOrder[] = [];
     let transports: Transport[] = [];
@@ -93,10 +93,10 @@ export class TurnCategoryComponent implements OnInit {
       this.transportService.findAll().subscribe((data) => {
         transports = data;
         transports.forEach((tr) => {
-          tr.catalogTransportTypes = [];
+        //  tr.catalogTransportTypes = [];
           tr.priceTurn = 0;
           saleorders.forEach((so) => {
-            this.catalogTransportTypeService
+            this.catalogTransportPricingService
               .find(
                 "vehicleCategory.id:" +
                   cat.id +
@@ -110,8 +110,8 @@ export class TurnCategoryComponent implements OnInit {
               .subscribe((data) => {
                 if (data[0] != null || data[0] != undefined) {
                   catalog = data[0];
-                  tr.catalogTransportTypes.push(catalog);
-                  tr.priceTurn += Number(catalog.amountTtc);
+                 // tr.catalogTransportTypes.push(catalog);
+                 // tr.priceTurn += Number(catalog.amountTtc);
                 }
               });
           });

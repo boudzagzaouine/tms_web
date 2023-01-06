@@ -44,9 +44,11 @@ this.emitOnchange();}
     this.selectOrderTransport.date=OrderTransport.date;
     this.selectOrderTransport.loadingType=OrderTransport.loadingType;
     this.selectOrderTransport.turnType=OrderTransport.turnType;
-    this.selectOrderTransport.account=OrderTransport.account;
+    this.selectOrderTransport.company=OrderTransport.company;
     this.selectOrderTransport.turnStatus=OrderTransport.turnStatus;
     this.selectOrderTransport.vehicleCategory=OrderTransport.vehicleCategory;
+    this.selectOrderTransport.vehicleTray=OrderTransport.vehicleTray;
+
     this.selectOrderTransport.weightTotal=OrderTransport.weightTotal;
     this.selectOrderTransport.capacityTotal=OrderTransport.capacityTotal;
 
@@ -64,7 +66,12 @@ this.emitOnchange();}
 
   }
   addPrice(price : number){
-    this.selectOrderTransport.priceTTC=price;
+    this.selectOrderTransport.priceHT=price;
+    this.emitOnchange();
+
+  }
+  addMarginRate(marginRate : number){
+    this.selectOrderTransport.marginRate=marginRate;
     this.emitOnchange();
 
   }

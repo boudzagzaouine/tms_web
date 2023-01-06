@@ -41,7 +41,12 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 
 @NgModule({
-  declarations: [TurnComponent, TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent, TurnListComponent, DeliveryComponent, DeliveryLineComponent,PurchaseLineEditComponent,TurnItineraryComponent,TurnCategoryComponent],
+  declarations: [TurnComponent,
+     TurnEditComponent, DeliveryLineEditComponent,DeliveryInformationsComponent,
+      TurnListComponent, DeliveryComponent, DeliveryLineComponent,PurchaseLineEditComponent,
+      TurnItineraryComponent,
+      //TurnCategoryComponent
+    ],
   imports: [
     CommonModule,
     TurnRoutingModule,

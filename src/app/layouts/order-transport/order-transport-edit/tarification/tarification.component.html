@@ -13,13 +13,17 @@
 
 
       <br />
-      <input
+      <!-- <input
       [(ngModel)]="this.priceTransport"
 
       type="text"
         class="form-control"
         pInputText
-      />
+      /> -->
+
+      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+      [(ngModel)]="this.priceTransport" (onInput)="onInputPrice($event)"
+    ></p-inputNumber>
       </span>
     </div>
 
@@ -65,42 +69,8 @@
 
 <div class="container mt-5">
   <div class="row justify-content-around">
-    <div class="form-group col-md-6">
-    <p-panel [toggleable]="true">
-      <ng-template pTemplate="header">
-        <span style="    color: #4084bd;
-        font-size: 15px;
-        font-style: oblique;"> Tarif Prestataire</span>
-      </ng-template>
-      <p-table [value]="this.catalogTransportTypeExterns"
-    [lazy]="true" [rows]="5" [paginator]="true"
-    [totalRecords]="catalogTransportTypeExterns">
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="colTh">Transport</th>
-            <th class="colTh">Prix Standard</th>
-            <th class="colTh">Prix Client</th>
-            <th class="colTh">Dernier Prix D'achat</th>
-            <!-- <th>Nombre Palettes</th> -->
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-cat >
-          <tr>
 
-            <td>{{ cat?.transport?.name }}</td>
-            <td>{{ cat?.amountTtc }} Dh</td>
-            <td>{{ cat?.tarifClient ?cat?.tarifClient+ 'Dh' :null }} </td>
-            <td>{{ cat?.tarifLastPriceExterne ?cat?.tarifLastPriceExterne+ 'Dh' :null }} </td>
-
-          </tr>
-        </ng-template>
-
-
-      </p-table>
-
-  </p-panel>
-  </div>
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-12">
 
     <div class="row">
       <div class="form-group col-md-12">
@@ -114,31 +84,44 @@
 
 
           <div class="row justify-content-around p-3">
+
+            <div class="form-group col-md-4">
+              <p-card>
+                <ng-template pTemplate="header">
+                    Contrat Client
+                </ng-template>
+               <span class="lblPrice">{{this.selectedAccountPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
+            </p-card>
+              </div>
+
+
             <div class="form-group col-md-4">
               <p-card>
                 <ng-template pTemplate="header">
                     Tarif
                 </ng-template>
-                <span class="lblPrice">{{this.catalogTransportIntern?.amountHt}} DH</span>
+
+               <span class="lbltype">Achat</span>
+                 <span  class="lblPrice">{{this.selectedCatalogPricing?.purchaseAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
+                  <br>
+                    <span class="lbltype">Vente</span>
+                    <span class="lblPrice">{{this.selectedCatalogPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
+
+
+
+
             </p-card>
               </div>
 
-              <div class="form-group col-md-4">
-                <p-card>
-                  <ng-template pTemplate="header">
-                      Contrat Client
-                  </ng-template>
-                 <span class="lblPrice">{{this.selectedContractAccount?.price}} DH</span>
-              </p-card>
-                </div>
+
 
                 <div class="form-group col-md-4">
                   <p-card>
                     <ng-template pTemplate="header">
-                      Dernier prix de vente
+                      Taux de Marge
                     </ng-template>
                     <span class="lblPrice">
-                      <span class="lblPrice">{{this.catalogTransportIntern?.tarifLastPriceIntern}} DH</span>
+                      <span class="lblPrice">{{this.marginRate}} %</span>
 
                       </span>
 
@@ -151,71 +134,7 @@
 
 
 
-            <!-- <div class="row mt-3 justify-content-around divRowInfo" *ngIf="this.selectedContractAccount?.id!=null">
 
-          <div class="form-group col-md-2  divLineInfo" >
-
-
-            <br />
-            <p-radioButton name="groupprice"
-              (click)="onRowTransportSelect(this.selectedContractAccount?.price)" ></p-radioButton>
-
-
-
-          </div>
-
-          <div class="form-group col-md-2  divLineInfo" >
-            <label class="font-weight-bold"
-              >{{ "Source " | translate }} </label
-            >
-
-            <br />
-            <label class="font-weight-bold"
-            >{{ selectedContractAccount?.source?.code}} </label>
-          </div>
-          <div class="form-group col-md-2  divLineInfo" >
-            <label class="font-weight-bold"
-              >{{ "Distination " | translate }} </label
-            >
-
-            <br />
-            <label class="font-weight-bold"
-            >{{ selectedContractAccount?.distination?.code}} </label>
-
-          </div>
-
-          <div class="form-group col-md-2  divLineInfo" >
-            <label class="font-weight-bold"
-              >{{ "Date Fin" | translate }} </label
-            >
-
-            <br />
-            <label class="font-weight-bold"
-            >{{ selectedContractAccount?.endDate | date :'dd/MM/yyyy'}} </label
-          >
-
-
-          </div>
-          <div class="form-group col-md-2  divLineInfo" >
-            <label class="font-weight-bold"
-              >{{ "Type " | translate }} </label
-            >
-
-            <br />
-            <label class="font-weight-bold"
-            >{{ selectedContractAccount?.turnType?.code}} </label>
-          </div>
-          <div class="form-group col-md-2  divLineInfo" >
-            <label class="font-weight-bold"
-              >{{ "Prix " | translate }} </label
-            >
-
-            <br />
-            <label class="font-weight-bold"
-            >{{ selectedContractAccount?.price}} DH </label>
-
-          </div>
-          </div> -->
 
       </p-panel>
 

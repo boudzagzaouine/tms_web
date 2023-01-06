@@ -5,7 +5,8 @@
   [responsive]="true"
   showEffect="fade"
   [modal]="true"
-  [style]="{ width: '800px' }"
+  [position]="'right'"
+  [style]="{ width: '950px' }"
   (onHide)="onShowDialog()"
 >
   <div>
@@ -82,18 +83,37 @@
                     [totalRecords]="addressList?.length"
                     responsiveLayout="scroll"
                   >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th style="width: 3rem"></th>
-                        <th></th>                        <th></th>
+                  <ng-template pTemplate="caption">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                                <i class="pi pi-search"></i>
+                                <p-autoComplete
+                                [suggestions]="addressList"
+                                (onSelect)="onSelectAddress($event)"
+                                (completeMethod)="onSearchAddressName($event)"
+                                field="name"
+                                placeholder="Rechercher"
+                                [appendTo]="body"
+                              ></p-autoComplete>
+                                <!-- <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" /> -->
+                            </span>
+                    </div>
+                  </ng-template>
 
-                        <th>  <p-autoComplete
+                    <ng-template pTemplate="header">
+                      <!-- <tr>
+                        <th style="width: 3rem"></th> -->
+                        <!-- <th>  <p-autoComplete
                           [suggestions]="addressList"
                           (onSelect)="onSelectAddress($event)"
                           (completeMethod)="onSearchAddressName($event)"
                           field="name"
+                          [appendTo]="body"
                         ></p-autoComplete></th>
-                      </tr>
+                        <th></th>                        <th></th> -->
+
+
+                      <!-- </tr> -->
                       <tr>
                         <th style="width: 3rem"></th>
                         <th>Nom d'adresse</th>

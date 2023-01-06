@@ -35,44 +35,24 @@
       </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
-          >{{ "Poids" | translate }}<span style="font-size: 9px;"> (KG)</span> *</label
+          >{{ "Poids" | translate }}<span style="font-size: 9px;"> (KG)</span> </label
         >
-        <span
-        *ngIf="
-          (orderTransportInfoForm.get('weight').touched &&
-          orderTransportInfoForm.get('weight').invalid) ||
-          (isFormSubmitted &&
-          orderTransportInfoForm.get('weight').invalid)
-        "
-        class="text-lighter"
-        style="color: red; font-size: xx-small"
-      >
-        {{ "Obligatoire" | translate }}
-      </span>
-      <input
+
+      <!-- <input
       formControlName="weight"
         type="text"
         class="form-control"
         pInputText
-      />
+      /> -->
+      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2" formControlName="weight">
+      </p-inputNumber>
       </div>
 
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
           >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
         >
-        <!-- <span
-        *ngIf="
-          (orderTransportInfoForm.get('capacity').touched &&
-          orderTransportInfoForm.get('capacity').invalid) ||
-          (isFormSubmitted &&
-          orderTransportInfoForm.get('capacity').invalid)
-        "
-        class="text-lighter"
-        style="color: red; font-size: xx-small"
-      >
-        {{ "Obligatoire" | translate }}
-      </span> -->
+
       <input
       formControlName="capacity"
         type="text"
@@ -82,20 +62,9 @@
       </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
-        >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> *</label
+        >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> </label
       >
-      <span
-      *ngIf="
-        (orderTransportInfoForm.get('numberOfPallet').touched &&
-        orderTransportInfoForm.get('numberOfPallet').invalid) ||
-        (isFormSubmitted &&
-        orderTransportInfoForm.get('numberOfPallet').invalid)
-      "
-      class="text-lighter"
-      style="color: red; font-size: xx-small"
-    >
-      {{ "Obligatoire" | translate }}
-    </span>
+
     <input
     formControlName="numberOfPallet"
       type="text"
@@ -451,7 +420,7 @@
     <div *ngIf="showDialogContactAddress == true">
       <app-generate-address-contact
         (showDialog)="onHideDialogGenerateContactAddress($event)"
-        [selectedAccount]="selectedAccount"
+        [selectedCompany]="selectedCompany"
         (addressContactDeliveryInfo)="affectedContactAddressInfoSelected($event)"
       ></app-generate-address-contact>
     </div>

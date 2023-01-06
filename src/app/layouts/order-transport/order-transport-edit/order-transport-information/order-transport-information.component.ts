@@ -1,3 +1,7 @@
+import { VehicleTray } from './../../../../shared/models/vehicle-tray';
+import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
+import { LoadingTypeService } from './../../../../shared/services/api/loading-type.service';
+import { LoadingType } from './../../../../shared/models/loading-type';
 import { OrderTransportInfoService } from './../../../../shared/services/api/order-transport-info.service';
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
 import { VehicleCategoryService } from "./../../../../shared/services/api/vehicle-category.service";
@@ -5,9 +9,9 @@ import { TurnStatusService } from "./../../../../shared/services/api/turn-status
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
-import { AccountService } from "./../../../../shared/services/api/account.service";
+import { CompanyService } from "./../../../../shared/services/api/company.service";
 import { TurnTypeService } from "./../../../../shared/services/api/turn-type.service";
-import { Account } from "./../../../../shared/models/account";
+import { Company } from "./../../../../shared/models/company";
 import { VehicleCategory } from "./../../../../shared/models/vehicle-category";
 import { TurnStatus } from "./../../../../shared/models/turn-status";
 import { TurnType } from "./../../../../shared/models/turn-Type";
@@ -28,12 +32,12 @@ export class OrderTransportInformationComponent implements OnInit {
   selectedOrderTransport: OrderTransport = new OrderTransport();
   OrderTransportForm: FormGroup;
 
-  loadingTypeList: string[] = [];
+  loadingTypeList: LoadingType[] = [];
   turnTypeList: TurnType[] = [];
   turnStatusList: TurnStatus[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
-  accountList: Account[] = [];
-
+  companyList: Company[] = [];
+  vehicleTrayList:VehicleTray[]=[];
   isFormSubmitted = false;
   index: number = 0;
   activeIndex: number = 0;
@@ -43,7 +47,9 @@ export class OrderTransportInformationComponent implements OnInit {
   constructor(
     private turnTypeService: TurnTypeService,
     public OrderTransportService: OrderTransportService,
-    private accountService: AccountService,
+    private loadingTypeService:LoadingTypeService,
+    private companyService: CompanyService,
+    private vehicleTrayService :VehicleTrayService,
     private activatedRoute: ActivatedRoute,
     private turnStatusService: TurnStatusService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -51,18 +57,8 @@ export class OrderTransportInformationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadingTypeList = ["Complet"];
 
-    this.turnTypeService.findAll().subscribe((data) => {
-      this.turnTypeList = data;
-    });
-    this.turnStatusService.findAll().subscribe((data) => {
-      this.turnStatusList = data;
-    });
-    this.vehicleCategoryService.findAll().subscribe((data) => {
-      this.vehicleCategoryList = data;
-    });
-
+ this.load();
     let id = this.activatedRoute.snapshot.params["id"];
     if (id) {
       this.OrderTransportService.findById(id).subscribe((data) => {
@@ -93,7 +89,6 @@ export class OrderTransportInformationComponent implements OnInit {
       } else {
         this.OrderTransportService.generateCode().subscribe((data) => {
           this.selectedOrderTransport.code = data;
-          this.selectedOrderTransport.loadingType = this.loadingTypeList[0];
           this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
             (f) => f.id == 1
           )[0];
@@ -123,8 +118,7 @@ export class OrderTransportInformationComponent implements OnInit {
       ),
       loadingType: new FormControl(
         {
-          value: this.selectedOrderTransport.loadingType,
-          disabled: true,
+          value: this.selectedOrderTransport.loadingType
         },
         Validators.required
       ),
@@ -132,8 +126,8 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.turnType,
         Validators.required
       ),
-      account: new FormControl(
-        this.selectedOrderTransport.account,
+      company: new FormControl(
+        this.selectedOrderTransport.company,
         Validators.required
       ),
       status: new FormControl(
@@ -144,7 +138,10 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.vehicleCategory,
         Validators.required
       ),
-
+      vehicleTray: new FormControl(
+        this.selectedOrderTransport.vehicleTray,
+        Validators.required
+      ),
     });
   }
 
@@ -163,13 +160,13 @@ export class OrderTransportInformationComponent implements OnInit {
     this.isFormSubmitted = false;
   }
 
-  onAccountSearch(event: any) {
-    this.accountService
+  onCompanySearch(event: any) {
+    this.companyService
       .find("name~" + event.query)
-      .subscribe((data) => (this.accountList = data));
+      .subscribe((data) => (this.companyList = data));
   }
-  onSelectAccount(event: any) {
-    this.selectedOrderTransport.account = event;
+  onSelectCompany(event: any) {
+    this.selectedOrderTransport.company = event;
   }
 
   onSelectStatus(event) {
@@ -178,7 +175,9 @@ export class OrderTransportInformationComponent implements OnInit {
   onSelectCategory(event) {
     this.selectedOrderTransport.vehicleCategory = event.value;
   }
-
+  onSelectVehicleTray(event) {
+    this.selectedOrderTransport.vehicleTray = event.value;
+  }
   onSelectLoadingTypes(event) {
     this.selectedOrderTransport.loadingType = event.value;
   }
@@ -186,6 +185,27 @@ export class OrderTransportInformationComponent implements OnInit {
   onSelectType(event) {
     this.selectedOrderTransport.turnType = event.value ? event.value : event;
     this.turnTypeId.emit(this.selectedOrderTransport.turnType.id);
+  }
+  load(){
+    this.loadingTypeService.findAll().subscribe((data) => {
+      this.loadingTypeList = data;
+      this.selectedOrderTransport.loadingType=this.loadingTypeList[0];
+      this.initForm();
+
+    });
+    this.turnTypeService.findAll().subscribe((data) => {
+      this.turnTypeList = data;
+    });
+    this.turnStatusService.findAll().subscribe((data) => {
+      this.turnStatusList = data;
+    });
+    this.vehicleCategoryService.findAll().subscribe((data) => {
+      this.vehicleCategoryList = data;
+    });
+
+    this.vehicleTrayService.findAll().subscribe((data) => {
+      this.vehicleTrayList = data;
+    });
   }
 
   next() {

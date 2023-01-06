@@ -10,6 +10,64 @@
 
     <div class="row mt-3 justify-content-around">
       <div class="form-group col-md-6">
+   <div class="row ml-5">
+    <div class="form-group col-md-5">
+
+ <p-autoComplete
+        [suggestions]="villeList"
+        (onSelect)="onSelectVilleSource($event)"
+        (completeMethod)="onVilleSearch($event)"
+        field="code"
+        appendTo="body"
+        [(ngModel)]="selectedVilleSource"
+      >
+      </p-autoComplete>
+      </div>
+
+      <div class="form-group col-md-2 text-justify">
+        <button pButton pRipple type="button" (click)="invert()" icon="fa fa-exchange" class="p-button-rounded p-button-secondary p-button-outlined"></button>
+
+        <!-- <p-button styleClass="p-button-outlined">
+          <ng-template pTemplate="content">
+              <img alt="logo" src="./assets/img/change1.png" />
+          </ng-template>
+      </p-button> -->
+
+        <!-- <img src="./assets/img/change1.png" style="width: 30px ; height: 30px;"> -->
+</div>
+
+      <div class="form-group col-md-5">
+
+        <p-autoComplete
+               [suggestions]="villeList"
+               (onSelect)="onSelectVilleDistination($event)"
+               (completeMethod)="onVilleSearch($event)"
+               field="code"
+               appendTo="body"
+               [(ngModel)]="selectedVilleDistination"
+             >
+             </p-autoComplete>
+             </div>
+
+   </div>
+    <div class="row ml-5">
+      <div class="form-group col-md-6">
+          <button type="text" style="width:100%" class="btn  p-button-success" pButton label="Réinitialiser" (click)="resetSearchByVille()">
+
+            <i class="fa fa-refresh " style="font-size: 2rem"></i> </button>
+          </div>
+      <div class="form-group col-md-6">
+
+        <button type="text" style="width:100%" pButton label="Recherche" (click)="searchByVille()">
+
+          <i class="pi pi-search" style="font-size: 2rem"></i> </button>
+        </div>
+
+
+    </div>
+
+
+
         </div>
         <div class="form-group col-md-6" style="    padding-left: 6%;">
   <div>
@@ -29,14 +87,15 @@
         </div>
         </div>
 
+
     <div class="row mt-3 justify-content-around">
       <div class="form-group col-md-6">
 
         <p-orderList [value]="orderTransportList"
          (onSelectionChange)="loadInterneOrPrestataire($event)"
          [listStyle]="{'max-height':'30rem'}"
-        header="Liste des Ordre de Transports" filterBy="account.name"
-         filterPlaceholder="Recherche Par Client" [dragdrop]="true"
+        header="Liste des Ordre de Transports"
+         [dragdrop]="true"
         >
           <ng-template let-order pTemplate="item">
               <div class="product-item">
@@ -66,8 +125,14 @@
                       padding: 4px 14px 4px 14px;
                       border-radius: 5px;">{{order?.turnType?.code}}</h6>
                      <span ><i class="fa fa-bus"></i><b style="font-size: 10px;
-                      margin: 5px;">{{order?.vehicleCategory?.code}}</b></span>
+                      margin: 5px;">{{order?.vehicleCategory?.code}}</b>-<b style="font-size: 10px;
+                      margin: 5px;">{{order?.vehicleTray?.code}}</b></span>
+
+
+<span ><i class="fa fa-money"></i><b style="font-size: 14px;
+  margin: 5px;">{{order?.marginRate}} %</b></span>
                   </div>
+
               </div>
           </ng-template>
       </p-orderList>
@@ -109,7 +174,7 @@
 
 </span>
 <span *ngIf="isInterOrPrestataire=='Prestataire'">
-  <p-orderList [value]="catalogTransportTypeList"  (onSelectionChange)="onselectTransport($event)" [listStyle]="{'max-height':'30rem'}"
+  <p-orderList [value]="catalogTransportPricingList"  (onSelectionChange)="onselectTransport($event)" [listStyle]="{'max-height':'30rem'}"
   header="Liste des Prestataires" filterBy="registrationNumber" filterPlaceholder="Recherche Par Matricule" [dragdrop]="true">
     <ng-template let-transport pTemplate="item" >
         <div class="product-item">
@@ -129,7 +194,7 @@
             </div>
             <div class="product-list-action">
                 <!-- <h6 class="mb-2">${{vehicle?.vehicleCategory?.tonnage}} KG</h6> -->
-                <span [class]="'customer-badge status-price'">{{transport?.amountTtc}} DH</span>
+                <span [class]="'customer-badge status-price'">{{transport?.purchaseAmountHt}} DH</span>
             </div>
         </div>
     </ng-template>

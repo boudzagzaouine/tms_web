@@ -1,3 +1,8 @@
+import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
+import { VilleService } from './../../../shared/services/api/ville.service';
+import { Ville } from './../../../shared/models/ville';
+import { CatalogTransportPricingService } from './../../../shared/services/api/catalog-transport-pricing.service';
+import { CatalogTransportPricing } from './../../../shared/models/CatalogTransportPricing';
 import { TransportPlanProductService } from './../../../shared/models/transport-plan-product-service';
 import { Observable, Subscription } from "rxjs";
 import { Subject } from "rxjs";
@@ -20,8 +25,6 @@ import { TransportPlan } from "./../../../shared/models/transport-plan";
 import { Driver } from "./../../../shared/models/driver";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Transport } from "./../../../shared/models/transport";
-import { CatalogTransportType } from "./../../../shared/models/CatalogTransportType";
-import { CatalogTransportTypeServcie } from "./../../../shared/services/api/Catalog-Transport-Type.service";
 import { VehicleCategory } from "./../../../shared/models/vehicle-category";
 import { VehicleCategorieComponent } from "./../../settings/vehicle-categorie/vehicle-categorie.component";
 import { VehicleService } from "./../../../shared/services/api/vehicle.service";
@@ -42,14 +45,16 @@ export class TransportPlanAddComponent implements OnInit {
   transportPlans: TransportPlan[] = [];
   selectOrderTransport: OrderTransport = new OrderTransport();
   orderTransportList: OrderTransport[] = [];
+  orderTransportCloneList: OrderTransport[] = [];
+
   vehicleList: Vehicle[] = [];
   vehicleAvailable: Vehicle[] = [];
   vehicleNotAvailable: Vehicle[] = [];
   showVehicleAvailable: Boolean = false;
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
-  catalogTransportTypeList: CatalogTransportType[] = [];
-  selectedTransport: CatalogTransportType = new CatalogTransportType();
+  catalogTransportPricingList: CatalogTransportPricing[] = [];
+  selectedTransport: CatalogTransportPricing = new CatalogTransportPricing();
   vehicleCategoryList: VehicleCategory[] = [];
   types: any[] = ["Interne", "Prestataire"];
   breadcrumbItems: MenuItem[];
@@ -74,18 +79,22 @@ export class TransportPlanAddComponent implements OnInit {
   selectedTransportProductService = new TransportPlanProductService();
   editModeTransportProduct: Boolean=false;
   showDialogTransportProduct:Boolean=false;
+  villeList:Ville[]=[];
+  selectedVilleSource:Ville=new Ville();
+  selectedVilleDistination:Ville=new Ville();
 
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
     private orderTransportInfoService: OrderTransportInfoService,
     private vehicleService: VehicleService,
-    private catalogTransportTypeService: CatalogTransportTypeServcie,
+    private catalogTransportPricingService: CatalogTransportPricingService,
     private driverService: DriverService,
     private turnStatusService: TurnStatusService,
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private villeService:VilleService,
     private contractAccountService: ContractAccountService,
     private router: Router,
     private maintenanceService: MaintenanceService,
@@ -105,7 +114,7 @@ export class TransportPlanAddComponent implements OnInit {
 
     this.loadOrderTransport();
 
-    this.transportService.find("interneOrExterne:true").subscribe((data) => {
+    this.transportService.findAll().subscribe((data) => {
       this.selectDefaulTransport = data[0];
     });
     this.turnStatusService.find("id:" + 1).subscribe((data) => {
@@ -146,6 +155,64 @@ export class TransportPlanAddComponent implements OnInit {
       this.loadInterneOrPrestataire(this.selectOrderTransport);
     }
   }
+
+  invert(){
+    console.log("click");
+    this.resetSearchByVille();
+  let villeSource : Ville = new Ville();
+
+  villeSource=this.selectedVilleSource;
+  this.selectedVilleSource=this.selectedVilleDistination;
+  this.selectedVilleDistination=villeSource;
+
+  }
+  resetSearchByVille(){
+    this.orderTransportList=this.orderTransportCloneList;
+    this.sortOrderTransport();
+  }
+  searchByVille(){
+  let allerList:OrderTransport[]=[];
+  let retourList:OrderTransport[]=[];
+
+
+     allerList=this.orderTransportList.filter(
+      f=> f.orderTransportInfoAller?.villeSource?.id == this.selectedVilleSource?.id &&
+      f.orderTransportInfoAller?.villeDistination?.id == this.selectedVilleDistination?.id
+     );
+
+     retourList=this.orderTransportList.filter(
+      f=> f.orderTransportInfoRetour?.villeSource?.id == this.selectedVilleSource?.id &&
+      f.orderTransportInfoRetour?.villeDistination?.id == this.selectedVilleDistination?.id
+     );
+
+     this.orderTransportList=[];
+     this.orderTransportList.push(...allerList);
+     this.orderTransportList.push(...retourList);
+console.log(this.orderTransportList);
+this.sortOrderTransport();
+
+  }
+
+
+  sortOrderTransport(){
+    this.orderTransportList=this.orderTransportList.sort((n1,n2)=> n1.marginRate + n2.marginRate);
+
+  }
+  onVilleSearch(event){
+    this.villeService
+    .find('code~' + event.query)
+    .subscribe(data => (this.villeList = data))
+   }
+
+   onSelectVilleSource(event){
+  this.selectedVilleSource=event;
+  this.resetSearchByVille();
+   }
+
+   onSelectVilleDistination(event){
+    this.selectedVilleDistination=event;
+    this.resetSearchByVille();
+     }
   onSelectDriver(event) {
     this.selectedTransportPlan.driver = event.value;
   }
@@ -155,6 +222,8 @@ export class TransportPlanAddComponent implements OnInit {
     //turnStatus .id =  1 => cree
     this.orderTransportService.find("turnStatus.id:" + 1).subscribe((data) => {
       this.orderTransportList = data;
+      this.sortOrderTransport();
+      this.orderTransportCloneList=this.orderTransportList;
       this.orderTransportList.forEach((element) => {
         this.orderTransportInfoService
           .find("type~" + "Aller" + ",orderTransport.id:" + element.id)
@@ -178,7 +247,7 @@ export class TransportPlanAddComponent implements OnInit {
       console.log("intern");
 
       this.loadVehicleByCategory();
-      this.catalogTransportTypeList = [];
+      this.catalogTransportPricingList = [];
     } else if (this.isInterOrPrestataire == "Prestataire") {
       console.log("prestataire");
 
@@ -202,13 +271,17 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
 }
 
 
-    this.catalogTransportTypeService
+    this.catalogTransportPricingService
       .find(
-        "transport.interneOrExterne:false"+
-        ",turnType.id:" +
+
+        "turnType.id:" +
           this.selectOrderTransport.turnType.id +
+          ",loadingType.id:" +
+          this.selectOrderTransport.loadingType.id +
           ",vehicleCategory.tonnage >" +
           this.selectOrderTransport.vehicleCategory.tonnage +
+          ",vehicleTray.id:" +
+          this.selectOrderTransport.vehicleTray.id +
           ",villeSource.code~" + source
          +
           ",villeDestination.code~" +distination
@@ -218,9 +291,11 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
         console.log(data);
 
         if (data[0] != null || data[0] != undefined) {
-          this.catalogTransportTypeList = data;
+          this.catalogTransportPricingList = data;
+         console.log(this.catalogTransportPricingList);
+
         } else {
-          this.catalogTransportTypeList = [];
+          this.catalogTransportPricingList = [];
         }
       });
   }
@@ -344,8 +419,8 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
     if (this.isPriceContract == "Oui") {
       this.selectedTransportPlan.salePrice = this.selectedContractAccount.price;
     } else if (this.isPriceContract == "Non") {
-      this.selectedTransportPlan.salePrice =
-        this.catalogTransportTypeList[0].amountTtc;
+    //  this.selectedTransportPlan.salePrice =
+      //  this.catalogTransportPricingList[0].amountTtc;
     }
     this.initForm();
   }
@@ -413,7 +488,7 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
       // );
     }
     if (this.isInterOrPrestataire == "Interne") {
-      this.catalogTransportTypeService
+      this.catalogTransportPricingService
         .find(
           "turnType.id:" +
             this.selectOrderTransport.turnType.id +
@@ -433,14 +508,14 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
 
           console.log(data);
 
-          this.catalogTransportTypeList = data;
+          this.catalogTransportPricingList = data;
           this.selectedTransportPlan.vehicle = this.selectedVehicle;
           this.selectedTransportPlan.transport = this.selectDefaulTransport;
           this.selectedTransportPlan.driver = this.selectedVehicle.driver;
           this.selectedTransportPlan.vehicleCategory =
             this.selectedVehicle.vehicleCategory;
           this.selectedTransportPlan.salePrice =
-            this.selectOrderTransport.priceTTC;
+            this.selectOrderTransport.priceHT;
             this.selectedTransportPlan.purchasePrice =this.calculateCostPrice();
           this.loadLastTranportPlanPrestataires();
           this.initForm();
@@ -450,7 +525,7 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
       this.selectedTransportPlan.vehicleCategory =
         this.selectedTransport.vehicleCategory;
       this.selectedTransportPlan.purchasePrice =
-        this.selectOrderTransport.priceTTC;
+        this.selectOrderTransport.priceHT;
       this.selectedContractAccount = new ContractAccount();
       this.loadLastTranportPlanPrestataires();
     }

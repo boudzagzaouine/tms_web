@@ -32,8 +32,6 @@ import { DataTableComponent } from './../../shared/components/data-table/data-ta
 import { MenuVehicleComponent } from './menu-vehicle/menu-vehicle.component';
 import { MenuInsuranceComponent } from './menu-insurance/menu-insurance.component';
 import { ComsumptionTypeComponent } from './comsumption-type/comsumption-type.component';
-import { CatalogTransportTypeComponent } from './catalog-transport-type/catalog-transport-type.component';
-import { CatalogTransportType } from './../../shared/models/CatalogTransportType';
 import { TransportCategoryVehicleComponent } from './transport-category-vehicle/transport-category-vehicle.component';
 import { InsuranceTypeComponent } from './insurance-type/insurance-type.component';
 import { CommissionTypeComponent } from './commission-type/commission-type.component';
@@ -89,7 +87,6 @@ const routes: Routes = [
       { path: 'commission-type', component: CommissionTypeComponent },
       { path: 'insurance-type', component: InsuranceTypeComponent },
       { path: 'transport-category-vehicle', component: TransportCategoryVehicleComponent },
-      { path: 'path', component: CatalogTransportTypeComponent },
       { path: 'consumption-type', component: ComsumptionTypeComponent },
       { path: 'menu-insurance', component: MenuInsuranceComponent },
       { path: 'menu-vehicle', component: MenuVehicleComponent },

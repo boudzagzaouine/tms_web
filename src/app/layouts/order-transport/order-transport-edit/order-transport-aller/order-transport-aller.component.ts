@@ -5,13 +5,13 @@ import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Ville } from './../../../../shared/models/ville';
 import { TypeInfo } from "./../../../../shared/enum/type-info.enum";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
-import { AccountService } from "./../../../../shared/services/api/account.service";
+import { CompanyService } from "./../../../../shared/services/api/company.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { PackagingTypeService } from "./../../../../shared/services/api/packaging-type.service";
 import { ContainerTypeService } from "./../../../../shared/services/api/container-type.service";
 import { PackagingType } from "./../../../../shared/models/packaging-type";
 import { ContainerType } from "./../../../../shared/models/container-type";
-import { Account } from "./../../../../shared/models/account";
+import { Company } from "./../../../../shared/models/company";
 import { OrderTransportInfoLine } from "./../../../../shared/models/order-transport-info-line";
 import { PackageDetail } from "./../../../../shared/models/package-detail";
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
@@ -53,16 +53,14 @@ export class OrderTransportAllerComponent implements OnInit {
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLine: boolean = false;
 
-  selectedAccount: Account = new Account();
-  // isExistAccountOrderTypeAllerInitial: string = "false";
-  //isExistAccountOrderTypeAllerDistinataire: string = "false";
+  selectedCompany: Company = new Company();
   selectedaccountInitialOrFinal: string = "false";
   showDialogContactAddress: boolean = false;
   showDialogPackageDetail: boolean = false;
 
   containerTypeList: ContainerType[] = [];
   packagingTypeList: PackagingType[] = [];
-  accountList: Account[] = [];
+  accountList: Company[] = [];
   isFormSubmitted = false;
   villeList :Ville[]=[];
   turnStatus : TurnStatus = new TurnStatus();
@@ -71,7 +69,7 @@ export class OrderTransportAllerComponent implements OnInit {
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
-    private accountService: AccountService,
+    private accountService: CompanyService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
     private villeService: VilleService,
@@ -127,12 +125,10 @@ export class OrderTransportAllerComponent implements OnInit {
         Validators.required
       ),
       numberOfPallet: new FormControl(
-        this.selectedOrderTransportInfo.numberOfPallet,
-        Validators.required
+        this.selectedOrderTransportInfo.numberOfPallet
       ),
       weight: new FormControl(
-        this.selectedOrderTransportInfo.weightTotal,
-        Validators.required
+        this.selectedOrderTransportInfo.weightTotal
       ),
       capacity: new FormControl(
         this.selectedOrderTransportInfo.capacityTotal
@@ -170,14 +166,13 @@ export class OrderTransportAllerComponent implements OnInit {
     if (this.orderTransportInfoForm.invalid) {
       return;
     }
-
-
-
+    if(this.orderTransportInfoLines[0] !=null){
         this.loadForm();
         this.nextstep.emit(true);
+}else {
+  this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
 
-    console.log("distance");
-    console.log(this.orderTransportService.getDistanceorderTransportInfoAller());
+}
 
 
   }
@@ -234,21 +229,21 @@ export class OrderTransportAllerComponent implements OnInit {
 
   // account
 
-  onAccountSearch(event: any) {
+  onCompanySearch(event: any) {
     this.accountService
       .find("name~" + event.query)
       .subscribe((data) => (this.accountList = data));
   }
 
-  onSelectAccountInitial() {
+  onSelectCompanyInitial() {
     this.showDialogContactAddress = true;
-    this.selectedAccount = this.selectedOrderTransport.account;
+    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Initial";
   }
 
-  onSelectAccountFinal() {
+  onSelectCompanyFinal() {
     this.showDialogContactAddress = true;
-    this.selectedAccount = this.selectedOrderTransport.account;
+    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Final";
   }
   // fin account
@@ -349,52 +344,23 @@ export class OrderTransportAllerComponent implements OnInit {
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
-    if (
-      this.orderTransportInfoForm.value["weight"] == null ||
-      this.orderTransportInfoForm.value["weight"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir  Poids",
-      });
-   }
-     // else if (
-    //   this.orderTransportInfoForm.value["capacity"] == null ||
-    //   this.orderTransportInfoForm.value["capacity"] == ""
-    // ) {
-    //   this.messageService.add({
-    //     severity: "error",
-    //     summary: "Error",
-    //     detail: "Saisir Volume",
-    //   });
-    // }
-     else if (
-      this.orderTransportInfoForm.value["numberOfPallet"] == null ||
-      this.orderTransportInfoForm.value["numberOfPallet"] == ""
-    ) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir Nombre de palette",
-      });
+
+
+    this.weightMax = this.orderTransportInfoForm.value["weight"];
+    this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
+    this.showDialogOrderTransportInfoLine = true;
+
+    if (mode == true) {
+      this.selectOrderTransportInfoLine = line;
+      this.editModeOrderTransportInfoLine = true;
     } else {
-      this.weightMax = this.orderTransportInfoForm.value["weight"];
-      this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
-      //this.capacityMax = this.orderTransportInfoForm.value["capacity"];
-
-      this.showDialogOrderTransportInfoLine = true;
-
-      if (mode == true) {
-        this.selectOrderTransportInfoLine = line;
-        this.editModeOrderTransportInfoLine = true;
-      } else {
-        this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
+      this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
 
 
-        this.editModeOrderTransportInfoLine = false;
-      }
+      this.editModeOrderTransportInfoLine = false;
     }
+
+
   }
 
   onDeleteOrderTransportInfoLine(id: number) {
@@ -418,6 +384,7 @@ export class OrderTransportAllerComponent implements OnInit {
   }
 
   next() {
+
     this.validateForm();
 
   }

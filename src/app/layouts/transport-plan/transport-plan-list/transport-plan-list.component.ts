@@ -66,8 +66,6 @@ export class TransportPlanListComponent implements OnInit {
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
-      { field: 'orderTransport', child: 'turnType',child2:'code', header: 'Type', type: 'object2' },
-      { field: 'salePrice', header: 'Prix de Vente', type: 'number' },
       { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
 
     ];

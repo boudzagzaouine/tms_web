@@ -131,6 +131,7 @@ export class TransportEditComponent implements OnInit {
     this.transportForm = new FormGroup({
       code: new FormControl(this.selectedTransport.code),
       name: new FormControl(this.selectedTransport.name, Validators.required),
+      intern: new FormControl(this.selectedTransport.interneOrExterne),
       description: new FormControl(this.selectedTransport.description),
       line1: new FormControl(
         this.selectAddress.line1
@@ -221,7 +222,11 @@ export class TransportEditComponent implements OnInit {
     );
   }
 
+  onSelectIntern(event){
+console.log(event.checked);
 
+    this.selectedTransport.interneOrExterne=event.checked;
+  }
 
 
   onSelectPays(event: any) {

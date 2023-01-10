@@ -32,7 +32,7 @@ export class TransportPlan {
 
   transportPlanProductServices:TransportPlanProductService[]=[];
 
-
+  marginRate:number;
 
 
 }

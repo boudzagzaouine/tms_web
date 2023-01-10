@@ -1,3 +1,4 @@
+import { TransportPlanVehicleListComponent } from './transport-plan-add/transport-plan-vehicle-list/transport-plan-vehicle-list.component';
 import { TransportPlanServiceEditComponent } from './transport-plan-add/transport-plan-service-edit/transport-plan-service-edit.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
 import { TimelineModule } from 'primeng/timeline';
@@ -37,6 +38,7 @@ import { CommonModule } from '@angular/common';
 import { TransportPlanComponent } from './transport-plan.component';
 import {OrderListModule} from 'primeng/orderlist';
 import {CheckboxModule} from 'primeng/checkbox';
+import {DataViewModule} from 'primeng/dataview';
 
 @NgModule({
   imports: [
@@ -76,8 +78,9 @@ import {CheckboxModule} from 'primeng/checkbox';
      TimelineModule,
      OrderListModule,
      SelectButtonModule,
-CheckboxModule
+     CheckboxModule,
+     DataViewModule
   ],
-  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent]
+  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent]
 })
 export class TransportPlanModule { }

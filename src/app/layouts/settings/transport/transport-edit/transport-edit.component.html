@@ -43,12 +43,13 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-4">
-            <!-- <label class="font-weight-bold">{{'Description' | translate}} </label>
+            <label class="font-weight-bold">{{'Interne' | translate}} </label>
 
             <br />
-            <input type="text" class="form-control" pInputText formControlName="description"
-           /> -->
-          </div>
+            <div class="field-checkbox">
+            <p-checkbox formControlName="inetrn" (onChange)="onSelectIntern($event)" [binary]="true" inputId="binary"></p-checkbox>
+            <label class="font-weight-bold" for="binary">{{this.selectedTransport.interneOrExterne?"Oui":"Non"}}</label>
+          </div></div>
 
 
         </div>

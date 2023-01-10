@@ -1,0 +1,69 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false"
+ [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
+
+<div class="card">
+  <p-dataView #dv [value]="vehicleList" [layout]="'list'" [paginator]="true" [rows]="5" filterBy="registrationNumber"
+     layout="grid">
+      <ng-template pTemplate="header">
+          <div class="flex flex-column md:flex-row md:justify-content-between">
+              <!-- <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown> -->
+              <span class="p-input-icon-left mb-2 md:mb-0">
+                  <i class="pi pi-search"></i>
+                  <input type="search" pInputText placeholder="Rechercher par Matricule" (input)="dv.filter($event.target.value)">
+              </span>
+          </div>
+      </ng-template>
+      <ng-template let-product pTemplate="listItem">
+          <div class="p-col-12">
+              <div class="product-list-item">
+                <img  src="./assets/img/services-fret.jpg" alt="Bracelet">
+                  <div class="product-list-detail">
+                      <div class="product-name">Matricule : {{product.registrationNumber}}</div>
+                      <div class="product-description">Code :{{product.code}}</div>
+                      <span class="product-category">Catégorie :{{product?.vehicleCategory?.code}} </span>
+                      <div *ngIf="product?.vehicleTray?.code!=null" class="product-category">Form : {{product?.vehicleTray?.code}}</div>
+                    </div>
+                  <div class="product-list-action">
+                      <p-button icon="pi pi-plus" label="Sélectionner" (click)="onSelectVehicle(product)" [disabled]="product.state === 'Trajet'"></p-button>
+                      <span [class]="'customer-badge status-' + product.state.toLowerCase()">{{product.state}}</span>
+                  </div>
+              </div>
+          </div>
+      </ng-template>
+      <!-- <ng-template let-product pTemplate="gridItem">
+          <div class="col-6 md-col-2">
+              <div class="product-grid-item card">
+                  <div class="product-grid-item-top">
+                      <div>
+                          <i class="pi pi-tag product-category-icon"></i>
+                          <span class="product-category">{{product.vehicleCategory.code}}</span>
+                      </div>
+                      <span [class]="'customer-badge status-' + product.state">{{product.state}}</span>
+                  </div>
+                  <div class="product-grid-item-content">
+                    <img  src="./assets/img/services-fret.jpg" alt="Bracelet">
+
+                      <div class="product-name">{{product.registrationNumber}}</div>
+                      <div class="product-description">{{product.code}}</div>
+                  </div>
+                  <div class="product-grid-item-bottom">
+                      <span class="product-price">--</span>
+                      <p-button icon="pi pi-plus" [disabled]="product.state === 'Trajet'"></p-button>
+                  </div>
+              </div>
+          </div>
+      </ng-template> -->
+  </p-dataView>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+      <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+

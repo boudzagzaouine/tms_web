@@ -1,3 +1,5 @@
+import { VehicleTrayService } from './../../../shared/services/api/vehicle-tray.service';
+import { VehicleTray } from './../../../shared/models/vehicle-tray';
 import { VehicleProductReference } from './../../../shared/models/vehicle-product-reference';
 import { ProductService } from './../../../shared/services/api/product.service';
 import { ProductTypeService } from './../../../shared/services/api/product-type.service';
@@ -100,6 +102,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   productList : VehicleProduct;
   productReferenceList : VehicleProductReference[]=[];
  idVehicleProduct:number=0;
+ vehicleTrayList :VehicleTray[]=[];
   constructor(
     private activatedRoute: ActivatedRoute,
     private maintenancePlanService :MaintenancePlanService,
@@ -124,7 +127,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     private authentificationService:AuthenticationService,
     private messageService: MessageService,
     private confirmationService:ConfirmationService,
-
+    private vehicleTrayService : VehicleTrayService
 
   ) { }
 
@@ -273,7 +276,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         this.transportList = data;
       }
     ));
-
+    this.subscriptions.add(this.vehicleTrayService.findAll().subscribe(
+      data => {
+        this.vehicleTrayList = data;
+      }
+    ));
   }
 
   onSelectProductTypeParent(item){
@@ -323,6 +330,8 @@ return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=
         'fCode': new FormControl(this.selectedVehicle.code, Validators.required),
         'fRegistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
         'fVehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory, Validators.required),
+        'fVehicleTray': new FormControl(this.selectedVehicle.vehicleTray, Validators.required),
+
         'fBadgeType': new FormControl(this.selectedVehicle.badgeType, Validators.required),
         'fTechnicalVisit': new FormControl(d),
         'fValeurVisiteTechnique': new FormControl(this.selectedVehicle.valueTechnicalVisit),
@@ -504,7 +513,10 @@ return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=
     ));
   }
 
+  onSelectVehicleTray(event ){
+    this.selectedVehicle.vehicleTray = event.value;
 
+  }
   onSelectContract(event: any) {
     this.selectedVehicle.contractType = event.value;
   }

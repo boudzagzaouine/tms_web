@@ -1,3 +1,4 @@
+import { VehicleTray } from './vehicle-tray';
 import { VehicleProduct } from './vehicle-product';
 import { Driver } from './driver';
 import { Patrimony } from './patrimony';
@@ -59,7 +60,7 @@ export class Vehicle extends Patrimony {
   fixOrVariable: string;
   dateDriver:Date;
   vehicleProducts: VehicleProduct[]=[];
-
+  vehicleTray:VehicleTray;
     interneOrExterne:string ;
     durationInMonths:number ;
     state : string ; // local

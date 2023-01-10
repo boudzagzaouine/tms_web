@@ -45,7 +45,7 @@ contractAccountList: ContractAccount[] = [];
    priceTransport :number =0 ;
    priceRetour :number =0;
    selectRadio :Boolean=true;
-   marginRate :number;
+   marginRate :number=-1;
   constructor(private vehicleCategoryService :VehicleCategoryService,
     private orderTransportService :OrderTransportService,
     private transportPlanService :TransportPlanService,
@@ -119,10 +119,9 @@ console.log(this.selectOrderTransport?.loadingType?.id);
           console.log(data);
           if(data[0]){
           this.selectedCatalogPricing=data[0];
-          this.onSearchAccountPricing();
-
 
         }
+ this.onSearchAccountPricing();
         });
 }
 
@@ -165,13 +164,14 @@ console.log(this.selectOrderTransport?.loadingType?.id);
         console.log(data);
         if(data[0]){
         this.selectedAccountPricing=data[0];
+
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=   this.selectedAccountPricing.saleAmountHt;
-        this.marginRate=((sale-purchase)/purchase)*100;
+        this.marginRate=this.marginRate>0 ? this.marginRate :((sale-purchase)/purchase)*100;
       }else {
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=  this.selectedCatalogPricing.saleAmountHt;
-        this.marginRate=((sale-purchase)/purchase)*100;
+        this.marginRate=this.marginRate>0 ? this.marginRate :((sale-purchase)/purchase)*100;
       }
       });
 
@@ -209,6 +209,8 @@ loadForm(){
   next() {
   console.log("next");
 this.orderTransportService.addPrice(  this.priceTransport);
+this.orderTransportService.addMarginRate(  this.marginRate);
+
    //this.orderTransportService.addOrderTransportTransport(this.orderTransportTransports);
     this.nextstep.emit(true);
 

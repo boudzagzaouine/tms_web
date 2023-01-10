@@ -107,6 +107,37 @@
             <div class="row justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold"
+                  >{{ "Plateau " | translate }} *</label
+                >
+                <span
+                  *ngIf="
+                    (vehicleForm.controls['general'].get('fVehicleTray')
+                      .touched &&
+                      vehicleForm.controls['general'].get('fVehicleTray')
+                        .invalid) ||
+                    (isFormSubmitted &&
+                      vehicleForm.controls['general'].get('fVehicleTray')
+                        .invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small"
+                >
+                  {{ "Obligatoire" | translate }}
+                </span>
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [options]="vehicleTrayList"
+                  optionLabel="code"
+                  formControlName="fVehicleTray"
+                  (onChange)="onSelectVehicleTray($event)"
+                  [filter]="true"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+
+
+              <div class="form-group col-md-3">
+                <label class="font-weight-bold"
                   >{{ "Type badge " | translate }} *</label
                 >
                 <span
@@ -133,6 +164,10 @@
                   [showClear]="true"
                 ></p-dropdown>
               </div>
+              <div class="form-group col-md-3"></div>
+            </div>
+
+            <div class="row justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold">{{
                   "Date du contrôle technique" | translate
@@ -159,9 +194,10 @@
                   formControlName="fValeurVisiteTechnique"
                 />
               </div>
-            </div>
+              <div class="form-group col-md-3"></div>
+              </div>
+              <div class="row justify-content-around">
 
-            <div class="row justify-content-around">
               <div class="form-group col-md-3">
                 <label class="font-weight-bold">{{
                   "Date de paiement de vignette" | translate

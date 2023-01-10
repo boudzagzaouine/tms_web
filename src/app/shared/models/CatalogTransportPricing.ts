@@ -28,6 +28,7 @@ export class CatalogTransportPricing {
     purchaseAmountTva:number;
     purchaseVat:Vat;
 
+    marginRate:number=0;
 
   tarifLastPriceIntern :number=0; //variable local
   tarifLastPriceExterne :number=0; //variable local

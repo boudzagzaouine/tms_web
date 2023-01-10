@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TurnItineraryComponent } from './turn-itinerary.component';
+import { TransportPlanVehicleListComponent } from './transport-plan-vehicle-list.component';
 
-describe('TurnItineraryComponent', () => {
-  let component: TurnItineraryComponent;
-  let fixture: ComponentFixture<TurnItineraryComponent>;
+describe('TransportPlanVehicleListComponent', () => {
+  let component: TransportPlanVehicleListComponent;
+  let fixture: ComponentFixture<TransportPlanVehicleListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TurnItineraryComponent ]
+      declarations: [ TransportPlanVehicleListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TurnItineraryComponent);
+    fixture = TestBed.createComponent(TransportPlanVehicleListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

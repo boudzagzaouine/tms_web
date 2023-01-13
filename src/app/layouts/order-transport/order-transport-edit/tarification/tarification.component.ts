@@ -45,7 +45,7 @@ contractAccountList: ContractAccount[] = [];
    priceTransport :number =0 ;
    priceRetour :number =0;
    selectRadio :Boolean=true;
-   marginRate :number=-1;
+   marginRate :number=0;
   constructor(private vehicleCategoryService :VehicleCategoryService,
     private orderTransportService :OrderTransportService,
     private transportPlanService :TransportPlanService,
@@ -167,11 +167,11 @@ console.log(this.selectOrderTransport?.loadingType?.id);
 
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=   this.selectedAccountPricing.saleAmountHt;
-        this.marginRate=this.marginRate>0 ? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginRate=(this.marginRate!=null && this.marginRate>0) ? this.marginRate :((sale-purchase)/purchase)*100;
       }else {
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=  this.selectedCatalogPricing.saleAmountHt;
-        this.marginRate=this.marginRate>0 ? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginRate=(this.marginRate!=null && this.marginRate>0)? this.marginRate :((sale-purchase)/purchase)*100;
       }
       });
 

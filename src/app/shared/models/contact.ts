@@ -1,3 +1,4 @@
+import { ContactFunction } from './contact-function';
 import { Account } from './account';
 import { Owner } from './owner';
 
@@ -17,4 +18,5 @@ export class Contact {
     active: boolean;
     account:Account;
     owner:Owner;
+    contactFunction:ContactFunction;
 }

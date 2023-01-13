@@ -171,11 +171,11 @@
             <tr>
 
 
-              <th>{{'code' | translate}}</th>
               <th>{{'Nom' | translate}}</th>
 
               <th>{{'tel1' | translate}}</th>
               <th>{{'E-mail '| translate}}</th>
+              <th>{{'Fonction' | translate}}</th>
 
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
@@ -183,10 +183,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-line>
             <tr>
-              <td>{{line?.code}}</td>
               <td>{{line?.name}}</td>
               <td>{{line?.tel1}}</td>
               <td>{{line?.email}}</td>
+              <td>{{line?.contactFunction?.code}}</td>
 
 
               <td>

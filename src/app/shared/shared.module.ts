@@ -1,3 +1,7 @@
+import { ContactFunctionService } from './services/api/contact-function.service';
+import { OrderTransportRejectTypeService } from './services/api/order-transport-reject-type.service';
+import { TransportPlanHistoryService } from './services/api/transport-plan-history.service';
+import { BrandVehicleTypeService } from './services/api/brand-vehicle-type.service';
 import { CatalogTransportAccountPricingService } from './services/api/catalog-transport-account-pricing.service';
 import { CatalogTransportPricingService } from './services/api/catalog-transport-pricing.service';
 import { VehicleTrayService } from './services/api/vehicle-tray.service';
@@ -331,7 +335,11 @@ export class SharedModule {
         CatalogPricingService,
         LoadingTypeService,
         VehicleTrayService,
-        CatalogTransportAccountPricingService
+        CatalogTransportAccountPricingService,
+        BrandVehicleTypeService,
+        TransportPlanHistoryService,
+        OrderTransportRejectTypeService,
+        ContactFunctionService
       ],
 
     };

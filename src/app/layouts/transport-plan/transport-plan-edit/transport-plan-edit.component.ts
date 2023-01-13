@@ -87,7 +87,7 @@ export class TransportPlanEditComponent implements OnInit {
                 this.selectedOrderTransport = data;
                 console.log(this.selectedOrderTransport);
 
-                if(this.selectedOrderTransport.turnType.id==1 ||this.selectedOrderTransport.turnType.id==3 ){
+                if(this.selectedOrderTransport?.turnType?.id==1 ||this.selectedOrderTransport?.turnType?.id==3 ){
 
            this.orderTransportInfoService.find('type~'+'Aller'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
              aller=>{
@@ -100,7 +100,7 @@ export class TransportPlanEditComponent implements OnInit {
            );
             }
 
-            if(this.selectedOrderTransport.turnType.id==2 ||this.selectedOrderTransport.turnType.id==3 ){
+            if(this.selectedOrderTransport?.turnType?.id==2 ||this.selectedOrderTransport?.turnType?.id==3 ){
 
               this.orderTransportInfoService.find('type~'+'Retour'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
                 retour=>{

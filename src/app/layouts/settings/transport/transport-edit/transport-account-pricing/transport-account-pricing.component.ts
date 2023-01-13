@@ -109,7 +109,7 @@ export class TransportAccountPricingComponent implements OnInit {
       {
         field: "vehicleTray",
         child: "code",
-        header: "Plateau",
+        header: "Form",
         type: "object",
       },
 
@@ -126,14 +126,14 @@ export class TransportAccountPricingComponent implements OnInit {
         header: "Ville Destination",
         type: "object",
       },
-      { field: "saleAmountHt", header: "Prix HT ", type: "number" },
+      { field: "purchaseAmountHt", header: "Prix HT ", type: "number" },
       {
-        field: "saleVat",
+        field: "purchaseVat",
         child: "value",
         header: "TVA",
         type: "object",
       },
-      { field: "saleAmountTtc", header: "Prix TTC", type: "number" },
+      { field: "purchaseAmountTtc", header: "Prix TTC", type: "number" },
     ];
     if (
       this.selectedTransport.id != null ||

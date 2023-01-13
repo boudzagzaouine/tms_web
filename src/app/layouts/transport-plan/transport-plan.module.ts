@@ -1,3 +1,5 @@
+import { TransportPlanHistoryComponent } from './transport-plan-add/transport-plan-history/transport-plan-history.component';
+import { TransportPlanHistory } from './../../shared/models/transport-plan-history';
 import { TransportPlanVehicleListComponent } from './transport-plan-add/transport-plan-vehicle-list/transport-plan-vehicle-list.component';
 import { TransportPlanServiceEditComponent } from './transport-plan-add/transport-plan-service-edit/transport-plan-service-edit.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
@@ -81,6 +83,7 @@ import {DataViewModule} from 'primeng/dataview';
      CheckboxModule,
      DataViewModule
   ],
-  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent]
+  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
+                   TransportPlanHistoryComponent]
 })
 export class TransportPlanModule { }

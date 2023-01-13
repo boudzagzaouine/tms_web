@@ -42,6 +42,15 @@
 
               </div>
 
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">{{ "Fonction " | translate }} </label>
+
+                <p-dropdown [autoDisplayFirst]="false"  [appendTo]="'body'"  [options]="contactFunctionList" optionLabel="code" [filter]="true"
+                  [showClear]="true"  (onChange)="onSelectContactFunction($event)"
+                  formControlName="function">
+                </p-dropdown>
+              </div>
+              <div class="form-group col-sm-6"></div>
 
           </div>
 

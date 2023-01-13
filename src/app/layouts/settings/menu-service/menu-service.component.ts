@@ -17,7 +17,7 @@ export class MenuServiceComponent implements OnInit {
 
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Produit' ,routerLink:'/core/settings/menu-product'},
+      {label: 'Service' ,routerLink:'/core/settings/menu-service'},
 
   ];
 

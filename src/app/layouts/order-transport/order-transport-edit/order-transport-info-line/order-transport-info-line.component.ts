@@ -83,7 +83,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
     if (this.editMode) {
       this.selectAddressContactDeliveryInfo =
         this.selectedOrderTransportInfoLine.addressContactDeliveryInfo;
+        this.selectedAccount= this.selectedOrderTransportInfoLine.account
     }
+
     this.displayDialog = true;
     this.initForm();
   }

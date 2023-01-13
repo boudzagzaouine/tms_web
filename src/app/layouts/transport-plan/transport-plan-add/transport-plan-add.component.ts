@@ -1,3 +1,7 @@
+import { Account } from './../../../shared/models/account';
+import { CatalogTransportAccountPricingService } from './../../../shared/services/api/catalog-transport-account-pricing.service';
+import { TransportPlanHistoryService } from './../../../shared/services/api/transport-plan-history.service';
+import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { CatalogPricingService } from './../../../shared/services/api/agent.service copy';
 import { CatalogPricing } from './../../../shared/models/catalog-pricing';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
@@ -48,7 +52,7 @@ export class TransportPlanAddComponent implements OnInit {
   selectOrderTransport: OrderTransport = new OrderTransport();
   orderTransportList: OrderTransport[] = [];
   orderTransportCloneList: OrderTransport[] = [];
-
+  selectTransportPlanHistory :TransportPlanHistory=new TransportPlanHistory();
 
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
@@ -78,6 +82,7 @@ export class TransportPlanAddComponent implements OnInit {
   selectedTransportProductService = new TransportPlanProductService();
   editModeTransportProduct: Boolean=false;
   showDialogTransportProduct:Boolean=false;
+  showDialogReject:Boolean=false;
   villeList:Ville[]=[];
   selectedVilleSource:Ville=new Ville();
   selectedVilleDistination:Ville=new Ville();
@@ -89,17 +94,19 @@ export class TransportPlanAddComponent implements OnInit {
     private orderTransportInfoService: OrderTransportInfoService,
     private vehicleService: VehicleService,
     private catalogTransportPricingService: CatalogTransportPricingService,
+    private catalogTransportAccountPricingService: CatalogTransportAccountPricingService,
+
     private driverService: DriverService,
     private turnStatusService: TurnStatusService,
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private villeService:VilleService,
-    private contractAccountService: ContractAccountService,
     private router: Router,
     private maintenanceService: MaintenanceService,
     private confirmationService:ConfirmationService,
     private catalogPricingService:CatalogPricingService,
+    private  transportPlanHitoryService: TransportPlanHistoryService
   ) {}
 
   ngOnInit() {
@@ -209,7 +216,8 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
 
         if (data[0] != null || data[0] != undefined) {
           this.catalogTransportPricingList = data;
-          this.onSearchCatalgPrice();
+          this.searchTransportbyOrderInHistory();
+
 
          console.log(this.catalogTransportPricingList);
 
@@ -219,6 +227,32 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
       });
   }
 
+  searchTransportbyOrderInHistory(){
+
+
+
+      this.transportPlanHitoryService.find('orderTransport.id:'+this.selectOrderTransport.id).subscribe(
+        data => {
+
+ console.log(data);
+console.log( this.catalogTransportPricingList);
+if(data[0]!=null){
+data.forEach(element => {
+this.catalogTransportPricingList=this.catalogTransportPricingList.filter(
+  f=> f.transport.id!=element.transport.id)
+
+
+});
+}
+this.onSearchCatalgPrice();
+
+        }
+      );
+
+
+
+
+  }
 
   onSearchCatalgPrice(){
     let source ,distination ;
@@ -263,16 +297,86 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
   calculateTransportMarge(){
 
     this.catalogTransportPricingList.forEach(element => {
-      let purchase=  element.purchaseAmountHt;
-      let sale=   this.catalogPricing.saleAmountHt;
-    element.marginRate=((sale-purchase)/purchase)*100;
+    this.searchTransportAccountPricing(element.transport).subscribe(
+      data=> {
+        if(data>0){
+          console.log("account Pricing");
+
+    let purchase=  data;
+        let sale=   this.catalogPricing.saleAmountHt;
+        console.log("p "+purchase +" s "+sale );
+      element.marginRate=((sale-purchase)/purchase)*100;
+      console.log("marg:"+element.marginRate);
+
+        } else {
+          console.log(" Pricing");
+
+          let purchase=  element.purchaseAmountHt;
+          let sale=   this.catalogPricing.saleAmountHt;
+          console.log("p "+purchase +" s "+sale );
+        element.marginRate=((sale-purchase)/purchase)*100;
+        console.log("marg:"+element.marginRate);
+        }
+
+      }
+    );
+
+
+
 
 
     });
 
+    this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
+
 
       }
 
+
+
+      searchTransportAccountPricing(transport:Transport): Observable<number> {
+        let source ,distination ;
+        if(this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
+        source =  this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code  ;
+        distination = this.selectOrderTransport?.orderTransportInfoAller
+        ?.villeDistination.code ;
+      }else {
+        source =  this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code  ;
+        distination = this.selectOrderTransport?.orderTransportInfoRetour
+        ?.villeDistination.code ;
+      }
+        let purcahse: number = 0;
+        var subject = new Subject<number>();
+        this.catalogTransportAccountPricingService
+          .find(
+            "company.id:" +this.selectOrderTransport.company.id+
+            ",transport.id:" +transport.id+
+            ",turnType.id:" +
+            this.selectOrderTransport.turnType.id +
+            ",loadingType.id:" +
+            this.selectOrderTransport.loadingType.id +
+            ",vehicleCategory.tonnage >" +
+            this.selectOrderTransport.vehicleCategory.tonnage +
+            ",vehicleTray.id:" +
+            this.selectOrderTransport.vehicleTray.id +
+            ",villeSource.code~" + source
+           +
+            ",villeDestination.code~" +distination
+          )
+          .subscribe((data) => {
+
+            if (data[0]!=null) {
+              purcahse = data[0].purchaseAmountHt;
+              console.log(purcahse);
+
+              subject.next(purcahse);
+            } else {
+              purcahse = 0;
+              subject.next(purcahse);
+            }
+          });
+        return subject.asObservable();
+      }
 
   onVilleSearch(event){
     this.villeService
@@ -333,50 +437,6 @@ this.sortOrderTransport();
 
 
 
-  // searchVehicleInMaintenance(vehicle: Vehicle): Observable<string> {
-  //   let state: string = "Disponible";
-  //   var subject = new Subject<string>();
-
-  //   this.maintenanceService
-  //     .sizeSearch("patrimony.id:" + vehicle.id + ",maintenanceState.id!" + 4)
-  //     .subscribe((data) => {
-  //       if (data && data > 0) {
-  //         console.log("maintenace");
-
-  //         state = "Maintenance";
-  //         subject.next(state);
-  //       } else {
-  //         state = "Disponible";
-  //         subject.next(state);
-  //       }
-  //     });
-  //   return subject.asObservable();
-  // }
-
-
-  // fin Available
-
-  ////  afficher dernier prix dernier achat prestataire
-  loadLastTranportPlanPrestataires() {
-    // if (this.isInterOrPrestataire == "Interne") {
-    //   this.selectedTransportPlan.transport = this.selectDefaulTransport;
-    // }
-    this.transportPlanService
-      .getLastPriceTransportPlans(
-        "orderTransport.turnType.id:" +
-          this.selectedTransportPlan.orderTransport.turnType.id +
-          ",vehicleCategory.id:" +
-          this.selectedTransportPlan?.vehicleCategory?.id +
-          ",transport.id:" +
-          this.selectedTransportPlan.transport.id
-      )
-      .subscribe((data) => {
-
-       this.lastDeliveryTransportList=[];
-        this.lastDeliveryTransportList=data;
-        console.log( this.lastDeliveryTransportList);
-      });
-  }
   //// fin  afficher dernier prix dernier achat prestataire
 
 
@@ -574,8 +634,48 @@ else{
     });
   }
 
+  OnSelectedRefus(event){
+
+    if (
+      this.selectOrderTransport.id == null &&
+      this.selectOrderTransport.id == undefined
+    ) {
+      this.toastr.info("Selectionner Commande", "Info");
+    }
+      else if (
+        this.selectedTransport.id == null &&
+        this.selectedTransport.id == undefined
+      ) {
+        this.toastr.info("Selectionner Transport", "Info");
+       }
+      else {
+  this.selectTransportPlanHistory = new TransportPlanHistory();
+  this.selectTransportPlanHistory.orderTransport=this.selectOrderTransport;
+  this.selectTransportPlanHistory.transport=this.selectedTransport.transport;
+  this.selectTransportPlanHistory.vehicleCategory=this.selectOrderTransport.vehicleCategory;
+if(this.selectOrderTransport.turnType.id == 1 || this.selectOrderTransport.turnType.id == 3){
+  console.log("aller ");
+console.log(this.selectOrderTransport.orderTransportInfoAller.villeSource.code);
+
+ this.selectTransportPlanHistory.villeSource=this.selectOrderTransport?.orderTransportInfoAller?.villeSource;
+  this.selectTransportPlanHistory.villeDistination=this.selectOrderTransport?.orderTransportInfoAller?.villeDistination;
+
+}else if(this.selectOrderTransport.turnType.id == 2){
+  this.selectTransportPlanHistory.villeSource=this.selectOrderTransport?.orderTransportInfoRetour?.villeSource;
+  this.selectTransportPlanHistory.villeDistination=this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination;
+}
+
+  this.selectTransportPlanHistory.type=event;
+      this.showDialogReject=true;
+      }
+  }
 
 
+onShowDialog(event) {
+
+  this.showDialogReject = event;
+  this.searchTransportbyOrderInHistory();
+}
    // search contract by account aller
   // loadContractAccountbyAccountSelectedAller(vehicleCategory: VehicleCategory) {
   //   console.log(

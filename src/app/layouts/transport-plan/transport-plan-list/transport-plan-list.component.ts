@@ -1,3 +1,6 @@
+import { CompanyService } from './../../../shared/services/api/company.service';
+import { Company } from './../../../shared/models/company';
+import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +11,7 @@ import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Component, OnInit } from '@angular/core';
+import { Transport } from './../../../shared/models/transport';
 
 @Component({
   selector: 'app-transport-plan-list',
@@ -22,9 +26,12 @@ export class TransportPlanListComponent implements OnInit {
   searchQuery = '';
   codeSearch: TransportPlan;
 
-
+  transportList:Transport[]=[];
+  transportSearch:Transport;
   selectedTransportPlans: Array<TransportPlan> = [];
   transportPlanList: Array<TransportPlan> = [];
+  companySearch:Company;
+  companyList:Company[]=[];
   className: string;
   cols: any[];
   editMode: number;
@@ -46,6 +53,9 @@ export class TransportPlanListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private transportService:TransportServcie,
+    private companyService:CompanyService,
+
     private router: Router) { }
 
   ngOnInit() {
@@ -64,6 +74,8 @@ export class TransportPlanListComponent implements OnInit {
      // { field: 'date', header: 'Date', type: 'date' },
 
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
+      { field: 'orderTransport', child: 'company',child2:'name', header: 'Société', type: 'object2' },
+
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
       { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
@@ -133,11 +145,26 @@ export class TransportPlanListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
+
+  onTransportSearch(event){
+    this.subscriptions.add(this.transportService.find('name~' + event.query).subscribe(
+      data => this.transportList = data
+    ));
+  }
+
+  onCompanySearch(event){
+    this.subscriptions.add(this.companyService.find('name~' + event.query).subscribe(
+      data => this.companyList = data
+    ));
+  }
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-    if (this.dateLivraisonSearch != null && this.dateLivraisonSearch !== undefined) {
-      buffer.append(`dateDelivery~${this.dateLivraisonSearch}`);
+    if (this.transportSearch != null && this.transportSearch !== undefined) {
+      buffer.append(`transport.name~${this.transportSearch.name}`);
+    }
+    if (this.companySearch != null && this.companySearch !== undefined) {
+      buffer.append(`orderTransport.company.name~${this.companySearch.name}`);
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -162,7 +189,8 @@ export class TransportPlanListComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
-
+   this.transportSearch=null;
+   this.companySearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

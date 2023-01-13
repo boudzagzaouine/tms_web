@@ -4,12 +4,28 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
   <div class="row  mt-1 ">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">
-        Date Commande</label><br />
-      <p-calendar [(ngModel)]="dateDelivery" dateFormat="dd.mm.yy"></p-calendar>
-
+        Prestataire</label><br />
+        <p-autoComplete
+        [(ngModel)]="codeSearch"
+        [suggestions]="transportList"
+        (completeMethod)="onTransportSearch($event)"
+        field="name"
+      ></p-autoComplete>
     </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">
+        Société</label><br />
+        <p-autoComplete
+        [(ngModel)]="companySearch"
+        [suggestions]="companyList"
+        (completeMethod)="onCompanySearch($event)"
+        field="name"
+      ></p-autoComplete>
+    </div>
+
+   
 
 
 

@@ -1,3 +1,5 @@
+import { ContactFunctionService } from './../../../../../shared/services/api/contact-function.service';
+import { ContactFunction } from './../../../../../shared/models/contact-function';
 import { ActivatedRoute } from '@angular/router';
 import { Company } from './../../../../../shared/models/company';
 import { ContactService } from './../../../../../shared/services/api/contact.service';
@@ -18,6 +20,7 @@ export class ContactEditComponent implements OnInit {
   @Input() editMode = false;
   @Output() contactEdited = new EventEmitter<Contact>();
   @Output() showDialog = new EventEmitter<boolean>();
+  contactFunctionList:ContactFunction[]=[];
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Contact';
@@ -27,6 +30,7 @@ export class ContactEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,
     private contactService : ContactService,
+    private contactFunctionService :ContactFunctionService
 
 
 
@@ -38,6 +42,11 @@ export class ContactEditComponent implements OnInit {
     this.displayDialog = true;
     console.log(this.editMode);
 
+this.contactFunctionService.findAll().subscribe(
+  data=> {
+    this.contactFunctionList=data;
+  }
+);
 
     if (!this.editMode) {
       this.title = 'Ajouter un Contact';
@@ -73,6 +82,10 @@ export class ContactEditComponent implements OnInit {
 
   }
 
+  onSelectContactFunction(event){
+this.selectedContact.contactFunction=event.value;
+  }
+
   initForm() {
 
     this.contactForm = this.formBuilder.group({
@@ -83,6 +96,7 @@ export class ContactEditComponent implements OnInit {
 
       tele: this.formBuilder.control(this.selectedContact.tel1),
       email: this.formBuilder.control(this.selectedContact.email),
+      function: this.formBuilder.control(this.selectedContact.contactFunction),
 
     });
   }

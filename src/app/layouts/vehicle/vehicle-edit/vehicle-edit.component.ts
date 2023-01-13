@@ -1,3 +1,5 @@
+import { BrandVehicleTypeService } from './../../../shared/services/api/brand-vehicle-type.service';
+import { BrandVehicleType } from './../../../shared/models/brand-vehicle-type';
 import { VehicleTrayService } from './../../../shared/services/api/vehicle-tray.service';
 import { VehicleTray } from './../../../shared/models/vehicle-tray';
 import { VehicleProductReference } from './../../../shared/models/vehicle-product-reference';
@@ -70,6 +72,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   badgeTypeList: BadgeType[] = [];
   contractTypeList: ContractType[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
+  vehicleBrandTypeList: BrandVehicleType[] = [];
   supplierList: Supplier[] = [];
   insuranceTypeList: InsuranceType[] = [];
   inssuranceTermList: InsuranceTerm[] = [];
@@ -108,7 +111,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
     private maintenancePlanService :MaintenancePlanService,
     private productTypeService: ProductTypeService,
     private productService: ProductService,
-
+    private brandVehicleTypeService :BrandVehicleTypeService,
     private driverService: DriverService,
     private vehicleService: VehicleService,
     private vehicleCategoryService: VehicleCategoryService,
@@ -281,6 +284,11 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
         this.vehicleTrayList = data;
       }
     ));
+    this.subscriptions.add(this.brandVehicleTypeService.findAll().subscribe(
+      data => {
+        this.vehicleBrandTypeList = data;
+      }
+    ));
   }
 
   onSelectProductTypeParent(item){
@@ -331,6 +339,7 @@ return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=
         'fRegistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
         'fVehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory, Validators.required),
         'fVehicleTray': new FormControl(this.selectedVehicle.vehicleTray, Validators.required),
+        'fBrandVehicleType': new FormControl(this.selectedVehicle.brandVehicleType, Validators.required),
 
         'fBadgeType': new FormControl(this.selectedVehicle.badgeType, Validators.required),
         'fTechnicalVisit': new FormControl(d),
@@ -515,6 +524,11 @@ return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=
 
   onSelectVehicleTray(event ){
     this.selectedVehicle.vehicleTray = event.value;
+
+  }
+
+  onSelectBrandVehicleType(event){
+    this.selectedVehicle.brandVehicleType = event.value;
 
   }
   onSelectContract(event: any) {

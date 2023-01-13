@@ -91,6 +91,19 @@ export class CatalogPricingComponent implements OnInit {
         header: 'Type Chargement',
         type: 'object'
       },
+       {
+        field: 'vehicleCategory',
+        child: 'code',
+        header: 'Catégorie de Véhicle',
+        type: 'object'
+      },
+
+      {
+        field: 'vehicleTray',
+        child: 'code',
+        header: 'Form',
+        type: 'object'
+      },
       {
         field: 'turnType',
         child: 'code',
@@ -98,12 +111,7 @@ export class CatalogPricingComponent implements OnInit {
         type: 'object'
       },
 
-      {
-        field: 'vehicleCategory',
-        child: 'code',
-        header: 'Catégorie de Véhicle',
-        type: 'object'
-      },
+
 
       {
         field: 'villeSource',

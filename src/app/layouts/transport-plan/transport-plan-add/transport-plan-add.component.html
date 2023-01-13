@@ -163,7 +163,7 @@
 </span> -->
 <span >
   <p-orderList [value]="catalogTransportPricingList"  (onSelectionChange)="onselectTransport($event)" [listStyle]="{'max-height':'30rem'}"
-  header="Liste des Prestataires" filterBy="registrationNumber" filterPlaceholder="Recherche Par Matricule" [dragdrop]="true">
+  header="Liste des Prestataires" filterBy="transport.name" filterPlaceholder="Recherche Par Prestataire" [dragdrop]="true">
     <ng-template let-transport pTemplate="item" >
         <div class="product-item">
             <div class="image-container">
@@ -191,13 +191,27 @@
   </span>
 
 
-  <div class="row mt-3 justify-content-around">
-    <div class="form-group col-md-2"></div>
+  <div class="row mt-3 justify-content-around m-0">
 
- <div class="form-group col-md-10">
+    <div class="form-group col-md-1 ">
+</div>
+ <div class="form-group col-md-4 ">
   <button type="text" style="width:100%" pButton label="Affecter" (click)="affectedTransport()">
+</button>
 
-    <i class="pi pi-sliders-h" style="font-size: 2rem"></i> </button>
+    <!-- <i class="pi pi-sliders-h" style="font-size: 2rem"></i>  -->
+  </div>
+
+ <div class="form-group col-md-3">
+  <button type="text" style="width:100%" class="p-button-help" pButton label="Refus" (click)="OnSelectedRefus(2)">
+
+    </button>
+  </div>
+
+ <div class="form-group col-md-3">
+  <button type="text" style="width:100%" class="p-button-warning" pButton label="Rejeter" (click)="OnSelectedRefus(1)">
+
+ </button>
   </div>
 </div>
         </div>
@@ -413,6 +427,15 @@
    [selectedTransportProduct]="this.selectedTransportProductService"
    [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
 
+</div>
+
+
+<div *ngIf="showDialogReject == true">
+  <app-transport-plan-history
+    [editMode]="editMode"
+    [selectedTransportPlanHistroy]="selectTransportPlanHistory"
+    (showDialog)="onShowDialog($event)"
+  ></app-transport-plan-history>
 </div>
 
 

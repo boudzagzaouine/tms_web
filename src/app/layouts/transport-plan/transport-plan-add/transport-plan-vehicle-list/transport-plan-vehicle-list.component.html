@@ -26,7 +26,7 @@
                     </div>
                   <div class="product-list-action">
                       <p-button icon="pi pi-plus" label="Sélectionner" (click)="onSelectVehicle(product)" [disabled]="product.state === 'Trajet'"></p-button>
-                      <span [class]="'customer-badge status-' + product.state.toLowerCase()">{{product.state}}</span>
+                      <span [class]="'customer-badge status-' + product.state">{{product.state}}</span>
                   </div>
               </div>
           </div>

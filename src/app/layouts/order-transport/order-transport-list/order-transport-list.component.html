@@ -4,14 +4,45 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
   <div class="row  mt-1 ">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <label class="font-weight-bold">
-        Date Commande</label><br />
-      <p-calendar [(ngModel)]="dateDelivery" dateFormat="dd.mm.yy"></p-calendar>
-
+        Code</label><br />
+        <p-autoComplete
+        [(ngModel)]="codeSearch"
+        [suggestions]="OrderTransportCodeList"
+        (completeMethod)="onOrderTransportSearch($event)"
+        field="code"
+      ></p-autoComplete>
     </div>
 
 
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type " | translate }}</label
+      ><br />
+      <p-dropdown
+        [options]="turnTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="turnTypeSearch"
+        filter="true"
+      >
+      </p-dropdown>
+
+    </div>
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type Chargement " | translate }}</label
+      ><br />
+      <p-dropdown
+        [options]="loadingTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="loadingTypeSearch"
+        filter="true"
+      >
+      </p-dropdown>
+
+    </div>
 
     </div>
 

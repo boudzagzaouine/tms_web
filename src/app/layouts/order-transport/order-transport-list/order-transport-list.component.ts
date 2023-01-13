@@ -1,3 +1,7 @@
+import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
+import { LoadingType } from './../../../shared/models/loading-type';
+import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
+import { TurnType } from './../../../shared/models/turn-Type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +27,12 @@ export class OrderTransportListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: OrderTransport;
+  OrderTransportCodeList : OrderTransport[]=[];
+  turnTypeList:TurnType[]=[];
+   turnTypeSearch:TurnType;
 
+   loadingTypeList:LoadingType[]=[];
+   loadingTypeSearch:LoadingType;
 
   selectedOrderTransports: Array<OrderTransport> = [];
   orderTransportList: Array<OrderTransport> = [];
@@ -41,13 +50,14 @@ export class OrderTransportListComponent implements OnInit {
 
 
    dateLivraisonSearch: Date;
-   dateDelivery: Date;
-  constructor(private OrderTransportService: OrderTransportService,
+  constructor(private orderTransportService: OrderTransportService,
 
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
+    private turnTypeService:TurnTypeService,
+    private loadingTypeService:LoadingTypeService,
     private router: Router) { }
 
   ngOnInit() {
@@ -73,12 +83,23 @@ export class OrderTransportListComponent implements OnInit {
 
     ];
 
+    this.turnTypeService.findAll().subscribe(
+      data =>{
+        this.turnTypeList=data;
+      }
+    );
+
+    this.loadingTypeService.findAll().subscribe(
+      data =>{
+        this.loadingTypeList=data;
+      }
+    );
 
   }
 
   onExportExcel(event) {
 
-    this.subscriptions.add(  this.OrderTransportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(  this.orderTransportService.find(this.searchQuery).subscribe(
       data => {
         this.OrderTransportExportList = data;
         if (event != null) {
@@ -98,7 +119,7 @@ export class OrderTransportListComponent implements OnInit {
 
   }
   onExportPdf(event) {
-    this.subscriptions.add( this.OrderTransportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.orderTransportService.find(this.searchQuery).subscribe(
       data => {
         this.OrderTransportExportList = data;
         this.globalService.generatePdf(event, this.OrderTransportExportList, this.className, this.titleList);
@@ -113,12 +134,12 @@ export class OrderTransportListComponent implements OnInit {
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.OrderTransportService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add( this.OrderTransportService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add( this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
         this.orderTransportList = data;
@@ -140,7 +161,16 @@ export class OrderTransportListComponent implements OnInit {
 
     const buffer = new EmsBuffer();
     if (this.dateLivraisonSearch != null && this.dateLivraisonSearch !== undefined) {
-      buffer.append(`date~${this.dateLivraisonSearch}`);
+      buffer.append(`date>${this.dateLivraisonSearch.toISOString()}`);
+    }
+    if (this.codeSearch != null && this.codeSearch !== undefined) {
+      buffer.append(`code~${this.codeSearch.code}`);
+    }
+    if (this.turnTypeSearch != null && this.turnTypeSearch !== undefined) {
+      buffer.append(`turnType.code~${this.turnTypeSearch.code}`);
+    }
+    if (this.loadingTypeSearch != null && this.loadingTypeSearch !== undefined) {
+      buffer.append(`loadingType.code~${this.loadingTypeSearch.code}`);
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -149,6 +179,11 @@ export class OrderTransportListComponent implements OnInit {
   }
 
 
+  onOrderTransportSearch(event){
+    this.subscriptions.add(this.orderTransportService.find('code~' + event.query).subscribe(
+      data => this.OrderTransportCodeList = data
+    ));
+  }
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
@@ -165,7 +200,9 @@ export class OrderTransportListComponent implements OnInit {
 
   reset() {
     this.codeSearch = null;
-
+   this.dateLivraisonSearch=null;
+   this.turnTypeSearch=null;
+   this.loadingTypeSearch=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -181,7 +218,7 @@ export class OrderTransportListComponent implements OnInit {
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedOrderTransports.map(x => x.id);
-          this.subscriptions.add( this.OrderTransportService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.orderTransportService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();

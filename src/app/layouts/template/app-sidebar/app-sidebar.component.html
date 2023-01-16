@@ -87,6 +87,10 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/activity-area" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Secteur d'activité" | translate}}</a>
           </li>
+          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+            <a routerLink="/core/settings/menu-motif" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Motif" | translate}}</a>
+          </li>
 
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/menu-address" class="m-a"><i class="fa fa-circle-o"></i>
@@ -457,6 +461,15 @@ height: 100vh; padding-bottom: 10%;">
           <li >
             <a routerLink="/core/transport-plan/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Lister' | translate}}</a>
+          </li>
+
+          <li >
+            <a routerLink="/core/transport-plan/refus" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Refus' | translate}}</a>
+          </li>
+          <li >
+            <a routerLink="/core/transport-plan/reject" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Rejets' | translate}}</a>
           </li>
         </ul>
       </li>

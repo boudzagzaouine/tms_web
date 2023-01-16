@@ -103,8 +103,17 @@ getLastPriceTransportPlans(search: string) {
 
 
 
+
+
+
+
+//importing
+
 addDataExchangeAddressDelivery(t: T[]): Observable<T[]> {
   return this.proxy.addDataExchangeAddressDelivery(this.controller, t);
+}
+addDataExchangeCatalogPricing(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeCatalogPricing(this.controller, t);
 }
 
 }

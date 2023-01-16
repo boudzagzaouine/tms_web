@@ -1,3 +1,5 @@
+import { LoadingType } from './../../../shared/models/loading-type';
+import { TransportPlanProductService } from './../../../shared/models/transport-plan-product-service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,13 +24,14 @@ import { Vehicle } from './../../../shared/models/vehicle';
 import { OrderTransportInfoService } from './../../../shared/services/api/order-transport-info.service';
 import { OrderTransport } from './../../../shared/models/order-transport';
 import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-transport-plan-edit',
   templateUrl: './transport-plan-edit.component.html',
-  styleUrls: ['./transport-plan-edit.component.scss']
+  styleUrls: ['./transport-plan-edit.component.scss'],
+  providers:[ConfirmationService]
 })
 export class TransportPlanEditComponent implements OnInit {
 
@@ -42,7 +45,10 @@ export class TransportPlanEditComponent implements OnInit {
   vehicleCategoryList : VehicleCategory[]=[];
   transportList : Transport[]=[];
   isFormSubmitted : Boolean =false;
-  constructor(private transportPlanService:TransportPlanService,
+  selectedTransportProductService = new TransportPlanProductService();
+  editModeTransportProduct: Boolean=false;
+  showDialogTransportProduct:Boolean=false;
+    constructor(private transportPlanService:TransportPlanService,
               private activatedRoute:ActivatedRoute,
               private driverService :DriverService,
               private transportService : TransportServcie,
@@ -53,6 +59,7 @@ export class TransportPlanEditComponent implements OnInit {
               private router: Router,
               private spinner: NgxSpinnerService,
               private  vehicleService :VehicleService,
+              private confirmationService: ConfirmationService
               ) { }
 
   ngOnInit() {
@@ -129,9 +136,15 @@ initForm(){
 
     orderTransport: new FormControl(this.selectedTransportPlan.orderTransport?.code),
     vehicle :new FormControl(this.selectedTransportPlan.vehicle),
+    turnType :new FormControl(this.selectedTransportPlan?.orderTransport?.turnType?.code),
+    loadingType :new FormControl(this.selectedTransportPlan?.orderTransport?.loadingType?.code),
+    villeSource :new FormControl(this.selectedTransportPlan?.villeSource?.code),
+    villeDistination :new FormControl(this.selectedTransportPlan?.villeDistination?.code),
+
     driver:new FormControl(this.selectedTransportPlan.driver),
     vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
     transport :new FormControl(this.selectedTransportPlan.transport),
+    priceP :new FormControl(this.selectedTransportPlan.purchasePrice),
     price :new FormControl(this.selectedTransportPlan.salePrice),
     date :new FormControl(new Date (this.selectedTransportPlan.date)),
     status :new FormControl(this.selectedTransportPlan.turnStatus?.code),
@@ -215,4 +228,48 @@ onSubmit(close=false){
 
    }
 
+
+   onShowDialogTransportProduct(line, mode) {
+    this.showDialogTransportProduct = true;
+
+    if (mode == true) {
+
+
+      this.selectedTransportProductService= line;
+      this.editModeTransportProduct = true;
+    } else if (mode == false) {
+
+      this.selectedTransportProductService = new TransportPlanProductService();
+      this.editModeTransportProduct = false;
+    }
+  }
+
+  onLineEditedTransportProduct(line: TransportPlanProductService) {
+    console.log(line);
+
+    if (
+      this.selectedTransportPlan.transportPlanProductServices == null ||
+      this.selectedTransportPlan.transportPlanProductServices == undefined
+    ) {
+      this.selectedTransportPlan.transportPlanProductServices = [];
+    }
+    this.selectedTransportPlan.transportPlanProductServices =   this.selectedTransportPlan.transportPlanProductServices.filter(
+      (l) => l.product.code !== line.product.code
+    );
+
+    this.selectedTransportPlan.transportPlanProductServices.push(line);
+
+  }
+  onDeleteTransportProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedTransportPlan.transportPlanProductServices =
+        this.selectedTransportPlan.transportPlanProductServices.filter((l) => l.product.code !== productCode);
+      },
+    });
+  }
+  onHideDialogTransportProduct(event) {
+    this.showDialogTransportProduct = event;
+  }
 }

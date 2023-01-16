@@ -1,3 +1,8 @@
+import { MenuMotifComponent } from './menu-motif/menu-motif.component';
+import { RejetEditComponent } from './rejets/rejet-edit/rejet-edit.component';
+import { RejetsComponent } from './rejets/rejets.component';
+import { RefusEditComponent } from './refus/refus-edit/refus-edit.component';
+import { RefusComponent } from './refus/refus.component';
 import { TransportAccountPricingEditComponent } from './transport/transport-edit/transport-account-pricing/transport-account-pricing-edit/transport-account-pricing-edit.component';
 import { TransportAccountPricingComponent } from './transport/transport-edit/transport-account-pricing/transport-account-pricing.component';
 import { TransportCatalogPricingEditComponent } from './transport/transport-edit/transport-catalog-pricing/transport-catalog-pricing-edit/transport-catalog-pricing-edit.component';
@@ -292,7 +297,13 @@ import {CardModule} from 'primeng/card';
     TransportCatalogPricingComponent,
     TransportCatalogPricingEditComponent,
     TransportAccountPricingComponent,
-    TransportAccountPricingEditComponent
+    TransportAccountPricingEditComponent,
+    RefusComponent,
+    RefusEditComponent,
+    RejetsComponent,
+    RejetEditComponent,
+    MenuMotifComponent,
+    
 
 
 
@@ -337,7 +348,7 @@ import {CardModule} from 'primeng/card';
     InputSwitchModule,
     NgxPermissionsModule.forChild(),
     FileUploadModule,
-    CardModule
+    CardModule,
   ],
   exports :[
     ContactEditComponent,

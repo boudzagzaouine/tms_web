@@ -43,7 +43,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
             this.vehicleList.forEach((vehicle) => {
               this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
    console.log(data);
-  
+
                   vehicle.state = data;
                   this.onSearchVehicleAvailable();
 
@@ -72,7 +72,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
           "vehicle.registrationNumber:" +
             vehicle.registrationNumber +
             ",turnStatus.id!" +
-            2
+            3
         )
         .subscribe((data) => {
           console.log(vehicle.registrationNumber);

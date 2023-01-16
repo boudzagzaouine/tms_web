@@ -1,3 +1,4 @@
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountPricing } from './../../../../shared/models/account-pricing';
 import { CatalogPricingService } from './../../../../shared/services/api/agent.service copy';
 import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
@@ -30,6 +31,7 @@ export class TarificationComponent implements OnInit {
 selectedVehicleCategory : VehicleCategory=new VehicleCategory();
 selectedContractAccount: ContractAccount = new ContractAccount();
 contractAccountList: ContractAccount[] = [];
+tarificationForm: FormGroup;
 
   selectedCatalogPricing :CatalogPricing = new CatalogPricing();
   selectedAccountPricing :AccountPricing = new AccountPricing();
@@ -65,17 +67,22 @@ contractAccountList: ContractAccount[] = [];
       console.log(this.selectOrderTransport);
 
         // this.orderTransportTransports=this.orderTransportService.getOrderTransport().orderTransportTransport;
-         this.priceTransport = this.selectOrderTransport.priceHT ;
+
          this.marginRate = this.selectOrderTransport.marginRate ;
  console.log(this.selectOrderTransport.priceHT);
          this.onSearchCatalogPricing();
-
+this.initForm();
 
   }
 
   initForm(){
 
-
+    this.tarificationForm = new FormGroup({
+    priceHT: new FormControl(
+      this.selectOrderTransport.priceHT,
+      Validators.required
+    ),
+    })
   }
 
 
@@ -168,6 +175,11 @@ console.log(this.selectOrderTransport?.loadingType?.id);
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=   this.selectedAccountPricing.saleAmountHt;
         this.marginRate=(this.marginRate!=null && this.marginRate>0) ? this.marginRate :((sale-purchase)/purchase)*100;
+
+        this.tarificationForm.patchValue({
+          priceHT:this.selectedAccountPricing.saleAmountHt
+        });
+        this.tarificationForm.controls["priceHT"].disable();
       }else {
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=  this.selectedCatalogPricing.saleAmountHt;
@@ -191,7 +203,8 @@ onInputPrice(event) {
 
   previous() {
 
-    this.orderTransportService.addPrice(  this.priceTransport);
+    this.selectOrderTransport.priceHT=this.tarificationForm.controls["priceHT"].value;
+    this.orderTransportService.addPrice(  this.selectOrderTransport.priceHT);
     this.orderTransportService.addMarginRate(  this.marginRate);
 
 this.previousstep.emit(true);
@@ -207,8 +220,8 @@ loadForm(){
 
 
   next() {
-  console.log("next");
-this.orderTransportService.addPrice(  this.priceTransport);
+    this.selectOrderTransport.priceHT=this.tarificationForm.controls["priceHT"].value;
+this.orderTransportService.addPrice(  this.selectOrderTransport.priceHT);
 this.orderTransportService.addMarginRate(  this.marginRate);
 
    //this.orderTransportService.addOrderTransportTransport(this.orderTransportTransports);

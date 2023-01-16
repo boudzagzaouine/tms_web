@@ -35,6 +35,6 @@ export class TransportPlanHistory {
   remark : string;
   type:number;
   marginRate:number;
-
+  margineService :number;
 
 }

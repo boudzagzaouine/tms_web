@@ -127,7 +127,10 @@ export class CatalogPricingComponent implements OnInit {
         type: 'object'
       },
       { field: 'purchaseAmountHt', header: 'Prix Achat ', type: 'number' },
+      { field: 'purchaseVat',child:'value', header: 'TVA', type: 'object' },
+
       { field: 'saleAmountHt', header: 'Prix Vente', type: 'number' },
+      { field: 'saleVat',child:'value', header: 'TVA', type: 'object' },
 
     ];
 

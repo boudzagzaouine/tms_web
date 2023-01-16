@@ -1,3 +1,7 @@
+import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
+import { VehicleCategory } from './../../../shared/models/vehicle-category';
+import { TurnStatus } from './../../../shared/models/turn-status';
+import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
 import { CompanyService } from './../../../shared/services/api/company.service';
 import { Company } from './../../../shared/models/company';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
@@ -25,12 +29,15 @@ export class TransportPlanListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: TransportPlan;
-
+  categorySearch: VehicleCategory;
+  categoryList:VehicleCategory[]=[];
   transportList:Transport[]=[];
   transportSearch:Transport;
   selectedTransportPlans: Array<TransportPlan> = [];
   transportPlanList: Array<TransportPlan> = [];
   companySearch:Company;
+  turnStatusSearch: TurnStatus;
+  turnStatusList:TurnStatus[]=[];
   companyList:Company[]=[];
   className: string;
   cols: any[];
@@ -48,13 +55,14 @@ export class TransportPlanListComponent implements OnInit {
    dateLivraisonSearch: Date;
    dateDelivery: Date;
   constructor(private TransportPlanService: TransportPlanService,
-
+     private vehicleCategoryService :VehicleCategoryService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private transportService:TransportServcie,
     private companyService:CompanyService,
+    private turnStatusService: TurnStatusService,
 
     private router: Router) { }
 
@@ -74,7 +82,7 @@ export class TransportPlanListComponent implements OnInit {
      // { field: 'date', header: 'Date', type: 'date' },
 
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
-      { field: 'orderTransport', child: 'company',child2:'name', header: 'Société', type: 'object2' },
+       { field: 'orderTransport', child: 'company',child2:'name', header: 'Société', type: 'object2' },
 
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
@@ -82,7 +90,17 @@ export class TransportPlanListComponent implements OnInit {
 
     ];
 
+this.turnStatusService.findAll().subscribe(
+  data=> {
+    this.turnStatusList=data;
+  }
+);
 
+this.vehicleCategoryService.findAll().subscribe(
+  data=> {
+    this.categoryList=data;
+  }
+);
   }
 
   onExportExcel(event) {
@@ -166,6 +184,12 @@ export class TransportPlanListComponent implements OnInit {
     if (this.companySearch != null && this.companySearch !== undefined) {
       buffer.append(`orderTransport.company.name~${this.companySearch.name}`);
     }
+    if (this.categorySearch != null && this.categorySearch !== undefined) {
+      buffer.append(`vehicleCategory.code~${this.categorySearch.code}`);
+    }
+    if (this.turnStatusSearch != null && this.turnStatusSearch !== undefined) {
+      buffer.append(`turnStatus.code~${this.turnStatusSearch.code}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -191,6 +215,8 @@ export class TransportPlanListComponent implements OnInit {
     this.codeSearch = null;
    this.transportSearch=null;
    this.companySearch=null;
+   this.turnStatusSearch=null;
+   this.vehicleCategoryService=null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

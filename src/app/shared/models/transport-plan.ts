@@ -1,3 +1,4 @@
+import { Company } from './company';
 import { TransportPlanProductService } from './transport-plan-product-service';
 import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
@@ -23,16 +24,17 @@ export class TransportPlan {
   driver:Driver;
   vehicleCategory :VehicleCategory ;
   transport :Transport ;
+  company:Company;
   turnStatus :TurnStatus;
   salePrice :number;
   purchasePrice :number;
   date: Date = new Date();
-  villeSource :string;
-  villeDistination : string;
+  villeSource :Ville;
+  villeDistination : Ville;
 
   transportPlanProductServices:TransportPlanProductService[]=[];
 
   marginRate:number;
-
+  margineService :number;
 
 }

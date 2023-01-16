@@ -24,8 +24,32 @@
         field="name"
       ></p-autoComplete>
     </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">
+        Catégotie</label><br />
+        <p-dropdown
+        [options]="categoryList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="categorySearch"
+        filter="true"
+      >
+      </p-dropdown>
+    </div>
 
-   
+    <div class="col-md-2">
+      <label class="font-weight-bold">
+        Statut</label><br />
+        <p-dropdown
+        [options]="turnStatusList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="turnStatusSearch"
+        filter="true"
+      >
+      </p-dropdown>
+    </div>
+
 
 
 

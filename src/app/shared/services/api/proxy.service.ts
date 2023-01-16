@@ -313,9 +313,24 @@ getLastPriceTransportPlans(controller: string, search: string): Observable<any[]
   return this.http.get<any[]>(fullurl);
 }
 
+
+
+
+
+
+
+
+//importing
 addDataExchangeAddressDelivery(controller: string, object: any): Observable<any> {
   const fullurl =
       this.url + controller + '/saveAddressDeliverys?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
+
+addDataExchangeCatalogPricing(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/saveCatalogPricings?token=' + this.getToken();
 //   console.log(fullurl);
   return this.http.post(fullurl, object);
 }

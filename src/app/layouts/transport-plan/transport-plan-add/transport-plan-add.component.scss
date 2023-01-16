@@ -7,7 +7,9 @@
   font-weight: 700;
   font-size: 12px;
   letter-spacing: .3px;
-
+  width: 130px;
+  text-align: center;
+  margin-bottom: 2px;
 
   &.status-Disponible {
     background: #C8E6C9;
@@ -17,8 +19,15 @@
 
   }
   &.status-price {
-    background: #c8d7e6;
-    color: #253760;
+    background: #f2ad6a;
+    color: #805b36;
+          font-weight: 700;
+      font-size: 15px;
+
+  }
+  &.status-margerService {
+    background: #cc91f2;
+    color: #694382;
           font-weight: 700;
       font-size: 15px;
 
@@ -149,8 +158,8 @@ visibility: hidden;
 }
 
 :host ::ng-deep .p-orderlist-list{
-max-height: 30rem;
-    min-height: 30rem;
+max-height: 9rem;
+    min-height: 9rem;
 }
 
 

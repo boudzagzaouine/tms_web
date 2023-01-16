@@ -1,6 +1,8 @@
 
 
 <div class="container mt-5">
+  <form [formGroup]="tarificationForm">
+
   <div class="row justify-content-around">
 
     <div class="form-group col-md-3">
@@ -22,7 +24,8 @@
       /> -->
 
       <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-      [(ngModel)]="this.priceTransport" (onInput)="onInputPrice($event)"
+      formControlName="priceHT"
+      (onInput)="onInputPrice($event)"
     ></p-inputNumber>
       </span>
     </div>
@@ -64,7 +67,7 @@
 
 </div>
 </div>
-
+</form>
 </div>
 
 <div class="container mt-5">

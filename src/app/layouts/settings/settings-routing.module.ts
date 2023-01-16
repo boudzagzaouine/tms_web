@@ -1,3 +1,6 @@
+import { MenuMotifComponent } from './menu-motif/menu-motif.component';
+import { RejetsComponent } from './rejets/rejets.component';
+import { RefusComponent } from './refus/refus.component';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
 import { CatalogPricingComponent } from './catalog-pricing/catalog-pricing.component';
 import { MenuAddressComponent } from './menu-address/menu-address.component';
@@ -138,7 +141,11 @@ const routes: Routes = [
       { path: 'menu-company', component: MenuCompanyComponent},
       { path: 'city', component: CityComponent},
       { path: 'menu-address', component: MenuAddressComponent},
-      { path: 'catalog-pricing', component: CatalogPricingComponent}
+      { path: 'catalog-pricing', component: CatalogPricingComponent},
+      { path: 'refus', component: RefusComponent},
+      { path: 'reject', component: RejetsComponent},
+      { path: 'menu-motif', component: MenuMotifComponent}
+
 
     ]
   }

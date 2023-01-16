@@ -68,12 +68,14 @@ export class TransportEditComponent implements OnInit {
     let id = this.activatedRoute.snapshot.params["id"];
     if (!id) {
       this.title = "Ajouter un Transporteur";
+         this.selectedTransport.active=true;
       this.editMode === 1;
       this.selectedTransport = new Transport();
       this.selectedTransport.interneOrExterne=false;
       this.transportService.generateCode().subscribe((code) => {
         this.selectedTransport.code = code;
         console.log(this.selectedTransport.code);
+
         this.initForm();
       });
 
@@ -131,6 +133,7 @@ export class TransportEditComponent implements OnInit {
     this.transportForm = new FormGroup({
       code: new FormControl(this.selectedTransport.code),
       name: new FormControl(this.selectedTransport.name, Validators.required),
+      active: new FormControl(this.selectContact.active),
       intern: new FormControl(this.selectedTransport.interneOrExterne),
       description: new FormControl(this.selectedTransport.description),
       line1: new FormControl(
@@ -144,6 +147,8 @@ export class TransportEditComponent implements OnInit {
       nameContact: new FormControl(this.selectContact.name),
       tel1: new FormControl(this.selectContact.tel1),
       email: new FormControl(this.selectContact.email),
+
+
     });
   }
 
@@ -159,7 +164,6 @@ export class TransportEditComponent implements OnInit {
     this.selectedTransport.name = this.transportForm.value["name"];
     this.selectedTransport.description =
       this.transportForm.value["description"];
-    this.selectedTransport.active = true;
 
     this.selectContact.name =  this.selectedTransport.name;
     this.selectContact.tel1 = this.transportForm.value["tel1"];
@@ -228,7 +232,11 @@ console.log(event.checked);
     this.selectedTransport.interneOrExterne=event.checked;
   }
 
+  onSelectActive(event){
+    console.log(event.checked);
 
+        this.selectedTransport.active=event.checked;
+      }
   onSelectPays(event: any) {
     this.selectAddress.pays = event;
   }

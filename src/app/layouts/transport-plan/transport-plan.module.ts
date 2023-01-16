@@ -1,7 +1,8 @@
+import { TransportPlanRejeterComponent } from './transport-plan-rejeter/transport-plan-rejeter.component';
+import { TransportPlanRefusComponent } from './transport-plan-refus/transport-plan-refus.component';
 import { TransportPlanHistoryComponent } from './transport-plan-add/transport-plan-history/transport-plan-history.component';
 import { TransportPlanHistory } from './../../shared/models/transport-plan-history';
 import { TransportPlanVehicleListComponent } from './transport-plan-add/transport-plan-vehicle-list/transport-plan-vehicle-list.component';
-import { TransportPlanServiceEditComponent } from './transport-plan-add/transport-plan-service-edit/transport-plan-service-edit.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
@@ -41,6 +42,7 @@ import { TransportPlanComponent } from './transport-plan.component';
 import {OrderListModule} from 'primeng/orderlist';
 import {CheckboxModule} from 'primeng/checkbox';
 import {DataViewModule} from 'primeng/dataview';
+import { TransportPlanServiceEditComponent } from './transport-plan-edit/transport-plan-service-edit/transport-plan-service-edit.component';
 
 @NgModule({
   imports: [
@@ -84,6 +86,6 @@ import {DataViewModule} from 'primeng/dataview';
      DataViewModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent]
 })
 export class TransportPlanModule { }

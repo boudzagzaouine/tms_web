@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Account } from './../../../shared/models/account';
 import { CatalogTransportAccountPricingService } from './../../../shared/services/api/catalog-transport-account-pricing.service';
 import { TransportPlanHistoryService } from './../../../shared/services/api/transport-plan-history.service';
@@ -57,6 +58,8 @@ export class TransportPlanAddComponent implements OnInit {
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
   catalogTransportPricingList: CatalogTransportPricing[] = [];
+  catalogTransportPricingCloneList: CatalogTransportPricing[] = [];
+
   selectedTransport: CatalogTransportPricing = new CatalogTransportPricing();
   vehicleCategoryList: VehicleCategory[] = [];
   types: any[] = ["Interne", "Prestataire"];
@@ -209,7 +212,8 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
           ",villeSource.code~" + source
          +
           ",villeDestination.code~" +distination
-
+          +
+          ",transport.active:" +true
       )
       .subscribe((data) => {
         console.log(data);
@@ -244,6 +248,7 @@ this.catalogTransportPricingList=this.catalogTransportPricingList.filter(
 
 });
 }
+this.calculateMargeServiceTransport();
 this.onSearchCatalgPrice();
 
         }
@@ -253,6 +258,7 @@ this.onSearchCatalgPrice();
 
 
   }
+
 
   onSearchCatalgPrice(){
     let source ,distination ;
@@ -294,6 +300,71 @@ this.onSearchCatalgPrice();
       }
     });
   }
+
+  calculateMargeServiceTransport(){
+     let totalPlan :number=0;
+     let totalReject :number=0;
+    this.catalogTransportPricingList.forEach(element => {
+        this.totalPlanByTrasnport(element.transport).subscribe(
+          data=> {
+             element.margeService =data ? data :0;
+          }
+        );
+    })
+
+
+  }
+  totalPlanByTrasnport(transport :Transport):Observable<number>{
+    let total :number=0;
+    let totalPlan: number = 0;
+    let totalReject :number=0;
+    var subject = new Subject<number>();
+    this.transportPlanService.sizeSearch('transport.id:'+transport.id).subscribe(
+        data=>{
+          console.log("total Plan ");
+
+          console.log(data);
+
+            totalPlan=data ? data : 0;
+
+          this.totalRejectByTrasnport(transport).subscribe(
+           dataR=>{
+            console.log("total Reject ");
+ console.log(dataR);
+
+               totalReject=dataR ? dataR :0;
+
+               total= (totalPlan -totalReject)/totalPlan;
+              console.log("total");
+
+               console.log("totalPlan " +totalPlan +" tatal reject "+ totalReject + " total "+ total);
+subject.next(total);
+           }
+          );
+
+
+        }
+    );
+    return subject.asObservable();
+
+  }
+
+  totalRejectByTrasnport(transport :Transport):Observable<number>{
+    let total: number = 0;
+    var subject = new Subject<number>();
+    this.transportPlanHitoryService.sizeSearch('transport.id:'+transport.id).subscribe(
+        data=>{
+          console.log(data);
+
+          if(data)
+            total=data;
+            subject.next(total);
+        }
+    );
+    return subject.asObservable();
+
+  }
+
   calculateTransportMarge(){
 
     this.catalogTransportPricingList.forEach(element => {
@@ -319,6 +390,7 @@ this.onSearchCatalgPrice();
         }
 
       }
+
     );
 
 
@@ -326,8 +398,10 @@ this.onSearchCatalgPrice();
 
 
     });
+ this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
+   
 
-    this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
+
 
 
       }
@@ -377,6 +451,8 @@ this.onSearchCatalgPrice();
           });
         return subject.asObservable();
       }
+
+
 
   onVilleSearch(event){
     this.villeService
@@ -486,18 +562,18 @@ this.sortOrderTransport();
       this.selectedTransportPlan.orderTransport.turnType.id == 3
     ) {
       this.selectedTransportPlan.villeSource =
-        this.selectOrderTransport.orderTransportInfoAller.villeSource.code;
+        this.selectOrderTransport.orderTransportInfoAller.villeSource;
       this.selectedTransportPlan.villeDistination =
-        this.selectOrderTransport.orderTransportInfoAller.villeDistination.code;
+        this.selectOrderTransport.orderTransportInfoAller.villeDistination;
       // this.loadContractAccountbyAccountSelectedAller(
       //   this.selectedTransportPlan.vehicleCategory
       // );
     }
     if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
       this.selectedTransportPlan.villeSource =
-        this.selectOrderTransport.orderTransportInfoRetour.villeSource.code;
+        this.selectOrderTransport.orderTransportInfoRetour.villeSource;
       this.selectedTransportPlan.villeDistination =
-        this.selectOrderTransport.orderTransportInfoRetour.villeDistination.code;
+        this.selectOrderTransport.orderTransportInfoRetour.villeDistination;
       // this.loadContractAccountbyAccountSelectedRetour(
       //   this.selectedTransportPlan.vehicleCategory
       // );
@@ -537,7 +613,9 @@ else{
 
     let formValue = this.transportPlanForm.value;
     this.selectedTransportPlan.purchasePrice = this.selectedTransport.purchaseAmountHt;
-    this.selectedTransportPlan.salePrice = this.catalogPricing.purchaseAmountHt;
+    this.selectedTransportPlan.salePrice = this.catalogPricing.saleAmountHt;
+    this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
+    this.selectedTransportPlan.margineService = this.selectedTransport.margeService;
     this.selectedTransportPlan.date = formValue["date"];
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
@@ -561,6 +639,8 @@ else{
       () => this.spinner.hide()
     );
   }
+
+
 
   changeStatusOrderTransport() {
     console.log(this.selectOrderTransport);
@@ -586,53 +666,13 @@ else{
   }
 
 
-  onHideDialogTransportProduct(event) {
-    this.showDialogTransportProduct = event;
-  }
+
   onHideDialogVehicle(event) {
     this.showDialogVehicle = event;
   }
 
 
-  onShowDialogTransportProduct(line, mode) {
-    this.showDialogTransportProduct = true;
 
-    if (mode == true) {
-
-
-      this.selectedTransportProductService= line;
-      this.editModeTransportProduct = true;
-    } else if (mode == false) {
-
-      this.selectedTransportProductService = new TransportPlanProductService();
-      this.editModeTransportProduct = false;
-    }
-  }
-
-  onLineEditedTransportProduct(line: TransportPlanProductService) {
-    console.log(line);
-
-    if (
-      this.selectedTransportPlan.transportPlanProductServices == null ||
-      this.selectedTransportPlan.transportPlanProductServices == undefined
-    ) {
-      this.selectedTransportPlan.transportPlanProductServices = [];
-    }
-    this.selectedTransportPlan.transportPlanProductServices =   this.selectedTransportPlan.transportPlanProductServices.filter(
-      (l) => l.product.code !== line.product.code
-    );
-    this.selectedTransportPlan.transportPlanProductServices.push(line);
-
-  }
-  onDeleteTransportProduct(productCode: string) {
-    this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
-      accept: () => {
-        this.selectedTransportPlan.transportPlanProductServices =
-        this.selectedTransportPlan.transportPlanProductServices.filter((l) => l.product.code !== productCode);
-      },
-    });
-  }
 
   OnSelectedRefus(event){
 
@@ -653,6 +693,10 @@ else{
   this.selectTransportPlanHistory.orderTransport=this.selectOrderTransport;
   this.selectTransportPlanHistory.transport=this.selectedTransport.transport;
   this.selectTransportPlanHistory.vehicleCategory=this.selectOrderTransport.vehicleCategory;
+  this.selectTransportPlanHistory.marginRate=this.selectedTransport.marginRate;
+  this.selectTransportPlanHistory.margineService=this.selectedTransport.margeService;
+  this.selectTransportPlanHistory.salePrice=this.selectOrderTransport.priceHT;
+  this.selectTransportPlanHistory.purchasePrice=this.selectedTransport.purchaseAmountHt;
 if(this.selectOrderTransport.turnType.id == 1 || this.selectOrderTransport.turnType.id == 3){
   console.log("aller ");
 console.log(this.selectOrderTransport.orderTransportInfoAller.villeSource.code);

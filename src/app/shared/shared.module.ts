@@ -1,3 +1,4 @@
+import { CatalogPricingImportService } from './services/api/catalog-pricing-import.service';
 import { ContactFunctionService } from './services/api/contact-function.service';
 import { OrderTransportRejectTypeService } from './services/api/order-transport-reject-type.service';
 import { TransportPlanHistoryService } from './services/api/transport-plan-history.service';
@@ -339,7 +340,8 @@ export class SharedModule {
         BrandVehicleTypeService,
         TransportPlanHistoryService,
         OrderTransportRejectTypeService,
-        ContactFunctionService
+        ContactFunctionService,
+        CatalogPricingImportService
       ],
 
     };

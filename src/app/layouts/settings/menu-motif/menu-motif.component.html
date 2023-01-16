@@ -1,0 +1,16 @@
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+<p-tabView >
+
+  <p-tabPanel *hasPermission="['CONFIG_MAIL']" header="{{ 'Refus' | translate }}" headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+                 <app-refus></app-refus>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel *hasPermission="['NOTIFICATION_TYPE_VIEW']" header="{{ 'Rejets' | translate }}" headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <app-rejets></app-rejets>
+      </ng-template>
+  </p-tabPanel>
+
+
+</p-tabView>

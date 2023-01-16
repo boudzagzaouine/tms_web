@@ -1,12 +1,12 @@
-import { VatService } from './../../../../shared/services/api/vat.service';
-import { ProductServiceService } from './../../../../shared/services/api/product-service.service';
-import { TransportProductService } from './../../../../shared/services/api/transport-product.service';
-import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
+import { VatService } from '../../../../shared/services/api/vat.service';
+import { ProductServiceService } from '../../../../shared/services/api/product-service.service';
+import { TransportProductService } from '../../../../shared/services/api/transport-product.service';
+import { AuthenticationService } from '../../../../shared/services/api/authentication.service';
 import { Subscription } from 'rxjs';
-import { Vat } from './../../../../shared/models/vat';
-import { Product } from './../../../../shared/models/product';
+import { Vat } from '../../../../shared/models/vat';
+import { Product } from '../../../../shared/models/product';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TransportProduct } from './../../../../shared/models/transport-product';
+import { TransportProduct } from '../../../../shared/models/transport-product';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({

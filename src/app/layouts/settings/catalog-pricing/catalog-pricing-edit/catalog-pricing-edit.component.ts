@@ -5,7 +5,7 @@ import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tr
 import { LoadingType } from './../../../../shared/models/loading-type';
 import { LoadingTypeService } from './../../../../shared/services/api/loading-type.service';
 import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
-import { CatalogPricingService } from './../../../../shared/services/api/agent.service copy';
+import { CatalogPricingService } from '../../../../shared/services/api/catalog-pricing.service';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';

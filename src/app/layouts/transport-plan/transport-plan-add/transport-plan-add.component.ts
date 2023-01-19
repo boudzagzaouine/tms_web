@@ -3,7 +3,7 @@ import { Account } from './../../../shared/models/account';
 import { CatalogTransportAccountPricingService } from './../../../shared/services/api/catalog-transport-account-pricing.service';
 import { TransportPlanHistoryService } from './../../../shared/services/api/transport-plan-history.service';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
-import { CatalogPricingService } from './../../../shared/services/api/agent.service copy';
+import { CatalogPricingService } from '../../../shared/services/api/catalog-pricing.service';
 import { CatalogPricing } from './../../../shared/models/catalog-pricing';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { VilleService } from './../../../shared/services/api/ville.service';
@@ -399,7 +399,7 @@ subject.next(total);
 
     });
  this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
-   
+
 
 
 

@@ -2,6 +2,7 @@ import { AccountPricing } from './account-pricing';
 import { ActivityArea } from './activity-area';
 import { Owner } from './owner';
 import { Address } from './address';
+import { AccountService } from './account-service';
 //import { Owner } from '.';
 export class Company {
     id: number;
@@ -24,6 +25,6 @@ export class Company {
     creationDate = new Date();
     updateDate = new Date();
     accountPricingList: AccountPricing[]=[];
-
+    accountServiceList:AccountService[]=[];
 
 }

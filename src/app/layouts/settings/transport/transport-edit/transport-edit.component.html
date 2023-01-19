@@ -137,7 +137,7 @@ showEffect="fade"
 
 <p-tabView>
 
-  <p-tabPanel [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-3">
+  <p-tabPanel [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{'Tarif Standard' | translate }}"   headerStyleClass="onglet-p-4">
       <ng-template pTemplate="content">
         <div class="card " style=" border:none">
           <span *ngIf="this.showTransportCatalogPricing==true">
@@ -146,7 +146,7 @@ showEffect="fade"
         </div>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel  [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-3">
+  <p-tabPanel  [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Tarif Client' | translate}}"  headerStyleClass="onglet-p-4">
       <ng-template pTemplate="content">
 
 
@@ -161,10 +161,23 @@ showEffect="fade"
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel  header="{{ 'Catalogue ' | translate}}"  headerStyleClass="onglet-p-3">
+  <p-tabPanel  header="{{ 'Catalogue Service' | translate}}"  headerStyleClass="onglet-p-4">
 
 
-    <div class="card  ">
+    <ng-template pTemplate="content">
+
+
+      <div class="card " style=" border:none">
+        <span *ngIf="this.showTransportCatalogPricing==true">
+          <app-transport-service [selectedTransport]="this.selectedTransport" (catalogTransportServiceListEdited)="onCatalogTransportServiceEdited($event)"></app-transport-service>
+        </span>
+      </div>
+
+
+
+    </ng-template>
+
+    <!-- <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
         <div class="row">
 
@@ -190,7 +203,6 @@ showEffect="fade"
               <th>{{'Prix HT '| translate}}</th>
               <th>{{'TVA' | translate}}</th>
               <th>{{'Pric TTC '| translate}}</th>
-              <!-- <th>{{ "Prix" | translate }}</th> -->
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
             </tr>
@@ -206,12 +218,10 @@ showEffect="fade"
 
                 <button  type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogTransportProduct(line,true)">
-                  <!--ADD-->
                   <i class="fa fa-pencil"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger mx-1"
                   (click)="onDeleteTransportProduct(line?.product?.code)">
-                  <!--ADD-->
                   <i class="fa fa-trash"></i>
                 </button>
               </td>
@@ -220,9 +230,24 @@ showEffect="fade"
 
         </p-table>
       </div>
-    </div>
+    </div> -->
 
   </p-tabPanel>
+
+  <p-tabPanel  [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Catalogue Service Client' | translate}}"  headerStyleClass="onglet-p-4">
+    <ng-template pTemplate="content">
+
+
+      <div class="card " style=" border:none">
+        <span *ngIf="this.showTransportCatalogPricing==true">
+          <app-transport-account-service [selectedTransport]="this.selectedTransport" (catalogTransportAccountServiceistEdited)="onCatalogTransportAccountServiceEdited($event)"></app-transport-account-service>
+        </span>
+      </div>
+
+
+
+    </ng-template>
+</p-tabPanel>
 
 </p-tabView>
 

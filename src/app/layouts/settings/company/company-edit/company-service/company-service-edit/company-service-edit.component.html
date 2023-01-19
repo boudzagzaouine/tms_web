@@ -1,0 +1,169 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog"
+[focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '900px' }" (onHide)="onShowDialog()">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="accountServiceForm">
+
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Service " | translate }} *</label>
+              <span *ngIf="
+                  (accountServiceForm.get('fProduct').touched &&
+                    accountServiceForm.get('fProduct').invalid) ||
+                  (isFormSubmitted &&
+                    accountServiceForm.get('fProduct').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fProduct" [suggestions]="productList"
+              (onSelect)="onSelectProduct($event)" (completeMethod)="onProductSearch($event)" field="code">
+            </p-autoComplete>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Adresse " | translate }} *</label>
+              <span *ngIf="
+                  (accountServiceForm.get('fAddress').touched &&
+                    accountServiceForm.get('fAddress').invalid) ||
+                  (isFormSubmitted &&
+                    accountServiceForm.get('fAddress').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
+              (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)" field="name">
+            </p-autoComplete> -->
+
+            <p-dropdown
+            [autoDisplayFirst]="false"
+            [options]="addressList"
+              [filter]="true"
+              optionLabel="code"
+              [appendTo]="'body'"
+             [showClear]="true"
+             [placeholder]="this.selectAccountService?.address?.code"
+              (onChange)="onSelectAddress($event)"
+               formControlName="fAddress"></p-dropdown>
+            </div>
+            <div class="form-group col-sm-6">
+            </div>
+</div>
+
+            <div class="row justify-content-around">
+
+
+<div class="form-group col-sm-12">
+   <p-fieldset legend="Vente" [toggleable]="true">
+
+    <div class="row justify-content-around">
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
+        <span *ngIf="
+            (accountServiceForm.get('fSaleAmountHt').touched &&
+              accountServiceForm.get('fSaleAmountHt').invalid) ||
+            (isFormSubmitted &&
+              accountServiceForm.get('fSaleAmountHt').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <br />
+
+
+          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(1)"  [minFractionDigits]="2"
+          formControlName="fSaleAmountHt"
+        >
+         </p-inputNumber>
+
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
+        <span *ngIf="
+            (accountServiceForm.get('fSaleVat').touched &&
+              accountServiceForm.get('fSaleVat').invalid) ||
+            (isFormSubmitted &&
+              accountServiceForm.get('fSaleVat').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <p-dropdown
+         [autoDisplayFirst]="false"
+         [options]="vatList"
+           [filter]="true"
+           optionLabel="value"
+           [appendTo]="'body'"
+          [showClear]="true"
+           (onChange)="onSelectSaleVat($event)"
+            formControlName="fSaleVat"></p-dropdown>
+
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
+        <span *ngIf="
+            (accountServiceForm.get('fSaleAmountTtc').touched &&
+              accountServiceForm.get('fSaleAmountTtc').invalid) ||
+            (isFormSubmitted &&
+              accountServiceForm.get('fSaleAmountTtc').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+
+
+
+          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(2)"
+          [minFractionDigits]="2"
+          formControlName="fSaleAmountTtc"
+        >
+         </p-inputNumber>
+
+
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
+        <span *ngIf="
+            (accountServiceForm.get('fSaleAmountTva').touched &&
+              accountServiceForm.get('fSaleAmountTva').invalid) ||
+            (isFormSubmitted &&
+              accountServiceForm.get('fSaleAmountTva').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="fSaleAmountTva"
+        >
+         </p-inputNumber>
+
+      </div>
+    </div>
+
+  </p-fieldset>
+</div>
+
+</div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' |translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{'Valider' |translate}}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

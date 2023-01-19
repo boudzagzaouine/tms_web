@@ -172,12 +172,29 @@ showEffect="fade"
       </form>
 
 
-    <p-tabView [activeIndex]="0" >
-      <p-tabPanel header="{{ 'Tarif ' | translate}}"  headerStyleClass="onglet-p-5">
+    <p-tabView  >
+      <p-tabPanel [cache]="false" header="{{ 'Tarif ' | translate}}"  headerStyleClass="onglet-p-2">
 <span *ngIf="this.showContrat==true">
    <app-company-pricing [selectedCompany]="this.selectedCompany" (accountPricingListEdited)="onAcountPricingEdited($event)"></app-company-pricing>
 </span>
       </p-tabPanel>
+
+
+              <p-tabPanel  [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Service' | translate}}"  headerStyleClass="onglet-p-2">
+                <ng-template pTemplate="content">
+
+
+                  <div class="card " style=" border:none">
+                    <span *ngIf="this.showService==true">
+
+                       <app-company-service [selectedCompany]="this.selectedCompany" (accountServiceListEdited)="onAcountServiceEdited($event)"></app-company-service>
+                    </span>
+                  </div>
+
+
+
+                </ng-template>
+            </p-tabPanel>
 
       </p-tabView>
 

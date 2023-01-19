@@ -1,5 +1,5 @@
 import { CatalogPricingImportService } from './../../../shared/services/api/catalog-pricing-import.service';
-import { CatalogPricingService } from './../../../shared/services/api/agent.service copy';
+import { CatalogPricingService } from '../../../shared/services/api/catalog-pricing.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { AddressDeliveryService } from "./../../../shared/services/api/AddressDeliveryService.service";

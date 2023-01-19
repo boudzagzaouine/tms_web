@@ -1,6 +1,6 @@
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountPricing } from './../../../../shared/models/account-pricing';
-import { CatalogPricingService } from './../../../../shared/services/api/agent.service copy';
+import { CatalogPricingService } from '../../../../shared/services/api/catalog-pricing.service';
 import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
 import { TransportPlanService } from './../../../../shared/services/api/transport-plan.service';
 import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';

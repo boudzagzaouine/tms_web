@@ -32,5 +32,6 @@ export class OrderTransport {
   capacityTotal: number = 0;
   priceHT: number = 0;
   marginRate:number=0;
+  marginValue : number=0;
   owner :Owner;
 }

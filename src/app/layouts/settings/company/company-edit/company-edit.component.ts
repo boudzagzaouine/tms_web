@@ -16,6 +16,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AccountService } from './../../../../shared/models/account-service';
 
 @Component({
   selector: 'app-company-edit',
@@ -29,6 +30,7 @@ export class CompanyEditComponent implements OnInit {
   editMode: number;
   activityAreaList:Array<ActivityArea>=[];
   showContrat :Boolean = false;
+  showService :Boolean = false;
   companyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -84,6 +86,7 @@ this.companyService.generateCode().subscribe(
 
 
 this.showContrat=true;
+this.showService=true;
 
     }else{
 this.companyService.findById(id).subscribe(
@@ -92,7 +95,7 @@ data=>{
   this.selectedAddress=this.selectedCompany.address ?this.selectedCompany.address : new Address();
   this.initForm();
   this.showContrat=true;
-
+  this.showService=true;
 }
 
 );
@@ -213,7 +216,12 @@ console.log(this.selectedCompany.address);
     this.selectedCompany.accountPricingList=acountPricings;
 
   }
+  onAcountServiceEdited(acountPricings : AccountService[]){
 
+    console.log(acountPricings);
+    this.selectedCompany.accountServiceList=acountPricings;
+
+  }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }

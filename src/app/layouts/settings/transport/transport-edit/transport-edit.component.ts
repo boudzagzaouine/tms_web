@@ -1,3 +1,4 @@
+import { TransportAccountService } from './../../../../shared/models/transport-account-service';
 import { CatalogTransportAccountPricing } from './../../../../shared/models/catalog-transport-account-pricing';
 import { CatalogTransportPricingService } from './../../../../shared/services/api/catalog-transport-pricing.service';
 import { CatalogTransportPricing } from './../../../../shared/models/CatalogTransportPricing';
@@ -22,6 +23,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Subscription } from "rxjs";
 import { AuthenticationService } from "./../../../../shared/services";
 import { MessageService, ConfirmationService } from "primeng/api";
+import { TransportService } from './../../../../shared/models/transport-service';
 
 @Component({
   selector: "app-transport-edit",
@@ -48,6 +50,8 @@ export class TransportEditComponent implements OnInit {
   paysList: Pays[] = [];
   villeList: Ville[] = [];
   showTransportCatalogPricing:Boolean =false;
+  showTransportService:Boolean =false;
+
   constructor(
     private transportService: TransportServcie,
     private accountPricingService :AccountPricingService,
@@ -311,6 +315,14 @@ console.log(event.checked);
 
   onCatalogTransportAccountPricingEdited(catalogTransportAccountPricings : CatalogTransportAccountPricing[]){
     this.selectedTransport.catalogTransportAccountPricings=catalogTransportAccountPricings;
+
+  }
+  onCatalogTransportServiceEdited(catalogTransportServices : TransportService[]){
+    this.selectedTransport.catalogTransportServices=catalogTransportServices;
+
+  }
+  onCatalogTransportAccountServiceEdited(catalogTransportAccountServices : TransportAccountService[]){
+    this.selectedTransport.catalogTransportAccountServices=catalogTransportAccountServices;
 
   }
   ngOnDestroy() {

@@ -1,3 +1,7 @@
+import { TransportAccountServiceService } from './services/api/transport-account-service.service';
+import { TransportServiceService } from './services/api/transport-service.service';
+import { AccountServiceService } from './services/api/account-service.service';
+import { CatalogServiceService } from './services/api/catalog-service.service';
 import { CatalogPricingImportService } from './services/api/catalog-pricing-import.service';
 import { ContactFunctionService } from './services/api/contact-function.service';
 import { OrderTransportRejectTypeService } from './services/api/order-transport-reject-type.service';
@@ -7,7 +11,7 @@ import { CatalogTransportAccountPricingService } from './services/api/catalog-tr
 import { CatalogTransportPricingService } from './services/api/catalog-transport-pricing.service';
 import { VehicleTrayService } from './services/api/vehicle-tray.service';
 import { LoadingTypeService } from './services/api/loading-type.service';
-import { CatalogPricingService } from './services/api/agent.service copy';
+import { CatalogPricingService } from './services/api/catalog-pricing.service';
 import { AddressDeliveryService } from './services/api/AddressDeliveryService.service';
 import { ActivityAreaService } from './services/api/activity-area.service';
 import { TransportProductService } from './services/api/transport-product.service';
@@ -341,7 +345,11 @@ export class SharedModule {
         TransportPlanHistoryService,
         OrderTransportRejectTypeService,
         ContactFunctionService,
-        CatalogPricingImportService
+        CatalogPricingImportService,
+        CatalogServiceService,
+        AccountServiceService,
+        TransportServiceService,
+        TransportAccountServiceService
       ],
 
     };

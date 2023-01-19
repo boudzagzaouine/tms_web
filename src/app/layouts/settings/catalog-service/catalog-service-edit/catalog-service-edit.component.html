@@ -1,0 +1,247 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '900px' }" (onHide)="onShowDialog()">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="catalogServiceForm">
+
+          <div class="row justify-content-around">
+
+
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Service" | translate }} *</label>
+              <span *ngIf="
+                  (catalogServiceForm.get('fProduct').touched &&
+                    catalogServiceForm.get('fProduct').invalid) ||
+                  (isFormSubmitted &&
+                    catalogServiceForm.get('fProduct').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+
+
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fProduct" [suggestions]="productList"
+                (onSelect)="onSelectProduct($event)" (completeMethod)="onProductSearch($event)" field="code">
+              </p-autoComplete>
+
+            </div>
+
+            <div class="form-group col-sm-9">
+            </div>
+
+
+
+            </div>
+
+
+            <div class="row justify-content-around">
+              <div class="form-group col-sm-6">
+            <p-fieldset legend="Achat" [toggleable]="true">
+
+              <div class="row justify-content-around">
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
+                  <span *ngIf="
+                      (catalogServiceForm.get('fPurchaseAmountHt').touched &&
+                        catalogServiceForm.get('fPurchaseAmountHt').invalid) ||
+                      (isFormSubmitted &&
+                        catalogServiceForm.get('fPurchaseAmountHt').invalid)
+                    " class="text-lighter" style="color: red; font-size: xx-small;">
+                    {{ 'Obligatoire' | translate}}
+                  </span>
+                  <br />
+                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(1)" pInputText
+                    formControlName="fPurchaseAmountHt" /> -->
+
+                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(1)"  [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountHt"
+                  >
+                   </p-inputNumber>
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
+                  <span *ngIf="
+                      (catalogServiceForm.get('fPurchaseVat').touched &&
+                        catalogServiceForm.get('fPurchaseVat').invalid) ||
+                      (isFormSubmitted &&
+                        catalogServiceForm.get('fPurchaseVat').invalid)
+                    " class="text-lighter" style="color: red; font-size: xx-small;">
+                    {{ 'Obligatoire' | translate}}
+                  </span>
+                  <p-dropdown
+                   [autoDisplayFirst]="false"
+                   [options]="vatList"
+                     [filter]="true"
+                     optionLabel="value"
+                     [appendTo]="'body'"
+                     emptyMessage="0"
+                    [showClear]="true"
+                     (onChange)="onSelectPurchaseVat($event)"
+                      formControlName="fPurchaseVat"></p-dropdown>
+
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
+                  <span *ngIf="
+                      (catalogServiceForm.get('fPurchaseAmountTtc').touched &&
+                        catalogServiceForm.get('fPurchaseAmountTtc').invalid) ||
+                      (isFormSubmitted &&
+                        catalogServiceForm.get('fPurchaseAmountTtc').invalid)
+                    " class="text-lighter" style="color: red; font-size: xx-small;">
+                    {{ 'Obligatoire' | translate}}
+
+                  </span>
+                  <br />
+                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(2)" pInputText
+                    formControlName="fPurchaseAmountTtc" /> -->
+
+                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(2)"  [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountTtc"
+                  >
+                   </p-inputNumber>
+
+                </div>
+                <div class="form-group col-sm-6">
+                  <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
+                  <span *ngIf="
+                      (catalogServiceForm.get('fPurchaseAmountTva').touched &&
+                        catalogServiceForm.get('fPurchaseAmountTva').invalid) ||
+                      (isFormSubmitted &&
+                        catalogServiceForm.get('fPurchaseAmountTva').invalid)
+                    " class="text-lighter" style="color: red; font-size: xx-small;">
+                    {{ 'Obligatoire' | translate}}
+
+                  </span>
+                  <br />
+                  <!-- <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
+                    (keydown.space)="$event.preventDefault()" /> -->
+
+
+                    <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                    formControlName="fPurchaseAmountTva"
+                  >
+                   </p-inputNumber>
+                </div>
+              </div>
+
+            </p-fieldset>
+</div>
+
+<div class="form-group col-sm-6">
+   <p-fieldset legend="Vente" [toggleable]="true">
+
+    <div class="row justify-content-around">
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
+        <span *ngIf="
+            (catalogServiceForm.get('fSaleAmountHt').touched &&
+              catalogServiceForm.get('fSaleAmountHt').invalid) ||
+            (isFormSubmitted &&
+              catalogServiceForm.get('fSaleAmountHt').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <br />
+        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(1)" pInputText
+          formControlName="fSaleAmountHt" /> -->
+
+          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(1)" [minFractionDigits]="2"
+                    formControlName="fSaleAmountHt"
+                  >
+                   </p-inputNumber>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
+        <span *ngIf="
+            (catalogServiceForm.get('fSaleVat').touched &&
+              catalogServiceForm.get('fSaleVat').invalid) ||
+            (isFormSubmitted &&
+              catalogServiceForm.get('fSaleVat').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <p-dropdown
+         [autoDisplayFirst]="false"
+         [options]="vatList"
+           [filter]="true"
+           optionLabel="value"
+           [appendTo]="'body'"
+          [showClear]="true"
+           (onChange)="onSelectSaleVat($event)"
+            formControlName="fSaleVat"></p-dropdown>
+
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
+        <span *ngIf="
+            (catalogServiceForm.get('fSaleAmountTtc').touched &&
+              catalogServiceForm.get('fSaleAmountTtc').invalid) ||
+            (isFormSubmitted &&
+              catalogServiceForm.get('fSaleAmountTtc').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(2)" pInputText
+          formControlName="fSaleAmountTtc" /> -->
+
+
+          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(2)" [minFractionDigits]="2"
+                    formControlName="fSaleAmountTtc"
+                  >
+                   </p-inputNumber>
+
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
+        <span *ngIf="
+            (catalogServiceForm.get('fSaleAmountTva').touched &&
+              catalogServiceForm.get('fSaleAmountTva').invalid) ||
+            (isFormSubmitted &&
+              catalogServiceForm.get('fSaleAmountTva').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+        <!-- <input type="text" class="form-control" pInputText formControlName="fSaleAmountTva"
+          (keydown.space)="$event.preventDefault()" /> -->
+
+
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="fSaleAmountTva"
+        >
+         </p-inputNumber>
+
+
+
+      </div>
+    </div>
+
+  </p-fieldset>
+</div>
+
+</div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' |translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{'Valider' |translate}}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

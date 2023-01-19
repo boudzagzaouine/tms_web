@@ -1,3 +1,10 @@
+import { TransportAccountServiceEditComponent } from './transport/transport-edit/transport-account-service/transport-account-service-edit/transport-account-service-edit.component';
+import { TransportServiceEditComponent } from './transport/transport-edit/transport-service/transport-service-edit/transport-service-edit.component';
+import { TransportServiceComponent } from './transport/transport-edit/transport-service/transport-service.component';
+import { CompanyServiceEditComponent } from './company/company-edit/company-service/company-service-edit/company-service-edit.component';
+import { CompanyServiceComponent } from './company/company-edit/company-service/company-service.component';
+import { CatalogServiceEditComponent } from './catalog-service/catalog-service-edit/catalog-service-edit.component';
+import { CatalogServiceComponent } from './catalog-service/catalog-service.component';
 import { MenuMotifComponent } from './menu-motif/menu-motif.component';
 import { RejetEditComponent } from './rejets/rejet-edit/rejet-edit.component';
 import { RejetsComponent } from './rejets/rejets.component';
@@ -168,6 +175,7 @@ import {FileUploadModule} from 'primeng/fileupload';
 import { SubscriptionCardTypeComponent } from './subscription-card-type/subscription-card-type.component';
 import { AddressDeliveryEditComponent } from './delivery-address/address-delivery-edit/address-delivery-edit.component';
 import {CardModule} from 'primeng/card';
+import { TransportAccountServiceComponent } from './transport/transport-edit/transport-account-service/transport-account-service.component';
 
 
 
@@ -303,7 +311,15 @@ import {CardModule} from 'primeng/card';
     RejetsComponent,
     RejetEditComponent,
     MenuMotifComponent,
-    
+    CatalogServiceComponent,
+    CatalogServiceEditComponent,
+CompanyServiceComponent,
+CompanyServiceEditComponent,
+TransportServiceComponent,
+TransportServiceEditComponent,
+TransportAccountServiceComponent,
+TransportAccountServiceEditComponent
+
 
 
 

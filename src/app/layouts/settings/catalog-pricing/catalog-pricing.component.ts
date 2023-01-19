@@ -4,7 +4,7 @@ import { VehicleTrayService } from './../../../shared/services/api/vehicle-tray.
 import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
 import { LoadingType } from './../../../shared/models/loading-type';
 import { VehicleTray } from './../../../shared/models/vehicle-tray';
-import { CatalogPricingService } from './../../../shared/services/api/agent.service copy';
+import { CatalogPricingService } from '../../../shared/services/api/catalog-pricing.service';
 import { CatalogPricing } from './../../../shared/models/catalog-pricing';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ToastrService } from 'ngx-toastr';

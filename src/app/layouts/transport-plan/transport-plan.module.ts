@@ -1,3 +1,4 @@
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { TransportPlanRejeterComponent } from './transport-plan-rejeter/transport-plan-rejeter.component';
 import { TransportPlanRefusComponent } from './transport-plan-refus/transport-plan-refus.component';
 import { TransportPlanHistoryComponent } from './transport-plan-add/transport-plan-history/transport-plan-history.component';
@@ -43,6 +44,7 @@ import {OrderListModule} from 'primeng/orderlist';
 import {CheckboxModule} from 'primeng/checkbox';
 import {DataViewModule} from 'primeng/dataview';
 import { TransportPlanServiceEditComponent } from './transport-plan-edit/transport-plan-service-edit/transport-plan-service-edit.component';
+import {RatingModule} from 'primeng/rating';
 
 @NgModule({
   imports: [
@@ -83,7 +85,9 @@ import { TransportPlanServiceEditComponent } from './transport-plan-edit/transpo
      OrderListModule,
      SelectButtonModule,
      CheckboxModule,
-     DataViewModule
+     DataViewModule,
+     SplitButtonModule,
+     RatingModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
                    TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent]

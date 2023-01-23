@@ -75,7 +75,11 @@ this.emitOnchange();}
     this.emitOnchange();
 
   }
+  addMarginValue(marginValue : number){
+    this.selectOrderTransport.marginValue=marginValue;
+    this.emitOnchange();
 
+  }
   addItineraryAller(distance: number , time :number ){
 this.selectOrderTransport.orderTransportInfoAller.numberKm=distance;
 this.selectOrderTransport.orderTransportInfoAller.time=time;

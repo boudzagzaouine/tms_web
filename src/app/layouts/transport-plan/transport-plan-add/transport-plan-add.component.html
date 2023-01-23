@@ -1,4 +1,3 @@
-
 <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
 
 <div class="card mt-1">
@@ -7,130 +6,215 @@
   </div>
 
   <div class="card-body border-top-primary">
-
     <div class="row mt-3 justify-content-around">
       <div class="form-group col-md-6">
-   <div class="row ml-5">
-    <div class="form-group col-md-5">
+        <div class="row ml-5">
+          <div class="form-group col-md-5">
+            <p-autoComplete
+              [suggestions]="villeList"
+              (onSelect)="onSelectVilleSource($event)"
+              (completeMethod)="onVilleSearch($event)"
+              field="code"
+              appendTo="body"
+              [(ngModel)]="selectedVilleSource"
+            >
+            </p-autoComplete>
+          </div>
 
- <p-autoComplete
-        [suggestions]="villeList"
-        (onSelect)="onSelectVilleSource($event)"
-        (completeMethod)="onVilleSearch($event)"
-        field="code"
-        appendTo="body"
-        [(ngModel)]="selectedVilleSource"
-      >
-      </p-autoComplete>
-      </div>
+          <div class="form-group col-md-2 text-justify">
+            <button
+              pButton
+              pRipple
+              type="button"
+              (click)="invertVille()"
+              icon="fa fa-exchange"
+              class="p-button-rounded p-button-secondary p-button-outlined"
+            ></button>
 
-      <div class="form-group col-md-2 text-justify">
-        <button pButton pRipple type="button" (click)="invertVille()" icon="fa fa-exchange" class="p-button-rounded p-button-secondary p-button-outlined"></button>
-
-        <!-- <p-button styleClass="p-button-outlined">
+            <!-- <p-button styleClass="p-button-outlined">
           <ng-template pTemplate="content">
               <img alt="logo" src="./assets/img/change1.png" />
           </ng-template>
       </p-button> -->
 
-        <!-- <img src="./assets/img/change1.png" style="width: 30px ; height: 30px;"> -->
-</div>
-
-      <div class="form-group col-md-5">
-
-        <p-autoComplete
-               [suggestions]="villeList"
-               (onSelect)="onSelectVilleDistination($event)"
-               (completeMethod)="onVilleSearch($event)"
-               field="code"
-               appendTo="body"
-               [(ngModel)]="selectedVilleDistination"
-             >
-             </p-autoComplete>
-             </div>
-
-   </div>
-    <div class="row ml-5">
-      <div class="form-group col-md-6">
-          <button type="text" style="width:100%" class="btn  p-button-success" pButton label="Réinitialiser" (click)="resetSearchByVille()">
-
-            <i class="fa fa-refresh " style="font-size: 2rem"></i> </button>
+            <!-- <img src="./assets/img/change1.png" style="width: 30px ; height: 30px;"> -->
           </div>
-      <div class="form-group col-md-6">
 
-        <button type="text" style="width:100%" pButton label="Recherche" (click)="searchByVille()">
-
-          <i class="pi pi-search" style="font-size: 2rem"></i> </button>
+          <div class="form-group col-md-5">
+            <p-autoComplete
+              [suggestions]="villeList"
+              (onSelect)="onSelectVilleDistination($event)"
+              (completeMethod)="onVilleSearch($event)"
+              field="code"
+              appendTo="body"
+              [(ngModel)]="selectedVilleDistination"
+            >
+            </p-autoComplete>
+          </div>
         </div>
-
-
+        <div class="row ml-5">
+          <div class="form-group col-md-6">
+            <button
+              type="text"
+              style="width: 100%"
+              class="btn p-button-success"
+              pButton
+              label="Réinitialiser"
+              (click)="resetSearchByVille()"
+            >
+              <i class="fa fa-refresh" style="font-size: 2rem"></i>
+            </button>
+          </div>
+          <div class="form-group col-md-6">
+            <button
+              type="text"
+              style="width: 100%"
+              pButton
+              label="Recherche"
+              (click)="searchByVille()"
+            >
+              <i class="pi pi-search" style="font-size: 2rem"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-6" style="padding-left: 6%"></div>
     </div>
 
-
-
-        </div>
-        <div class="form-group col-md-6" style="    padding-left: 6%;">
-
-
-
-        </div>
-        </div>
-
-
     <div class="row mt-3 justify-content-around">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
 
-        <p-orderList [value]="orderTransportList"
-         (onSelectionChange)="loadTransport($event)"
-         [listStyle]="{'max-height':'30rem'}"
-        header="Liste des Ordre de Transports"
-         [dragdrop]="true"
+    </div>
+      <div class="form-group col-md-2">
+
+        <p-dropdown [options]="sortOrderitems" (onClick)="onSortOrder()" [(ngModel)]="sortMargeValue" optionValue="label" optionLabel="name"></p-dropdown>
+
+      </div>
+      <div class="form-group col-md-2"></div>
+      <div class="form-group col-md-2">
+
+      </div>
+      <div class="form-group col-md-2">
+
+        <p-dropdown [options]="sortTransportitems" (onClick)="onSortTranspot()" [(ngModel)]="sortMargeService" optionValue="label" optionLabel="name"></p-dropdown>
+
+      </div>
+    </div>
+
+    <div class="row  justify-content-around">
+      <div class="form-group col-md-6">
+        <p-orderList
+          [value]="orderTransportList"
+          (onSelectionChange)="loadTransport($event)"
+          [listStyle]="{ 'max-height': '30rem' }"
+          header="Liste des Ordre de Transports"
+          [dragdrop]="true" [responsive]="true"
+          filterBy="company.name"
+          filterPlaceholder="Recherche Par Societe"
         >
           <ng-template let-order pTemplate="item">
-              <div class="product-item">
-                  <div class="image-container" style="    margin-right: 10px;">
-                          <!-- <img src="assets/showcase/images/demo/product/{{product.image}}" [alt]="product.name" class="product-image" /> -->
-                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.date | date: 'yyyy'}}</h6>
-                          <h6 style="    color: #4084bd;
-                          font-size: 30px;
-                          font-weight: 600;">{{order?.orderTransportInfoAller?.date | date: 'dd'}}</h6>
-                          <h6 style="    font-weight: 500;">{{order?.orderTransportInfoAller?.date | date: 'MMMM'}}</h6>
-
-                        </div>
-                  <div class="product-list-detail">
-                    <span>Order  :<span style="   color: #4084bd;  font-weight: 500;"> {{order?.code }}</span></span>
-                      <h6 style="font-size: 14px;">{{order?.account?.name}}</h6>
-
-                     <span *ngIf="order.turnType.id==1 || order.turnType.id==3"> <i class="pi pi-map-marker product-category-icon" style="color: #e74c3c;"></i>
-                     <span class="product-category">Aller : <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoAller?.villeDistination?.code}}</span></span><br>
-                    </span>
-                    <span *ngIf="order.turnType.id==2 || order.turnType.id==3"> <i class="pi pi-map-marker product-category-icon" style="color: #e74c3c;"></i>
-                     <span class="product-category">Retour : <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeSource?.code}}</span> -> <span style="    font-weight: 500;">{{order?.orderTransportInfoRetour?.villeDistination?.code}}</span></span>
-                    </span>
-                    </div>
-                  <div class="product-list-action">
-                      <h6 style="    background: #4084bd;
-                      color: #2f4f6a;
-                      padding: 4px 14px 4px 14px;
-                      border-radius: 5px;">{{order?.turnType?.code}}</h6>
-                     <span ><i class="fa fa-bus"></i><b style="font-size: 10px;
-                      margin: 5px;">{{order?.vehicleCategory?.code}}</b>-<b style="font-size: 10px;
-                      margin: 5px;">{{order?.vehicleTray?.code}}</b></span>
-
-
-<span ><i class="fa fa-money"></i><b style="font-size: 14px;
-  margin: 5px;">{{order?.marginRate| number: '1.1-2'}} %</b></span>
-                  </div>
-
+            <div class="product-item">
+              <div class="image-container" style="margin-right: 10px">
+                <!-- <img src="assets/showcase/images/demo/product/{{product.image}}" [alt]="product.name" class="product-image" /> -->
+                <h6 style="font-weight: 500">
+                  {{ order?.orderTransportInfoAller?.date | date : "yyyy" }}
+                </h6>
+                <h6 style="color: #4084bd; font-size: 30px; font-weight: 600">
+                  {{ order?.orderTransportInfoAller?.date | date : "dd" }}
+                </h6>
+                <h6 style="font-weight: 500">
+                  {{ order?.orderTransportInfoAller?.date | date : "MMMM" }}
+                </h6>
               </div>
+              <div class="product-list-detail">
+                <span
+                  >Order :<span style="color: #4084bd; font-weight: 500">
+                    {{ order?.code }}</span
+                  ></span
+                >
+                <br />
+                <span
+                  >Societe :
+                  <span style="font-size: 14px">{{
+                    order?.company?.name
+                  }}</span></span
+                ><br />
+
+                <span *ngIf="order.turnType.id == 1 || order.turnType.id == 3">
+                  <i
+                    class="pi pi-map-marker product-category-icon"
+                    style="color: #e74c3c"
+                  ></i>
+                  <span class="product-category"
+                    >Aller :
+                    <span style="font-weight: 500">{{
+                      order?.orderTransportInfoAller?.villeSource?.code
+                    }}</span>
+                    ->
+                    <span style="font-weight: 500">{{
+                      order?.orderTransportInfoAller?.villeDistination?.code
+                    }}</span></span
+                  ><br />
+                </span>
+                <span *ngIf="order.turnType.id == 2 || order.turnType.id == 3">
+                  <i
+                    class="pi pi-map-marker product-category-icon"
+                    style="color: #e74c3c"
+                  ></i>
+                  <span class="product-category"
+                    >Retour :
+                    <span style="font-weight: 500">{{
+                      order?.orderTransportInfoRetour?.villeSource?.code
+                    }}</span>
+                    ->
+                    <span style="font-weight: 500">{{
+                      order?.orderTransportInfoRetour?.villeDistination?.code
+                    }}</span></span
+                  >
+                </span>
+              </div>
+              <div class="product-list-action">
+                <h6
+                  style="
+                    background: #4084bd;
+                    color: #2f4f6a;
+                    padding: 4px 14px 4px 14px;
+                    border-radius: 5px;
+                  "
+                >
+                  {{ order?.turnType?.code }}
+                </h6>
+                <span
+                  ><i class="fa fa-bus"></i
+                  ><b style="font-size: 10px; margin: 5px">{{
+                    order?.vehicleCategory?.code
+                  }}</b
+                  >-<b style="font-size: 10px; margin: 5px">{{
+                    order?.vehicleTray?.code
+                  }}</b></span
+                >
+
+                <span
+                  ><i class="fa fa-money"></i
+                  ><b style="font-size: 14px; margin: 5px"
+                    >{{ order?.marginRate | number : "1.1-2" }} %</b
+                  ></span
+                >
+
+                <span
+                  ><i class="fa fa-money"></i
+                  ><b style="font-size: 14px; margin: 5px"
+                    >{{ order?.marginValue | number : "1.1-2" }} DH</b
+                  ></span
+                >
+              </div>
+            </div>
           </ng-template>
-      </p-orderList>
+        </p-orderList>
+      </div>
 
-
-        </div>
-
-        <div class="form-group col-md-6">
-<!-- <span *ngIf="isInterOrPrestataire=='Interne'">
+      <div class="form-group col-md-6">
+        <!-- <span *ngIf="isInterOrPrestataire=='Interne'">
   <p-orderList [value]="vehicleAvailable"  (onSelectionChange)="onSelectVehicle($event)" [listStyle]="{'max-height':'30rem'}"
   header="Liste des Véhicule" filterBy="state"
    filterPlaceholder="Recherche Par Matricule" [dragdrop]="true">
@@ -161,255 +245,296 @@
 </p-orderList>
 
 </span> -->
-<span >
-  <p-orderList [value]="catalogTransportPricingList"  (onSelectionChange)="onselectTransport($event)" [listStyle]="{'max-height':'9rem','overflow': 'hidden'}"
-  header="Liste des Prestataires" filterBy="transport.name" filterPlaceholder="Recherche Par Prestataire" [dragdrop]="true">
-    <ng-template let-transport pTemplate="item" >
-        <div class="product-item">
-            <div class="image-container">
-                    <img src="./assets/img/transport.png"  class="product-image" />
-            </div>
-            <div class="product-list-detail">
+        <span>
+          <p-orderList
+            [value]="catalogTransportPricingList"
+            (onSelectionChange)="onselectTransport($event)"
+            [listStyle]="{ 'max-height': '11rem', overflow: 'hidden' }"
+            header="Liste des Prestataires"
+            filterBy="transport.name"
+            filterPlaceholder="Recherche Par Prestataire"
+            [dragdrop]="true"
+          >
+            <ng-template let-transport pTemplate="item">
+              <div class="product-item">
+                <div class="image-container">
+                  <img src="./assets/img/transport.png" class="product-image" />
+                </div>
+                <div class="product-list-detail">
+                  <span style="font-size: 14px; font-weight: 600">
+                    {{ transport?.transport?.name }}</span
+                  >
 
-              <span style="font-size: 14px;font-weight:600">
-                {{transport?.transport?.name}}</span>
-
-<br>
-                <i class="pi pi-tag product-category-icon"></i>
-                <span class="product-category"style="     font-weight: 700;     font-size: 13px;" >
-                  {{transport?.vehicleCategory?.code}}
+                  <br />
+                  <i class="pi pi-tag product-category-icon"></i>
+                  <span
+                    class="product-category"
+                    style="font-weight: 700; font-size: 13px"
+                  >
+                    {{ transport?.vehicleCategory?.code }}
                   </span>
+                </div>
+                <div class="product-list-action">
+                  <!-- <h6 class="mb-2">${{vehicle?.vehicleCategory?.tonnage}} KG</h6> -->
+                  <span [class]="'customer-badge status-price'"
+                    >T.M {{ transport?.marginRate | number : "1.1-2" }} %</span
+                  >
+                  <span [class]="'customer-badge status-margerService'"
+                    >T.S
+                    {{ transport?.margeService | number : "1.1-2" }} %
+                    <p-rating [ngModel]="(transport?.margeService)/20 |number :'1'" readonly="true" stars="5" [cancel]="false"></p-rating>
+
+</span>
+<!-- <span>             T.S     <span>
+  <p-rating [ngModel]="(transport?.margeService)/20" readonly="true" stars="5" [cancel]="false"></p-rating>
+</span></span> -->
+                </div>
+              </div>
+            </ng-template>
+          </p-orderList>
+        </span>
+
+        <div class="row mt-3 justify-content-around m-0">
+          <div class="form-group col-md-1"></div>
+          <div class="form-group col-md-4">
+            <button
+              type="text"
+              style="width: 100%"
+              pButton
+              label="Affecter"
+              (click)="affectedTransport()"
+            ></button>
+
+            <!-- <i class="pi pi-sliders-h" style="font-size: 2rem"></i>  -->
+          </div>
+
+          <div class="form-group col-md-3">
+            <button
+              type="text"
+              style="width: 100%"
+              class="p-button-danger"
+              pButton
+              label="Refus"
+              (click)="OnSelectedRefus(2)"
+            ></button>
+          </div>
+
+          <div class="form-group col-md-3">
+            <button
+              type="text"
+              style="width: 100%"
+              class="p-button-warning"
+              pButton
+              label="Rejeter"
+              (click)="OnSelectedRefus(1)"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="transportPlanForm">
+      <div class="row m-2 mt-3 justify-content-around divRowInfo">
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold">{{ "Order" | translate }} *</label>
+          <br />
+          <input
+            formControlName="orderTransport"
+            [attr.disabled]="'true'"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold"
+            >{{ "Catégorie" | translate }} *</label
+          >
+          <br />
+          <input
+            formControlName="vehicleCategory"
+            [attr.disabled]="'true'"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold"
+            >{{ "Transport" | translate }} *</label
+          >
+          <br />
+          <input
+            formControlName="transport"
+            [attr.disabled]="'true'"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold">{{ "Date" | translate }} *</label>
+          <br />
+          <p-calendar
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            dateFormat="dd/mm/yy"
+            yearRange="1970:2100"
+            formControlName="date"
+          >
+          </p-calendar>
+        </div>
+      </div>
+
+      <div
+        class="row m-2 mt-3 justify-content-around divRowInfo"
+        *ngIf="isInterOrPrestataire == true"
+      >
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold">{{ "Vehicule" | translate }} *</label>
+
+          <br />
+          <input
+            formControlName="vehicle"
+            [attr.disabled]="'true'"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold"
+            >{{ "Chauffeur" | translate }} *</label
+          >
+
+          <br />
+
+          <p-dropdown
+            formControlName="driver"
+            [autoDisplayFirst]="false"
+            [options]="driverList"
+            (onChange)="onSelectDriver($event)"
+            optionLabel="name"
+            [filter]="true"
+            [showClear]="true"
+            [dataKey]="name"
+          ></p-dropdown>
+        </div>
+
+        <div class="form-group col-md-6"></div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="form-group col-md-6"></div>
+      <div class="form-group col-md-6" *ngIf="this.selectedTransport.id > 0">
+        <p-panel [toggleable]="true">
+          <ng-template pTemplate="header">
+            <span style="color: #3975a7; font-weight: 700; font-size: 12px">
+              Contact</span
+            >
+          </ng-template>
+          <p-card>
+            <ng-template pTemplate="header">
+              <div
+                style="
+                  text-align: center;
+                  background-color: #3975a7;
+                  height: 90px;
+                  border-top-left-radius: 5px;
+                  border-top-right-radius: 5px;
+                "
+              >
+                <img
+                  src="./assets/img/contact1.png"
+                  style="width: 100px"
+                  class="product-image"
+                />
+              </div>
+            </ng-template>
+            <div style="margin-left: 20px">
+              <h3>
+                <i
+                  class="fa fa-user"
+                  style="color: #495057; margin-right: 15px"
+                ></i
+                ><span style="font-weight: 500; font-size: 16px">{{
+                  this.selectedTransport?.transport?.contact?.name
+                }}</span>
+              </h3>
+              <h3>
+                <i
+                  class="fa fa-phone"
+                  style="color: #495057; margin-right: 15px"
+                ></i
+                ><span style="font-weight: 500; font-size: 16px">{{
+                  this.selectedTransport?.transport?.contact?.tel1
+                }}</span>
+              </h3>
+              <h3>
+                <i
+                  class="fa fa-envelope"
+                  style="color: #495057; margin-right: 15px"
+                ></i
+                ><span style="font-weight: 500; font-size: 16px">{{
+                  this.selectedTransport?.transport?.contact?.email
+                }}</span>
+              </h3>
             </div>
-            <div class="product-list-action">
-                <!-- <h6 class="mb-2">${{vehicle?.vehicleCategory?.tonnage}} KG</h6> -->
-                <span [class]="'customer-badge status-price'">T.M {{transport?.marginRate| number: '1.1-2'}} %</span>
-                <span [class]="'customer-badge status-margerService'">T.S {{transport?.margeService| number: '1.1-2'}} %</span>
-
-            </div>
-        </div>
-    </ng-template>
-</p-orderList>
-
-  </span>
-
-
-  <div class="row mt-3 justify-content-around m-0">
-
-    <div class="form-group col-md-1 ">
-</div>
- <div class="form-group col-md-4 ">
-  <button type="text" style="width:100%" pButton label="Affecter" (click)="affectedTransport()">
-</button>
-
-    <!-- <i class="pi pi-sliders-h" style="font-size: 2rem"></i>  -->
-  </div>
-
- <div class="form-group col-md-3">
-  <button type="text" style="width:100%" class="p-button-danger" pButton label="Refus" (click)="OnSelectedRefus(2)">
-
-    </button>
-  </div>
-
- <div class="form-group col-md-3">
-  <button type="text" style="width:100%" class="p-button-warning" pButton label="Rejeter" (click)="OnSelectedRefus(1)">
-
- </button>
-  </div>
-</div>
-        </div>
-
-
-        </div>
-
-<form [formGroup]="transportPlanForm" >
-
-  <div class="row m-2 mt-3  justify-content-around divRowInfo" >
-
-    <div class="form-group col-md-3 divLineInfo" >
-      <label class="font-weight-bold"
-        >{{ "Order" | translate }} *</label>
-      <br />
-      <input
-      formControlName="orderTransport"
-      [attr.disabled]="'true'"
-
-        type="text"
-        class="form-control"
-        pInputText
-      />
+          </p-card>
+        </p-panel>
+      </div>
     </div>
 
-  <div class="form-group col-md-3 divLineInfo">
-    <label class="font-weight-bold"
-      >{{ "Catégorie" | translate }} *</label>
-    <br />
-    <input
-    formControlName="vehicleCategory"
- [attr.disabled]="'true'"
-      type="text"
-      class="form-control"
-      pInputText
-    />
-  </div>
-
-  <div class="form-group col-md-3 divLineInfo">
-    <label class="font-weight-bold"
-      >{{ "Transport" | translate }} *</label>
-    <br />
-    <input
-    formControlName="transport"
-    [attr.disabled]="'true'"
-
-
-      type="text"
-      class="form-control"
-      pInputText
-    />
-  </div>
-
-    <div class="form-group col-md-3 divLineInfo">
-      <label class="font-weight-bold"
-      >{{ "Date" | translate }} *</label>
-    <br />
-      <p-calendar
-      [monthNavigator]="true"
-      [yearNavigator]="true"
-      dateFormat="dd/mm/yy"
-      yearRange="1970:2100"
-      formControlName="date"
-    >
-    </p-calendar>
-</div>
+    <div class="text-center mt-5 mr-3 ml-3">
+      <a
+        class="btn btn-primary m-1"
+        [routerLink]="['/core/transport-plan/list']"
+      >
+        {{ "Fermer" | translate }}
+      </a>
+      <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+        {{ "Valider et continuer" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-success m-1"
+        (click)="onSubmit(true)"
+      >
+        {{ "Valider" | translate }}
+      </button>
     </div>
-
-
-<div class="row m-2 mt-3 justify-content-around divRowInfo"*ngIf="isInterOrPrestataire==true">
-
-
-  <div class="form-group col-md-3  divLineInfo" >
-    <label class="font-weight-bold"
-      >{{ "Vehicule" | translate }} *</label
-    >
-
-    <br />
-    <input
-    formControlName="vehicle"
-    [attr.disabled]="'true'"
-
-      type="text"
-      class="form-control"
-      pInputText
-    />
-  </div>
-  <div class="form-group col-md-3 divLineInfo" >
-    <label class="font-weight-bold"
-      >{{ "Chauffeur" | translate }} *</label
-    >
-
-    <br />
-
-    <p-dropdown
-    formControlName="driver"
-  [autoDisplayFirst]="false"
-  [options]="driverList"
-  (onChange)="onSelectDriver($event)"
-  optionLabel="name"
-  [filter]="true"
-  [showClear]="true"
-  [dataKey]="name"
-></p-dropdown>
   </div>
 
-  <div class="form-group col-md-6"></div>
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0)"
+    size="large"
+    color="#00d2ff"
+    type="ball-spin-fade-rotating"
+  ></ngx-spinner>
+  <p-confirmDialog
+    header="Confirmation"
+    icon="pi pi-exclamation-triangle"
+    acceptLabel="Complet"
+    rejectLabel="Grouper"
+  ></p-confirmDialog>
 
-
-</div>
-
-
-
-</form>
-
-<div class="row">
-  <div class="form-group col-md-6">
-
+  <div *ngIf="showDialogReject == true">
+    <app-transport-plan-history
+      [editMode]="editMode"
+      [selectedTransportPlanHistroy]="selectTransportPlanHistory"
+      (showDialog)="onShowDialog($event)"
+    ></app-transport-plan-history>
   </div>
-<div class="form-group col-md-6" *ngIf="this.selectedTransport.id>0">
-  <p-panel [toggleable]="true">
-    <ng-template pTemplate="header" >
-      <span style="color: #3975a7;
-      font-weight: 700;
-      font-size: 12px;"> Contact</span>
-    </ng-template>
-  <p-card>
-    <ng-template pTemplate="header">
-      <div style="text-align: center; background-color: #3975a7;height: 90px;border-top-left-radius: 5px;
-      border-top-right-radius: 5px;">
-      <img src="./assets/img/contact1.png" style="width: 100px;"  class="product-image" />
-</div>
 
-</ng-template>
-<div style="margin-left: 20px;">
-  <h3><i class="fa fa-user" style="color: #495057;margin-right: 15px;"></i><span style="font-weight: 500;
-    font-size: 16px;">{{this.selectedTransport?.transport?.contact?.name}}</span></h3>
-     <h3><i class="fa fa-phone" style="color: #495057;margin-right: 15px;"></i><span style="font-weight: 500;
-      font-size: 16px;">{{this.selectedTransport?.transport?.contact?.tel1}}</span></h3>
-     <h3><i class="fa fa-envelope" style="color: #495057;margin-right: 15px;"></i><span style="font-weight: 500;
-      font-size: 16px;">{{this.selectedTransport?.transport?.contact?.email}}</span></h3>
-
-    </div>
-</p-card>
-
-</p-panel>
-</div>
-</div>
-
-
-
-<div class="text-center mt-5 mr-3 ml-3">
-  <a class="btn btn-primary m-1" [routerLink]="['/core/transport-plan/list']">
-    {{ "Fermer" | translate }}
-  </a>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-    {{ "Valider et continuer" | translate }}
-  </button>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
-    {{ "Valider" | translate }}
-  </button>
-</div>
-    </div>
-
-
-
-    <ngx-spinner
-  bdColor="rgba(255,255,255,0)"
-  size="large"
-  color="#00d2ff"
-  type="ball-spin-fade-rotating"
-></ngx-spinner>
-<p-confirmDialog
-  header="Confirmation"
-  icon="pi pi-exclamation-triangle"
-  acceptLabel="Complet"
-  rejectLabel="Grouper"
-></p-confirmDialog>
-
-
-
-
-
-<div *ngIf="showDialogReject == true">
-  <app-transport-plan-history
-    [editMode]="editMode"
-    [selectedTransportPlanHistroy]="selectTransportPlanHistory"
-    (showDialog)="onShowDialog($event)"
-  ></app-transport-plan-history>
-</div>
-
-
-<div *ngIf="showDialogVehicle == true">
-  <app-transport-plan-vehicle-list
-  (showDialog)="onHideDialogVehicle($event)"
-  (selectedVehicule)="onSelectedVehicle($event)"
-   [vehicleCategory]="this.selectedTransportPlan.vehicleCategory"
-   ></app-transport-plan-vehicle-list>
+  <div *ngIf="showDialogVehicle == true">
+    <app-transport-plan-vehicle-list
+      (showDialog)="onHideDialogVehicle($event)"
+      (selectedVehicule)="onSelectedVehicle($event)"
+      [vehicleCategory]="this.selectedTransportPlan.vehicleCategory"
+    ></app-transport-plan-vehicle-list>
+  </div>
 </div>

@@ -48,6 +48,8 @@ tarificationForm: FormGroup;
    priceRetour :number =0;
    selectRadio :Boolean=true;
    marginRate :number=0;
+   marginValue :number=0;
+
   constructor(private vehicleCategoryService :VehicleCategoryService,
     private orderTransportService :OrderTransportService,
     private transportPlanService :TransportPlanService,
@@ -69,6 +71,7 @@ tarificationForm: FormGroup;
         // this.orderTransportTransports=this.orderTransportService.getOrderTransport().orderTransportTransport;
 
          this.marginRate = this.selectOrderTransport.marginRate ;
+         this.marginValue=this.selectOrderTransport.marginValue;
  console.log(this.selectOrderTransport.priceHT);
          this.onSearchCatalogPricing();
 this.initForm();
@@ -174,7 +177,8 @@ console.log(this.selectOrderTransport?.loadingType?.id);
 
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=   this.selectedAccountPricing.saleAmountHt;
-        this.marginRate=(this.marginRate!=null && this.marginRate>0) ? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginRate=(this.marginRate!=null ) ? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginValue=(this.marginValue!=null ) ? this.marginValue :(sale-purchase);
 
         this.tarificationForm.patchValue({
           priceHT:this.selectedAccountPricing.saleAmountHt
@@ -183,7 +187,9 @@ console.log(this.selectOrderTransport?.loadingType?.id);
       }else {
         let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
         let sale=  this.selectedCatalogPricing.saleAmountHt;
-        this.marginRate=(this.marginRate!=null && this.marginRate>0)? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginRate=(this.marginRate!=null )? this.marginRate :((sale-purchase)/purchase)*100;
+        this.marginValue=(this.marginValue!=null )? this.marginValue :(sale-purchase);
+
       }
       });
 
@@ -195,7 +201,7 @@ onInputPrice(event) {
   let purchase=  this.selectedCatalogPricing.purchaseAmountHt;
   let sale=   event.value;
   this.marginRate=((sale-purchase)/purchase)*100;
-
+  this.marginValue=(sale-purchase);
 }
 
 
@@ -206,6 +212,7 @@ onInputPrice(event) {
     this.selectOrderTransport.priceHT=this.tarificationForm.controls["priceHT"].value;
     this.orderTransportService.addPrice(  this.selectOrderTransport.priceHT);
     this.orderTransportService.addMarginRate(  this.marginRate);
+    this.orderTransportService.addMarginValue(  this.marginValue);
 
 this.previousstep.emit(true);
   }
@@ -223,6 +230,7 @@ loadForm(){
     this.selectOrderTransport.priceHT=this.tarificationForm.controls["priceHT"].value;
 this.orderTransportService.addPrice(  this.selectOrderTransport.priceHT);
 this.orderTransportService.addMarginRate(  this.marginRate);
+this.orderTransportService.addMarginValue(  this.marginValue);
 
    //this.orderTransportService.addOrderTransportTransport(this.orderTransportTransports);
     this.nextstep.emit(true);

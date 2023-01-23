@@ -1,5 +1,4 @@
 import { Company } from './company';
-import { TransportPlanProductService } from './transport-plan-product-service';
 import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
 import {  TurnStatus } from './turn-status';
@@ -16,6 +15,7 @@ import { Transport } from './transport';
 import { VehicleCategory } from './vehicle-category';
 import { TurnTransport } from './turn-transport';
 import { LoadingType } from './loading-type';
+import { TransportPlanServiceCatalog } from './transport-plan-service-catalog';
 
 export class TransportPlan {
   id: number;
@@ -32,7 +32,7 @@ export class TransportPlan {
   villeSource :Ville;
   villeDistination : Ville;
 
-  transportPlanProductServices:TransportPlanProductService[]=[];
+  transportPlanServiceCatalogs:TransportPlanServiceCatalog[]=[];
 
   marginRate:number;
   margineService :number;

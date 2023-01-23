@@ -229,9 +229,9 @@
       </div>
     </div>
     <div class="card-body border-top-primary">
-      <p-table [value]=" this.selectedTransportPlan?.transportPlanProductServices" [lazy]="true" [rows]="8"
+      <p-table [value]=" this.selectedTransportPlan?.transportPlanServiceCatalogs" [lazy]="true" [rows]="8"
         [paginator]="true" [totalRecords]=" this.selectedTransportPlan
-    ?.transportPlanProductServices?.length" >
+    ?.transportPlanServiceCatalogs?.length" >
         <ng-template pTemplate="header">
           <tr>
 
@@ -409,7 +409,8 @@
   <app-transport-plan-service-edit
   (showDialog)="onHideDialogTransportProduct($event)"
  (transportProductEdited)="onLineEditedTransportProduct($event)"
-   [selectedTransportProduct]="this.selectedTransportProductService"
+ [selectedCompany]="this.selectedTransportPlan?.orderTransport?.company"
+   [selectedTransportServiceCatalog]="this.selectedTransportProductService"
    [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
 
 </div>

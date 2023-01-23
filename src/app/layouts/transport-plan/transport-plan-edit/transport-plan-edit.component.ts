@@ -1,5 +1,5 @@
+import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
 import { LoadingType } from './../../../shared/models/loading-type';
-import { TransportPlanProductService } from './../../../shared/models/transport-plan-product-service';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,7 +45,7 @@ export class TransportPlanEditComponent implements OnInit {
   vehicleCategoryList : VehicleCategory[]=[];
   transportList : Transport[]=[];
   isFormSubmitted : Boolean =false;
-  selectedTransportProductService = new TransportPlanProductService();
+  selectedTransportProductService = new TransportPlanServiceCatalog();
   editModeTransportProduct: Boolean=false;
   showDialogTransportProduct:Boolean=false;
     constructor(private transportPlanService:TransportPlanService,
@@ -239,33 +239,33 @@ onSubmit(close=false){
       this.editModeTransportProduct = true;
     } else if (mode == false) {
 
-      this.selectedTransportProductService = new TransportPlanProductService();
+      this.selectedTransportProductService = new TransportPlanServiceCatalog();
       this.editModeTransportProduct = false;
     }
   }
 
-  onLineEditedTransportProduct(line: TransportPlanProductService) {
+  onLineEditedTransportProduct(line: TransportPlanServiceCatalog) {
     console.log(line);
 
     if (
-      this.selectedTransportPlan.transportPlanProductServices == null ||
-      this.selectedTransportPlan.transportPlanProductServices == undefined
+      this.selectedTransportPlan.transportPlanServiceCatalogs == null ||
+      this.selectedTransportPlan.transportPlanServiceCatalogs == undefined
     ) {
-      this.selectedTransportPlan.transportPlanProductServices = [];
+      this.selectedTransportPlan.transportPlanServiceCatalogs = [];
     }
-    this.selectedTransportPlan.transportPlanProductServices =   this.selectedTransportPlan.transportPlanProductServices.filter(
+    this.selectedTransportPlan.transportPlanServiceCatalogs =   this.selectedTransportPlan.transportPlanServiceCatalogs.filter(
       (l) => l.product.code !== line.product.code
     );
 
-    this.selectedTransportPlan.transportPlanProductServices.push(line);
+    this.selectedTransportPlan.transportPlanServiceCatalogs.push(line);
 
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Suprimer?",
       accept: () => {
-        this.selectedTransportPlan.transportPlanProductServices =
-        this.selectedTransportPlan.transportPlanProductServices.filter((l) => l.product.code !== productCode);
+        this.selectedTransportPlan.transportPlanServiceCatalogs =
+        this.selectedTransportPlan.transportPlanServiceCatalogs.filter((l) => l.product.code !== productCode);
       },
     });
   }

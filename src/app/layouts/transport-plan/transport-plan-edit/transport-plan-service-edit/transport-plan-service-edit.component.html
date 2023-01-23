@@ -1,5 +1,5 @@
 <p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
+  showEffect="fade" [modal]="true" [style]="{ width: '70vw' }" (onHide)='onHideDialog()'>
   <div>
     <div class="modal-body">
       <div class="card-body">
@@ -10,7 +10,7 @@
           <div class="row  justify-content-around">
 
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label class="font-weight-bold">{{'Service' | translate}}*</label>
               <span *ngIf="(transportProductForm.get('product').touched && transportProductForm.get('product').invalid) ||
               (isFormSubmitted && transportProductForm.get('product').invalid)" class="text-lighter"
@@ -22,34 +22,100 @@
 
 
             </div>
+            <div class="form-group col-sm-2">
+              <label class="font-weight-bold">{{'Avec Facture' | translate}} </label>
 
-
+              <br />
+              <div class="field-checkbox">
+              <p-checkbox formControlName="invoice" name="invoice"(onChange)="onSelectInvoice($event)" [binary]="true" inputId="invoice"></p-checkbox>
+              <label class="font-weight-bold" for="invoice">{{this.selectedTransportServiceCatalog.invoice?"Oui":"Non"}}</label>
+            </div>
+</div>
             <div class="form-group col-md-6 ">
                         </div>
-            <div class="form-group col-md-6 ">
-              <label class="font-weight-bold">{{'Prix HT'| translate}}</label><br />
+</div>
+<div class="row  justify-content-around">
+
+
+<div class="form-group col-md-4 ">
+  <label class="font-weight-bold">{{'Adresse'| translate}}</label><br />
+  <p-dropdown  formControlName="address"
+  [options]="addresList"
+  [autoDisplayFirst]="false"
+  [placeholder]="this.selectedTransportServiceCatalog?.address?.code"
+   (onChange)="onSelectAddress($event)"
+  optionLabel="code"  [filter]="true" [showClear]="true">
+</p-dropdown>
+  </div>
+  <div class="form-group col-md-4">
+
+    <label class="font-weight-bold">{{'Transport'| translate}}</label><br />
+    <p-dropdown  formControlName="transport"
+    [options]="transportList"
+    [autoDisplayFirst]="false"
+    [appendTo]="'body'"
+    [placeholder]="this.selectedTransportServiceCatalog?.transport?.code"
+     (onChange)="onSelectTransport($event)"
+    optionLabel="name"  [filter]="true" [showClear]="true">
+  </p-dropdown>
+
+  </div>
+  <div class="form-group col-md-4"></div>
+</div>
+                        <div class="row  justify-content-around">
+
+            <div class="form-group col-md-4 ">
+              <label class="font-weight-bold">{{'Prix Achat HT'| translate}}</label><br />
               <input type="text" class="form-control" pInputText
-              (keyup)="onPriceChange(1)" formControlName="priceHT" />
+              (keyup)="onPriceChange(1)" formControlName="purchasePriceHT" />
               </div>
 
-              <div class="form-group col-md-6 ">
+              <div class="form-group col-md-4 ">
                 <label class="font-weight-bold">{{'TVA'| translate}}</label><br />
-                <p-dropdown  formControlName="vat"
+                <p-dropdown  formControlName="purchaseVat"
                 [options]="vats"
-                 (onChange)="onSelectVat($event)"
+                emptyMessage="'0'"
+                 (onChange)="onSelectPurchaseVat($event)"
                 optionLabel="value"  [filter]="true" [showClear]="true">
             </p-dropdown>
                 </div>
 
-              <div class="form-group col-md-6 ">
-                <label class="font-weight-bold">{{'Prix TTC'| translate}}</label><br />
+              <div class="form-group col-md-4 ">
+                <label class="font-weight-bold">{{'Prix Achat TTC'| translate}}</label><br />
                 <input type="text" class="form-control" pInputText
-                (keyup)="onPriceChange(2)" formControlName="priceTTC" />
+                (keyup)="onPriceChange(2)" formControlName="purchasePriceTTC" />
                 </div>
-                <div class="form-group col-md-6 ">
-</div>
+
 
           </div>
+
+          <div class="row  justify-content-around">
+
+            <div class="form-group col-md-4 ">
+              <label class="font-weight-bold">{{'Prix Vente HT'| translate}}</label><br />
+              <input type="text" class="form-control" pInputText
+              (keyup)="onPriceSaleChange(1)" formControlName="salePriceHT" />
+              </div>
+
+              <div class="form-group col-md-4 ">
+                <label class="font-weight-bold">{{'TVA'| translate}}</label><br />
+                <p-dropdown  formControlName="saleVat"
+                [options]="vats"
+                emptyMessage="'0'"
+                 (onChange)="onSelectSaleVat($event)"
+                optionLabel="value"  [filter]="true" [showClear]="true">
+            </p-dropdown>
+                </div>
+
+              <div class="form-group col-md-4 ">
+                <label class="font-weight-bold">{{'Prix Vente TTC'| translate}}</label><br />
+                <input type="text" class="form-control" pInputText
+                (keyup)="onPriceSaleChange(2)" formControlName="salePriceTTC" />
+                </div>
+
+
+          </div>
+
 
         </form>
 

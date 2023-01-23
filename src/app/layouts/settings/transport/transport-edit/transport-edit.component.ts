@@ -6,7 +6,6 @@ import { PaysService } from './../../../../shared/services/api/pays.service';
 import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Ville } from './../../../../shared/models/ville';
 import { Pays } from './../../../../shared/models/pays';
-import { TransportProduct } from './../../../../shared/models/transport-product';
 import { ContactService } from './../../../../shared/services/api/contact.service';
 import { Contact } from './../../../../shared/models/contact';
 import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
@@ -43,10 +42,6 @@ export class TransportEditComponent implements OnInit {
   selectContact = new Contact();
   subscriptions = new Subscription();
 
-
-  selectedTransportProduct = new TransportProduct();
-  editModeTransportProduct: Boolean=false;
-  showDialogTransportProduct:Boolean=false;
   paysList: Pays[] = [];
   villeList: Ville[] = [];
   showTransportCatalogPricing:Boolean =false;
@@ -264,49 +259,9 @@ console.log(event.checked);
 
 
 
-  onHideDialogTransportProduct(event) {
-    this.showDialogTransportProduct = event;
-  }
-
-  onShowDialogTransportProduct(line, mode) {
-    this.showDialogTransportProduct = true;
-
-    if (mode == true) {
 
 
-      this.selectedTransportProduct = line;
-      this.editModeTransportProduct = true;
-    } else if (mode == false) {
 
-      this.selectedTransportProduct = new TransportProduct();
-      this.editModeTransportProduct = false;
-    }
-  }
-
-  onLineEditedTransportProduct(line: TransportProduct) {
-    console.log(line);
-
-    if (
-      this.selectedTransport.transportProducts == null ||
-      this.selectedTransport.transportProducts == undefined
-    ) {
-      this.selectedTransport.transportProducts = [];
-    }
-    this.selectedTransport.transportProducts =  this.selectedTransport.transportProducts.filter(
-      (l) => l.product.code !== line.product.code
-    );
-    this.selectedTransport.transportProducts.push(line);
-
-  }
-  onDeleteTransportProduct(productCode: string) {
-    this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
-      accept: () => {
-        this.selectedTransport.transportProducts =
-        this.selectedTransport.transportProducts.filter((l) => l.product.code !== productCode);
-      },
-    });
-  }
 
   onCatalogTransportPricingEdited(catalogTransportPricings : CatalogTransportPricing[]){
     this.selectedTransport.catalogTransportPricings=catalogTransportPricings;

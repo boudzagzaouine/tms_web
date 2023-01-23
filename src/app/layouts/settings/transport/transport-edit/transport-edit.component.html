@@ -301,13 +301,4 @@ showEffect="fade"
 
 
 
-<div *ngIf="showDialogTransportProduct == true">
 
-
-  <app-transport-product-edit
-  (showDialog)="onHideDialogTransportProduct($event)"
- (transportProductEdited)="onLineEditedTransportProduct($event)"
-   [selectedTransportProduct]="this.selectedTransportProduct"
-   [editMode]="editModeTransportProduct"></app-transport-product-edit>
-
-</div>

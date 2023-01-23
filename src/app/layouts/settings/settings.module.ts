@@ -30,7 +30,6 @@ import { ActivityAreaEditComponent } from './activity-area/activity-area-edit/ac
 import { ActivityAreaComponent } from './activity-area/activity-area.component';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
 import { CompanyComponent } from './company/company.component';
-import { TransportProductEditComponent } from './transport/transport-edit/transport-product-edit/transport-product-edit.component';
 import { ProductServiceEditComponent } from './product-service/product-service-edit/product-service-edit.component';
 import { ProductServiceComponent } from './product-service/product-service.component';
 import { ProductService } from './../../shared/services/api/product.service';
@@ -286,7 +285,6 @@ import { TransportAccountServiceComponent } from './transport/transport-edit/tra
     MenuServiceComponent,
     ProductServiceComponent,
     ProductServiceEditComponent,
-    TransportProductEditComponent,
     CompanyComponent,
     CompanyEditComponent,
     ActivityAreaComponent,

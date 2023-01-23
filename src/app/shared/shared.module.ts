@@ -1,3 +1,5 @@
+import { TransportService } from './models/transport-service';
+import { TransportPlanServiceCatalogService } from './services/api/transport-Plan-service-catalog.service';
 import { TransportAccountServiceService } from './services/api/transport-account-service.service';
 import { TransportServiceService } from './services/api/transport-service.service';
 import { AccountServiceService } from './services/api/account-service.service';
@@ -14,7 +16,6 @@ import { LoadingTypeService } from './services/api/loading-type.service';
 import { CatalogPricingService } from './services/api/catalog-pricing.service';
 import { AddressDeliveryService } from './services/api/AddressDeliveryService.service';
 import { ActivityAreaService } from './services/api/activity-area.service';
-import { TransportProductService } from './services/api/transport-product.service';
 import { ServiceTypeService } from './services/api/service-type.service';
 import { PaymentTypeService } from './services/api/payment-type.service';
 import { AccountPricingService } from './services/api/account-pricing.service';
@@ -334,7 +335,6 @@ export class SharedModule {
         AccountPricingService,
         PaymentTypeService,
         ServiceTypeService,
-        TransportProductService,
         ActivityAreaService,
         AddressDeliveryService,
         CatalogPricingService,
@@ -348,8 +348,10 @@ export class SharedModule {
         CatalogPricingImportService,
         CatalogServiceService,
         AccountServiceService,
+    
         TransportServiceService,
-        TransportAccountServiceService
+        TransportAccountServiceService,
+        TransportPlanServiceCatalogService,
       ],
 
     };

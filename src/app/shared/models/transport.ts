@@ -2,7 +2,6 @@ import { TransportAccountService } from './transport-account-service';
 import { TransportService } from './transport-service';
 import { CatalogTransportAccountPricing } from './catalog-transport-account-pricing';
 import { CatalogTransportPricing } from './CatalogTransportPricing';
-import { TransportProduct } from './transport-product';
 import { Contact } from './contact';
 import { Address } from './address';
 import { Owner } from './owner';
@@ -26,12 +25,11 @@ export class Transport {
   catalogTransportAccountPricings:CatalogTransportAccountPricing[]=[];
   catalogTransportServices:TransportService[]=[];
   catalogTransportAccountServices:TransportAccountService[]=[];
-  priceContrat:number=0;
+
   interneOrExterne:Boolean=false;
 
-  transportProducts:TransportProduct[]=[];
-
-
+  priceContrat:number=0; // local
+  price:number=0; // local
 
 
 

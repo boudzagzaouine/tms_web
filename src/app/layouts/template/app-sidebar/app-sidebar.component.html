@@ -47,6 +47,19 @@ height: 100vh; padding-bottom: 10%;">
               {{'Configuration Mail ' | translate}}</a>
           </li> -->
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+            <a routerLink="/core/settings/group" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Group' | translate}}</a>
+          </li>
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+            <a routerLink="/core/settings/habilitation" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Habilitation' | translate}}</a>
+          </li>
+
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+            <a routerLink="/core/settings/user" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Utilisateur' | translate}}</a>
+          </li>
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
@@ -76,6 +89,12 @@ height: 100vh; padding-bottom: 10%;">
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
             <a routerLink="/core/settings/catalog-pricing" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Tarification ' | translate}}</a>
+          </li>
+
+
+          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+            <a routerLink="/core/settings/trajet" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Trajet ' | translate}}</a>
           </li>
 
           <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">

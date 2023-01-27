@@ -1,3 +1,5 @@
+import { Trajet } from './../../../../shared/models/trajet';
+import { TrajetService } from './../../../../shared/services/api/trajet.service';
 import { Pays } from './../../../../shared/models/pays';
 import { PaysService } from './../../../../shared/services/api/pays.service';
 import { VehicleTray } from './../../../../shared/models/vehicle-tray';
@@ -38,7 +40,6 @@ export class CatalogPricingEditComponent implements OnInit {
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
   turnTypeList :TurnType[]=[];
-  villeList: Ville[] = [];
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
@@ -47,15 +48,16 @@ export class CatalogPricingEditComponent implements OnInit {
   turnTypeid:number;
   transport : number;
   catVehicleId : number;
-  villeSourceId : number;
-  villeDestinationId : number ;
+  trajetId : number ;
   loadingTypeId: number;
   vehicleTrayId:number;
   loadingTypeList:Array<LoadingType>=[];
   vehicleTrayList:Array<VehicleTray>=[];
-  paysList:Array<Pays>=[];
+
+  TrajetList:Array<Pays>=[];
   constructor(
     private catalogPricingService: CatalogPricingService,
+    private trajetService:TrajetService,
     private authentificationService:AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
     private turnTypeService:TurnTypeService,
@@ -97,10 +99,7 @@ export class CatalogPricingEditComponent implements OnInit {
       'fLoadingType': new FormControl(this.selectCatalogPricing?.loadingType, Validators.required),
       'fTurnType': new FormControl(this.selectCatalogPricing?.turnType, Validators.required),
 
-      'fPaysSource': new FormControl(this.selectCatalogPricing?.paysSource, Validators.required),
-      'fVilleSource': new FormControl(this.selectCatalogPricing?.villeSource, Validators.required),
-      'fPaysDestination': new FormControl(this.selectCatalogPricing?.paysDestination, Validators.required),
-      'fVilleDestination': new FormControl(this.selectCatalogPricing?.villeDestination, Validators.required),
+      'fTrajet': new FormControl(this.selectCatalogPricing?.trajet, Validators.required),
 
       'fPurchaseAmountHt': new FormControl(this.selectCatalogPricing.purchaseAmountHt, Validators.required),
       'fPurchaseAmountTtc': new FormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
@@ -148,7 +147,7 @@ console.log(this.selectCatalogPricing);
   }
 
   existTransport() {
-    this.catalogPricingService.sizeSearch(`loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},villeSource.id:${this.villeSourceId},villeDestination.id:${this.villeDestinationId}`).subscribe(
+    this.catalogPricingService.sizeSearch(`loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`).subscribe(
       data => {
 console.log(data);
 
@@ -236,10 +235,10 @@ console.log(data);
       .find('code~' + event.query)
       .subscribe(data => (this.transportList = data));
   }
-  onVilleSourceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find('code~' + event.query)
-      .subscribe(data => (this.villeList = data));
+      .subscribe(data => (this.TrajetList = data));
   }
 
   onSelectPurchaseVat(event) {
@@ -252,21 +251,13 @@ console.log(data);
     this.onSalePriceChange(1);
   }
 
-  onSelectPaysSource(event){
-    this.selectCatalogPricing.paysSource = event.value;
-  }
-  onSelectVilleSource(event: any) {
-    this.selectCatalogPricing.villeSource = event;
-    this.villeSourceId = this.selectCatalogPricing.villeSource.id;
+
+  onSelectTrajet(event: any) {
+    this.selectCatalogPricing.trajet = event;
+    this.trajetId = this.selectCatalogPricing.trajet.id;
   }
 
-  onSelectPaysDistination(event){
-    this.selectCatalogPricing.paysDestination = event.value;
-  }
-  onSelectVilleDestination(event: any) {
-    this.selectCatalogPricing.villeDestination = event;
-    this.villeDestinationId = this.selectCatalogPricing.villeDestination.id;
-  }
+
 
 
   onPurcahsePriceChange(n: Number) {
@@ -310,11 +301,7 @@ console.log(data);
         this.turnTypeList = data;
       }
     );
-    this.villeService.findAll().subscribe(
-      data => {
-        this.villeList = data;
-      }
-    );
+
     this.vatService.findAll().subscribe(
       data => {
         this.vatList = data;
@@ -333,11 +320,7 @@ console.log(data);
       }
     );
 
-    this.paysService.findAll().subscribe(
-      data => {
-        this.paysList = data;
-      }
-    );
+
   }
 
   onSalePriceChange(n: Number) {

@@ -1,3 +1,4 @@
+import { TrajetService } from './../../../shared/services/api/trajet.service';
 import { TurnType } from './../../../shared/models/turn-Type';
 import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
 import { VehicleTrayService } from './../../../shared/services/api/vehicle-tray.service';
@@ -45,9 +46,8 @@ export class CatalogPricingComponent implements OnInit {
   vehicleTrayList:Array<VehicleTray>=[];
   loadingTypeList:Array<LoadingType>=[];
 
-  villeSourceSearch: Ville;
-  villeDestinationSearch: Ville;
-  villeSourceList: Array<Ville> = [];
+  trajetSearch: Ville;
+  trajetList: Array<Ville> = [];
 
   cols: any[];
   showDialog: boolean;
@@ -61,7 +61,7 @@ export class CatalogPricingComponent implements OnInit {
   constructor(
     private catalogPricingService: CatalogPricingService,
     private vehicleCategoryService: VehicleCategoryService,
-    private villeService: VilleService,
+    private trajetService: TrajetService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -114,18 +114,13 @@ export class CatalogPricingComponent implements OnInit {
 
 
       {
-        field: 'villeSource',
+        field: 'trajet',
         child: 'code',
-        header: 'Ville Source',
+        header: 'Trajet',
         type: 'object'
       },
 
-      {
-        field: 'villeDestination',
-        child: 'code',
-        header: 'Ville Destination',
-        type: 'object'
-      },
+
       { field: 'purchaseAmountHt', header: 'Prix Achat ', type: 'number' },
       { field: 'purchaseVat',child:'value', header: 'TVA', type: 'object' },
 
@@ -171,6 +166,8 @@ export class CatalogPricingComponent implements OnInit {
     this.loadData();
   }
   onExportExcel(event) {
+    console.log(event);
+
     this.catalogPricingService.find(this.searchQuery).subscribe(
       data => {
         this.catalogPricingExportList = data;
@@ -234,14 +231,8 @@ export class CatalogPricingComponent implements OnInit {
       buffer.append(`vehicleTray.code~${this.vehicleTraySearch.code}`);
     }
 
-    if (this.villeSourceSearch != null && this.villeSourceSearch.code !== '') {
-      buffer.append(`villeSource.code~${this.villeSourceSearch.code}`);
-    }
-    if (
-      this.villeDestinationSearch != null &&
-      this.villeDestinationSearch.code !== ''
-    ) {
-      buffer.append(`villeDestination.code~${this.villeDestinationSearch.code}`);
+    if (this.trajetSearch != null && this.trajetSearch.code !== '') {
+      buffer.append(`trajet.code~${this.trajetSearch.code}`);
     }
 
     this.page = 0;
@@ -255,16 +246,15 @@ export class CatalogPricingComponent implements OnInit {
       .subscribe(data => (this.categorieVehicleList = data.map(f => f.code)));
   }
 
-  onVilleSouceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find('code~' + event.query)
-      .subscribe(data => (this.villeSourceList = data));
+      .subscribe(data => (this.trajetList = data));
   }
 
   reset() {
     this.vehicleCategorySearch = null;
-    this.villeSourceSearch = null;
-    this.villeDestinationSearch = null;
+    this.trajetSearch = null;
     this.loadingTypeSearch = null;
   this.vehicleTraySearch=null;
   this.turnTypeSearch=null;
@@ -332,9 +322,6 @@ export class CatalogPricingComponent implements OnInit {
       this.categorieVehicleList = data;
     });
 
-    this.villeService.findAll().subscribe(data => {
-      this.villeSourceList = data;
-    });
   }
 
   onShowDialog(event) {

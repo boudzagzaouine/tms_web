@@ -1,15 +1,15 @@
-import { element } from 'protractor';
-import { Account } from './../../../shared/models/account';
-import { CatalogTransportAccountPricingService } from './../../../shared/services/api/catalog-transport-account-pricing.service';
-import { TransportPlanHistoryService } from './../../../shared/services/api/transport-plan-history.service';
-import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
-import { CatalogPricingService } from '../../../shared/services/api/catalog-pricing.service';
-import { CatalogPricing } from './../../../shared/models/catalog-pricing';
-import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
-import { VilleService } from './../../../shared/services/api/ville.service';
-import { Ville } from './../../../shared/models/ville';
-import { CatalogTransportPricingService } from './../../../shared/services/api/catalog-transport-pricing.service';
-import { CatalogTransportPricing } from './../../../shared/models/CatalogTransportPricing';
+import { element } from "protractor";
+import { Account } from "./../../../shared/models/account";
+import { CatalogTransportAccountPricingService } from "./../../../shared/services/api/catalog-transport-account-pricing.service";
+import { TransportPlanHistoryService } from "./../../../shared/services/api/transport-plan-history.service";
+import { TransportPlanHistory } from "./../../../shared/models/transport-plan-history";
+import { CatalogPricingService } from "../../../shared/services/api/catalog-pricing.service";
+import { CatalogPricing } from "./../../../shared/models/catalog-pricing";
+import { OrderTransportInfo } from "./../../../shared/models/order-transport-info";
+import { VilleService } from "./../../../shared/services/api/ville.service";
+import { Ville } from "./../../../shared/models/ville";
+import { CatalogTransportPricingService } from "./../../../shared/services/api/catalog-transport-pricing.service";
+import { CatalogTransportPricing } from "./../../../shared/models/CatalogTransportPricing";
 import { Observable, Subscription } from "rxjs";
 import { Subject } from "rxjs";
 import { MaintenancePlan } from "./../../../shared/models/maintenance-plan";
@@ -40,7 +40,7 @@ import { OrderTransport } from "./../../../shared/models/order-transport";
 import { OrderTransportService } from "./../../../shared/services/api/order-transport.service";
 import { ConfirmationService, MenuItem } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
-import { table } from 'console';
+import { table } from "console";
 
 @Component({
   selector: "app-transport-plan-add",
@@ -53,7 +53,7 @@ export class TransportPlanAddComponent implements OnInit {
   selectOrderTransport: OrderTransport = new OrderTransport();
   orderTransportList: OrderTransport[] = [];
   orderTransportCloneList: OrderTransport[] = [];
-  selectTransportPlanHistory :TransportPlanHistory=new TransportPlanHistory();
+  selectTransportPlanHistory: TransportPlanHistory = new TransportPlanHistory();
 
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
@@ -76,25 +76,26 @@ export class TransportPlanAddComponent implements OnInit {
   selectStatusValide: TurnStatus = new TurnStatus();
   selectedContractAccount: ContractAccount = new ContractAccount();
 
-  lastDeliveryTransportList: Array<TransportPlan[]>=[];
-  lastDeliveryTransportInterneList: Array<TransportPlan[]>=[];
+  lastDeliveryTransportList: Array<TransportPlan[]> = [];
+  lastDeliveryTransportInterneList: Array<TransportPlan[]> = [];
 
   //lastDeliveryTransport: TransportPlan = new TransportPlan();
   villeExterneForLast: string[] = [];
   subscriptions = new Subscription();
-  editModeTransportProduct: Boolean=false;
-  showDialogTransportProduct:Boolean=false;
-  showDialogReject:Boolean=false;
-  villeList:Ville[]=[];
-  selectedVilleSource:Ville=new Ville();
-  selectedVilleDistination:Ville=new Ville();
-  catalogPricing :CatalogPricing=new CatalogPricing();
-  showDialogVehicle:Boolean=false;
+  editModeTransportProduct: Boolean = false;
+  showDialogTransportProduct: Boolean = false;
+  showDialogReject: Boolean = false;
+  villeList: Ville[] = [];
+  selectedVilleSource: Ville = new Ville();
+  selectedVilleDistination: Ville = new Ville();
+  catalogPricing: CatalogPricing = new CatalogPricing();
+  showDialogVehicle: Boolean = false;
   sortOrderitems: any[];
   sortTransportitems: any[];
   sortMargeService: any;
-  sortMargeValue : any;
-  test:4.5;
+  sortMargeValue: any;
+  test: 4.5;
+
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
@@ -108,12 +109,12 @@ export class TransportPlanAddComponent implements OnInit {
     private transportService: TransportServcie,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private villeService:VilleService,
+    private villeService: VilleService,
     private router: Router,
     private maintenanceService: MaintenanceService,
-    private confirmationService:ConfirmationService,
-    private catalogPricingService:CatalogPricingService,
-    private  transportPlanHitoryService: TransportPlanHistoryService
+    private confirmationService: ConfirmationService,
+    private catalogPricingService: CatalogPricingService,
+    private transportPlanHitoryService: TransportPlanHistoryService
   ) {}
 
   ngOnInit() {
@@ -123,19 +124,15 @@ export class TransportPlanAddComponent implements OnInit {
     ];
     this.home = { icon: "pi pi-home" };
 
-    this.sortOrderitems= [
-      {name: 'Marge en Valeur', icon: 'pi pi-sort-alt',label:'valeur' },
-      {name: 'Marge en Pourcengtage', icon: 'pi pi-sort-alt',label:'marge'},
+    this.sortOrderitems = [
+      { name: "Marge en Valeur", icon: "pi pi-sort-alt", label: "valeur" },
+      { name: "Marge en Pourcengtage", icon: "pi pi-sort-alt", label: "marge" },
+    ];
 
-
-  ];
-
-  this.sortTransportitems= [
-    {name: 'Taux de Service', icon: 'pi pi-sort-alt',label:'service'},
-    {name: 'Taux de Marge', icon: 'pi pi-sort-alt',label:'marge' },
-
-
-];
+    this.sortTransportitems = [
+      { name: "Taux de Service", icon: "pi pi-sort-alt", label: "service" },
+      { name: "Taux de Marge", icon: "pi pi-sort-alt", label: "marge" },
+    ];
 
     this.driverService.findAll().subscribe((data) => {
       this.driverList = data;
@@ -176,15 +173,14 @@ export class TransportPlanAddComponent implements OnInit {
 
   //  List  OrderTransport status cree
   loadOrderTransport() {
-
     //turnStatus .id =  1 => cree
     this.orderTransportService.find("turnStatus.id:" + 1).subscribe((data) => {
       this.orderTransportList = data;
-      this.orderTransportList = this.orderTransportList.sort((n1,n2)=> n2.marginValue - n1.marginValue);
+      this.orderTransportList = this.orderTransportList.sort(
+        (n1, n2) => n2.marginValue - n1.marginValue
+      );
 
-
-
-      this.orderTransportCloneList=this.orderTransportList;
+      this.orderTransportCloneList = this.orderTransportList;
       this.orderTransportList.forEach((element) => {
         this.orderTransportInfoService
           .find("type~" + "Aller" + ",orderTransport.id:" + element.id)
@@ -197,78 +193,91 @@ export class TransportPlanAddComponent implements OnInit {
             element.orderTransportInfoRetour = data[0];
           });
       });
+      console.log(this.orderTransportList);
+
     });
     this.sortOrderTransportByValeur();
   }
-  sortOrderTransportbyMarge(){
-
-    this.orderTransportList=this.orderTransportList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
-
-
-
-
+  sortOrderTransportbyMarge() {
+    this.orderTransportList = this.orderTransportList.sort(
+      (n1, n2) => n2.marginRate - n1.marginRate
+    );
   }
 
-  sortOrderTransportByValeur(){
-    this.orderTransportList=this.orderTransportList.sort((n1,n2)=> n2.marginValue - n1.marginValue);
-
+  sortOrderTransportByValeur() {
+    this.orderTransportList = this.orderTransportList.sort(
+      (n1, n2) => n2.marginValue - n1.marginValue
+    );
   }
 
-onSortOrder(){
-console.log(this.sortMargeValue);
-let tables = this.orderTransportList;
+  onSortOrder() {
+    console.log(this.sortMargeValue);
+    let tables = this.orderTransportList;
 
-this.orderTransportList=[];
-this.orderTransportList.push(...tables)
+    this.orderTransportList = [];
+    this.orderTransportList.push(...tables);
 
-if(this.sortMargeValue=="marge"){
-  this.orderTransportList = this.orderTransportList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
-}else{
-  this.orderTransportList = this.orderTransportList.sort((n1,n2)=> n2.marginValue - n1.marginValue);
-}
-}
-onSortTranspot(){
-let tables = this.catalogTransportPricingList;
+    if (this.sortMargeValue == "marge") {
+      this.orderTransportList = this.orderTransportList.sort(
+        (n1, n2) => n2.marginRate - n1.marginRate
+      );
+    } else {
+      this.orderTransportList = this.orderTransportList.sort(
+        (n1, n2) => n2.marginValue - n1.marginValue
+      );
+    }
+  }
 
-this.catalogTransportPricingList=[];
-this.catalogTransportPricingList.push(...tables)
-console.log(this.sortMargeService);
 
-if(this.sortMargeService=="marge"){
-  console.log("marge");
+  onSortTranspot() {
+    let tables = this.catalogTransportPricingList;
 
-  this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.marginRate - n1.marginRate);
+    this.catalogTransportPricingList = [];
+    this.catalogTransportPricingList.push(...tables);
+    console.log(this.sortMargeService);
 
-}else{
-  console.log("service");
+    if (this.sortMargeService == "marge") {
+      console.log("marge");
 
-  this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.margeService - n1.margeService);
+      this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
+        (n1, n2) => n2.marginRate - n1.marginRate
+      );
+    } else {
+      console.log("service");
 
-}
+      this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
+        (n1, n2) => n2.margeService - n1.margeService
+      );
+    }
 
-console.log(this.catalogTransportPricingList);
+    console.log(this.catalogTransportPricingList);
+  }
 
-}
+  // List Prestataire from CatalogueTransport  By Category and turnType , Source ,Distination
+  loadTransport(event) {
+    this.selectOrderTransport =
+      event.id != null || event.id != undefined ? event : event.value[0];
 
-   // List Prestataire from CatalogueTransport  By Category and turnType , Source ,Distination
-   loadTransport(event) {
-   this.selectOrderTransport =   event.id != null || event.id != undefined ? event : event.value[0];
-
-  let source ,distination ;
-if(this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
-source =  this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code  ;
-distination = this.selectOrderTransport?.orderTransportInfoAller
-?.villeDistination.code ;
-}else {
-  source =  this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code  ;
-  distination = this.selectOrderTransport?.orderTransportInfoRetour
-  ?.villeDistination.code ;
-}
-
+    let source, distination;
+    if (
+      this.selectOrderTransport.turnType.id == 1 ||
+      this.selectOrderTransport.turnType.id == 3
+    ) {
+      source =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
+          .code;
+    } else {
+      source =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
+          .code;
+    }
 
     this.catalogTransportPricingService
       .find(
-
         "turnType.id:" +
           this.selectOrderTransport.turnType.id +
           ",loadingType.id:" +
@@ -277,313 +286,266 @@ distination = this.selectOrderTransport?.orderTransportInfoAller
           this.selectOrderTransport.vehicleCategory.tonnage +
           ",vehicleTray.id:" +
           this.selectOrderTransport.vehicleTray.id +
-          ",villeSource.code~" + source
-         +
-          ",villeDestination.code~" +distination
-          +
-          ",transport.active:" +true
+          ",trajet.villeSource.code~" +
+          source +
+          ",trajet.villeDestination.code~" +
+          distination +
+          ",transport.active:" +
+          true
       )
       .subscribe((data) => {
-
         if (data[0] != null || data[0] != undefined) {
           this.catalogTransportPricingList = data;
           this.searchTransportbyOrderInHistory();
-
-
-
-
         } else {
           this.catalogTransportPricingList = [];
         }
       });
   }
 
-  searchTransportbyOrderInHistory(){
-
-
-
-      this.transportPlanHitoryService.find('orderTransport.id:'+this.selectOrderTransport.id).subscribe(
-        data => {
-
-
-if(data[0]!=null){
-data.forEach(element => {
-this.catalogTransportPricingList=this.catalogTransportPricingList.filter(
-  f=> f.transport.id!=element.transport.id)
-
-
-});
-}
-
-this.onSearchCatalgPrice();
-
+  searchTransportbyOrderInHistory() {
+    this.transportPlanHitoryService
+      .find("orderTransport.id:" + this.selectOrderTransport.id)
+      .subscribe((data) => {
+        if (data[0] != null) {
+          data.forEach((element) => {
+            this.catalogTransportPricingList =
+              this.catalogTransportPricingList.filter(
+                (f) => f.transport.id != element.transport.id
+              );
+          });
         }
-      );
 
-
-
-
+        this.onSearchCatalgPrice();
+      });
   }
 
-
-  onSearchCatalgPrice(){
-    let source ,distination ;
-    if(this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
-    source =  this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code  ;
-    distination = this.selectOrderTransport?.orderTransportInfoAller
-    ?.villeDistination.code ;
-  }else {
-    source =  this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code  ;
-    distination = this.selectOrderTransport?.orderTransportInfoRetour
-    ?.villeDistination.code ;
-  }
+  onSearchCatalgPrice() {
+    let source, distination;
+    if (
+      this.selectOrderTransport.turnType.id == 1 ||
+      this.selectOrderTransport.turnType.id == 3
+    ) {
+      source =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
+          .code;
+    } else {
+      source =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
+          .code;
+    }
     this.catalogPricingService
-    .find(
+      .find(
+        "turnType.id:" +
+          this.selectOrderTransport.turnType.id +
+          ",loadingType.id:" +
+          this.selectOrderTransport.loadingType.id +
+          ",vehicleCategory.id:" +
+          this.selectOrderTransport.vehicleCategory.id +
+          ",vehicleTray.id:" +
+          this.selectOrderTransport.vehicleTray.id +
+          ",trajet.villeSource.code~" +
+          source +
+          ",trajet.villeDestination.code~" +
+          distination
+      )
+      .subscribe((data) => {
+        if (data[0] != null || data[0] != undefined) {
+          this.catalogPricing = data[0];
+          this.calculateTransportMarge();
+          this.catalogTransportPricingList =
+            this.catalogTransportPricingList.sort(
+              (n1, n2) => n2.margeService - n1.margeService
+            );
+        } else {
+          this.catalogPricing = new CatalogPricing();
+        }
+      });
+  }
 
-      "turnType.id:" +
-        this.selectOrderTransport.turnType.id +
-        ",loadingType.id:" +
-        this.selectOrderTransport.loadingType.id +
-        ",vehicleCategory.id:" +
-        this.selectOrderTransport.vehicleCategory.id +
-        ",vehicleTray.id:" +
-        this.selectOrderTransport.vehicleTray.id +
-        ",villeSource.code~" + source
-       +
-        ",villeDestination.code~" +distination
+  calculateMargeServiceTransport() {
+    let totalPlan: number = 0;
+    let totalReject: number = 0;
 
-    )
-    .subscribe((data) => {
-
-      if (data[0] != null || data[0] != undefined) {
-        this.catalogPricing = data[0];
-        this.calculateTransportMarge();
-        this.catalogTransportPricingList=this.catalogTransportPricingList.sort((n1,n2)=> n2.margeService - n1.margeService);
-
-      } else {
-        this.catalogPricing = new CatalogPricing();
-      }
+    this.catalogTransportPricingList.forEach((element) => {
+      this.totalPlanByTrasnport(element.transport).subscribe((data) => {
+        element.margeService = data ? data : 0;
+        this.onSortTranspot();
+      });
     });
   }
-
-  calculateMargeServiceTransport(){
-     let totalPlan :number=0;
-     let totalReject :number=0;
-
-
-    this.catalogTransportPricingList.forEach(element => {
-        this.totalPlanByTrasnport(element.transport).subscribe(
-          data=> {
-             element.margeService =data ? data :0;
-             this.onSortTranspot();
-
-          }
-
-        );
-
-    })
-
-
-  }
-  totalPlanByTrasnport(transport :Transport):Observable<number>{
-    let total :number=0;
+  totalPlanByTrasnport(transport: Transport): Observable<number> {
+    let total: number = 0;
     let totalPlan: number = 0;
-    let totalReject :number=0;
+    let totalReject: number = 0;
     var subject = new Subject<number>();
-    this.transportPlanService.sizeSearch('transport.id:'+transport.id).subscribe(
-        data=>{
+    this.transportPlanService
+      .sizeSearch("transport.id:" + transport.id)
+      .subscribe((data) => {
+        totalPlan = data ? data : 0;
 
+        this.totalRejectByTrasnport(transport).subscribe((dataR) => {
+          totalReject = dataR ? dataR : 0;
 
-            totalPlan=data ? data : 0;
+          total = ((totalPlan - totalReject) / totalPlan) * 100;
 
-          this.totalRejectByTrasnport(transport).subscribe(
-           dataR=>{
-
-               totalReject=dataR ? dataR :0;
-
-               total= ((totalPlan -totalReject)/totalPlan)*100;
-
-subject.next(total);
-           }
-          );
-
-
-        }
-    );
+          subject.next(total);
+        });
+      });
     return subject.asObservable();
-
   }
 
-  totalRejectByTrasnport(transport :Transport):Observable<number>{
+  totalRejectByTrasnport(transport: Transport): Observable<number> {
     let total: number = 0;
     var subject = new Subject<number>();
-    this.transportPlanHitoryService.sizeSearch('transport.id:'+transport.id).subscribe(
-        data=>{
-
-          if(data)
-            total=data;
-            subject.next(total);
-        }
-    );
+    this.transportPlanHitoryService
+      .sizeSearch("transport.id:" + transport.id)
+      .subscribe((data) => {
+        if (data) total = data;
+        subject.next(total);
+      });
     return subject.asObservable();
-
   }
 
-  calculateTransportMarge(){
+  calculateTransportMarge() {
+    this.catalogTransportPricingList.forEach((element) => {
+      this.searchTransportAccountPricing(element.transport).subscribe(
+        (data) => {
+          if (data > 0) {
+            let purchase = data;
+            let sale = this.catalogPricing.saleAmountHt;
+            element.marginRate = ((sale - purchase) / purchase) * 100;
+          } else {
+            let purchase = element.purchaseAmountHt;
+            let sale = this.catalogPricing.saleAmountHt;
 
-    this.catalogTransportPricingList.forEach(element => {
-    this.searchTransportAccountPricing(element.transport).subscribe(
-      data=> {
-        if(data>0){
-
-    let purchase=  data;
-        let sale=   this.catalogPricing.saleAmountHt;
-      element.marginRate=((sale-purchase)/purchase)*100;
-
-
-        } else {
-
-          let purchase=  element.purchaseAmountHt;
-          let sale=   this.catalogPricing.saleAmountHt;
-
-        element.marginRate=((sale-purchase)/purchase)*100;
-
+            element.marginRate = ((sale - purchase) / purchase) * 100;
+          }
         }
-
-
-
-
-      }
-
-    );
-    this.calculateMargeServiceTransport();
-
-
-
-
+      );
+      this.calculateMargeServiceTransport();
     });
-
-
-
-
-
-      }
-
-
-
-      searchTransportAccountPricing(transport:Transport): Observable<number> {
-        let source ,distination ;
-        if(this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
-        source =  this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code  ;
-        distination = this.selectOrderTransport?.orderTransportInfoAller
-        ?.villeDistination.code ;
-      }else {
-        source =  this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code  ;
-        distination = this.selectOrderTransport?.orderTransportInfoRetour
-        ?.villeDistination.code ;
-      }
-        let purcahse: number = 0;
-        var subject = new Subject<number>();
-        this.catalogTransportAccountPricingService
-          .find(
-            "company.id:" +this.selectOrderTransport.company.id+
-            ",transport.id:" +transport.id+
-            ",turnType.id:" +
-            this.selectOrderTransport.turnType.id +
-            ",loadingType.id:" +
-            this.selectOrderTransport.loadingType.id +
-            ",vehicleCategory.tonnage >" +
-            this.selectOrderTransport.vehicleCategory.tonnage +
-            ",vehicleTray.id:" +
-            this.selectOrderTransport.vehicleTray.id +
-            ",villeSource.code~" + source
-           +
-            ",villeDestination.code~" +distination
-          )
-          .subscribe((data) => {
-
-            if (data[0]!=null) {
-              purcahse = data[0].purchaseAmountHt;
-              console.log(purcahse);
-
-              subject.next(purcahse);
-            } else {
-              purcahse = 0;
-              subject.next(purcahse);
-            }
-          });
-        return subject.asObservable();
-      }
-
-
-
-  onVilleSearch(event){
-    this.villeService
-    .find('code~' + event.query)
-    .subscribe(data => (this.villeList = data))
-   }
-   invertVille(){
-    this.resetSearchByVille();
-  let villeSource : Ville = new Ville();
-  villeSource=this.selectedVilleSource;
-  this.selectedVilleSource=this.selectedVilleDistination;
-  this.selectedVilleDistination=villeSource;
-
   }
-  resetSearchByVille(){
-    this.orderTransportList=this.orderTransportCloneList;
+
+  searchTransportAccountPricing(transport: Transport): Observable<number> {
+    let source, distination;
+    if (
+      this.selectOrderTransport.turnType.id == 1 ||
+      this.selectOrderTransport.turnType.id == 3
+    ) {
+      source =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
+          .code;
+    } else {
+      source =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
+      distination =
+        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
+          .code;
+    }
+    let purcahse: number = 0;
+    var subject = new Subject<number>();
+    this.catalogTransportAccountPricingService
+      .find(
+        "company.id:" +
+          this.selectOrderTransport.company.id +
+          ",transport.id:" +
+          transport.id +
+          ",turnType.id:" +
+          this.selectOrderTransport.turnType.id +
+          ",loadingType.id:" +
+          this.selectOrderTransport.loadingType.id +
+          ",vehicleCategory.tonnage >" +
+          this.selectOrderTransport.vehicleCategory.tonnage +
+          ",vehicleTray.id:" +
+          this.selectOrderTransport.vehicleTray.id +
+          ",trajet.villeSource.code~" +
+          source +
+          ",trajet.villeDestination.code~" +
+          distination
+      )
+      .subscribe((data) => {
+        if (data[0] != null) {
+          purcahse = data[0].purchaseAmountHt;
+          console.log(purcahse);
+
+          subject.next(purcahse);
+        } else {
+          purcahse = 0;
+          subject.next(purcahse);
+        }
+      });
+    return subject.asObservable();
+  }
+
+  onVilleSearch(event) {
+    this.villeService
+      .find("code~" + event.query)
+      .subscribe((data) => (this.villeList = data));
+  }
+  invertVille() {
+    this.resetSearchByVille();
+    let villeSource: Ville = new Ville();
+    villeSource = this.selectedVilleSource;
+    this.selectedVilleSource = this.selectedVilleDistination;
+    this.selectedVilleDistination = villeSource;
+  }
+  resetSearchByVille() {
+    this.orderTransportList = this.orderTransportCloneList;
     this.sortOrderTransportByValeur();
   }
-  searchByVille(){
-  let allerList:OrderTransport[]=[];
-  let retourList:OrderTransport[]=[];
+  searchByVille() {
+    let allerList: OrderTransport[] = [];
+    let retourList: OrderTransport[] = [];
 
+    allerList = this.orderTransportList.filter(
+      (f) =>
+        f.orderTransportInfoAller?.villeSource?.id ==
+          this.selectedVilleSource?.id &&
+        f.orderTransportInfoAller?.villeDistination?.id ==
+          this.selectedVilleDistination?.id
+    );
 
-     allerList=this.orderTransportList.filter(
-      f=> f.orderTransportInfoAller?.villeSource?.id == this.selectedVilleSource?.id &&
-      f.orderTransportInfoAller?.villeDistination?.id == this.selectedVilleDistination?.id
-     );
+    retourList = this.orderTransportList.filter(
+      (f) =>
+        f.orderTransportInfoRetour?.villeSource?.id ==
+          this.selectedVilleSource?.id &&
+        f.orderTransportInfoRetour?.villeDistination?.id ==
+          this.selectedVilleDistination?.id
+    );
 
-     retourList=this.orderTransportList.filter(
-      f=> f.orderTransportInfoRetour?.villeSource?.id == this.selectedVilleSource?.id &&
-      f.orderTransportInfoRetour?.villeDistination?.id == this.selectedVilleDistination?.id
-     );
-
-     this.orderTransportList=[];
-     this.orderTransportList.push(...allerList);
-     this.orderTransportList.push(...retourList);
-console.log(this.orderTransportList);
-this.sortOrderTransportByValeur();
-
+    this.orderTransportList = [];
+    this.orderTransportList.push(...allerList);
+    this.orderTransportList.push(...retourList);
+    console.log(this.orderTransportList);
+    this.sortOrderTransportByValeur();
   }
-   onSelectVilleSource(event){
-  this.selectedVilleSource=event;
-  this.resetSearchByVille();
-   }
-
-   onSelectVilleDistination(event){
-    this.selectedVilleDistination=event;
+  onSelectVilleSource(event) {
+    this.selectedVilleSource = event;
     this.resetSearchByVille();
-     }
+  }
+
+  onSelectVilleDistination(event) {
+    this.selectedVilleDistination = event;
+    this.resetSearchByVille();
+  }
   onSelectDriver(event) {
     this.selectedTransportPlan.driver = event.value;
   }
 
-
-
-
-
-
-
-
   //// fin  afficher dernier prix dernier achat prestataire
-
 
   onSelectedTarification() {
     if (this.isPriceContract == "Oui") {
       this.selectedTransportPlan.salePrice = this.selectedContractAccount.price;
     } else if (this.isPriceContract == "Non") {
-    //  this.selectedTransportPlan.salePrice =
+      //  this.selectedTransportPlan.salePrice =
       //  this.catalogTransportPricingList[0].amountTtc;
     }
     this.initForm();
@@ -604,17 +566,14 @@ this.sortOrderTransportByValeur();
       this.selectOrderTransport.id == undefined
     ) {
       this.toastr.info("Selectionner Commande", "Info");
+    } else if (
+      this.selectedTransport.id == null &&
+      this.selectedTransport.id == undefined
+    ) {
+      this.toastr.info("Selectionner Transport", "Info");
+    } else {
+      this.generatePlanTransport();
     }
-      else if (
-        this.selectedTransport.id == null &&
-        this.selectedTransport.id == undefined
-      ) {
-        this.toastr.info("Selectionner Transport", "Info");
-       }
-      else {
-        this.generatePlanTransport();
-      }
-
   }
 
   generatePlanTransport() {
@@ -642,28 +601,29 @@ this.sortOrderTransportByValeur();
       // );
     }
 
-    this.selectedTransportPlan.vehicleCategory=this.selectOrderTransport.vehicleCategory;
-  this.selectedTransportPlan.transport=this.selectedTransport.transport;
-if(this.selectedTransportPlan.transport.interneOrExterne==true){
-  this.isInterOrPrestataire=true;
-   this.showDialogVehicle=true;
-}
-else{
-  this.isInterOrPrestataire=false;
-   this.showDialogVehicle=false;
-   this.selectedTransportPlan.vehicle=null;
-   this.selectedTransportPlan.driver=null;
-}
+    this.selectedTransportPlan.vehicleCategory =
+      this.selectOrderTransport.vehicleCategory;
+    this.selectedTransportPlan.transport = this.selectedTransport.transport;
+    if (this.selectedTransportPlan.transport.interneOrExterne == true) {
+      this.isInterOrPrestataire = true;
+      this.showDialogVehicle = true;
+    } else {
+      this.isInterOrPrestataire = false;
+      this.showDialogVehicle = false;
+      this.selectedTransportPlan.vehicle = null;
+      this.selectedTransportPlan.driver = null;
+    }
 
     this.initForm();
   }
 
-  onSelectedVehicle(event){
-   this.selectedTransportPlan.vehicle=event;
-   this.selectedTransportPlan.vehicleCategory=this.selectedTransportPlan.vehicle.vehicleCategory;
-   this.selectedTransportPlan.driver=this.selectedTransportPlan.vehicle.driver;
-   this.initForm();
-
+  onSelectedVehicle(event) {
+    this.selectedTransportPlan.vehicle = event;
+    this.selectedTransportPlan.vehicleCategory =
+      this.selectedTransportPlan.vehicle.vehicleCategory;
+    this.selectedTransportPlan.driver =
+      this.selectedTransportPlan.vehicle.driver;
+    this.initForm();
   }
   // fin interne
 
@@ -675,10 +635,12 @@ else{
     }
 
     let formValue = this.transportPlanForm.value;
-    this.selectedTransportPlan.purchasePrice = this.selectedTransport.purchaseAmountHt;
+    this.selectedTransportPlan.purchasePrice =
+      this.selectedTransport.purchaseAmountHt;
     this.selectedTransportPlan.salePrice = this.catalogPricing.saleAmountHt;
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
-    this.selectedTransportPlan.margineService = this.selectedTransport.margeService;
+    this.selectedTransportPlan.margineService =
+      this.selectedTransport.margeService;
     this.selectedTransportPlan.date = formValue["date"];
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
@@ -703,8 +665,6 @@ else{
     );
   }
 
-
-
   changeStatusOrderTransport() {
     console.log(this.selectOrderTransport);
     if (this.selectOrderTransport.turnStatus.id == 1) {
@@ -728,62 +688,67 @@ else{
     }
   }
 
-
-
   onHideDialogVehicle(event) {
     this.showDialogVehicle = event;
   }
 
-
-
-
-  OnSelectedRefus(event){
-
+  OnSelectedRefus(event) {
     if (
       this.selectOrderTransport.id == null &&
       this.selectOrderTransport.id == undefined
     ) {
       this.toastr.info("Selectionner Commande", "Info");
-    }
-      else if (
-        this.selectedTransport.id == null &&
-        this.selectedTransport.id == undefined
+    } else if (
+      this.selectedTransport.id == null &&
+      this.selectedTransport.id == undefined
+    ) {
+      this.toastr.info("Selectionner Transport", "Info");
+    } else {
+      this.selectTransportPlanHistory = new TransportPlanHistory();
+      this.selectTransportPlanHistory.orderTransport =
+        this.selectOrderTransport;
+      this.selectTransportPlanHistory.transport =
+        this.selectedTransport.transport;
+      this.selectTransportPlanHistory.vehicleCategory =
+        this.selectOrderTransport.vehicleCategory;
+      this.selectTransportPlanHistory.marginRate =
+        this.selectedTransport.marginRate;
+      this.selectTransportPlanHistory.margineService =
+        this.selectedTransport.margeService;
+      this.selectTransportPlanHistory.salePrice =
+        this.selectOrderTransport.priceHT;
+      this.selectTransportPlanHistory.purchasePrice =
+        this.selectedTransport.purchaseAmountHt;
+      if (
+        this.selectOrderTransport.turnType.id == 1 ||
+        this.selectOrderTransport.turnType.id == 3
       ) {
-        this.toastr.info("Selectionner Transport", "Info");
-       }
-      else {
-  this.selectTransportPlanHistory = new TransportPlanHistory();
-  this.selectTransportPlanHistory.orderTransport=this.selectOrderTransport;
-  this.selectTransportPlanHistory.transport=this.selectedTransport.transport;
-  this.selectTransportPlanHistory.vehicleCategory=this.selectOrderTransport.vehicleCategory;
-  this.selectTransportPlanHistory.marginRate=this.selectedTransport.marginRate;
-  this.selectTransportPlanHistory.margineService=this.selectedTransport.margeService;
-  this.selectTransportPlanHistory.salePrice=this.selectOrderTransport.priceHT;
-  this.selectTransportPlanHistory.purchasePrice=this.selectedTransport.purchaseAmountHt;
-if(this.selectOrderTransport.turnType.id == 1 || this.selectOrderTransport.turnType.id == 3){
-  console.log("aller ");
-console.log(this.selectOrderTransport.orderTransportInfoAller.villeSource.code);
+        console.log("aller ");
+        console.log(
+          this.selectOrderTransport.orderTransportInfoAller.villeSource.code
+        );
 
- this.selectTransportPlanHistory.villeSource=this.selectOrderTransport?.orderTransportInfoAller?.villeSource;
-  this.selectTransportPlanHistory.villeDistination=this.selectOrderTransport?.orderTransportInfoAller?.villeDistination;
-
-}else if(this.selectOrderTransport.turnType.id == 2){
-  this.selectTransportPlanHistory.villeSource=this.selectOrderTransport?.orderTransportInfoRetour?.villeSource;
-  this.selectTransportPlanHistory.villeDistination=this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination;
-}
-
-  this.selectTransportPlanHistory.type=event;
-      this.showDialogReject=true;
+        this.selectTransportPlanHistory.villeSource =
+          this.selectOrderTransport?.orderTransportInfoAller?.villeSource;
+        this.selectTransportPlanHistory.villeDistination =
+          this.selectOrderTransport?.orderTransportInfoAller?.villeDistination;
+      } else if (this.selectOrderTransport.turnType.id == 2) {
+        this.selectTransportPlanHistory.villeSource =
+          this.selectOrderTransport?.orderTransportInfoRetour?.villeSource;
+        this.selectTransportPlanHistory.villeDistination =
+          this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination;
       }
+
+      this.selectTransportPlanHistory.type = event;
+      this.showDialogReject = true;
+    }
   }
 
-
-onShowDialog(event) {
-
-  this.showDialogReject = event;
-  this.searchTransportbyOrderInHistory();
-}
-   // search contract by account aller
+  onShowDialog(event) {
+    this.showDialogReject = event;
+    this.searchTransportbyOrderInHistory();
+  }
+  // search contract by account aller
   // loadContractAccountbyAccountSelectedAller(vehicleCategory: VehicleCategory) {
   //   console.log(
   //     this.selectOrderTransport.orderTransportInfoAller.addressContactInitial

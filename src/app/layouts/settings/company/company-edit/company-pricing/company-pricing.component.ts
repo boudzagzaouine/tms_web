@@ -6,11 +6,11 @@ import { LoadingTypeService } from "./../../../../../shared/services/api/loading
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { GlobalService } from "./../../../../../shared/services/api/global.service";
-import { VilleService } from "./../../../../../shared/services/api/ville.service";
+import { TrajetService } from "./../../../../../shared/services/api/trajet.service";
 import { VehicleCategoryService } from "./../../../../../shared/services/api/vehicle-category.service";
 import { AccountPricingService } from "./../../../../../shared/services/api/account-pricing.service";
 import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
-import { Ville } from "./../../../../../shared/models/ville";
+import { Trajet } from "./../../../../../shared/models/trajet";
 import { TurnType } from "./../../../../../shared/models/turn-Type";
 import { LoadingType } from "./../../../../../shared/models/loading-type";
 import { VehicleTray } from "./../../../../../shared/models/vehicle-tray";
@@ -45,9 +45,8 @@ export class CompanyPricingComponent implements OnInit {
   vehicleTrayList: Array<VehicleTray> = [];
   loadingTypeList: Array<LoadingType> = [];
 
-  villeSourceSearch: Ville;
-  villeDestinationSearch: Ville;
-  villeSourceList: Array<Ville> = [];
+  trajetSearch: Trajet;
+  trajetList: Array<Trajet> = [];
 
   cols: any[];
   showDialog: boolean;
@@ -61,7 +60,7 @@ export class CompanyPricingComponent implements OnInit {
   constructor(
     private accountPricingService: AccountPricingService,
     private vehicleCategoryService: VehicleCategoryService,
-    private villeService: VilleService,
+    private trajetService: TrajetService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -113,18 +112,13 @@ export class CompanyPricingComponent implements OnInit {
       },
 
       {
-        field: "villeSource",
+        field: "trajet",
         child: "code",
-        header: "Ville Source",
+        header: "Trajet",
         type: "object",
       },
 
-      {
-        field: "villeDestination",
-        child: "code",
-        header: "Ville Destination",
-        type: "object",
-      },
+
       { field: "saleAmountHt", header: "Prix HT ", type: "number" },
       {
         field: "saleVat",
@@ -258,17 +252,10 @@ export class CompanyPricingComponent implements OnInit {
       buffer.append(`vehicleTray.code~${this.vehicleTraySearch.code}`);
     }
 
-    if (this.villeSourceSearch != null && this.villeSourceSearch.code !== "") {
-      buffer.append(`villeSource.code~${this.villeSourceSearch.code}`);
+    if (this.trajetSearch != null && this.trajetSearch.code !== "") {
+      buffer.append(`trajet.code~${this.trajetSearch.code}`);
     }
-    if (
-      this.villeDestinationSearch != null &&
-      this.villeDestinationSearch.code !== ""
-    ) {
-      buffer.append(
-        `villeDestination.code~${this.villeDestinationSearch.code}`
-      );
-    }
+
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -283,16 +270,15 @@ export class CompanyPricingComponent implements OnInit {
       );
   }
 
-  onVilleSouceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find("code~" + event.query)
-      .subscribe((data) => (this.villeSourceList = data));
+      .subscribe((data) => (this.trajetList = data));
   }
 
   reset() {
     this.vehicleCategorySearch = null;
-    this.villeSourceSearch = null;
-    this.villeDestinationSearch = null;
+    this.trajetSearch = null;
     this.loadingTypeSearch = null;
     this.vehicleTraySearch = null;
     this.turnTypeSearch = null;
@@ -369,8 +355,8 @@ export class CompanyPricingComponent implements OnInit {
       this.categorieVehicleList = data;
     });
 
-    this.villeService.findAll().subscribe((data) => {
-      this.villeSourceList = data;
+    this.trajetService.findAll().subscribe((data) => {
+      this.trajetList = data;
     });
   }
 
@@ -396,8 +382,8 @@ export class CompanyPricingComponent implements OnInit {
              f.loadingType.id == accountPricingEdited.loadingType.id &&
              f.vehicleCategory.id == accountPricingEdited.vehicleCategory.id &&
              f.vehicleTray.id == accountPricingEdited.vehicleTray.id &&
-             f.villeSource.id == accountPricingEdited.villeSource.id &&
-             f.villeDestination.id == accountPricingEdited.villeDestination.id
+             f.trajet.id == accountPricingEdited.trajet.id
+
     );
     if (acountPricing == null) {
       this.idAcountPricing--;

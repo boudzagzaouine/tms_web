@@ -40,8 +40,18 @@ export class GlobalService {
           tempObj.push(d.getDate() + '-' + (d.getUTCMonth() + 1) + '-' + d.getFullYear());
         } else if (c.type === 'boolean') {
           tempObj.push(e[c.dataKey] ? 'oui' : 'non');
-        } else {
-          tempObj.push(e[c.dataKey][c.child]);
+        } else if(c.type === 'object'){
+
+            if(e[c.dataKey]!=null){
+              if(e[c.dataKey][c.child]!=null){
+                tempObj.push(e[c.dataKey][c.child]);
+              }
+
+            }else{
+              tempObj.push('');
+
+            }
+
         }
 
       });

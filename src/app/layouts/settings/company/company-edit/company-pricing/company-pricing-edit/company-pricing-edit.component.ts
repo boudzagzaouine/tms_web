@@ -3,7 +3,7 @@ import { MessageService } from "primeng/api";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { PaysService } from "./../../../../../../shared/services/api/pays.service";
-import { VilleService } from "./../../../../../../shared/services/api/ville.service";
+import { TrajetService } from "./../../../../../../shared/services/api/trajet.service";
 import { VatService } from "./../../../../../../shared/services/api/vat.service";
 import { TransportServcie } from "./../../../../../../shared/services/api/transport.service";
 import { VehicleTrayService } from "./../../../../../../shared/services/api/vehicle-tray.service";
@@ -16,7 +16,7 @@ import { Pays } from "./../../../../../../shared/models/pays";
 import { VehicleTray } from "./../../../../../../shared/models/vehicle-tray";
 import { LoadingType } from "./../../../../../../shared/models/loading-type";
 import { Vat } from "./../../../../../../shared/models/vat";
-import { Ville } from "./../../../../../../shared/models/ville";
+import { Trajet } from "./../../../../../../shared/models/trajet";
 import { TurnType } from "./../../../../../../shared/models/turn-Type";
 import { Transport } from "./../../../../../../shared/models/transport";
 import { VehicleCategory } from "./../../../../../../shared/models/vehicle-category";
@@ -39,7 +39,7 @@ export class CompanyPricingEditComponent implements OnInit {
   accountPricingForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
-  villeList: Ville[] = [];
+  trajetList: Trajet[] = [];
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
@@ -48,13 +48,13 @@ export class CompanyPricingEditComponent implements OnInit {
   turnTypeid: number;
   transport: number;
   catVehicleId: number;
-  villeSourceId: number;
-  villeDestinationId: number;
+  trajetId: number;
+
   loadingTypeId: number;
   vehicleTrayId: number;
   loadingTypeList: Array<LoadingType> = [];
   vehicleTrayList: Array<VehicleTray> = [];
-  paysList: Array<Pays> = [];
+
   constructor(
     private accountPricingService: AccountPricingService,
     private authentificationService: AuthenticationService,
@@ -63,7 +63,7 @@ export class CompanyPricingEditComponent implements OnInit {
     private loadingTypeService: LoadingTypeService,
     private vehicleTrayService: VehicleTrayService,
     private vatService: VatService,
-    private villeService: VilleService,
+    private trajetService: TrajetService,
     private paysService: PaysService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -76,12 +76,11 @@ export class CompanyPricingEditComponent implements OnInit {
       this.selectAccountPricing = new AccountPricing();
       this.title = "Ajouter  Tarif";
     } else {
-      this.turnTypeid = this.selectAccountPricing.turnType.id;
-      this.vehicleTrayId = this.selectAccountPricing.vehicleTray.id;
-      this.catVehicleId = this.selectAccountPricing.vehicleCategory.id;
-      this.loadingTypeId = this.selectAccountPricing.loadingType.id;
-      this.villeSourceId = this.selectAccountPricing.villeSource.id;
-      this.villeDestinationId = this.selectAccountPricing.villeDestination.id;
+      this.turnTypeid = this.selectAccountPricing?.turnType?.id;
+      this.vehicleTrayId = this.selectAccountPricing?.vehicleTray?.id;
+      this.catVehicleId = this.selectAccountPricing?.vehicleCategory?.id;
+      this.loadingTypeId = this.selectAccountPricing?.loadingType?.id;
+      this.trajetId = this.selectAccountPricing?.trajet?.id;
     }
     console.log(this.selectedCompany);
 
@@ -108,22 +107,11 @@ export class CompanyPricingEditComponent implements OnInit {
         Validators.required
       ),
 
-      fPaysSource: new FormControl(
-        this.selectAccountPricing?.paysSource,
+      fTrajet: new FormControl(
+        this.selectAccountPricing?.trajet,
         Validators.required
       ),
-      fVilleSource: new FormControl(
-        this.selectAccountPricing?.villeSource,
-        Validators.required
-      ),
-      fPaysDestination: new FormControl(
-        this.selectAccountPricing?.paysDestination,
-        Validators.required
-      ),
-      fVilleDestination: new FormControl(
-        this.selectAccountPricing?.villeDestination,
-        Validators.required
-      ),
+
 
       fSaleAmountHt: new FormControl(
         this.selectAccountPricing.saleAmountHt,
@@ -176,7 +164,7 @@ export class CompanyPricingEditComponent implements OnInit {
   existPricing() {
     this.accountPricingService
       .sizeSearch(
-        `company.id:${this.selectedCompany.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},villeSource.id:${this.villeSourceId},villeDestination.id:${this.villeDestinationId}`
+        `company.id:${this.selectedCompany.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`
       )
       .subscribe(
         (data) => {
@@ -255,10 +243,10 @@ export class CompanyPricingEditComponent implements OnInit {
     this.vehicleTrayId = this.selectAccountPricing.vehicleTray.id;
   }
 
-  onVilleSourceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find("code~" + event.query)
-      .subscribe((data) => (this.villeList = data));
+      .subscribe((data) => (this.trajetList = data));
   }
 
   onSelectSaleVat(event) {
@@ -268,21 +256,13 @@ export class CompanyPricingEditComponent implements OnInit {
     this.onSalePriceChange(1);
   }
 
-  onSelectPaysSource(event) {
-    this.selectAccountPricing.paysSource = event.value;
-  }
-  onSelectVilleSource(event: any) {
-    this.selectAccountPricing.villeSource = event;
-    this.villeSourceId = this.selectAccountPricing.villeSource.id;
+
+  onSelectTrajet(event: any) {
+    this.selectAccountPricing.trajet = event;
+    this.trajetId = this.selectAccountPricing.trajet.id;
   }
 
-  onSelectPaysDistination(event) {
-    this.selectAccountPricing.paysDestination = event.value;
-  }
-  onSelectVilleDestination(event: any) {
-    this.selectAccountPricing.villeDestination = event;
-    this.villeDestinationId = this.selectAccountPricing.villeDestination.id;
-  }
+
 
   load() {
     this.vehicleCategoryService.findAll().subscribe((data) => {
@@ -291,8 +271,8 @@ export class CompanyPricingEditComponent implements OnInit {
     this.turnTypeService.findAll().subscribe((data) => {
       this.turnTypeList = data;
     });
-    this.villeService.findAll().subscribe((data) => {
-      this.villeList = data;
+    this.trajetService.findAll().subscribe((data) => {
+      this.trajetList = data;
     });
     this.vatService.findAll().subscribe((data) => {
       this.vatList = data;
@@ -306,9 +286,7 @@ export class CompanyPricingEditComponent implements OnInit {
       this.vehicleTrayList = data;
     });
 
-    this.paysService.findAll().subscribe((data) => {
-      this.paysList = data;
-    });
+
   }
 
   onSalePriceChange(n: Number) {
@@ -352,8 +330,7 @@ export class CompanyPricingEditComponent implements OnInit {
         f.loadingType.id == accountPricingEdited.loadingType.id &&
         f.vehicleCategory.id == accountPricingEdited.vehicleCategory.id &&
         f.vehicleTray.id == accountPricingEdited.vehicleTray.id &&
-        f.villeSource.id == accountPricingEdited.villeSource.id &&
-        f.villeDestination.id == accountPricingEdited.villeDestination.id
+        f.trajet.id == accountPricingEdited.trajet.id
     );
     if (acountPricing == null) {
       this.acountPricingEdited.emit(this.selectAccountPricing);

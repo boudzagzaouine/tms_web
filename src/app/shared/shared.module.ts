@@ -1,3 +1,6 @@
+import { UserGroupService } from './services/api/user-group.service';
+import { HabilitationService } from './services/api/habilitation.service';
+import { TrajetService } from './services/api/trajet.service';
 import { TransportService } from './models/transport-service';
 import { TransportPlanServiceCatalogService } from './services/api/transport-Plan-service-catalog.service';
 import { TransportAccountServiceService } from './services/api/transport-account-service.service';
@@ -348,10 +351,13 @@ export class SharedModule {
         CatalogPricingImportService,
         CatalogServiceService,
         AccountServiceService,
-    
+
         TransportServiceService,
         TransportAccountServiceService,
         TransportPlanServiceCatalogService,
+        TrajetService,
+        HabilitationService,
+        UserGroupService
       ],
 
     };

@@ -20,9 +20,9 @@ export class TransportAccountService {
   company:Company;
   product:Product;
   address :Address;
-  saleAmountHt: number;
-  saleAmountTtc: number;
-  saleAmountTva: number;
-  saleVat: Vat;
+  purchaseAmountHt: number;
+  purchaseAmountTtc: number;
+  purchaseAmountTva: number;
+  purchaseVat: Vat;
    owner :Owner;
 }

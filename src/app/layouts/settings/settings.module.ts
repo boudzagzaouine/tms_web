@@ -1,3 +1,11 @@
+import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UserComponent } from './user/user.component';
+import { GroupEditComponent } from './group/group-edit/group-edit.component';
+import { GroupComponent } from './group/group.component';
+import { HabilitationEditComponent } from './habilitation/habilitation-edit/habilitation-edit.component';
+import { HabilitationComponent } from './Habilitation/Habilitation.component';
+import { TrajetEditComponent } from './trajet/trajet-edit/trajet-edit.component';
+import { TrajetComponent } from './trajet/trajet.component';
 import { TransportAccountServiceEditComponent } from './transport/transport-edit/transport-account-service/transport-account-service-edit/transport-account-service-edit.component';
 import { TransportServiceEditComponent } from './transport/transport-edit/transport-service/transport-service-edit/transport-service-edit.component';
 import { TransportServiceComponent } from './transport/transport-edit/transport-service/transport-service.component';
@@ -175,6 +183,7 @@ import { SubscriptionCardTypeComponent } from './subscription-card-type/subscrip
 import { AddressDeliveryEditComponent } from './delivery-address/address-delivery-edit/address-delivery-edit.component';
 import {CardModule} from 'primeng/card';
 import { TransportAccountServiceComponent } from './transport/transport-edit/transport-account-service/transport-account-service.component';
+import {PasswordModule} from 'primeng/password';
 
 
 
@@ -316,8 +325,15 @@ CompanyServiceEditComponent,
 TransportServiceComponent,
 TransportServiceEditComponent,
 TransportAccountServiceComponent,
-TransportAccountServiceEditComponent
-
+TransportAccountServiceEditComponent,
+TrajetComponent,
+TrajetEditComponent,
+HabilitationComponent,
+HabilitationEditComponent,
+GroupComponent,
+GroupEditComponent,
+UserComponent,
+UserEditComponent
 
 
 
@@ -363,6 +379,7 @@ TransportAccountServiceEditComponent
     NgxPermissionsModule.forChild(),
     FileUploadModule,
     CardModule,
+    PasswordModule,
   ],
   exports :[
     ContactEditComponent,

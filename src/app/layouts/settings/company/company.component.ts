@@ -60,9 +60,7 @@ export class CompanyComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
-      { field: 'activityArea', header: "Secteur d'activité", type: 'string' },
-
-
+      { field: 'activityArea',child:'code', header: "Secteur d'activité", type: 'object' },
       { field: 'address',  child:'name', header: 'Nom Adress', type: 'object' },
       { field: 'address',child:'line1',    header: "Premiére Ligne d'adresse Facturation", type: 'object' },
       { field: 'address',child:'line2',   header: "Deuxiéme Ligne d'adresse Facturation", type: 'object' },

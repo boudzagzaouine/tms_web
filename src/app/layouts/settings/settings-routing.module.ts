@@ -1,3 +1,8 @@
+import { UserComponent } from './user/user.component';
+import { GroupComponent } from './group/group.component';
+import { HabilitationComponent } from './Habilitation/Habilitation.component';
+import { Habilitation } from './../../shared/models/habilitation';
+import { TrajetComponent } from './trajet/trajet.component';
 import { MenuMotifComponent } from './menu-motif/menu-motif.component';
 import { RejetsComponent } from './rejets/rejets.component';
 import { RefusComponent } from './refus/refus.component';
@@ -144,7 +149,11 @@ const routes: Routes = [
       { path: 'catalog-pricing', component: CatalogPricingComponent},
       { path: 'refus', component: RefusComponent},
       { path: 'reject', component: RejetsComponent},
-      { path: 'menu-motif', component: MenuMotifComponent}
+      { path: 'menu-motif', component: MenuMotifComponent},
+      { path: 'trajet', component: TrajetComponent},
+      { path: 'habilitation', component: HabilitationComponent},
+      { path: 'group', component: GroupComponent},
+      { path: 'user', component: UserComponent}
 
 
     ]

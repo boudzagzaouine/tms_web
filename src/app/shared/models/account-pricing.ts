@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { Company } from './company';
 import { Vat } from './vat';
 import { Ville } from './ville';
@@ -18,15 +19,12 @@ export class AccountPricing {
   turnType :TurnType;
   loadingType:LoadingType;
   vehicleTray:VehicleTray;
-  paysSource:Pays;
-  villeSource: Ville;
-  paysDestination:Pays;
-  villeDestination: Ville;
+ trajet:Trajet;
 
 
-  saleAmountHt: number;
-  saleAmountTtc: number;
-  saleAmountTva: number;
+  saleAmountHt: number=0;
+  saleAmountTtc: number=0;
+  saleAmountTva: number=0;
   saleVat: Vat;
    owner :Owner;
 }

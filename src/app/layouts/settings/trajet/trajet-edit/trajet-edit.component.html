@@ -1,0 +1,121 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '600px' }" (onHide)="onShowDialog()">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="trajetList">
+
+            <div class="row justify-content-around">
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">{{'Code' | translate}} *</label>
+                <span *ngIf="
+                (trajetList.get('fCode').touched &&
+                  trajetList.get('fCode').invalid) ||
+                (isFormSubmitted &&
+                  trajetList.get('fCode').invalid)
+              " class="text-lighter" style="color: red; font-size: xx-small;">
+              {{ 'Obligatoire' | translate}}
+
+            </span>
+                <br />
+                <input type="text" class="form-control" pInputText formControlName="fCode"
+                (keydown.space)="$event.preventDefault()"
+               />
+              </div>
+              <div class="form-group col-sm-6">
+</div>
+</div>
+              <div class="row justify-content-around">
+
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">{{ "Pays Source" | translate }} *</label>
+                <span *ngIf="
+                    (trajetList.get('fPaysSource').touched &&
+                      trajetList.get('fPaysSource').invalid) ||
+                    (isFormSubmitted &&
+                      trajetList.get('fPaysSource').invalid)
+                  " class="text-lighter" style="color: red; font-size: xx-small;">
+                  {{ 'Obligatoire' | translate}}
+
+                </span>
+                <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
+                  [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysSource($event)"
+                  formControlName="fPaysSource">
+                </p-dropdown>
+              </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Ville Source " | translate }} *</label>
+              <span *ngIf="
+                  (trajetList.get('fVilleSource').touched &&
+                    trajetList.get('fVilleSource').invalid) ||
+                  (isFormSubmitted &&
+                    trajetList.get('fVilleSource').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+
+
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleSource" [suggestions]="villeList"
+                (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
+              </p-autoComplete>
+
+            </div>
+</div>
+            <div class="row justify-content-around">
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Pays Distination" | translate }} *</label>
+              <span *ngIf="
+                  (trajetList.get('fPaysDestination').touched &&
+                    trajetList.get('fPaysDestination').invalid) ||
+                  (isFormSubmitted &&
+                    trajetList.get('fPaysDestination').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
+                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysDistination($event)"
+                formControlName="fPaysDestination">
+              </p-dropdown>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Ville Destination" | translate }} *</label>
+              <span *ngIf="
+                  (trajetList.get('fVilleDestination').touched &&
+                    trajetList.get('fVilleDestination').invalid) ||
+                  (isFormSubmitted &&
+                    trajetList.get('fVilleDestination').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleDestination" [suggestions]="villeList"
+                (onSelect)="onSelectVilleDestination($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
+              </p-autoComplete>
+
+            </div>
+
+
+            </div>
+
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' |translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{'Valider' |translate}}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

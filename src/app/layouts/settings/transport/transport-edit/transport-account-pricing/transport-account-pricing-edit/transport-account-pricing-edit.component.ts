@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { PaysService } from './../../../../../../shared/services/api/pays.service';
 import { Pays } from './../../../../../../shared/models/pays';
-import { VilleService } from './../../../../../../shared/services/api/ville.service';
+import { TrajetService } from './../../../../../../shared/services/api/trajet.service';
 import { VatService } from './../../../../../../shared/services/api/vat.service';
 import { VehicleTrayService } from './../../../../../../shared/services/api/vehicle-tray.service';
 import { LoadingTypeService } from './../../../../../../shared/services/api/loading-type.service';
@@ -16,7 +16,7 @@ import { CatalogTransportAccountPricingService } from './../../../../../../share
 import { VehicleTray } from './../../../../../../shared/models/vehicle-tray';
 import { LoadingType } from './../../../../../../shared/models/loading-type';
 import { Vat } from './../../../../../../shared/models/vat';
-import { Ville } from './../../../../../../shared/models/ville';
+import { Trajet } from './../../../../../../shared/models/trajet';
 import { TurnType } from './../../../../../../shared/models/turn-Type';
 import { VehicleCategory } from './../../../../../../shared/models/vehicle-category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -40,7 +40,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
   catalogTransportAccountPricingForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
-  villeList: Ville[] = [];
+  trajetList: Trajet[] = [];
   companyList: Company[] = [];
 
   vatList: Vat[] = [];
@@ -51,14 +51,12 @@ export class TransportAccountPricingEditComponent implements OnInit {
   turnTypeid: number;
   transport: number;
   catVehicleId: number;
-  villeSourceId: number;
-  villeDestinationId: number;
+  trajetId: number;
   loadingTypeId: number;
   vehicleTrayId: number;
   companyId:number;
   loadingTypeList: Array<LoadingType> = [];
   vehicleTrayList: Array<VehicleTray> = [];
-  paysList: Array<Pays> = [];
   constructor(
     private catalogTransportAccountPricingService: CatalogTransportAccountPricingService,
     private authentificationService: AuthenticationService,
@@ -68,7 +66,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
     private loadingTypeService: LoadingTypeService,
     private vehicleTrayService: VehicleTrayService,
     private vatService: VatService,
-    private villeService: VilleService,
+    private trajetService: TrajetService,
     private paysService: PaysService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -81,13 +79,12 @@ export class TransportAccountPricingEditComponent implements OnInit {
       this.selectCatalogTransportAccountPricing = new CatalogTransportAccountPricing();
       this.title = "Ajouter  Tarif Spécial";
     } else {
-      this.turnTypeid = this.selectCatalogTransportAccountPricing.turnType.id;
-      this.vehicleTrayId = this.selectCatalogTransportAccountPricing.vehicleTray.id;
-      this.catVehicleId = this.selectCatalogTransportAccountPricing.vehicleCategory.id;
-      this.loadingTypeId = this.selectCatalogTransportAccountPricing.loadingType.id;
-      this.villeSourceId = this.selectCatalogTransportAccountPricing.villeSource.id;
-      this.villeDestinationId = this.selectCatalogTransportAccountPricing.villeDestination.id;
-      this.companyId=this.selectCatalogTransportAccountPricing.company.id;
+      this.turnTypeid = this.selectCatalogTransportAccountPricing?.turnType?.id;
+      this.vehicleTrayId = this.selectCatalogTransportAccountPricing?.vehicleTray?.id;
+      this.catVehicleId = this.selectCatalogTransportAccountPricing?.vehicleCategory?.id;
+      this.loadingTypeId = this.selectCatalogTransportAccountPricing?.loadingType?.id;
+      this.trajetId = this.selectCatalogTransportAccountPricing?.trajet?.id;
+      this.companyId=this.selectCatalogTransportAccountPricing?.company?.id;
     }
     console.log(this.selectedTransport);
 
@@ -118,22 +115,12 @@ export class TransportAccountPricingEditComponent implements OnInit {
         Validators.required
       ),
 
-      fPaysSource: new FormControl(
-        this.selectCatalogTransportAccountPricing?.paysSource,
+
+      fTrajet: new FormControl(
+        this.selectCatalogTransportAccountPricing?.trajet,
         Validators.required
       ),
-      fVilleSource: new FormControl(
-        this.selectCatalogTransportAccountPricing?.villeSource,
-        Validators.required
-      ),
-      fPaysDestination: new FormControl(
-        this.selectCatalogTransportAccountPricing?.paysDestination,
-        Validators.required
-      ),
-      fVilleDestination: new FormControl(
-        this.selectCatalogTransportAccountPricing?.villeDestination,
-        Validators.required
-      ),
+
 
       fPurchaseAmountHt: new FormControl(
         this.selectCatalogTransportAccountPricing.purchaseAmountHt,
@@ -187,7 +174,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
     this.catalogTransportAccountPricingService
       .sizeSearch(
         `company.id:${this.companyId},
-        ,transport.id:${this.selectedTransport.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},villeSource.id:${this.villeSourceId},villeDestination.id:${this.villeDestinationId}`
+        ,transport.id:${this.selectedTransport.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`
       )
       .subscribe(
         (data) => {
@@ -275,10 +262,10 @@ export class TransportAccountPricingEditComponent implements OnInit {
       .subscribe((data) => (this.companyList = data));
   }
 
-  onVilleSourceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find("code~" + event.query)
-      .subscribe((data) => (this.villeList = data));
+      .subscribe((data) => (this.trajetList = data));
   }
 
   onSelectPurchaseVat(event) {
@@ -288,21 +275,13 @@ export class TransportAccountPricingEditComponent implements OnInit {
     this.onPurchasePriceChange(1);
   }
 
-  onSelectPaysSource(event) {
-    this.selectCatalogTransportAccountPricing.paysSource = event.value;
-  }
-  onSelectVilleSource(event: any) {
-    this.selectCatalogTransportAccountPricing.villeSource = event;
-    this.villeSourceId = this.selectCatalogTransportAccountPricing.villeSource.id;
+
+  onSelectTrajet(event: any) {
+    this.selectCatalogTransportAccountPricing.trajet = event;
+    this.trajetId = this.selectCatalogTransportAccountPricing.trajet.id;
   }
 
-  onSelectPaysDistination(event) {
-    this.selectCatalogTransportAccountPricing.paysDestination = event.value;
-  }
-  onSelectVilleDestination(event: any) {
-    this.selectCatalogTransportAccountPricing.villeDestination = event;
-    this.villeDestinationId = this.selectCatalogTransportAccountPricing.villeDestination.id;
-  }
+
 
   load() {
     this.vehicleCategoryService.findAll().subscribe((data) => {
@@ -311,8 +290,8 @@ export class TransportAccountPricingEditComponent implements OnInit {
     this.turnTypeService.findAll().subscribe((data) => {
       this.turnTypeList = data;
     });
-    this.villeService.findAll().subscribe((data) => {
-      this.villeList = data;
+    this.trajetService.findAll().subscribe((data) => {
+      this.trajetList = data;
     });
     this.vatService.findAll().subscribe((data) => {
       this.vatList = data;
@@ -326,9 +305,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
       this.vehicleTrayList = data;
     });
 
-    this.paysService.findAll().subscribe((data) => {
-      this.paysList = data;
-    });
+
   }
 
   onPurchasePriceChange(n: Number) {
@@ -372,8 +349,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
         f.loadingType.id == catalogTransportAccountPricingEdited.loadingType.id &&
         f.vehicleCategory.id == catalogTransportAccountPricingEdited.vehicleCategory.id &&
         f.vehicleTray.id == catalogTransportAccountPricingEdited.vehicleTray.id &&
-        f.villeSource.id == catalogTransportAccountPricingEdited.villeSource.id &&
-        f.villeDestination.id == catalogTransportAccountPricingEdited.villeDestination.id
+        f.trajet.id == catalogTransportAccountPricingEdited.trajet.id
     );
     if (acountPricing == null) {
       this.acountPricingEdited.emit(this.selectCatalogTransportAccountPricing);

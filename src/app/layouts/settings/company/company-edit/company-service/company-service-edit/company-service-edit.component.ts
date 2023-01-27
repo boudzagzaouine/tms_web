@@ -69,8 +69,7 @@ export class CompanyServiceEditComponent implements OnInit {
     this.accountServiceForm = new FormGroup({
 
       fAddress: new FormControl(
-        this.selectAccountService.address,
-        Validators.required
+        this.selectAccountService.address
       ),
 
       fProduct: new FormControl(
@@ -127,10 +126,15 @@ export class CompanyServiceEditComponent implements OnInit {
   }
 
   existService() {
+let requete ;
+requete=`company.id:${this.selectedCompany.id},product.id:${this.productId}`;
+if(this.selectAccountService?.address?.id!=null || this.selectAccountService?.address?.id!=undefined){
+  requete+= `,address.id:${this.addressId}`
+}
+console.log(requete);
+
     this.accountServiceService
-      .sizeSearch(
-        `company.id:${this.selectedCompany.id},address.id:${this.addressId},product.id:${this.productId}`
-      )
+      .sizeSearch( requete )
       .subscribe(
         (data) => {
           console.log(data);

@@ -1,8 +1,9 @@
-import { VatService } from './../../../../shared/services/api/vat.service';
-import { Vat } from './../../../../shared/models/vat';
-import { AccountServiceService } from './../../../../shared/services/api/account-service.service';
-import { AccountService } from './../../../../shared/services/api/account.service';
-import { CatalogServiceService } from './../../../../shared/services/api/catalog-service.service';
+import { CatalogService } from "./../../../../shared/models/catalog-service";
+import { VatService } from "./../../../../shared/services/api/vat.service";
+import { Vat } from "./../../../../shared/models/vat";
+import { AccountServiceService } from "./../../../../shared/services/api/account-service.service";
+import { AccountService } from "./../../../../shared/services/api/account.service";
+import { CatalogServiceService } from "./../../../../shared/services/api/catalog-service.service";
 import { TransportAccountServiceService } from "./../../../../shared/services/api/transport-account-service.service";
 import { TransportAccountService } from "./../../../../shared/models/transport-account-service";
 import { TransportServiceService } from "./../../../../shared/services/api/transport-service.service";
@@ -55,8 +56,9 @@ export class TransportPlanServiceEditComponent implements OnInit {
     private transportService: TransportServcie,
     private transportServiceService: TransportServiceService,
     private transportAccountServiceService: TransportAccountServiceService,
-    private catalogSeviceService:CatalogServiceService,
-    private accountServiceService:AccountServiceService
+    private catalogSeviceService: CatalogServiceService,
+    private accountServiceService: AccountServiceService,
+    private catalogServiceService: CatalogServiceService
   ) {}
 
   ngOnInit() {
@@ -115,7 +117,9 @@ export class TransportPlanServiceEditComponent implements OnInit {
       purchasePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.purchasePriceHT
       ),
-      purchaseVat: this.formBuilder.control(this.selectedTransportServiceCatalog.purchaseVat),
+      purchaseVat: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.purchaseVat
+      ),
       purchasePriceTTC: this.formBuilder.control(
         this.selectedTransportServiceCatalog.purchasePriceTTC
       ),
@@ -123,7 +127,9 @@ export class TransportPlanServiceEditComponent implements OnInit {
       salePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceHT
       ),
-      saleVat: this.formBuilder.control(this.selectedTransportServiceCatalog.saleVat),
+      saleVat: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.saleVat
+      ),
       salePriceTTC: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceTTC
       ),
@@ -143,7 +149,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
     this.selectedTransportServiceCatalog.purchasePriceTTC =
       this.transportProductForm.value["purchasePriceTTC"];
 
-      this.selectedTransportServiceCatalog.salePriceHT =
+    this.selectedTransportServiceCatalog.salePriceHT =
       this.transportProductForm.value["salePriceHT"];
     this.selectedTransportServiceCatalog.salePriceTTC =
       this.transportProductForm.value["salePriceTTC"];
@@ -168,52 +174,70 @@ export class TransportPlanServiceEditComponent implements OnInit {
   }
   onSelectAddress(event) {
     this.selectedTransportServiceCatalog.address = event.value;
+    this.onSearchSalePriceServiceByAccount();
 
-    this.transportServiceService
-      .find("product.id:" + this.selectedTransportServiceCatalog.product.id)
-      .subscribe((data) => {
-        console.log(data);
-      });
+    this.onSearchPurchasePriceServiceByAccount();
+    // this.transportServiceService
+    //   .find("product.id:" + this.selectedTransportServiceCatalog.product.id)
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
   }
   onSelectProduct(event) {
     //this.selectedProduct = event as Product;
     this.selectedTransportServiceCatalog.product = event as Product;
-    this.onSearchPriceSaleServiceTransport();
+    this.onSearchSalePriceServiceByAccount();
     // this.selectedTransportServiceCatalog.purchaseVat =
     //   this.selectedTransportServiceCatalog.product.purchaseVat;
-
   }
 
   onSelectTransport(event) {
     this.selectedTransportServiceCatalog.transport = event.value;
 
-    this.onSearchPriceServiceTransport();
+    this.onSearchPurchasePriceServiceByAccount();
+  }
+
+  onSearchPurchasePriceServiceByAccount(){
+    let requete;
+    requete =
+    "company.id:" +
+        this.selectedCompany.id +
+        ",transport.id:" +
+        this.selectedTransportServiceCatalog.transport.id +
+        ",product.id:" +
+        this.selectedTransportServiceCatalog.product.id
+        if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTransportServiceCatalog?.address?.id !=undefined){
+          requete+=",address.id:"+this.selectedTransportServiceCatalog.address.id;
+       }
+        console.log(requete);
+    this.transportAccountServiceService
+    .find(
+    requete
+    )
+    .subscribe((data) => {
+      if(this.selectedTransportServiceCatalog?.address?.id == null || this.selectedTransportServiceCatalog?.address?.id ==undefined){
+        data= data.filter(f=> f.address==null);
+   }
+      if (data[0]) {
+        console.log(data);
+
+        console.log("account");
+        this.initPurchase(
+          data[0].purchaseAmountHt,
+          data[0].purchaseAmountTtc,
+          data[0].purchaseVat
+        );
+      } else {
+        this.onSearchPriceServiceTransport();
+
+      }
+    });
+
   }
 
   onSearchPriceServiceTransport() {
-    this.transportAccountServiceService
-      .find(
-        "company.id:" +
-        this.selectedCompany.id+
-        ",transport.id:" +
-          this.selectedTransportServiceCatalog.transport.id +
-          ",product.id:" +
-          this.selectedTransportServiceCatalog.product.id +
-          ",address.id:" +
-          this.selectedTransportServiceCatalog?.address?.id
-      )
-      .subscribe((data) => {
-        if (data[0]) {
-          console.log("account");
 
-          this.transportProductForm.patchValue({
-            //description: this.selectedProduct.shortDesc,
-            purchasePriceHT:   data[0].saleAmountHt,
-            purchasePriceTTC: data[0].saleAmountTva,
 
-            purchaseVat: data[0].saleVat,
-          });
-        } else {
           console.log("transport");
 
           this.transportServiceService
@@ -225,73 +249,95 @@ export class TransportPlanServiceEditComponent implements OnInit {
             )
             .subscribe((data) => {
               if (data[0]) {
-                this.transportProductForm.patchValue({
-                  //description: this.selectedProduct.shortDesc,
-                  purchasePriceHT:   data[0].saleAmountHt,
-                  purchasePriceTTC: data[0].saleAmountTva,
-
-                  purchaseVat: data[0].saleVat,
-                });
-              }else{
-                this.transportProductForm.patchValue({
-                  purchasePriceHT:   0,
-                  purchasePriceTTC: 0,
-                  purchaseVat: 0,
-                });
+                this.initPurchase(
+                  data[0].purchaseAmountHt,
+                  data[0].purchaseAmountTtc,
+                  data[0].purchaseVat
+                );
+              } else {
+                this.initPurchase(0, 0, null);
               }
             });
+
+  }
+
+
+
+  onSearchSalePriceServiceByAccount() {
+
+    let requete;
+    requete =
+      "company.id:" +
+      this.selectedCompany.id +
+      ",product.id:" +
+      this.selectedTransportServiceCatalog.product.id
+
+if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTransportServiceCatalog?.address?.id !=undefined){
+   requete+=",address.id:"+this.selectedTransportServiceCatalog.address.id;
+}
+ console.log(requete);
+
+    this.accountServiceService
+      .find(
+      requete
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if(this.selectedTransportServiceCatalog?.address?.id == null || this.selectedTransportServiceCatalog?.address?.id ==undefined){
+             data= data.filter(f=> f.address==null);
+        }
+        console.log(data);
+
+        if (data[0]) {
+          console.log("accountService");
+
+          this.initSale(
+            data[0].saleAmountHt,
+            data[0].saleAmountTtc,
+            data[0].saleVat
+          );
+        } else {
+          console.log("catalogService");
+          this.onSearchSalePriceServiceInCatalog();
+        }
+      });
+  }
+  onSearchSalePriceServiceInCatalog() {
+    this.catalogServiceService
+      .find("product.id:" + this.selectedTransportServiceCatalog.product.id)
+      .subscribe((data) => {
+        if (data[0]) {
+          this.initSale(
+            data[0].saleAmountHt,
+            data[0].saleAmountTtc,
+            data[0].saleVat
+          );
+        } else {
+          this.initSale(0, 0, null);
         }
       });
   }
 
-  onSearchPriceSaleServiceTransport() {
-    this.accountServiceService
-      .find(
-        "company.id:" +
-          this.selectedCompany.id+
-          ",product.id:" +
-          this.selectedTransportServiceCatalog.product.id 
+  initPurchase(
+    purchaseAmountht: number,
+    purchaseAmountTtc: number,
+    purchaseVat: Vat
+  ) {
+    this.selectedTransportServiceCatalog.purchasePriceHT = purchaseAmountht;
+    this.selectedTransportServiceCatalog.purchasePriceTTC = purchaseAmountTtc;
 
-      )
-      .subscribe((data) => {
-        if (data[0]) {
-          console.log("accountService");
+    this.selectedTransportServiceCatalog.purchaseVat = purchaseVat;
+    this.initForm();
+  }
 
-          this.transportProductForm.patchValue({
-            //description: this.selectedProduct.shortDesc,
-            salePriceHT:   data[0].saleAmountHt,
-            salePriceTTC: data[0].saleAmountTva,
+  initSale(saleAmountht: number, saleAmountTtc: number, saleVat: Vat) {
+    console.log(saleVat);
 
-            saleVat: data[0].saleVat,
-          });
-        } else {
-          console.log("transport");
+    this.selectedTransportServiceCatalog.salePriceHT = saleAmountht;
+    this.selectedTransportServiceCatalog.salePriceTTC = saleAmountTtc;
 
-          this.transportServiceService
-            .find(
-
-                "product.id:" +
-                this.selectedTransportServiceCatalog.product.id
-            )
-            .subscribe((data) => {
-              if (data[0]) {
-                this.transportProductForm.patchValue({
-                  //description: this.selectedProduct.shortDesc,
-                  salePriceHT:   data[0].saleAmountHt,
-                  salePriceTTC: data[0].saleAmountTva,
-
-                  saleVat: data[0].saleVat,
-                });
-              }else{
-                this.transportProductForm.patchValue({
-                  salePriceHT:   0,
-                  salePriceTTC: 0,
-                  saleVat: 0,
-                });
-              }
-            });
-        }
-      });
+    this.selectedTransportServiceCatalog.saleVat = saleVat;
+    this.initForm();
   }
 
   onSelectPurchaseVat(event) {
@@ -303,7 +349,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
     this.onPriceChange(1);
   }
 
-  onSelectSaleVat(event){
+  onSelectSaleVat(event) {
     let purchaseVat = this.vats.filter((f) => f.value == event.value)[0];
 
     this.selectedTransportServiceCatalog.saleVat = purchaseVat;
@@ -348,7 +394,6 @@ export class TransportPlanServiceEditComponent implements OnInit {
     }
   }
 
-
   onPriceSaleChange(n: Number) {
     let purchasePrice = +this.transportProductForm.value["salePriceHT"];
     let purchasePriceTTC = +this.transportProductForm.value["salePriceTTC"];
@@ -378,5 +423,4 @@ export class TransportPlanServiceEditComponent implements OnInit {
       });
     }
   }
-
 }

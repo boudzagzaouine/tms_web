@@ -18,9 +18,9 @@ export class TransportService {
   transport :Transport;
   product:Product;
 
-  saleAmountHt: number;
-  saleAmountTtc: number;
-  saleAmountTva: number;
-  saleVat: Vat;
+  purchaseAmountHt: number;
+  purchaseAmountTtc: number;
+  purchaseAmountTva: number;
+  purchaseVat: Vat;
    owner :Owner;
 }

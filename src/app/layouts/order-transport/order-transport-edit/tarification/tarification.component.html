@@ -88,17 +88,18 @@
 
           <div class="row justify-content-around p-3">
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <p-card>
                 <ng-template pTemplate="header">
                     Contrat Client
                 </ng-template>
-               <span class="lblPrice">{{this.selectedAccountPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
-            </p-card>
+               <div class="lblPrice">{{this.selectedAccountPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span> </div>
+
+              </p-card>
               </div>
 
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <p-card>
                 <ng-template pTemplate="header">
                     Tarif
@@ -106,7 +107,7 @@
 
                <span class="lbltype">Achat</span>
                  <span  class="lblPrice">{{this.selectedCatalogPricing?.purchaseAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
-                  <br>
+                 ---
                     <span class="lbltype">Vente</span>
                     <span class="lblPrice">{{this.selectedCatalogPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span></span>
 
@@ -118,7 +119,7 @@
 
 
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <p-card>
                     <ng-template pTemplate="header">
                       Taux de Marge

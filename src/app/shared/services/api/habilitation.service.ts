@@ -10,6 +10,6 @@ export class HabilitationService extends EmsService<Habilitation>{
   constructor(proxy: ProxyService) {
     super(proxy, 'habilitations');
   }
-  
-   
+
+
 }

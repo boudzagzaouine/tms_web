@@ -6,6 +6,30 @@
       <div class="card-body">
         <form [formGroup]="catalogTransportPricingForm">
 
+
+          <div class="row justify-content-around">
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Trajet " | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fTrajet').touched &&
+                  catalogTransportPricingForm.get('fTrajet').invalid) ||
+                  (isFormSubmitted &&
+                  catalogTransportPricingForm.get('fTrajet').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+
+
+              <p-autoComplete [disabled]="(editMode==2)" formControlName="fTrajet" [suggestions]="trajetList"
+                (onSelect)="onSelectTrajet($event)" (completeMethod)="onTrajetSearch($event)" field="code">
+              </p-autoComplete>
+
+            </div>
+            <div class="form-group col-sm-6">
+  </div>
+  </div>
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Type " | translate }} *</label>
@@ -77,78 +101,7 @@
 
 
             </div>
-            <div class="row justify-content-around">
-              <div class="form-group col-sm-3">
-                <label class="font-weight-bold">{{ "Pays Source" | translate }} *</label>
-                <span *ngIf="
-                    (catalogTransportPricingForm.get('fPaysSource').touched &&
-                      catalogTransportPricingForm.get('fPaysSource').invalid) ||
-                    (isFormSubmitted &&
-                      catalogTransportPricingForm.get('fPaysSource').invalid)
-                  " class="text-lighter" style="color: red; font-size: xx-small;">
-                  {{ 'Obligatoire' | translate}}
 
-                </span>
-                <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
-                  [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysSource($event)"
-                  formControlName="fPaysSource">
-                </p-dropdown>
-              </div>
-
-            <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Ville Source " | translate }} *</label>
-              <span *ngIf="
-                  (catalogTransportPricingForm.get('fVilleSource').touched &&
-                    catalogTransportPricingForm.get('fVilleSource').invalid) ||
-                  (isFormSubmitted &&
-                    catalogTransportPricingForm.get('fVilleSource').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
-              </span>
-
-
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleSource" [suggestions]="villeList"
-                (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
-              </p-autoComplete>
-
-            </div>
-            <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Pays Distination" | translate }} *</label>
-              <span *ngIf="
-                  (catalogTransportPricingForm.get('fPaysDestination').touched &&
-                    catalogTransportPricingForm.get('fPaysDestination').invalid) ||
-                  (isFormSubmitted &&
-                    catalogTransportPricingForm.get('fPaysDestination').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
-              </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysDistination($event)"
-                formControlName="fPaysDestination">
-              </p-dropdown>
-            </div>
-
-            <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Ville Destination" | translate }} *</label>
-              <span *ngIf="
-                  (catalogTransportPricingForm.get('fVilleDestination').touched &&
-                    catalogTransportPricingForm.get('fVilleDestination').invalid) ||
-                  (isFormSubmitted &&
-                    catalogTransportPricingForm.get('fVilleDestination').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
-              </span>
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleDestination" [suggestions]="villeList"
-                (onSelect)="onSelectVilleDestination($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
-              </p-autoComplete>
-
-            </div>
-
-
-            </div>
 
             <div class="row justify-content-around">
 

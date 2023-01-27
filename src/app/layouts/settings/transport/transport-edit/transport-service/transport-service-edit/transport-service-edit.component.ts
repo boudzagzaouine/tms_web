@@ -21,11 +21,11 @@ export class TransportServiceEditComponent implements OnInit {
 
   @Input() selectedTransport: Transport = new Transport();
   @Input() selectTransportService = new TransportService();
-  @Input() accountServices: TransportService[] = [];
-  @Output() acountServiceEdited = new EventEmitter<TransportService>();
+  @Input() transportServices: TransportService[] = [];
+  @Output() transportServiceEdited = new EventEmitter<TransportService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  accountServiceForm: FormGroup;
+  transportServiceForm: FormGroup;
 
   vat = new Vat();
   displayDialog: boolean;
@@ -35,7 +35,7 @@ export class TransportServiceEditComponent implements OnInit {
   vatList:Vat[]=[];
    productList :Product[]=[];
   constructor(
-    private accountServiceService: TransportServiceService,
+    private transportServiceService: TransportServiceService,
     private authentificationService: AuthenticationService,
     private productService:ProductServiceService,
     private vatService: VatService,
@@ -60,29 +60,29 @@ export class TransportServiceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.accountServiceForm = new FormGroup({
+    this.transportServiceForm = new FormGroup({
 
       fProduct: new FormControl(
         this.selectTransportService.product,
         Validators.required
       ),
 
-      fSaleAmountHt: new FormControl(
-        this.selectTransportService.saleAmountHt,
+      fPurchaseAmountHt: new FormControl(
+        this.selectTransportService.purchaseAmountHt,
         Validators.required
       ),
-      fSaleAmountTtc: new FormControl(
-        this.selectTransportService.saleAmountTtc,
+      fPurchaseAmountTtc: new FormControl(
+        this.selectTransportService.purchaseAmountTtc,
         Validators.required
       ),
-      fSaleAmountTva: new FormControl(
-        this.selectTransportService.saleAmountTva,
+      fPurchaseAmountTva: new FormControl(
+        this.selectTransportService.purchaseAmountTva,
         Validators.required
       ),
-      fSaleVat: new FormControl(
+      fPurchaseVat: new FormControl(
         this.editMode != 1
-          ? this.selectTransportService?.saleVat?.value
-          : this.selectTransportService?.saleVat,
+          ? this.selectTransportService?.purchaseVat?.value
+          : this.selectTransportService?.purchaseVat,
 
         Validators.required
       ),
@@ -90,16 +90,16 @@ export class TransportServiceEditComponent implements OnInit {
   }
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.accountServiceForm.invalid) {
+    if (this.transportServiceForm.invalid) {
       return;
     }
     this.spinner.show();
-    this.selectTransportService.saleAmountHt =
-      this.accountServiceForm.value["fSaleAmountHt"];
-    this.selectTransportService.saleAmountTtc =
-      this.accountServiceForm.value["fSaleAmountTtc"];
-    this.selectTransportService.saleAmountTva =
-      this.accountServiceForm.value["fSaleAmountTva"];
+    this.selectTransportService.purchaseAmountHt =
+      this.transportServiceForm.value["fPurchaseAmountHt"];
+    this.selectTransportService.purchaseAmountTtc =
+      this.transportServiceForm.value["fPurchaseAmountTtc"];
+    this.selectTransportService.purchaseAmountTva =
+      this.transportServiceForm.value["fPurchaseAmountTva"];
     if (
       this.selectedTransport.id != undefined ||
       this.selectedTransport.id != null
@@ -116,7 +116,7 @@ export class TransportServiceEditComponent implements OnInit {
   }
 
   existService() {
-    this.accountServiceService
+    this.transportServiceService
       .sizeSearch(
         `transport.id:${this.selectedTransport.id},product.id:${this.productId}`
       )
@@ -152,7 +152,7 @@ export class TransportServiceEditComponent implements OnInit {
   }
 
   saveTransportService() {
-    this.accountServiceService.set(this.selectTransportService).subscribe(
+    this.transportServiceService.set(this.selectTransportService).subscribe(
       (data) => {
         this.messageService.add({
           severity: "success",
@@ -182,11 +182,13 @@ export class TransportServiceEditComponent implements OnInit {
 
 
 
-  onSelectSaleVat(event) {
-    this.selectTransportService.saleVat = this.vatList.filter(
+  onSelectPurchaseVat(event) {
+    this.selectTransportService.purchaseVat = this.vatList.filter(
       (f) => f.value == event.value
     )[0];
-    this.onSalePriceChange(1);
+   console.log(this.selectTransportService.purchaseVat);
+
+    this.onPurchasePriceChange(1);
   }
 
   onProductSearch(event: any) {
@@ -212,10 +214,10 @@ export class TransportServiceEditComponent implements OnInit {
 
   }
 
-  onSalePriceChange(n: Number) {
-    let PriceHt = +this.accountServiceForm.value["fSaleAmountHt"];
-    let PriceTTC = +this.accountServiceForm.value["fSaleAmountTtc"];
-    let vat = this.accountServiceForm.value["fSaleVat"];
+  onPurchasePriceChange(n: Number) {
+    let PriceHt = +this.transportServiceForm.value["fPurchaseAmountHt"];
+    let PriceTTC = +this.transportServiceForm.value["fPurchaseAmountTtc"];
+    let vat = this.transportServiceForm.value["fPurchaseVat"];
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {
@@ -231,29 +233,29 @@ export class TransportServiceEditComponent implements OnInit {
     if (n === 1) {
       const amountTva = (PriceHt / 100) * vat;
       const priceTTC = PriceHt + amountTva;
-      this.accountServiceForm.patchValue({
-        fSaleAmountTtc: priceTTC.toFixed(2),
-        fSaleAmountTva: amountTva.toFixed(2),
+      this.transportServiceForm.patchValue({
+        fPurchaseAmountTtc: priceTTC.toFixed(2),
+        fPurchaseAmountTva: amountTva.toFixed(2),
       });
     }
     if (n === 2) {
       PriceHt = PriceTTC / (1 + vat / 100);
       const amountTva = (PriceHt / 100) * vat;
-      this.accountServiceForm.patchValue({
-        fSaleAmountHt: PriceHt.toFixed(2),
-        fSaleAmountTva: amountTva.toFixed(2),
+      this.transportServiceForm.patchValue({
+        fPurchaseAmountHt: PriceHt.toFixed(2),
+        fPurchaseAmountTva: amountTva.toFixed(2),
       });
     }
   }
 
-  onLineEdited(accountServiceEdited: TransportService) {
-    const acountService = this.accountServices.find(
+  onLineEdited(transportServiceEdited: TransportService) {
+    const transportService = this.transportServices.find(
       (f) =>
-        f.product.id == accountServiceEdited.product.id
+        f.product.id == transportServiceEdited.product.id
 
     );
-    if (acountService == null) {
-      this.acountServiceEdited.emit(this.selectTransportService);
+    if (transportService == null) {
+      this.transportServiceEdited.emit(this.selectTransportService);
       this.displayDialog = false;
     } else {
       if (this.editMode == 1) {

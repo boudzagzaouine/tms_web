@@ -1,0 +1,124 @@
+
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '550px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="userForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(userForm.get('code').touched && userForm.get('code').invalid) ||
+            (isFormSubmitted && userForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+          <div class="form-group col-sm-6"></div>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Nom' | translate}}*</label><br />
+            <span *ngIf="(userForm.get('name').touched && userForm.get('name').invalid) ||
+            (isFormSubmitted && userForm.get('name').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="name" />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Prénom' | translate}}*</label><br />
+            <span *ngIf="(userForm.get('surName').touched && userForm.get('surName').invalid) ||
+            (isFormSubmitted && userForm.get('surName').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="surName" />
+          </div>
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Email' | translate}}*</label><br />
+            <span *ngIf="(userForm.get('email').touched && userForm.get('email').invalid) ||
+            (isFormSubmitted && userForm.get('email').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <input type="text" class="form-control" pInputText formControlName="email" />
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{'Téléphone' | translate}}</label><br />
+
+            <input type="text" class="form-control" pInputText formControlName="tele" />
+          </div>
+
+
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold">{{ "Group " | translate }} </label>
+
+
+            <!-- [disabled]="(editMode==2)" -->
+            <p-autoComplete  formControlName="group" [suggestions]="groupList"
+              (onSelect)="onSelectGroup($event)" (completeMethod)="onGroupSearch($event)" field="code">
+            </p-autoComplete>
+
+          </div>
+          <div class="form-group col-sm-6"></div>
+
+
+          <div class="form-group col-sm-6">
+            <label class="font-weight-bold"> {{' Mot de passe' | translate}}*</label><br />
+            <span *ngIf="(userForm.get('password').touched && userForm.get('password').invalid) ||
+            (isFormSubmitted && userForm.get('password').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <!-- <p-password type="password" formControlName="password" [toggleMask] ="true" ></p-password> -->
+
+            <input type="password" formControlName="password"  [tog] pPassword />
+
+          </div>
+          <div class="form-group col-sm-6"></div>
+
+
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="p-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

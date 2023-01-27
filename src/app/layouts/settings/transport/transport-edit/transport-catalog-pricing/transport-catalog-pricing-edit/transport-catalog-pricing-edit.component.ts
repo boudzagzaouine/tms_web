@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { PaysService } from './../../../../../../shared/services/api/pays.service';
-import { VilleService } from './../../../../../../shared/services/api/ville.service';
+import { TrajetService } from './../../../../../../shared/services/api/trajet.service';
 import { VatService } from './../../../../../../shared/services/api/vat.service';
 import { VehicleTrayService } from './../../../../../../shared/services/api/vehicle-tray.service';
 import { LoadingTypeService } from './../../../../../../shared/services/api/loading-type.service';
@@ -14,7 +14,7 @@ import { CatalogTransportPricingService } from './../../../../../../shared/servi
 import { Pays } from './../../../../../../shared/models/pays';
 import { VehicleTray } from './../../../../../../shared/models/vehicle-tray';
 import { LoadingType } from './../../../../../../shared/models/loading-type';
-import { Ville } from './../../../../../../shared/models/ville';
+import { Trajet } from './../../../../../../shared/models/trajet';
 import { TurnType } from './../../../../../../shared/models/turn-Type';
 import { VehicleCategory } from './../../../../../../shared/models/vehicle-category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -38,7 +38,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   catalogTransportPricingForm: FormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
-  villeList: Ville[] = [];
+  trajetList: Trajet[] = [];
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
@@ -47,13 +47,11 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   turnTypeid: number;
   transport: number;
   catVehicleId: number;
-  villeSourceId: number;
-  villeDestinationId: number;
+  trajetId: number;
   loadingTypeId: number;
   vehicleTrayId: number;
   loadingTypeList: Array<LoadingType> = [];
   vehicleTrayList: Array<VehicleTray> = [];
-  paysList: Array<Pays> = [];
   constructor(
     private catalogTransportPricingService: CatalogTransportPricingService,
     private authentificationService: AuthenticationService,
@@ -62,8 +60,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
     private loadingTypeService: LoadingTypeService,
     private vehicleTrayService: VehicleTrayService,
     private vatService: VatService,
-    private villeService: VilleService,
-    private paysService: PaysService,
+    private trajetService: TrajetService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService
@@ -75,12 +72,11 @@ export class TransportCatalogPricingEditComponent implements OnInit {
       this.selectCatalogTransportPricing = new CatalogTransportPricing();
       this.title = "Ajouter  Tarif Standard";
     } else {
-      this.turnTypeid = this.selectCatalogTransportPricing.turnType.id;
-      this.vehicleTrayId = this.selectCatalogTransportPricing.vehicleTray.id;
-      this.catVehicleId = this.selectCatalogTransportPricing.vehicleCategory.id;
-      this.loadingTypeId = this.selectCatalogTransportPricing.loadingType.id;
-      this.villeSourceId = this.selectCatalogTransportPricing.villeSource.id;
-      this.villeDestinationId = this.selectCatalogTransportPricing.villeDestination.id;
+      this.turnTypeid = this.selectCatalogTransportPricing?.turnType?.id;
+      this.vehicleTrayId = this.selectCatalogTransportPricing?.vehicleTray?.id;
+      this.catVehicleId = this.selectCatalogTransportPricing?.vehicleCategory?.id;
+      this.loadingTypeId = this.selectCatalogTransportPricing?.loadingType?.id;
+      this.trajetId = this.selectCatalogTransportPricing?.trajet?.id;
     }
     console.log(this.selectedTransport);
 
@@ -107,22 +103,12 @@ export class TransportCatalogPricingEditComponent implements OnInit {
         Validators.required
       ),
 
-      fPaysSource: new FormControl(
-        this.selectCatalogTransportPricing?.paysSource,
+
+      fTrajet: new FormControl(
+        this.selectCatalogTransportPricing?.trajet,
         Validators.required
       ),
-      fVilleSource: new FormControl(
-        this.selectCatalogTransportPricing?.villeSource,
-        Validators.required
-      ),
-      fPaysDestination: new FormControl(
-        this.selectCatalogTransportPricing?.paysDestination,
-        Validators.required
-      ),
-      fVilleDestination: new FormControl(
-        this.selectCatalogTransportPricing?.villeDestination,
-        Validators.required
-      ),
+
 
       fPurchaseAmountHt: new FormControl(
         this.selectCatalogTransportPricing.purchaseAmountHt,
@@ -175,7 +161,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   existPricing() {
     this.catalogTransportPricingService
       .sizeSearch(
-        `transport.id:${this.selectedTransport.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},villeSource.id:${this.villeSourceId},villeDestination.id:${this.villeDestinationId}`
+        `transport.id:${this.selectedTransport.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`
       )
       .subscribe(
         (data) => {
@@ -254,10 +240,10 @@ export class TransportCatalogPricingEditComponent implements OnInit {
     this.vehicleTrayId = this.selectCatalogTransportPricing.vehicleTray.id;
   }
 
-  onVilleSourceSearch(event: any) {
-    this.villeService
+  onTrajetSearch(event: any) {
+    this.trajetService
       .find("code~" + event.query)
-      .subscribe((data) => (this.villeList = data));
+      .subscribe((data) => (this.trajetList = data));
   }
 
   onSelectPurchaseVat(event) {
@@ -267,21 +253,13 @@ export class TransportCatalogPricingEditComponent implements OnInit {
     this.onPurchasePriceChange(1);
   }
 
-  onSelectPaysSource(event) {
-    this.selectCatalogTransportPricing.paysSource = event.value;
-  }
-  onSelectVilleSource(event: any) {
-    this.selectCatalogTransportPricing.villeSource = event;
-    this.villeSourceId = this.selectCatalogTransportPricing.villeSource.id;
+
+  onSelectTrajet(event: any) {
+    this.selectCatalogTransportPricing.trajet = event;
+    this.trajetId = this.selectCatalogTransportPricing.trajet.id;
   }
 
-  onSelectPaysDistination(event) {
-    this.selectCatalogTransportPricing.paysDestination = event.value;
-  }
-  onSelectVilleDestination(event: any) {
-    this.selectCatalogTransportPricing.villeDestination = event;
-    this.villeDestinationId = this.selectCatalogTransportPricing.villeDestination.id;
-  }
+
 
   load() {
     this.vehicleCategoryService.findAll().subscribe((data) => {
@@ -290,8 +268,8 @@ export class TransportCatalogPricingEditComponent implements OnInit {
     this.turnTypeService.findAll().subscribe((data) => {
       this.turnTypeList = data;
     });
-    this.villeService.findAll().subscribe((data) => {
-      this.villeList = data;
+    this.trajetService.findAll().subscribe((data) => {
+      this.trajetList = data;
     });
     this.vatService.findAll().subscribe((data) => {
       this.vatList = data;
@@ -305,9 +283,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
       this.vehicleTrayList = data;
     });
 
-    this.paysService.findAll().subscribe((data) => {
-      this.paysList = data;
-    });
+
   }
 
   onPurchasePriceChange(n: Number) {
@@ -351,8 +327,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
         f.loadingType.id == catalogTransportPricingEdited.loadingType.id &&
         f.vehicleCategory.id == catalogTransportPricingEdited.vehicleCategory.id &&
         f.vehicleTray.id == catalogTransportPricingEdited.vehicleTray.id &&
-        f.villeSource.id == catalogTransportPricingEdited.villeSource.id &&
-        f.villeDestination.id == catalogTransportPricingEdited.villeDestination.id
+        f.trajet.id == catalogTransportPricingEdited.trajet.id
     );
     if (acountPricing == null) {
       this.acountPricingEdited.emit(this.selectCatalogTransportPricing);

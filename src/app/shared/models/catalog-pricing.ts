@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { LoadingType } from './loading-type';
 import { Pays } from './pays';
 import { TurnType } from './turn-Type';
@@ -17,20 +18,17 @@ export class CatalogPricing {
   turnType :TurnType;
   loadingType:LoadingType;
   vehicleTray:VehicleTray;
-  paysSource:Pays;
-  villeSource: Ville;
-  paysDestination:Pays;
-  villeDestination: Ville;
+  trajet:Trajet;
 
-  purchaseAmountHt: number;
-  purchaseAmountTtc: number;
-  purchaseAmountTva: number;
+  purchaseAmountHt: number=0;
+  purchaseAmountTtc: number=0;
+  purchaseAmountTva: number=0;
   purchaseVat: Vat;
 
 
-  saleAmountHt: number;
-  saleAmountTtc: number;
-  saleAmountTva: number;
+  saleAmountHt: number=0;
+  saleAmountTtc: number=0;
+  saleAmountTva: number=0;
   saleVat: Vat;
 
 }

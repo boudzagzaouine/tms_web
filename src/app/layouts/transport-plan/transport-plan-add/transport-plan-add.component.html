@@ -282,7 +282,7 @@
                   <span [class]="'customer-badge status-margerService'"
                     >T.S
                     {{ transport?.margeService | number : "1.1-2" }} %
-                    <p-rating [ngModel]="(transport?.margeService)/20 |number :'1'" readonly="true" stars="5" [cancel]="false"></p-rating>
+                    <p-rating [ngModel]="(transport?.margeService)/20 " readonly="true" stars="5" [cancel]="false"></p-rating>
 
 </span>
 <!-- <span>             T.S     <span>
@@ -323,7 +323,7 @@
             <button
               type="text"
               style="width: 100%"
-              class="p-button-warning"
+              class="p-button-danger"
               pButton
               label="Rejeter"
               (click)="OnSelectedRefus(1)"

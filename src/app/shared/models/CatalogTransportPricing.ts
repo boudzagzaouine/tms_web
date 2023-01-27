@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { Pays } from './pays';
 import { LoadingType } from './loading-type';
 import { VehicleTray } from './vehicle-tray';
@@ -16,16 +17,13 @@ export class CatalogTransportPricing {
 
     transport:Transport ;
     turnType:TurnType;
-    paysSource:Pays;
-    villeSource:Ville ;
-    paysDestination:Pays;
-    villeDestination:Ville;
+   trajet:Trajet;
     vehicleCategory:VehicleCategory;
     vehicleTray:VehicleTray;
     loadingType:LoadingType;
-    purchaseAmountHt:number;
-    purchaseAmountTtc:number;
-    purchaseAmountTva:number;
+    purchaseAmountHt:number=0;
+    purchaseAmountTtc:number=0;
+    purchaseAmountTva:number=0;
     purchaseVat:Vat;
 
     marginRate:number=0;// local  variable

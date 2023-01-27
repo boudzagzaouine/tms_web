@@ -24,16 +24,8 @@
             </div>
 
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Adresse " | translate }} *</label>
-              <span *ngIf="
-                  (accountServiceForm.get('fAddress').touched &&
-                    accountServiceForm.get('fAddress').invalid) ||
-                  (isFormSubmitted &&
-                    accountServiceForm.get('fAddress').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
-              </span>
+              <label class="font-weight-bold">{{ "Adresse " | translate }} </label>
+          
               <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
               (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)" field="name">
             </p-autoComplete> -->

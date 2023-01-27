@@ -60,24 +60,15 @@
     </div>
     <div class="col-md-2">
       <label class="font-weight-bold">{{
-        "Ville Source" | translate
+        "Trajet" | translate
       }}</label
       ><br />
 
-      <p-autoComplete [(ngModel)]="villeSourceSearch" [suggestions]="villeSourceList"
-      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
+      <p-autoComplete [(ngModel)]="trajetSearch" [suggestions]="trajetList"
+      (completeMethod)="onTrajetSearch($event)" field="code"></p-autoComplete>
 
     </div>
-    <div class="col-md-2">
-      <label class="font-weight-bold">{{
-        "Ville Destination" | translate
-      }}</label
-      ><br />
 
-      <p-autoComplete [(ngModel)]="villeDestinationSearch" [suggestions]="villeSourceList"
-      (completeMethod)="onVilleSouceSearch($event)" field="code"></p-autoComplete>
-
-    </div>
 
 
   </div>

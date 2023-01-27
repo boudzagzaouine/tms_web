@@ -27,7 +27,7 @@ export class TransportAccountServiceEditComponent implements OnInit {
   @Input() selectedTransport: Transport = new Transport();
   @Input() selectTransportAccountService = new TransportAccountService();
   @Input() transportAccountServices: TransportAccountService[] = [];
-  @Output() acountServiceEdited = new EventEmitter<TransportAccountService>();
+  @Output() transportServiceEdited = new EventEmitter<TransportAccountService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
   transportAccountServiceForm: FormGroup;
@@ -82,30 +82,30 @@ export class TransportAccountServiceEditComponent implements OnInit {
         Validators.required
       ),
       fAddress: new FormControl(
-        this.selectTransportAccountService.address,
-        Validators.required
+        this.selectTransportAccountService.address
+
       ),
       fProduct: new FormControl(
         this.selectTransportAccountService.product,
         Validators.required
       ),
 
-      fSaleAmountHt: new FormControl(
-        this.selectTransportAccountService.saleAmountHt,
+      fPurchaseAmountHt: new FormControl(
+        this.selectTransportAccountService.purchaseAmountHt,
         Validators.required
       ),
-      fSaleAmountTtc: new FormControl(
-        this.selectTransportAccountService.saleAmountTtc,
+      fPurchaseAmountTtc: new FormControl(
+        this.selectTransportAccountService.purchaseAmountTtc,
         Validators.required
       ),
-      fSaleAmountTva: new FormControl(
-        this.selectTransportAccountService.saleAmountTva,
+      fPurchaseAmountTva: new FormControl(
+        this.selectTransportAccountService.purchaseAmountTva,
         Validators.required
       ),
-      fSaleVat: new FormControl(
+      fPurchaseVat: new FormControl(
         this.editMode != 1
-          ? this.selectTransportAccountService?.saleVat?.value
-          : this.selectTransportAccountService?.saleVat,
+          ? this.selectTransportAccountService?.purchaseVat?.value
+          : this.selectTransportAccountService?.purchaseVat,
 
         Validators.required
       ),
@@ -119,12 +119,12 @@ export class TransportAccountServiceEditComponent implements OnInit {
     this.spinner.show();
     console.log(this.selectTransportAccountService);
 
-    this.selectTransportAccountService.saleAmountHt =
-      this.transportAccountServiceForm.value["fSaleAmountHt"];
-    this.selectTransportAccountService.saleAmountTtc =
-      this.transportAccountServiceForm.value["fSaleAmountTtc"];
-    this.selectTransportAccountService.saleAmountTva =
-      this.transportAccountServiceForm.value["fSaleAmountTva"];
+    this.selectTransportAccountService.purchaseAmountHt =
+      this.transportAccountServiceForm.value["fPurchaseAmountHt"];
+    this.selectTransportAccountService.purchaseAmountTtc =
+      this.transportAccountServiceForm.value["fPurchaseAmountTtc"];
+    this.selectTransportAccountService.purchaseAmountTva =
+      this.transportAccountServiceForm.value["fPurchaseAmountTva"];
     if (
       this.selectedTransport.id != undefined ||
       this.selectedTransport.id != null
@@ -141,10 +141,18 @@ export class TransportAccountServiceEditComponent implements OnInit {
   }
 
   existService() {
+
+    let requete ;
+requete=    `transport.id:${this.selectedTransport.id},company.id:${this.companyId},product.id:${this.productId}`
+
+if(this.addressId!=null || this.addressId!=undefined){
+  requete+= `,address.id:${this.addressId}`
+}
+console.log(requete);
+
     this.transportAccountServiceService
       .sizeSearch(
-        `transport.id:${this.selectedTransport.id},company.id:${this.companyId},address.id:${this.addressId},product.id:${this.productId}`
-      )
+requete      )
       .subscribe(
         (data) => {
           console.log(data);
@@ -207,11 +215,11 @@ export class TransportAccountServiceEditComponent implements OnInit {
 
 
 
-  onSelectSaleVat(event) {
-    this.selectTransportAccountService.saleVat = this.vatList.filter(
+  onSelectPurchaseVat(event) {
+    this.selectTransportAccountService.purchaseVat = this.vatList.filter(
       (f) => f.value == event.value
     )[0];
-    this.onSalePriceChange(1);
+    this.onPurchasePriceChange(1);
   }
 
   onProductSearch(event: any) {
@@ -267,10 +275,10 @@ export class TransportAccountServiceEditComponent implements OnInit {
 
   }
 
-  onSalePriceChange(n: Number) {
-    let PriceHt = +this.transportAccountServiceForm.value["fSaleAmountHt"];
-    let PriceTTC = +this.transportAccountServiceForm.value["fSaleAmountTtc"];
-    let vat = this.transportAccountServiceForm.value["fSaleVat"];
+  onPurchasePriceChange(n: Number) {
+    let PriceHt = +this.transportAccountServiceForm.value["fPurchaseAmountHt"];
+    let PriceTTC = +this.transportAccountServiceForm.value["fPurchaseAmountTtc"];
+    let vat = this.transportAccountServiceForm.value["fPurchaseVat"];
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {
@@ -287,28 +295,28 @@ export class TransportAccountServiceEditComponent implements OnInit {
       const amountTva = (PriceHt / 100) * vat;
       const priceTTC = PriceHt + amountTva;
       this.transportAccountServiceForm.patchValue({
-        fSaleAmountTtc: priceTTC.toFixed(2),
-        fSaleAmountTva: amountTva.toFixed(2),
+        fPurchaseAmountTtc: priceTTC.toFixed(2),
+        fPurchaseAmountTva: amountTva.toFixed(2),
       });
     }
     if (n === 2) {
       PriceHt = PriceTTC / (1 + vat / 100);
       const amountTva = (PriceHt / 100) * vat;
       this.transportAccountServiceForm.patchValue({
-        fSaleAmountHt: PriceHt.toFixed(2),
-        fSaleAmountTva: amountTva.toFixed(2),
+        fPurchaseAmountHt: PriceHt.toFixed(2),
+        fPurchaseAmountTva: amountTva.toFixed(2),
       });
     }
   }
 
   onLineEdited(transportAccountServiceEdited: TransportAccountService) {
-    const acountService = this.transportAccountServices.find(
+    const transportService = this.transportAccountServices.find(
       (f) =>
         f.product.id == transportAccountServiceEdited.product.id
 
     );
-    if (acountService == null) {
-      this.acountServiceEdited.emit(this.selectTransportAccountService);
+    if (transportService == null) {
+      this.transportServiceEdited.emit(this.selectTransportAccountService);
       this.displayDialog = false;
     } else {
       if (this.editMode == 1) {

@@ -93,14 +93,14 @@ export class TransportAccountServiceComponent implements OnInit {
       },
 
 
-      { field: "saleAmountHt", header: "Prix HT ", type: "number" },
+      { field: "purchaseAmountHt", header: "Prix HT ", type: "number" },
       {
-        field: "saleVat",
+        field: "purchaseVat",
         child: "value",
         header: "TVA",
         type: "object",
       },
-      { field: "saleAmountTtc", header: "Prix TTC", type: "number" },
+      { field: "purchaseAmountTtc", header: "Prix TTC", type: "number" },
     ];
     if (
       this.selectedTransport.id != null ||

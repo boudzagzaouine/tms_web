@@ -25,8 +25,8 @@
             </div>
 
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Adresse " | translate }} *</label>
-              <span *ngIf="
+              <label class="font-weight-bold">{{ "Adresse " | translate }} </label>
+              <!-- <span *ngIf="
                   (transportAccountServiceForm.get('fAddress').touched &&
                     transportAccountServiceForm.get('fAddress').invalid) ||
                   (isFormSubmitted &&
@@ -34,7 +34,7 @@
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
-              </span>
+              </span> -->
               <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
               (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)" field="name">
             </p-autoComplete> -->
@@ -80,18 +80,18 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
         <span *ngIf="
-            (transportAccountServiceForm.get('fSaleAmountHt').touched &&
-              transportAccountServiceForm.get('fSaleAmountHt').invalid) ||
+            (transportAccountServiceForm.get('fPurchaseAmountHt').touched &&
+              transportAccountServiceForm.get('fPurchaseAmountHt').invalid) ||
             (isFormSubmitted &&
-              transportAccountServiceForm.get('fSaleAmountHt').invalid)
+              transportAccountServiceForm.get('fPurchaseAmountHt').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
         <br />
 
 
-          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(1)"  [minFractionDigits]="2"
-          formControlName="fSaleAmountHt"
+          <p-inputNumber inputId="locale-user" (keyup)="onPurchasePriceChange(1)"  [minFractionDigits]="2"
+          formControlName="fPurchaseAmountHt"
         >
          </p-inputNumber>
 
@@ -100,10 +100,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
         <span *ngIf="
-            (transportAccountServiceForm.get('fSaleVat').touched &&
-              transportAccountServiceForm.get('fSaleVat').invalid) ||
+            (transportAccountServiceForm.get('fPurchaseVat').touched &&
+              transportAccountServiceForm.get('fPurchaseVat').invalid) ||
             (isFormSubmitted &&
-              transportAccountServiceForm.get('fSaleVat').invalid)
+              transportAccountServiceForm.get('fPurchaseVat').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
@@ -114,18 +114,18 @@
            optionLabel="value"
            [appendTo]="'body'"
           [showClear]="true"
-           (onChange)="onSelectSaleVat($event)"
-            formControlName="fSaleVat"></p-dropdown>
+           (onChange)="onSelectPurchaseVat($event)"
+            formControlName="fPurchaseVat"></p-dropdown>
 
       </div>
 
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
         <span *ngIf="
-            (transportAccountServiceForm.get('fSaleAmountTtc').touched &&
-              transportAccountServiceForm.get('fSaleAmountTtc').invalid) ||
+            (transportAccountServiceForm.get('fPurchaseAmountTtc').touched &&
+              transportAccountServiceForm.get('fPurchaseAmountTtc').invalid) ||
             (isFormSubmitted &&
-              transportAccountServiceForm.get('fSaleAmountTtc').invalid)
+              transportAccountServiceForm.get('fPurchaseAmountTtc').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
 
@@ -134,9 +134,9 @@
 
 
 
-          <p-inputNumber inputId="locale-user" (keyup)="onSalePriceChange(2)"
+          <p-inputNumber inputId="locale-user" (keyup)="onPurchasePriceChange(2)"
           [minFractionDigits]="2"
-          formControlName="fSaleAmountTtc"
+          formControlName="fPurchaseAmountTtc"
         >
          </p-inputNumber>
 
@@ -145,10 +145,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
         <span *ngIf="
-            (transportAccountServiceForm.get('fSaleAmountTva').touched &&
-              transportAccountServiceForm.get('fSaleAmountTva').invalid) ||
+            (transportAccountServiceForm.get('fPurchaseAmountTva').touched &&
+              transportAccountServiceForm.get('fPurchaseAmountTva').invalid) ||
             (isFormSubmitted &&
-              transportAccountServiceForm.get('fSaleAmountTva').invalid)
+              transportAccountServiceForm.get('fPurchaseAmountTva').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
 
@@ -156,7 +156,7 @@
         <br />
 
           <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-          formControlName="fSaleAmountTva"
+          formControlName="fPurchaseAmountTva"
         >
          </p-inputNumber>
 

@@ -1,3 +1,4 @@
+import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserComponent } from './user/user.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
@@ -184,6 +185,8 @@ import { AddressDeliveryEditComponent } from './delivery-address/address-deliver
 import {CardModule} from 'primeng/card';
 import { TransportAccountServiceComponent } from './transport/transport-edit/transport-account-service/transport-account-service.component';
 import {PasswordModule} from 'primeng/password';
+import {OrderListModule} from 'primeng/orderlist';
+import {TreeModule} from 'primeng/tree';
 
 
 
@@ -333,7 +336,9 @@ HabilitationEditComponent,
 GroupComponent,
 GroupEditComponent,
 UserComponent,
-UserEditComponent
+UserEditComponent,
+GroupHabilitationComponent,
+
 
 
 
@@ -380,6 +385,8 @@ UserEditComponent
     FileUploadModule,
     CardModule,
     PasswordModule,
+    OrderListModule,
+    TreeModule,
   ],
   exports :[
     ContactEditComponent,

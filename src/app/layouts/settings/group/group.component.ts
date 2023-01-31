@@ -28,7 +28,7 @@ export class GroupComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des Groups';
+  titleList = 'Liste du Groupes';
   userGroupExportList: Array<UserGroup> = [];
   subscriptions= new Subscription();
 

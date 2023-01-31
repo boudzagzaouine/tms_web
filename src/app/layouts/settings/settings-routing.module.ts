@@ -1,3 +1,5 @@
+import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
+import { GroupHabilitation } from './../../shared/models/group-habilitation';
 import { UserComponent } from './user/user.component';
 import { GroupComponent } from './group/group.component';
 import { HabilitationComponent } from './Habilitation/Habilitation.component';
@@ -153,7 +155,8 @@ const routes: Routes = [
       { path: 'trajet', component: TrajetComponent},
       { path: 'habilitation', component: HabilitationComponent},
       { path: 'group', component: GroupComponent},
-      { path: 'user', component: UserComponent}
+      { path: 'user', component: UserComponent},
+      { path: 'group-habilitation', component: GroupHabilitationComponent}
 
 
     ]

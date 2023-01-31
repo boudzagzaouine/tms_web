@@ -3,5 +3,6 @@ export class Habilitation {
     code: string;
     description: string;
     habilitation: Habilitation ;
+    habilitations: Habilitation[] ;
     active:Boolean=true;
 }

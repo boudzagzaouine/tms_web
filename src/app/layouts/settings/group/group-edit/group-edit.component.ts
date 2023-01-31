@@ -22,7 +22,7 @@ export class GroupEditComponent implements OnInit {
   userGroupForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Group';
+  title = 'Modifier Groupe';
   subscriptions= new Subscription();
   parentList :UserGroup[]=[];
   constructor(private userGroupService: UserGroupService,
@@ -37,7 +37,7 @@ export class GroupEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedUserGroup = new UserGroup();
-      this.title = 'Ajouter Group';
+      this.title = 'Ajouter Groupe';
     }
 
     this.displayDialog = true;

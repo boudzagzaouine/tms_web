@@ -22,7 +22,7 @@
               </span>
 
 
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fTrajet" [suggestions]="trajetList"
+              <p-autoComplete  formControlName="fTrajet" [suggestions]="trajetList"
                 (onSelect)="onSelectTrajet($event)" (completeMethod)="onTrajetSearch($event)" field="code">
               </p-autoComplete>
 

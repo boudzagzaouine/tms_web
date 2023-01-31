@@ -1,3 +1,4 @@
+import { UserGroupService } from './../../../../shared/services/api/user-group.service';
 import { UserGroup } from './../../../../shared/models/user-group';
 import { MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from './../../../../shared/models/user';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-user-edit',
@@ -26,7 +28,10 @@ export class UserEditComponent implements OnInit {
   title = 'Modifier Utilisateur';
   subscriptions= new Subscription();
   groupList :UserGroup[]=[];
+  password : string;
+  passwordConfirm:string ;
   constructor(private userService: UserService,
+                   private userGroupService :UserGroupService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -39,6 +44,13 @@ export class UserEditComponent implements OnInit {
     if (this.editMode === 1) {
       this.selectedUser = new User();
       this.title = 'Ajouter Utilisateur';
+
+      this.userService.generateCode().subscribe(
+        data=> {
+          this.selectedUser.code=data;
+          this.initForm();
+        }
+      );
     }
 
     this.displayDialog = true;
@@ -47,11 +59,11 @@ export class UserEditComponent implements OnInit {
 
   initForm() {
     this.userForm = new FormGroup({
-      'code': new FormControl(this.selectedUser.code, Validators.required),
+       'code': new FormControl(this.selectedUser.code, Validators.required),
       'password': new FormControl(this.selectedUser.password, Validators.required),
       'group': new FormControl(this.selectedUser.userGroup),
       'name': new FormControl(this.selectedUser.name, Validators.required),
-      'surName': new FormControl(this.selectedUser.surName, Validators.required),
+      'surName': new FormControl(this.selectedUser.surname, Validators.required),
       'email': new FormControl(this.selectedUser.email, Validators.required),
       'tele': new FormControl(this.selectedUser.tel),
 
@@ -65,8 +77,17 @@ export class UserEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.userForm.invalid) { return; }
     this.spinner.show();
-    this.selectedUser.code = this.userForm.value['code'];
-//  this.selectedUser.owner=this.authentificationService.getDefaultOwner();
+    this.selectedUser.name = this.userForm.value['name'];
+    this.selectedUser.surname = this.userForm.value['surName'];
+    this.selectedUser.tel = this.userForm.value['tele'];
+    this.selectedUser.email = this.userForm.value['email'];
+    if(this.editMode === 1){
+    this.selectedUser.password = this.userForm.value['password'];
+    this.selectedUser.password=Md5.hashStr(this.selectedUser.password).toString();
+    }
+    this.selectedUser.active = true;
+
+  this.selectedUser.owner=this.authentificationService.getDefaultOwner();
  console.log("owner");
 
 //  console.log(this.selectedUser.owner);
@@ -93,7 +114,7 @@ export class UserEditComponent implements OnInit {
   }
 
   onGroupSearch(event: any) {
-    this.userService
+    this.userGroupService
       .find('code~' + event.query)
       .subscribe(data => (this.groupList = data));
   }

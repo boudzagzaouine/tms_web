@@ -48,7 +48,7 @@ height: 100vh; padding-bottom: 10%;">
           </li> -->
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/group" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Group' | translate}}</a>
+              {{'Groupe' | translate}}</a>
           </li>
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/habilitation" class="m-a"><i class="fa fa-circle-o"></i>
@@ -58,6 +58,11 @@ height: 100vh; padding-bottom: 10%;">
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/user" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Utilisateur' | translate}}</a>
+          </li>
+
+          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+            <a routerLink="/core/settings/group-habilitation" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Roles et Habilitation' | translate}}</a>
           </li>
           <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>

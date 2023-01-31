@@ -24,7 +24,7 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
             </span>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="code"
+            <input type="text" [attr.disabled]="true" class="form-control" pInputText formControlName="code"
             (keydown.space)="$event.preventDefault()"
            />
           </div>
@@ -88,7 +88,7 @@ showEffect="fade"
             </span>
             <!-- <p-password type="password" formControlName="password" [toggleMask] ="true" ></p-password> -->
 
-            <input type="password" formControlName="password"  [tog] pPassword />
+            <input type="password" formControlName="password"   pPassword />
 
           </div>
           <div class="form-group col-sm-6"></div>

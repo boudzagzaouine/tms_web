@@ -1,0 +1,12 @@
+:host ::ng-deep .p-orderlist-controls{
+  visibility: hidden;
+  }
+
+  // :host ::ng-deep  .p-orderlist-header{
+  //   visibility: hidden;
+  //   }
+
+    :host ::ng-deep  .p-panel.p-component{
+      min-height: 500px;
+      }
+

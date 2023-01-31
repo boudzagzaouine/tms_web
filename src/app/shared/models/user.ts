@@ -8,13 +8,13 @@ export class User {
     code: string;
     password: string;
     name: string;
-    surName: string;
+    surname: string;
     dateOfBirth: Date;
     tel: string;
     passportNumber: string;
     comment: string;
     email: string;
-    isActive: boolean;
+    active: boolean;
     isResponsible: boolean;
     owner: Owner;
     type: number;

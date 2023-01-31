@@ -1,3 +1,4 @@
+import { GroupHabilitationService } from './services/api/group-habilitation.service';
 import { UserGroupService } from './services/api/user-group.service';
 import { HabilitationService } from './services/api/habilitation.service';
 import { TrajetService } from './services/api/trajet.service';
@@ -357,7 +358,8 @@ export class SharedModule {
         TransportPlanServiceCatalogService,
         TrajetService,
         HabilitationService,
-        UserGroupService
+        UserGroupService,
+        GroupHabilitationService
       ],
 
     };

@@ -19,9 +19,8 @@ export class UserComponent implements OnInit {
   size = 5;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: string;
-  descriptionSearch = '';
-  codeList: Array<User> = [];
+  nameSearch: string;
+  nameList: Array<User> = [];
   cols: any[];
   userList: Array<User> = [];
   selectedUsers: Array<User> = [];
@@ -123,25 +122,22 @@ export class UserComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.nameSearch != null && this.nameSearch !== '') {
+      buffer.append(`name~${this.nameSearch}`);
     }
-    if (this.descriptionSearch != null && this.descriptionSearch !== '') {
-      buffer.append(`description~${this.descriptionSearch}`);
-    }
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
 
   }
-  onCodeSearch(event: any) {
-    this.subscriptions.add(this.userService.find('code~' + event.query).subscribe(
-      data => this.codeList = data.map(f => f.code)
+  onNameSearch(event: any) {
+    this.subscriptions.add(this.userService.find('name~' + event.query).subscribe(
+      data => this.nameList = data.map(f => f.name)
     ));
   }
   reset() {
-    this.codeSearch = null;
-    this.descriptionSearch = null;
+    this.nameSearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

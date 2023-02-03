@@ -72,7 +72,19 @@
 
 </p-panel>
 
+<div>
+  <div class="row  mt-1 ">
+    <div class="col-md-12">
+  <button
 
+  type="button"
+  pButton
+   (click)="downloadAsPDF()"
+  class="p-button-warning m-1 " style="width:100%"
+  label="{{'Générer Bon' | translate }}"
+></button>
+</div></div>
+</div>
 
 
 <app-data-table
@@ -98,3 +110,12 @@
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
 </p-confirmDialog>
+
+
+<div id="pdfTable" #pdfTable
+>
+   <app-invoice-transport-plan
+
+   >
+ </app-invoice-transport-plan>
+</div>

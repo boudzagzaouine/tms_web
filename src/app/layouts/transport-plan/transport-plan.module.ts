@@ -1,3 +1,6 @@
+import { InvoiceTransportPlanComponent } from './invoice-transport-plan/invoice-transport-plan.component';
+import { InvoicePlanTransportComponent } from './../invoice-plan-transport/invoice-plan-transport.component';
+import { NgxPrintModule } from 'ngx-print';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TransportPlanRejeterComponent } from './transport-plan-rejeter/transport-plan-rejeter.component';
 import { TransportPlanRefusComponent } from './transport-plan-refus/transport-plan-refus.component';
@@ -87,9 +90,10 @@ import {RatingModule} from 'primeng/rating';
      CheckboxModule,
      DataViewModule,
      SplitButtonModule,
-     RatingModule
+     RatingModule,
+     NgxPrintModule,
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent]
 })
 export class TransportPlanModule { }

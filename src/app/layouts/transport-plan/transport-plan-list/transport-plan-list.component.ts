@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { TurnStatus } from './../../../shared/models/turn-status';
@@ -14,16 +15,23 @@ import { TransportPlanService } from './../../../shared/services/api/transport-p
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { TransportPlan } from './../../../shared/models/transport-plan';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
-
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
+import {jsPDF} from 'jspdf';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+const htmlToPdfmake = require("html-to-pdfmake");
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-transport-plan-list',
   templateUrl: './transport-plan-list.component.html',
   styleUrls: ['./transport-plan-list.component.scss']
 })
 export class TransportPlanListComponent implements OnInit {
-
+  @ViewChild('pdfTable') pdfTable: ElementRef;
   page = 0;
   size = 10;
   collectionSize: number;
@@ -50,7 +58,7 @@ export class TransportPlanListComponent implements OnInit {
   items: MenuItem[];
 
   home: MenuItem;
-
+  fileUrl;
 
    dateLivraisonSearch: Date;
    dateDelivery: Date;
@@ -63,7 +71,7 @@ export class TransportPlanListComponent implements OnInit {
     private transportService:TransportServcie,
     private companyService:CompanyService,
     private turnStatusService: TurnStatusService,
-
+    private sanitizer: DomSanitizer,
     private router: Router) { }
 
   ngOnInit() {
@@ -209,6 +217,76 @@ this.vehicleCategoryService.findAll().subscribe(
       this.showDialog = true;
       this.router.navigate(['/core/transport-plan/edit/', this.selectedTransportPlans[0].id]);
     }
+
+  }
+
+  public downloadAsPDF() {
+    console.log("ooo");
+
+    var data = document.getElementById('pdfTable');
+    html2canvas(data).then((canvas) => {
+      // Few necessary setting options
+      var imgWidth = 200;
+      //var pageHeight = 1000;
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+      //var heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/jpeg');
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+      var position = 10;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('aplllication.pdf'); // Generated PDF
+
+    });
+
+
+
+
+
+
+  //   const htmlToPrint =
+  //   '' +
+  //   '<style type="text/css">' +
+  //   '.pageFooter {' +
+  //   '    display: table-footer-group;' +
+  //   '    counter-increment: page;' +
+  //   '}' +
+  //   '.pageFooter:after {' +
+  //   '   content: "Page " counter(page)' +
+  //   '}' +
+  //   '</style>';
+  // var printContents = document.getElementById('pdfTable').innerHTML;
+  // var popupWin = window.open(
+  //   'Angular Large Table to pdf',
+  //   '_blank',
+  //   'width=768,height=auto'
+  // );
+
+  // popupWin.document.write(
+  //   '<html><head>' +
+  //     '<link rel="stylesheet" href="' +
+  //     'https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"/>' +
+  //     '<style type="text/css">' +
+  //     '.thClass{'+
+  //       'background: rgb(31, 96, 160);'+
+  //       'color: white;'+
+  //       'text-align: center;'+
+  //      ' border-right: 4px white solid;'+
+
+  //     '}'+
+  //     '.pageFooter {' +
+  //     '    display: table-footer-group;' +
+  //     '    counter-increment: page;' +
+  //     '}' +
+  //     '.pageFooter:after {' +
+  //     '   content: "Page " counter(page)' +
+  //     '}' +
+  //     '</style>' +
+  //     '</head><body onload="window.print();window.close()">' +
+  //     printContents +
+  //     '</body></html>'
+  // );
+  // popupWin.document.close();
 
   }
 

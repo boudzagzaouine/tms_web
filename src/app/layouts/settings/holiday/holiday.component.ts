@@ -41,7 +41,6 @@ export class HolidayComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private messageService: MessageService,
-
     private confirmationService: ConfirmationService
   ) {}
 

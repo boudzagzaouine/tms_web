@@ -72,7 +72,7 @@
 
 </p-panel>
 
-<div>
+<!-- <div>
   <div class="row  mt-1 ">
     <div class="col-md-12">
   <button
@@ -84,7 +84,7 @@
   label="{{'Générer Bon' | translate }}"
 ></button>
 </div></div>
-</div>
+</div> -->
 
 
 <app-data-table
@@ -99,8 +99,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [permissionDelete]="['RECEPTION_DELETE']"
-  [permissionEdit]="['RECEPTION_EDIT']"
+  [permissionDelete]="['TRANSPORT_PLAN_DELETE']"
+  [permissionEdit]="['TRANSPORT_PLAN_EDIT']"
+  [permissionCreate]="['TRANSPORT_PLAN_CREATE']"
 
 
 ></app-data-table>
@@ -112,10 +113,10 @@
 </p-confirmDialog>
 
 
-<div id="pdfTable" #pdfTable
+<!-- <div id="pdfTable" #pdfTable
 >
    <app-invoice-transport-plan
 
    >
  </app-invoice-transport-plan>
-</div>
+</div> -->

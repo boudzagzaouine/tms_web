@@ -55,32 +55,9 @@ export class ProductServiceComponent implements OnInit {
 
       { field: 'desc', header: 'Description', type: 'string' },
 
-      {
-        field: 'serviceType',
-        child: 'code',
-        header: 'Type',
-        type: 'object'
-      },
 
 
-      {
-        field: 'vat',
-        child: 'value',
-        header: 'TVA',
-        type: 'object'
-      },
 
-      {
-        field: 'purshasePriceUB',
-        header: 'Prix d achat HT',
-        type: 'number'
-      },
-
-      {
-        field: 'purshasePriceTTCUB',
-        header: 'Prix d achat TTC',
-        type: 'number'
-      },
 
 
     ];
@@ -177,9 +154,7 @@ export class ProductServiceComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch.code !== '') {
       buffer.append(`code~${this.codeSearch.code}`);
     }
-    if (this.ServiceTypeSearch != null && this.ServiceTypeSearch.code !== '') {
-      buffer.append(`serviceType.code~${this.ServiceTypeSearch.code}`);
-    }
+ 
 
     this.page = 0;
     this.searchQuery = buffer.getValue();

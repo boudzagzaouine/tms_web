@@ -123,9 +123,8 @@ export class TransportCatalogPricingEditComponent implements OnInit {
         Validators.required
       ),
       fPurchaseVat: new FormControl(
-        this.editMode != 1
-          ? this.selectCatalogTransportPricing?.purchaseVat?.value
-          : this.selectCatalogTransportPricing?.purchaseVat,
+
+          this.selectCatalogTransportPricing?.purchaseVat,
 
         Validators.required
       ),
@@ -289,7 +288,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.catalogTransportPricingForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.catalogTransportPricingForm.value["fPurchaseAmountTtc"];
-    let vat = this.catalogTransportPricingForm.value["fPurchaseVat"];
+    let vat = this.catalogTransportPricingForm.value["fPurchaseVat"].value;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

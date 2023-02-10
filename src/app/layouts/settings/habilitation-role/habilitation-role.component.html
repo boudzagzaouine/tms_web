@@ -38,17 +38,17 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
   [viewBtnVisible]="'false'"
-  [permissionCreate]="['BADGE_TYPE_CREATE']"
-  [permissionDelete]="['BADGE_TYPE_DELETE']"
-  [permissionEdit]="['BADGE_TYPE_EDIT']"
+  [permissionCreate]="['HABILITATION_CREATE']"
+  [permissionDelete]="['HABILITATION_DELETE']"
+  [permissionEdit]="['HABILITATION_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">
-  <app-habilitation-edit
+  <app-habilitation-role-edit
     [editMode]="editMode"
     [selectedHabilitation]="selectedHabilitations[0]"
     (showDialog)="onShowDialog($event)"
-  ></app-habilitation-edit>
+  ></app-habilitation-role-edit>
 </div>
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 <ngx-spinner

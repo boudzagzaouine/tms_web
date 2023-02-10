@@ -11,8 +11,10 @@
         (click)="onEdit(1)"
         ></p-button> -->
 
+
+        <!-- [hidden]="addBtnVisible" -->
              <button
-            [hidden]="addBtnVisible"
+
               type="button"
               class="btn btn-sm btn-primary mx-1"
               (click)="onEdit(1)"   >
@@ -26,9 +28,9 @@
               [hidden]="updateBtnVisible"
               (click)="onEdit(2)"
               [disabled]="updateBtnDisable == false"></p-button> -->
-
+              <!-- [hidden]="updateBtnVisible" -->
              <button
-             [hidden]="updateBtnVisible"
+
              type="button"
               class="btn btn-sm btn-success mx-1"
               (click)="onEdit(2)"
@@ -46,8 +48,9 @@
               (click)="onEdit(1)"
               ></p-button> -->
 
+              <!-- [hidden]="deleteBtnVisible" -->
              <button
-            [hidden]="deleteBtnVisible"
+
               type="button"
               class="btn btn-sm btn-danger mx-1"
               (click)="onEdit(3)"
@@ -64,7 +67,7 @@
               {{ "Générer Facture" | translate }}
             </button>
 
-         
+
 
         </span>
         </div>

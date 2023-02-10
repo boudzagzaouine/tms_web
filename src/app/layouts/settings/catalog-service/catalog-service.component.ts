@@ -107,8 +107,8 @@ export class CatalogServiceComponent implements OnInit {
       );
   }
   loadDataLazy(event) {
-    this.page = event.first / this.size;
-    this.loadData();
+    this.size = event.rows;
+    this.page = event.first / this.size;    this.loadData();
   }
   onExportExcel(event) {
     this.catalogServiceService.find(this.searchQuery).subscribe(

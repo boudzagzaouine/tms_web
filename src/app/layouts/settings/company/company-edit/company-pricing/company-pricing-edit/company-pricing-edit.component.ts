@@ -126,9 +126,8 @@ export class CompanyPricingEditComponent implements OnInit {
         Validators.required
       ),
       fSaleVat: new FormControl(
-        this.editMode != 1
-          ? this.selectAccountPricing?.saleVat?.value
-          : this.selectAccountPricing?.saleVat,
+
+           this.selectAccountPricing?.saleVat,
 
         Validators.required
       ),
@@ -292,9 +291,10 @@ export class CompanyPricingEditComponent implements OnInit {
   onSalePriceChange(n: Number) {
     let PriceHt = +this.accountPricingForm.value["fSaleAmountHt"];
     let PriceTTC = +this.accountPricingForm.value["fSaleAmountTtc"];
-    let vat = this.accountPricingForm.value["fSaleVat"];
+    let vat = this.accountPricingForm.value["fSaleVat"].value;
+    console.log(PriceHt);
     console.log(vat);
-
+    console.log(PriceTTC);
     if (PriceHt === undefined || PriceHt == null) {
       PriceHt = 0;
     }
@@ -308,6 +308,8 @@ export class CompanyPricingEditComponent implements OnInit {
     if (n === 1) {
       const amountTva = (PriceHt / 100) * vat;
       const priceTTC = PriceHt + amountTva;
+      console.log(priceTTC);
+
       this.accountPricingForm.patchValue({
         fSaleAmountTtc: priceTTC.toFixed(2),
         fSaleAmountTva: amountTva.toFixed(2),

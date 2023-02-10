@@ -1,20 +1,18 @@
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { EmsBuffer } from '../../../shared/utils/ems-buffer';
 import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { HabilitationService } from './../../../shared/services/api/habilitation.service';
+import { GlobalService } from '../../../shared/services/api/global.service';
+import { HabilitationService } from '../../../shared/services/api/habilitation.service';
 import { Subscription } from 'rxjs';
-import { Habilitation } from './../../../shared/models/habilitation';
+import { Habilitation } from '../../../shared/models/habilitation';
 import { Component, OnInit } from '@angular/core';
-
 @Component({
-  selector: 'app-habilitation',
-  templateUrl: './habilitation.component.html',
-  styleUrls: ['./habilitation.component.scss']
+  selector: 'app-habilitation-role',
+  templateUrl: './habilitation-role.component.html',
+  styleUrls: ['./habilitation-role.component.scss']
 })
-export class HabilitationComponent implements OnInit {
-
+export class HabilitationRoleComponent implements OnInit {
   page = 0;
   size = 5;
   collectionSize: number;

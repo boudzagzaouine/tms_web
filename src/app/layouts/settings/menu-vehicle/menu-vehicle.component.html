@@ -5,7 +5,7 @@
          <app-vehicle-categorie></app-vehicle-categorie>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['CONSUMPTION_TYPE_VIEW']" header="{{ 'Type de contrat' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel *hasPermission="['CONTRACT_TYPE_VIEW']" header="{{ 'Type de contrat' | translate }}" headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
         <app-contract-type></app-contract-type>
       </ng-template>

@@ -46,25 +46,25 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/menu-mail" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Configuration Mail ' | translate}}</a>
           </li> -->
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+          <li *hasPermission="['USER_GROUP_VIEW']">
             <a routerLink="/core/settings/group" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Groupe' | translate}}</a>
           </li>
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
-            <a routerLink="/core/settings/habilitation" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Habilitation' | translate}}</a>
+          <li *hasPermission="['HABILITATION_VIEW']">
+            <a routerLink="/core/settings/habili-tations" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Habilitations' | translate}}</a>
           </li>
 
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+          <li *hasPermission="['USER_VIEW']">
             <a routerLink="/core/settings/user" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Utilisateur' | translate}}</a>
           </li>
 
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+          <li >
             <a routerLink="/core/settings/group-habilitation" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Roles et Habilitation' | translate}}</a>
           </li>
-          <li *hasPermission="['INSURANCETERM_VIEW','INSURANCETYPE_VIEW']">
+          <li *hasPermission="['INSURANCE_TYPE_VIEW','INSURANCE_TERM_VIEW','CLAIM_TYPE_VIEW','DOCUMENT_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-insurance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Assurance' | translate}}</a>
           </li>
@@ -74,7 +74,7 @@ height: 100vh; padding-bottom: 10%;">
               {{'Agent ' | translate}}</a>
           </li> -->
 
-          <li *hasPermission="['AGENT_VIEW','AGENT_VIEW','AGENT_VIEW']">
+          <li *hasPermission="['PUBLIC_HOLIDAY_VIEW']">
             <a routerLink="/core/settings/holiday" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Jour Fériés ' | translate}}</a>
           </li>
@@ -86,37 +86,37 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/menu-maintenance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Maintenance ' | translate}}</a>
           </li> -->
-          <li *hasPermission="['BADGE_TYPE_VIEW','COMMISSION_TYPE_VIEW']">
+          <li *hasPermission="['BADGE_TYPE_VIEW','COMMISSION_TYPE_VIEW','SUBSCRIPTION_CARD_VIEW','SUBSCRIPTION_CARD_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-driver" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Chauffeur ' | translate}}</a>
           </li>
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['ROUTE_PRICING_VIEW']">
             <a routerLink="/core/settings/catalog-pricing" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Tarification ' | translate}}</a>
           </li>
 
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['ROUTE_VIEW']">
             <a routerLink="/core/settings/trajet" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Trajet ' | translate}}</a>
           </li>
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['SERVICE_VIEW','SERVICE_PRICING_VIEW']">
             <a routerLink="/core/settings/menu-service" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Service ' | translate}}</a>
           </li>
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['ACTIVITY_AREA_VIEW']">
             <a routerLink="/core/settings/activity-area" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Secteur d'activité" | translate}}</a>
           </li>
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['REFUSAL_REASON_VIEW','REJECTION_REASON_VIEW']">
             <a routerLink="/core/settings/menu-motif" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Motif" | translate}}</a>
           </li>
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li *hasPermission="['CITY_VIEW','ADDRESS_VIEW']">
             <a routerLink="/core/settings/menu-address" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Adresse" | translate}}</a>
           </li>
@@ -153,7 +153,7 @@ height: 100vh; padding-bottom: 10%;">
       </li> -->
 
 
-      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
+      <li *hasPermission="['ACCOUNT_CREATE','COMPANY_VIEW']">
         <a class="text-white" routerLink="/core/settings/account"><i class="sidebar-item-icon fa " >
             <img src="./assets/img/Menu/account.png" width="25px" height="25px">
           </i>
@@ -162,13 +162,28 @@ height: 100vh; padding-bottom: 10%;">
 
       </li>
 
-      <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
-        <a class="text-white" routerLink="/core/settings/transport"><i class="sidebar-item-icon fa " >
+
+      <li *hasPermission="['TRANSPORT_CREATE','TRANSPORT_REFUSAL_VIEW','TRANSPORT_REJECTION_VIEW']">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
           </i>
+          <span class="nav-label">{{'Transport' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
 
-          <span class="nav-label">{{'Transporteur' | translate}}</span></a>
+          <li *hasPermission="['TRANSPORT_VIEW']">
+            <a routerLink="/core/settings/transport" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Lister' | translate}}</a>
+          </li>
 
+          <li *hasPermission="['TRANSPORT_REFUSAL_VIEW']">
+            <a routerLink="/core/transport-plan/refus" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Refus' | translate}}</a>
+          </li>
+          <li *hasPermission="['TRANSPORT_REJECTION_VIEW']">
+            <a routerLink="/core/transport-plan/reject" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Rejets' | translate}}</a>
+          </li>
+        </ul>
       </li>
 
 
@@ -186,7 +201,7 @@ height: 100vh; padding-bottom: 10%;">
 
       <!-- *ngxPermissionsOnly="['VEHICLE_CREATE']" -->
 
-        <li *hasPermission="['VEHICLE_CREATE','VEHICLE_VIEW']">
+        <li *hasPermission="['VEHICLE_VIEW','VEHICLE_CREATE']">
 
 
           <a  class="text-white"><i class="sidebar-item-icon fa " >
@@ -207,7 +222,7 @@ height: 100vh; padding-bottom: 10%;">
         </li>
 
 
-        <li *hasPermission="['VEHICLE_CREATE','VEHICLE_VIEW']">
+        <li *hasPermission="['PATRIMONY_AVAILABILITY_VIEW']">
 
 
           <a  class="text-white"><i class="sidebar-item-icon fa " >
@@ -216,7 +231,7 @@ height: 100vh; padding-bottom: 10%;">
             <span class="nav-label">{{'Disponibilité Patrimoine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
           <ul class="nav-2-level collapse" >
 
-            <li *hasPermission="['VEHICLE_VIEW']">
+            <li *hasPermission="['PATRIMONY_AVAILABILITY_VIEW']">
               <a routerLink="/core/vehicle-availablity/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                   height="15px"> {{'Lister' | translate}}</a>
             </li>
@@ -247,7 +262,7 @@ height: 100vh; padding-bottom: 10%;">
       </li> -->
 
 
-      <li *hasPermission="['DRIVER_CREATE','DRIVER_VIEW']">
+      <li *hasPermission="['DRIVER_VIEW','DRIVER_CREATE']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/Chauffeur.png" width="25px" height="25px">
           </i>
@@ -369,7 +384,7 @@ height: 100vh; padding-bottom: 10%;">
         </ul>
       </li>
 
-      <li *hasPermission="['INSURANCE_VIEW']">
+      <li *hasPermission="['CLAIMS_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/sinistre1.png" width="25px" height="25px">
           </i>
@@ -454,17 +469,17 @@ height: 100vh; padding-bottom: 10%;">
 
 
 
-      <li >
+      <li *hasPermission="['TRANSPORT_ORDER_VIEW','TRANSPORT_ORDER_CREATE']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Ordre Transport' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
-          <li >
+          <li *hasPermission="['TRANSPORT_ORDER_CREATE']">
             <a routerLink="/core/order-transport/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
                 height="15px"> {{'Inserer' | translate}} </a>
           </li>
-          <li >
+          <li *hasPermission="['TRANSPORT_ORDER_VIEW']">
             <a routerLink="/core/order-transport/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Lister' | translate}}</a>
           </li>
@@ -472,30 +487,30 @@ height: 100vh; padding-bottom: 10%;">
       </li>
 
 
-      <li >
+      <li *hasPermission="['TRANSPORT_PLAN_VIEW','TRANSPORT_PLAN_CREATE']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Plan Transport' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
         <ul class="nav-2-level collapse">
-          <li >
+          <li *hasPermission="['TRANSPORT_PLAN_CREATE']">
             <a routerLink="/core/transport-plan/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
                 height="15px"> {{'Inserer' | translate}} </a>
           </li>
-          <li >
+          <li *hasPermission="['TRANSPORT_PLAN_VIEW']">
             <a routerLink="/core/transport-plan/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
                 height="15px"> {{'Lister' | translate}}</a>
           </li>
 
-          <li >
-            <a routerLink="/core/transport-plan/refus" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Refus' | translate}}</a>
-          </li>
-          <li >
-            <a routerLink="/core/transport-plan/reject" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Rejets' | translate}}</a>
-          </li>
+
         </ul>
+      </li>
+
+      <li *hasPermission="['TRACKING_VIEW']">
+        <a class="text-white" routerLink="/core/tracking/list"><i class="sidebar-item-icon fa " >
+            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
+          </i>
+          <span class="nav-label">{{'Suivie' | translate}}</span></a>
       </li>
 
 

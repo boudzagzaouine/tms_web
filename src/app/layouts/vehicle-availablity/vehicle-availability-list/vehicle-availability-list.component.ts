@@ -1,6 +1,7 @@
+import { Vehicle } from './../../../shared/models/vehicle';
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { Patrimony } from './../../../shared/models/patrimony';
-import { MaintenanceService } from './../../../shared/services/api/maintenance.service';
 import { Router } from '@angular/router';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Subscription } from 'rxjs';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
-import { Maintenance } from './../../../shared/models/maintenance';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -26,9 +26,9 @@ export class VehicleAvailabilityListComponent implements OnInit {
   matSearch: string;
   dateSearch: Date;
 
-  selectedMaintenances: Array<Maintenance> = [];
-  maintenanceList: Array<Maintenance> = [];
-  maintenanceCodeList: Array<Maintenance> = [];
+  selectedVehicles: Array<Vehicle> = [];
+  vehicleList: Array<Vehicle> = [];
+  vehicleCodeList: Array<Vehicle> = [];
 
   patrimonyCodeList: Array<Patrimony> = [];
 
@@ -37,7 +37,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
   cols: any[];
   editMode: number;
   showDialog: boolean;
-  maintenanceExportList: Array<Maintenance> = [];
+  vehicleExportList: Array<Vehicle> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
 
@@ -46,7 +46,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
 
 
-  constructor(  private maintenanceService: MaintenanceService,
+  constructor(  private vehicleService: VehicleService,
     private patrimonyService:PatrimonyService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -69,15 +69,16 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
     this.home = {icon: 'pi pi-home'};
 
-    this.className = Maintenance.name;
+    this.className = Vehicle.name;
     this.cols = [
-      { field: 'code', header: 'Code', type: 'string' },
-      { field: 'patrimony', child: 'code', header: 'Patrimoine', type: 'object' },
-      { field: 'interventionDate', header: 'Date intervention Planifiée', type: 'date' },
-      { field: 'maintenanceState', child: 'code', header: 'Statut', type: 'object' },
-      { field: 'blocking', child: 'code', header: 'Statut Action', type: 'string' },
+      { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
+      { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
+     
+
 
     ];
+    this.searchQuery='';
+    this.loadData();
   }
 
 
@@ -85,14 +86,14 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.maintenanceService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.vehicleService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add(this.maintenanceService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.vehicleService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.maintenanceList = data;
+        this.vehicleList = data;
 
         this.spinner.hide();
       },
@@ -113,14 +114,14 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.subscriptions.add(this.maintenanceService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleService.find(this.searchQuery).subscribe(
       data => {
-        this.maintenanceExportList = data;
+        this.vehicleExportList = data;
 
         if (event != null) {
-          this.globalService.generateExcel(event, this.maintenanceExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.vehicleExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.maintenanceExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.vehicleExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -138,10 +139,10 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
 
   onExportPdf(event) {
-    this.subscriptions.add(this.maintenanceService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleService.find(this.searchQuery).subscribe(
       data => {
-        this.maintenanceExportList = data;
-        this.globalService.generatePdf(event, this.maintenanceExportList, this.className, this.titleList);
+        this.vehicleExportList = data;
+        this.globalService.generatePdf(event, this.vehicleExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -163,7 +164,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
     if (this.codeSearch != null && this.codeSearch.code !== '') {
 
-        buffer.append(`patrimony.code~ ${this.codeSearch.code}`);
+        buffer.append(`vehicle.registrationNumber: ${this.codeSearch.registrationNumber}`);
 
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
@@ -192,20 +193,20 @@ export class VehicleAvailabilityListComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedMaintenances = event.object;
+    this.selectedVehicles = event.object;
 
     if (this.editMode === 3) {
       //this.onDeleteAll();
     } else {
       this.showDialog = true;
-      this.router.navigate(['/core/maintenances/edit', this.selectedMaintenances[0].id]);
+      this.router.navigate(['/core/vehicles/edit', this.selectedVehicles[0].id]);
     }
 
   }
 
   // onVehicleCodeSearch(event: any) {
-  //   this.subscriptions.add(this.maintenanceService.find('code~' + event.query).subscribe(
-  //     data => this.maintenanceCodeList = data.filter(f=> f.maintenance_type=='vehicule')
+  //   this.subscriptions.add(this.vehicleService.find('code~' + event.query).subscribe(
+  //     data => this.vehicleCodeList = data.filter(f=> f.vehicle_type=='vehicule')
   //   ));
   // }
 

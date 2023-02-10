@@ -12,12 +12,12 @@
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Carte Abonnement' | translate }}"   headerStyleClass="onglet-p-4">
+  <p-tabPanel *hasPermission="['SUBSCRIPTION_CARD_VIEW']" header="{{'Carte Abonnement' | translate }}"   headerStyleClass="onglet-p-4">
     <ng-template pTemplate="content">
                <app-subscriptionCard></app-subscriptionCard>
     </ng-template>
 </p-tabPanel>
-<p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{ 'Type Carte Abonnement' | translate}}"  headerStyleClass="onglet-p-4">
+<p-tabPanel *hasPermission="['SUBSCRIPTION_CARD_TYPE_VIEW']" header="{{ 'Type Carte Abonnement' | translate}}"  headerStyleClass="onglet-p-4">
     <ng-template pTemplate="content">
       <app-subscription-card-type></app-subscription-card-type>
     </ng-template>

@@ -11,12 +11,7 @@
       (completeMethod)="onNameSearch($event)" field="code"></p-autoComplete>
     </div>
 
-    <div class="col-md-2">
-      <label class="font-weight-bold">{{ "Type" | translate }}</label
-      ><br />
-      <p-autoComplete [(ngModel)]="ServiceTypeSearch" [suggestions]="ServiceTypeList"
-      (completeMethod)="oncodeServiceTypeSearch($event)" field="code"></p-autoComplete>
-    </div>
+
 
   </div>
   <br />
@@ -47,9 +42,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
 
-  [permissionCreate]="['PRODUCT_CREATE']"
-  [permissionDelete]="['PRODUCT_DELETE']"
-  [permissionEdit]="['PRODUCT_EDIT']"
+  [permissionCreate]="['SERVICE_CREATE']"
+  [permissionDelete]="['SERVICE_DELETE']"
+  [permissionEdit]="['SERVICE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

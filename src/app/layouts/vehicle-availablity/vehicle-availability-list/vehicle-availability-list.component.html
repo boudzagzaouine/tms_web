@@ -14,10 +14,10 @@
     </div>
 
     <div class="col-md-2">
-      <label class="font-weight-bold">{{'Patrimoine' | translate}} </label><br />
+      <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
       <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="patrimonyCodeList"
           (completeMethod)="onPatrimonyCodeSearch($event)"
-           field="code">
+           field="registrationNumber">
       </p-autoComplete>
 
   </div>
@@ -51,7 +51,7 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="maintenanceList"
+  [objectList]="vehicleList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
@@ -60,8 +60,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [permissionDelete]="['VEHICLE_DELETE']"
-  [permissionEdit]="['VEHICLE_EDIT']"
+  [permissionDelete]="['PATRIMONY_AVAILABILITY_DELETE']"
+  [permissionEdit]="['PATRIMONY_AVAILABILITY_EDIT']"
+  [permissionCreate]="['PATRIMONY_AVAILABILITY_CREATE']"
 ></app-data-table>
 
 <ngx-spinner

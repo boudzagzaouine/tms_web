@@ -5,4 +5,5 @@ export class Habilitation {
     habilitation: Habilitation ;
     habilitations: Habilitation[] ;
     active:Boolean=true;
+    componentOrColumn:number;
 }

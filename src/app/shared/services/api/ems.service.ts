@@ -115,5 +115,17 @@ addDataExchangeAddressDelivery(t: T[]): Observable<T[]> {
 addDataExchangeCatalogPricing(t: T[]): Observable<T[]> {
   return this.proxy.addDataExchangeCatalogPricing(this.controller, t);
 }
+addDataExchangeAccountPricing(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeAccountPricing(this.controller, t);
+}
+addDataExchangeTransportAccountPricing(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeTransportAccountPricing(this.controller, t);
+}
+addDataExchangeTransportPricing(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeTransportPricing(this.controller, t);
+}
 
+addDataExchangeTrajet(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeTrajet(this.controller, t);
+}
 }

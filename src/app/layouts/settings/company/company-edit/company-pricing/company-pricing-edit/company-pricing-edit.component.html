@@ -61,7 +61,8 @@
 
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectVehicleCateory($event)"
+                [showClear]="true" [disabled]="(editMode==2)"
+                [placeholder]=" this.selectAccountPricing?.vehicleCategory?.code" (onChange)="onSelectVehicleCateory($event)"
                 formControlName="fVehicleCategory">
               </p-dropdown>
             </div>
@@ -149,6 +150,8 @@
            [appendTo]="'body'"
           [showClear]="true"
            (onChange)="onSelectSaleVat($event)"
+           [dataKey]="'value'"
+
             formControlName="fSaleVat"></p-dropdown>
 
       </div>

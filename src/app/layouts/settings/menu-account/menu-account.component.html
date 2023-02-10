@@ -1,15 +1,15 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 
-<p-tabView>
+<p-tabView >
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Compte' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{'Compte' | translate }}"   headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
                  <app-account></app-account>
       </ng-template>
   </p-tabPanel>
 
 
-  <p-tabPanel *hasPermission="['ACCOUNT_VIEW']" header="{{'Société' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel [cache]="false" *hasPermission="['ACCOUNT_VIEW']" header="{{'Société' | translate }}"   headerStyleClass="onglet-p-2">
     <ng-template pTemplate="content">
                <app-company></app-company>
     </ng-template>

@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { GroupHabilitation } from "./../../../shared/models/group-habilitation";
 import { log } from "console";
 
@@ -27,6 +28,8 @@ export class GroupHabilitationComponent implements OnInit {
     private userGroupService: UserGroupService,
     private habilitationService: HabilitationService,
     private groupHabilitationService: GroupHabilitationService,
+    private spinner: NgxSpinnerService,
+
     private messageService: MessageService
   ) {}
 
@@ -136,19 +139,23 @@ onSelecteUserGroup(event) {
 
 
   onSubmit() {
+
     if (this.selectedGroup) {
       if (this.groupHabilitaionList.length > 0) {
         this.groupHabilitationService
           .deleteAllByIds(this.groupHabilitaionList.map((m) => m.id))
           .subscribe(
             (data) => {
+
               console.log("deleted");
             },
             (err) => console.error("err deleted")
           );
       }
+
       this.saveSelectedGroupHabilitations();
     } else {
+
       this.messageService.add({
         severity: "info",
         summary: "Info",
@@ -158,6 +165,8 @@ onSelecteUserGroup(event) {
   }
 
   saveSelectedGroupHabilitations() {
+    this.spinner.show();
+
     let userGroupHabilitations: GroupHabilitation[] = [];
     this.selectedHabilitations.forEach((element) => {
       let groupHabilitation = new GroupHabilitation();
@@ -168,6 +177,8 @@ onSelecteUserGroup(event) {
 
     this.groupHabilitationService.saveAll(userGroupHabilitations).subscribe(
       (data) => {
+        this.spinner.hide();
+
         console.log();
         this.messageService.add({
           severity: "success",
@@ -176,6 +187,8 @@ onSelecteUserGroup(event) {
         });
       },
       (err) => {
+        this.spinner.hide();
+
         console.error(err);
       }
     );

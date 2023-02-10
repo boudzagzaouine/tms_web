@@ -40,6 +40,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
 
+console.log(this.selectedUser );
 
     if (this.editMode === 1) {
       this.selectedUser = new User();
@@ -79,6 +80,7 @@ export class UserEditComponent implements OnInit {
     this.spinner.show();
     this.selectedUser.name = this.userForm.value['name'];
     this.selectedUser.surname = this.userForm.value['surName'];
+
     this.selectedUser.tel = this.userForm.value['tele'];
     this.selectedUser.email = this.userForm.value['email'];
     if(this.editMode === 1){

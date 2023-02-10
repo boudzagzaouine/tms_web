@@ -2,24 +2,24 @@
 
 <p-tabView >
 
-  <p-tabPanel *hasPermission="['INSURANCETYPE_VIEW']" header='{{"Type assurance"| translate }}'  headerStyleClass="onglet-p-4">
+  <p-tabPanel *hasPermission="['INSURANCE_TYPE_VIEW']" header='{{"Type assurance"| translate }}'  headerStyleClass="onglet-p-4">
       <ng-template pTemplate="content">
                  <app-insurance-type></app-insurance-type>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['INSURANCETERM_VIEW']" header='{{"Terme assurance"|translate }}' headerStyleClass="onglet-p-4">
+  <p-tabPanel *hasPermission="['INSURANCE_TERM_VIEW']" header='{{"Terme assurance"|translate }}' headerStyleClass="onglet-p-4">
       <ng-template pTemplate="content">
         <app-insurance-term></app-insurance-term>
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel *hasPermission="['INSURANCETYPE_VIEW']" header='{{"Type Sinistre"| translate }}'  headerStyleClass="onglet-p-4">
+  <p-tabPanel *hasPermission="['CLAIM_TYPE_VIEW']" header='{{"Type Sinistre"| translate }}'  headerStyleClass="onglet-p-4">
     <ng-template pTemplate="content">
                <app-sinister-type></app-sinister-type>
     </ng-template>
 </p-tabPanel>
 
-<p-tabPanel *hasPermission="['INSURANCETYPE_VIEW']" header='{{"Type Document"| translate }}'  headerStyleClass="onglet-p-4">
+<p-tabPanel *hasPermission="['DOCUMENT_TYPE_VIEW']" header='{{"Type Document"| translate }}'  headerStyleClass="onglet-p-4">
   <ng-template pTemplate="content">
              <app-document-type></app-document-type>
   </ng-template>

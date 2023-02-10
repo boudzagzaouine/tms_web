@@ -1,10 +1,9 @@
 export class CatalogPricingImport {
 
+  catalogPricing_Trajet : string ;
+
   catalogPricing_TurnType : string ;
-  catalogPricing_PaysSource : string;
-  catalogPricing_VilleSource : string;
-  catalogPricing_PaysDestination : string;
-  catalogPricing_VilleDestination : string;
+
   catalogPricing_VehicleCategory : string;
   catalogPricing_VehicleTray : string;
   catalogPricing_LoadingType : string;

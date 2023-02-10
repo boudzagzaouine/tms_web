@@ -105,7 +105,7 @@ export class CatalogPricingEditComponent implements OnInit {
       'fPurchaseAmountTtc': new FormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
       'fPurchaseAmountTva': new FormControl(this.selectCatalogPricing.purchaseAmountTva, Validators.required),
       'fPurchaseVat': new FormControl(
-         this.editMode!=1 ?this.selectCatalogPricing?.purchaseVat?.value:this.selectCatalogPricing?.purchaseVat,
+   this.selectCatalogPricing?.purchaseVat,
          Validators.required),
 
 
@@ -114,7 +114,7 @@ export class CatalogPricingEditComponent implements OnInit {
          'fSaleAmountTva': new FormControl(this.selectCatalogPricing.saleAmountTva, Validators.required),
          'fSaleVat': new FormControl(
 
-          this.editMode!=1 ?this.selectCatalogPricing?.saleVat?.value:this.selectCatalogPricing?.saleVat,
+        this.selectCatalogPricing?.saleVat,
 
           Validators.required),
     });
@@ -263,7 +263,7 @@ console.log(data);
   onPurcahsePriceChange(n: Number) {
     let PriceHt = +this.catalogPricingForm.value['fPurchaseAmountHt'];
     let PriceTTC = +this.catalogPricingForm.value['fPurchaseAmountTtc'];
-    let vat = this.catalogPricingForm.value['fPurchaseVat'];
+    let vat = this.catalogPricingForm.value['fPurchaseVat'].value;
     console.log(vat);
 
 
@@ -326,7 +326,7 @@ console.log(data);
   onSalePriceChange(n: Number) {
     let PriceHt = +this.catalogPricingForm.value['fSaleAmountHt'];
     let PriceTTC = +this.catalogPricingForm.value['fSaleAmountTtc'];
-    let vat = this.catalogPricingForm.value['fSaleVat'];
+    let vat = this.catalogPricingForm.value['fSaleVat'].value;
     console.log(vat);
 
 

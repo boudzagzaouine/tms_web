@@ -131,8 +131,9 @@ export class TrajetComponent implements OnInit {
       );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    this.loadData();
+        this.loadData();
   }
   onExportExcel(event) {
     this.trajetService.find(this.searchQuery).subscribe(

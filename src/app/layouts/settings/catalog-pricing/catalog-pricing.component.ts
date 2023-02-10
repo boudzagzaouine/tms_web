@@ -162,8 +162,9 @@ export class CatalogPricingComponent implements OnInit {
       );
   }
   loadDataLazy(event) {
+    this.size = event.rows;
     this.page = event.first / this.size;
-    this.loadData();
+        this.loadData();
   }
   onExportExcel(event) {
     console.log(event);

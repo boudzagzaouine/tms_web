@@ -637,7 +637,7 @@ export class TransportPlanAddComponent implements OnInit {
     let formValue = this.transportPlanForm.value;
     this.selectedTransportPlan.purchasePrice =
       this.selectedTransport.purchaseAmountHt;
-    this.selectedTransportPlan.salePrice = this.catalogPricing.saleAmountHt;
+    this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
     this.selectedTransportPlan.margineService =
       this.selectedTransport.margeService;

@@ -334,5 +334,30 @@ addDataExchangeCatalogPricing(controller: string, object: any): Observable<any> 
 //   console.log(fullurl);
   return this.http.post(fullurl, object);
 }
+addDataExchangeAccountPricing(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/saveAccountPricings?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
+addDataExchangeTransportAccountPricing(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/saveCatalogTransportAccountPricings?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
 
+addDataExchangeTransportPricing(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/saveCatalogTransportPricings?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
+
+addDataExchangeTrajet(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/saveTrajets?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
 }

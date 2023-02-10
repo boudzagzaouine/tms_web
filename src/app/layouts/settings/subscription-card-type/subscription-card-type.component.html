@@ -38,9 +38,9 @@
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
   [viewBtnVisible]="'false'"
-  [permissionCreate]="['SUBSCRIPTION_CARD_CREATE']"
-  [permissionDelete]="['SUBSCRIPTION_CARD_DELETE']"
-  [permissionEdit]="['SUBSCRIPTION_CARD_EDIT']"
+  [permissionCreate]="['SUBSCRIPTION_CARD_TYPE_CREATE']"
+  [permissionDelete]="['SUBSCRIPTION_CARD_TYPE_DELETE']"
+  [permissionEdit]="['SUBSCRIPTION_CARD_TYPE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

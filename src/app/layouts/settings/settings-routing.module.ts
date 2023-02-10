@@ -1,8 +1,8 @@
+import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
 import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
 import { GroupHabilitation } from './../../shared/models/group-habilitation';
 import { UserComponent } from './user/user.component';
 import { GroupComponent } from './group/group.component';
-import { HabilitationComponent } from './Habilitation/Habilitation.component';
 import { Habilitation } from './../../shared/models/habilitation';
 import { TrajetComponent } from './trajet/trajet.component';
 import { MenuMotifComponent } from './menu-motif/menu-motif.component';
@@ -153,7 +153,7 @@ const routes: Routes = [
       { path: 'reject', component: RejetsComponent},
       { path: 'menu-motif', component: MenuMotifComponent},
       { path: 'trajet', component: TrajetComponent},
-      { path: 'habilitation', component: HabilitationComponent},
+     { path: 'habili-tations', component: HabilitationRoleComponent},
       { path: 'group', component: GroupComponent},
       { path: 'user', component: UserComponent},
       { path: 'group-habilitation', component: GroupHabilitationComponent}

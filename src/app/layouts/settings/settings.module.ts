@@ -1,10 +1,10 @@
+import { HabilitationRoleEditComponent } from './habilitation-role/habilitation-role-edit/habilitation-role-edit.component';
+import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
 import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserComponent } from './user/user.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
 import { GroupComponent } from './group/group.component';
-import { HabilitationEditComponent } from './habilitation/habilitation-edit/habilitation-edit.component';
-import { HabilitationComponent } from './Habilitation/Habilitation.component';
 import { TrajetEditComponent } from './trajet/trajet-edit/trajet-edit.component';
 import { TrajetComponent } from './trajet/trajet.component';
 import { TransportAccountServiceEditComponent } from './transport/transport-edit/transport-account-service/transport-account-service-edit/transport-account-service-edit.component';
@@ -331,8 +331,8 @@ TransportAccountServiceComponent,
 TransportAccountServiceEditComponent,
 TrajetComponent,
 TrajetEditComponent,
-HabilitationComponent,
-HabilitationEditComponent,
+HabilitationRoleComponent,
+HabilitationRoleEditComponent,
 GroupComponent,
 GroupEditComponent,
 UserComponent,

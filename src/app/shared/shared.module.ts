@@ -1,3 +1,9 @@
+import { TransportPlanLocationService } from './services/api/transport-plan-location.service';
+import { TransportPlanLocation } from './models/transport-plan-location';
+import { TrajetImportService } from './services/api/trajet-import.service';
+import { CatalogTransportPricingImportService } from './services/api/catalog-Transport-pricing-import.service';
+import { CatalogTransportAccountPricingImportService } from './services/api/catalog-Transport-account-pricing-import.service';
+import { AccountPricingImportService } from './services/api/account-pricing-import.service';
 import { GroupHabilitationService } from './services/api/group-habilitation.service';
 import { UserGroupService } from './services/api/user-group.service';
 import { HabilitationService } from './services/api/habilitation.service';
@@ -359,7 +365,12 @@ export class SharedModule {
         TrajetService,
         HabilitationService,
         UserGroupService,
-        GroupHabilitationService
+        GroupHabilitationService,
+        AccountPricingImportService,
+        CatalogTransportAccountPricingImportService,
+        CatalogTransportPricingImportService,
+        TrajetImportService,
+        TransportPlanLocationService
       ],
 
     };

@@ -55,6 +55,7 @@ const routes: Routes = [
         { path: 'transport-plan', loadChildren: () => import('./transport-plan/transport-plan.module').then(m => m.TransportPlanModule) },
         { path: 'default-index', loadChildren: () => import('./default/default.module').then(m => m.DefaultModule) },
         { path: 'invoice', loadChildren: () => import('./invoice-plan-transport/invoice-plan-transport.module').then(m => m.InvoicePlanTransportModule) },
+        { path: 'tracking', loadChildren: () => import('./tracking/tracking.module').then(m => m.TrackingModule) },
 
 
 

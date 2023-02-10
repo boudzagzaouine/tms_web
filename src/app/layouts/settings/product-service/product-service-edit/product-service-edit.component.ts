@@ -1,3 +1,5 @@
+import { ProductType } from './../../../../shared/models/product-type';
+import { ProductTypeService } from './../../../../shared/services/api/product-type.service';
 import { ServiceTypeService } from './../../../../shared/services/api/service-type.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -39,10 +41,11 @@ export class ProductServiceEditComponent implements OnInit {
   subscriptions = new Subscription();
   editMd :boolean;
   vat = new Vat();
+  selectedTypeService : ProductType= new ProductType();
   constructor(
     private serviceTypeService: ServiceTypeService,
     private authentificationService:AuthenticationService,
-
+    private productTypeService:ProductTypeService,
     private productServiceService: ProductServiceService,
     private vatService: VatService,
     private uomService: UomService,
@@ -53,7 +56,8 @@ export class ProductServiceEditComponent implements OnInit {
 
   ngOnInit() {
 
-    this.subscriptions.add(this.serviceTypeService.findAll().subscribe((data: ServiceType[]) => {
+    this.subscriptions.add(
+      this.serviceTypeService.findAll().subscribe((data: ServiceType[]) => {
       this.serviceTypeList = data;
   }));
   this.subscriptions.add(this.vatService.findAll().subscribe((data: Vat[]) => {
@@ -63,6 +67,12 @@ export class ProductServiceEditComponent implements OnInit {
     this.subscriptions.add(this.uomService.findAll().subscribe((data: Uom[]) => {
       this.uoms = data;
 
+
+    }));
+
+    this.subscriptions.add(this.productTypeService.findById(1).subscribe((data: ProductType) => {
+      this.selectedTypeService = data;
+     this.initForm();
 
     }));
     this.editMd=true;
@@ -89,12 +99,12 @@ console.log(this.selectedProduct);
     this.productForm = new FormGroup({
       code: new FormControl(this.selectedProduct.code,Validators.required),
       description: new FormControl(this.selectedProduct.desc),
-      type: new FormControl(this.selectedProduct.serviceType,Validators.required),
-      vat: new FormControl(
-        this.editMode!=1 ?this.selectedProduct.vat.value
-        :this.selectedProduct.vat,Validators.required ),
-      purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
-      purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
+      // type: new FormControl(this.selectedProduct.serviceType,Validators.required),
+      // vat: new FormControl(
+      //   this.editMode!=1 ?this.selectedProduct.vat.value
+      //   :this.selectedProduct.vat,Validators.required ),
+      // purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
+      // purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
 
 
   });
@@ -108,13 +118,14 @@ console.log(this.selectedProduct);
     this.spinner.show();
     this.selectedProduct.code = this.productForm.value['code'];
     this.selectedProduct.desc = this.productForm.value['description'];
-    this.selectedProduct.purshasePriceUB = +this.productForm.value[
-        'purchasePrice'
-    ];
-    this.selectedProduct.purshasePriceTTCUB = +this.productForm.value[
-      'purchasePriceTTC'
-  ];
+  //   this.selectedProduct.purshasePriceUB = +this.productForm.value[
+  //       'purchasePrice'
+  //   ];
+  //   this.selectedProduct.purshasePriceTTCUB = +this.productForm.value[
+  //     'purchasePriceTTC'
+  // ];
 
+  this.selectedProduct.productType=this.selectedTypeService;
 
   //this.selectedProduct.service=true;
 

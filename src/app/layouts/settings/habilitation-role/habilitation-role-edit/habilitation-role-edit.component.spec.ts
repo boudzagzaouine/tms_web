@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { HabilitationEditComponent } from './habilitation-edit.component';
+import { HabilitationRoleEditComponent } from './habilitation-role-edit.component';
 
-describe('HabilitationEditComponent', () => {
-  let component: HabilitationEditComponent;
-  let fixture: ComponentFixture<HabilitationEditComponent>;
+describe('HabilitationRoleEditComponent', () => {
+  let component: HabilitationRoleEditComponent;
+  let fixture: ComponentFixture<HabilitationRoleEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HabilitationEditComponent ]
+      declarations: [ HabilitationRoleEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HabilitationEditComponent);
+    fixture = TestBed.createComponent(HabilitationRoleEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

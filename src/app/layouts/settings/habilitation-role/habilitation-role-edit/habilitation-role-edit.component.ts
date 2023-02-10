@@ -1,19 +1,19 @@
 import { MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
-import { HabilitationService } from './../../../../shared/services/api/habilitation.service';
+import { AuthenticationService } from '../../../../shared/services/api/authentication.service';
+import { HabilitationService } from '../../../../shared/services/api/habilitation.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Habilitation } from './../../../../shared/models/habilitation';
+import { Habilitation } from '../../../../shared/models/habilitation';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 @Component({
-  selector: 'app-habilitation-edit',
-  templateUrl: './habilitation-edit.component.html',
-  styleUrls: ['./habilitation-edit.component.scss']
+  selector: 'app-habilitation-role-edit',
+  templateUrl: './habilitation-role-edit.component.html',
+  styleUrls: ['./habilitation-role-edit.component.scss']
 })
-export class HabilitationEditComponent implements OnInit {
+export class HabilitationRoleEditComponent implements OnInit {
+
   @Input() selectedHabilitation = new Habilitation();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
@@ -27,7 +27,7 @@ export class HabilitationEditComponent implements OnInit {
   constructor(private habilitationService: HabilitationService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService,
+
     private messageService: MessageService
   ) { }
 
@@ -106,6 +106,4 @@ export class HabilitationEditComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
-
 }

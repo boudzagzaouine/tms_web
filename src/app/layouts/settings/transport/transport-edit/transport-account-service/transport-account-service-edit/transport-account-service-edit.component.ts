@@ -103,9 +103,8 @@ export class TransportAccountServiceEditComponent implements OnInit {
         Validators.required
       ),
       fPurchaseVat: new FormControl(
-        this.editMode != 1
-          ? this.selectTransportAccountService?.purchaseVat?.value
-          : this.selectTransportAccountService?.purchaseVat,
+
+           this.selectTransportAccountService?.purchaseVat,
 
         Validators.required
       ),
@@ -216,9 +215,7 @@ requete      )
 
 
   onSelectPurchaseVat(event) {
-    this.selectTransportAccountService.purchaseVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectTransportAccountService.purchaseVat = event.value;
     this.onPurchasePriceChange(1);
   }
 

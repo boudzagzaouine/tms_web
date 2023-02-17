@@ -206,6 +206,57 @@
 </div>
 
 
+<div class="row mt-3 justify-content-around ">
+
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Total HT" | translate }} *</label>
+    <br />
+    <input
+    formControlName="totalPriceHT"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+
+ <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Total TVA" | translate }} *</label>
+    <br />
+    <input
+    formControlName="totalPriceVat"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Total TTC" | translate }} *</label>
+    <br />
+    <input
+    formControlName="totalPriceTTC"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+  <div class="form-group col-md-3  " >
+</div>
+
+
+
+  </div>
+
+
+
+
+
 
 </form>
 
@@ -247,9 +298,9 @@
         <ng-template pTemplate="body" let-line>
           <tr>
             <td>{{line?.product?.code}}</td>
-            <td>{{line?.priceHT}}</td>
-            <td>{{line?.vat?.value}}</td>
-            <td>{{line?.priceTTC}}</td>
+            <td>{{line?.salePriceHT}}</td>
+            <td>{{line?.saleVat?.value}}</td>
+            <td>{{line?.salePriceTTC}}</td>
 
             <td>
 

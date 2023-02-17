@@ -638,6 +638,10 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectedTransportPlan.purchasePrice =
       this.selectedTransport.purchaseAmountHt;
     this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
+    this.selectedTransportPlan.totalPriceHT = this.selectOrderTransport.priceHT;
+    this.selectedTransportPlan.totalPriceTTC = this.selectOrderTransport.priceTTC;
+    this.selectedTransportPlan.totalPriceVat = this.selectOrderTransport.priceVat;
+
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
     this.selectedTransportPlan.margineService =
       this.selectedTransport.margeService;

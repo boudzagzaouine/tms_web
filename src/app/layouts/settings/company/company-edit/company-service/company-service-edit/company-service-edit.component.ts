@@ -90,9 +90,8 @@ export class CompanyServiceEditComponent implements OnInit {
         Validators.required
       ),
       fSaleVat: new FormControl(
-        this.editMode != 1
-          ? this.selectAccountService?.saleVat?.value
-          : this.selectAccountService?.saleVat,
+
+           this.selectAccountService?.saleVat,
 
         Validators.required
       ),
@@ -198,10 +197,10 @@ console.log(requete);
 
 
   onSelectSaleVat(event) {
-    this.selectAccountService.saleVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectAccountService.saleVat = event.value
     this.onSalePriceChange(1);
+    console.log(    this.selectAccountService.saleVat );
+
   }
 
   onProductSearch(event: any) {
@@ -245,7 +244,7 @@ console.log(this.selectAccountService?.company?.id);
   onSalePriceChange(n: Number) {
     let PriceHt = +this.accountServiceForm.value["fSaleAmountHt"];
     let PriceTTC = +this.accountServiceForm.value["fSaleAmountTtc"];
-    let vat = this.accountServiceForm.value["fSaleVat"];
+    let vat = this.accountServiceForm.value["fSaleVat"].value;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

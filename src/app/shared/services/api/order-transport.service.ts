@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { EmsService } from './ems.service';
 import {Injectable} from '@angular/core';
 import { ProxyService } from './proxy.service';
-import { Account } from '../../models';
+import { Account, Vat } from '../../models';
 
 @Injectable()
 export class OrderTransportService  extends EmsService<OrderTransport> {
@@ -65,8 +65,11 @@ this.emitOnchange();}
     return this.selectOrderTransport.code;
 
   }
-  addPrice(price : number){
-    this.selectOrderTransport.priceHT=price;
+  addPrice(priceHt : number,priceTTC:number,vat:Vat,priceVat:number){
+    this.selectOrderTransport.priceHT=priceHt;
+    this.selectOrderTransport.priceTTC=priceTTC;
+    this.selectOrderTransport.vat=vat;
+    this.selectOrderTransport.priceVat=priceVat;
     this.emitOnchange();
 
   }

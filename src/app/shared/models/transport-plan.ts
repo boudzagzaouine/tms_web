@@ -37,4 +37,8 @@ export class TransportPlan {
   marginRate:number;
   margineService :number;
 
+  totalPriceHT:number;
+  totalPriceTTC:number;
+  totalPriceVat:number;
+
 }

@@ -115,6 +115,11 @@ data=>{
       'name': new FormControl(this.selectedCompany.name, Validators.required),
       'activityArea': new FormControl(this.selectedCompany.activityArea),
 
+      'tel': new FormControl(this.selectedCompany.telephone, Validators.required),
+      'email': new FormControl(this.selectedCompany.email ),
+      'fax': new FormControl(this.selectedCompany.fax),
+
+
       'nameAdd': new FormControl(this.selectedAddress.code, Validators.required),
       'line1': new FormControl(this.selectedAddress.line1, Validators.required),
       'line2': new FormControl(this.selectedAddress.line2),
@@ -144,6 +149,8 @@ data=>{
     if (this.companyForm.invalid) { return; }
     this.spinner.show();
     this.selectedCompany.name = this.companyForm.value['name'];
+    this.selectedCompany.telephone = this.companyForm.value['tel'];
+
 
     this.selectedAddress.code = this.companyForm.value['nameAdd'];
     this.selectedAddress.name = this.companyForm.value['nameAdd'];

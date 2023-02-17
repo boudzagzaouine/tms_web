@@ -1,3 +1,4 @@
+import { VatService } from './../../../../shared/services/api/vat.service';
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { AccountPricing } from "./../../../../shared/models/account-pricing";
 import { CatalogPricingService } from "../../../../shared/services/api/catalog-pricing.service";
@@ -52,6 +53,7 @@ export class TarificationComponent implements OnInit {
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportService: OrderTransportService,
+    private vatService:VatService,
     private transportPlanService: TransportPlanService,
     private transportService: TransportServcie,
     private catalogPricingService: CatalogPricingService,
@@ -194,11 +196,14 @@ export class TarificationComponent implements OnInit {
           console.log(this.marginRate);
 
           this.calculatMarge(purchase,sale);
+  this.selectOrderTransport.vat=this.selectedAccountPricing.saleVat;
+  this.selectOrderTransport.priceTTC=this.selectedAccountPricing.saleAmountTtc;
+  this.selectOrderTransport.priceVat=this.selectedAccountPricing.saleAmountTva;
 
           this.tarificationForm.patchValue({
             priceHT: this.selectedAccountPricing.saleAmountHt,
           });
-          this.tarificationForm.controls["priceHT"].disable();
+          //this.tarificationForm.controls["priceHT"].disable();
         } else {
           let purchase = this.selectedCatalogPricing.purchaseAmountHt;
           let sale = this.selectedCatalogPricing.saleAmountHt;
@@ -224,8 +229,10 @@ export class TarificationComponent implements OnInit {
   previous() {
     this.selectOrderTransport.priceHT =
       this.tarificationForm.controls["priceHT"].value;
-    this.orderTransportService.addPrice(this.selectOrderTransport.priceHT);
-    this.orderTransportService.addMarginRate(this.marginRate);
+
+
+      this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
+      this.orderTransportService.addMarginRate(this.marginRate);
     this.orderTransportService.addMarginValue(this.marginValue);
 
     this.previousstep.emit(true);
@@ -236,7 +243,7 @@ export class TarificationComponent implements OnInit {
   next() {
     this.selectOrderTransport.priceHT =
       this.tarificationForm.controls["priceHT"].value;
-    this.orderTransportService.addPrice(this.selectOrderTransport.priceHT);
+    this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
     this.orderTransportService.addMarginRate(this.marginRate);
     this.orderTransportService.addMarginValue(this.marginValue);
 

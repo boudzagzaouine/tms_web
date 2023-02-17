@@ -80,9 +80,8 @@ export class TransportServiceEditComponent implements OnInit {
         Validators.required
       ),
       fPurchaseVat: new FormControl(
-        this.editMode != 1
-          ? this.selectTransportService?.purchaseVat?.value
-          : this.selectTransportService?.purchaseVat,
+
+           this.selectTransportService?.purchaseVat,
 
         Validators.required
       ),
@@ -183,9 +182,8 @@ export class TransportServiceEditComponent implements OnInit {
 
 
   onSelectPurchaseVat(event) {
-    this.selectTransportService.purchaseVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectTransportService.purchaseVat = event.value
+
    console.log(this.selectTransportService.purchaseVat);
 
     this.onPurchasePriceChange(1);
@@ -217,7 +215,7 @@ export class TransportServiceEditComponent implements OnInit {
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.transportServiceForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.transportServiceForm.value["fPurchaseAmountTtc"];
-    let vat = this.transportServiceForm.value["fPurchaseVat"];
+    let vat = this.transportServiceForm.value["fPurchaseVat"].value;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

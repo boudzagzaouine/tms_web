@@ -79,7 +79,7 @@ showEffect="fade"
           <div class="form-group col-sm-6"></div>
 
 
-          <div class="form-group col-sm-6">
+          <div class="form-group col-sm-6" *ngIf="this.editMode == 1">
             <label class="font-weight-bold"> {{' Mot de passe' | translate}}*</label><br />
             <span *ngIf="(userForm.get('password').touched && userForm.get('password').invalid) ||
             (isFormSubmitted && userForm.get('password').invalid)" class="text-lighter"

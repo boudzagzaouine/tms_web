@@ -1,3 +1,6 @@
+import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
+import { TransportPlan } from './../../../shared/models/transport-plan';
+import { Observable } from 'rxjs/Observable';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
@@ -7,7 +10,7 @@ import { GlobalService } from './../../../shared/services/api/global.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 
@@ -53,6 +56,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private transportPlanService:TransportPlanService,
     private router: Router) { }
 
 
@@ -73,7 +77,8 @@ export class VehicleAvailabilityListComponent implements OnInit {
     this.cols = [
       { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
-     
+      { field: 'state', child: 'state', header: 'Status', type: 'string' },
+
 
 
     ];
@@ -95,6 +100,20 @@ export class VehicleAvailabilityListComponent implements OnInit {
       data => {
         this.vehicleList = data;
 
+        this.vehicleList.forEach((vehicle) => {
+          this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
+console.log(data);
+
+              vehicle.state = data;
+             // this.onSearchVehicleAvailable();
+
+          });
+        });
+
+
+
+
+
         this.spinner.hide();
       },
       error => {
@@ -104,6 +123,31 @@ export class VehicleAvailabilityListComponent implements OnInit {
       },
       () => this.spinner.hide()
     ));
+  }
+
+  searchVehicleInTranportPlan(vehicle: Vehicle): Observable<string> {
+    let state: string = "Disponible";
+    var subject = new Subject<string>();
+    this.transportPlanService
+      .sizeSearch(
+        "vehicle.registrationNumber:" +
+          vehicle.registrationNumber +
+          ",turnStatus.id!" +
+          3
+      )
+      .subscribe((data) => {
+        console.log(vehicle.registrationNumber);
+        console.log(data);
+
+        if (data && data > 0) {
+          state = "Trajet";
+          subject.next(state);
+        } else {
+          state = "Disponible";
+          subject.next(state);
+        }
+      });
+    return subject.asObservable();
   }
   // loadDataLazy(event) {
   //   this.size = event.rows;

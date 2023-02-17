@@ -60,7 +60,7 @@ height: 100vh; padding-bottom: 10%;">
               {{'Utilisateur' | translate}}</a>
           </li>
 
-          <li >
+          <li *hasPermission="['GROUP_HABILITATION_VIEW']">
             <a routerLink="/core/settings/group-habilitation" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Roles et Habilitation' | translate}}</a>
           </li>
@@ -121,7 +121,7 @@ height: 100vh; padding-bottom: 10%;">
               {{"Adresse" | translate}}</a>
           </li>
 
-          <li *hasPermission="['CATALOG_TRANSPORT_VIEW']">
+          <li>
             <a routerLink="/core/settings/data-recovery" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Reprise des données" | translate}}</a>
           </li>

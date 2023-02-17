@@ -341,7 +341,7 @@ if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTra
   }
 
   onSelectPurchaseVat(event) {
-    let purchaseVat = this.vats.filter((f) => f.value == event.value)[0];
+    let purchaseVat =  event.value;
 
     this.selectedTransportServiceCatalog.purchaseVat = purchaseVat;
     console.log(this.selectedTransportServiceCatalog.purchaseVat);
@@ -350,9 +350,9 @@ if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTra
   }
 
   onSelectSaleVat(event) {
-    let purchaseVat = this.vats.filter((f) => f.value == event.value)[0];
+    let saleVat =  event.value;
 
-    this.selectedTransportServiceCatalog.saleVat = purchaseVat;
+    this.selectedTransportServiceCatalog.saleVat = saleVat;
     console.log(this.selectedTransportServiceCatalog.saleVat);
 
     this.onPriceSaleChange(1);
@@ -367,7 +367,7 @@ if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTra
   onPriceChange(n: Number) {
     let purchasePrice = +this.transportProductForm.value["purchasePriceHT"];
     let purchasePriceTTC = +this.transportProductForm.value["purchasePriceTTC"];
-    let purchaseVat = this.transportProductForm.value["purchaseVat"];
+    let purchaseVat = this.transportProductForm.value["purchaseVat"].value;
 
     if (purchasePrice === undefined || purchasePrice == null) {
       purchasePrice = 0;
@@ -397,7 +397,7 @@ if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTra
   onPriceSaleChange(n: Number) {
     let purchasePrice = +this.transportProductForm.value["salePriceHT"];
     let purchasePriceTTC = +this.transportProductForm.value["salePriceTTC"];
-    let purchaseVat = this.transportProductForm.value["saleVat"];
+    let purchaseVat = this.transportProductForm.value["saleVat"].value;
 
     if (purchasePrice === undefined || purchasePrice == null) {
       purchasePrice = 0;
@@ -412,15 +412,24 @@ if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTra
     if (n === 1) {
       const amountTva = (purchasePrice / 100) * purchaseVat;
       const purchasePriceTTC = purchasePrice + amountTva;
+      this.selectedTransportServiceCatalog.salePriceVat=amountTva;
+
       this.transportProductForm.patchValue({
         salePriceTTC: purchasePriceTTC.toFixed(2),
       });
     }
     if (n === 2) {
+
       purchasePrice = purchasePriceTTC / (1 + purchaseVat / 100);
+      const amountTva = (purchasePrice / 100) * purchaseVat;
+      this.selectedTransportServiceCatalog.salePriceVat=amountTva;
+
       this.transportProductForm.patchValue({
         salePriceHT: purchasePrice.toFixed(2),
       });
-    }
+    } console.log(this.selectedTransportServiceCatalog);
   }
+
+
+
 }

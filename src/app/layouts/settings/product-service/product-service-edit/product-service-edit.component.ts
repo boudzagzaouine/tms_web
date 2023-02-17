@@ -131,6 +131,7 @@ console.log(this.selectedProduct);
 
     this.selectedProduct.active = true;
     this.selectedProduct.owner=this.authentificationService.getDefaultOwner();
+console.log( this.selectedProduct);
 
 
      this.subscriptions.add(this.productServiceService.set(this.selectedProduct).subscribe(

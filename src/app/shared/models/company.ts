@@ -22,6 +22,10 @@ export class Company {
     threshold:number; //seuil
     turnover : number; //chiffre affr
     activityArea : ActivityArea;
+
+    telephone:string;
+    email:string;
+    fax: string;
     creationDate = new Date();
     updateDate = new Date();
     accountPricingList: AccountPricing[]=[];

@@ -135,9 +135,8 @@ export class TransportAccountPricingEditComponent implements OnInit {
         Validators.required
       ),
       fPurchaseVat: new FormControl(
-        this.editMode != 1
-          ? this.selectCatalogTransportAccountPricing?.purchaseVat?.value
-          : this.selectCatalogTransportAccountPricing?.purchaseVat,
+
+           this.selectCatalogTransportAccountPricing?.purchaseVat,
 
         Validators.required
       ),
@@ -269,9 +268,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
   }
 
   onSelectPurchaseVat(event) {
-    this.selectCatalogTransportAccountPricing.purchaseVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectCatalogTransportAccountPricing.purchaseVat = event.value
     this.onPurchasePriceChange(1);
   }
 

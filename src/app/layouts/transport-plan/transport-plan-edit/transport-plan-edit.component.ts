@@ -149,6 +149,11 @@ initForm(){
     date :new FormControl(new Date (this.selectedTransportPlan.date)),
     status :new FormControl(this.selectedTransportPlan.turnStatus?.code),
 
+    totalPriceHT :new FormControl(this.selectedTransportPlan.totalPriceHT),
+    totalPriceTTC :new FormControl(this.selectedTransportPlan.totalPriceTTC),
+    totalPriceVat :new FormControl(this.selectedTransportPlan.totalPriceVat),
+
+
   })
 }
 
@@ -258,7 +263,7 @@ onSubmit(close=false){
     );
 
     this.selectedTransportPlan.transportPlanServiceCatalogs.push(line);
-
+    this.calculateAllLines();
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
@@ -271,5 +276,35 @@ onSubmit(close=false){
   }
   onHideDialogTransportProduct(event) {
     this.showDialogTransportProduct = event;
+  }
+
+
+  calculateAllLines() {
+    console.log("calculate");
+
+  this.selectedTransportPlan.totalPriceHT=this.selectedOrderTransport.priceHT;
+  this.selectedTransportPlan.totalPriceTTC=this.selectedOrderTransport.priceTTC;
+  this.selectedTransportPlan.totalPriceVat=this.selectedOrderTransport.priceVat;
+    this.selectedTransportPlan?.transportPlanServiceCatalogs.forEach(line => {
+      this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
+      this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
+      this.selectedTransportPlan.totalPriceVat += +line.salePriceTTC;
+    }
+    );
+
+
+
+    this.transportPlanForm.patchValue({
+      'totalPriceHT': this.selectedTransportPlan.totalPriceHT
+    });
+    this.transportPlanForm.patchValue({
+      'totalPriceTTC': this.selectedTransportPlan.totalPriceTTC
+    });
+    this.transportPlanForm.patchValue({
+      'totalPriceVat': this.selectedTransportPlan.totalPriceVat
+    });
+
+
+
   }
 }

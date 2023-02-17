@@ -59,6 +59,47 @@ showEffect="fade"
 
         </div>
 
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Téléphone' | translate}} *</label>
+            <span *ngIf="(companyForm.get('tel').touched && companyForm.get('tel').invalid) ||
+            (isFormSubmitted && companyForm.get('tel').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="tel"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Fax' | translate}} </label>
+            <span *ngIf="(companyForm.get('fax').touched && companyForm.get('fax').invalid) ||
+            (isFormSubmitted && companyForm.get('fax').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="fax"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+          <div class="form-group col-sm-3">
+            <label class="font-weight-bold">{{'Email' | translate}} </label>
+            <span *ngIf="(companyForm.get('email').touched && companyForm.get('email').invalid) ||
+            (isFormSubmitted && companyForm.get('email').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="email"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+          <div class="form-group col-sm-3">
+</div>
+</div>
+
 
         <div class="row  justify-content-around">
 

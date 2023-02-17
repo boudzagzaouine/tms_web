@@ -19,6 +19,6 @@ export class TransportPlanServiceCatalog {
   salePriceHT: number;
   saleVat: Vat;
   salePriceTTC: number;
-
+  salePriceVat: number;
   owner:Owner ;
 }

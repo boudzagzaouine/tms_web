@@ -12,6 +12,7 @@ import { TurnType } from './turn-Type';
 import { LoadingType } from './loading-type';
 import { ActionTypeRepair } from './action-type-repair';
 import { Owner } from './owner';
+import { Vat } from './vat';
 
 
 export class OrderTransport {
@@ -31,6 +32,10 @@ export class OrderTransport {
   weightTotal: number = 0;
   capacityTotal: number = 0;
   priceHT: number = 0;
+  vat :Vat;
+  priceTTC:number;
+  priceVat:number;
+
   marginRate:number=0;
   marginValue : number=0;
   owner :Owner;

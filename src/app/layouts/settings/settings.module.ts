@@ -1,3 +1,5 @@
+import { AgencyComponent } from './agency/agency.component';
+import { Agency } from './../../shared/models/agency';
 import { HabilitationRoleEditComponent } from './habilitation-role/habilitation-role-edit/habilitation-role-edit.component';
 import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
 import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
@@ -338,6 +340,7 @@ GroupEditComponent,
 UserComponent,
 UserEditComponent,
 GroupHabilitationComponent,
+AgencyComponent
 
 
 

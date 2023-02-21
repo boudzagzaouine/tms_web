@@ -128,6 +128,12 @@ export class TransportCatalogPricingComponent implements OnInit {
         type: "object",
       },
       { field: "purchaseAmountHt", header: "Prix TTC", type: "number" },
+      {
+        field: "transport",
+        child: "name",
+        header: "Prestataire",
+        type: "object",
+      },
     ];
     if (
       this.selectedTransport.id != null ||
@@ -385,7 +391,7 @@ export class TransportCatalogPricingComponent implements OnInit {
              f.loadingType.id == catalogTransportPricingEdited.loadingType.id &&
              f.vehicleCategory.id == catalogTransportPricingEdited.vehicleCategory.id &&
              f.vehicleTray.id == catalogTransportPricingEdited.vehicleTray.id &&
-             f.trajet.id == catalogTransportPricingEdited.trajet.id 
+             f.trajet.id == catalogTransportPricingEdited.trajet.id
     );
     if (acountPricing == null) {
       this.idAcountPricing--;

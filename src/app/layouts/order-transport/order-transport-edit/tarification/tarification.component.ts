@@ -196,9 +196,7 @@ export class TarificationComponent implements OnInit {
           console.log(this.marginRate);
 
           this.calculatMarge(purchase,sale);
-  this.selectOrderTransport.vat=this.selectedAccountPricing.saleVat;
-  this.selectOrderTransport.priceTTC=this.selectedAccountPricing.saleAmountTtc;
-  this.selectOrderTransport.priceVat=this.selectedAccountPricing.saleAmountTva;
+
 
           this.tarificationForm.patchValue({
             priceHT: this.selectedAccountPricing.saleAmountHt,
@@ -216,6 +214,9 @@ export class TarificationComponent implements OnInit {
   onInputPrice(event) {
     let purchase = this.selectedCatalogPricing.purchaseAmountHt;
     let sale = event.value;
+
+
+
     this.calculatMarge(purchase,sale);
   }
 
@@ -227,9 +228,8 @@ export class TarificationComponent implements OnInit {
   }
 
   previous() {
-    this.selectOrderTransport.priceHT =
-      this.tarificationForm.controls["priceHT"].value;
 
+  this.calculatePrice();
 
       this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
       this.orderTransportService.addMarginRate(this.marginRate);
@@ -237,12 +237,20 @@ export class TarificationComponent implements OnInit {
 
     this.previousstep.emit(true);
   }
+  calculatePrice(){
+    this.selectOrderTransport.priceHT =
+    this.tarificationForm.controls["priceHT"].value;
+ this.selectOrderTransport.vat=this.selectedCatalogPricing.saleVat;
+    const amountTva = (this.selectOrderTransport.priceHT / 100) *  this.selectOrderTransport.vat.value;
+    const priceTTC = this.selectOrderTransport.priceHT + amountTva;
+    this.selectOrderTransport.priceTTC=priceTTC;
+    this.selectOrderTransport.priceVat=amountTva;
+  }
 
   loadForm() {}
 
   next() {
-    this.selectOrderTransport.priceHT =
-      this.tarificationForm.controls["priceHT"].value;
+    this.calculatePrice();
     this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
     this.orderTransportService.addMarginRate(this.marginRate);
     this.orderTransportService.addMarginValue(this.marginValue);

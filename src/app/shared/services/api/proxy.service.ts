@@ -316,7 +316,24 @@ getLastPriceTransportPlans(controller: string, search: string): Observable<any[]
 
 
 
+//export
 
+exportInvoiceState(controller: string, search: string): Observable<any[]> {
+  const httpOptions = {
+    responseType: 'blob' as 'json'
+  };
+  const fullurl =
+      this.url +
+      controller +
+      '/exportInvoiceState?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+      //console.log("fullurl");
+
+ // console.log(fullurl);
+  return this.http.get<any>(fullurl,httpOptions);
+}
 
 
 

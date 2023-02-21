@@ -62,7 +62,7 @@ export class TransportPlanListComponent implements OnInit {
 
    dateLivraisonSearch: Date;
    dateDelivery: Date;
-  constructor(private TransportPlanService: TransportPlanService,
+  constructor(private transportPlanService: TransportPlanService,
      private vehicleCategoryService :VehicleCategoryService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -114,7 +114,7 @@ this.vehicleCategoryService.findAll().subscribe(
 
   onExportExcel(event) {
 
-    this.subscriptions.add(  this.TransportPlanService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(  this.transportPlanService.find(this.searchQuery).subscribe(
       data => {
         this.TransportPlanExportList = data;
         if (event != null) {
@@ -134,7 +134,7 @@ this.vehicleCategoryService.findAll().subscribe(
 
   }
   onExportPdf(event) {
-    this.subscriptions.add( this.TransportPlanService.find(this.searchQuery).subscribe(
+    this.subscriptions.add( this.transportPlanService.find(this.searchQuery).subscribe(
       data => {
         this.TransportPlanExportList = data;
         this.globalService.generatePdf(event, this.TransportPlanExportList, this.className, this.titleList);
@@ -149,12 +149,12 @@ this.vehicleCategoryService.findAll().subscribe(
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.TransportPlanService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add( this.TransportPlanService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add( this.transportPlanService.findPagination(this.page, this.size, search).subscribe(
       data => {
 
         this.transportPlanList = data;
@@ -213,6 +213,8 @@ this.vehicleCategoryService.findAll().subscribe(
 
     if (this.editMode === 3) {
       this.onDeleteAll();
+    }else if(this.editMode === 4){
+      this.generateExportInvoiceState();
     } else {
       this.showDialog = true;
       this.router.navigate(['/core/transport-plan/edit/', this.selectedTransportPlans[0].id]);
@@ -301,7 +303,33 @@ this.vehicleCategoryService.findAll().subscribe(
     this.loadData(this.searchQuery);
   }
 
+generateExportInvoiceState(){
+  const bufferSearch = new EmsBuffer();
+ this.selectedTransportPlans.forEach(element => {
+  bufferSearch.append(element.id.toString())
+ });
+ console.log(bufferSearch.getValue());
 
+
+this.transportPlanService.exportInvoiceState(bufferSearch.getValue()).subscribe(
+  (data : any) =>{
+ console.log(data);
+ var file = new Blob([data as  BlobPart], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+          window.open(fileURL);
+          var a = document.createElement('a');
+          a.href = fileURL;
+          a.target = '_blank';
+          a.download = 'reports.pdf';
+          document.body.appendChild(a);
+          a.click();
+
+  }
+);
+
+
+
+}
 
 
   onDeleteAll() {
@@ -311,7 +339,7 @@ this.vehicleCategoryService.findAll().subscribe(
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
           const ids = this.selectedTransportPlans.map(x => x.id);
-          this.subscriptions.add( this.TransportPlanService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add( this.transportPlanService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();

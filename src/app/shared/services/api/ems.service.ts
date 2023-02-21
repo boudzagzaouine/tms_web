@@ -103,7 +103,11 @@ getLastPriceTransportPlans(search: string) {
 
 
 
+/// export
 
+exportInvoiceState(search: string) {
+  return this.proxy.exportInvoiceState(this.controller, search);
+}
 
 
 

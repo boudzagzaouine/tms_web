@@ -127,6 +127,12 @@ export class CompanyPricingComponent implements OnInit {
         type: "object",
       },
       { field: "saleAmountTtc", header: "Prix TTC", type: "number" },
+      {
+        field: "transport",
+        child: "name",
+        header: "Prestataire",
+        type: "object",
+      },
     ];
     if (
       this.selectedCompany.id != null ||

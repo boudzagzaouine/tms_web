@@ -101,6 +101,12 @@ export class TransportAccountServiceComponent implements OnInit {
         type: "object",
       },
       { field: "purchaseAmountTtc", header: "Prix TTC", type: "number" },
+      {
+        field: "transport",
+        child: "name",
+        header: "Prestataire",
+        type: "object",
+      },
     ];
     if (
       this.selectedTransport.id != null ||

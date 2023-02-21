@@ -271,8 +271,10 @@ onSubmit(close=false){
       accept: () => {
         this.selectedTransportPlan.transportPlanServiceCatalogs =
         this.selectedTransportPlan.transportPlanServiceCatalogs.filter((l) => l.product.code !== productCode);
+        this.calculateAllLines();
       },
     });
+
   }
   onHideDialogTransportProduct(event) {
     this.showDialogTransportProduct = event;
@@ -288,7 +290,7 @@ onSubmit(close=false){
     this.selectedTransportPlan?.transportPlanServiceCatalogs.forEach(line => {
       this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
       this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
-      this.selectedTransportPlan.totalPriceVat += +line.salePriceTTC;
+      this.selectedTransportPlan.totalPriceVat += +line.salePriceVat;
     }
     );
 

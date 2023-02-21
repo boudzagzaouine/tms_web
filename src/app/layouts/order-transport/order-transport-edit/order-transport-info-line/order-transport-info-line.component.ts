@@ -354,9 +354,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   onAccountSearch(event){
     console.log(this.selectedCompany);
-
+    // company.id:'+this.selectedCompany.id+',
     this.accountService
-    .find('company.id:'+this.selectedCompany.id+',name~' + event.query)
+    .find('name~' + event.query)
     .subscribe(data => (this.accountList = data))
    }
 

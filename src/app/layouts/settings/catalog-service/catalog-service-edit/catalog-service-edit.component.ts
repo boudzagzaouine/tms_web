@@ -70,7 +70,7 @@ export class CatalogServiceEditComponent implements OnInit {
       'fPurchaseAmountTtc': new FormControl(this.selectCatalogService.purchaseAmountTtc, Validators.required),
       'fPurchaseAmountTva': new FormControl(this.selectCatalogService.purchaseAmountTva, Validators.required),
       'fPurchaseVat': new FormControl(
-         this.editMode!=1 ?this.selectCatalogService?.purchaseVat?.value:this.selectCatalogService?.purchaseVat,
+        this.selectCatalogService?.purchaseVat,
          Validators.required),
 
 
@@ -79,7 +79,7 @@ export class CatalogServiceEditComponent implements OnInit {
          'fSaleAmountTva': new FormControl(this.selectCatalogService.saleAmountTva, Validators.required),
          'fSaleVat': new FormControl(
 
-          this.editMode!=1 ?this.selectCatalogService?.saleVat?.value:this.selectCatalogService?.saleVat,
+         this.selectCatalogService?.saleVat,
 
           Validators.required),
     });
@@ -192,12 +192,12 @@ console.log(data);
   }
 
   onSelectPurchaseVat(event) {
-    this.selectCatalogService.purchaseVat= this.vatList.filter(f=> f.value== event.value)[0];
+    this.selectCatalogService.purchaseVat= event.value;
     this.onPurcahsePriceChange(1);
   }
 
   onSelectSaleVat(event) {
-    this.selectCatalogService.saleVat=this.vatList.filter(f=> f.value== event.value)[0];
+    this.selectCatalogService.saleVat= event.value;
     this.onSalePriceChange(1);
   }
 
@@ -205,7 +205,7 @@ console.log(data);
   onPurcahsePriceChange(n: Number) {
     let PriceHt = +this.catalogServiceForm.value['fPurchaseAmountHt'];
     let PriceTTC = +this.catalogServiceForm.value['fPurchaseAmountTtc'];
-    let vat = this.catalogServiceForm.value['fPurchaseVat'];
+    let vat = this.catalogServiceForm.value['fPurchaseVat']?.value!=null ?this.catalogServiceForm.value['fPurchaseVat'].value:0;
     console.log(vat);
 
 
@@ -251,7 +251,7 @@ console.log(data);
   onSalePriceChange(n: Number) {
     let PriceHt = +this.catalogServiceForm.value['fSaleAmountHt'];
     let PriceTTC = +this.catalogServiceForm.value['fSaleAmountTtc'];
-    let vat = this.catalogServiceForm.value['fSaleVat'];
+    let vat = this.catalogServiceForm.value['fSaleVat']?.value!=null? this.catalogServiceForm.value['fSaleVat']?.value:0;
     console.log(vat);
 
 

@@ -167,7 +167,7 @@ export class TransportPlanAddComponent implements OnInit {
       transport: new FormControl(this.selectedTransportPlan?.transport?.name),
       salePrice: new FormControl(this.selectedTransportPlan.salePrice),
       purchasePrice: new FormControl(this.selectedTransportPlan.purchasePrice),
-      date: new FormControl(new Date(this.selectedTransportPlan.date)),
+      date: new FormControl(new Date(this.selectedTransportPlan.dateDepart)),
     });
   }
 
@@ -587,6 +587,8 @@ export class TransportPlanAddComponent implements OnInit {
         this.selectOrderTransport.orderTransportInfoAller.villeSource;
       this.selectedTransportPlan.villeDistination =
         this.selectOrderTransport.orderTransportInfoAller.villeDistination;
+        this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
+
       // this.loadContractAccountbyAccountSelectedAller(
       //   this.selectedTransportPlan.vehicleCategory
       // );
@@ -596,6 +598,7 @@ export class TransportPlanAddComponent implements OnInit {
         this.selectOrderTransport.orderTransportInfoRetour.villeSource;
       this.selectedTransportPlan.villeDistination =
         this.selectOrderTransport.orderTransportInfoRetour.villeDistination;
+        this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoRetour.date;
       // this.loadContractAccountbyAccountSelectedRetour(
       //   this.selectedTransportPlan.vehicleCategory
       // );
@@ -645,7 +648,8 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
     this.selectedTransportPlan.margineService =
       this.selectedTransport.margeService;
-    this.selectedTransportPlan.date = formValue["date"];
+    this.selectedTransportPlan.dateDepart = formValue['date'];
+    this.selectedTransportPlan.dateValidate = new Date();
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
       (data) => {
@@ -752,91 +756,5 @@ export class TransportPlanAddComponent implements OnInit {
     this.showDialogReject = event;
     this.searchTransportbyOrderInHistory();
   }
-  // search contract by account aller
-  // loadContractAccountbyAccountSelectedAller(vehicleCategory: VehicleCategory) {
-  //   console.log(
-  //     this.selectOrderTransport.orderTransportInfoAller.addressContactInitial
-  //       .date
-  //   );
-  //   let searchcontract = new EmsBuffer();
 
-  //   searchcontract.append(
-  //     "turnType.id:" + this.selectOrderTransport.turnType.id
-  //   );
-
-  //   searchcontract.append("vehicleCategory.id:" + vehicleCategory.id);
-  //   searchcontract.append(
-  //     "source.code~" +
-  //       this.selectOrderTransport.orderTransportInfoAller.addressContactInitial
-  //         .city
-  //   );
-  //   searchcontract.append(
-  //     "source.code~" +
-  //       this.selectOrderTransport.orderTransportInfoAller.addressContactInitial
-  //         .city
-  //   );
-  //   searchcontract.append(
-  //     "startDate<" +
-  //       new Date(
-  //         this.selectOrderTransport.orderTransportInfoAller.addressContactInitial.date
-  //       ).toISOString()
-  //   );
-  //   searchcontract.append(
-  //     "endDate>" +
-  //       new Date(
-  //         this.selectOrderTransport.orderTransportInfoAller.addressContactInitial.date
-  //       ).toISOString()
-  //   );
-  //   console.log(searchcontract.getValue());
-
-  //   this.searchContractAccount(searchcontract.getValue());
-  // }
-
-  // loadContractAccountbyAccountSelectedRetour(vehicleCategory: VehicleCategory) {
-  //   console.log(
-  //     this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial
-  //       .date
-  //   );
-  //   let searchcontract = new EmsBuffer();
-
-  //   searchcontract.append(
-  //     "turnType.id:" + this.selectOrderTransport.turnType.id
-  //   );
-
-  //   searchcontract.append("vehicleCategory.id:" + vehicleCategory.id);
-  //   searchcontract.append(
-  //     "source.code~" +
-  //       this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial
-  //         .city
-  //   );
-  //   searchcontract.append(
-  //     "source.code~" +
-  //       this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial
-  //         .city
-  //   );
-  //   searchcontract.append(
-  //     "startDate<" +
-  //       new Date(
-  //         this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial.date
-  //       ).toISOString()
-  //   );
-  //   searchcontract.append(
-  //     "endDate>" +
-  //       new Date(
-  //         this.selectOrderTransport.orderTransportInfoRetour.addressContactInitial.date
-  //       ).toISOString()
-  //   );
-  //   console.log(searchcontract.getValue());
-
-  //   this.searchContractAccount(searchcontract.getValue());
-  // }
-
-  // searchContractAccount(search: string) {
-  //   this.contractAccountService.find(search).subscribe((data) => {
-  //     console.log("contract");
-
-  //     this.selectedContractAccount = data[0];
-  //     console.log(data);
-  //   });
-  // }
 }

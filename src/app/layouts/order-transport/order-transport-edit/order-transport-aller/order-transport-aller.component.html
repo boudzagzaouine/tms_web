@@ -1,4 +1,6 @@
 
+  <div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
+
 <div class="container-fluid mt-5">
   <form [formGroup]="orderTransportInfoForm">
 
@@ -44,7 +46,7 @@
         class="form-control"
         pInputText
       /> -->
-      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2" formControlName="weight">
+      <p-inputNumber inputId="locale-user" [disabled]="true"  [minFractionDigits]="2" formControlName="weight">
       </p-inputNumber>
       </div>
 
@@ -52,25 +54,19 @@
         <label class="font-weight-bold"
           >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
         >
+        <p-inputNumber inputId="locale-user" [disabled]="true"
+         [minFractionDigits]="2" formControlName="capacity">
+        </p-inputNumber>
 
-      <input
-      formControlName="capacity"
-        type="text"
-        class="form-control"
-        pInputText
-      />
       </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
         >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> </label
       >
+      <p-inputNumber inputId="locale-user" [disabled]="true"
+      [minFractionDigits]="2" formControlName="numberOfPallet">
+     </p-inputNumber>
 
-    <input
-    formControlName="numberOfPallet"
-      type="text"
-      class="form-control"
-      pInputText
-    />
       </div>
         </div>
         <div class="row justify-content-around">
@@ -399,6 +395,8 @@
 
   </form>
   </div>
+
+  </div>
   <div class="row pull-left mt-5">
     <button
       type="button"
@@ -442,9 +440,7 @@
      [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
      [editMode]="editModeOrderTransportInfoLine"
      [typeInfo]="'Aller'"
-     [weightMax]="weightMax"
-     [capacityMax]="capacityMax"
-     [palletMax]="numberOfPalletMax"
+  [selectedOrderTransportTrajetQuantity]="selectOrderTransportTrajetQuantity"
 
     >
 

@@ -1,9 +1,10 @@
-import { AccountService } from './../../../../shared/services/api/account.service';
-import { Account } from './../../../../shared/models/account';
-import { PaymentTypeService } from './../../../../shared/services/api/payment-type.service';
-import { PaymentType } from './../../../../shared/models/payment-method';
-import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
-import { TurnStatus } from './../../../../shared/models/turn-status';
+import { OrderTransportTrajetQuantity } from "./../../../../shared/models/order-transport-trajet-quantity";
+import { AccountService } from "./../../../../shared/services/api/account.service";
+import { Account } from "./../../../../shared/models/account";
+import { PaymentTypeService } from "./../../../../shared/services/api/payment-type.service";
+import { PaymentType } from "./../../../../shared/models/payment-method";
+import { TurnStatusService } from "./../../../../shared/services/api/turn-status.service";
+import { TurnStatus } from "./../../../../shared/models/turn-status";
 import { Observable } from "rxjs/Observable";
 import { MessageService } from "primeng/api";
 import { OrderTransportType } from "./../../../../shared/models/order-transport-type";
@@ -17,7 +18,7 @@ import { Company } from "./../../../../shared/models/company";
 import { Subject, Subscription } from "rxjs";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
-import { PaymentRule } from './../../../../shared/models/payment-rule';
+import { PaymentRule } from "./../../../../shared/models/payment-rule";
 
 @Component({
   selector: "app-order-transport-info-line",
@@ -26,6 +27,7 @@ import { PaymentRule } from './../../../../shared/models/payment-rule';
 })
 export class OrderTransportInfoLineComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
+  @Input() selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
   @Input() typeInfo: string;
   @Input() weightMax: number;
@@ -33,49 +35,50 @@ export class OrderTransportInfoLineComponent implements OnInit {
   @Input() palletMax: number;
 
   @Output() showDialog = new EventEmitter<boolean>();
-  @Output() orderTransportInfoLineAdded =new EventEmitter<OrderTransportInfoLine>();
+  @Output() orderTransportInfoLineAdded =
+    new EventEmitter<OrderTransportInfoLine>();
   selectedOrderTransport: OrderTransport = new OrderTransport();
   orderTransportInfoLineForm: FormGroup;
-  selectAddressContactDeliveryInfo: AddressContactOrderTransportInfo = new AddressContactOrderTransportInfo();
+  selectAddressContactDeliveryInfo: AddressContactOrderTransportInfo =
+    new AddressContactOrderTransportInfo();
   orderTransportTypeList: OrderTransportType[] = [];
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = "Sous Trajet";
+  title = " Trajet";
   subscrubtion = new Subscription();
-  accountList :Account[]=[];
-  selectedAccount : Account= new Account();
+  accountList: Account[] = [];
+  selectedAccount: Account = new Account();
   showDialogContactAddress: Boolean = false;
   selectedCompany: Company = new Company();
 
   lines: OrderTransportInfoLine[] = [];
-  turnStatus : TurnStatus = new TurnStatus();
-  paymentTypeList : PaymentType[]=[];
+  turnStatus: TurnStatus = new TurnStatus();
+  paymentTypeList: PaymentType[] = [];
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     private companyService: CompanyService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
-    private turnStatusService :TurnStatusService,
-    private paymentTypeService :PaymentTypeService,
-    private accountService:AccountService,
-
+    private turnStatusService: TurnStatusService,
+    private paymentTypeService: PaymentTypeService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit() {
-    this.selectedOrderTransportInfoLine.account
+    this.selectedOrderTransportInfoLine.account;
     this.initForm();
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
-      this.selectedCompany = this.selectedOrderTransport.company
-      this.lines =
+    this.selectedCompany = this.selectedOrderTransport.company;
+    this.lines =
       this.typeInfo == "Aller"
         ? this.orderTransportService.getLinesAller()
         : this.orderTransportService.getLinesRetour();
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
-           this.initForm();
+      this.initForm();
     });
     this.paymentTypeService.findAll().subscribe((data) => {
       this.paymentTypeList = data;
@@ -83,7 +86,25 @@ export class OrderTransportInfoLineComponent implements OnInit {
     if (this.editMode) {
       this.selectAddressContactDeliveryInfo =
         this.selectedOrderTransportInfoLine.addressContactDeliveryInfo;
-        this.selectedAccount= this.selectedOrderTransportInfoLine.account
+      this.selectedAccount = this.selectedOrderTransportInfoLine.account;
+    } else {
+
+      console.log(this.selectedOrderTransportTrajetQuantity);
+
+      this.selectedOrderTransportInfoLine.weightEnlevement=0;
+
+      this.selectedOrderTransportInfoLine.numberOfPalletEnlevement=0;
+
+      this.selectedOrderTransportInfoLine.capacityEnlevement=0;
+
+
+      this.selectedOrderTransportInfoLine.weightLivraison=this.selectedOrderTransportTrajetQuantity?.weightEnlevement-this.selectedOrderTransportTrajetQuantity?.weightLivraison;
+
+      this.selectedOrderTransportInfoLine.numberOfPalletLivraison=this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement-this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
+
+      this.selectedOrderTransportInfoLine.capacityLivraison=this.selectedOrderTransportTrajetQuantity?.capacityEnlevement-this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
+
+
     }
 
     this.displayDialog = true;
@@ -93,7 +114,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   initForm() {
     if (!this.editMode) {
       this.selectedOrderTransportInfoLine.orderTransportType =
-        this.orderTransportTypeList.filter(f=> f.id==1)[0];
+        this.orderTransportTypeList.filter((f) => f.id == 1)[0];
     }
 
     this.orderTransportInfoLineForm = new FormGroup({
@@ -163,13 +184,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.commentEnlevement
         ),
         contreBL: new FormControl(
-          this.selectedOrderTransportInfoLine.contreBlEnlevement),
-          contreFacture: new FormControl(
-         this.selectedOrderTransportInfoLine?.contreFactureEnlevement
-         ),
-         paymentType: new FormControl(
-                this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
-         ),
+          this.selectedOrderTransportInfoLine.contreBlEnlevement
+        ),
+        contreFacture: new FormControl(
+          this.selectedOrderTransportInfoLine?.contreFactureEnlevement
+        ),
+        paymentType: new FormControl(
+          this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
+        ),
       }),
       livraison: new FormGroup({
         numberOfPallets: new FormControl(
@@ -187,13 +209,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.commentLivraison
         ),
         contreBL: new FormControl(
-          this.selectedOrderTransportInfoLine?.contreBlLivraison),
+          this.selectedOrderTransportInfoLine?.contreBlLivraison
+        ),
         contreFacture: new FormControl(
-         this.selectedOrderTransportInfoLine?.contreFactureLivraison
-         ),
-         paymentType: new FormControl(
-                this.selectedOrderTransportInfoLine?.paymentTypeLivraison
-         ),
+          this.selectedOrderTransportInfoLine?.contreFactureLivraison
+        ),
+        paymentType: new FormControl(
+          this.selectedOrderTransportInfoLine?.paymentTypeLivraison
+        ),
       }),
     });
   }
@@ -225,7 +248,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["general"]["deliveryInfoLatitude"];
     this.selectAddressContactDeliveryInfo.longitude =
       formvalue["general"]["deliveryInfoLongitude"];
-
   }
 
   onSubmit() {
@@ -235,50 +257,47 @@ export class OrderTransportInfoLineComponent implements OnInit {
       return;
     }
 
-      let formvalue = this.orderTransportInfoLineForm.value;
-      this.getValueFromEnlevementForm();
-      this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
-        this.selectAddressContactDeliveryInfo;
+    let formvalue = this.orderTransportInfoLineForm.value;
+    this.getValueFromEnlevementForm();
+    this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
+      this.selectAddressContactDeliveryInfo;
 
-      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
-        if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
-          return;
-        }
-        this.destroyLivraison();
-        this.validateEnlevement();
+    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
+      if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
+        return;
       }
-      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 2) {
-        if (this.orderTransportInfoLineForm.controls["livraison"].invalid) {
-          return;
-        }
-        this.destroyEnlevement();
-        this.validateLivraison();
-      }
-      if (this.selectedOrderTransportInfoLine.orderTransportType.id == 3) {
-        if (this.orderTransportInfoLineForm.controls["enlevement"].invalid && this.orderTransportInfoLineForm.controls["livraison"].invalid) {
-          return;
-        }
-        this.validateEnlevement();
-        this.validateLivraison();
-      }
-      console.log(this.turnStatus);
-
-     if( this.selectedOrderTransportInfoLine.turnStatus==null){
-  this.turnStatusService.find('id:'+1).subscribe(
-    data =>{
-      this.selectedOrderTransportInfoLine.turnStatus=data[0];
+      this.destroyLivraison();
+      this.validateEnlevement();
     }
-  );
+    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 2) {
+      if (this.orderTransportInfoLineForm.controls["livraison"].invalid) {
+        return;
+      }
+      this.destroyEnlevement();
+      this.validateLivraison();
+    }
+    if (this.selectedOrderTransportInfoLine.orderTransportType.id == 3) {
+      if (
+        this.orderTransportInfoLineForm.controls["enlevement"].invalid &&
+        this.orderTransportInfoLineForm.controls["livraison"].invalid
+      ) {
+        return;
+      }
+      this.validateEnlevement();
+      this.validateLivraison();
+    }
+    console.log(this.turnStatus);
 
-     }
+    if (this.selectedOrderTransportInfoLine.turnStatus == null) {
+      this.turnStatusService.find("id:" + 1).subscribe((data) => {
+        this.selectedOrderTransportInfoLine.turnStatus = data[0];
+      });
+    }
 
-      console.log(this.selectedOrderTransportInfoLine);
+    console.log(this.selectedOrderTransportInfoLine);
 
-      this.orderTransportInfoLineAdded.emit(
-        this.selectedOrderTransportInfoLine
-      );
-      this.displayDialog = false;
-
+    this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
+    this.displayDialog = false;
   }
 
   destroyEnlevement() {
@@ -289,7 +308,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.contreBlEnlevement = null;
     this.selectedOrderTransportInfoLine.contreFactureEnlevement = null;
     this.selectedOrderTransportInfoLine.paymentTypeEnlevement = null;
-
   }
   validateEnlevement() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -305,7 +323,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["enlevement"]["capacity"];
     this.selectedOrderTransportInfoLine.commentEnlevement =
       formvalue["enlevement"]["comment"];
-
   }
   destroyLivraison() {
     this.selectedOrderTransportInfoLine.capacityLivraison = null;
@@ -315,7 +332,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
     this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = null;
-
   }
   validateLivraison() {
     let formvalue = this.orderTransportInfoLineForm.value;
@@ -332,54 +348,47 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["livraison"]["capacity"];
     this.selectedOrderTransportInfoLine.commentLivraison =
       formvalue["livraison"]["comment"];
-
-
   }
   onSelectorderTransportType(event) {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
   }
 
-  onSelectPaymentTypeEnlevement(event){
+  onSelectPaymentTypeEnlevement(event) {
     this.selectedOrderTransportInfoLine.paymentTypeEnlevement = event.value;
-
   }
-  onSelectPaymentTypeLivraison(event){
+  onSelectPaymentTypeLivraison(event) {
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = event.value;
-
   }
-  onSelectAccount(event){
-    this.selectedOrderTransportInfoLine.account=event;
-    this.selectedAccount=event
-   }
+  onSelectAccount(event) {
+    this.selectedOrderTransportInfoLine.account = event;
+    this.selectedAccount = event;
+  }
 
-  onAccountSearch(event){
+  onAccountSearch(event) {
     console.log(this.selectedCompany);
     // company.id:'+this.selectedCompany.id+',
     this.accountService
-    .find('name~' + event.query)
-    .subscribe(data => (this.accountList = data))
-   }
-
-
+      .find("name~" + event.query)
+      .subscribe((data) => (this.accountList = data));
+  }
 
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
   }
 
-
   onSelectAddress(event, type) {
-    if(this.selectedAccount.id > 0){
+    if (this.selectedAccount.id > 0) {
       this.showDialogContactAddress = true;
-    }else{
+    } else {
       this.messageService.add({
-              severity: "error",
-              summary: "Error",
-              detail: "Saisir  Compte",
-            });
+        severity: "error",
+        summary: "Error",
+        detail: "Saisir  Compte",
+      });
     }
 
-  //  this.selectedCompany = this.selectedOrderTransport.company;
+    //  this.selectedCompany = this.selectedOrderTransport.company;
   }
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
@@ -408,27 +417,24 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
 
-  onChangeCBLEnlevement(event){
+ 
 
-
-  this.selectedOrderTransportInfoLine.contreBlEnlevement=event.checked;
-  console.log( this.selectedOrderTransportInfoLine.contreBlEnlevement);
+  onChangeCBLEnlevement(event) {
+    this.selectedOrderTransportInfoLine.contreBlEnlevement = event.checked;
+    console.log(this.selectedOrderTransportInfoLine.contreBlEnlevement);
   }
-  onChangeCBLLivraison(event){
-    this.selectedOrderTransportInfoLine.contreBlLivraison=event.checked;
-    console.log( this.selectedOrderTransportInfoLine.contreBlLivraison);
-
-    }
-    onChangeCFEnlevement(event){
-      this.selectedOrderTransportInfoLine.contreFactureEnlevement=event.checked;
-      console.log( this.selectedOrderTransportInfoLine.contreFactureEnlevement);
-
-      }
-      onChangeCFLivraison(event){
-        this.selectedOrderTransportInfoLine.contreFactureLivraison=event.checked;
-        console.log( this.selectedOrderTransportInfoLine.contreFactureLivraison);
-
-        }
+  onChangeCBLLivraison(event) {
+    this.selectedOrderTransportInfoLine.contreBlLivraison = event.checked;
+    console.log(this.selectedOrderTransportInfoLine.contreBlLivraison);
+  }
+  onChangeCFEnlevement(event) {
+    this.selectedOrderTransportInfoLine.contreFactureEnlevement = event.checked;
+    console.log(this.selectedOrderTransportInfoLine.contreFactureEnlevement);
+  }
+  onChangeCFLivraison(event) {
+    this.selectedOrderTransportInfoLine.contreFactureLivraison = event.checked;
+    console.log(this.selectedOrderTransportInfoLine.contreFactureLivraison);
+  }
 
   ngOnDestroy() {
     this.subscrubtion.unsubscribe();

@@ -18,7 +18,7 @@
 
             </span>
                 <br />
-                <input type="text" class="form-control" pInputText formControlName="fCode"
+                <input type="text" class="form-control" [attr.disabled]="'true'" pInputText formControlName="fCode"
                 (keydown.space)="$event.preventDefault()"
                />
               </div>
@@ -38,7 +38,7 @@
                   {{ 'Obligatoire' | translate}}
 
                 </span>
-                <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
+                <p-dropdown [autoDisplayFirst]="false" [appendTo]="'body'" [options]="paysList" optionLabel="code" [filter]="true"
                   [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysSource($event)"
                   formControlName="fPaysSource">
                 </p-dropdown>
@@ -57,7 +57,7 @@
               </span>
 
 
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleSource" [suggestions]="villeList"
+              <p-autoComplete [disabled]="(editMode==2)" [appendTo]="'body'"  formControlName="fVilleSource" [suggestions]="villeList"
                 (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
@@ -76,7 +76,7 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="paysList" optionLabel="code" [filter]="true"
+              <p-dropdown [autoDisplayFirst]="false" [appendTo]="'body'"  [options]="paysList" optionLabel="code" [filter]="true"
                 [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectPaysDistination($event)"
                 formControlName="fPaysDestination">
               </p-dropdown>
@@ -93,7 +93,7 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-autoComplete [disabled]="(editMode==2)" formControlName="fVilleDestination" [suggestions]="villeList"
+              <p-autoComplete [disabled]="(editMode==2)" [appendTo]="'body'" formControlName="fVilleDestination" [suggestions]="villeList"
                 (onSelect)="onSelectVilleDestination($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 

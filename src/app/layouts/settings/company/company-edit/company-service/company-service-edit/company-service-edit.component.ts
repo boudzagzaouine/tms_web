@@ -244,7 +244,7 @@ console.log(this.selectAccountService?.company?.id);
   onSalePriceChange(n: Number) {
     let PriceHt = +this.accountServiceForm.value["fSaleAmountHt"];
     let PriceTTC = +this.accountServiceForm.value["fSaleAmountTtc"];
-    let vat = this.accountServiceForm.value["fSaleVat"].value;
+    let vat = this.accountServiceForm.value["fSaleVat"]?.value!=null ?this.accountServiceForm.value["fSaleVat"]?.value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

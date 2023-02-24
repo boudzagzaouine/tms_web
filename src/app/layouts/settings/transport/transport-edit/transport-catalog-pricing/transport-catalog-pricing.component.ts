@@ -127,7 +127,7 @@ export class TransportCatalogPricingComponent implements OnInit {
         header: "TVA",
         type: "object",
       },
-      { field: "purchaseAmountHt", header: "Prix TTC", type: "number" },
+      { field: "purchaseAmountTtc", header: "Prix TTC", type: "number" },
       {
         field: "transport",
         child: "name",

@@ -215,7 +215,7 @@ export class TransportServiceEditComponent implements OnInit {
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.transportServiceForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.transportServiceForm.value["fPurchaseAmountTtc"];
-    let vat = this.transportServiceForm.value["fPurchaseVat"].value;
+    let vat = this.transportServiceForm.value["fPurchaseVat"]?.value?this.transportServiceForm.value["fPurchaseVat"].value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

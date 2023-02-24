@@ -275,7 +275,7 @@ requete      )
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.transportAccountServiceForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.transportAccountServiceForm.value["fPurchaseAmountTtc"];
-    let vat = this.transportAccountServiceForm.value["fPurchaseVat"].value;
+    let vat = this.transportAccountServiceForm.value["fPurchaseVat"]?.value?this.transportAccountServiceForm.value["fPurchaseVat"].value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

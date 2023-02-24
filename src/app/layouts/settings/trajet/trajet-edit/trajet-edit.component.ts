@@ -179,18 +179,28 @@ console.log(data);
 
   onSelectPaysSource(event){
     this.selectTrajet.paysSource = event.value;
+
+
   }
   onSelectVilleSource(event: any) {
     this.selectTrajet.villeSource = event;
     this.villeSourceId = this.selectTrajet.villeSource.id;
+    this.selectTrajet.code= this.selectTrajet?.villeSource?.code+"-"+(this.selectTrajet?.villeDestination?.code ?this.selectTrajet?.villeDestination?.code:'') ;
+    console.log(this.selectTrajet.code);
+    this.initForm();
   }
 
   onSelectPaysDistination(event){
     this.selectTrajet.paysDestination = event.value;
+
   }
   onSelectVilleDestination(event: any) {
     this.selectTrajet.villeDestination = event;
     this.villeDestinationId = this.selectTrajet.villeDestination.id;
+    this.selectTrajet.code= (this.selectTrajet?.villeSource?.code?this.selectTrajet?.villeSource?.code :'')+"-"+this.selectTrajet?.villeDestination?.code;
+    console.log(this.selectTrajet.code);
+    this.initForm();
+
   }
 
 

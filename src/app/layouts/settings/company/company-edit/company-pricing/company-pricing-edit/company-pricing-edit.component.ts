@@ -291,7 +291,7 @@ export class CompanyPricingEditComponent implements OnInit {
   onSalePriceChange(n: Number) {
     let PriceHt = +this.accountPricingForm.value["fSaleAmountHt"];
     let PriceTTC = +this.accountPricingForm.value["fSaleAmountTtc"];
-    let vat = this.accountPricingForm.value["fSaleVat"].value;
+    let vat = this.accountPricingForm.value["fSaleVat"]?.value!=null?this.accountPricingForm.value["fSaleVat"].value:0;
     console.log(PriceHt);
     console.log(vat);
     console.log(PriceTTC);

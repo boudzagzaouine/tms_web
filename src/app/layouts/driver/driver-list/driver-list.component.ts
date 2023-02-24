@@ -78,7 +78,7 @@ export class DriverListComponent implements OnInit {
       { field: 'birthDate', header: 'Date Naissance', type: 'date' },
       { field: 'carte', header: "Carte d'abonnement", type: 'string' },
       { field: 'tele1', header: 'Téléphone', type: 'string' },
-      { field: 'fax', header: 'Fax', type: 'string' },
+      // { field: 'fax', header: 'Fax', type: 'string' },
       { field: 'email', header: 'Email', type: 'string' },
     ];
 

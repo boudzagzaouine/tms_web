@@ -15,8 +15,8 @@
 
     <div class="col-md-2">
       <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
-      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="patrimonyCodeList"
-          (completeMethod)="onPatrimonyCodeSearch($event)"
+      <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleCodeList"
+          (completeMethod)="onVehicleCodeSearch($event)"
            field="registrationNumber">
       </p-autoComplete>
 
@@ -40,7 +40,7 @@
       {{ "Réinitialiser" | translate }}
     </button>
 
-    <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+    <button type="button" class="btn btn-success" (click)="onSearchVehicleClicked()">
       <i class="fa fa-search mr-2"></i>
 
       {{ "Rechercher" | translate }}
@@ -55,6 +55,7 @@
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
+  (lazyLoadData)="loadDataLazy($event)"
 
   (exportBtnExcelGlobal)="onExportExcel($event)"
   (exportBtnPdf)="onExportPdf($event)"

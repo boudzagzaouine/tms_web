@@ -1,3 +1,4 @@
+import { OrderTransportTrajetQuantity } from './../../../../shared/models/order-transport-trajet-quantity';
 import { Itinerary } from './../../../../shared/models/Itinerairy';
 import { CompanyService } from './../../../../shared/services/api/company.service';
 import { TurnStatus } from './../../../../shared/models/turn-status';
@@ -31,11 +32,15 @@ export class OrderTransportRetourComponent implements OnInit {
 
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
+  itineraries : Array<Itinerary>=[];
+  itinerary :Itinerary= new Itinerary();
+  map:any;
+  mainLayer:any;
   orderTransportInfoForm: FormGroup;
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
-
+  selectOrderTransportTrajetQuantity:OrderTransportTrajetQuantity= new OrderTransportTrajetQuantity();
 
   idPackageDetail: number = 0;
   packageDetails: PackageDetail[] = [];
@@ -165,8 +170,21 @@ export class OrderTransportRetourComponent implements OnInit {
       return;
     }
     if(this.orderTransportInfoLines[0] !=null){
-        this.loadForm();
-        this.nextstep.emit(true);
+      this.getTrajetQuantity();
+console.log(">0");
+
+        if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
+          console.log("err qnt <");
+
+        }
+        else if(this.selectOrderTransportTrajetQuantity.weightEnlevement>this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement>this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement>this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
+          console.log("err qnt >");
+
+        }
+       else {   this.loadForm();this.nextstep.emit(true);           console.log("next");
+      }
 }else {
   this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
 
@@ -194,6 +212,8 @@ export class OrderTransportRetourComponent implements OnInit {
     this.orderTransportService.addOrderTransportInfoRetour(
       this.selectedOrderTransportInfo
     );
+
+
   }
 
 
@@ -336,18 +356,17 @@ export class OrderTransportRetourComponent implements OnInit {
     );
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
+
       this.orderTransportService.addLinesRetour(this.orderTransportInfoLines);
+      this.getTrajetQuantity();
 
     }
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
 
-
-    this.weightMax = this.orderTransportInfoForm.value["weight"];
-    this.numberOfPalletMax = this.orderTransportInfoForm.value["numberOfPallet"];
+ this.getTrajetQuantity();
     this.showDialogOrderTransportInfoLine = true;
-
     if (mode == true) {
       this.selectOrderTransportInfoLine = line;
       this.editModeOrderTransportInfoLine = true;
@@ -369,9 +388,34 @@ export class OrderTransportRetourComponent implements OnInit {
           (l) => l.id !== id
         );
         this.orderTransportService.addLinesRetour(this.orderTransportInfoLines);
+        this.getTrajetQuantity();
       },
     });
   }
+
+
+  getTrajetQuantity(){
+    this.selectOrderTransportTrajetQuantity=new OrderTransportTrajetQuantity();
+if(this.orderTransportInfoLines.length>0){
+    this.orderTransportInfoLines.forEach(ot => {
+      if(ot.orderTransportType.id==1 || ot.orderTransportType.id==3){
+                this.selectOrderTransportTrajetQuantity.weightEnlevement += ot.weightEnlevement;
+        this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement += ot.numberOfPalletEnlevement;
+        this.selectOrderTransportTrajetQuantity.capacityEnlevement += ot.capacityEnlevement;
+    }else if (ot.orderTransportType.id==2 || ot.orderTransportType.id==3){
+        this.selectOrderTransportTrajetQuantity.weightLivraison += ot.weightLivraison;
+        this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison += ot.numberOfPalletLivraison;
+        this.selectOrderTransportTrajetQuantity.capacityLivraison += ot.capacityLivraison;
+    }
+    });
+this.selectOrderTransportTrajetQuantity.firstTrajet=false;
+this.orderTransportInfoForm.controls["weight"].setValue(   this.selectOrderTransportTrajetQuantity.weightEnlevement);
+this.orderTransportInfoForm.controls["numberOfPallet"].setValue(   this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement);
+this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTransportTrajetQuantity.capacityEnlevement);
+
+  }
+  }
+
 
   // fin Line
 
@@ -386,6 +430,5 @@ export class OrderTransportRetourComponent implements OnInit {
     this.validateForm();
 
   }
-
 
 }

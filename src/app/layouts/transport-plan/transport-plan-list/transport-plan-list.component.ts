@@ -210,14 +210,17 @@ this.vehicleCategoryService.findAll().subscribe(
 
     this.editMode = event.operationMode;
     this.selectedTransportPlans = event.object;
+console.log(this.selectedTransportPlans);
 
     if (this.editMode === 3) {
       this.onDeleteAll();
     }else if(this.editMode === 4){
       this.generateExportInvoiceState();
     } else {
+      console.log("modif");
+
       this.showDialog = true;
-      this.router.navigate(['/core/transport-plan/edit/', this.selectedTransportPlans[0].id]);
+      this.router.navigate(['/core/transport-plan/edit/', this.selectedTransportPlans[0]?.id]);
     }
 
   }

@@ -49,6 +49,7 @@ export class TarificationComponent implements OnInit {
   selectRadio: Boolean = true;
   marginRate: number =0;
   marginValue: number = 0;
+  tarificationAccount:number=0;
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
@@ -190,7 +191,10 @@ export class TarificationComponent implements OnInit {
         console.log(data);
         if (data[0]) {
           this.selectedAccountPricing = data[0];
+          console.log("pricAccount");
+console.log( this.tarificationAccount);
 
+          this.tarificationAccount=1;
           let purchase = this.selectedCatalogPricing.purchaseAmountHt;
           let sale = this.selectedAccountPricing.saleAmountHt;
           console.log(this.marginRate);
@@ -201,8 +205,13 @@ export class TarificationComponent implements OnInit {
           this.tarificationForm.patchValue({
             priceHT: this.selectedAccountPricing.saleAmountHt,
           });
-          //this.tarificationForm.controls["priceHT"].disable();
+          this.tarificationForm.controls["priceHT"].disable();
         } else {
+          this.tarificationAccount=2;
+          console.log( this.tarificationAccount);
+
+          console.log("priceCatalog");
+
           let purchase = this.selectedCatalogPricing.purchaseAmountHt;
           let sale = this.selectedCatalogPricing.saleAmountHt;
           this.calculatMarge(purchase,sale);

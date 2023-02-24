@@ -78,7 +78,9 @@
                 {{ 'Obligatoire' | translate}}
 
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
+              <p-dropdown [autoDisplayFirst]="false"
+              [placeholder]="selectCatalogTransportAccountPricing?.vehicleCategory?.code"
+              [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
                 [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectVehicleCateory($event)"
                 formControlName="fVehicleCategory">
               </p-dropdown>

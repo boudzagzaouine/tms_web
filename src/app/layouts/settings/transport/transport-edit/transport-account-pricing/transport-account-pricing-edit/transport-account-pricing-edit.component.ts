@@ -308,7 +308,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.catalogTransportAccountPricingForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.catalogTransportAccountPricingForm.value["fPurchaseAmountTtc"];
-    let vat = this.catalogTransportAccountPricingForm.value["fPurchaseVat"].value;
+    let vat = this.catalogTransportAccountPricingForm.value["fPurchaseVat"]?.value!=null?this.catalogTransportAccountPricingForm.value["fPurchaseVat"]?.value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

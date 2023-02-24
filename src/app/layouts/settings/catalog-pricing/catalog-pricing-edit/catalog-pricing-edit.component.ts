@@ -24,6 +24,7 @@ import { Transport } from './../../../../shared/models/transport';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { log } from 'console';
 
 @Component({
   selector: 'app-catalog-pricing-edit',
@@ -242,12 +243,14 @@ console.log(data);
   }
 
   onSelectPurchaseVat(event) {
-    this.selectCatalogPricing.purchaseVat= this.vatList.filter(f=> f.value== event.value)[0];
+    this.selectCatalogPricing.purchaseVat= event.value as Vat;
+    console.log( this.selectCatalogPricing.purchaseVat);
+
     this.onPurcahsePriceChange(1);
   }
 
   onSelectSaleVat(event) {
-    this.selectCatalogPricing.saleVat=this.vatList.filter(f=> f.value== event.value)[0];
+    this.selectCatalogPricing.saleVat=event.value as Vat;
     this.onSalePriceChange(1);
   }
 
@@ -261,10 +264,15 @@ console.log(data);
 
 
   onPurcahsePriceChange(n: Number) {
+    //isinsput = true  recuperate value by input  / false by param => price
+
+console.log(this.catalogPricingForm.controls.fPurchaseAmountHt);
+
     let PriceHt = +this.catalogPricingForm.value['fPurchaseAmountHt'];
     let PriceTTC = +this.catalogPricingForm.value['fPurchaseAmountTtc'];
-    let vat = this.catalogPricingForm.value['fPurchaseVat'].value;
+    let vat = (this.catalogPricingForm.value['fPurchaseVat']?.value!=null)?this.catalogPricingForm.value['fPurchaseVat'].value:0;
     console.log(vat);
+console.log(PriceHt);
 
 
     if (PriceHt === undefined || PriceHt == null) {
@@ -326,7 +334,7 @@ console.log(data);
   onSalePriceChange(n: Number) {
     let PriceHt = +this.catalogPricingForm.value['fSaleAmountHt'];
     let PriceTTC = +this.catalogPricingForm.value['fSaleAmountTtc'];
-    let vat = this.catalogPricingForm.value['fSaleVat'].value;
+    let vat = this.catalogPricingForm.value['fSaleVat']?.value !=null ? this.catalogPricingForm.value['fSaleVat']?.value:0;
     console.log(vat);
 
 

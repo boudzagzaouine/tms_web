@@ -1,313 +1,426 @@
-<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{ width: '900px' }" (onHide)="onShowDialog()">
+<p-dialog
+  header="{{ title | translate }}"
+  [(visible)]="displayDialog"
+  [focusOnShow]="false"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  [style]="{ width: '900px' }"
+  (onHide)="onShowDialog()"
+>
   <div>
     <div class="modal-body">
       <div class="card-body">
         <form [formGroup]="catalogPricingForm">
-
           <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold"
+                >{{ "Trajet " | translate }} *</label
+              >
+              <span
+                *ngIf="
+                  (catalogPricingForm.get('fTrajet').touched &&
+                    catalogPricingForm.get('fTrajet').invalid) ||
+                  (isFormSubmitted && catalogPricingForm.get('fTrajet').invalid)
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
+              </span>
 
-          <div class="form-group col-sm-6">
-            <label class="font-weight-bold">{{ "Trajet " | translate }} *</label>
-            <span *ngIf="
-                (catalogPricingForm.get('fTrajet').touched &&
-                  catalogPricingForm.get('fTrajet').invalid) ||
-                (isFormSubmitted &&
-                  catalogPricingForm.get('fTrajet').invalid)
-              " class="text-lighter" style="color: red; font-size: xx-small;">
-              {{ 'Obligatoire' | translate}}
-
-            </span>
-
-
-            <p-autoComplete [disabled]="(editMode==2)" formControlName="fTrajet" [suggestions]="TrajetList"
-              (onSelect)="onSelectTrajet($event)" (completeMethod)="onTrajetSearch($event)" field="code">
-            </p-autoComplete>
-
+              <p-autoComplete
+                [disabled]="editMode == 2"
+                formControlName="fTrajet"
+                [suggestions]="TrajetList"
+                (onSelect)="onSelectTrajet($event)"
+                (completeMethod)="onTrajetSearch($event)"
+                field="code"
+              >
+              </p-autoComplete>
+            </div>
+            <div class="form-group col-sm-6"></div>
           </div>
-          <div class="form-group col-sm-6">
-</div>
-</div>
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Type " | translate }} *</label>
-              <span *ngIf="
+              <label class="font-weight-bold"
+                >{{ "Type " | translate }} *</label
+              >
+              <span
+                *ngIf="
                   (catalogPricingForm.get('fTurnType').touched &&
                     catalogPricingForm.get('fTurnType').invalid) ||
                   (isFormSubmitted &&
                     catalogPricingForm.get('fTurnType').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
               </span>
-              <p-dropdown [autoDisplayFirst]="false"  [disabled]="(editMode==2)" [options]="turnTypeList" optionLabel="code" [filter]="true"
-                [showClear]="true"  (onChange)="onSelectTurnType($event)"
-                formControlName="fTurnType">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [disabled]="editMode == 2"
+                [options]="turnTypeList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                (onChange)="onSelectTurnType($event)"
+                formControlName="fTurnType"
+              >
               </p-dropdown>
             </div>
 
- <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Categorie Véhicule" | translate }} *</label>
-              <span *ngIf="
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold"
+                >{{ "Categorie Véhicule" | translate }} *</label
+              >
+              <span
+                *ngIf="
                   (catalogPricingForm.get('fVehicleCategory').touched &&
                     catalogPricingForm.get('fVehicleCategory').invalid) ||
                   (isFormSubmitted &&
                     catalogPricingForm.get('fVehicleCategory').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" [placeholder]="this.selectCatalogPricing?.vehicleCategory?.code"
-                 (onChange)="onSelectVehicleCateory($event)"
-                formControlName="fVehicleCategory">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="vehicleCategorieList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [disabled]="editMode == 2"
+                [placeholder]="this.selectCatalogPricing?.vehicleCategory?.code"
+                (onChange)="onSelectVehicleCateory($event)"
+                formControlName="fVehicleCategory"
+              >
               </p-dropdown>
             </div>
-  <div class="form-group col-sm-3">
+            <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Form" | translate }} *</label>
-              <span *ngIf="
+              <span
+                *ngIf="
                   (catalogPricingForm.get('fVehicleTray').touched &&
                     catalogPricingForm.get('fVehicleTray').invalid) ||
                   (isFormSubmitted &&
                     catalogPricingForm.get('fVehicleTray').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleTrayList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectvehicleTray($event)"
-                formControlName="fVehicleTray">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="vehicleTrayList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [disabled]="editMode == 2"
+                (onChange)="onSelectvehicleTray($event)"
+                formControlName="fVehicleTray"
+              >
               </p-dropdown>
             </div>
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Type Chargement" | translate }} *</label>
-              <span *ngIf="
+              <label class="font-weight-bold"
+                >{{ "Type Chargement" | translate }} *</label
+              >
+              <span
+                *ngIf="
                   (catalogPricingForm.get('fLoadingType').touched &&
                     catalogPricingForm.get('fLoadingType').invalid) ||
                   (isFormSubmitted &&
                     catalogPricingForm.get('fLoadingType').invalid)
-                " class="text-lighter" style="color: red; font-size: xx-small;">
-                {{ 'Obligatoire' | translate}}
-
+                "
+                class="text-lighter"
+                style="color: red; font-size: xx-small"
+              >
+                {{ "Obligatoire" | translate }}
               </span>
-              <p-dropdown [autoDisplayFirst]="false" [options]="loadingTypeList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectloadingType($event)"
-                formControlName="fLoadingType">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="loadingTypeList"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [disabled]="editMode == 2"
+                (onChange)="onSelectloadingType($event)"
+                formControlName="fLoadingType"
+              >
               </p-dropdown>
             </div>
+          </div>
 
-
-
-
-            </div>
-
-
-            <div class="row justify-content-around">
-              <div class="form-group col-sm-6">
-            <p-fieldset legend="Achat" [toggleable]="true">
-
-              <div class="row justify-content-around">
-                <div class="form-group col-sm-6">
-                  <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
-                  <span *ngIf="
-                      (catalogPricingForm.get('fPurchaseAmountHt').touched &&
-                        catalogPricingForm.get('fPurchaseAmountHt').invalid) ||
-                      (isFormSubmitted &&
-                        catalogPricingForm.get('fPurchaseAmountHt').invalid)
-                    " class="text-lighter" style="color: red; font-size: xx-small;">
-                    {{ 'Obligatoire' | translate}}
-                  </span>
-                  <br />
-                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(1)" pInputText
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-6">
+              <p-fieldset legend="Achat" [toggleable]="true">
+                <div class="row justify-content-around">
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant HT" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fPurchaseAmountHt').touched &&
+                          catalogPricingForm.get('fPurchaseAmountHt')
+                            .invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fPurchaseAmountHt').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(1)" pInputText
                     formControlName="fPurchaseAmountHt" /> -->
 
-                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(1)"  [minFractionDigits]="2"
-                    formControlName="fPurchaseAmountHt"
-                  >
-                   </p-inputNumber>
-                </div>
+                    <p-inputNumber
 
-                <div class="form-group col-sm-6">
-                  <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
-                  <span *ngIf="
-                      (catalogPricingForm.get('fPurchaseVat').touched &&
-                        catalogPricingForm.get('fPurchaseVat').invalid) ||
-                      (isFormSubmitted &&
-                        catalogPricingForm.get('fPurchaseVat').invalid)
-                    " class="text-lighter" style="color: red; font-size: xx-small;">
-                    {{ 'Obligatoire' | translate}}
-                  </span>
-                  <p-dropdown
-                   [autoDisplayFirst]="false"
-                   [options]="vatList"
-                     [filter]="true"
-                     optionLabel="value"
-                     [appendTo]="'body'"
-                     emptyMessage="0"
-                    [showClear]="true"
-                     (onChange)="onSelectPurchaseVat($event)"
-                      formControlName="fPurchaseVat"></p-dropdown>
+                      inputId="locale-user"
+                      (keyup)="onPurcahsePriceChange(1)"
+                      
+                      [minFractionDigits]="2" [maxFractionDigits]="5"
+                      formControlName="fPurchaseAmountHt"
+                    >
+                    </p-inputNumber>
+                  </div>
 
-                </div>
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Taux TVA" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fPurchaseVat').touched &&
+                          catalogPricingForm.get('fPurchaseVat').invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fPurchaseVat').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <p-dropdown
+                      [autoDisplayFirst]="false"
+                      [options]="vatList"
+                      [filter]="true"
+                      optionLabel="value"
+                      [appendTo]="'body'"
+                      emptyMessage="0"
+                      [showClear]="true"
+                      (onChange)="onSelectPurchaseVat($event)"
+                      formControlName="fPurchaseVat"
+                    ></p-dropdown>
+                  </div>
 
-                <div class="form-group col-sm-6">
-                  <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
-                  <span *ngIf="
-                      (catalogPricingForm.get('fPurchaseAmountTtc').touched &&
-                        catalogPricingForm.get('fPurchaseAmountTtc').invalid) ||
-                      (isFormSubmitted &&
-                        catalogPricingForm.get('fPurchaseAmountTtc').invalid)
-                    " class="text-lighter" style="color: red; font-size: xx-small;">
-                    {{ 'Obligatoire' | translate}}
-
-                  </span>
-                  <br />
-                  <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(2)" pInputText
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant TTC" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fPurchaseAmountTtc').touched &&
+                          catalogPricingForm.get('fPurchaseAmountTtc')
+                            .invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fPurchaseAmountTtc').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" (keyup)="onPurcahsePriceChange(2)" pInputText
                     formControlName="fPurchaseAmountTtc" /> -->
 
-                    <p-inputNumber inputId="locale-user" (keyup)="onPurcahsePriceChange(2)"  [minFractionDigits]="2"
-                    formControlName="fPurchaseAmountTtc"
-                  >
-                   </p-inputNumber>
-
-                </div>
-                <div class="form-group col-sm-6">
-                  <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
-                  <span *ngIf="
-                      (catalogPricingForm.get('fPurchaseAmountTva').touched &&
-                        catalogPricingForm.get('fPurchaseAmountTva').invalid) ||
-                      (isFormSubmitted &&
-                        catalogPricingForm.get('fPurchaseAmountTva').invalid)
-                    " class="text-lighter" style="color: red; font-size: xx-small;">
-                    {{ 'Obligatoire' | translate}}
-
-                  </span>
-                  <br />
-                  <!-- <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
+                    <p-inputNumber
+                      inputId="locale-user"
+                      (keyup)="onPurcahsePriceChange(2)"
+                      [minFractionDigits]="2"
+                      formControlName="fPurchaseAmountTtc"
+                    >
+                    </p-inputNumber>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant TVA" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fPurchaseAmountTva').touched &&
+                          catalogPricingForm.get('fPurchaseAmountTva')
+                            .invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fPurchaseAmountTva').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" pInputText formControlName="fPurchaseAmountTva"
                     (keydown.space)="$event.preventDefault()" /> -->
 
-
-                    <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                    formControlName="fPurchaseAmountTva"
-                  >
-                   </p-inputNumber>
+                    <p-inputNumber
+                      inputId="locale-user"
+                      [minFractionDigits]="2"
+                      formControlName="fPurchaseAmountTva"
+                    >
+                    </p-inputNumber>
+                  </div>
                 </div>
-              </div>
+              </p-fieldset>
+            </div>
 
-            </p-fieldset>
-</div>
-
-<div class="form-group col-sm-6">
-   <p-fieldset legend="Vente" [toggleable]="true">
-
-    <div class="row justify-content-around">
-      <div class="form-group col-sm-6">
-        <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
-        <span *ngIf="
-            (catalogPricingForm.get('fSaleAmountHt').touched &&
-              catalogPricingForm.get('fSaleAmountHt').invalid) ||
-            (isFormSubmitted &&
-              catalogPricingForm.get('fSaleAmountHt').invalid)
-          " class="text-lighter" style="color: red; font-size: xx-small;">
-          {{ 'Obligatoire' | translate}}
-        </span>
-        <br />
-        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(1)" pInputText
+            <div class="form-group col-sm-6">
+              <p-fieldset legend="Vente" [toggleable]="true">
+                <div class="row justify-content-around">
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant HT" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fSaleAmountHt').touched &&
+                          catalogPricingForm.get('fSaleAmountHt').invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fSaleAmountHt').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(1)" pInputText
           formControlName="fSaleAmountHt" /> -->
 
-          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(1)" [minFractionDigits]="2"
-                    formControlName="fSaleAmountHt"
-                  >
-                   </p-inputNumber>
-      </div>
+                    <p-inputNumber
+                      inputId="locale-user"
+                      (keyup)="onSalePriceChange(1)"
+                      [minFractionDigits]="2"
+                      formControlName="fSaleAmountHt"
+                    >
+                    </p-inputNumber>
+                  </div>
 
-      <div class="form-group col-sm-6">
-        <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
-        <span *ngIf="
-            (catalogPricingForm.get('fSaleVat').touched &&
-              catalogPricingForm.get('fSaleVat').invalid) ||
-            (isFormSubmitted &&
-              catalogPricingForm.get('fSaleVat').invalid)
-          " class="text-lighter" style="color: red; font-size: xx-small;">
-          {{ 'Obligatoire' | translate}}
-        </span>
-        <p-dropdown
-         [autoDisplayFirst]="false"
-         [options]="vatList"
-           [filter]="true"
-           optionLabel="value"
-           [appendTo]="'body'"
-          [showClear]="true"
-           (onChange)="onSelectSaleVat($event)"
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Taux TVA" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fSaleVat').touched &&
+                          catalogPricingForm.get('fSaleVat').invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fSaleVat').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <p-dropdown
+                      [autoDisplayFirst]="false"
+                      [options]="vatList"
+                      [filter]="true"
+                      optionLabel="value"
+                      [appendTo]="'body'"
+                      [showClear]="true"
+                      (onChange)="onSelectSaleVat($event)"
+                      formControlName="fSaleVat"
+                    ></p-dropdown>
+                  </div>
 
-            formControlName="fSaleVat"></p-dropdown>
-
-      </div>
-
-      <div class="form-group col-sm-6">
-        <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
-        <span *ngIf="
-            (catalogPricingForm.get('fSaleAmountTtc').touched &&
-              catalogPricingForm.get('fSaleAmountTtc').invalid) ||
-            (isFormSubmitted &&
-              catalogPricingForm.get('fSaleAmountTtc').invalid)
-          " class="text-lighter" style="color: red; font-size: xx-small;">
-          {{ 'Obligatoire' | translate}}
-
-        </span>
-        <br />
-        <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(2)" pInputText
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant TTC" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fSaleAmountTtc').touched &&
+                          catalogPricingForm.get('fSaleAmountTtc').invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fSaleAmountTtc').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" (keyup)="onSalePriceChange(2)" pInputText
           formControlName="fSaleAmountTtc" /> -->
 
-
-          <p-inputNumber inputId="locale-user"  (keyup)="onSalePriceChange(2)" [minFractionDigits]="2"
-                    formControlName="fSaleAmountTtc"
-                  >
-                   </p-inputNumber>
-
-      </div>
-      <div class="form-group col-sm-6">
-        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
-        <span *ngIf="
-            (catalogPricingForm.get('fSaleAmountTva').touched &&
-              catalogPricingForm.get('fSaleAmountTva').invalid) ||
-            (isFormSubmitted &&
-              catalogPricingForm.get('fSaleAmountTva').invalid)
-          " class="text-lighter" style="color: red; font-size: xx-small;">
-          {{ 'Obligatoire' | translate}}
-
-        </span>
-        <br />
-        <!-- <input type="text" class="form-control" pInputText formControlName="fSaleAmountTva"
+                    <p-inputNumber
+                      inputId="locale-user"
+                      (keyup)="onSalePriceChange(2)"
+                      [minFractionDigits]="2"
+                      formControlName="fSaleAmountTtc"
+                    >
+                    </p-inputNumber>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label class="font-weight-bold"
+                      >{{ "Montant TVA" | translate }} *</label
+                    >
+                    <span
+                      *ngIf="
+                        (catalogPricingForm.get('fSaleAmountTva').touched &&
+                          catalogPricingForm.get('fSaleAmountTva').invalid) ||
+                        (isFormSubmitted &&
+                          catalogPricingForm.get('fSaleAmountTva').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                    <br />
+                    <!-- <input type="text" class="form-control" pInputText formControlName="fSaleAmountTva"
           (keydown.space)="$event.preventDefault()" /> -->
 
-
-          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-          formControlName="fSaleAmountTva"
-        >
-         </p-inputNumber>
-
-
-
-      </div>
-    </div>
-
-  </p-fieldset>
-</div>
-
-</div>
-
-
+                    <p-inputNumber
+                      inputId="locale-user"
+                      [minFractionDigits]="2"
+                      formControlName="fSaleAmountTva"
+                    >
+                    </p-inputNumber>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+          </div>
         </form>
       </div>
     </div>
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
-        label="{{'Annuler' |translate }}"></button>
-      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
-        label="{{'Valider' |translate}}"></button>
+      <button
+        type="button"
+        pButton
+        (click)="onShowDialog()"
+        class="p-button-primary"
+        label="{{ 'Annuler' | translate }}"
+      ></button>
+      <button
+        type="button"
+        pButton
+        (click)="onSubmit()"
+        class="p-button-success"
+        label="{{ 'Valider' | translate }}"
+      ></button>
     </div>
   </p-footer>
 </p-dialog>

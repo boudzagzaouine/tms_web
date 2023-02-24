@@ -246,9 +246,9 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   }
 
   onSelectPurchaseVat(event) {
-    this.selectCatalogTransportPricing.purchaseVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectCatalogTransportPricing.purchaseVat =event.value
+console.log( this.selectCatalogTransportPricing.purchaseVat);
+
     this.onPurchasePriceChange(1);
   }
 
@@ -288,7 +288,7 @@ export class TransportCatalogPricingEditComponent implements OnInit {
   onPurchasePriceChange(n: Number) {
     let PriceHt = +this.catalogTransportPricingForm.value["fPurchaseAmountHt"];
     let PriceTTC = +this.catalogTransportPricingForm.value["fPurchaseAmountTtc"];
-    let vat = this.catalogTransportPricingForm.value["fPurchaseVat"].value;
+    let vat = this.catalogTransportPricingForm.value["fPurchaseVat"]?.value !=null ? this.catalogTransportPricingForm.value["fPurchaseVat"]?.value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {

@@ -90,6 +90,10 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/menu-driver" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Chauffeur ' | translate}}</a>
           </li>
+          <li *hasPermission="['AGENCY_VIEW']">
+            <a routerLink="/core/settings/agency" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Agence ' | translate}}</a>
+          </li>
 
           <li *hasPermission="['ROUTE_PRICING_VIEW']">
             <a routerLink="/core/settings/catalog-pricing" class="m-a"><i class="fa fa-circle-o"></i>
@@ -495,7 +499,7 @@ height: 100vh; padding-bottom: 10%;">
         <ul class="nav-2-level collapse">
           <li *hasPermission="['TRANSPORT_PLAN_CREATE']">
             <a routerLink="/core/transport-plan/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Inserer' | translate}} </a>
+                height="15px"> {{'Affecter' | translate}} </a>
           </li>
           <li *hasPermission="['TRANSPORT_PLAN_VIEW']">
             <a routerLink="/core/transport-plan/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
@@ -510,7 +514,7 @@ height: 100vh; padding-bottom: 10%;">
         <a class="text-white" routerLink="/core/tracking/list"><i class="sidebar-item-icon fa " >
             <img src="./assets/img/Menu/account.png" width="25px" height="25px">
           </i>
-          <span class="nav-label">{{'Suivie' | translate}}</span></a>
+          <span class="nav-label">{{'Suivi' | translate}}</span></a>
       </li>
 
 

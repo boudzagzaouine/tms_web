@@ -1,4 +1,5 @@
 
+  <div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
 
 <div class="container mt-5">
   <form [formGroup]="tarificationForm">
@@ -69,8 +70,8 @@
 </div>
 </form>
 </div>
-
-<div class="container mt-5">
+<div >
+<div class="container mt-5" *ngIf="(this.tarificationAccount!=1)">
   <div class="row justify-content-around">
 
   <div class="form-group col-md-12">
@@ -88,14 +89,18 @@
 
           <div class="row justify-content-around p-3">
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3"*ngIf="!(this.tarificationAccount==2)">
+              <span >
               <p-card>
                 <ng-template pTemplate="header">
                     Contrat Client
                 </ng-template>
-               <div class="lblPrice">{{this.selectedAccountPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span> </div>
+               <div class="lblPrice">{{this.selectedAccountPricing?.saleAmountHt}} <span style="font-size: 12px;">DH/<span style="font-size: 10px;">HT</span></span>
+
+              </div>
 
               </p-card>
+            </span>
               </div>
 
 
@@ -156,6 +161,9 @@
     </div>
 
     </div>
+</div>
+
+
 
 
 <div class="container mt-5">
@@ -254,12 +262,7 @@
 
 
 
-
-
-
-
-
-
+</div>
 <div class="row pull-left mt-5">
   <button
     type="button"
@@ -277,4 +280,5 @@
     (click)="next()"
   ></button>
 </div>
+
 

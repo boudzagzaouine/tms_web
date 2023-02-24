@@ -52,7 +52,7 @@ export class DriverEditComponent implements OnInit {
   subscriptionCardList: SubscriptionCard[] = [];
 
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private formBuilder: FormBuilder,
     private driverService: DriverService,
@@ -71,9 +71,9 @@ export class DriverEditComponent implements OnInit {
     this.items = [
       {label: 'Chauffeur'},
       {label: 'Editer'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
 
@@ -90,7 +90,7 @@ export class DriverEditComponent implements OnInit {
 
     this.initForm();
 
-  
+
 
     if (this.route.snapshot.params['id'] >= 1) {
       this.idDriver = this.route.snapshot.params['id'];
@@ -105,7 +105,7 @@ export class DriverEditComponent implements OnInit {
       this.subscriptions.add(this.badgeTypeDriverService.find('driver.id:' + this.idDriver).subscribe(
         data => {
           this.BadgeDriverList = data;
-   
+
         }))
     }
     // else{
@@ -134,7 +134,7 @@ export class DriverEditComponent implements OnInit {
         'visiteMedicale': new FormControl(dd),
         'nom': new FormControl(this.selectedDriver.name, Validators.required),
         'tele': new FormControl(this.selectedDriver.tele1),
-        'fax': new FormControl(this.selectedDriver.fax),
+       // 'fax': new FormControl(this.selectedDriver.fax),
         'email': new FormControl(this.selectedDriver.email),
         'carte': new FormControl(this.selectedDriver.carte),
         'card': new FormControl(this.selectedDriver.subscriptionCard),
@@ -151,7 +151,7 @@ export class DriverEditComponent implements OnInit {
 
   // }
   loadDataLazy(event) {
- 
+
     this.page = event.first / this.size;
 
    // this.loadBadge(this.searchQuery);
@@ -166,7 +166,7 @@ export class DriverEditComponent implements OnInit {
 
   // }
 
- 
+
   onSubmitForm(close = false) {
 
     this.isFormSubmitted = true;
@@ -188,7 +188,7 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.name = formValue['nom'];
     this.selectedDriver.email = formValue['email'];
     this.selectedDriver.tele1 = formValue['tele'];
-    this.selectedDriver.fax = formValue['fax'];
+    // this.selectedDriver.fax = formValue['fax'];
     this.selectedDriver.subscriptionCard = formValue['card'];
 
     this.selectedDriver.charged = formValue['charged'];
@@ -196,11 +196,11 @@ export class DriverEditComponent implements OnInit {
     this.selectedDriver.dateOfAssignment = formValue['dateOfAssignment'];
     this.selectedDriver.owner=this.authentificationService.getDefaultOwner();
    this.selectedDriver.badgeTypeDrivers=this.BadgeDriverList;
- 
+
 
     this.driverService.set(this.selectedDriver).subscribe(
       data => {
-        
+
         this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
 
         if (close) {
@@ -230,12 +230,12 @@ export class DriverEditComponent implements OnInit {
       (l) => l.badgeType.id !== line.badgeType.id
     );
     this.BadgeDriverList.push(line);
-    
+
 
   }
 
   onSelectCard(event) {
-    this.selectedDriver.subscriptionCard = event;    
+    this.selectedDriver.subscriptionCard = event;
   }
 
 
@@ -253,7 +253,7 @@ export class DriverEditComponent implements OnInit {
         this.BadgeDriverList = this.BadgeDriverList.filter(
           (l) => l.id !== id
         );
-       
+
       },
     });
   }

@@ -28,7 +28,7 @@ export class AgencyComponent implements OnInit {
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des types de badges';
+  titleList = 'Liste des Agences';
   agencyExportList: Array<Agency> = [];
   subscriptions= new Subscription();
 

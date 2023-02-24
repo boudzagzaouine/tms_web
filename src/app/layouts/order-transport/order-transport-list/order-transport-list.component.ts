@@ -193,7 +193,13 @@ export class OrderTransportListComponent implements OnInit {
       this.onDeleteAll();
     } else {
       this.showDialog = true;
-      this.router.navigate(['/core/order-transport/edit/', this.selectedOrderTransports[0].id]);
+      if(this.selectedOrderTransports[0]){
+        this.router.navigate(['/core/order-transport/edit/', this.selectedOrderTransports[0]?.id]);
+
+      }else {
+        this.router.navigate(['/core/order-transport/edit/']);
+
+      }
     }
 
   }

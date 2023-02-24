@@ -3,8 +3,6 @@ import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Observable } from 'rxjs/Observable';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
-import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
-import { Patrimony } from './../../../shared/models/patrimony';
 import { Router } from '@angular/router';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,6 +11,7 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Subscription, Subject } from 'rxjs';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-vehicle-availability-list',
@@ -25,7 +24,8 @@ export class VehicleAvailabilityListComponent implements OnInit {
   size = 10;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: Patrimony;
+  searchQueryTrajet = '';
+  vehicleSearch: Vehicle;
   matSearch: string;
   dateSearch: Date;
 
@@ -33,7 +33,6 @@ export class VehicleAvailabilityListComponent implements OnInit {
   vehicleList: Array<Vehicle> = [];
   vehicleCodeList: Array<Vehicle> = [];
 
-  patrimonyCodeList: Array<Patrimony> = [];
 
   className: string;
   titleList = 'Liste des Disponibilités';
@@ -50,7 +49,6 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
 
   constructor(  private vehicleService: VehicleService,
-    private patrimonyService:PatrimonyService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -95,17 +93,19 @@ export class VehicleAvailabilityListComponent implements OnInit {
       data => {
         this.collectionSize = data;
       }
+
     ));
+    console.log(this.searchQuery);
+
     this.subscriptions.add(this.vehicleService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.vehicleList = data;
 
         this.vehicleList.forEach((vehicle) => {
           this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
-console.log(data);
+
 
               vehicle.state = data;
-             // this.onSearchVehicleAvailable();
 
           });
         });
@@ -124,26 +124,35 @@ console.log(data);
       () => this.spinner.hide()
     ));
   }
+  loadDataLazy(event) {
+    this.size = event.rows;
+    this.page = event.first / this.size;
+    this.loadData(this.searchQuery);
+  }
 
   searchVehicleInTranportPlan(vehicle: Vehicle): Observable<string> {
     let state: string = "Disponible";
     var subject = new Subject<string>();
+
+    this.onSearchTrajetClicked(vehicle);
+    console.log(this.searchQueryTrajet);
+
     this.transportPlanService
-      .sizeSearch(
-        "vehicle.registrationNumber:" +
-          vehicle.registrationNumber +
-          ",turnStatus.id!" +
-          3
+      .sizeSearch(this.searchQueryTrajet
       )
       .subscribe((data) => {
-        console.log(vehicle.registrationNumber);
-        console.log(data);
+console.log(data);
 
-        if (data && data > 0) {
+
+        if (data>0) {
           state = "Trajet";
+          console.log("trajet");
+
           subject.next(state);
-        } else {
+        } else if(data==0) {
           state = "Disponible";
+          console.log("Disponible");
+
           subject.next(state);
         }
       });
@@ -199,37 +208,52 @@ console.log(data);
 
   }
 
-  onSearchClicked() {
+  onSearchVehicleClicked() {
 
 
     const buffer = new EmsBuffer();
 
 
 
-    if (this.codeSearch != null && this.codeSearch.code !== '') {
+    if (this.vehicleSearch != null && this.vehicleSearch.code !== '') {
 
-        buffer.append(`vehicle.registrationNumber: ${this.codeSearch.registrationNumber}`);
+        buffer.append(`registrationNumber: ${this.vehicleSearch.registrationNumber}`);
 
     }
+
+    this.page = 0;
+    this.searchQuery = buffer.getValue();
+    this.loadData(this.searchQuery);
+
+  }
+
+  onSearchTrajetClicked(vehicle:Vehicle) {
+
+
+    const buffer = new EmsBuffer();
+
+    if (this.vehicleSearch != null && this.vehicleSearch.registrationNumber !== '') {
+
+      buffer.append(`vehicle.registrationNumber: ${this.vehicleSearch.registrationNumber}`);
+
+  }else{
+    buffer.append(`vehicle.registrationNumber: ${vehicle.registrationNumber}`);
+
+  }
+
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
       dateD=this.dateSearch[0];
       dateF=this.dateSearch[1];
       if(dateD!=null){
-      buffer.append(`interventionDate>${dateD.toISOString()}`);
+      buffer.append(`dateDepart>${dateD.toISOString()}`);
       }
      else if(dateF!=null){
-        buffer.append(`interventionDate< ${dateD.toISOString()}`);
+        buffer.append(`dateDepart< ${dateD.toISOString()}`);
         }
     }
-
-
-
-
-
-    this.page = 0;
-    this.searchQuery = buffer.getValue();
-    this.loadData(this.searchQuery);
+    buffer.append(  `turnStatus.id! +3`);
+    this.searchQueryTrajet = buffer.getValue();
 
   }
 
@@ -254,9 +278,11 @@ console.log(data);
   //   ));
   // }
 
-  onPatrimonyCodeSearch(event: any){
-    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
-      data => this.patrimonyCodeList = data
+  onVehicleCodeSearch(event: any){
+    console.log(event);
+
+    this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+      data => this.vehicleCodeList = data
     ));
   }
 
@@ -265,7 +291,7 @@ console.log(data);
 
   }
   reset() {
-    this.codeSearch = null;
+    this.vehicleSearch = null;
     this.matSearch = null;
     this.dateSearch=null;
     this.page = 0;

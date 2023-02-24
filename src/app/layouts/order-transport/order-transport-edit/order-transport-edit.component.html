@@ -8,15 +8,13 @@
   <div class="card-body border-top-primary">
 
       <p-steps [model]="items" [(activeIndex)]="activeIndex" > </p-steps>
+
+
       <span *ngIf="activeIndex==0">
 <app-order-transport-information (nextstep)="next($event)"
 (turnTypeId)="showStep($event)"></app-order-transport-information>
 
       </span>
-
-
-
-
       <span *ngIf="activeIndex==1">
         <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==3 ">
         <app-order-transport-aller (nextstep)="next($event)" (previousstep)="previous($event)"></app-order-transport-aller>
@@ -52,7 +50,7 @@
         </span>
       </span>
 
-
+    
 
 
 

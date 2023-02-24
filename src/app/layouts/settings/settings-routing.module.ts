@@ -1,3 +1,4 @@
+import { AgencyComponent } from './agency/agency.component';
 import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
 import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
 import { GroupHabilitation } from './../../shared/models/group-habilitation';
@@ -156,7 +157,8 @@ const routes: Routes = [
      { path: 'habili-tations', component: HabilitationRoleComponent},
       { path: 'group', component: GroupComponent},
       { path: 'user', component: UserComponent},
-      { path: 'group-habilitation', component: GroupHabilitationComponent}
+      { path: 'group-habilitation', component: GroupHabilitationComponent},
+      { path: 'agency', component: AgencyComponent}
 
 
     ]

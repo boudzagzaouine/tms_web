@@ -1,3 +1,4 @@
+import { Driver } from './driver';
 import { UserGroup } from './user-group';
 import { SaleOrder } from './sale-order';
 import { Owner } from './owner';
@@ -22,5 +23,6 @@ export class User {
     columns: string;
     saleOrders: SaleOrder[];
     userGroup: UserGroup;
+    driver :Driver;
 
 }

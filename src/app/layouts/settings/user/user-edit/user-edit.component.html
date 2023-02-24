@@ -76,7 +76,18 @@ showEffect="fade"
             </p-autoComplete>
 
           </div>
-          <div class="form-group col-sm-6"></div>
+          <div class="form-group col-sm-6">
+           <span *ngIf="this.selectedUser.userGroup.id==7">
+            <label class="font-weight-bold">{{ "Chaufeur " | translate }} </label>
+
+
+            <!-- [disabled]="(editMode==2)" -->
+            <p-autoComplete  formControlName="driver" [suggestions]="driverList"
+              (onSelect)="onSelectDriver($event)" (completeMethod)="onDriverSearch($event)" field="name">
+            </p-autoComplete>
+
+          </span>
+          </div>
 
 
           <div class="form-group col-sm-6" *ngIf="this.editMode == 1">

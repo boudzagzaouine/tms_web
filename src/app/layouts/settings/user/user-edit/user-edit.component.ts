@@ -1,3 +1,5 @@
+import { Driver } from './../../../../shared/models/driver';
+import { DriverService } from './../../../../shared/services/api/driver.service';
 import { UserGroupService } from './../../../../shared/services/api/user-group.service';
 import { UserGroup } from './../../../../shared/models/user-group';
 import { MessageService } from 'primeng/api';
@@ -28,12 +30,14 @@ export class UserEditComponent implements OnInit {
   title = 'Modifier Utilisateur';
   subscriptions= new Subscription();
   groupList :UserGroup[]=[];
+  driverList :Driver[]=[];
   password : string;
   passwordConfirm:string ;
   constructor(private userService: UserService,
                    private userGroupService :UserGroupService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private driverService:DriverService,
     private toastr: ToastrService,
     private messageService: MessageService
   ) { }
@@ -67,6 +71,7 @@ console.log(this.selectedUser );
       'surName': new FormControl(this.selectedUser.surname, Validators.required),
       'email': new FormControl(this.selectedUser.email, Validators.required),
       'tele': new FormControl(this.selectedUser.tel),
+      'driver': new FormControl(this.selectedUser.driver),
 
 
     })
@@ -123,6 +128,17 @@ console.log(this.selectedUser );
 
   onSelectGroup(event) {
     this.selectedUser.userGroup= event;
+
+  }
+
+  onDriverSearch(event: any) {
+    this.driverService
+      .find('name~' + event.query)
+      .subscribe(data => (this.driverList = data));
+  }
+
+  onSelectDriver(event) {
+    this.selectedUser.driver= event;
 
   }
   onShowDialog() {

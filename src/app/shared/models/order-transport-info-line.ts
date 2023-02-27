@@ -1,3 +1,4 @@
+import { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
 import { Account } from './account';
 import { PaymentType } from './payment-method';
 import { PaymentRule } from './payment-rule';
@@ -44,6 +45,7 @@ export class OrderTransportInfoLine {
   weightMaxEnlevement : number;
   weightMaxLivraison:number;
 
+  orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
 
   type: string ;
 

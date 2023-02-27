@@ -352,6 +352,8 @@ console.log(">0");
     const orderline = this.orderTransportInfoLines.find(
       (line) => line.id === orderTransportInfoLine.id
     );
+    console.log(orderTransportInfoLine);
+
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
 

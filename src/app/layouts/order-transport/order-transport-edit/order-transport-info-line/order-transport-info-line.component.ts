@@ -105,7 +105,8 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
         this.selectedOrderTransportInfoLine.addressContactDeliveryInfo;
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
       this.getOrderTransportInfoLineDocumentEnlevement(this.selectedOrderTransportInfoLine);
-      this.getOrderTransportInfoLineDocumentEnlevement(this.selectedOrderTransportInfoLine);
+
+      //this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
 
 
     } else {
@@ -127,6 +128,7 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
 
 
     }
+console.log(this.selectedOrderTransportInfoLine);
 
     this.displayDialog = true;
     this.initForm();
@@ -287,7 +289,7 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
     let formvalue = this.orderTransportInfoLineForm.value;
     this.getValueFromEnlevementForm();
     this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
-      this.selectAddressContactDeliveryInfo;
+    this.selectAddressContactDeliveryInfo;
 
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
@@ -320,25 +322,37 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
         this.selectedOrderTransportInfoLine.turnStatus = data[0];
       });
     }
-
+    this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments= this.orderTransportInfoLineDocuments;
     console.log(this.selectedOrderTransportInfoLine);
 
     this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
   }
   getOrderTransportInfoLineDocumentEnlevement(line:OrderTransportInfoLine){
+  this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
 
-this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.id+",orderTransportInfoLine.id:"+line.id).subscribe(
-  data=>{
-    this.orderTransportInfoLineDocumentEnlevementBL=data.filter(f=> f.contreType=="BL" && f.type==1);
-    this.orderTransportInfoLineDocumentEnlevementFacture=data.filter(f=> f.contreType=="FACTURE" && f.type==1);
+console.log(this.orderTransportInfoLineDocuments);
+this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
+this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
 
-    this.orderTransportInfoLineDocumentLivraisonBL=data.filter(f=> f.contreType=="BL" && f.type==2);
-    this.orderTransportInfoLineDocumentLivraisonFacture=data.filter(f=> f.contreType=="FACTURE" && f.type==2);
+this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
+this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
 
 
-  }
-);
+// this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.id+",orderTransportInfoLine.id:"+line.id).subscribe(
+//   data=>{
+//       if(data[0]){
+//           this.orderTransportInfoLineDocuments=data;
+//       }
+//     this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
+//     this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
+
+//     this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
+//     this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
+
+
+//   }
+// );
 
   }
 
@@ -368,6 +382,9 @@ this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.
       formvalue["enlevement"]["comment"];
       this.selectedOrderTransportInfoLine.paymentAmountEnlevement =
       formvalue["enlevement"]["paymentAmount"];
+
+
+
   }
   destroyLivraison() {
     this.selectedOrderTransportInfoLine.capacityLivraison = null;
@@ -395,6 +412,8 @@ this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.
       formvalue["livraison"]["comment"];
       this.selectedOrderTransportInfoLine.paymentAmountLivraison =
       formvalue["livraison"]["paymentAmount"];
+
+
   }
   onSelectorderTransportType(event) {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
@@ -528,6 +547,8 @@ console.log(mode);
     );
     line.contreType="BL";
     line.type=1;
+    this.onLineEditedDocument(line);
+
     this.orderTransportInfoLineDocumentEnlevementBL.push(line);
   }
 
@@ -539,6 +560,8 @@ console.log(mode);
     );
     line.contreType="FACTURE";
     line.type=1;
+    this.onLineEditedDocument(line);
+
     this.orderTransportInfoLineDocumentEnlevementFacture.push(line);
   }
 
@@ -550,6 +573,8 @@ console.log(mode);
     );
     line.contreType="BL";
     line.type=2;
+    this.onLineEditedDocument(line);
+
     this.orderTransportInfoLineDocumentLivraisonBL.push(line);
   }
 
@@ -561,7 +586,18 @@ console.log(mode);
     );
     line.contreType="FACTURE";
     line.type=1;
+    this.onLineEditedDocument(line);
     this.orderTransportInfoLineDocumentLivraisonFacture.push(line);
+  }
+
+  onLineEditedDocument(line :OrderTransportInfoLineDocument){
+    console.log("enlvFacture");
+
+    this.orderTransportInfoLineDocuments = this.orderTransportInfoLineDocuments.filter(
+      (l) => (l.numero !== line.numero)
+    );
+
+    this.orderTransportInfoLineDocuments.push(line);
   }
 
 }

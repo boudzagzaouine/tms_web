@@ -335,7 +335,7 @@ optionLabel="code"
 
         <p-tabView>
 
-          <p-tabPanel  header="{{'Enlevement' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
+          <p-tabPanel [cache]="false"  header="{{'Enlevement' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
               <ng-template pTemplate="content">
                 <div formGroupName="enlevement"  >
         <div class="row  justify-content-around">
@@ -500,7 +500,7 @@ optionLabel="code"
 
 <p-tabView>
 
-  <p-tabPanel *ngIf=" this.selectedOrderTransportInfoLine.contreBlEnlevement==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel [cache]="false" *ngIf=" this.selectedOrderTransportInfoLine.contreBlEnlevement==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
 
         <div class="card m-5 ">
@@ -556,7 +556,7 @@ optionLabel="code"
     </div></div>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *ngIf="this.selectedOrderTransportInfoLine.contreFactureEnlevement==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
+  <p-tabPanel [cache]="false" *ngIf="this.selectedOrderTransportInfoLine.contreFactureEnlevement==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
       <ng-template pTemplate="content">
         <div class="card m-5 ">
           <div class="card-header" style="background-color: #f7f7f7;">
@@ -627,7 +627,7 @@ optionLabel="code"
 
 
 
-          <p-tabPanel  header="{{'Livraison' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
+          <p-tabPanel [cache]="false"  header="{{'Livraison' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
             <ng-template pTemplate="content">
               <div formGroupName="livraison"  >
       <div class="row  justify-content-around">
@@ -792,7 +792,7 @@ optionLabel="code"
 
 <p-tabView>
 
-<p-tabPanel *ngIf=" this.selectedOrderTransportInfoLine.contreBlLivraison==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
+<p-tabPanel [cache]="false" *ngIf=" this.selectedOrderTransportInfoLine.contreBlLivraison==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
     <ng-template pTemplate="content">
        <div class="card m-5 ">
         <div class="card-header" style="background-color: #f7f7f7;">
@@ -847,7 +847,7 @@ optionLabel="code"
   </div></div>
     </ng-template>
 </p-tabPanel>
-<p-tabPanel *ngIf="this.selectedOrderTransportInfoLine.contreFactureLivraison==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
+<p-tabPanel [cache]="false" *ngIf="this.selectedOrderTransportInfoLine.contreFactureLivraison==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
     <ng-template pTemplate="content">
 
        <div class="card m-5 ">

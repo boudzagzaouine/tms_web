@@ -45,6 +45,8 @@ console.log(this.selectedOrderTransportInfoLineDocument);
       //  this.selectedOrderTransportInfoLineDocument.maintenanceState=this.maintenanceStateList[0];
       // })
     }
+    console.log(this.selectedOrderTransportInfoLineDocument);
+
     this.initForm();
 
 

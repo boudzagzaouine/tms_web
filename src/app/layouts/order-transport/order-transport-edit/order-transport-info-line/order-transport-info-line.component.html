@@ -332,17 +332,14 @@ optionLabel="code"
     </div>
     </div>
         </div>
-<div formGroupName="enlevement">
-        <div class="row  justify-content-around" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
-          <div class="form-group col-md-7">
 
-        <p-panel  [toggleable]="true" >
-          <ng-template pTemplate = "header" >
-            <img src="./assets/img/depuis.png" width="30px"
-            height="30px">          <span style="font-weight: 600"> Enlevement</span>
-        </ng-template>
-        <div >
+        <p-tabView>
 
+          <p-tabPanel  header="{{'Enlevement' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
+              <ng-template pTemplate="content">
+                <div formGroupName="enlevement"  >
+        <div class="row  justify-content-around">
+          <div class="form-group col-md-12">
                     <div class="row justify-content-around">
 
                       <div class="form-group col-md-4">
@@ -388,7 +385,7 @@ optionLabel="code"
                       </span>
                         <br />
                           <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                          formControlName="weight"   
+                          formControlName="weight"
                                             ></p-inputNumber>
 
                       </div>
@@ -422,16 +419,12 @@ optionLabel="code"
 </div>
 
 
-        </div>
 
-        </p-panel>
 </div>
-<div class="form-group col-md-5">
-  <p-panel  [toggleable]="true">
-    <ng-template pTemplate = "header" >
-      <img src="./assets/img/depuis.png" width="30px"
-      height="30px">          <span style="font-weight: 600"> Paiement</span>
-  </ng-template>
+
+
+<div class="form-group col-md-12">
+
 
   <div class="row justify-content-around">
     <div class="form-group col-md-12">
@@ -440,7 +433,7 @@ optionLabel="code"
       }} </label
       >
       </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
       <label class="font-weight-bold">{{
         "Contre BL" | translate
       }} </label
@@ -452,7 +445,7 @@ optionLabel="code"
       onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
       </div>
 
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-2">
         <label class="font-weight-bold">{{
           "Contre Facture" | translate
         }} </label
@@ -463,179 +456,299 @@ optionLabel="code"
         onLabel="Oui" offLabel="Non" (onChange)="onChangeCFEnlevement($event)"
         onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
+          <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
+          <p-dropdown
+        formControlName="paymentType"
+        [autoDisplayFirst]="false"
+        [options]="paymentTypeList"
+        optionLabel="code"
+        (onChange)="onSelectPaymentTypeEnlevement($event)"
+        [filter]="true"
+        appendTo="body"
+        [showClear]="true"
+        ></p-dropdown>
+
+        </div>
+        <div class="form-group col-md-4">
+          <label class="font-weight-bold">{{
+            "Montant" | translate
+          }} *</label
+          >
+          <span
+          *ngIf="
+            (orderTransportInfoLineForm.controls['enlevement'].get('paymentAmount').touched &&
+            orderTransportInfoLineForm.controls['enlevement'].get('paymentAmount').invalid) ||
+            (isFormSubmitted &&
+            orderTransportInfoLineForm.controls['enlevement'].get('paymentAmount').invalid)
+          "
+          class="text-lighter"
+          style="color: red; font-size: xx-small"
+        >
+          {{ "Obligatoire" | translate }}
+        </span>
+          <br />
+
+            <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+            formControlName="paymentAmount"
+          ></p-inputNumber>
+        </div>
+
 </div>
 
 
-</div>
-<div class="row justify-content-around">
 
-  <div class="form-group col-md-6">
-    <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
-    <p-dropdown
-  formControlName="paymentType"
-  [autoDisplayFirst]="false"
-  [options]="paymentTypeList"
-  optionLabel="code"
-  (onChange)="onSelectPaymentTypeEnlevement($event)"
-  [filter]="true"
-  appendTo="body"
-  [showClear]="true"
-  ></p-dropdown>
+<p-tabView>
 
-  </div>
-  <div class="form-group col-md-6">
-  </div>
-  </div>
-</p-panel>
-</div>
+  <p-tabPanel *ngIf=" this.selectedOrderTransportInfoLine.contreBlEnlevement==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
 
-</div>
-</div>
+        <div class="card m-5 ">
+          <div class="card-header" style="background-color: #f7f7f7;">
+            <div class="row">
 
-
-
-
-
-<div class="row  justify-content-around" >
-  <div formGroupName="livraison" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3">
-    <div class="row  justify-content-around">
-      <div class="form-group col-md-7">
-
-          <p-panel  [toggleable]="true"  >
-            <ng-template pTemplate = "header" >
-              <img src="./assets/img/depuis.png" width="30px"
-              height="30px">          <span style="font-weight: 600"> Livraison</span>
-          </ng-template>
-          <div >
-
-                      <div class="row justify-content-around">
-
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">{{
-                            "Nombre Palette" | translate
-                          }} *</label
-                          >
-                          <span
-                          *ngIf="
-                            (orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').touched &&
-                            orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').invalid) ||
-                            (isFormSubmitted &&
-                            orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').invalid)
-                          "
-                          class="text-lighter"
-                          style="color: red; font-size: xx-small"
-                        >
-                          {{ "Obligatoire" | translate }}
-                        </span>
-                          <br />
-                          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                          formControlName="numberOfPallets"
-                        ></p-inputNumber>
-
-
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">{{
-                            "Poids" | translate
-                          }}<span style="font-size: 9px;"> (KG)</span> *</label
-                          >
-                          <span
-                          *ngIf="
-                            (orderTransportInfoLineForm.controls['livraison'].get('weight').touched &&
-                            orderTransportInfoLineForm.controls['livraison'].get('weight').invalid) ||
-                            (isFormSubmitted &&
-                            orderTransportInfoLineForm.controls['livraison'].get('weight').invalid)
-                          "
-                          class="text-lighter"
-                          style="color: red; font-size: xx-small"
-                        >
-                          {{ "Obligatoire" | translate }}
-                        </span>
-                          <br />
-                          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                          formControlName="weight"
-                        ></p-inputNumber>
-
-
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">{{
-                            "Volume" | translate
-                          }}<span style="font-size: 9px;"> Mètre cube (m3)</span> *</label
-                          >
-
-                          <br />
-                          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                          formControlName="capacity"
-                        ></p-inputNumber>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label class="font-weight-bold">{{
-                            "Commentaire" | translate
-                          }} </label
-                          >
-
-                          <br />
-                          <textarea pInputTextarea
-                          formControlName="comment"
-                            type="text"
-                            class="form-control"
-                          ></textarea>
-                        </div>
-
-  </div>
-
-          </div>
-        </p-panel>
-</div>
-<div class="form-group col-md-5">
-
-        <p-panel  [toggleable]="true">
-          <ng-template pTemplate = "header" >
-            <img src="./assets/img/depuis.png" width="30px"
-            height="30px">          <span style="font-weight: 600"> Paiement</span>
-        </ng-template>
-
-        <div class="row justify-content-around">
-     <div class="form-group col-md-12">
-            <label class="font-weight-bold">{{
-              "Mode Paiement" | translate
-            }} </label
-            >
-</div>
-          <div class="form-group col-md-4">
-            <label class="font-weight-bold">{{
-              "Contre BL" | translate
-            }} </label
-            >
-
-            <br />
-            <p-toggleButton formControlName="contreBL"
-            onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLLivraison($event)"
-            onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-            </div>
-
-            <div class="form-group col-md-5">
-              <label class="font-weight-bold">{{
-                "Contre Facture" | translate
-              }} </label
-              >
-
-              <br />
-              <p-toggleButton formControlName="contreFacture"
-              onLabel="Oui" offLabel="Non" (onChange)="onChangeCFLivraison($event)"
-              onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+              <div class="col-xs-4 col-md-4 pull-left">
+                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1,'BL')">
+                  <i class="fa fa-plus"></i>
+                </button>
               </div>
-              <div class="form-group col-md-3">
+              <div class=" col-xs-4 col-md-6 pull-center">
+                <span style="font-size: 16px; color: #5f5b5b;">
+                  <b> {{ "Liste des Documents" | translate }}</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-top-primary">
+
+
+    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevementBL" [lazy]="true" [rows]="size"
+    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevementBL?.length">
+    <ng-template pTemplate="header">
+      <tr>
+
+        <th>{{'Numero' | translate}}</th>
+        <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-line>
+      <tr>
+        <td>{{line?.numero}}</td>
+
+        <td>
+
+          <button [disabled]="editMode" type="button" class="btn btn-sm btn-primary mx-1"
+            (click)="onShowDialogLine(line,true,1,'BL')">
+            <!--ADD-->
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button [disabled]="editMode" type="button" class="btn btn-sm btn-danger mx-1"
+            (click)="onDeleteLine(line.numero)">
+            <!--ADD-->
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+    </div></div>
+      </ng-template>
+  </p-tabPanel>
+  <p-tabPanel *ngIf="this.selectedOrderTransportInfoLine.contreFactureEnlevement==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <div class="card m-5 ">
+          <div class="card-header" style="background-color: #f7f7f7;">
+            <div class="row">
+
+              <div class="col-xs-4 col-md-4 pull-left">
+                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1,'FACTURE')">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+              <div class=" col-xs-4 col-md-6 pull-center">
+                <span style="font-size: 16px; color: #5f5b5b;">
+                  <b> {{ "Liste des Documents" | translate }}</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-top-primary">
+
+
+    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevementFacture" [lazy]="true" [rows]="size"
+    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevementFacture?.length">
+    <ng-template pTemplate="header">
+      <tr>
+
+        <th>{{'Numero' | translate}}</th>
+        <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-line>
+      <tr>
+        <td>{{line?.numero}}</td>
+
+        <td>
+
+          <button [disabled]="editMode" type="button" class="btn btn-sm btn-primary mx-1"
+            (click)="onShowDialogLine(line,true,1,'FACTURE')">
+
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button [disabled]="editMode" type="button" class="btn btn-sm btn-danger mx-1"
+            (click)="onDeleteLine(line.numero)">
+
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+    </div></div>
+      </ng-template>
+  </p-tabPanel>
+
+</p-tabView>
+
+
+
+</div>
+
+
+
+
+</div>
+</div>
+              </ng-template>
+          </p-tabPanel>
+
+
+
+          <p-tabPanel  header="{{'Livraison' | translate }}" *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 ||this.selectedOrderTransportInfoLine?.orderTransportType?.id ==3"  headerStyleClass="onglet-p-2">
+            <ng-template pTemplate="content">
+              <div formGroupName="livraison"  >
+      <div class="row  justify-content-around">
+        <div class="form-group col-md-12">
+                  <div class="row justify-content-around">
+
+                    <div class="form-group col-md-4">
+                      <label class="font-weight-bold">{{
+                        "Nombre Palette" | translate
+                      }} *</label
+                      >
+                      <span
+                      *ngIf="
+                        (orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').touched &&
+                        orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').invalid) ||
+                        (isFormSubmitted &&
+                        orderTransportInfoLineForm.controls['livraison'].get('numberOfPallets').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                      <br />
+
+                        <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                        formControlName="numberOfPallets"
+                      ></p-inputNumber>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label class="font-weight-bold">{{
+                        "Poids" | translate
+                      }}<span style="font-size: 9px;"> (KG)</span> *</label
+                      >
+                      <span
+                      *ngIf="
+                        (orderTransportInfoLineForm.controls['livraison'].get('weight').touched &&
+                        orderTransportInfoLineForm.controls['livraison'].get('weight').invalid) ||
+                        (isFormSubmitted &&
+                        orderTransportInfoLineForm.controls['livraison'].get('weight').invalid)
+                      "
+                      class="text-lighter"
+                      style="color: red; font-size: xx-small"
+                    >
+                      {{ "Obligatoire" | translate }}
+                    </span>
+                      <br />
+                        <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                        formControlName="weight"
+                                          ></p-inputNumber>
+
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label class="font-weight-bold">{{
+                        "Volume" | translate
+                      }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
+                      >
+
+                      <br />
+                      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                      formControlName="capacity"
+                    ></p-inputNumber>
+
+
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label class="font-weight-bold">{{
+                        "Commentaire" | translate
+                      }} </label
+                      >
+
+                      <br />
+                      <textarea pInputTextarea
+                      formControlName="comment"
+                        type="text"
+                        class="form-control"
+                      ></textarea>
+                    </div>
+
+</div>
+
+
+
+</div>
+
+
+<div class="form-group col-md-12">
+
+
+<div class="row justify-content-around">
+  <div class="form-group col-md-12">
+    <label class="font-weight-bold">{{
+      "Mode Paiement" | translate
+    }} </label
+    >
+    </div>
+  <div class="form-group col-md-2">
+    <label class="font-weight-bold">{{
+      "Contre BL" | translate
+    }} </label
+    >
+
+    <br />
+    <p-toggleButton formControlName="contreBL"
+    onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLLivraison($event)"
+    onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+    </div>
+
+    <div class="form-group col-md-2">
+      <label class="font-weight-bold">{{
+        "Contre Facture" | translate
+      }} </label
+      >
+
+      <br />
+      <p-toggleButton formControlName="contreFacture"
+      onLabel="Oui" offLabel="Non" (onChange)="onChangeCFLivraison($event)"
+      onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
       </div>
-
-
-      </div>
-       <div class="row justify-content-around">
-
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
         <p-dropdown
       formControlName="paymentType"
@@ -649,13 +762,175 @@ optionLabel="code"
       ></p-dropdown>
 
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
+        <label class="font-weight-bold">{{
+          "Montant" | translate
+        }} *</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoLineForm.controls['livraison'].get('paymentAmount').touched &&
+          orderTransportInfoLineForm.controls['livraison'].get('paymentAmount').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoLineForm.controls['livraison'].get('paymentAmount').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+        <br />
+
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="paymentAmount"
+        ></p-inputNumber>
       </div>
-      </div>
-      </p-panel>
-      </div>
-    </div>
-</div></div>
+
+</div>
+
+
+
+<p-tabView>
+
+<p-tabPanel *ngIf=" this.selectedOrderTransportInfoLine.contreBlLivraison==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
+    <ng-template pTemplate="content">
+       <div class="card m-5 ">
+        <div class="card-header" style="background-color: #f7f7f7;">
+          <div class="row">
+
+            <div class="col-xs-4 col-md-4 pull-left">
+              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2,'BL')">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <span style="font-size: 16px; color: #5f5b5b;">
+                <b> {{ "Liste des Documents" | translate }}</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top-primary">
+
+
+
+  <p-table [value]=" this.orderTransportInfoLineDocumentLivraisonBL" [lazy]="true" [rows]="size"
+  [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraisonBL?.length">
+  <ng-template pTemplate="header">
+    <tr>
+
+      <th>{{'Numero' | translate}}</th>
+      <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-line>
+    <tr>
+      <td>{{line?.numero}}</td>
+
+      <td>
+
+        <button [disabled]="editMode" type="button" class="btn btn-sm btn-primary mx-1"
+          (click)="onShowDialogLine(line,true,2,'BL')">
+
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button [disabled]="editMode" type="button" class="btn btn-sm btn-danger mx-1"
+          (click)="onDeleteLine(line.numero)">
+
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
+  </div></div>
+    </ng-template>
+</p-tabPanel>
+<p-tabPanel *ngIf="this.selectedOrderTransportInfoLine.contreFactureLivraison==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
+    <ng-template pTemplate="content">
+
+       <div class="card m-5 ">
+        <div class="card-header" style="background-color: #f7f7f7;">
+          <div class="row">
+
+            <div class="col-xs-4 col-md-4 pull-left">
+              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2,'FACTURE')">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <span style="font-size: 16px; color: #5f5b5b;">
+                <b> {{ "Liste des Documents" | translate }}</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top-primary">
+          <p-table [value]=" this.orderTransportInfoLineDocumentLivraisonFacture" [lazy]="true" [rows]="size"
+          [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraisonFacture?.length">
+          <ng-template pTemplate="header">
+            <tr>
+
+              <th>{{'Numero' | translate}}</th>
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.numero}}</td>
+
+              <td>
+
+                <button [disabled]="editMode" type="button" class="btn btn-sm btn-primary mx-1"
+                  (click)="onShowDialogLine(line,true,2,'FACTURE')">
+
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button [disabled]="editMode" type="button" class="btn btn-sm btn-danger mx-1"
+                  (click)="onDeleteLine(line.numero)">
+
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+
+  </div></div>
+    </ng-template>
+
+</p-tabPanel>
+
+</p-tabView>
+
+
+
+</div>
+
+
+
+
+</div>
+</div>
+            </ng-template>
+        </p-tabPanel>
+
+
+
+
+
+        </p-tabView>
+
+
+
+
+
+
+
+
 </div>
     </form>
 
@@ -693,3 +968,24 @@ optionLabel="code"
     (addressContactDeliveryInfo)="affectedContactAddressInfoSelected($event)"
   ></app-generate-address-contact>
 </div>
+
+<div *ngIf="showDialogEnlevementBl == true">
+  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevementBL($event)"
+    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
+</div>
+
+<div *ngIf="showDialogEnlevementFacture == true">
+  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevementFacture($event)"
+    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
+</div>
+
+<div *ngIf="showDialogLivraisonBl == true">
+  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraisonBL($event)"
+    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
+</div>
+
+<div *ngIf="showDialogLivraisonFacture == true">
+  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraisonFacture($event)"
+    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
+</div>
+

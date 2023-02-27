@@ -130,8 +130,9 @@ export class TransportPlanAddComponent implements OnInit {
     ];
 
     this.sortTransportitems = [
-      { name: "Taux de Service", icon: "pi pi-sort-alt", label: "service" },
       { name: "Taux de Marge", icon: "pi pi-sort-alt", label: "marge" },
+      { name: "Taux de Service", icon: "pi pi-sort-alt", label: "service" },
+
     ];
 
     this.driverService.findAll().subscribe((data) => {
@@ -359,7 +360,7 @@ export class TransportPlanAddComponent implements OnInit {
           this.calculateTransportMarge();
           this.catalogTransportPricingList =
             this.catalogTransportPricingList.sort(
-              (n1, n2) => n2.margeService - n1.margeService
+              (n1, n2) => n2.marginRate - n1.marginRate
             );
         } else {
           this.catalogPricing = new CatalogPricing();

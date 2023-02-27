@@ -23,6 +23,7 @@ export class OrderTransportInfoLine {
   paymentTypeEnlevement: PaymentType;
   contreBlEnlevement: Boolean=false;
   contreFactureEnlevement:Boolean= false;
+  paymentAmountEnlevement:number;
   fileEnlevement:any[];
 
 
@@ -33,6 +34,8 @@ export class OrderTransportInfoLine {
   paymentTypeLivraison: PaymentType;
   contreBlLivraison: Boolean=false;
   contreFactureLivraison:Boolean= false;
+  paymentAmountLivraison:number;
+
   fileLivraison:any[];
 
 

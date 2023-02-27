@@ -1,0 +1,64 @@
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '20vw' }"
+(onHide)='onHideDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="lineForm">
+
+
+
+        <div class="row  justify-content-around">
+
+          <div class="form-group col-md-12">
+            <label class="font-weight-bold">{{'Numero' | translate}}</label>
+            <span *ngIf="(lineForm.get('numero').touched && lineForm.get('numero').invalid) ||
+            (isFormSubmitted && lineForm.get('numero').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span><br />
+            <input type="text" class="form-control" formControlName="numero" pInputText  />
+          </div>
+
+
+
+        </div>
+
+      </form>
+
+
+
+
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onHideDialog()"
+    class="p-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

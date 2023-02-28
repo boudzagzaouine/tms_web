@@ -377,4 +377,11 @@ addDataExchangeTrajet(controller: string, object: any): Observable<any> {
 //   console.log(fullurl);
   return this.http.post(fullurl, object);
 }
+
+addDataExchangeCompany(controller: string, object: any): Observable<any> {
+  const fullurl =
+      this.url + controller + '/updateCompanies?token=' + this.getToken();
+//   console.log(fullurl);
+  return this.http.post(fullurl, object);
+}
 }

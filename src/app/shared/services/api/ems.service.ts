@@ -132,4 +132,7 @@ addDataExchangeTransportPricing(t: T[]): Observable<T[]> {
 addDataExchangeTrajet(t: T[]): Observable<T[]> {
   return this.proxy.addDataExchangeTrajet(this.controller, t);
 }
+addDataExchangeCompany(t: T[]): Observable<T[]> {
+  return this.proxy.addDataExchangeCompany(this.controller, t);
+}
 }

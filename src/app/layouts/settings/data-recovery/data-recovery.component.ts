@@ -1,3 +1,4 @@
+import { CompanyImportService } from './../../../shared/services/api/company-import.service';
 import { TrajetImportService } from './../../../shared/services/api/trajet-import.service';
 import { CatalogTransportPricingImportService } from './../../../shared/services/api/catalog-Transport-pricing-import.service';
 import { CatalogTransportAccountPricingImportService } from './../../../shared/services/api/catalog-Transport-account-pricing-import.service';
@@ -30,7 +31,8 @@ export class DataRecoveryComponent implements OnInit {
     private accountPricingImportationService :AccountPricingImportService,
     private catalogTransportAccountPricingImportService :CatalogTransportAccountPricingImportService,
     private catalogTransportPricingImportService :CatalogTransportPricingImportService,
-    private trajetImportService: TrajetImportService
+    private trajetImportService: TrajetImportService,
+    private companyService: CompanyImportService
 
     ) {}
 
@@ -44,8 +46,9 @@ export class DataRecoveryComponent implements OnInit {
     let transportAccountPricing: ImportClass = new ImportClass(4, "Tarification Transport Client");
     let transportPricing: ImportClass = new ImportClass(5, "Tarification Transport");
     let trajet: ImportClass = new ImportClass(6, "Trajet");
+    let company: ImportClass = new ImportClass(7, "company");
 
-    this.models.push(...[deliveryAddress, catalogPricing,accountPricing,transportAccountPricing,transportPricing,trajet]);
+    this.models.push(...[company,deliveryAddress, catalogPricing,accountPricing,transportAccountPricing,transportPricing,trajet]);
   }
 
   onClassImport(event) {
@@ -56,6 +59,7 @@ export class DataRecoveryComponent implements OnInit {
 
   onSubmit() {
     console.log("valider ");
+console.log(this.idClass);
 
     if (this.idClass == 1) {
       this.loadDeliveryAddress(this.jsonData);
@@ -66,11 +70,16 @@ export class DataRecoveryComponent implements OnInit {
       this.loadAccountPricing(this.jsonData);
     }  if (this.idClass == 4) {
       this.loadTransportAccountPricing(this.jsonData);
+      console.log("hhh");
+
     }  if (this.idClass == 5) {
       this.loadTransportPricing(this.jsonData);
     } if (this.idClass == 6) {
       this.loadTrajet(this.jsonData);
+    } if (this.idClass == 7) {
+      this.loadCompany(this.jsonData);
     }
+
     else {
       this.toastr.info("Sélectionner une classe");
     }
@@ -256,6 +265,33 @@ export class DataRecoveryComponent implements OnInit {
 
     this.spinner.show();
     this.trajetImportService.addDataExchangeTrajet(jsonData).subscribe(
+      data =>{
+    console.log(data);
+    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+
+    this.spinner.hide();
+
+
+      },
+       err => {
+        this.toastr.error(err.error.message,"Erreur");
+        //this.toastr.error(err.error.message);
+        this.spinner.hide();
+
+      });
+    }
+  }
+
+  loadCompany(jsonData){
+    console.log(jsonData);
+
+  if(jsonData[0]==null){
+    this.toastr.info("Sélectionner Fichier");
+
+  }else{
+
+    this.spinner.show();
+    this.trajetImportService.addDataExchangeCompany(jsonData).subscribe(
       data =>{
     console.log(data);
     this.toastr.success("l'opération a ete effectue avec succès", 'Edition');

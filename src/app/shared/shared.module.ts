@@ -1,3 +1,4 @@
+import { CompanyImportService } from './services/api/company-import.service';
 import { OrderTransportInfoLineDocumentService } from './services/api/order-transport-info-line-documet.service';
 import { AgencyService } from './services/api/agency.service';
 import { TransportPlanLocationService } from './services/api/transport-plan-location.service';
@@ -182,6 +183,7 @@ import { TurnSoPoService } from './services/api/turn-so-po.service';
 import { SupplierHolidayService } from './services/api/supplier-holiday.service';
 import { HolidayService } from './services/api/account-holiday.service';
 import { PlanningService } from './services/api/planning-service';
+import { CompanyImport } from './import/company-import';
 
 
 @NgModule({
@@ -374,7 +376,8 @@ export class SharedModule {
         TrajetImportService,
         TransportPlanLocationService,
         AgencyService,
-        OrderTransportInfoLineDocumentService
+        OrderTransportInfoLineDocumentService,
+        CompanyImportService
       ],
 
     };

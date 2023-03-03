@@ -249,9 +249,8 @@ export class CompanyPricingEditComponent implements OnInit {
   }
 
   onSelectSaleVat(event) {
-    this.selectAccountPricing.saleVat = this.vatList.filter(
-      (f) => f.value == event.value
-    )[0];
+    this.selectAccountPricing.saleVat =event.value
+
     this.onSalePriceChange(1);
   }
 

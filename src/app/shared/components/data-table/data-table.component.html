@@ -227,7 +227,9 @@
             </span>
 
             <span  *ngIf="(typeOf(col.type)===6 );">
-              {{rowData[col?.field] ? rowData[col?.field][col?.child][col?.child2] :''}}
+              {{rowData[col?.field] ?
+                                      rowData[col?.field][col?.child] ?
+                                      rowData[col?.field][col?.child][col?.child2] :'' :''}}
 
             </span>
             <span  *ngIf="(typeOf(col.type)===7 );">

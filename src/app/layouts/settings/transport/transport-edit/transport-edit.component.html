@@ -47,7 +47,7 @@ showEffect="fade"
             <br />
 
              <div class="field-checkbox">
-            <p-checkbox formControlName="active" name="active"(onChange)="onSelectActive($event)" [binary]="true" inputId="active"></p-checkbox>
+            <p-checkbox formControlName="active" [(ngModel)]="this.selectedTransport.active" name="active"(onChange)="onSelectActive($event)" [binary]="true" inputId="active"></p-checkbox>
             <label class="font-weight-bold" for="active">{{this.selectedTransport.active?"Oui":"Non"}}</label>
           </div>
         </div>
@@ -56,7 +56,7 @@ showEffect="fade"
 
             <br />
             <div class="field-checkbox">
-            <p-checkbox formControlName="intern" name="intern"(onChange)="onSelectIntern($event)" [binary]="true" inputId="intern"></p-checkbox>
+            <p-checkbox formControlName="intern" [(ngModel)]="this.selectedTransport.interneOrExterne" name="intern"(onChange)="onSelectIntern($event)" [binary]="true" inputId="intern"></p-checkbox>
             <label class="font-weight-bold" for="intern">{{this.selectedTransport.interneOrExterne?"Oui":"Non"}}</label>
           </div>
         </div>

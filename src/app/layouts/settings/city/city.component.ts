@@ -48,6 +48,14 @@ export class CityComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
+      {
+        field: "pays",
+        child: "code",
+        header: "Pays",
+        type: "object",
+      },
+      { field: 'latitude', header: 'Latitude', type: 'number' },
+      { field: 'longitude', header: 'Longitude', type: 'number' },
 
     ];
 

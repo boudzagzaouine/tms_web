@@ -163,7 +163,7 @@ export class TransportEditComponent implements OnInit {
     this.selectedTransport.name = this.transportForm.value["name"];
     this.selectedTransport.description =
       this.transportForm.value["description"];
-
+      this.selectContact.code =  this.selectedTransport.name;
     this.selectContact.name =  this.selectedTransport.name;
     this.selectContact.tel1 = this.transportForm.value["tel1"];
     this.selectContact.email = this.transportForm.value["email"];
@@ -177,51 +177,67 @@ export class TransportEditComponent implements OnInit {
     this.selectedTransport.owner =
       this.authentificationService.getDefaultOwner();
 
-    this.subscriptions.add(
-      this.addressService.set(this.selectAddress).subscribe((dataA) => {
-        this.selectedTransport.address = dataA;
-        console.log(this.selectedTransport);
+      if(this.selectAddress.line1){
+        console.log("address");
+        this.selectedTransport.address=this.selectAddress;
+        console.log(this.selectAddress);
+      }
+      if(this.selectContact.name){
+        console.log("contact");
+        this.selectedTransport.contact=this.selectContact;
+        console.log(this.selectContact);
+      }
+this.saveTransport();
 
-        this.contactService.set(this.selectContact).subscribe((dataC) => {
-          this.selectedTransport.contact = dataC;
+    // this.subscriptions.add(
+    //   this.addressService.set(this.selectAddress).subscribe((dataA) => {
+    //     this.selectedTransport.address = dataA;
+    //     console.log(this.selectedTransport);
+
+    //     this.contactService.set(this.selectContact).subscribe((dataC) => {
+    //       this.selectedTransport.contact = dataC;
 
 
 
-        this.transportService.set(this.selectedTransport).subscribe(
-          (data) => {
-            this.messageService.add({
-              severity: "success",
-              summary: "Edition",
-              detail: "Elément est Enregistré avec succès",
-            });
 
-            //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-            this.displayDialog = false;
-            this.isFormSubmitted = false;
+    //   })  }) ///
+    // );
+  }
 
-            this.spinner.hide();
+  saveTransport(){
+    this.transportService.set(this.selectedTransport).subscribe(
+      (data) => {
+        this.messageService.add({
+          severity: "success",
+          summary: "Edition",
+          detail: "Elément est Enregistré avec succès",
+        });
 
-            if (close) {
-              this.router.navigate(["/core/settings/transport"]);
-            } else {
-              this.editMode = 1;
-              this.router.navigate(["/core/settings/transport-edit"]);
-              this.title = "Ajouter Transport";
-            }
-          },
-          (error) => {
-            this.messageService.add({
-              severity: "error",
-              summary: "Erreur",
-              detail: "Erreur",
-            });
+        //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
+        this.displayDialog = false;
+        this.isFormSubmitted = false;
 
-            //this.toastr.error(error.error.message, 'Erreur');
-            this.spinner.hide();
-          },
-          () => this.spinner.hide()
-        );
-      })  }) ///
+        this.spinner.hide();
+
+        if (close) {
+          this.router.navigate(["/core/settings/transport"]);
+        } else {
+          this.editMode = 1;
+          this.router.navigate(["/core/settings/transport-edit"]);
+          this.title = "Ajouter Transport";
+        }
+      },
+      (error) => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Erreur",
+          detail: "Erreur",
+        });
+
+        //this.toastr.error(error.error.message, 'Erreur');
+        this.spinner.hide();
+      },
+      () => this.spinner.hide()
     );
   }
 

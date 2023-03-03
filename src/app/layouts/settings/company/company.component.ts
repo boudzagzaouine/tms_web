@@ -61,19 +61,24 @@ export class CompanyComponent implements OnInit {
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
       { field: 'telephone', header: 'Téléphone', type: 'string' },
+      { field: 'fax', header: 'Fax', type: 'string' },
+      { field: 'email', header: 'Email', type: 'string' },
+
       { field: 'activityArea',child:'code', header: "Secteur d'activité", type: 'object' },
       { field: 'address',  child:'name', header: 'Nom Adress', type: 'object' },
       { field: 'address',child:'line1',    header: "Premiére Ligne d'adresse Facturation", type: 'object' },
       { field: 'address',child:'line2',   header: "Deuxiéme Ligne d'adresse Facturation", type: 'object' },
-      { field: 'address',child:'zip',    header: 'Code Postal Facturation', type: 'object' },
-      { field: 'address',child:'city',    header: 'Pays de Facturation', type: 'object' },
-      { field: 'address',child:'country', header: 'Ville de Facturation', type: 'object' },
+      { field: 'address',child:'zip',   header: 'Code Postal Facturation', type: 'object' },
+      { field: 'address',child:'pays',child2:'code'  ,   header: 'Pays de Facturation', type: 'object2' },
+      { field: 'address',child:'ville',child2:'code' , header: 'Ville de Facturation', type: 'object2' },
 
       { field: 'tradeRegister', header: 'Registre du Commerce', type: 'string' },
       { field: 'professionalTax', header: "Tax Professionnelle", type: 'string' },
       { field: 'fiscalIdentifier', header: 'IF', type: 'string' },
       { field: 'cnssNumber', header: "CNSS", type: 'string' },
-      { field: 'fiscalIdentifier', header: "Classification Fiscale", type: 'string' },
+      { field: 'commonIdentifierOfCompany', header: "ICE", type: 'string' },
+
+      // { field: 'fiscalIdentifier', header: "Classification Fiscale", type: 'string' },
 
 
 

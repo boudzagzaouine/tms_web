@@ -15,7 +15,7 @@ export class Contact {
     contactType: number;
     email: String;
     comment: String;
-    active: boolean;
+    active: boolean=false;
     account:Account;
     owner:Owner;
     contactFunction:ContactFunction;

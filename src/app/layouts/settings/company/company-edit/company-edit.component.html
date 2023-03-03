@@ -149,16 +149,20 @@ showEffect="fade"
           <div class="form-group col-sm-3">
             <label class="font-weight-bold">{{'Pays de Facturation' | translate}} </label>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="country"
-           />
+            <p-autoComplete  formControlName="country" [suggestions]="paysList"
+            (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
+          </p-autoComplete>
+
 
           </div>
 
           <div class="form-group col-sm-3">
             <label class="font-weight-bold">{{'Ville de Facturation' | translate}} </label>
             <br />
-            <input type="text" class="form-control" pInputText formControlName="city"
-            />
+            <p-autoComplete  formControlName="city" [suggestions]="villeList"
+            (onSelect)="onSelectVille($event)" (completeMethod)="onVilleSearch($event)" field="code">
+          </p-autoComplete>
+
           </div>
           <div class="form-group col-sm-3"></div>
         </div>
@@ -192,16 +196,16 @@ showEffect="fade"
             <label class="font-weight-bold"> {{'Numéro CNSS' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="cnss" />
           </div>
-
-          <div class="form-group col-sm-3">
-            <label class="font-weight-bold"> {{'Classification Fiscale' | translate}}*</label><br />
-            <input type="text" class="form-control" pInputText formControlName="fiscal" />
-          </div>
-
-          <div class="form-group col-sm-3">
+  <div class="form-group col-sm-3">
             <label class="font-weight-bold"> {{'ICE' | translate}} </label><br />
             <input type="text" class="form-control" pInputText formControlName="ice" />
           </div>
+
+           <div class="form-group col-sm-3">
+            <!-- <label class="font-weight-bold"> {{'Classification Fiscale' | translate}}*</label><br />
+            <input type="text" class="form-control" pInputText formControlName="fiscal" /> -->
+          </div>
+
 
           <div class="col-md-6"></div>
 

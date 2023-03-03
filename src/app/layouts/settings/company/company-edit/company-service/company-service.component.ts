@@ -90,9 +90,9 @@ export class CompanyServiceComponent implements OnInit {
       },
       { field: "saleAmountTtc", header: "Prix TTC", type: "number" },
       {
-        field: "transport",
+        field: "company",
         child: "name",
-        header: "Prestataire",
+        header: "Société",
         type: "object",
       },
     ];

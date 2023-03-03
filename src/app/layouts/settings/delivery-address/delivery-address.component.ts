@@ -51,6 +51,8 @@ page = 0;
       { field: 'zip', header: 'Code Postale', type: 'string' },
       { field: 'ville', child: 'code',header: 'Ville', type: 'object' },
       { field: 'pays',child: 'code', header: 'Pays', type: 'object' },
+      { field: 'account',child: 'name', header: 'Compte', type: 'object' },
+      { field: 'company',child: 'name', header: 'Client', type: 'object' },
 
 
     ];

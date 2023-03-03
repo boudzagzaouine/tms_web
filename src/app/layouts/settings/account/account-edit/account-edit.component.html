@@ -75,6 +75,73 @@
           </div>
 </div>
 
+
+
+  <div class="row  justify-content-around">
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold">{{"Premiére Ligne d'adresse" | translate}} *</label>
+      <span *ngIf="(accountForm.get('line1').touched && accountForm.get('line1').invalid) ||
+      (isFormSubmitted && accountForm.get('line1').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+         {{'Obligatoire' | translate }}
+      </span>
+      <input type="text" class="form-control" pInputText formControlName="line1"
+     />
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold">{{"Deuxiéme Ligne d'adresse " | translate}} </label>
+
+      <br />
+      <input type="text" class="form-control" pInputText formControlName="line2"
+     />
+    </div>
+
+  </div>
+
+  <div class="row  justify-content-around">
+
+      <div class="form-group col-sm-3">
+    <label class="font-weight-bold">{{'Code Postal ' | translate}} </label>
+    <br />
+    <input type="text" class="form-control" pInputText formControlName="zip"
+   />
+  </div>
+  <div class="form-group col-sm-3">
+    <label class="font-weight-bold">{{'Pays  ' | translate}}* </label>
+    <br />
+    <span *ngIf="(accountForm.get('country').touched && accountForm.get('country').invalid) ||
+    (isFormSubmitted && accountForm.get('country').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+       {{'Obligatoire' | translate }}
+    </span>
+    <p-autoComplete  formControlName="country" [suggestions]="paysList"
+    (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
+  </p-autoComplete>
+
+
+  </div>
+
+  <div class="form-group col-sm-3">
+    <label class="font-weight-bold">{{'Ville ' | translate}} *</label>
+    <br />
+    <span *ngIf="(accountForm.get('city').touched && accountForm.get('city').invalid) ||
+    (isFormSubmitted && accountForm.get('city').invalid)" class="text-lighter"
+      style="color: red; font-size: xx-small;">
+       {{'Obligatoire' | translate }}
+    </span>
+    <p-autoComplete  formControlName="city" [suggestions]="villeList"
+    (onSelect)="onSelectVille($event)" (completeMethod)="onVilleSearch($event)" field="code">
+  </p-autoComplete>
+
+  </div>
+  <div class="form-group col-sm-3"></div>
+</div>
+
+
+
+
+
       </form>
   </div>
   <p-tabView [activeIndex]="0" >
@@ -212,7 +279,7 @@
   </p-tabPanel>
 
 
-  <p-tabPanel header="{{ 'Adresses' | translate}}"  headerStyleClass="onglet-p-5">
+  <!-- <p-tabPanel header="{{ 'Adresses' | translate}}"  headerStyleClass="onglet-p-5">
 
     <div class="card  ">
       <div class="card-header" style="background-color: #f7f7f7;">
@@ -243,7 +310,6 @@
               <th>{{'Pays '| translate}}</th>
               <th>{{'Ville '| translate}}</th>
               <th>{{'Code postal '| translate}}</th>
-              <!-- <th>{{"Type D'addresse "| translate}}</th> -->
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
             </tr>
@@ -255,18 +321,18 @@
               <td>{{line?.country}}</td>
               <td>{{line?.city}}</td>
               <td>{{line?.zip}}</td>
-              <!-- <td>{{line?.addressTypeTms}}</td> -->
+
 
               <td>
 
                 <button  type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogAddress(line,true)">
-                  <!--ADD-->
+
                   <i class="fa fa-pencil"></i>
                 </button>
                 <button  type="button" class="btn btn-sm btn-danger mx-1"
                   (click)="onDeleteAddress(line.code)">
-                  <!--ADD-->
+
                   <i class="fa fa-trash"></i>
                 </button>
               </td>
@@ -277,7 +343,7 @@
       </div>
     </div>
 
-  </p-tabPanel>
+  </p-tabPanel> -->
 
 
 
@@ -321,13 +387,13 @@
     [editMode]="editModeContact"></app-contact-edit>
 </div>
 
-<div *ngIf="showDialogAddress == true">
+<!-- <div *ngIf="showDialogAddress == true">
   <app-address-edit
    (showDialog)="onHideDialogAddress($event)"
   (addressEdited)="onLineEditedAddress($event)"
     [selectedAddress]="this.selectedAddress"
     [editMode]="editModeAddress"></app-address-edit>
-</div>
+</div> -->
 
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 <p-confirmDialog

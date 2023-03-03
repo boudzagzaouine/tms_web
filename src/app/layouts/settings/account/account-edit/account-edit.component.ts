@@ -1,3 +1,7 @@
+import { Ville } from './../../../../shared/models/ville';
+import { Pays } from './../../../../shared/models/pays';
+import { VilleService } from './../../../../shared/services/api/ville.service';
+import { PaysService } from './../../../../shared/services/api/pays.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { CompanyService } from "./../../../../shared/services/api/company.service";
 import { Company } from "./../../../../shared/models/company";
@@ -51,7 +55,8 @@ export class AccountEditComponent implements OnInit {
   showDialogContact: boolean;
   showDialogAddress: boolean;
   items: MenuItem[];
-
+  paysList:Array<Pays>=[];
+  villeList:Array<Ville>=[];
   home: MenuItem;
   constructor(
     private accountService: AccountService,
@@ -65,7 +70,9 @@ export class AccountEditComponent implements OnInit {
     private dayService: DayService,
     private companyService: CompanyService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private paysService:PaysService,
+    private villeService:VilleService,
   ) {}
 
   ngOnInit() {
@@ -102,19 +109,16 @@ export class AccountEditComponent implements OnInit {
       //   })
       // );
 
-      this.subscriptions.add(
-        this.addressService.generateCode().subscribe((code) => {
-          this.selectedAddress.code = code;
-          this.initForm();
-        })
-      );
+
     } else {
 
       if (id) {
         console.log(id);
         this.accountService.findById(id).subscribe((data) => {
           this.selectedAccount = data;
+          console.log(this.selectedAccount);
 
+this.selectedAddress=this.selectedAccount?.deliveryAddress?.code?this.selectedAccount.deliveryAddress:new Address();
           if (this.selectedAccount.plannings.length == 0) {
             this.selectedAccount.plannings = this.plannings.sort(function (
               a,
@@ -149,6 +153,14 @@ export class AccountEditComponent implements OnInit {
 
       company: new FormControl(this.selectedAccount.company),
       deliveryDate: new FormControl(this.selectedAccount.deliveryDate),
+
+
+      line1: new FormControl(this.selectedAddress.line1, Validators.required),
+      line2: new FormControl(this.selectedAddress.line2),
+      zip: new FormControl(this.selectedAddress.zip),
+      city: new FormControl(this.selectedAddress.ville,Validators.required),
+      country: new FormControl(this.selectedAddress.pays,Validators.required),
+
     });
   }
 
@@ -165,6 +177,26 @@ export class AccountEditComponent implements OnInit {
     this.selectedAccount.telephone = this.accountForm.value["tel1"];
     this.selectedAccount.email = this.accountForm.value["email"];
     this.selectedAccount.deliveryDate = this.accountForm.value["deliveryDate"];
+
+    this.selectedAddress.addressType=1;
+    this.selectedAddress.code = this.accountForm.value['name'];
+    this.selectedAddress.name = this.accountForm.value['name'];
+
+    this.selectedAddress.line1 = this.accountForm.value['line1'];
+    this.selectedAddress.line2 = this.accountForm.value['line2'];
+    this.selectedAddress.zip = this.accountForm.value['zip'];
+
+    if(this.selectedAddress.code){
+      console.log("address");
+      this.selectedAddress.latitude=this.selectedAddress.latitude?this.selectedAddress.latitude:this.selectedAddress.ville.latitude
+      this.selectedAddress.longitude=this.selectedAddress.longitude?this.selectedAddress.longitude:this.selectedAddress.ville.longitude
+console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
+
+      this.selectedAccount.deliveryAddress=this.selectedAddress;
+
+    console.log(this.selectedAddress);
+
+    }
 
     console.log(this.selectedAccount);
 
@@ -384,4 +416,29 @@ export class AccountEditComponent implements OnInit {
       this.editModeAddress = false;
     }
   }
+
+  onPaysSearch(event: any) {
+    this.paysService
+      .find('code~' + event.query)
+      .subscribe(data => (this.paysList = data));
+  }
+
+  onSelectPays(event){
+    this.selectedAddress.pays=event;
+    console.log( this.selectedAddress.pays);
+
+  }
+
+  onVilleSearch(event: any) {
+    this.villeService
+      .find('code~' + event.query)
+      .subscribe(data => (this.villeList = data));
+  }
+
+  onSelectVille(event){
+    this.selectedAddress.ville=event;
+    console.log( this.selectedAddress.ville);
+
+  }
+
 }

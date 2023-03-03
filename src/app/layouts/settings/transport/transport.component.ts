@@ -60,10 +60,10 @@ export class TransportComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'name', header: 'Nom', type: 'string' },
-      { field: 'siret', header: 'Siret', type: 'string' },
+      { field: 'contact', child: 'tel1', header: 'Tele', type: 'object' },
       { field: 'address', child: 'line1', header: 'Addresse 1', type: 'object' },
       { field: 'address', child: 'line2', header: 'Addresse 2', type: 'object' },
-      { field: 'address', child: 'zip', header: 'Code postale', type: 'object' },
+      { field: 'address', child: 'zip', header: 'Code postal', type: 'object' },
       { field: 'address', child: 'city', header: 'Ville', type: 'object' },
       { field: 'address', child: 'country', header: 'Pays', type: 'object' },
     ];

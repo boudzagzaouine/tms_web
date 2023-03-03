@@ -103,24 +103,56 @@ export class DataTableComponent implements OnInit {
 
     if (this.user.columns != null && this.user.columns !== "") {
       this.columnsAdded = JSON.parse(this.user.columns);
+      console.log("columnsAdded");
+
+      console.log(this.columnsAdded);
+
+
       this.columnsMapped = this.columnsAdded.filter(
         tab => tab.classe === this.className
       );
+      console.log("columnsMapped");
 
+  console.log(this.columnsMapped);
       if (this.columnsMapped.length >= 1) {
         for (let i = 0; i < this.cols.length; i++) {
           for (let j = 0; j < this.columnsMapped.length; j++) {
             if (this.cols[i].field === this.columnsMapped[j].field) {
+                     console.log(this.cols[i].field+"==="+  this.columnsMapped[j].field);
+
+              if(this.columnsMapped[j].type=="object"){
+                if (this.cols[i].child === this.columnsMapped[j].child) {
+                  this.selectedColumns.push(this.cols[i]);
+
+                }
+              }
+
+            else {
               this.selectedColumns.push(this.cols[i]);
+
+            }
             }
           }
         }
+        console.log("selectedColumns");
+
+        console.log(this.selectedColumns);
+
+        console.log("exist");
+
       } else {
+        console.log("non");
+        console.log("col");
+
         this.selectedColumns = this.cols;
       }
     } else {
+      console.log("non");
+      console.log("col");
+
       this.selectedColumns = this.cols;
     }
+
     this.exportColumns = this.selectedColumns.map(col => ({
       title: col.header,
       dataKey: col.field
@@ -208,10 +240,14 @@ export class DataTableComponent implements OnInit {
 
     this.spinner.show();
 
+console.log( this.columnsAdded);
+if(this.columnsAdded!=undefined && this.columnsAdded!=null){
     this.columnsAdded = this.columnsAdded.filter(
       col => col.classe !== this.className
     );
-
+}else {
+  this.columnsAdded=[];
+}
 
     for (let i = 0; i < this.selectedColumns.length; i++) {
       let c = new Columns();

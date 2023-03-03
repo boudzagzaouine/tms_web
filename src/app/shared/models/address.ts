@@ -1,3 +1,4 @@
+import { Company } from './company';
 import { Pays } from './pays';
 import { Ville } from './ville';
 import { Account } from './account';
@@ -24,5 +25,6 @@ export class Address {
   latitude:number;
   longitude:number
   account :Account;
+  company :Company;
   owner:Owner;
 }

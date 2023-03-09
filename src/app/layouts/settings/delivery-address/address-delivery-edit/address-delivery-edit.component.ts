@@ -91,6 +91,7 @@ export class AddressDeliveryEditComponent implements OnInit {
 
     this.spinner.show();
     this.selectedAddress.addressType=1;
+    this.selectedAddress.delivery=true;
     this.selectedAddress.line1 = this.addressForm.value['line1'];
     this.selectedAddress.line2 = this.addressForm.value['line2'];
 

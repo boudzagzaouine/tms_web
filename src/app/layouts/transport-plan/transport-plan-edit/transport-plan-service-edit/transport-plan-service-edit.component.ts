@@ -265,6 +265,46 @@ console.log(this.selectedAccount);
 
 
 
+  onSearchSalePriceServiceBycompany() {
+
+    let requete;
+    requete =
+      "company.id:" +
+      this.selectedAccount.company.id +
+      ",product.id:" +
+      this.selectedTransportServiceCatalog.product.id+
+     ",account.id:"+this.selectedTransportServiceCatalog.account.id;
+
+
+ console.log(requete);
+
+    this.accountPricingServiceService
+      .find(
+      requete
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
+             data= data.filter(f=> f.account==null);
+        }
+        console.log(data);
+
+        if (data[0]) {
+          console.log("companyService");
+
+          this.initSale(
+            data[0].saleAmountHt,
+            data[0].saleAmountTtc,
+            data[0].saleVat
+          );
+        } else {
+          console.log("accountService");
+          this.onSearchSalePriceServiceByAccount();
+        }
+      });
+  }
+
+
   onSearchSalePriceServiceByAccount() {
 
     let requete;
@@ -274,9 +314,6 @@ console.log(this.selectedAccount);
       ",product.id:" +
       this.selectedTransportServiceCatalog.product.id
 
-if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTransportServiceCatalog?.account?.id !=undefined){
-   requete+=",account.id:"+this.selectedTransportServiceCatalog.account.id;
-}
  console.log(requete);
 
     this.accountPricingServiceService
@@ -304,6 +341,8 @@ if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTra
         }
       });
   }
+
+
   onSearchSalePriceServiceInCatalog() {
     this.catalogServiceService
       .find("product.id:" + this.selectedTransportServiceCatalog.product.id)

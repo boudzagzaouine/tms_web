@@ -110,6 +110,7 @@ console.log(this.selectedContact);
     this.selectedContact.tel1 = this.contactForm.value['tele'];
     this.selectedContact.email = this.contactForm.value['email'];
     this.selectedContact.active = true;
+    this.selectedContact.delivery = true;
 
     this.selectedContact.owner = this.authentificationService.getDefaultOwner();
     console.log(this.selectedContact);

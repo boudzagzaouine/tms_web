@@ -163,6 +163,18 @@ export class TarificationComponent implements OnInit {
 console.log(          this.selectOrderTransport?.account?.company?.id  );
 console.log(       trajet  );
 
+console.log("company.id:" +
+this.selectOrderTransport?.account?.company?.id +
+",turnType.id:" +
+this.selectOrderTransport?.turnType?.id +
+",vehicleCategory.id:" +
+this.selectOrderTransport?.vehicleCategory?.id +
+",vehicleTray.id:" +
+this.selectOrderTransport?.vehicleTray?.id +
+",loadingType.id:" +
+this.selectOrderTransport?.loadingType?.id +
+",trajet.code~" +
+trajet);
 
     this.accountPricingService
       .find(
@@ -223,8 +235,10 @@ console.log( this.tarificationAccount);
 
   calculatMarge(purchaseAmount:number, saleAmount:number){
 
-    this.marginRate = ((saleAmount - purchaseAmount) / purchaseAmount) * 100;
-    this.marginValue = saleAmount - purchaseAmount;
+    let rate =((saleAmount - purchaseAmount) / purchaseAmount) * 100;
+   let value = saleAmount - purchaseAmount;
+    this.marginRate = rate ? rate : 0;
+    this.marginValue =value ? value :0;
 
   }
 
@@ -241,8 +255,8 @@ console.log( this.tarificationAccount);
   calculatePrice(){
     this.selectOrderTransport.priceHT =
     this.tarificationForm.controls["priceHT"].value;
- this.selectOrderTransport.vat=this.selectedCatalogPricing.saleVat;
-    const amountTva = (this.selectOrderTransport.priceHT / 100) *  this.selectOrderTransport.vat.value;
+ this.selectOrderTransport.vat=this.selectedCatalogPricing?.saleVat;
+    const amountTva = (this.selectOrderTransport.priceHT / 100) *  this.selectOrderTransport?.vat?.value;
     const priceTTC = this.selectOrderTransport.priceHT + amountTva;
     this.selectOrderTransport.priceTTC=priceTTC;
     this.selectOrderTransport.priceVat=amountTva;

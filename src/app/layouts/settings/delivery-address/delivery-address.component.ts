@@ -62,6 +62,7 @@ page = 0;
   }
 
   loadData(search: string = '') {
+    search +=`,addressType:1`;
     this.spinner.show();
     this.subscriptions.add( this.addressService.sizeSearch(search).subscribe(
       data => {
@@ -131,6 +132,8 @@ page = 0;
   }
   onSearchClicked() {
     const buffer = new EmsBuffer();
+
+
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
     }

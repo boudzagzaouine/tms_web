@@ -308,6 +308,7 @@
 
         <p-autoComplete
         formControlName="orderTransportInfoTrajet"
+        [disabled]="'true'"
         [suggestions]="trajetList"
         (onSelect)="onSelectTrajetSource($event)"
         (completeMethod)="onTrajetSearch($event)"

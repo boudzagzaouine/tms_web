@@ -172,8 +172,7 @@ export class OrderTransportAllerComponent implements OnInit {
       return;
     }
     if(this.orderTransportInfoLines[0] !=null){
-this.getTrajet();
-      this.getTrajetQuantity();
+
 console.log(">0");
 
         if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
@@ -186,7 +185,9 @@ console.log(">0");
           console.log("Quantité livrée est supérieure à la quantité chargée");
 
         }
-       else {   this.loadForm();this.nextstep.emit(true);           console.log("next");
+       else {
+         this.getTrajet();
+            console.log("next");
       }
 }else {
   this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
@@ -424,11 +425,23 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
       let trajetSource = this.orderTransportInfoLines[0].address?.ville?.code;
        let trajetDistination = this.orderTransportInfoLines[size].address?.ville?.code;
 
-       this.trajetService.find('code:'+trajetSource+'-'+trajetDistination).subscribe(
+       console.log(trajetSource+'-'+trajetDistination);
+
+       this.trajetService.find('code~'+trajetSource+'-'+trajetDistination).subscribe(
         data=>{
-          this.selectedOrderTransportInfo.trajet=data[0];
+          console.log(data);
+           if(data[0]!=null){
+                this.selectedOrderTransportInfo.trajet=data[0];
 
           console.log(this.selectedOrderTransportInfo.trajet);
+          this.getTrajetQuantity();
+          this.loadForm();
+          this.nextstep.emit(true);
+           }else{
+            this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Trajet n existe pas '});
+
+           }
+
 
         }
        );

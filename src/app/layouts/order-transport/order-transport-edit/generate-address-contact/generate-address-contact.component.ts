@@ -45,19 +45,19 @@ export class GenerateAddressContactComponent implements OnInit {
 
 console.log(this.selectedAccount);
 
-this.accountService.findById(this.selectedAccount.id).subscribe(
-  data =>{
-    console.log(data);
-  let contact :Contact=new Contact()
-  this.contactList=data.contacts;
-  contact.name=this.selectedAccount.name;
-  contact.tel1=this.selectedAccount.telephone;
-  contact.email=this.selectedAccount.email;
-this.contactList.push(contact);
+// this.accountService.findById(this.selectedAccount.id).subscribe(
+//   data =>{
+//     console.log(data);
+//   let contact :Contact=new Contact()
+//   this.contactList=data.contacts;
+//   contact.name=this.selectedAccount.name;
+//   contact.tel1=this.selectedAccount.telephone;
+//   contact.email=this.selectedAccount.email;
+// this.contactList.push(contact);
 
-this.addressList=data.addresses.filter(f=>f.addressType==1);
-  }
-);
+// this.addressList=data.addresses.filter(f=>f.addressType==1);
+//   }
+// );
 
 
 
@@ -71,10 +71,10 @@ this.addressList=data.addresses.filter(f=>f.addressType==1);
 
 account = this.selectedAccount.code !=null ?this.selectedAccount :   this.accountList[0];
 
-addressContactDeliveryInfo.name=account.name;
-addressContactDeliveryInfo.email=account.email;
-addressContactDeliveryInfo.tel1=account.telephone;
-addressContactDeliveryInfo.company=this.selectedContact?.code;
+addressContactDeliveryInfo.name=this.selectedContact.name;
+addressContactDeliveryInfo.email=this.selectedContact.email;
+addressContactDeliveryInfo.tel1=this.selectedContact.tel1;
+// addressContactDeliveryInfo.account=this.selectedContact?.code;
 
 addressContactDeliveryInfo.line1=this.selectedAddress.line1;
 addressContactDeliveryInfo.city=this.selectedAddress?.ville?.code;
@@ -157,12 +157,13 @@ this.displayDialog=false;
 
    }
 
-   onSelectAddress(event){
-console.log(event.name);
+   onSelectAddress(){
+console.log(this.selectedAddress);
 
-    this.addressService.find('name:'+event.name).subscribe(
+    this.contactService.find('address.id:'+this.selectedAddress.id).subscribe(
       data =>{
-      this.addressList=data;
+      this.contactList=data;
+ console.log( this.contactList);
 
       }
     );

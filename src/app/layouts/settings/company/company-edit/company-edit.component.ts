@@ -22,7 +22,6 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AccountService } from './../../../../shared/models/account-service';
 
 @Component({
   selector: 'app-company-edit',
@@ -270,10 +269,10 @@ saveAddressandCommpany(){
     this.selectedCompany.accountPricingList=acountPricings;
 
   }
-  onAcountServiceEdited(acountPricings : AccountService[]){
+  onAcountServiceEdited(acountPricings : AccountPricingService[]){
 
     console.log(acountPricings);
-    this.selectedCompany.accountServiceList=acountPricings;
+    this.selectedCompany.accountPricingServiceList=acountPricings;
 
 
   }

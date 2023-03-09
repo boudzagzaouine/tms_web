@@ -28,6 +28,9 @@ export class Transport {
 
   interneOrExterne:Boolean=false;
 
+  factureTransport:Boolean=false;
+  factureService:Boolean=false;
+
   priceContrat:number=0; // local
   price:number=0; // local
 

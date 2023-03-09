@@ -74,8 +74,25 @@ showEffect="fade"
             <label class="font-weight-bold">{{'email' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="email" />
           </div>
-          <div class="form-group col-sm-12 col-md-4">
+          <div class="form-group col-sm-2">
+            <label class="font-weight-bold">{{'Facture Transport' | translate}} </label>
+
+            <br />
+
+             <div class="field-checkbox">
+            <p-checkbox formControlName="factureTransport" [(ngModel)]="this.selectedTransport.factureTransport" name="factureTransport"(onChange)="onSelectFactureTransport($event)" [binary]="true" inputId="active"></p-checkbox>
+            <label class="font-weight-bold" for="factureTransport">{{this.selectedTransport.factureTransport?"Oui":"Non"}}</label>
           </div>
+        </div>
+          <div class="form-group col-sm-2">
+            <label class="font-weight-bold">{{'Facture Service' | translate}} </label>
+
+            <br />
+            <div class="field-checkbox">
+            <p-checkbox formControlName="factureService" [(ngModel)]="this.selectedTransport.factureService" name="factureService"(onChange)="onSelectFactureService($event)" [binary]="true" inputId="intern"></p-checkbox>
+            <label class="font-weight-bold" for="factureService">{{this.selectedTransport.factureService?"Oui":"Non"}}</label>
+          </div>
+        </div>
         </div>
 
 

@@ -3,12 +3,12 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../../../../shared/services/api/global.service';
 import { ProductServiceService } from './../../../../../shared/services/api/product-service.service';
-import { AccountServiceService } from './../../../../../shared/services/api/account-service.service';
+import { AccountPricingServiceService } from '../../../../../shared/services/api/account-pricing-service.service';
 import { Product } from './../../../../../shared/models/product';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Company } from './../../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AccountService } from './../../../../../shared/models/account-service';
+import { AccountPricingService } from '../../../../../shared/models/account-pricing-service';
 
 @Component({
   selector: 'app-company-service',
@@ -18,17 +18,17 @@ import { AccountService } from './../../../../../shared/models/account-service';
 export class CompanyServiceComponent implements OnInit {
 
   @Input() selectedCompany: Company = new Company();
-  @Output() accountServiceListEdited = new EventEmitter<AccountService[]>();
+  @Output() accountPricingServiceListEdited = new EventEmitter<AccountPricingService[]>();
   page = 0;
   size = 10;
   collectionSize: number;
 
-  selectAccountServices: Array<AccountService> = [];
+  selectAccountPricingServices: Array<AccountPricingService> = [];
   searchQuery = "";
   codeSearch: string;
 
 
-  accountServiceList: Array<AccountService> = [];
+  accountPricingServiceList: Array<AccountPricingService> = [];
 
 
   productSearch: Product;
@@ -39,12 +39,12 @@ export class CompanyServiceComponent implements OnInit {
   editMode: number;
   className: string;
   titleList = "Liste des Services";
-  accountServiceExportList: Array<AccountService> = [];
+  accountPricingServiceExportList: Array<AccountPricingService> = [];
   items: MenuItem[];
   home: MenuItem;
   idAcountService: number = 0;
   constructor(
-    private accountServiceService: AccountServiceService,
+    private accountPricingServiceService: AccountPricingServiceService,
 
     private productService: ProductServiceService,
     private globalService: GlobalService,
@@ -65,7 +65,7 @@ export class CompanyServiceComponent implements OnInit {
 
     this.home = { icon: "pi pi-home" };
 
-    this.className = AccountService.name;
+    this.className = AccountPricingService.name;
     this.cols = [
 
       {
@@ -75,9 +75,9 @@ export class CompanyServiceComponent implements OnInit {
         type: "object",
       },
       {
-        field: "address",
-        child: "code",
-        header: "Adresse",
+        field: "account",
+        child: "name",
+        header: "Compte",
         type: "object",
       },
 
@@ -107,16 +107,16 @@ export class CompanyServiceComponent implements OnInit {
 
   loadData() {
     this.spinner.show();
-    this.accountServiceService
+    this.accountPricingServiceService
       .sizeSearch(this.searchQuery)
       .subscribe((data) => {
         this.collectionSize = data;
       });
-    this.accountServiceService
+    this.accountPricingServiceService
       .findPagination(this.page, this.size, this.searchQuery)
       .subscribe(
         (data) => {
-          this.accountServiceList = data;
+          this.accountPricingServiceList = data;
           this.spinner.hide();
         },
         (error) => {
@@ -144,20 +144,20 @@ export class CompanyServiceComponent implements OnInit {
     }
   }
   onExportExcel(event) {
-    this.accountServiceService.find(this.searchQuery).subscribe(
+    this.accountPricingServiceService.find(this.searchQuery).subscribe(
       (data) => {
-        this.accountServiceExportList = data;
+        this.accountPricingServiceExportList = data;
         if (event != null) {
           this.globalService.generateExcel(
             event,
-            this.accountServiceExportList,
+            this.accountPricingServiceExportList,
             this.className,
             this.titleList
           );
         } else {
           this.globalService.generateExcel(
             this.cols,
-            this.accountServiceExportList,
+            this.accountPricingServiceExportList,
             this.className,
             this.titleList
           );
@@ -176,12 +176,12 @@ export class CompanyServiceComponent implements OnInit {
     );
   }
   onExportPdf(event) {
-    this.accountServiceService.find(this.searchQuery).subscribe(
+    this.accountPricingServiceService.find(this.searchQuery).subscribe(
       (data) => {
-        this.accountServiceExportList = data;
+        this.accountPricingServiceExportList = data;
         this.globalService.generatePdf(
           event,
-          this.accountServiceExportList,
+          this.accountPricingServiceExportList,
           this.className,
           this.titleList
         );
@@ -235,7 +235,7 @@ export class CompanyServiceComponent implements OnInit {
     this.editMode = event.operationMode;
     console.log(this.editMode);
 
-    this.selectAccountServices = event.object;
+    this.selectAccountPricingServices = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -245,12 +245,12 @@ export class CompanyServiceComponent implements OnInit {
   }
 
   onDeleteAll() {
-    if (this.selectAccountServices.length >= 1) {
+    if (this.selectAccountPricingServices.length >= 1) {
       this.confirmationService.confirm({
         message: "Voulez vous vraiment Supprimer ?",
         accept: () => {
-          const ids = this.selectAccountServices.map((x) => x.id);
-          this.accountServiceService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectAccountPricingServices.map((x) => x.id);
+          this.accountPricingServiceService.deleteAllByIds(ids).subscribe(
             (data) => {
               this.messageService.add({
                 severity: "success",
@@ -278,7 +278,7 @@ export class CompanyServiceComponent implements OnInit {
           );
         },
       });
-    } else if (this.selectAccountServices.length < 1) {
+    } else if (this.selectAccountPricingServices.length < 1) {
       this.toastr.warning("aucun ligne sélectionnée");
     }
   }
@@ -307,16 +307,16 @@ export class CompanyServiceComponent implements OnInit {
     }
   }
 
-  onLineEdited(accountServiceEdited: AccountService) {
-    const acountService = this.accountServiceList.find(
-      (f) => f.product.id == accountServiceEdited.product.id
+  onLineEdited(accountPricingServiceEdited: AccountPricingService) {
+    const acountService = this.accountPricingServiceList.find(
+      (f) => f.product.id == accountPricingServiceEdited.product.id
 
     );
     if (acountService == null) {
       this.idAcountService--;
-      accountServiceEdited.id = this.idAcountService;
-      this.accountServiceList.push(accountServiceEdited);
-      this.accountServiceListEdited.emit(this.accountServiceList);
+      accountPricingServiceEdited.id = this.idAcountService;
+      this.accountPricingServiceList.push(accountPricingServiceEdited);
+      this.accountPricingServiceListEdited.emit(this.accountPricingServiceList);
     }else {
       if(this.editMode==1){
         this.toastr.error("Erreur", 'Elément Existe Déja');

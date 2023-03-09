@@ -36,7 +36,7 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="accountServiceList"
+  [objectList]="accountPricingServiceList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
@@ -56,10 +56,10 @@
   <app-company-service-edit
      (showDialog)="onShowDialog($event)"
      [editMode]="editMode"
-    [selectAccountService]="selectAccountServices[0]"
+    [selectAccountPricingService]="selectAccountPricingServices[0]"
     [selectedCompany]="this.selectedCompany"
     (acountServiceEdited)="onLineEdited($event)"
-    [accountServices]="accountServiceList"
+    [accountPricingServices]="accountPricingServiceList"
   ></app-company-service-edit>
 </div>
 

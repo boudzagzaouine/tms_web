@@ -1,3 +1,5 @@
+import { ContactService } from './../../../../shared/services/api/contact.service';
+import { Contact } from './../../../../shared/models/contact';
 import { VehicleTray } from './../../../../shared/models/vehicle-tray';
 import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
 import { LoadingTypeService } from './../../../../shared/services/api/loading-type.service';
@@ -9,9 +11,9 @@ import { TurnStatusService } from "./../../../../shared/services/api/turn-status
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
-import { CompanyService } from "./../../../../shared/services/api/company.service";
+import { AccountService } from "./../../../../shared/services/api/account.service";
 import { TurnTypeService } from "./../../../../shared/services/api/turn-type.service";
-import { Company } from "./../../../../shared/models/company";
+import { Account } from "./../../../../shared/models/account";
 import { VehicleCategory } from "./../../../../shared/models/vehicle-category";
 import { TurnStatus } from "./../../../../shared/models/turn-status";
 import { TurnType } from "./../../../../shared/models/turn-Type";
@@ -36,24 +38,26 @@ export class OrderTransportInformationComponent implements OnInit {
   turnTypeList: TurnType[] = [];
   turnStatusList: TurnStatus[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
-  companyList: Company[] = [];
+  accountList: Account[] = [];
   vehicleTrayList:VehicleTray[]=[];
   isFormSubmitted = false;
   index: number = 0;
   activeIndex: number = 0;
   home: MenuItem;
   items: MenuItem[];
-
+  contactList:Contact[]=[];
+  selectedContact:Contact=new Contact();
   constructor(
     private turnTypeService: TurnTypeService,
     public OrderTransportService: OrderTransportService,
     private loadingTypeService:LoadingTypeService,
-    private companyService: CompanyService,
+    private accountService: AccountService,
     private vehicleTrayService :VehicleTrayService,
     private activatedRoute: ActivatedRoute,
     private turnStatusService: TurnStatusService,
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportInfoService :OrderTransportInfoService,
+    private contactService:ContactService
   ) {}
 
   ngOnInit() {
@@ -63,6 +67,8 @@ export class OrderTransportInformationComponent implements OnInit {
     if (id) {
       this.OrderTransportService.findById(id).subscribe((data) => {
         this.selectedOrderTransport = data;
+        this.selectedContact=this.selectedOrderTransport.contact;
+        this.contactList=this.selectedOrderTransport?.account?.contacts;
         console.log(this.selectedOrderTransport);
 
         this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
@@ -85,6 +91,8 @@ export class OrderTransportInformationComponent implements OnInit {
       ) {
         this.selectedOrderTransport =
           this.OrderTransportService.getOrderTransport();
+          this.selectedContact=this.selectedOrderTransport.contact;
+          this.contactList=this.selectedOrderTransport?.account?.contacts;
         this.initForm();
       } else {
         this.OrderTransportService.generateCode().subscribe((data) => {
@@ -126,8 +134,8 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.turnType,
         Validators.required
       ),
-      company: new FormControl(
-        this.selectedOrderTransport.company,
+      account: new FormControl(
+        this.selectedOrderTransport.account,
         Validators.required
       ),
       status: new FormControl(
@@ -160,13 +168,22 @@ export class OrderTransportInformationComponent implements OnInit {
     this.isFormSubmitted = false;
   }
 
-  onCompanySearch(event: any) {
-    this.companyService
+  onAccountSearch(event: any) {
+    this.accountService
       .find("name~" + event.query)
-      .subscribe((data) => (this.companyList = data));
+      .subscribe((data) => (this.accountList = data));
   }
-  onSelectCompany(event: any) {
-    this.selectedOrderTransport.company = event;
+  onSelectAccount(event: any) {
+    this.selectedOrderTransport.account = event;
+
+    this.contactList=this.selectedOrderTransport.account.contacts;
+    console.log( this.contactList);
+
+  }
+  onSelectContact(){
+    this.selectedOrderTransport.contact=this.selectedContact;
+    console.log(this.selectedContact);
+
   }
 
   onSelectStatus(event) {
@@ -201,10 +218,21 @@ export class OrderTransportInformationComponent implements OnInit {
     });
     this.vehicleCategoryService.findAll().subscribe((data) => {
       this.vehicleCategoryList = data;
+      console.log(this.vehicleCategoryList);
+
+      this.selectedOrderTransport.vehicleCategory=this.vehicleCategoryList.filter(f=> f.id==1)[0];
+    console.log(this.selectedOrderTransport.vehicleCategory);
+
+      this.initForm();
     });
 
     this.vehicleTrayService.findAll().subscribe((data) => {
       this.vehicleTrayList = data;
+      this.selectedOrderTransport.vehicleTray=this.vehicleTrayList.filter(f=> f.id==1)[0];
+      this.initForm();
+
+      console.log(this.vehicleTrayList);
+
     });
   }
 

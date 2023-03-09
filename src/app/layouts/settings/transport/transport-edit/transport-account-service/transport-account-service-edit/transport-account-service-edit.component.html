@@ -25,30 +25,30 @@
             </div>
 
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Adresse " | translate }} </label>
+              <label class="font-weight-bold">{{ "Compte " | translate }} </label>
               <!-- <span *ngIf="
-                  (transportAccountServiceForm.get('fAddress').touched &&
-                    transportAccountServiceForm.get('fAddress').invalid) ||
+                  (transportAccountServiceForm.get('fAccount').touched &&
+                    transportAccountServiceForm.get('fAccount').invalid) ||
                   (isFormSubmitted &&
-                    transportAccountServiceForm.get('fAddress').invalid)
+                    transportAccountServiceForm.get('fAccount').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
               </span> -->
-              <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
-              (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)" field="name">
+              <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAccount" [suggestions]="accountList"
+              (onSelect)="onSelectAccount($event)" (completeMethod)="onAccountSearch($event)" field="name">
             </p-autoComplete> -->
 
             <p-dropdown
             [autoDisplayFirst]="false"
-            [options]="addressList"
+            [options]="accountList"
               [filter]="true"
-              optionLabel="code"
+              optionLabel="name"
               [appendTo]="'body'"
              [showClear]="true"
-             [placeholder]="this.selectTransportAccountService?.address?.code"
-              (onChange)="onSelectAddress($event)"
-               formControlName="fAddress"></p-dropdown>
+             [placeholder]="this.selectTransportAccountService?.account?.code"
+              (onChange)="onSelectAccount($event)"
+               formControlName="fAccount"></p-dropdown>
             </div>
 
             <div class="form-group col-sm-3">

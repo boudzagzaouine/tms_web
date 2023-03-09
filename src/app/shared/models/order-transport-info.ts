@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { TurnStatus } from './turn-status';
 import { Ville } from './ville';
 import { OrderTransportInfoLine } from './order-transport-info-line';
@@ -27,8 +28,9 @@ export class OrderTransportInfo {
   weightEnlevement: number ;
   weightLivraison: number =0;
 
-  villeSource :Ville;
-  villeDistination :Ville;
+  trajet :Trajet ;
+  // villeSource :Ville;
+  // villeDistination :Ville;
   date: Date=new Date();
   numberKm : number ;
   time:number ;

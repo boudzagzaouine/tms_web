@@ -1,3 +1,5 @@
+import { Address } from '.';
+import { Contact } from './contact';
 import { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
 import { Account } from './account';
 import { PaymentType } from './payment-method';
@@ -12,11 +14,12 @@ export class OrderTransportInfoLine {
   id: number;
 
   orderTransportType :OrderTransportType ;
-  addressContactDeliveryInfo :AddressContactOrderTransportInfo ;
+  //addressContactDeliveryInfo :AddressContactOrderTransportInfo ;
+  address:Address;
+  contact:Contact;
   lineNumber: number;
   orderTransportInfo :OrderTransportInfo;
   account:Account;
-
   numberOfPalletEnlevement:number;
   weightEnlevement :number;
   capacityEnlevement : number;
@@ -25,6 +28,7 @@ export class OrderTransportInfoLine {
   contreBlEnlevement: Boolean=false;
   contreFactureEnlevement:Boolean= false;
   paymentAmountEnlevement:number;
+  dateEnlevement:Date = new Date();
   fileEnlevement:any[];
 
 
@@ -36,7 +40,7 @@ export class OrderTransportInfoLine {
   contreBlLivraison: Boolean=false;
   contreFactureLivraison:Boolean= false;
   paymentAmountLivraison:number;
-
+  dateLivraison:Date = new Date();
   fileLivraison:any[];
 
 

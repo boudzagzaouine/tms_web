@@ -1,3 +1,8 @@
+import { log } from 'console';
+import { ToastrService } from 'ngx-toastr';
+import { ContactService } from './../../../../shared/services/api/contact.service';
+import { Contact } from './../../../../shared/models/contact';
+import { AddressService } from './../../../../shared/services/api/address.service';
 import { OrderTransportInfoLineDocumentService } from './../../../../shared/services/api/order-transport-info-line-documet.service';
 import { OrderTransportInfoLineDocument } from './../../../../shared/models/order-transport-info-line-document';
 import { OrderTransportTrajetQuantity } from "./../../../../shared/models/order-transport-trajet-quantity";
@@ -15,12 +20,12 @@ import { OrderTransportTypeService } from "./../../../../shared/services/api/ord
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
 import { OrderTransportInfoLine } from "./../../../../shared/models/order-transport-info-line";
 import { FormGroup, Validators, FormControl } from "@angular/forms";
-import { CompanyService } from "./../../../../shared/services/api/company.service";
-import { Company } from "./../../../../shared/models/company";
+
 import { Subject, Subscription } from "rxjs";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
 import { PaymentRule } from "./../../../../shared/models/payment-rule";
+import { Address } from './../../../../shared/models';
 
 @Component({
   selector: "app-order-transport-info-line",
@@ -41,17 +46,18 @@ export class OrderTransportInfoLineComponent implements OnInit {
     new EventEmitter<OrderTransportInfoLine>();
   selectedOrderTransport: OrderTransport = new OrderTransport();
   orderTransportInfoLineForm: FormGroup;
-  selectAddressContactDeliveryInfo: AddressContactOrderTransportInfo =
-    new AddressContactOrderTransportInfo();
+  selectAddress: Address = new Address();
+  selectContact: Contact = new Contact();
+
   orderTransportTypeList: OrderTransportType[] = [];
   isFormSubmitted = false;
   displayDialog: boolean;
   title = " Trajet";
   subscrubtion = new Subscription();
-  accountList: Account[] = [];
+  //accountList: Account[] = [];
   selectedAccount: Account = new Account();
   showDialogContactAddress: Boolean = false;
-  selectedCompany: Company = new Company();
+  //selectedAccount: Account = new Account();
 
   lines: OrderTransportInfoLine[] = [];
   turnStatus: TurnStatus = new TurnStatus();
@@ -69,15 +75,27 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
   showDialogLivraisonBl: boolean;
   showDialogLivraisonFacture: boolean;
   editModeLine: boolean;
-
+  addressList:Address[]=[];
+  contactList:Contact[]=[];
+  showDialogContact :Boolean =false;
+  showDialogAddress :Boolean=false;
+  weightLivraison :number;
+  numberOfPalletLivraison:number;
+  capacityLivraison:number;
+  isWeightLivraison :Boolean;
+  isNumberOfPalletLivraison:Boolean;
+  isCapacityLivraison:Boolean;
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
-    private companyService: CompanyService,
+    private accountService: AccountService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
     private turnStatusService: TurnStatusService,
     private paymentTypeService: PaymentTypeService,
-    private accountService: AccountService,
+    private addressService: AddressService,
+    private contactService:ContactService,
+    private toastr :ToastrService,
+
     private orderTransportInfoLineDocumentService:OrderTransportInfoLineDocumentService
   ) {}
 
@@ -87,7 +105,7 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
-    this.selectedCompany = this.selectedOrderTransport.company;
+   // this.selectedAccount = this.selectedOrderTransport.account;
     this.lines =
       this.typeInfo == "Aller"
         ? this.orderTransportService.getLinesAller()
@@ -99,10 +117,16 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
     });
     this.paymentTypeService.findAll().subscribe((data) => {
       this.paymentTypeList = data;
+      // this.selectedOrderTransportInfoLine.paymentTypeEnlevement=this.paymentTypeList.filter(f=>f.id==2)[0];
+      // this.selectedOrderTransportInfoLine.paymentTypeLivraison=this.paymentTypeList.filter(f=>f.id==2)[0];
+this.initForm();
+      console.log(this.paymentTypeList);
+
     });
     if (this.editMode) {
-      this.selectAddressContactDeliveryInfo =
-        this.selectedOrderTransportInfoLine.addressContactDeliveryInfo;
+      this.selectAddress =
+        this.selectedOrderTransportInfoLine.address;
+        this.selectContact =this.selectedOrderTransportInfoLine.contact;
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
       this.getOrderTransportInfoLineDocumentEnlevement(this.selectedOrderTransportInfoLine);
 
@@ -127,6 +151,14 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
       this.selectedOrderTransportInfoLine.capacityLivraison=this.selectedOrderTransportTrajetQuantity?.capacityEnlevement-this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
 
 
+    this. weightLivraison=this.selectedOrderTransportTrajetQuantity?.weightEnlevement-this.selectedOrderTransportTrajetQuantity?.weightLivraison;
+
+    this.numberOfPalletLivraison=this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement-this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
+
+    this.capacityLivraison=this.selectedOrderTransportTrajetQuantity?.capacityEnlevement-this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
+
+
+
     }
 console.log(this.selectedOrderTransportInfoLine);
 
@@ -146,50 +178,44 @@ console.log(this.selectedOrderTransportInfoLine);
           this.selectedOrderTransportInfoLine.orderTransportType,
           Validators.required
         ),
-        account: new FormControl(
-          this.selectedOrderTransportInfoLine.account,
-          Validators.required
-        ),
+        // account: new FormControl(
+        //   this.selectedOrderTransportInfoLine.account,
+        //   Validators.required
+        // ),
         deliveryInfoName: new FormControl(
-          this.selectAddressContactDeliveryInfo.name,
+          this.selectContact.name,
           Validators.required
         ),
         deliveryInfoTel1: new FormControl(
-          this.selectAddressContactDeliveryInfo.tel1,
-          Validators.required
+          this.selectContact.tel1
         ),
         deliveryInfoEmail: new FormControl(
-          this.selectAddressContactDeliveryInfo.email
+          this.selectContact.email
         ),
-        deliveryInfoCompany: new FormControl(
-          this.selectAddressContactDeliveryInfo.company
+
+        deliveryInfoAddressName: new FormControl(
+          this.selectAddress,
+          Validators.required
         ),
         deliveryInfoLine1: new FormControl(
-          this.selectAddressContactDeliveryInfo.line1,
-          Validators.required
+          this.selectAddress.line1
         ),
         deliveryInfoCity: new FormControl(
-          this.selectAddressContactDeliveryInfo.city,
-          Validators.required
+          this.selectAddress.city
         ),
         deliveryInfoZip: new FormControl(
-          this.selectAddressContactDeliveryInfo.zip
+          this.selectAddress.zip
         ),
         deliveryInfoCountry: new FormControl(
-          this.selectAddressContactDeliveryInfo.country,
-          Validators.required
+          this.selectAddress.country
         ),
         deliveryInfoLatitude: new FormControl(
-          this.selectAddressContactDeliveryInfo.latitude,
-          Validators.required
+          this.selectAddress.latitude
         ),
         deliveryInfoLongitude: new FormControl(
-          this.selectAddressContactDeliveryInfo.longitude,
-          Validators.required
+          this.selectAddress.longitude
         ),
-        deliveryInfoDate: new FormControl(
-          new Date(this.selectAddressContactDeliveryInfo.date)
-        ),
+
       }),
       enlevement: new FormGroup({
         numberOfPallets: new FormControl(
@@ -217,6 +243,9 @@ console.log(this.selectedOrderTransportInfoLine);
         ),
         paymentAmount: new FormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountEnlevement
+        ),
+        date: new FormControl(
+         new Date(this.selectedOrderTransportInfoLine?.dateEnlevement)
         ),
       }),
       livraison: new FormGroup({
@@ -246,38 +275,41 @@ console.log(this.selectedOrderTransportInfoLine);
         paymentAmount: new FormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountLivraison
         ),
+        date: new FormControl(
+          new Date(this.selectedOrderTransportInfoLine?.dateLivraison)
+        ),
       }),
     });
   }
 
-  getValueFromEnlevementForm() {
-    let formvalue = this.orderTransportInfoLineForm.value;
-    this.selectAddressContactDeliveryInfo.name = formvalue["general"][
-      "deliveryInfoName"
-    ].name
-      ? formvalue["general"]["deliveryInfoName"].name
-      : formvalue["general"]["deliveryInfoName"];
-    this.selectAddressContactDeliveryInfo.tel1 =
-      formvalue["general"]["deliveryInfoTel1"];
-    this.selectAddressContactDeliveryInfo.email =
-      formvalue["general"]["deliveryInfoEmail"];
-    this.selectAddressContactDeliveryInfo.company =
-      formvalue["general"]["deliveryInfoCompany"];
-    this.selectAddressContactDeliveryInfo.line1 =
-      formvalue["general"]["deliveryInfoLine1"];
-    this.selectAddressContactDeliveryInfo.city =
-      formvalue["general"]["deliveryInfoCity"];
-    this.selectAddressContactDeliveryInfo.zip =
-      formvalue["general"]["deliveryInfoZip"];
-    this.selectAddressContactDeliveryInfo.country =
-      formvalue["general"]["deliveryInfoCountry"];
-    this.selectAddressContactDeliveryInfo.date =
-      formvalue["general"]["deliveryInfoDate"];
-    this.selectAddressContactDeliveryInfo.latitude =
-      formvalue["general"]["deliveryInfoLatitude"];
-    this.selectAddressContactDeliveryInfo.longitude =
-      formvalue["general"]["deliveryInfoLongitude"];
-  }
+  // getValueFromEnlevementForm() {
+  //   let formvalue = this.orderTransportInfoLineForm.value;
+  //   this.selectContact.name = formvalue["general"][
+  //     "deliveryInfoName"
+  //   ].name
+  //     ? formvalue["general"]["deliveryInfoName"].name
+  //     : formvalue["general"]["deliveryInfoName"];
+  //   this.selectContact.tel1 =
+  //     formvalue["general"]["deliveryInfoTel1"];
+  //   this.selectContact.email =
+  //     formvalue["general"]["deliveryInfoEmail"];
+  //   // this.selectContact.account =
+  //   //   formvalue["general"]["deliveryInfoAccount"];
+  //   this.selectAddress.line1 =
+  //     formvalue["general"]["deliveryInfoLine1"];
+  //   this.selectAddress.city =
+  //     formvalue["general"]["deliveryInfoCity"];
+  //   this.selectAddress.zip =
+  //     formvalue["general"]["deliveryInfoZip"];
+  //   this.selectAddress.country =
+  //     formvalue["general"]["deliveryInfoCountry"];
+  //   // this.selectAddress.date =
+  //   //   formvalue["general"]["deliveryInfoDate"];
+  //   this.selectAddress.latitude =
+  //     formvalue["general"]["deliveryInfoLatitude"];
+  //   this.selectAddress.longitude =
+  //     formvalue["general"]["deliveryInfoLongitude"];
+  // }
 
   onSubmit() {
     this.isFormSubmitted = true;
@@ -287,10 +319,11 @@ console.log(this.selectedOrderTransportInfoLine);
     }
 
     let formvalue = this.orderTransportInfoLineForm.value;
-    this.getValueFromEnlevementForm();
-    this.selectedOrderTransportInfoLine.addressContactDeliveryInfo =
-    this.selectAddressContactDeliveryInfo;
-
+  //  this.getValueFromEnlevementForm();
+    this.selectedOrderTransportInfoLine.address =
+    this.selectAddress;
+    this.selectedOrderTransportInfoLine.contact =
+    this.selectContact;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;
@@ -327,6 +360,7 @@ console.log(this.selectedOrderTransportInfoLine);
 
     this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
+    this.onShowDialog();
   }
   getOrderTransportInfoLineDocumentEnlevement(line:OrderTransportInfoLine){
   this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
@@ -383,7 +417,8 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
       this.selectedOrderTransportInfoLine.paymentAmountEnlevement =
       formvalue["enlevement"]["paymentAmount"];
 
-
+      this.selectedOrderTransportInfoLine.dateEnlevement =
+      formvalue["enlevement"]["date"];
 
   }
   destroyLivraison() {
@@ -413,6 +448,8 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
       this.selectedOrderTransportInfoLine.paymentAmountLivraison =
       formvalue["livraison"]["paymentAmount"];
 
+      this.selectedOrderTransportInfoLine.dateLivraison =
+      formvalue["livraison"]["date"];
 
   }
   onSelectorderTransportType(event) {
@@ -425,60 +462,92 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
   onSelectPaymentTypeLivraison(event) {
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = event.value;
   }
-  onSelectAccount(event) {
-    this.selectedOrderTransportInfoLine.account = event;
-    this.selectedAccount = event;
-  }
+  // onSelectAccount(event) {
+  //   this.selectedOrderTransportInfoLine.account = event;
+  //   this.selectedAccount = event;
+  // }
 
-  onAccountSearch(event) {
-    console.log(this.selectedCompany);
-    // company.id:'+this.selectedCompany.id+',
-    this.accountService
-      .find("name~" + event.query)
-      .subscribe((data) => (this.accountList = data));
-  }
+  // onAccountSearch(event) {
+  //   console.log(this.selectedAccount);
+  //   // account.id:'+this.selectedAccount.id+',
+  //   this.accountService
+  //     .find("name~" + event.query)
+  //     .subscribe((data) => (this.accountList = data));
+  // }
 
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
   }
 
-  onSelectAddress(event, type) {
-    if (this.selectedAccount.id > 0) {
-      this.showDialogContactAddress = true;
-    } else {
-      this.messageService.add({
-        severity: "error",
-        summary: "Error",
-        detail: "Saisir  Compte",
-      });
-    }
+  onAddressSearch(event){
+    this.addressService
+    .find('delivery:true,code~' + event.query)
+    .subscribe(data => (this.addressList = data))
+  }
 
-    //  this.selectedCompany = this.selectedOrderTransport.company;
+  onSelectAddress(event) {
+    this.selectedOrderTransportInfoLine.address=event;
+
+    this.setInfoAddress(event);
+    this.contactService.find('address.id:'+event.id).subscribe(
+      data=>{
+        console.log(data);
+
+        this.contactList=data
+      }
+    );
+     // this.showDialogContactAddress = true;
+
+  }
+  onSelectContact(event) {
+    this.selectedOrderTransportInfoLine.contact=event.value;
+
+    this.setInfoContact(event.value);
+     // this.showDialogContactAddress = true;
+
   }
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
   }
 
   affectedContactAddressInfoSelected(event) {
+
     this.setInfoAddress(event);
   }
 
   setInfoAddress(event) {
     console.log("enleventm set");
     console.log(event);
+    this.selectAddress=event;
+    console.log("addrs");
+   console.log( this.selectAddress);
+
 
     this.orderTransportInfoLineForm.controls["general"].patchValue({
-      deliveryInfoName: event.name,
-      deliveryInfoTel1: event.tel1,
-      deliveryInfoEmail: event.email,
-      deliveryInfoCompany: event.company,
+
+      deliveryInfoAddressName: event,
+
       deliveryInfoLine1: event.line1,
-      deliveryInfoCity: event.city,
+      deliveryInfoCity: event.ville.code,
       deliveryInfoZip: event.zip,
-      deliveryInfoCountry: event.country,
+      deliveryInfoCountry: event.pays.code,
       deliveryInfoLatitude: event.latitude,
       deliveryInfoLongitude: event.longitude,
+    });
+    this.orderTransportInfoLineForm.updateValueAndValidity();
+  }
+
+  setInfoContact(event) {
+    console.log("enleventm set");
+    console.log(event);
+    this.selectContact=event;
+    this.orderTransportInfoLineForm.controls["general"].patchValue({
+      deliveryInfoName: event,
+      deliveryInfoTel1: event.tel1,
+      deliveryInfoEmail: event.email,
+      // deliveryInfoAccount: event.account,
+
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
@@ -507,6 +576,10 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
   }
 
   onShowDialogLine(line, mode,trajetType:number,contreType:string) {
+
+
+
+
     if(trajetType==1 && contreType=="BL"){
       this.showDialogEnlevementBl = true;
     }
@@ -566,7 +639,7 @@ console.log(mode);
   }
 
   onLineEditedDocumentLivraisonBL(line :OrderTransportInfoLineDocument){
-    console.log("EnlBl");
+    console.log("livBl");
 
     this.orderTransportInfoLineDocumentLivraisonBL = this.orderTransportInfoLineDocumentLivraisonBL.filter(
       (l) => l.numero !== line.numero
@@ -579,19 +652,19 @@ console.log(mode);
   }
 
   onLineEditedDocumentLivraisonFacture(line :OrderTransportInfoLineDocument){
-    console.log("enlvFacture");
+    console.log("livFacture");
 
     this.orderTransportInfoLineDocumentLivraisonFacture = this.orderTransportInfoLineDocumentLivraisonFacture.filter(
       (l) => l.numero !== line.numero
     );
     line.contreType="FACTURE";
-    line.type=1;
+    line.type=2;
     this.onLineEditedDocument(line);
     this.orderTransportInfoLineDocumentLivraisonFacture.push(line);
   }
 
   onLineEditedDocument(line :OrderTransportInfoLineDocument){
-    console.log("enlvFacture");
+    console.log("LineEditDocument");
 
     this.orderTransportInfoLineDocuments = this.orderTransportInfoLineDocuments.filter(
       (l) => (l.numero !== line.numero)
@@ -599,5 +672,79 @@ console.log(mode);
 
     this.orderTransportInfoLineDocuments.push(line);
   }
+
+  onShowdialogAddress(){
+    this.showDialogAddress=true
+  }
+  onHideDialogAddress(event){
+    this.showDialogAddress = event;
+
+  }
+  onLineEditedAddress(line: Address) {
+
+    this.setInfoAddress(line);
+        console.log(line);
+     }
+
+     onLineEditedContact(contact:Contact){
+      this.contactService.find('address.id:'+this.selectAddress.id).subscribe(
+        data=>{
+          console.log(data);
+
+          this.contactList=data ;
+          this.setInfoContact(contact);
+        }
+      );
+
+
+     }
+  onShowdialogContact(){
+    console.log(this.selectAddress);
+
+    if(this.selectAddress.code !=null){
+    this.showDialogContact=true
+
+    }else {
+      this.toastr.info('sélectionné l adress', 'Info');
+
+    }
+  }
+
+
+
+  onHideDialogContact(event) {
+    this.showDialogContact = event;
+  }
+
+  validateNumberOfPalletsLivraison(event){
+    if(  event.value > this.numberOfPalletLivraison){
+      this.isNumberOfPalletLivraison=true;
+    }else{
+      this.isNumberOfPalletLivraison=false;
+
+    }
+
+  }
+
+  validateWeightLivraison(event){
+    if(  event.value > this.weightLivraison){
+      this.isWeightLivraison=true;
+    }else{
+      this.isWeightLivraison=false;
+
+    }
+
+  }
+
+  validateCapacityLivraison(event){
+    if(  event.value > this.capacityLivraison){
+      this.isCapacityLivraison=true;
+    }else{
+      this.isCapacityLivraison=false;
+
+    }
+
+  }
+
 
 }

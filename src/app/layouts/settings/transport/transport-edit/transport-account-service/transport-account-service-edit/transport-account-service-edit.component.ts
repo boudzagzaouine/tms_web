@@ -1,5 +1,5 @@
-import { Address } from './../../../../../../shared/models/address';
-import { AddressService } from './../../../../../../shared/services/api/address.service';
+import { Account } from './../../../../../../shared/models/account';
+import { AccountService } from './../../../../../../shared/services/api/account.service';
 import { Transport } from './../../../../../../shared/models/transport';
 import { Company } from './../../../../../../shared/models/company';
 import { CompanyService } from './../../../../../../shared/services/api/company.service';
@@ -38,12 +38,12 @@ export class TransportAccountServiceEditComponent implements OnInit {
   title = "Modifier  Service Client";
   productId: number;
   companyId: number;
-  addressId: number;
+  accountId: number;
 
   vatList:Vat[]=[];
    productList :Product[]=[];
   companyList :Company[]=[];
-  addressList:Address[]=[];
+  accountList:Account[]=[];
   constructor(
     private transportAccountServiceService: TransportAccountServiceService,
     private authentificationService: AuthenticationService,
@@ -53,7 +53,7 @@ export class TransportAccountServiceEditComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
-    private addressService: AddressService
+    private accountService: AccountService
   ) {}
 
   ngOnInit() {
@@ -64,8 +64,8 @@ export class TransportAccountServiceEditComponent implements OnInit {
     } else {
       this.productId = this.selectTransportAccountService.product.id;
       this.companyId=this.selectTransportAccountService.product.id;
-      this.addressId=this.selectTransportAccountService.company.id;
-      this.onAddressSearch();
+      this.accountId=this.selectTransportAccountService.company.id;
+      this.onAccountSearch();
 
     }
     console.log(this.selectedTransport);
@@ -81,8 +81,8 @@ export class TransportAccountServiceEditComponent implements OnInit {
         this.selectTransportAccountService.company,
         Validators.required
       ),
-      fAddress: new FormControl(
-        this.selectTransportAccountService.address
+      fAccount: new FormControl(
+        this.selectTransportAccountService.account
 
       ),
       fProduct: new FormControl(
@@ -144,8 +144,8 @@ export class TransportAccountServiceEditComponent implements OnInit {
     let requete ;
 requete=    `transport.id:${this.selectedTransport.id},company.id:${this.companyId},product.id:${this.productId}`
 
-if(this.addressId!=null || this.addressId!=undefined){
-  requete+= `,address.id:${this.addressId}`
+if(this.accountId!=null || this.accountId!=undefined){
+  requete+= `,account.id:${this.accountId}`
 }
 console.log(requete);
 
@@ -243,24 +243,24 @@ requete      )
     console.log( this.selectTransportAccountService.company);
 
     this.companyId=  this.selectTransportAccountService?.company?.id;
-    this.onAddressSearch();
+    this.onAccountSearch();
   }
 
 
-  onAddressSearch() {
+  onAccountSearch() {
 
 
-    this.addressService
-      .find('account.company.id:'+this.selectTransportAccountService?.company?.id)
-      .subscribe(data => (this.addressList = data));
+    this.accountService
+      .find('company.id:'+this.selectTransportAccountService?.company?.id)
+      .subscribe(data => (this.accountList = data));
 
   }
 
-  onSelectAddress(event){
-    this.selectTransportAccountService.address=event.value;
-    console.log( this.selectTransportAccountService.address);
+  onSelectAccount(event){
+    this.selectTransportAccountService.account=event.value;
+    console.log( this.selectTransportAccountService.account);
 
-    this.addressId=  this.selectTransportAccountService?.address?.id;
+    this.accountId=  this.selectTransportAccountService?.account?.id;
   }
 
   load() {

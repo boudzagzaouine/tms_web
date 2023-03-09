@@ -63,8 +63,8 @@
         <label class="font-weight-bold"
         >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> </label
       >
-      <p-inputNumber inputId="locale-user" [disabled]="true"
-      [minFractionDigits]="2" formControlName="numberOfPallet">
+      <p-inputNumber  inputId="integeronly" [disabled]="true"
+       formControlName="numberOfPallet">
      </p-inputNumber>
 
       </div>
@@ -144,7 +144,7 @@
 </div>
 
 
-    <div class="p-grid" >
+    <!-- <div class="p-grid" >
       <div class="p-col-12 p-md-6">
         <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
           <p-panel  [toggleable]="true">
@@ -283,9 +283,39 @@
       </div>
 
 
-    </div>
-    <div class="row justify-content-around">
+    </div> -->
 
+
+    <div class="row justify-content-around">
+      <div class="form-group col-md-6">
+        <label class="font-weight-bold">{{
+          "Trajet" | translate
+        }} *</label
+        >
+        <span
+        *ngIf="
+          (orderTransportInfoForm.get('orderTransportInfoTrajet').touched &&
+          orderTransportInfoForm.get('orderTransportInfoTrajet').invalid) ||
+          (isFormSubmitted &&
+          orderTransportInfoForm.get('orderTransportInfoTrajet').invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+        <br />
+
+        <p-autoComplete
+        formControlName="orderTransportInfoTrajet"
+        [suggestions]="trajetList"
+        (onSelect)="onSelectTrajetSource($event)"
+        (completeMethod)="onTrajetSearch($event)"
+        field="code"
+        appendTo="body"
+      >
+      </p-autoComplete>
+      </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold">{{
           "Date départ" | translate
@@ -308,10 +338,28 @@
     />
 
   </div>
-  <div class="form-group col-md-6">
-</div>
+
 
   </div>
+
+  <div class="row justify-content-around " >
+
+
+  <div *ngIf="showDialogOrderTransportInfoLine == true">
+    <app-order-transport-info-line
+    (showDialog)="onHideDialogOrderTransportInfoLine($event)"
+    (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
+     [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
+     [editMode]="editModeOrderTransportInfoLine"
+     [typeInfo]="'Aller'"
+  [selectedOrderTransportTrajetQuantity]="selectOrderTransportTrajetQuantity"
+
+    >
+
+
+    </app-order-transport-info-line>
+  </div>
+</div>
 
     <div class="row justify-content-around " >
 
@@ -332,7 +380,6 @@
         <ng-template pTemplate="header">
           <tr>
             <th>{{ "Service" | translate }}</th>
-            <th>{{ "Client" | translate }}</th>
             <th>{{ "Ville" | translate }}</th>
             <th>{{ "Nombre Palette /Enlevement " | translate }}</th>
             <th>{{ "Poids /Enlevement" | translate }}</th>
@@ -345,10 +392,7 @@
         <ng-template pTemplate="body" let-line>
           <tr>
             <td>{{ line?.orderTransportType?.code }}</td>
-         <td>{{ line?.addressContactDeliveryInfo?.name }}</td>
-            <td>
-              {{ line?.addressContactDeliveryInfo?.city }}
-          </td>
+            <td>{{ line?.address?.ville?.code }}</td>
           <td>
             {{ line?.numberOfPalletEnlevement  }}
         </td>
@@ -418,7 +462,6 @@
     <div *ngIf="showDialogContactAddress == true">
       <app-generate-address-contact
         (showDialog)="onHideDialogGenerateContactAddress($event)"
-        [selectedCompany]="selectedCompany"
         (addressContactDeliveryInfo)="affectedContactAddressInfoSelected($event)"
       ></app-generate-address-contact>
     </div>
@@ -433,17 +476,4 @@
         ></app-package-detail>
     </div>
 
-    <div *ngIf="showDialogOrderTransportInfoLine == true">
-    <app-order-transport-info-line
-    (showDialog)="onHideDialogOrderTransportInfoLine($event)"
-    (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
-     [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
-     [editMode]="editModeOrderTransportInfoLine"
-     [typeInfo]="'Aller'"
-  [selectedOrderTransportTrajetQuantity]="selectOrderTransportTrajetQuantity"
 
-    >
-
-
-    </app-order-transport-info-line>
-  </div>

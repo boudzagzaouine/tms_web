@@ -1,3 +1,4 @@
+import { AccountPricingServiceService } from './services/api/account-pricing-service.service';
 import { CompanyImportService } from './services/api/company-import.service';
 import { OrderTransportInfoLineDocumentService } from './services/api/order-transport-info-line-documet.service';
 import { AgencyService } from './services/api/agency.service';
@@ -15,7 +16,6 @@ import { TransportService } from './models/transport-service';
 import { TransportPlanServiceCatalogService } from './services/api/transport-Plan-service-catalog.service';
 import { TransportAccountServiceService } from './services/api/transport-account-service.service';
 import { TransportServiceService } from './services/api/transport-service.service';
-import { AccountServiceService } from './services/api/account-service.service';
 import { CatalogServiceService } from './services/api/catalog-service.service';
 import { CatalogPricingImportService } from './services/api/catalog-pricing-import.service';
 import { ContactFunctionService } from './services/api/contact-function.service';
@@ -361,8 +361,8 @@ export class SharedModule {
         ContactFunctionService,
         CatalogPricingImportService,
         CatalogServiceService,
-        AccountServiceService,
-
+        AccountPricingServiceService,
+      AccountService,
         TransportServiceService,
         TransportAccountServiceService,
         TransportPlanServiceCatalogService,

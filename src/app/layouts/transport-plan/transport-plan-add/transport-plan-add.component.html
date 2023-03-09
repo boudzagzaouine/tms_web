@@ -109,8 +109,8 @@
           [listStyle]="{ 'max-height': '30rem' }"
           header="Liste des Ordre de Transports"
           [dragdrop]="true" [responsive]="true"
-          filterBy="company.name"
-          filterPlaceholder="Recherche Par Societe"
+          filterBy="account.name"
+          filterPlaceholder="Recherche Par Compte"
         >
           <ng-template let-order pTemplate="item">
             <div class="product-item">
@@ -134,9 +134,9 @@
                 >
                 <br />
                 <span
-                  >Societe :
+                  >Compte :
                   <span style="font-size: 14px">{{
-                    order?.company?.name
+                    order?.account?.name
                   }}</span></span
                 ><br />
 
@@ -148,12 +148,13 @@
                   <span class="product-category"
                     >Aller :
                     <span style="font-weight: 500">{{
-                      order?.orderTransportInfoAller?.villeSource?.code
+                      order?.orderTransportInfoAller?.trajet?.code
                     }}</span>
-                    ->
+                    <!-- ->
                     <span style="font-weight: 500">{{
                       order?.orderTransportInfoAller?.villeDistination?.code
-                    }}</span></span
+                    }}</span> -->
+                    </span
                   ><br />
                 </span>
                 <span *ngIf="order.turnType.id == 2 || order.turnType.id == 3">
@@ -164,12 +165,13 @@
                   <span class="product-category"
                     >Retour :
                     <span style="font-weight: 500">{{
-                      order?.orderTransportInfoRetour?.villeSource?.code
+                      order?.orderTransportInfoRetour?.trajet?.code
                     }}</span>
-                    ->
+                    <!-- ->
                     <span style="font-weight: 500">{{
                       order?.orderTransportInfoRetour?.villeDistination?.code
-                    }}</span></span
+                    }}</span> -->
+                    </span
                   >
                 </span>
               </div>

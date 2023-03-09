@@ -1,15 +1,14 @@
+import { AccountPricingServiceService } from './../../../../shared/services/api/account-pricing-service.service';
 import { CatalogService } from "./../../../../shared/models/catalog-service";
 import { VatService } from "./../../../../shared/services/api/vat.service";
 import { Vat } from "./../../../../shared/models/vat";
-import { AccountServiceService } from "./../../../../shared/services/api/account-service.service";
 import { AccountService } from "./../../../../shared/services/api/account.service";
 import { CatalogServiceService } from "./../../../../shared/services/api/catalog-service.service";
 import { TransportAccountServiceService } from "./../../../../shared/services/api/transport-account-service.service";
 import { TransportAccountService } from "./../../../../shared/models/transport-account-service";
 import { TransportServiceService } from "./../../../../shared/services/api/transport-service.service";
 import { Transport } from "./../../../../shared/models/transport";
-import { Address } from "./../../../../shared/models/address";
-import { AddressService } from "./../../../../shared/services/api/address.service";
+import { Account } from "./../../../../shared/models/account";
 import { Company } from "./../../../../shared/models/company";
 import { TransportPlanServiceCatalogService } from "./../../../../shared/services/api/transport-Plan-service-catalog.service";
 import { ProductServiceService } from "../../../../shared/services/api/product-service.service";
@@ -27,7 +26,7 @@ import { TransportServcie } from "./../../../../shared/services/api/transport.se
   styleUrls: ["./transport-plan-service-edit.component.scss"],
 })
 export class TransportPlanServiceEditComponent implements OnInit {
-  @Input() selectedCompany: Company = new Company();
+  @Input() selectedAccount: Account = new Account();
 
   @Input() selectedTransportServiceCatalog: TransportPlanServiceCatalog =
     new TransportPlanServiceCatalog();
@@ -42,7 +41,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
   transportProductCode: string;
   productList: Product[] = [];
   vats: Vat[];
-  addresList: Address[] = [];
+  accountList: Account[] = [];
   transportList: Transport[] = [];
   subscriptions = new Subscription();
 
@@ -52,12 +51,12 @@ export class TransportPlanServiceEditComponent implements OnInit {
     private transportProductService: TransportPlanServiceCatalogService,
     private productService: ProductServiceService,
     private vatService: VatService,
-    private addressService: AddressService,
+    private accountService: AccountService,
     private transportService: TransportServcie,
     private transportServiceService: TransportServiceService,
     private transportAccountServiceService: TransportAccountServiceService,
     private catalogSeviceService: CatalogServiceService,
-    private accountServiceService: AccountServiceService,
+    private accountPricingServiceService: AccountPricingServiceService,
     private catalogServiceService: CatalogServiceService
   ) {}
 
@@ -67,12 +66,13 @@ export class TransportPlanServiceEditComponent implements OnInit {
         this.vats = data;
       })
     );
+console.log(this.selectedAccount);
 
     this.subscriptions.add(
-      this.addressService
-        .find("account.company.id:" + this.selectedCompany.id)
-        .subscribe((data: Address[]) => {
-          this.addresList = data;
+      this.accountService
+        .find("company.id:" + this.selectedAccount.company.id)
+        .subscribe((data: Account[]) => {
+          this.accountList = data;
         })
     );
 
@@ -89,7 +89,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
       this.title = "Ajouter un Catalogue";
 
       console.log("new");
-      this.selectedTransportServiceCatalog = new TransportPlanServiceCatalog();
+     // this.selectedTransportServiceCatalog = new TransportPlanServiceCatalog();
     } else {
       this.title = "Modifier un catalogue";
     }
@@ -107,8 +107,8 @@ export class TransportPlanServiceEditComponent implements OnInit {
         this.selectedTransportServiceCatalog.transport
       ),
 
-      address: this.formBuilder.control(
-        this.selectedTransportServiceCatalog.address
+      account: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.account
       ),
       invoice: this.formBuilder.control(
         this.selectedTransportServiceCatalog.invoice
@@ -172,8 +172,8 @@ export class TransportPlanServiceEditComponent implements OnInit {
 
     this.selectedTransportServiceCatalog.invoice = event.checked;
   }
-  onSelectAddress(event) {
-    this.selectedTransportServiceCatalog.address = event.value;
+  onSelectAccount(event) {
+    this.selectedTransportServiceCatalog.account = event.value;
     this.onSearchSalePriceServiceByAccount();
 
     this.onSearchPurchasePriceServiceByAccount();
@@ -186,6 +186,8 @@ export class TransportPlanServiceEditComponent implements OnInit {
   onSelectProduct(event) {
     //this.selectedProduct = event as Product;
     this.selectedTransportServiceCatalog.product = event as Product;
+    this.onSearchPurchasePriceServiceByAccount();
+
     this.onSearchSalePriceServiceByAccount();
     // this.selectedTransportServiceCatalog.purchaseVat =
     //   this.selectedTransportServiceCatalog.product.purchaseVat;
@@ -201,13 +203,13 @@ export class TransportPlanServiceEditComponent implements OnInit {
     let requete;
     requete =
     "company.id:" +
-        this.selectedCompany.id +
+        this.selectedAccount.company.id +
         ",transport.id:" +
         this.selectedTransportServiceCatalog.transport.id +
         ",product.id:" +
         this.selectedTransportServiceCatalog.product.id
-        if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTransportServiceCatalog?.address?.id !=undefined){
-          requete+=",address.id:"+this.selectedTransportServiceCatalog.address.id;
+        if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTransportServiceCatalog?.account?.id !=undefined){
+          requete+=",account.id:"+this.selectedTransportServiceCatalog.account.id;
        }
         console.log(requete);
     this.transportAccountServiceService
@@ -215,8 +217,8 @@ export class TransportPlanServiceEditComponent implements OnInit {
     requete
     )
     .subscribe((data) => {
-      if(this.selectedTransportServiceCatalog?.address?.id == null || this.selectedTransportServiceCatalog?.address?.id ==undefined){
-        data= data.filter(f=> f.address==null);
+      if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
+        data= data.filter(f=> f.account==null);
    }
       if (data[0]) {
         console.log(data);
@@ -268,23 +270,23 @@ export class TransportPlanServiceEditComponent implements OnInit {
     let requete;
     requete =
       "company.id:" +
-      this.selectedCompany.id +
+      this.selectedAccount.company.id +
       ",product.id:" +
       this.selectedTransportServiceCatalog.product.id
 
-if(this.selectedTransportServiceCatalog?.address?.id != null || this.selectedTransportServiceCatalog?.address?.id !=undefined){
-   requete+=",address.id:"+this.selectedTransportServiceCatalog.address.id;
+if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTransportServiceCatalog?.account?.id !=undefined){
+   requete+=",account.id:"+this.selectedTransportServiceCatalog.account.id;
 }
  console.log(requete);
 
-    this.accountServiceService
+    this.accountPricingServiceService
       .find(
       requete
       )
       .subscribe((data) => {
         console.log(data);
-        if(this.selectedTransportServiceCatalog?.address?.id == null || this.selectedTransportServiceCatalog?.address?.id ==undefined){
-             data= data.filter(f=> f.address==null);
+        if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
+             data= data.filter(f=> f.account==null);
         }
         console.log(data);
 

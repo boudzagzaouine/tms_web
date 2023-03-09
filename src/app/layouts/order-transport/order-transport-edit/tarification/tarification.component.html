@@ -185,7 +185,7 @@
         <ng-template pTemplate="content" let-event>
           <small class="p-text-secondary" style="font-size: 23px;
           font-weight: 700;
-          color: #326895;">{{event?.addressContactDeliveryInfo?.city}}</small><br>
+          color: #326895;">{{event?.address?.ville?.code}}</small><br>
           <small class="p-text-secondary" style="font-size: 11px;
           font-weight: 900;
           color: #326895;">{{event?.orderTransportService?.code}}</small>
@@ -225,7 +225,7 @@
           <ng-template pTemplate="content" let-retour>
             <small class="p-text-secondary" style="font-size: 23px;
             font-weight: 700;
-            color: #326895;">{{retour?.addressContactDeliveryInfo?.city}}</small><br>
+            color: #326895;">{{retour?.address?.ville?.code}}</small><br>
             <small class="p-text-secondary" style="font-size: 11px;
             font-weight: 900;
             color: #326895;">{{retour?.orderTransportService?.code}}</small>

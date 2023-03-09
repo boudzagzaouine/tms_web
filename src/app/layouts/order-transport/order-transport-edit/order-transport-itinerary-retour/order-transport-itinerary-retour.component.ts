@@ -61,9 +61,9 @@ export class OrderTransportItineraryRetourComponent implements OnInit {
 
     this.orderTransportInfoLignes.forEach(ligne => {
      this.itinerary= new Itinerary();
-     this.itinerary.lat= ligne.addressContactDeliveryInfo.latitude;
-     this.itinerary.lon=ligne.addressContactDeliveryInfo.longitude;
-     this.itinerary.description=ligne.addressContactDeliveryInfo.name;
+     this.itinerary.lat= ligne.address.latitude;
+     this.itinerary.lon=ligne.address.longitude;
+     this.itinerary.description=ligne.address.code;
      this.itinerary.type=ligne.orderTransportType.code;
 
      this.itineraries.push(this.itinerary);

@@ -1,3 +1,7 @@
+import { log } from 'console';
+import { TrajetService } from './../../../../shared/services/api/trajet.service';
+import { Trajet } from './../../../../shared/models/trajet';
+import { Account } from './../../../../shared/models/account';
 import { OrderTransportTrajetQuantity } from './../../../../shared/models/order-transport-trajet-quantity';
 import { Itinerary } from './../../../../shared/models/Itinerairy';
 import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
@@ -6,13 +10,12 @@ import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Ville } from './../../../../shared/models/ville';
 import { TypeInfo } from "./../../../../shared/enum/type-info.enum";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
-import { CompanyService } from "./../../../../shared/services/api/company.service";
+import { AccountService } from "./../../../../shared/services/api/account.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { PackagingTypeService } from "./../../../../shared/services/api/packaging-type.service";
 import { ContainerTypeService } from "./../../../../shared/services/api/container-type.service";
 import { PackagingType } from "./../../../../shared/models/packaging-type";
 import { ContainerType } from "./../../../../shared/models/container-type";
-import { Company } from "./../../../../shared/models/company";
 import { OrderTransportInfoLine } from "./../../../../shared/models/order-transport-info-line";
 import { PackageDetail } from "./../../../../shared/models/package-detail";
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
@@ -54,36 +57,38 @@ export class OrderTransportAllerComponent implements OnInit {
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLine: boolean = false;
 
-  selectedCompany: Company = new Company();
   selectedaccountInitialOrFinal: string = "false";
   showDialogContactAddress: boolean = false;
   showDialogPackageDetail: boolean = false;
 
   containerTypeList: ContainerType[] = [];
   packagingTypeList: PackagingType[] = [];
-  accountList: Company[] = [];
+  accountList: Account[] = [];
   isFormSubmitted = false;
-  villeList :Ville[]=[];
+  trajetList :Trajet[]=[];
   turnStatus : TurnStatus = new TurnStatus();
   statusList :TurnStatus[]=[];
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
-    private accountService: CompanyService,
+    private accountService: AccountService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
+    private trajetService: TrajetService,
+
     private villeService: VilleService,
     private turnStatusService:TurnStatusService
   ) {}
 
   ngOnInit() {
+
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
+      this.selectedOrderTransportInfo.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
+       this.initForm();
     });
-    this.packagingTypeService.findAll().subscribe((data) => {
-      this.packagingTypeList = data;
-    });
+
     this.containerTypeService.findAll().subscribe((data) => {
       this.containerTypeList = data;
     });
@@ -136,14 +141,13 @@ export class OrderTransportAllerComponent implements OnInit {
       ),
 
 
-      orderTransportInfoInitialCity: new FormControl(
-        this.selectedOrderTransportInfo.villeSource,
-        Validators.required
+      orderTransportInfoTrajet: new FormControl(
+        this.selectedOrderTransportInfo.trajet
       ),
 
-      orderTransportInfoInitialCountry: new FormControl(
-        'MAROC',
-      ),
+      // orderTransportInfoInitialCountry: new FormControl(
+      //   'MAROC',
+      // ),
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)
       ),
@@ -151,14 +155,14 @@ export class OrderTransportAllerComponent implements OnInit {
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
 
-      orderTransportInfoFinalCity: new FormControl(
-        this.selectedOrderTransportInfo.villeDistination,
-        Validators.required
-      ),
+      // orderTransportInfoFinalCity: new FormControl(
+      //   this.selectedOrderTransportInfo.villeDistination,
+      //   Validators.required
+      // ),
 
-      orderTransportInfoFinalCountry: new FormControl(
-        'MAROC',
-      ),
+      // orderTransportInfoFinalCountry: new FormControl(
+      //   'MAROC',
+      // ),
     });
   }
   validateForm() {
@@ -168,17 +172,18 @@ export class OrderTransportAllerComponent implements OnInit {
       return;
     }
     if(this.orderTransportInfoLines[0] !=null){
+this.getTrajet();
       this.getTrajetQuantity();
 console.log(">0");
 
         if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
-          console.log("err qnt <");
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée'});
+          console.log("Quantité Chargée est inférieure à la quantité Livrée");
 
         }
         else if(this.selectOrderTransportTrajetQuantity.weightEnlevement>this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement>this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement>this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
-          console.log("err qnt >");
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité Chargée est inférieure à la quantité Livrée'});
+          console.log("Quantité livrée est supérieure à la quantité chargée");
 
         }
        else {   this.loadForm();this.nextstep.emit(true);           console.log("next");
@@ -220,17 +225,17 @@ console.log(">0");
 
 
 
-  onSelectVilleSource(event){
-   this.selectedOrderTransportInfo.villeSource=event;
+  onSelectTrajetSource(event){
+   this.selectedOrderTransportInfo.trajet=event;
   }
-  onSelectVilleDistination(event){
-    this.selectedOrderTransportInfo.villeDistination=event;
-   }
+  // onSelectVilleDistination(event){
+  //   this.selectedOrderTransportInfo.villeDistination=event;
+  //  }
 
-   onVilleSearch(event){
-    this.villeService
+   onTrajetSearch(event){
+    this.trajetService
     .find('code~' + event.query)
-    .subscribe(data => (this.villeList = data))
+    .subscribe(data => (this.trajetList = data))
    }
 
   onHideDialogGenerateContactAddress(event) {
@@ -245,21 +250,19 @@ console.log(">0");
 
   // account
 
-  onCompanySearch(event: any) {
+  onAccountSearch(event: any) {
     this.accountService
       .find("name~" + event.query)
       .subscribe((data) => (this.accountList = data));
   }
 
-  onSelectCompanyInitial() {
+  onSelectAccountInitial() {
     this.showDialogContactAddress = true;
-    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Initial";
   }
 
-  onSelectCompanyFinal() {
+  onSelectAccountFinal() {
     this.showDialogContactAddress = true;
-    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Final";
   }
   // fin account
@@ -416,6 +419,22 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
   }
   }
 
+  getTrajet(){
+   let size = this.orderTransportInfoLines.length-1;
+      let trajetSource = this.orderTransportInfoLines[0].address?.ville?.code;
+       let trajetDistination = this.orderTransportInfoLines[size].address?.ville?.code;
+
+       this.trajetService.find('code:'+trajetSource+'-'+trajetDistination).subscribe(
+        data=>{
+          this.selectedOrderTransportInfo.trajet=data[0];
+
+          console.log(this.selectedOrderTransportInfo.trajet);
+
+        }
+       );
+       //console.log(trajetSource +"-----" + trajetDistination);
+
+  }
 
   // fin Line
 
@@ -426,6 +445,11 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
   }
 
   next() {
+
+
+
+
+
 
     this.validateForm();
 

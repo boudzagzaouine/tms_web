@@ -19,6 +19,7 @@ export class Address {
    ville:Ville;
    pays:Pays;
    addressType:number;
+   delivery:Boolean=false;
   creationDate: Date;
   updateDate: Date;
   addressTypeTms: string;

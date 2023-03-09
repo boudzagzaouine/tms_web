@@ -32,7 +32,7 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
 
   ngOnInit() {
 
-    this.title = 'Ajouter un produit';
+    this.title = 'Ajouter';
     this.displayDialog = true;
 
 

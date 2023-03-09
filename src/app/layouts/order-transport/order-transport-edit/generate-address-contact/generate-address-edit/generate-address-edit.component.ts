@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { PaysService } from './../../../../../shared/services/api/pays.service';
 import { VilleService } from './../../../../../shared/services/api/ville.service';
 import { AddressService } from './../../../../../shared/services/api/address.service';
@@ -33,8 +34,8 @@ export class GenerateAddressEditComponent implements OnInit {
     private authentificationService: AuthenticationService,
     private addressService : AddressService,
     private  villeService :VilleService ,
-    private paysService :PaysService
-
+    private paysService :PaysService,
+    private toastr :ToastrService,
 
 
   ) { }
@@ -60,15 +61,15 @@ export class GenerateAddressEditComponent implements OnInit {
 
       console.log("new");
       this.selectedAddress = new Address();
-  this.addressService.generateCode().subscribe(
-    data=> {
+  // this.addressService.generateCode().subscribe(
+  //   data=> {
 
-            this.addressCode = data;
-            this.selectedAddress.code= this.addressCode;
-            console.log(this.selectedAddress.code);
+  //           this.addressCode = data;
+  //           this.selectedAddress.code= this.addressCode;
+  //           console.log(this.selectedAddress.code);
 
-    }
-  );
+  //   }
+  // );
 
 
     }
@@ -120,8 +121,12 @@ export class GenerateAddressEditComponent implements OnInit {
       return;
     }
    // this.selectedAddress.code = this.addressCode;
+   this.selectedAddress.code = this.addressForm.value['code'];
+
     this.selectedAddress.line1 = this.addressForm.value['line1'];
     this.selectedAddress.addressType = 1; // 1 address Livraison
+    this.selectedAddress.delivery = true;
+
     this.selectedAddress.addressTypeTms = "Livraison";
     this.selectedAddress.line2 = this.addressForm.value['line2'];
 
@@ -131,7 +136,13 @@ export class GenerateAddressEditComponent implements OnInit {
     this.selectedAddress.owner = this.authentificationService.getDefaultOwner();
     console.log(this.selectedAddress);
 
-    this.addressEdited.emit(this.selectedAddress);
+    this.addressService.set(  this.selectedAddress).subscribe(
+      data=> {
+              console.log(data);
+              this.addressEdited.emit(data);
+              this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+      }
+    );
     this.displayDialog = false;
 
   }

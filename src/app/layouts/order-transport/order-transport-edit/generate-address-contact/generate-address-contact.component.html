@@ -37,6 +37,8 @@
                     dataKey="code"
                     [rows]="5"
             [paginator]="true"
+            [(selection)]="selectedContact"
+
             [totalRecords]="contactList?.length"
                     responsiveLayout="scroll"
                   >
@@ -83,6 +85,7 @@
                     [paginator]="true"
                     [totalRecords]="addressList?.length"
                     responsiveLayout="scroll"
+                    (onRowSelect)="onSelectAddress()"
                   >
                   <ng-template pTemplate="caption">
                     <div class="p-d-flex">
@@ -90,7 +93,7 @@
                                 <i class="pi pi-search"></i>
                                 <p-autoComplete
                                 [suggestions]="addressList"
-                                (onSelect)="onSelectAddress($event)"
+
                                 (completeMethod)="onSearchAddressName($event)"
                                 field="name"
                                 placeholder="Rechercher"

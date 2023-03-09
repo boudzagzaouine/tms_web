@@ -1,3 +1,5 @@
+import { Account } from './account';
+import { Trajet } from './trajet';
 import { Company } from './company';
 import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
@@ -24,15 +26,15 @@ export class TransportPlan {
   driver:Driver;
   vehicleCategory :VehicleCategory ;
   transport :Transport ;
-  company:Company;
+  account:Account;
   turnStatus :TurnStatus;
   salePrice :number;
   purchasePrice :number;
   dateDepart: Date = new Date();
   dateValidate: Date = new Date();
-  villeSource :Ville;
-  villeDistination : Ville;
-
+  // villeSource :Ville;
+  // villeDistination : Ville;
+trajet:Trajet;
   transportPlanServiceCatalogs:TransportPlanServiceCatalog[]=[];
 
   marginRate:number;

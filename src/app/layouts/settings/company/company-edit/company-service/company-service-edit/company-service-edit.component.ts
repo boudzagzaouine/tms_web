@@ -1,3 +1,4 @@
+import { AccountService } from './../../../../../../shared/services/api/account.service';
 import { AddressService } from './../../../../../../shared/services/api/address.service';
 import { Address } from './../../../../../../shared/models/address';
 import { Product } from './../../../../../../shared/models/product';
@@ -7,13 +8,14 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../../../shared/services/api/authentication.service';
-import { AccountServiceService } from './../../../../../../shared/services/api/account-service.service';
+import { AccountPricingServiceService } from '../../../../../../shared/services/api/account-pricing-service.service';
 import { Pays } from './../../../../../../shared/models/pays';
 import { Vat } from './../../../../../../shared/models/vat';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AccountService } from './../../../../../../shared/models/account-service';
+import { AccountPricingService } from '../../../../../../shared/models/account-pricing-service';
+import { Account } from './../../../../../../shared/models';
 
 @Component({
   selector: 'app-company-service-edit',
@@ -23,75 +25,75 @@ import { AccountService } from './../../../../../../shared/models/account-servic
 export class CompanyServiceEditComponent implements OnInit {
 
   @Input() selectedCompany: Company = new Company();
-  @Input() selectAccountService = new AccountService();
-  @Input() accountServices: AccountService[] = [];
-  @Output() acountServiceEdited = new EventEmitter<AccountService>();
+  @Input() selectAccountPricingService = new AccountPricingService();
+  @Input() accountPricingServices: AccountPricingService[] = [];
+  @Output() acountServiceEdited = new EventEmitter<AccountPricingService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  accountServiceForm: FormGroup;
-  addressList:Address[]=[];
+  accountPricingServiceForm: FormGroup;
+  accountList:Account[]=[];
   vat = new Vat();
   displayDialog: boolean;
   isFormSubmitted = false;
   title = "Modifier  Service";
   productId: number;
-  addressId: number;
+  accountId: number;
 
   vatList:Vat[]=[];
    productList :Product[]=[];
   constructor(
-    private accountServiceService: AccountServiceService,
+    private accountPricingServiceService: AccountPricingServiceService,
     private authentificationService: AuthenticationService,
     private productService:ProductServiceService,
     private vatService: VatService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
-    private addressService:AddressService,
+    private accountService:AccountService,
   ) {}
 
   ngOnInit() {
     this.load();
     if (this.editMode === 1) {
-      this.selectAccountService = new AccountService();
+      this.selectAccountPricingService = new AccountPricingService();
       this.title = "Ajouter  Service";
     } else {
-      this.productId = this.selectAccountService?.product?.id;
-      this.addressId = this.selectAccountService?.address?.id;
+      this.productId = this.selectAccountPricingService?.product?.id;
+      this.accountId = this.selectAccountPricingService?.account?.id;
 
     }
-    this.onAddressSearch();
+    this.onAccountSearch();
     this.displayDialog = true;
     this.initForm();
   }
 
   initForm() {
-    this.accountServiceForm = new FormGroup({
+    this.accountPricingServiceForm = new FormGroup({
 
-      fAddress: new FormControl(
-        this.selectAccountService.address
+      fAccount: new FormControl(
+        this.selectAccountPricingService.account
       ),
 
       fProduct: new FormControl(
-        this.selectAccountService.product,
+        this.selectAccountPricingService.product,
         Validators.required
       ),
 
       fSaleAmountHt: new FormControl(
-        this.selectAccountService.saleAmountHt,
+        this.selectAccountPricingService.saleAmountHt,
         Validators.required
       ),
       fSaleAmountTtc: new FormControl(
-        this.selectAccountService.saleAmountTtc,
+        this.selectAccountPricingService.saleAmountTtc,
         Validators.required
       ),
       fSaleAmountTva: new FormControl(
-        this.selectAccountService.saleAmountTva,
+        this.selectAccountPricingService.saleAmountTva,
         Validators.required
       ),
       fSaleVat: new FormControl(
 
-           this.selectAccountService?.saleVat,
+           this.selectAccountPricingService?.saleVat,
 
         Validators.required
       ),
@@ -99,27 +101,27 @@ export class CompanyServiceEditComponent implements OnInit {
   }
   onSubmit() {
     this.isFormSubmitted = true;
-    if (this.accountServiceForm.invalid) {
+    if (this.accountPricingServiceForm.invalid) {
       return;
     }
     this.spinner.show();
-    this.selectAccountService.saleAmountHt =
-      this.accountServiceForm.value["fSaleAmountHt"];
-    this.selectAccountService.saleAmountTtc =
-      this.accountServiceForm.value["fSaleAmountTtc"];
-    this.selectAccountService.saleAmountTva =
-      this.accountServiceForm.value["fSaleAmountTva"];
+    this.selectAccountPricingService.saleAmountHt =
+      this.accountPricingServiceForm.value["fSaleAmountHt"];
+    this.selectAccountPricingService.saleAmountTtc =
+      this.accountPricingServiceForm.value["fSaleAmountTtc"];
+    this.selectAccountPricingService.saleAmountTva =
+      this.accountPricingServiceForm.value["fSaleAmountTva"];
     if (
       this.selectedCompany.id != undefined ||
       this.selectedCompany.id != null
     ) {
-      if (this.selectAccountService.id) {
-        this.saveAccountService();
+      if (this.selectAccountPricingService.id) {
+        this.saveAccountPricingService();
       } else {
         this.existService();
       }
     } else {
-      this.onLineEdited(this.selectAccountService);
+      this.onLineEdited(this.selectAccountPricingService);
     }
     this.spinner.hide();
   }
@@ -127,12 +129,12 @@ export class CompanyServiceEditComponent implements OnInit {
   existService() {
 let requete ;
 requete=`company.id:${this.selectedCompany.id},product.id:${this.productId}`;
-if(this.selectAccountService?.address?.id!=null || this.selectAccountService?.address?.id!=undefined){
-  requete+= `,address.id:${this.addressId}`
+if(this.selectAccountPricingService?.account?.id!=null || this.selectAccountPricingService?.account?.id!=undefined){
+  requete+= `,account.id:${this.accountId}`
 }
 console.log(requete);
 
-    this.accountServiceService
+    this.accountPricingServiceService
       .sizeSearch( requete )
       .subscribe(
         (data) => {
@@ -146,8 +148,8 @@ console.log(requete);
             });
             //this.toastr.error('Elément Existe Déja', 'Edition');
           } else {
-            this.selectAccountService.company = this.selectedCompany;
-            this.saveAccountService();
+            this.selectAccountPricingService.company = this.selectedCompany;
+            this.saveAccountPricingService();
           }
           this.spinner.hide();
         },
@@ -165,15 +167,15 @@ console.log(requete);
       );
   }
 
-  saveAccountService() {
-    this.accountServiceService.set(this.selectAccountService).subscribe(
+  saveAccountPricingService() {
+    this.accountPricingServiceService.set(this.selectAccountPricingService).subscribe(
       (data) => {
         this.messageService.add({
           severity: "success",
           summary: "Edition",
           detail: "Elément Enregistré Avec Succès",
         });
-        console.log(this.selectAccountService);
+        console.log(this.selectAccountPricingService);
         this.displayDialog = false;
         this.isFormSubmitted = false;
         this.spinner.hide();
@@ -197,9 +199,9 @@ console.log(requete);
 
 
   onSelectSaleVat(event) {
-    this.selectAccountService.saleVat = event.value
+    this.selectAccountPricingService.saleVat = event.value
     this.onSalePriceChange(1);
-    console.log(    this.selectAccountService.saleVat );
+    console.log(    this.selectAccountPricingService.saleVat );
 
   }
 
@@ -210,27 +212,27 @@ console.log(requete);
   }
 
   onSelectProduct(event){
-    this.selectAccountService.product=event;
-    console.log( this.selectAccountService.product);
+    this.selectAccountPricingService.product=event;
+    console.log( this.selectAccountPricingService.product);
 
-    this.productId=  this.selectAccountService?.product?.id;
+    this.productId=  this.selectAccountPricingService?.product?.id;
   }
 
-  onAddressSearch() {
-console.log(this.selectAccountService?.company?.id);
+  onAccountSearch() {
+console.log(this.selectAccountPricingService?.company?.id);
 
 
-    this.addressService
-      .find('account.company.id:'+this.selectedCompany?.id)
-      .subscribe(data => (this.addressList = data));
+    this.accountService
+      .find('company.id:'+this.selectedCompany?.id)
+      .subscribe(data => (this.accountList = data));
 
   }
 
-  onSelectAddress(event){
-    this.selectAccountService.address=event.value;
-    console.log( this.selectAccountService.address);
+  onSelectAccount(event){
+    this.selectAccountPricingService.account=event.value;
+    console.log( this.selectAccountPricingService.account);
 
-    this.addressId=  this.selectAccountService?.address?.id;
+    this.accountId=  this.selectAccountPricingService?.account?.id;
   }
   load() {
 
@@ -242,9 +244,9 @@ console.log(this.selectAccountService?.company?.id);
   }
 
   onSalePriceChange(n: Number) {
-    let PriceHt = +this.accountServiceForm.value["fSaleAmountHt"];
-    let PriceTTC = +this.accountServiceForm.value["fSaleAmountTtc"];
-    let vat = this.accountServiceForm.value["fSaleVat"]?.value!=null ?this.accountServiceForm.value["fSaleVat"]?.value:0;
+    let PriceHt = +this.accountPricingServiceForm.value["fSaleAmountHt"];
+    let PriceTTC = +this.accountPricingServiceForm.value["fSaleAmountTtc"];
+    let vat = this.accountPricingServiceForm.value["fSaleVat"]?.value!=null ?this.accountPricingServiceForm.value["fSaleVat"]?.value:0;
     console.log(vat);
 
     if (PriceHt === undefined || PriceHt == null) {
@@ -260,7 +262,7 @@ console.log(this.selectAccountService?.company?.id);
     if (n === 1) {
       const amountTva = (PriceHt / 100) * vat;
       const priceTTC = PriceHt + amountTva;
-      this.accountServiceForm.patchValue({
+      this.accountPricingServiceForm.patchValue({
         fSaleAmountTtc: priceTTC.toFixed(2),
         fSaleAmountTva: amountTva.toFixed(2),
       });
@@ -268,21 +270,21 @@ console.log(this.selectAccountService?.company?.id);
     if (n === 2) {
       PriceHt = PriceTTC / (1 + vat / 100);
       const amountTva = (PriceHt / 100) * vat;
-      this.accountServiceForm.patchValue({
+      this.accountPricingServiceForm.patchValue({
         fSaleAmountHt: PriceHt.toFixed(2),
         fSaleAmountTva: amountTva.toFixed(2),
       });
     }
   }
 
-  onLineEdited(accountServiceEdited: AccountService) {
-    const acountService = this.accountServices.find(
+  onLineEdited(accountPricingServiceEdited: AccountPricingService) {
+    const acountService = this.accountPricingServices.find(
       (f) =>
-        f.product.id == accountServiceEdited.product.id
+        f.product.id == accountPricingServiceEdited.product.id
 
     );
     if (acountService == null) {
-      this.acountServiceEdited.emit(this.selectAccountService);
+      this.acountServiceEdited.emit(this.selectAccountPricingService);
       this.displayDialog = false;
     } else {
       if (this.editMode == 1) {

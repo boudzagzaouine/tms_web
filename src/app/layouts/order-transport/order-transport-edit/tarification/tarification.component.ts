@@ -1,3 +1,4 @@
+import { Trajet } from './../../../../shared/models/trajet';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { AccountPricing } from "./../../../../shared/models/account-pricing";
@@ -98,23 +99,19 @@ export class TarificationComponent implements OnInit {
   }
 
   onSearchCatalogPricing() {
-    let source, distination;
+    let trajet;
 
     if (
       this.selectOrderTransport.turnType.id == 1 ||
       this.selectOrderTransport.turnType.id == 3
     ) {
-      source =
-        this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
-      distination =
-        this.selectOrderTransport.orderTransportInfoAller?.villeDistination
-          ?.code;
+      trajet =
+        this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
+
     } else if (this.selectOrderTransport.turnType.id == 2) {
-      source =
-        this.selectOrderTransport.orderTransportInfoRetour?.villeSource?.code;
-      distination =
-        this.selectOrderTransport.orderTransportInfoRetour?.villeDistination
-          ?.code;
+      trajet =
+        this.selectOrderTransport.orderTransportInfoRetour?.trajet?.code;
+
     }
     console.log(this.selectOrderTransport.turnType.id);
     console.log(this.selectOrderTransport?.vehicleCategory?.id);
@@ -131,10 +128,8 @@ export class TarificationComponent implements OnInit {
           this.selectOrderTransport?.vehicleTray?.id +
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
-          ",trajet.villeSource.code~" +
-          source +
-          ",trajet.villeDestination.code~" +
-          distination
+          ",trajet.code~" +
+          trajet
       )
       .subscribe((data) => {
         console.log(data);
@@ -147,33 +142,32 @@ export class TarificationComponent implements OnInit {
   }
 
   onSearchAccountPricing() {
-    let source, distination;
+    let trajet;
 
     if (
       this.selectOrderTransport.turnType.id == 1 ||
       this.selectOrderTransport.turnType.id == 3
     ) {
-      source =
-        this.selectOrderTransport.orderTransportInfoAller?.villeSource?.code;
-      distination =
-        this.selectOrderTransport.orderTransportInfoAller?.villeDistination
-          ?.code;
+      trajet =
+        this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
+
     } else if (this.selectOrderTransport.turnType.id == 2) {
-      source =
-        this.selectOrderTransport.orderTransportInfoRetour?.villeSource?.code;
-      distination =
-        this.selectOrderTransport.orderTransportInfoRetour?.villeDistination
-          ?.code;
+      trajet =
+        this.selectOrderTransport.orderTransportInfoRetour?.trajet?.code;
+
     }
     console.log(this.selectOrderTransport.turnType.id);
     console.log(this.selectOrderTransport?.vehicleCategory?.id);
     console.log(this.selectOrderTransport?.vehicleTray?.id);
     console.log(this.selectOrderTransport?.loadingType?.id);
+console.log(          this.selectOrderTransport?.account?.company?.id  );
+console.log(       trajet  );
+
 
     this.accountPricingService
       .find(
         "company.id:" +
-          this.selectOrderTransport?.company?.id +
+          this.selectOrderTransport?.account?.company?.id +
           ",turnType.id:" +
           this.selectOrderTransport?.turnType?.id +
           ",vehicleCategory.id:" +
@@ -182,10 +176,8 @@ export class TarificationComponent implements OnInit {
           this.selectOrderTransport?.vehicleTray?.id +
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
-          ",trajet.villeSource.code~" +
-          source +
-          ",trajet.villeDestination.code~" +
-          distination
+          ",trajet.code~" +
+          trajet
       )
       .subscribe((data) => {
         console.log(data);

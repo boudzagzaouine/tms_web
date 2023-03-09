@@ -1,3 +1,4 @@
+import { Contact } from './contact';
 import { VehicleTray } from './vehicle-tray';
 import { Company } from './company';
 import { OrderTransportInfo } from './order-transport-info';
@@ -22,7 +23,8 @@ export class OrderTransport {
   date:Date = new Date();
   turnType:TurnType; // aller-retour
   loadingType:LoadingType; // complet
-  company :Company;
+  account :Account;
+  contact:Contact;
   turnStatus:TurnStatus;
   vehicleCategory :VehicleCategory ;
   vehicleTray:VehicleTray;

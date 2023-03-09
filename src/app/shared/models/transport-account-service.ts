@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { Address } from './address';
 import { Transport } from './transport';
 import { Product } from './product';
@@ -19,7 +20,7 @@ export class TransportAccountService {
   transport :Transport;
   company:Company;
   product:Product;
-  address :Address;
+  account :Account;
   purchaseAmountHt: number;
   purchaseAmountTtc: number;
   purchaseAmountTva: number;

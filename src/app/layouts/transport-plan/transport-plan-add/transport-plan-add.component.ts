@@ -259,22 +259,18 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectOrderTransport =
       event.id != null || event.id != undefined ? event : event.value[0];
 
-    let source, distination;
+    let trajet;
     if (
       this.selectOrderTransport.turnType.id == 1 ||
       this.selectOrderTransport.turnType.id == 3
     ) {
-      source =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+
     } else {
-      source =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
+
     }
 
     this.catalogTransportPricingService
@@ -287,10 +283,8 @@ export class TransportPlanAddComponent implements OnInit {
           this.selectOrderTransport.vehicleCategory.tonnage +
           ",vehicleTray.id:" +
           this.selectOrderTransport.vehicleTray.id +
-          ",trajet.villeSource.code~" +
-          source +
-          ",trajet.villeDestination.code~" +
-          distination +
+          ",trajet.code~" +
+          trajet +
           ",transport.active:" +
           true
       )
@@ -322,22 +316,18 @@ export class TransportPlanAddComponent implements OnInit {
   }
 
   onSearchCatalgPrice() {
-    let source, distination;
+    let trajet;
     if (
       this.selectOrderTransport.turnType.id == 1 ||
       this.selectOrderTransport.turnType.id == 3
     ) {
-      source =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+
     } else {
-      source =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
+
     }
     this.catalogPricingService
       .find(
@@ -349,10 +339,9 @@ export class TransportPlanAddComponent implements OnInit {
           this.selectOrderTransport.vehicleCategory.id +
           ",vehicleTray.id:" +
           this.selectOrderTransport.vehicleTray.id +
-          ",trajet.villeSource.code~" +
-          source +
-          ",trajet.villeDestination.code~" +
-          distination
+          ",trajet.code~" +
+          trajet
+
       )
       .subscribe((data) => {
         if (data[0] != null || data[0] != undefined) {
@@ -433,29 +422,25 @@ export class TransportPlanAddComponent implements OnInit {
   }
 
   searchTransportAccountPricing(transport: Transport): Observable<number> {
-    let source, distination;
+    let trajet;
     if (
       this.selectOrderTransport.turnType.id == 1 ||
       this.selectOrderTransport.turnType.id == 3
     ) {
-      source =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoAller?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+
     } else {
-      source =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeSource.code;
-      distination =
-        this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination
-          .code;
+      trajet =
+        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
+
     }
     let purcahse: number = 0;
     var subject = new Subject<number>();
     this.catalogTransportAccountPricingService
       .find(
         "company.id:" +
-          this.selectOrderTransport.company.id +
+          this.selectOrderTransport?.account?.company?.id +
           ",transport.id:" +
           transport.id +
           ",turnType.id:" +
@@ -466,10 +451,9 @@ export class TransportPlanAddComponent implements OnInit {
           this.selectOrderTransport.vehicleCategory.tonnage +
           ",vehicleTray.id:" +
           this.selectOrderTransport.vehicleTray.id +
-          ",trajet.villeSource.code~" +
-          source +
-          ",trajet.villeDestination.code~" +
-          distination
+          ",trajet.code~" +
+          trajet
+
       )
       .subscribe((data) => {
         if (data[0] != null) {
@@ -507,17 +491,17 @@ export class TransportPlanAddComponent implements OnInit {
 
     allerList = this.orderTransportList.filter(
       (f) =>
-        f.orderTransportInfoAller?.villeSource?.id ==
+        f.orderTransportInfoAller?.trajet?.villeSource?.id ==
           this.selectedVilleSource?.id &&
-        f.orderTransportInfoAller?.villeDistination?.id ==
+        f.orderTransportInfoAller?.trajet?.villeDestination?.id ==
           this.selectedVilleDistination?.id
     );
 
     retourList = this.orderTransportList.filter(
       (f) =>
-        f.orderTransportInfoRetour?.villeSource?.id ==
+        f.orderTransportInfoRetour?.trajet?.villeSource?.id ==
           this.selectedVilleSource?.id &&
-        f.orderTransportInfoRetour?.villeDistination?.id ==
+        f.orderTransportInfoRetour?.trajet?.villeDestination?.id ==
           this.selectedVilleDistination?.id
     );
 
@@ -584,10 +568,9 @@ export class TransportPlanAddComponent implements OnInit {
       this.selectedTransportPlan.orderTransport.turnType.id == 1 ||
       this.selectedTransportPlan.orderTransport.turnType.id == 3
     ) {
-      this.selectedTransportPlan.villeSource =
-        this.selectOrderTransport.orderTransportInfoAller.villeSource;
-      this.selectedTransportPlan.villeDistination =
-        this.selectOrderTransport.orderTransportInfoAller.villeDistination;
+      this.selectedTransportPlan.trajet =
+        this.selectOrderTransport.orderTransportInfoAller.trajet;
+
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
 
       // this.loadContractAccountbyAccountSelectedAller(
@@ -595,10 +578,9 @@ export class TransportPlanAddComponent implements OnInit {
       // );
     }
     if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
-      this.selectedTransportPlan.villeSource =
-        this.selectOrderTransport.orderTransportInfoRetour.villeSource;
-      this.selectedTransportPlan.villeDistination =
-        this.selectOrderTransport.orderTransportInfoRetour.villeDistination;
+      this.selectedTransportPlan.trajet =
+        this.selectOrderTransport.orderTransportInfoRetour.trajet;
+
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoRetour.date;
       // this.loadContractAccountbyAccountSelectedRetour(
       //   this.selectedTransportPlan.vehicleCategory
@@ -639,6 +621,9 @@ export class TransportPlanAddComponent implements OnInit {
     }
 
     let formValue = this.transportPlanForm.value;
+
+    this.selectedTransportPlan.account = this.selectOrderTransport.account;
+
     this.selectedTransportPlan.purchasePrice =
       this.selectedTransport.purchaseAmountHt;
     this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
@@ -734,18 +719,16 @@ export class TransportPlanAddComponent implements OnInit {
       ) {
         console.log("aller ");
         console.log(
-          this.selectOrderTransport.orderTransportInfoAller.villeSource.code
+          this.selectOrderTransport.orderTransportInfoAller.trajet.code
         );
 
-        this.selectTransportPlanHistory.villeSource =
-          this.selectOrderTransport?.orderTransportInfoAller?.villeSource;
-        this.selectTransportPlanHistory.villeDistination =
-          this.selectOrderTransport?.orderTransportInfoAller?.villeDistination;
+        this.selectTransportPlanHistory.trajet =
+          this.selectOrderTransport?.orderTransportInfoAller?.trajet;
+
       } else if (this.selectOrderTransport.turnType.id == 2) {
-        this.selectTransportPlanHistory.villeSource =
-          this.selectOrderTransport?.orderTransportInfoRetour?.villeSource;
-        this.selectTransportPlanHistory.villeDistination =
-          this.selectOrderTransport?.orderTransportInfoRetour?.villeDistination;
+        this.selectTransportPlanHistory.trajet =
+          this.selectOrderTransport?.orderTransportInfoRetour?.trajet;
+
       }
 
       this.selectTransportPlanHistory.type = event;

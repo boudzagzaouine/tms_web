@@ -44,10 +44,11 @@ this.emitOnchange();}
     this.selectOrderTransport.date=OrderTransport.date;
     this.selectOrderTransport.loadingType=OrderTransport.loadingType;
     this.selectOrderTransport.turnType=OrderTransport.turnType;
-    this.selectOrderTransport.company=OrderTransport.company;
+    this.selectOrderTransport.account=OrderTransport.account;
     this.selectOrderTransport.turnStatus=OrderTransport.turnStatus;
     this.selectOrderTransport.vehicleCategory=OrderTransport.vehicleCategory;
     this.selectOrderTransport.vehicleTray=OrderTransport.vehicleTray;
+    this.selectOrderTransport.contact=OrderTransport.contact;
 
     this.selectOrderTransport.weightTotal=OrderTransport.weightTotal;
     this.selectOrderTransport.capacityTotal=OrderTransport.capacityTotal;

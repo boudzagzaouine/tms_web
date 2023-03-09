@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { Address } from './address';
 import { Transport } from './transport';
 import { Supplier, Uom, Vat } from '.';
@@ -10,7 +11,7 @@ export class TransportPlanServiceCatalog {
   id: number;
   product: Product;
   transport: Transport;
-  address:Address;
+  account:Account;
   invoice:Boolean;
   purchasePriceHT: number;
   purchaseVat: Vat;

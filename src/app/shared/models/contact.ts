@@ -1,3 +1,4 @@
+import { Address } from './address';
 import { ContactFunction } from './contact-function';
 import { Account } from './account';
 import { Owner } from './owner';
@@ -19,4 +20,5 @@ export class Contact {
     account:Account;
     owner:Owner;
     contactFunction:ContactFunction;
+    address:Address;
 }

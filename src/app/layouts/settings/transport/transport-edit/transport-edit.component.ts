@@ -134,6 +134,9 @@ export class TransportEditComponent implements OnInit {
       name: new FormControl(this.selectedTransport.name, Validators.required),
       active: new FormControl(this.selectContact.active),
       intern: new FormControl(this.selectedTransport.interneOrExterne),
+      factureTransport: new FormControl(this.selectedTransport.factureTransport),
+      factureService: new FormControl(this.selectedTransport.factureService),
+
       description: new FormControl(this.selectedTransport.description),
       line1: new FormControl(
         this.selectAddress.line1
@@ -252,6 +255,18 @@ console.log(event.checked);
 
         this.selectedTransport.active=event.checked;
       }
+
+      onSelectFactureTransport(event){
+        console.log(event.checked);
+
+            this.selectedTransport.factureTransport=event.checked;
+          }
+
+          onSelectFactureService(event){
+            console.log(event.checked);
+
+                this.selectedTransport.factureService=event.checked;
+              }
   onSelectPays(event: any) {
     this.selectAddress.pays = event;
   }

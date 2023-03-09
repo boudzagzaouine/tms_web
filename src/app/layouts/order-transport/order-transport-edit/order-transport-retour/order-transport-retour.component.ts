@@ -1,3 +1,5 @@
+import { TrajetService } from './../../../../shared/services/api/trajet.service';
+import { Trajet } from './../../../../shared/models/trajet';
 import { OrderTransportTrajetQuantity } from './../../../../shared/models/order-transport-trajet-quantity';
 import { Itinerary } from './../../../../shared/models/Itinerairy';
 import { CompanyService } from './../../../../shared/services/api/company.service';
@@ -56,36 +58,38 @@ export class OrderTransportRetourComponent implements OnInit {
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLine: boolean = false;
 
-  selectedCompany: Company = new Company();
   selectedaccountInitialOrFinal: string = "false";
   showDialogContactAddress: boolean = false;
   showDialogPackageDetail: boolean = false;
 
   containerTypeList: ContainerType[] = [];
   packagingTypeList: PackagingType[] = [];
-  accountList: Company[] = [];
+  accountList: Account[] = [];
   isFormSubmitted = false;
-  villeList :Ville[]=[];
+  trajetList :Trajet[]=[];
   turnStatus : TurnStatus = new TurnStatus();
   statusList :TurnStatus[]=[];
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
-    private accountService: CompanyService,
+    private accountService: AccountService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
+    private trajetService: TrajetService,
+
     private villeService: VilleService,
     private turnStatusService:TurnStatusService
   ) {}
 
   ngOnInit() {
+
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
+      this.selectedOrderTransportInfo.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
+       this.initForm();
     });
-    this.packagingTypeService.findAll().subscribe((data) => {
-      this.packagingTypeList = data;
-    });
+
     this.containerTypeService.findAll().subscribe((data) => {
       this.containerTypeList = data;
     });
@@ -138,14 +142,13 @@ export class OrderTransportRetourComponent implements OnInit {
       ),
 
 
-      orderTransportInfoInitialCity: new FormControl(
-        this.selectedOrderTransportInfo.villeSource,
-        Validators.required
+      orderTransportInfoTrajet: new FormControl(
+        this.selectedOrderTransportInfo.trajet
       ),
 
-      orderTransportInfoInitialCountry: new FormControl(
-        'MAROC',
-      ),
+      // orderTransportInfoInitialCountry: new FormControl(
+      //   'MAROC',
+      // ),
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)
       ),
@@ -153,14 +156,14 @@ export class OrderTransportRetourComponent implements OnInit {
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
 
-      orderTransportInfoFinalCity: new FormControl(
-        this.selectedOrderTransportInfo.villeDistination,
-        Validators.required
-      ),
+      // orderTransportInfoFinalCity: new FormControl(
+      //   this.selectedOrderTransportInfo.villeDistination,
+      //   Validators.required
+      // ),
 
-      orderTransportInfoFinalCountry: new FormControl(
-        'MAROC',
-      ),
+      // orderTransportInfoFinalCountry: new FormControl(
+      //   'MAROC',
+      // ),
     });
   }
   validateForm() {
@@ -170,17 +173,18 @@ export class OrderTransportRetourComponent implements OnInit {
       return;
     }
     if(this.orderTransportInfoLines[0] !=null){
+this.getTrajet();
       this.getTrajetQuantity();
 console.log(">0");
 
         if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
-          console.log("err qnt <");
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée'});
+          console.log("Quantité Chargée est inférieure à la quantité Livrée");
 
         }
         else if(this.selectOrderTransportTrajetQuantity.weightEnlevement>this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement>this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement>this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur Qnt'});
-          console.log("err qnt >");
+          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité Chargée est inférieure à la quantité Livrée'});
+          console.log("Quantité livrée est supérieure à la quantité chargée");
 
         }
        else {   this.loadForm();this.nextstep.emit(true);           console.log("next");
@@ -222,17 +226,17 @@ console.log(">0");
 
 
 
-  onSelectVilleSource(event){
-   this.selectedOrderTransportInfo.villeSource=event;
+  onSelectTrajetSource(event){
+   this.selectedOrderTransportInfo.trajet=event;
   }
-  onSelectVilleDistination(event){
-    this.selectedOrderTransportInfo.villeDistination=event;
-   }
+  // onSelectVilleDistination(event){
+  //   this.selectedOrderTransportInfo.villeDistination=event;
+  //  }
 
-   onVilleSearch(event){
-    this.villeService
+   onTrajetSearch(event){
+    this.trajetService
     .find('code~' + event.query)
-    .subscribe(data => (this.villeList = data))
+    .subscribe(data => (this.trajetList = data))
    }
 
   onHideDialogGenerateContactAddress(event) {
@@ -247,21 +251,19 @@ console.log(">0");
 
   // account
 
-  onCompanySearch(event: any) {
+  onAccountSearch(event: any) {
     this.accountService
       .find("name~" + event.query)
       .subscribe((data) => (this.accountList = data));
   }
 
-  onSelectCompanyInitial() {
+  onSelectAccountInitial() {
     this.showDialogContactAddress = true;
-    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Initial";
   }
 
-  onSelectCompanyFinal() {
+  onSelectAccountFinal() {
     this.showDialogContactAddress = true;
-    this.selectedCompany = this.selectedOrderTransport.company;
     this.selectedaccountInitialOrFinal = "Final";
   }
   // fin account
@@ -354,6 +356,8 @@ console.log(">0");
     const orderline = this.orderTransportInfoLines.find(
       (line) => line.id === orderTransportInfoLine.id
     );
+    console.log(orderTransportInfoLine);
+
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
 
@@ -416,6 +420,22 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
   }
   }
 
+  getTrajet(){
+   let size = this.orderTransportInfoLines.length-1;
+      let trajetSource = this.orderTransportInfoLines[0].address?.ville?.code;
+       let trajetDistination = this.orderTransportInfoLines[size].address?.ville?.code;
+
+       this.trajetService.find('code:'+trajetSource+'-'+trajetDistination).subscribe(
+        data=>{
+          this.selectedOrderTransportInfo.trajet=data[0];
+
+          console.log(this.selectedOrderTransportInfo.trajet);
+
+        }
+       );
+       //console.log(trajetSource +"-----" + trajetDistination);
+
+  }
 
   // fin Line
 
@@ -427,8 +447,15 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
 
   next() {
 
+
+
+
+
+
     this.validateForm();
 
   }
+
+
 
 }

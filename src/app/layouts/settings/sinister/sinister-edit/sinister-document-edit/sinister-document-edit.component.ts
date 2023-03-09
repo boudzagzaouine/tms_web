@@ -143,7 +143,8 @@ dowloand(){
   const data=new Blob([bytes]);
 let arrayOfBlob = new Array<Blob>();
 arrayOfBlob.push(data);
- var file = new File(arrayOfBlob,this.selectedDocument.fileName,{ type: this.selectedDocument.fileType });
+ var file = new File(arrayOfBlob,this.selectedDocument.fileName,{
+   type: this.selectedDocument.fileType });
 
   let fileReader = new FileReader();
   fileReader.readAsDataURL(file);

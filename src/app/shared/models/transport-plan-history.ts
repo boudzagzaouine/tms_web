@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { OrderTransportRejectType } from './order-transport-reject-type';
 import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
@@ -27,9 +28,9 @@ export class TransportPlanHistory {
   salePrice :number;
   purchasePrice :number;
   date: Date = new Date();
-  villeSource :Ville;
-  villeDistination : Ville;
-
+  // villeSource :Ville;
+  // villeDistination : Ville;
+trajet:Trajet;
   orderTransportRejectType :OrderTransportRejectType;
   remark : string;
   type:number;

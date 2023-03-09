@@ -7,3 +7,30 @@
     font-size: 15px;
     width: 100%;
 }
+
+
+.divider {
+  display: flex;
+
+  &:before,
+  &:after {
+    content: "";
+    flex: 1;
+  }
+}
+.donotcross {
+  overflow: hidden;
+  align-items: center;
+  background: #4084bd;
+  color: white;
+  height: 1em;
+  line-height: 1em;
+
+  &:before,
+  &:after {
+    background: white;
+    padding: 50px 0;
+    height: 0;
+    transform: rotate(45deg);
+  }
+}

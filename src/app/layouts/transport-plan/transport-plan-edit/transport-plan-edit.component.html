@@ -104,11 +104,11 @@
 
     <div class="form-group col-md-3 ">
       <label class="font-weight-bold"
-        >{{ "Ville Source" | translate }} *</label>
+        >{{ "Trajet" | translate }} *</label>
       <br />
 
       <input
-      formControlName="villeSource"
+      formControlName="trajet"
   [attr.disabled]="'true'"
         type="text"
         class="form-control"
@@ -119,11 +119,11 @@
 
       <div class="form-group col-md-3 ">
         <label class="font-weight-bold"
-        >{{ "Ville Source" | translate }} *</label>
+        >{{ "Compte" | translate }} *</label>
       <br />
 
       <input
-      formControlName="villeDistination"
+      formControlName="account"
   [attr.disabled]="'true'"
         type="text"
         class="form-control"
@@ -460,7 +460,7 @@
   <app-transport-plan-service-edit
   (showDialog)="onHideDialogTransportProduct($event)"
  (transportProductEdited)="onLineEditedTransportProduct($event)"
- [selectedCompany]="this.selectedTransportPlan?.orderTransport?.company"
+ [selectedAccount]="this.selectedTransportPlan?.orderTransport?.account"
    [selectedTransportServiceCatalog]="this.selectedTransportProductService"
    [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
 

@@ -48,6 +48,7 @@ export class TransportPlanEditComponent implements OnInit {
   selectedTransportProductService = new TransportPlanServiceCatalog();
   editModeTransportProduct: Boolean=false;
   showDialogTransportProduct:Boolean=false;
+
     constructor(private transportPlanService:TransportPlanService,
               private activatedRoute:ActivatedRoute,
               private driverService :DriverService,
@@ -138,8 +139,10 @@ initForm(){
     vehicle :new FormControl(this.selectedTransportPlan.vehicle),
     turnType :new FormControl(this.selectedTransportPlan?.orderTransport?.turnType?.code),
     loadingType :new FormControl(this.selectedTransportPlan?.orderTransport?.loadingType?.code),
-    villeSource :new FormControl(this.selectedTransportPlan?.villeSource?.code),
-    villeDistination :new FormControl(this.selectedTransportPlan?.villeDistination?.code),
+    // villeSource :new FormControl(this.selectedTransportPlan?.villeSource?.code),
+    // villeDistination :new FormControl(this.selectedTransportPlan?.villeDistination?.code),
+    trajet:new FormControl(this.selectedTransportPlan?.trajet?.code),
+    account:new FormControl(this.selectedTransportPlan?.account?.name),
 
     driver:new FormControl(this.selectedTransportPlan.driver),
     vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
@@ -245,6 +248,10 @@ onSubmit(close=false){
     } else if (mode == false) {
 
       this.selectedTransportProductService = new TransportPlanServiceCatalog();
+      this.selectedTransportProductService.transport=this.selectedTransportPlan.transport;
+      this.selectedTransportProductService.account=this.selectedTransportPlan.account;
+      this.selectedTransportProductService.invoice=this.selectedTransportPlan.transport.factureService;
+
       this.editModeTransportProduct = false;
     }
   }

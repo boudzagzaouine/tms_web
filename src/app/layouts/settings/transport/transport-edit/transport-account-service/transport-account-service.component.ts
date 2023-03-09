@@ -79,9 +79,9 @@ export class TransportAccountServiceComponent implements OnInit {
         type: "object",
       },
       {
-        field: "address",
-        child: "code",
-        header: "Adresse",
+        field: "account",
+        child: "name",
+        header: "Compte",
         type: "object",
       },
 

@@ -8,13 +8,14 @@ export class AddressContactOrderTransportInfo {
   name: string;
   tel1: String;
   email: String;
-  company: String;
+  account: String;
 
 
   line1: string;
+  trajet :string;
   city: string;
   zip: string;
-  country: string="MAROC";
+ country: string="MAROC";
 
   date: Date =new Date();
 

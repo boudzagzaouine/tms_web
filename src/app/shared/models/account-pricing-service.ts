@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { Address } from './address';
 import { Product } from './product';
 import { Company } from './company';
@@ -12,12 +13,12 @@ import { VehicleCategory } from './vehicle-category';
 import { Owner } from './owner';
 
 
-export class AccountService {
+export class AccountPricingService {
 
   id: number;
   company :Company;
   product:Product;
-  address:Address;
+  account:Account;
   saleAmountHt: number;
   saleAmountTtc: number;
   saleAmountTva: number;

@@ -4,16 +4,16 @@
   <div>
     <div class="modal-body">
       <div class="card-body">
-        <form [formGroup]="accountServiceForm">
+        <form [formGroup]="accountPricingServiceForm">
 
           <div class="row justify-content-around">
             <div class="form-group col-sm-3">
               <label class="font-weight-bold">{{ "Service " | translate }} *</label>
               <span *ngIf="
-                  (accountServiceForm.get('fProduct').touched &&
-                    accountServiceForm.get('fProduct').invalid) ||
+                  (accountPricingServiceForm.get('fProduct').touched &&
+                    accountPricingServiceForm.get('fProduct').invalid) ||
                   (isFormSubmitted &&
-                    accountServiceForm.get('fProduct').invalid)
+                    accountPricingServiceForm.get('fProduct').invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small;">
                 {{ 'Obligatoire' | translate}}
 
@@ -24,22 +24,22 @@
             </div>
 
             <div class="form-group col-sm-3">
-              <label class="font-weight-bold">{{ "Adresse " | translate }} </label>
-          
-              <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
+              <label class="font-weight-bold">{{ "Compte " | translate }} </label>
+
+              <!-- <p-autoComplete [disabled]=" !(this.selectTransportAccountPricingService?.company?.id>0)" formControlName="fAddress" [suggestions]="addressList"
               (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)" field="name">
             </p-autoComplete> -->
 
             <p-dropdown
             [autoDisplayFirst]="false"
-            [options]="addressList"
+            [options]="accountList"
               [filter]="true"
-              optionLabel="code"
+              optionLabel="name"
               [appendTo]="'body'"
              [showClear]="true"
-             [placeholder]="this.selectAccountService?.address?.code"
-              (onChange)="onSelectAddress($event)"
-               formControlName="fAddress"></p-dropdown>
+             [placeholder]="this.selectAccountPricingService?.account?.name"
+              (onChange)="onSelectAccount($event)"
+               formControlName="fAccount"></p-dropdown>
             </div>
             <div class="form-group col-sm-6">
             </div>
@@ -55,10 +55,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
         <span *ngIf="
-            (accountServiceForm.get('fSaleAmountHt').touched &&
-              accountServiceForm.get('fSaleAmountHt').invalid) ||
+            (accountPricingServiceForm.get('fSaleAmountHt').touched &&
+              accountPricingServiceForm.get('fSaleAmountHt').invalid) ||
             (isFormSubmitted &&
-              accountServiceForm.get('fSaleAmountHt').invalid)
+              accountPricingServiceForm.get('fSaleAmountHt').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
@@ -75,10 +75,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
         <span *ngIf="
-            (accountServiceForm.get('fSaleVat').touched &&
-              accountServiceForm.get('fSaleVat').invalid) ||
+            (accountPricingServiceForm.get('fSaleVat').touched &&
+              accountPricingServiceForm.get('fSaleVat').invalid) ||
             (isFormSubmitted &&
-              accountServiceForm.get('fSaleVat').invalid)
+              accountPricingServiceForm.get('fSaleVat').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
         </span>
@@ -97,10 +97,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
         <span *ngIf="
-            (accountServiceForm.get('fSaleAmountTtc').touched &&
-              accountServiceForm.get('fSaleAmountTtc').invalid) ||
+            (accountPricingServiceForm.get('fSaleAmountTtc').touched &&
+              accountPricingServiceForm.get('fSaleAmountTtc').invalid) ||
             (isFormSubmitted &&
-              accountServiceForm.get('fSaleAmountTtc').invalid)
+              accountPricingServiceForm.get('fSaleAmountTtc').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
 
@@ -120,10 +120,10 @@
       <div class="form-group col-sm-6">
         <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
         <span *ngIf="
-            (accountServiceForm.get('fSaleAmountTva').touched &&
-              accountServiceForm.get('fSaleAmountTva').invalid) ||
+            (accountPricingServiceForm.get('fSaleAmountTva').touched &&
+              accountPricingServiceForm.get('fSaleAmountTva').invalid) ||
             (isFormSubmitted &&
-              accountServiceForm.get('fSaleAmountTva').invalid)
+              accountPricingServiceForm.get('fSaleAmountTva').invalid)
           " class="text-lighter" style="color: red; font-size: xx-small;">
           {{ 'Obligatoire' | translate}}
 

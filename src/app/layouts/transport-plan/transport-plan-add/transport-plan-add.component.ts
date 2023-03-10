@@ -188,12 +188,12 @@ export class TransportPlanAddComponent implements OnInit {
           .subscribe((data) => {
             element.orderTransportInfoAller = data[0];
           });
-        this.orderTransportInfoService
-          .find("type~" + "Retour" + ",orderTransport.id:" + element.id)
-          .subscribe((data) => {
-            element.orderTransportInfoRetour = data[0];
-          });
-      });
+      //   this.orderTransportInfoService
+      //     .find("type~" + "Retour" + ",orderTransport.id:" + element.id)
+      //     .subscribe((data) => {
+      //       element.orderTransportInfoRetour = data[0];
+      //     });
+       });
       console.log(this.orderTransportList);
 
     });
@@ -260,18 +260,11 @@ export class TransportPlanAddComponent implements OnInit {
       event.id != null || event.id != undefined ? event : event.value[0];
 
     let trajet;
-    if (
-      this.selectOrderTransport.turnType.id == 1 ||
-      this.selectOrderTransport.turnType.id == 3
-    ) {
+
       trajet =
         this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
 
-    } else {
-      trajet =
-        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
 
-    }
 
     this.catalogTransportPricingService
       .find(
@@ -317,18 +310,11 @@ export class TransportPlanAddComponent implements OnInit {
 
   onSearchCatalgPrice() {
     let trajet;
-    if (
-      this.selectOrderTransport.turnType.id == 1 ||
-      this.selectOrderTransport.turnType.id == 3
-    ) {
+
       trajet =
         this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
 
-    } else {
-      trajet =
-        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
 
-    }
     this.catalogPricingService
       .find(
         "turnType.id:" +
@@ -423,18 +409,11 @@ export class TransportPlanAddComponent implements OnInit {
 
   searchTransportAccountPricing(transport: Transport): Observable<number> {
     let trajet;
-    if (
-      this.selectOrderTransport.turnType.id == 1 ||
-      this.selectOrderTransport.turnType.id == 3
-    ) {
+
       trajet =
         this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
 
-    } else {
-      trajet =
-        this.selectOrderTransport?.orderTransportInfoRetour?.trajet.code;
 
-    }
     let purcahse: number = 0;
     var subject = new Subject<number>();
     this.catalogTransportAccountPricingService
@@ -497,17 +476,11 @@ export class TransportPlanAddComponent implements OnInit {
           this.selectedVilleDistination?.id
     );
 
-    retourList = this.orderTransportList.filter(
-      (f) =>
-        f.orderTransportInfoRetour?.trajet?.villeSource?.id ==
-          this.selectedVilleSource?.id &&
-        f.orderTransportInfoRetour?.trajet?.villeDestination?.id ==
-          this.selectedVilleDistination?.id
-    );
+
 
     this.orderTransportList = [];
     this.orderTransportList.push(...allerList);
-    this.orderTransportList.push(...retourList);
+   // this.orderTransportList.push(...retourList);
     console.log(this.orderTransportList);
     this.sortOrderTransportByValeur();
   }
@@ -564,28 +537,14 @@ export class TransportPlanAddComponent implements OnInit {
   generatePlanTransport() {
     this.selectedTransportPlan.orderTransport = this.selectOrderTransport;
     console.log(this.selectOrderTransport);
-    if (
-      this.selectedTransportPlan.orderTransport.turnType.id == 1 ||
-      this.selectedTransportPlan.orderTransport.turnType.id == 3
-    ) {
+
       this.selectedTransportPlan.trajet =
         this.selectOrderTransport.orderTransportInfoAller.trajet;
 
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
 
-      // this.loadContractAccountbyAccountSelectedAller(
-      //   this.selectedTransportPlan.vehicleCategory
-      // );
-    }
-    if (this.selectedTransportPlan.orderTransport.turnType.id == 2) {
-      this.selectedTransportPlan.trajet =
-        this.selectOrderTransport.orderTransportInfoRetour.trajet;
 
-        this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoRetour.date;
-      // this.loadContractAccountbyAccountSelectedRetour(
-      //   this.selectedTransportPlan.vehicleCategory
-      // );
-    }
+
 
     this.selectedTransportPlan.vehicleCategory =
       this.selectOrderTransport.vehicleCategory;
@@ -713,23 +672,14 @@ export class TransportPlanAddComponent implements OnInit {
         this.selectOrderTransport.priceHT;
       this.selectTransportPlanHistory.purchasePrice =
         this.selectedTransport.purchaseAmountHt;
-      if (
-        this.selectOrderTransport.turnType.id == 1 ||
-        this.selectOrderTransport.turnType.id == 3
-      ) {
+
         console.log("aller ");
-        console.log(
-          this.selectOrderTransport.orderTransportInfoAller.trajet.code
-        );
+
 
         this.selectTransportPlanHistory.trajet =
           this.selectOrderTransport?.orderTransportInfoAller?.trajet;
 
-      } else if (this.selectOrderTransport.turnType.id == 2) {
-        this.selectTransportPlanHistory.trajet =
-          this.selectOrderTransport?.orderTransportInfoRetour?.trajet;
 
-      }
 
       this.selectTransportPlanHistory.type = event;
       this.showDialogReject = true;

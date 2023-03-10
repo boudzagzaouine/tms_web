@@ -94,27 +94,15 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
     console.log(this.selectOrderTransport.orderTransportInfoAller.numberKm );
 
   }
-  addItineraryRetour(distance: number , time :number ){
-    this.selectOrderTransport.orderTransportInfoRetour.numberKmRetour=distance;
-    this.selectOrderTransport.orderTransportInfoRetour.timeRetour=time;
-  }
 
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){
 
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;
-    this.selectOrderTransport.orderTransportInfoAller.type=TypeInfo.Aller.toString();
     this.emitOnchange();
 
   }
 
-  addOrderTransportInfoRetour(orderTransportInfo :OrderTransportInfo){
 
-    this.selectOrderTransport.orderTransportInfoRetour=orderTransportInfo;
-    this.selectOrderTransport.orderTransportInfoRetour.type=TypeInfo.Retour.toString();
-
-    this.emitOnchange();
-
-  }
   addDistanceorderTransportInfoAller(dist: number){
     console.log(dist);
 
@@ -135,17 +123,7 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
     return this.selectOrderTransport.orderTransportInfoAller ;
   }
 
-  getorderTransportInfoRetour(){
-    if( this.selectOrderTransport?.orderTransportInfoRetour!=null){
-      if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
-    this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines.sort(function (a, b) {
-      return Number(a.lineNumber) - Number(b.lineNumber);
-    });}}
-    else {
-      this.selectOrderTransport.orderTransportInfoRetour= new OrderTransportInfo();
-    }
-    return this.selectOrderTransport.orderTransportInfoRetour ;
-  }
+
 
 addLinesAller(orderTransportInfoLine:OrderTransportInfoLine[]){
 
@@ -156,32 +134,19 @@ addLinesAller(orderTransportInfoLine:OrderTransportInfoLine[]){
   return this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines:[];
   }
 
-  addLinesRetour(orderTransportInfoLine:OrderTransportInfoLine[]){
 
-    this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines=orderTransportInfoLine;
 
-  }
-    getLinesRetour(){
-    return this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines: [];
-    }
 
 
 
   addPriceAller(price :number){
       this.selectOrderTransport.orderTransportInfoAller.priceTTC += price;
        }
-       addPriceRetour(price : number){
-        this.selectOrderTransport.orderTransportInfoRetour.priceTTC += price;
 
-
-       }
        soustPriceAller(price :number){
         this.selectOrderTransport.orderTransportInfoAller.priceTTC -= price;
          }
-         soustPriceRetour(price : number){
-          this.selectOrderTransport.orderTransportInfoRetour.priceTTC -= price;
 
-         }
 
 
 

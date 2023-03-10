@@ -1,11 +1,9 @@
 import { OrderTransportInfoLineDocumetComponent } from './order-transport-edit/order-transport-info-line/order-transport-info-line-documet/order-transport-info-line-documet.component';
 import { GenerateContactEditComponent } from './order-transport-edit/generate-address-contact/generate-contact-edit/generate-contact-edit.component';
 import { GenerateAddressEditComponent } from './order-transport-edit/generate-address-contact/generate-address-edit/generate-address-edit.component';
-import { OrderTransportItineraryRetourComponent } from './order-transport-edit/order-transport-itinerary-retour/order-transport-itinerary-retour.component';
 import { OrderTransportItineraryComponent } from './order-transport-edit/order-transport-itinerary/order-transport-itinerary.component';
 
 
-import { OrderTransportRetourComponent } from './order-transport-edit/order-transport-retour/order-transport-retour.component';
 import { OrderTransportVerificationComponent } from './order-transport-edit/order-transport-verification/order-transport-verification.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TarificationComponent } from './order-transport-edit/tarification/tarification.component';
@@ -102,7 +100,6 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     OrderTransportListComponent,
     OrderTransportInformationComponent,
     OrderTransportAllerComponent,
-    OrderTransportRetourComponent,
     GenerateAddressContactComponent,
     PackageDetailComponent,
     OrderTransportInfoLineComponent,
@@ -111,7 +108,6 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     //ContactEditComponent,
     //AddressEditComponent,
     OrderTransportItineraryComponent,
-    OrderTransportItineraryRetourComponent,
     GenerateAddressEditComponent,
     GenerateContactEditComponent,
     OrderTransportInfoLineDocumetComponent

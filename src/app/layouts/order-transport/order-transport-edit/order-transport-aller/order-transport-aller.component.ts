@@ -120,10 +120,8 @@ export class OrderTransportAllerComponent implements OnInit {
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
 
-
   initForm() {
     console.log(this.selectedOrderTransportInfo.turnStatus);
-
 
     this.orderTransportInfoForm = new FormGroup({
       packagingType: new FormControl(
@@ -145,9 +143,6 @@ export class OrderTransportAllerComponent implements OnInit {
         this.selectedOrderTransportInfo.trajet
       ),
 
-      // orderTransportInfoInitialCountry: new FormControl(
-      //   'MAROC',
-      // ),
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)
       ),
@@ -155,14 +150,7 @@ export class OrderTransportAllerComponent implements OnInit {
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
 
-      // orderTransportInfoFinalCity: new FormControl(
-      //   this.selectedOrderTransportInfo.villeDistination,
-      //   Validators.required
-      // ),
 
-      // orderTransportInfoFinalCountry: new FormControl(
-      //   'MAROC',
-      // ),
     });
   }
   validateForm() {
@@ -186,8 +174,9 @@ console.log(">0");
 
         }
        else {
-         this.getTrajet();
-            console.log("next");
+        this.getTrajetQuantity();
+          this.loadForm();
+          this.nextstep.emit(true);
       }
 }else {
   this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
@@ -212,7 +201,6 @@ console.log(">0");
 
     this.selectedOrderTransportInfo.packageDetails = this.packageDetails;
 
-    this.selectedOrderTransportInfo.type = TypeInfo.Aller.toString();
     this.orderTransportService.addOrderTransportInfoAller(
       this.selectedOrderTransportInfo
     );
@@ -318,6 +306,7 @@ console.log(">0");
   //  line
 
   onHideDialogOrderTransportInfoLine(event) {
+
     this.showDialogOrderTransportInfoLine = event;
   }
   onLineEditedOrderTransportInfoLine(
@@ -368,15 +357,21 @@ console.log(">0");
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
+    this.showDialogOrderTransportInfoLine = false;
 
- this.getTrajetQuantity();
-    this.showDialogOrderTransportInfoLine = true;
+     if(line!=null){
+       this.getTrajetQuantity();
+     }
+   this.showDialogOrderTransportInfoLine = true;
+   console.log(this.showDialogOrderTransportInfoLine);
+
     if (mode == true) {
+      console.log("modifier");
       this.selectOrderTransportInfoLine = line;
       this.editModeOrderTransportInfoLine = true;
     } else {
       this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
-
+      console.log("add");
 
       this.editModeOrderTransportInfoLine = false;
     }
@@ -413,9 +408,9 @@ if(this.orderTransportInfoLines.length>0){
     }
     });
 this.selectOrderTransportTrajetQuantity.firstTrajet=false;
-this.orderTransportInfoForm.controls["weight"].setValue(   this.selectOrderTransportTrajetQuantity.weightEnlevement);
-this.orderTransportInfoForm.controls["numberOfPallet"].setValue(   this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement);
-this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTransportTrajetQuantity.capacityEnlevement);
+this.orderTransportInfoForm.controls["weight"].setValue(   this.selectOrderTransportTrajetQuantity?.weightEnlevement ?this.selectOrderTransportTrajetQuantity?.weightEnlevement:0);
+this.orderTransportInfoForm.controls["numberOfPallet"].setValue(   this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement?this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement:0);
+this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTransportTrajetQuantity?.capacityEnlevement ?this.selectOrderTransportTrajetQuantity?.capacityEnlevement:0);
 
   }
   }

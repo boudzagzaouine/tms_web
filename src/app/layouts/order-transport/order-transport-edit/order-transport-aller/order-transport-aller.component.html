@@ -308,7 +308,6 @@
 
         <p-autoComplete
         formControlName="orderTransportInfoTrajet"
-        [disabled]="'true'"
         [suggestions]="trajetList"
         (onSelect)="onSelectTrajetSource($event)"
         (completeMethod)="onTrajetSearch($event)"
@@ -352,8 +351,8 @@
     (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"
      [selectedOrderTransportInfoLine]="selectOrderTransportInfoLine"
      [editMode]="editModeOrderTransportInfoLine"
-     [typeInfo]="'Aller'"
-  [selectedOrderTransportTrajetQuantity]="selectOrderTransportTrajetQuantity"
+     [displayDialog]="showDialogOrderTransportInfoLine"
+   [selectedOrderTransportTrajetQuantity]="selectOrderTransportTrajetQuantity"
 
     >
 
@@ -365,7 +364,6 @@
     <div class="row justify-content-around " >
 
       <div class="form-group col-md-6">
-        <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
         <span class="add" style="float: left;">
 
           <img src="./assets/img/turn.png" style="width: 30px ; height: 30px;">

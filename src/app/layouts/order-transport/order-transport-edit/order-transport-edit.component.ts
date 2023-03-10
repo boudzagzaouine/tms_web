@@ -43,37 +43,14 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
     if (id) {
       this.orderTransportService.findById(id).subscribe((data) => {
         this.selectedOrderTransport = data;
-
-        if(this.selectedOrderTransport.turnType.id==1 ||this.selectedOrderTransport.turnType.id==3 ){
-
-   this.orderTransportInfoService.find('type~'+'Aller'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
+   this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
      data=>{
-
         this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(data[0]));
-
-
       }
    );
-    }
-
-    if(this.selectedOrderTransport.turnType.id==2 ||this.selectedOrderTransport.turnType.id==3 ){
-
-      this.orderTransportInfoService.find('type~'+'Retour'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
-        data=>{
-
-          this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(data[0]));
-
-
-         }
-      );
-       }
-
-
        this.subscriptions.add( this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
         this.showStep(this.selectedOrderTransport.turnType.id);
       });
-
-
 
     } else {
       this.showStep(1);
@@ -82,31 +59,14 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
 
   showStep(event) {
     this.turnTypeId = event;
-    if (event == 1) {
+    // if (event == 1) {
       this.items = [
         { label: "COORDONNÉES" },
-        { label: "MARCHANDISES - Aller" },
+        { label: "MARCHANDISES" },
         { label: "TARIFICATIONS" },
         { label: "Vérification" },
       ];
-    } else if (event == 2) {
-      this.items = [
-        { label: "COORDONNÉES" },
-        { label: "MARCHANDISES - Retour" },
-
-        { label: "TARIFICATIONS" },
-        { label: "Vérification" },
-      ];
-    } else if (event == 3) {
-      this.items = [
-        { label: "COORDONNÉES" },
-        { label: "MARCHANDISES - Aller" },
-        { label: "MARCHANDISES - Retour" },
-
-        { label: "TARIFICATIONS" },
-        { label: "Vérification" },
-      ];
-    }
+ 
   }
 
   previous(event) {

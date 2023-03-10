@@ -29,7 +29,7 @@ export class OrderTransport {
   vehicleCategory :VehicleCategory ;
   vehicleTray:VehicleTray;
   orderTransportInfoAller:OrderTransportInfo;
-  orderTransportInfoRetour:OrderTransportInfo;
+  //orderTransportInfoRetour:OrderTransportInfo;
 
   weightTotal: number = 0;
   capacityTotal: number = 0;

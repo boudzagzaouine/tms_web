@@ -36,10 +36,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
   @Input() selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
-  @Input() typeInfo: string;
-  @Input() weightMax: number;
-  @Input() capacityMax: number;
-  @Input() palletMax: number;
+  @Input()  displayDialog: boolean=false;
 
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
@@ -51,7 +48,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   orderTransportTypeList: OrderTransportType[] = [];
   isFormSubmitted = false;
-  displayDialog: boolean;
+
   title = " Trajet";
   subscrubtion = new Subscription();
   //accountList: Account[] = [];
@@ -100,16 +97,17 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
   ) {}
 
   ngOnInit() {
+    //this.displayDialog = false;
+console.log(".......");
+
     this.selectedOrderTransportInfoLine.account;
     this.initForm();
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
    // this.selectedAccount = this.selectedOrderTransport.account;
-    this.lines =
-      this.typeInfo == "Aller"
-        ? this.orderTransportService.getLinesAller()
-        : this.orderTransportService.getLinesRetour();
+    this.lines =this.orderTransportService.getLinesAller();
+
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
@@ -126,7 +124,8 @@ this.initForm();
     if (this.editMode) {
       this.selectAddress =
         this.selectedOrderTransportInfoLine.address;
-        this.selectContact =this.selectedOrderTransportInfoLine.contact;
+        this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
+       // this.selectContact =this.selectedOrderTransportInfoLine.contact;
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
       this.getOrderTransportInfoLineDocumentEnlevement(this.selectedOrderTransportInfoLine);
 
@@ -162,7 +161,7 @@ this.initForm();
     }
 console.log(this.selectedOrderTransportInfoLine);
 
-    this.displayDialog = true;
+   // this.displayDialog = true;
     this.initForm();
   }
 

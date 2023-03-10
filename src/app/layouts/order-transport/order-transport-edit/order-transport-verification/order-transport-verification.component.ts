@@ -34,7 +34,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
 
    this.selectOrderTransport=this.orderTransportService.getOrderTransport();
    this.selectOrderTransportInfoAller=this.orderTransportService.getOrderTransport().orderTransportInfoAller;
-   this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
+   //this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
 
 
   }
@@ -42,7 +42,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
   ngAfterViewInit() {
     this.selectOrderTransport=this.orderTransportService.getOrderTransport();
     this.selectOrderTransportInfoAller=this.orderTransportService.getOrderTransport().orderTransportInfoAller;
-    this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
+   // this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
 
   }
 
@@ -51,23 +51,17 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
 
   console.log(this.selectOrderTransport);
    this.selectOrderTransport.orderTransportInfoAller=null;
-   this.selectOrderTransport.orderTransportInfoRetour=null;
+   //this.selectOrderTransport.orderTransportInfoRetour=null;
 
   this.orderTransportService.set(this.selectOrderTransport).subscribe(
     data =>{
   this.selectOrderTransport =data;
   console.log(  this.selectOrderTransportInfoAller );
 
-  if(   this.selectOrderTransport.turnType.id ==1 ||   this.selectOrderTransport.turnType.id ==3 ){
-
     this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
 
     this.saveAller( this.selectOrderTransportInfoAller);
-  }
-  if(    this.selectOrderTransport.turnType.id ==2 ||   this.selectOrderTransport.turnType.id ==3 ){
-    this.selectOrderTransportInfoRetour.orderTransport= this.selectOrderTransport;
-    this.saveRetour( this.selectOrderTransportInfoRetour);
-  }
+
    console.log(data);
    this.orderTransportService.clearObject();
    this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
@@ -106,24 +100,24 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
 
 
   }
-  saveRetour( retour :OrderTransportInfo){
-    console.log("save info");
+  // saveRetour( retour :OrderTransportInfo){
+  //   console.log("save info");
 
-    this.orderTransportinfoService.set(retour).subscribe(
-      data =>{
-    this.selectOrderTransportInfoRetour =data;
-     console.log(data);
-     this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-     //this.orderTransportService.addOrderTransportInfoRetour(data);
+  //   this.orderTransportinfoService.set(retour).subscribe(
+  //     data =>{
+  //   this.selectOrderTransportInfoRetour =data;
+  //    console.log(data);
+  //    this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+  //    this.orderTransportService.addOrderTransportInfoRetour(data);
 
-      },
-      err =>{
-        this.toastr.error(err.error.message,"Erreur");
-      }
-    );
+  //     },
+  //     err =>{
+  //       this.toastr.error(err.error.message,"Erreur");
+  //     }
+  //   );
 
 
-  }
+  // }
 
 
 

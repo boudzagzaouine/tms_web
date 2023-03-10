@@ -22,7 +22,6 @@ export class OrderTransportInfo {
   weightTotal: number ;
   capacityTotal: number ;
   priceTTC: number ;
- type :string ;
   orderTransport :OrderTransport;
 
   weightEnlevement: number ;

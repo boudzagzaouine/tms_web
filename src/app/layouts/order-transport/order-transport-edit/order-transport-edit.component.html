@@ -16,41 +16,43 @@
 
       </span>
       <span *ngIf="activeIndex==1">
-        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==3 ">
+        <!-- *ngIf="this.turnTypeId==1 ||this.turnTypeId==3 " -->
+        <span >
         <app-order-transport-aller (nextstep)="next($event)" (previousstep)="previous($event)"></app-order-transport-aller>
         </span>
-        <span *ngIf="this.turnTypeId==2">
+        <!-- <span *ngIf="this.turnTypeId==2">
           <app-order-transport-retour (nextstep)="next($event)" (previousstep)="previous($event)"></app-order-transport-retour>
-        </span>
+        </span> -->
         <span>
 
         </span>
       </span>
       <span *ngIf="activeIndex==2">
-        <span *ngIf="this.turnTypeId==3">
+        <!-- <span *ngIf="this.turnTypeId==3">
           <app-order-transport-retour (nextstep)="next($event)" (previousstep)="previous($event)"></app-order-transport-retour>
-        </span>
-        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 ">
+        </span> -->
+        <!-- *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 " -->
+        <span >
           <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
         </span>
       </span>
       <span *ngIf="activeIndex==3">
-        <span *ngIf="this.turnTypeId==3">
+        <!-- <span *ngIf="this.turnTypeId==3">
           <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
-        </span>
-
-        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2">
+        </span> -->
+<!--  *ngIf="this.turnTypeId==1 ||this.turnTypeId==2" -->
+        <span>
           <app-order-transport-verification  (previousstep)="previous($event)"></app-order-transport-verification>
         </span>
       </span>
 
-      <span *ngIf="activeIndex==4">
+      <!-- <span *ngIf="activeIndex==4">
         <span *ngIf="this.turnTypeId==3">
           <app-order-transport-verification  (previousstep)="previous($event)"></app-order-transport-verification>
         </span>
-      </span>
+      </span> -->
 
-    
+
 
 
 

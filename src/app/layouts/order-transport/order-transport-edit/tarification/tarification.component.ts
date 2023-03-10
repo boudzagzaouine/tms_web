@@ -72,11 +72,7 @@ export class TarificationComponent implements OnInit {
         ? this.orderTransportService.getorderTransportInfoAller()
             .orderTransportInfoLines
         : [];
-    this.orderTransportInfoRetourLignes =
-      this.orderTransportService.getorderTransportInfoRetour()
-        ? this.orderTransportService.getorderTransportInfoRetour()
-            .orderTransportInfoLines
-        : [];
+
     this.selectedVehicleCategory = this.selectOrderTransport.vehicleCategory;
     console.log(this.selectOrderTransport);
 
@@ -101,18 +97,11 @@ export class TarificationComponent implements OnInit {
   onSearchCatalogPricing() {
     let trajet;
 
-    if (
-      this.selectOrderTransport.turnType.id == 1 ||
-      this.selectOrderTransport.turnType.id == 3
-    ) {
+
       trajet =
         this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
 
-    } else if (this.selectOrderTransport.turnType.id == 2) {
-      trajet =
-        this.selectOrderTransport.orderTransportInfoRetour?.trajet?.code;
 
-    }
     console.log(this.selectOrderTransport.turnType.id);
     console.log(this.selectOrderTransport?.vehicleCategory?.id);
     console.log(this.selectOrderTransport?.vehicleTray?.id);
@@ -144,18 +133,12 @@ export class TarificationComponent implements OnInit {
   onSearchAccountPricing() {
     let trajet;
 
-    if (
-      this.selectOrderTransport.turnType.id == 1 ||
-      this.selectOrderTransport.turnType.id == 3
-    ) {
+
       trajet =
         this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
 
-    } else if (this.selectOrderTransport.turnType.id == 2) {
-      trajet =
-        this.selectOrderTransport.orderTransportInfoRetour?.trajet?.code;
 
-    }
+
     console.log(this.selectOrderTransport.turnType.id);
     console.log(this.selectOrderTransport?.vehicleCategory?.id);
     console.log(this.selectOrderTransport?.vehicleTray?.id);

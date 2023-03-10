@@ -62,7 +62,7 @@ page = 0;
   }
 
   loadData(search: string = '') {
-    search +=`,addressType:1`;
+    search +=`,addressType:1,delivery:true`;
     this.spinner.show();
     this.subscriptions.add( this.addressService.sizeSearch(search).subscribe(
       data => {

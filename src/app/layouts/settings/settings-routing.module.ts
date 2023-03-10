@@ -1,3 +1,4 @@
+import { ContactComponent } from './contact/contact.component';
 import { AgencyComponent } from './agency/agency.component';
 import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
 import { GroupHabilitationComponent } from './group-habilitation/group-habilitation.component';
@@ -158,7 +159,8 @@ const routes: Routes = [
       { path: 'group', component: GroupComponent},
       { path: 'user', component: UserComponent},
       { path: 'group-habilitation', component: GroupHabilitationComponent},
-      { path: 'agency', component: AgencyComponent}
+      { path: 'agency', component: AgencyComponent},
+      { path: 'contact', component: ContactComponent}
 
 
     ]

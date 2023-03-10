@@ -1,3 +1,5 @@
+import { ContactContactEditComponent } from './contact/contact-contact-edit/contact-contact-edit.component';
+import { ContactComponent } from './contact/contact.component';
 import { AgencyEditComponent } from './agency/agency-edit/agency-edit.component';
 import { AgencyComponent } from './agency/agency.component';
 import { Agency } from './../../shared/models/agency';
@@ -342,7 +344,9 @@ UserComponent,
 UserEditComponent,
 GroupHabilitationComponent,
 AgencyComponent,
-AgencyEditComponent 
+AgencyEditComponent ,
+ContactContactEditComponent,
+ContactComponent
 
 
 

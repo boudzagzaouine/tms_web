@@ -82,6 +82,10 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/menu-vehicle" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Véhicule ' | translate}}</a>
           </li>
+          <li *hasPermission="['CONTACT_VIEW']">
+            <a routerLink="/core/settings/contact" class="m-a"><i class="fa fa-circle-o"></i>
+              {{'Contact ' | translate}}</a>
+          </li>
           <!-- <li *hasPermission="['MAINTENANCE_TERM_VIEW','MAINTENANCE_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-maintenance" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Maintenance ' | translate}}</a>

@@ -108,7 +108,7 @@ export class TransportCatalogPricingComponent implements OnInit {
       {
         field: "vehicleTray",
         child: "code",
-        header: "Form",
+        header: "Type Remorque",
         type: "object",
       },
 

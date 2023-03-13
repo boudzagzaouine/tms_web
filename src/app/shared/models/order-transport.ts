@@ -1,3 +1,4 @@
+import { Trajet } from './trajet';
 import { Contact } from './contact';
 import { VehicleTray } from './vehicle-tray';
 import { Company } from './company';
@@ -28,6 +29,7 @@ export class OrderTransport {
   turnStatus:TurnStatus;
   vehicleCategory :VehicleCategory ;
   vehicleTray:VehicleTray;
+  trajet:Trajet;
   orderTransportInfoAller:OrderTransportInfo;
   //orderTransportInfoRetour:OrderTransportInfo;
 

@@ -64,9 +64,9 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
         { label: "COORDONNÉES" },
         { label: "MARCHANDISES" },
         { label: "TARIFICATIONS" },
-        { label: "Vérification" },
+        { label: "VÉRIFICATION" },
       ];
- 
+
   }
 
   previous(event) {

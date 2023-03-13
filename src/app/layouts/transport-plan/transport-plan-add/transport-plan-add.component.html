@@ -140,40 +140,32 @@
                   }}</span></span
                 ><br />
 
-                <span *ngIf="order.turnType.id == 1 || order.turnType.id == 3">
+                <span >
                   <i
                     class="pi pi-map-marker product-category-icon"
                     style="color: #e74c3c"
                   ></i>
                   <span class="product-category"
-                    >Aller :
+                    >Trajet :
                     <span style="font-weight: 500">{{
-                      order?.orderTransportInfoAller?.trajet?.code
+                      order?.trajet?.code
                     }}</span>
-                    <!-- ->
-                    <span style="font-weight: 500">{{
-                      order?.orderTransportInfoAller?.villeDistination?.code
-                    }}</span> -->
-                    </span
-                  ><br />
-                </span>
-                <span *ngIf="order.turnType.id == 2 || order.turnType.id == 3">
-                  <i
+
+                    </span>
+                    <br />
+                    <i
                     class="pi pi-map-marker product-category-icon"
-                    style="color: #e74c3c"
+                    style="color: #3ce7d9"
                   ></i>
-                  <span class="product-category"
-                    >Retour :
+                    <span class="product-category"
+                    >Type :
                     <span style="font-weight: 500">{{
-                      order?.orderTransportInfoRetour?.trajet?.code
+                      order?.turnType?.code
                     }}</span>
-                    <!-- ->
-                    <span style="font-weight: 500">{{
-                      order?.orderTransportInfoRetour?.villeDistination?.code
-                    }}</span> -->
-                    </span
-                  >
+
+                    </span>
                 </span>
+
               </div>
               <div class="product-list-action">
                 <h6
@@ -252,7 +244,7 @@
             [value]="catalogTransportPricingList"
             (onSelectionChange)="onselectTransport($event)"
             [listStyle]="{ 'max-height': '11rem', overflow: 'hidden' }"
-            header="Liste des Prestataires"
+            header="Liste des Transporteurs"
             filterBy="transport.name"
             filterPlaceholder="Recherche Par Prestataire"
             [dragdrop]="true"
@@ -316,7 +308,7 @@
               style="width: 100%"
               class="p-button-danger"
               pButton
-              label="Refus"
+              label="Refuser"
               (click)="OnSelectedRefus(2)"
             ></button>
           </div>

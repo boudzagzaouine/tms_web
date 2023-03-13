@@ -74,6 +74,7 @@ export class OrderTransportListComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'date', header: 'Date', type: 'date' },
+      { field: 'trajet',child: 'code', header: 'Trajet', type: 'object' },
 
       { field: 'turnType', child: 'code', header: 'Type', type: 'object' },
       { field: 'loadingType', child: 'code', header: 'Type de chargement', type: 'object' },

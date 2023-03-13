@@ -202,6 +202,7 @@ console.log(">0");
 
     this.selectedOrderTransportInfo.packageDetails = this.packageDetails;
 
+    this.orderTransportService.addTrajet( this.selectedOrderTransportInfo.trajet);
     this.orderTransportService.addOrderTransportInfoAller(
       this.selectedOrderTransportInfo
     );

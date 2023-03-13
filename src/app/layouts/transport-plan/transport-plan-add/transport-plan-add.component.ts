@@ -184,7 +184,7 @@ export class TransportPlanAddComponent implements OnInit {
       this.orderTransportCloneList = this.orderTransportList;
       this.orderTransportList.forEach((element) => {
         this.orderTransportInfoService
-          .find("type~" + "Aller" + ",orderTransport.id:" + element.id)
+          .find("orderTransport.id:" + element.id)
           .subscribe((data) => {
             element.orderTransportInfoAller = data[0];
           });
@@ -262,7 +262,7 @@ export class TransportPlanAddComponent implements OnInit {
     let trajet;
 
       trajet =
-        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+        this.selectOrderTransport?.trajet.code;
 
 
 
@@ -312,7 +312,7 @@ export class TransportPlanAddComponent implements OnInit {
     let trajet;
 
       trajet =
-        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+        this.selectOrderTransport?.trajet.code;
 
 
     this.catalogPricingService
@@ -411,7 +411,7 @@ export class TransportPlanAddComponent implements OnInit {
     let trajet;
 
       trajet =
-        this.selectOrderTransport?.orderTransportInfoAller?.trajet.code;
+        this.selectOrderTransport?.trajet.code;
 
 
     let purcahse: number = 0;
@@ -539,7 +539,7 @@ export class TransportPlanAddComponent implements OnInit {
     console.log(this.selectOrderTransport);
 
       this.selectedTransportPlan.trajet =
-        this.selectOrderTransport.orderTransportInfoAller.trajet;
+        this.selectOrderTransport.trajet;
 
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
 
@@ -677,7 +677,7 @@ export class TransportPlanAddComponent implements OnInit {
 
 
         this.selectTransportPlanHistory.trajet =
-          this.selectOrderTransport?.orderTransportInfoAller?.trajet;
+          this.selectOrderTransport?.trajet;
 
 
 

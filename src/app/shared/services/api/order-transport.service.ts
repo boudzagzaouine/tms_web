@@ -1,3 +1,4 @@
+import { Trajet } from './../../models/trajet';
 import { OrderTransportInfoLine } from './../../models/order-transport-info-line';
 import { TypeInfo } from './../../enum/type-info.enum';
 import { OrderTransportInfo } from './../../models/order-transport-info';
@@ -55,6 +56,12 @@ this.emitOnchange();}
 
    this.emitOnchange();
 
+
+  }
+  addTrajet(trajet :Trajet){
+    this.selectOrderTransport.trajet=trajet;
+
+   this.emitOnchange();
 
   }
 

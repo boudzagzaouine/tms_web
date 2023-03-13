@@ -17,6 +17,25 @@ showEffect="fade"
 
 
         <div class="row  justify-content-around">
+          <div class="form-group col-md-12">
+            <label class="font-weight-bold">{{'Type' | translate}}*</label>
+            <span *ngIf="(lineForm.get('documentType').touched && lineForm.get('documentType').invalid) ||
+            (isFormSubmitted && lineForm.get('documentType').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+
+            <p-dropdown
+formControlName="documentType"
+[autoDisplayFirst]="false"
+[options]="orderTransportDocumentTypeList"
+optionLabel="code"
+(onChange)="onSelectorderTransportDocumentType($event)"
+[filter]="true"
+[showClear]="true"
+></p-dropdown>
+
+        </div>
 
           <div class="form-group col-md-12">
             <label class="font-weight-bold">{{'Numero' | translate}}</label>

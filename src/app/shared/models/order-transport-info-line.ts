@@ -25,8 +25,8 @@ export class OrderTransportInfoLine {
   capacityEnlevement : number;
   commentEnlevement : string ;
   paymentTypeEnlevement: PaymentType;
-  contreBlEnlevement: Boolean=false;
-  contreFactureEnlevement:Boolean= false;
+  //contreBlEnlevement: Boolean=false;
+  //contreFactureEnlevement:Boolean= false;
   paymentAmountEnlevement:number;
   dateEnlevement:Date = new Date();
   fileEnlevement:any[];
@@ -37,8 +37,8 @@ export class OrderTransportInfoLine {
   capacityLivraison : number;
   commentLivraison : string ;
   paymentTypeLivraison: PaymentType;
-  contreBlLivraison: Boolean=false;
-  contreFactureLivraison:Boolean= false;
+  //contreBlLivraison: Boolean=false;
+  //contreFactureLivraison:Boolean= false;
   paymentAmountLivraison:number;
   dateLivraison:Date = new Date();
   fileLivraison:any[];

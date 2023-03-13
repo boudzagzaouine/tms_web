@@ -45,22 +45,6 @@ optionLabel="code"
 
 
         <div class="form-group col-md-3">
-          <!-- <label class="font-weight-bold">{{'Compte' | translate}}*</label>
-          <span *ngIf="(orderTransportInfoLineForm.controls['general'].get('account').touched && orderTransportInfoLineForm.controls['general'].get('account').invalid) ||
-  (isFormSubmitted && orderTransportInfoLineForm.controls['general'].get('account').invalid)" class="text-lighter"
-    style="color: red; font-size: xx-small;">
-    {{"Obligatoire" | translate}}
-          </span>
-
-          <p-autoComplete
-          formControlName="account"
-          [suggestions]="accountList"
-          (onSelect)="onSelectAccount($event)"
-          (completeMethod)="onAccountSearch($event)"
-          field="name"
-          appendTo="body"
-        >
-        </p-autoComplete> -->
 
       </div>
 
@@ -287,67 +271,6 @@ optionLabel="code"
 
 
 
-
-  <!--<div class="form-group col-md-4">
-              <label class="font-weight-bold">{{
-                "Société" | translate
-              }}</label
-              ><br />
-
-              <p-autoComplete  field="code" formControlName="deliveryInfoCompany">
-              </p-autoComplete>
-            </div>-->
-
-
-
-
-
-    <!-- <div class="row justify-content-around">
-
-      <div class="form-group col-md-4">
-        <label class="font-weight-bold">{{
-          "Latitude" | translate
-        }} </label
-        >
-
-        <br />
-        <input
-        formControlName="deliveryInfoLatitude"
-          type="text"
-          class="form-control"
-          pInputText
-        />
-</div>
-
-    <div class="form-group col-md-4">
-      <label class="font-weight-bold">{{
-        "Longitude" | translate
-      }}</label
-      >
-
-      <br />
-      <input
-      formControlName="deliveryInfoLongitude"
-        type="text"
-        class="form-control"
-        pInputText
-      />
-  </div>
-  <div class="form-group col-md-4"> -->
-    <!-- <label class="font-weight-bold">{{
-      "Date d'enlévenment" | translate
-    }}</label
-    ><br />
-  <p-calendar formControlName="deliveryInfoDate" [monthNavigator]="true"
-   [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
-  [showTime]="true" [showSeconds]="true"
- >
-</p-calendar> -->
-<!-- </div>
-     </div> -->
-
-
-
         </p-panel>
     </div>
     </div>
@@ -477,77 +400,49 @@ optionLabel="code"
 
   <div class="row justify-content-around">
     <div class="form-group col-md-6">
-      <p-fieldset legend="Document">
+      <p-fieldset legend="Paiement">
 
-<div class="row">
+        <div class="row">
 
-    <div class="form-group col-md-6">
-      <label class="font-weight-bold">{{
-        "Contre BL" | translate
-      }} </label
-      >
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
+                <p-dropdown
+              formControlName="paymentType"
+              [autoDisplayFirst]="false"
+              [options]="paymentTypeList"
+              optionLabel="code"
+              (onChange)="onSelectPaymentTypeLivraison($event)"
+              [filter]="true"
+              appendTo="body"
+              [showClear]="true"
+              ></p-dropdown>
 
-      <br />
-      <p-toggleButton formControlName="contreBL"
-      onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLLivraison($event)"
-      onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-      </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Montant" | translate
+                }} </label
+                >
 
-      <div class="form-group col-md-6">
-        <label class="font-weight-bold">{{
-          "Contre Facture" | translate
-        }} </label
-        >
-
-        <br />
-        <p-toggleButton formControlName="contreFacture"
-        onLabel="Oui" offLabel="Non" (onChange)="onChangeCFLivraison($event)"
-        onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-        </div>
-      </div>
-    </p-fieldset>
+                <br />
+                <input
+                formControlName="paymentAmount"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+                  <!-- <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                  formControlName="paymentAmount"
+                ></p-inputNumber> -->
+              </div>
+              </div>
+            </p-fieldset>
 
 </div>
 
 
 <div class="form-group col-md-6">
-  <p-fieldset legend="Paiement">
 
-  <div class="row">
-
-        <div class="form-group col-md-6">
-          <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
-          <p-dropdown
-        formControlName="paymentType"
-        [autoDisplayFirst]="false"
-        [options]="paymentTypeList"
-        optionLabel="code"
-        (onChange)="onSelectPaymentTypeLivraison($event)"
-        [filter]="true"
-        appendTo="body"
-        [showClear]="true"
-        ></p-dropdown>
-
-        </div>
-        <div class="form-group col-md-6">
-          <label class="font-weight-bold">{{
-            "Montant" | translate
-          }} </label
-          >
-
-          <br />
-          <input
-          formControlName="paymentAmount"
-            type="text"
-            class="form-control"
-            pInputText
-          />
-            <!-- <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-            formControlName="paymentAmount"
-          ></p-inputNumber> -->
-        </div>
-        </div>
-      </p-fieldset>
 
 </div>
 </div>
@@ -627,17 +522,12 @@ optionLabel="code"
 </div> -->
 
 
-
-<p-tabView>
-
-<p-tabPanel [cache]="false" *ngIf=" this.selectedOrderTransportInfoLine.contreBlLivraison==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
-    <ng-template pTemplate="content">
        <div class="card m-5 ">
         <div class="card-header" style="background-color: #f7f7f7;">
           <div class="row">
 
             <div class="col-xs-4 col-md-4 pull-left">
-              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2,'BL')">
+              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2)">
                 <i class="fa fa-plus"></i>
               </button>
             </div>
@@ -651,12 +541,14 @@ optionLabel="code"
 
 
 
-  <p-table [value]=" this.orderTransportInfoLineDocumentLivraisonBL" [lazy]="true" [rows]="size"
-  [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraisonBL?.length">
+  <p-table [value]=" this.orderTransportInfoLineDocumentLivraison" [lazy]="true" [rows]="size"
+  [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraison?.length">
   <ng-template pTemplate="header">
     <tr>
 
       <th>{{'Numero' | translate}}</th>
+      <th>{{'Type' | translate}}</th>
+
       <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
     </tr>
@@ -664,11 +556,12 @@ optionLabel="code"
   <ng-template pTemplate="body" let-line>
     <tr>
       <td>{{line?.numero}}</td>
+      <td>{{line?.orderTransportDocumentType?.code}}</td>
 
       <td>
 
         <button  type="button" class="btn btn-sm btn-primary mx-1"
-          (click)="onShowDialogLine(line,true,2,'BL')">
+          (click)="onShowDialogLine(line,true,2)">
 
           <i class="fa fa-pencil"></i>
         </button>
@@ -683,66 +576,7 @@ optionLabel="code"
 
 </p-table>
   </div></div>
-    </ng-template>
-</p-tabPanel>
-<p-tabPanel [cache]="false" *ngIf="this.selectedOrderTransportInfoLine.contreFactureLivraison==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
-    <ng-template pTemplate="content">
 
-       <div class="card m-5 ">
-        <div class="card-header" style="background-color: #f7f7f7;">
-          <div class="row">
-
-            <div class="col-xs-4 col-md-4 pull-left">
-              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2,'FACTURE')">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-            <div class=" col-xs-4 col-md-6 pull-center">
-              <span style="font-size: 16px; color: #5f5b5b;">
-                <b> {{ "Liste des Documents" | translate }}</b></span>
-            </div>
-          </div>
-        </div>
-        <div class="card-body border-top-primary">
-          <p-table [value]=" this.orderTransportInfoLineDocumentLivraisonFacture" [lazy]="true" [rows]="size"
-          [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraisonFacture?.length">
-          <ng-template pTemplate="header">
-            <tr>
-
-              <th>{{'Numero' | translate}}</th>
-              <th style="width: 18%;">{{ "Actions" | translate }}</th>
-
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-line>
-            <tr>
-              <td>{{line?.numero}}</td>
-
-              <td>
-
-                <button type="button" class="btn btn-sm btn-primary mx-1"
-                  (click)="onShowDialogLine(line,true,2,'FACTURE')">
-
-                  <i class="fa fa-pencil"></i>
-                </button>
-                <button  type="button" class="btn btn-sm btn-danger mx-1"
-                  (click)="onDeleteLine(line.numero)">
-
-                  <i class="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </ng-template>
-
-        </p-table>
-
-
-  </div></div>
-    </ng-template>
-
-</p-tabPanel>
-
-</p-tabView>
 
 
 
@@ -862,94 +696,63 @@ optionLabel="code"
 
   <div class="row justify-content-around">
     <div class="form-group col-md-6">
-      <p-fieldset legend="Document">
+      <p-fieldset legend="Paiement">
 
-<div class="row">
+        <div class="row">
 
-    <div class="form-group col-md-6">
-      <label class="font-weight-bold">{{
-        "Contre BL" | translate
-      }} </label
-      >
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
+                <p-dropdown
+              formControlName="paymentType"
+              [autoDisplayFirst]="false"
+              [options]="paymentTypeList"
+              optionLabel="code"
+              (onChange)="onSelectPaymentTypeEnlevement($event)"
+              [filter]="true"
+              appendTo="body"
+              [showClear]="true"
+              ></p-dropdown>
 
-      <br />
-      <p-toggleButton formControlName="contreBL"
-      onLabel="Oui" offLabel="Non" (onChange)="onChangeCBLEnlevement($event)"
-      onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-      </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="font-weight-bold">{{
+                  "Montant" | translate
+                }} </label
+                >
 
-      <div class="form-group col-md-6">
-        <label class="font-weight-bold">{{
-          "Contre Facture" | translate
-        }} </label
-        >
-
-        <br />
-        <p-toggleButton formControlName="contreFacture"
-        onLabel="Oui" offLabel="Non" (onChange)="onChangeCFEnlevement($event)"
-        onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-        </div>
-      </div>
-    </p-fieldset>
-
+                <br />
+                <input
+                formControlName="paymentAmount"
+                  type="text"
+                  class="form-control"
+                  pInputText
+                />
+                  <!-- <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+                  formControlName="paymentAmount"
+                ></p-inputNumber> -->
+              </div>
+              </div>
+            </p-fieldset>
 </div>
 
 
 <div class="form-group col-md-6">
-  <p-fieldset legend="Paiement">
 
-  <div class="row">
-
-        <div class="form-group col-md-6">
-          <label class="font-weight-bold">{{'Type Paiement' | translate}}</label>
-          <p-dropdown
-        formControlName="paymentType"
-        [autoDisplayFirst]="false"
-        [options]="paymentTypeList"
-        optionLabel="code"
-        (onChange)="onSelectPaymentTypeEnlevement($event)"
-        [filter]="true"
-        appendTo="body"
-        [showClear]="true"
-        ></p-dropdown>
-
-        </div>
-        <div class="form-group col-md-6">
-          <label class="font-weight-bold">{{
-            "Montant" | translate
-          }} </label
-          >
-
-          <br />
-          <input
-          formControlName="paymentAmount"
-            type="text"
-            class="form-control"
-            pInputText
-          />
-            <!-- <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-            formControlName="paymentAmount"
-          ></p-inputNumber> -->
-        </div>
-        </div>
-      </p-fieldset>
 
 </div>
 </div>
 
 
 
-<p-tabView>
 
-  <p-tabPanel [cache]="false" *ngIf=" this.selectedOrderTransportInfoLine.contreBlEnlevement==true"  header="{{'Contre BL' | translate }}"   headerStyleClass="onglet-p-2">
-      <ng-template pTemplate="content">
+
 
         <div class="card m-5 ">
           <div class="card-header" style="background-color: #f7f7f7;">
             <div class="row">
 
               <div class="col-xs-4 col-md-4 pull-left">
-                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1,'BL')">
+                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1)">
                   <i class="fa fa-plus"></i>
                 </button>
               </div>
@@ -962,12 +765,14 @@ optionLabel="code"
           <div class="card-body border-top-primary">
 
 
-    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevementBL" [lazy]="true" [rows]="size"
-    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevementBL?.length">
+    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevement" [lazy]="true" [rows]="size"
+    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevement?.length">
     <ng-template pTemplate="header">
       <tr>
 
         <th>{{'Numero' | translate}}</th>
+        <th>{{'Type' | translate}}</th>
+
         <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
       </tr>
@@ -975,11 +780,12 @@ optionLabel="code"
     <ng-template pTemplate="body" let-line>
       <tr>
         <td>{{line?.numero}}</td>
+        <td>{{line?.orderTransportDocumentType?.code}}</td>
 
         <td>
 
           <button type="button" class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogLine(line,true,1,'BL')">
+            (click)="onShowDialogLine(line,true,1)">
             <!--ADD-->
             <i class="fa fa-pencil"></i>
           </button>
@@ -995,64 +801,7 @@ optionLabel="code"
   </p-table>
 
     </div></div>
-      </ng-template>
-  </p-tabPanel>
-  <p-tabPanel [cache]="false" *ngIf="this.selectedOrderTransportInfoLine.contreFactureEnlevement==true" header="{{ 'Contre Facture' | translate}}"  headerStyleClass="onglet-p-2">
-      <ng-template pTemplate="content">
-        <div class="card m-5 ">
-          <div class="card-header" style="background-color: #f7f7f7;">
-            <div class="row">
 
-              <div class="col-xs-4 col-md-4 pull-left">
-                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1,'FACTURE')">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </div>
-              <div class=" col-xs-4 col-md-6 pull-center">
-                <span style="font-size: 16px; color: #5f5b5b;">
-                  <b> {{ "Liste des Documents" | translate }}</b></span>
-              </div>
-            </div>
-          </div>
-          <div class="card-body border-top-primary">
-
-
-    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevementFacture" [lazy]="true" [rows]="size"
-    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevementFacture?.length">
-    <ng-template pTemplate="header">
-      <tr>
-
-        <th>{{'Numero' | translate}}</th>
-        <th style="width: 18%;">{{ "Actions" | translate }}</th>
-
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-line>
-      <tr>
-        <td>{{line?.numero}}</td>
-
-        <td>
-
-          <button  type="button" class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogLine(line,true,1,'FACTURE')">
-
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button  type="button" class="btn btn-sm btn-danger mx-1"
-            (click)="onDeleteLine(line.numero)">
-
-            <i class="fa fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </ng-template>
-
-  </p-table>
-    </div></div>
-      </ng-template>
-  </p-tabPanel>
-
-</p-tabView>
 
 
 
@@ -1065,22 +814,7 @@ optionLabel="code"
 </div>
               </ng-template>
           </p-tabPanel>
-
-
-
-
-
-
-
-
         </p-tabView>
-
-
-
-
-
-
-
 
 </div>
     </form>
@@ -1112,24 +846,16 @@ optionLabel="code"
 </div>
 
 
-<div *ngIf="showDialogEnlevementBl == true">
-  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevementBL($event)"
-    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
-</div>
-
-<div *ngIf="showDialogEnlevementFacture == true">
-  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevementFacture($event)"
-    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
-</div>
-
-<div *ngIf="showDialogLivraisonBl == true">
-  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)" (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraisonBL($event)"
-    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument" [editMode]="editModeLine"></app-order-transport-info-line-documet>
-</div>
-
-<div *ngIf="showDialogLivraisonFacture == true">
+<div *ngIf="showDialogEnlevement == true">
   <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)"
-   (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraisonFacture($event)"
+   (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevement($event)"
+    [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument"
+    [editMode]="editModeLine"></app-order-transport-info-line-documet>
+</div>
+
+<div *ngIf="showDialogLivraison == true">
+  <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)"
+   (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraison($event)"
     [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument"
     [editMode]="editModeLine"></app-order-transport-info-line-documet>
 </div>

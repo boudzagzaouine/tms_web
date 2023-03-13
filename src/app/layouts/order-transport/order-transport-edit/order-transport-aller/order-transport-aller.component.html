@@ -144,146 +144,7 @@
 </div>
 
 
-    <!-- <div class="p-grid" >
-      <div class="p-col-12 p-md-6">
-        <p-scrollPanel [style]="{ width: '100%', height: 'auto' }">
-          <p-panel  [toggleable]="true">
-            <ng-template pTemplate = "header" >
-              <img src="./assets/img/depuis.png" width="30px"
-              height="30px">          <span style="font-weight: 600">DEPUIS</span>
-          </ng-template>
 
-            <div class="row justify-content-around">
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Ville" | translate
-                }} *</label
-                >
-                <span
-                *ngIf="
-                  (orderTransportInfoForm.get('orderTransportInfoInitialCity').touched &&
-                  orderTransportInfoForm.get('orderTransportInfoInitialCity').invalid) ||
-                  (isFormSubmitted &&
-                  orderTransportInfoForm.get('orderTransportInfoInitialCity').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-                <br />
-
-                <p-autoComplete
-                formControlName="orderTransportInfoInitialCity"
-                [suggestions]="villeList"
-                (onSelect)="onSelectVilleSource($event)"
-                (completeMethod)="onVilleSearch($event)"
-                field="code"
-                appendTo="body"
-              >
-              </p-autoComplete>
-              </div>
-
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Pays" | translate
-                }} *</label
-                >
-
-                <br />
-
-                <input
-                formControlName="orderTransportInfoInitialCountry"
-                  type="text"
-                  class="form-control"
-                  disabled="'true'"
-                  pInputText
-                />
-              </div>
-
-            </div>
-          </p-panel>
-        </p-scrollPanel>
-      </div>
-      <div class="p-col-12 p-md-6">
-        <p-scrollPanel
-          [style]="{ width: '100%', height: 'auto' }"
-          styleClass="custombar1"
-        >
-          <p-panel [toggleable]="true">
-            <ng-template pTemplate = "header" >
-              <img src="./assets/img/vers.png" width="30px"
-              height="30px">          <span style="font-weight: 600">VERS</span>
-          </ng-template>
-
-
-
-            <div class="row justify-content-around">
-
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Ville" | translate
-                }} *</label
-                >
-                <span
-                *ngIf="
-                  (orderTransportInfoForm.get('orderTransportInfoFinalCity').touched &&
-                  orderTransportInfoForm.get('orderTransportInfoFinalCity').invalid) ||
-                  (isFormSubmitted &&
-                  orderTransportInfoForm.get('orderTransportInfoFinalCity').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-                <br />
-                <p-autoComplete
-                formControlName="orderTransportInfoFinalCity"
-                [suggestions]="villeList"
-                (onSelect)="onSelectVilleDistination($event)"
-                (completeMethod)="onVilleSearch($event)"
-                field="code"
-                appendTo="body"
-              >
-              </p-autoComplete>
-
-              </div>
-
-
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Pays" | translate
-                }} *</label
-                >
-                <span
-                *ngIf="
-                  (orderTransportInfoForm.get('orderTransportInfoFinalCountry').touched &&
-                  orderTransportInfoForm.get('orderTransportInfoFinalCountry').invalid) ||
-                  (isFormSubmitted &&
-                  orderTransportInfoForm.get('orderTransportInfoFinalCountry').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-                <br />
-                <input
-                formControlName="orderTransportInfoFinalCountry"
-                  type="text"
-                  class="form-control"
-                  disabled="'true'"
-                  pInputText
-                />
-              </div>
-            </div>
-          </p-panel>
-        </p-scrollPanel>
-      </div>
-
-
-    </div> -->
 
 
     <div class="row justify-content-around">
@@ -345,7 +206,13 @@
   <div class="row justify-content-around " >
 
 
-  <div *ngIf="showDialogOrderTransportInfoLine == true">
+
+
+
+
+
+
+   <div *ngIf="showDialogOrderTransportInfoLine == true">
     <app-order-transport-info-line
     (showDialog)="onHideDialogOrderTransportInfoLine($event)"
     (orderTransportInfoLineAdded)="onLineEditedOrderTransportInfoLine($event)"

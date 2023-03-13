@@ -1,10 +1,10 @@
-import { log } from 'console';
-import { ToastrService } from 'ngx-toastr';
-import { ContactService } from './../../../../shared/services/api/contact.service';
-import { Contact } from './../../../../shared/models/contact';
-import { AddressService } from './../../../../shared/services/api/address.service';
-import { OrderTransportInfoLineDocumentService } from './../../../../shared/services/api/order-transport-info-line-documet.service';
-import { OrderTransportInfoLineDocument } from './../../../../shared/models/order-transport-info-line-document';
+import { log } from "console";
+import { ToastrService } from "ngx-toastr";
+import { ContactService } from "./../../../../shared/services/api/contact.service";
+import { Contact } from "./../../../../shared/models/contact";
+import { AddressService } from "./../../../../shared/services/api/address.service";
+import { OrderTransportInfoLineDocumentService } from "./../../../../shared/services/api/order-transport-info-line-documet.service";
+import { OrderTransportInfoLineDocument } from "./../../../../shared/models/order-transport-info-line-document";
 import { OrderTransportTrajetQuantity } from "./../../../../shared/models/order-transport-trajet-quantity";
 import { AccountService } from "./../../../../shared/services/api/account.service";
 import { Account } from "./../../../../shared/models/account";
@@ -22,10 +22,18 @@ import { OrderTransportInfoLine } from "./../../../../shared/models/order-transp
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 
 import { Subject, Subscription } from "rxjs";
-import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  DoCheck,
+} from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
 import { PaymentRule } from "./../../../../shared/models/payment-rule";
-import { Address } from './../../../../shared/models';
+import { Address } from "./../../../../shared/models";
 
 @Component({
   selector: "app-order-transport-info-line",
@@ -36,7 +44,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
   @Input() selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
-  @Input()  displayDialog: boolean=false;
+  @Input() displayDialog: boolean = false;
 
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
@@ -59,29 +67,28 @@ export class OrderTransportInfoLineComponent implements OnInit {
   lines: OrderTransportInfoLine[] = [];
   turnStatus: TurnStatus = new TurnStatus();
   paymentTypeList: PaymentType[] = [];
-  orderTransportInfoLineDocumentEnlevementBL:OrderTransportInfoLineDocument[]=[];
-  orderTransportInfoLineDocumentEnlevementFacture:OrderTransportInfoLineDocument[]=[];
+  orderTransportInfoLineDocumentEnlevement: OrderTransportInfoLineDocument[] =
+    [];
 
-  orderTransportInfoLineDocumentLivraisonBL:OrderTransportInfoLineDocument[]=[];
-  orderTransportInfoLineDocumentLivraisonFacture:OrderTransportInfoLineDocument[]=[];
+  orderTransportInfoLineDocumentLivraison: OrderTransportInfoLineDocument[] =
+    [];
 
-  selectedOrderTransportInfoLineDocument :OrderTransportInfoLineDocument=new OrderTransportInfoLineDocument();
-orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
-  showDialogEnlevementBl: boolean;
-  showDialogEnlevementFacture: boolean;
-  showDialogLivraisonBl: boolean;
-  showDialogLivraisonFacture: boolean;
+  selectedOrderTransportInfoLineDocument: OrderTransportInfoLineDocument =
+    new OrderTransportInfoLineDocument();
+  orderTransportInfoLineDocuments: OrderTransportInfoLineDocument[] = [];
+  showDialogEnlevement: boolean;
+  showDialogLivraison: boolean;
   editModeLine: boolean;
-  addressList:Address[]=[];
-  contactList:Contact[]=[];
-  showDialogContact :Boolean =false;
-  showDialogAddress :Boolean=false;
-  weightLivraison :number;
-  numberOfPalletLivraison:number;
-  capacityLivraison:number;
-  isWeightLivraison :Boolean;
-  isNumberOfPalletLivraison:Boolean;
-  isCapacityLivraison:Boolean;
+  addressList: Address[] = [];
+  contactList: Contact[] = [];
+  showDialogContact: Boolean = false;
+  showDialogAddress: Boolean = false;
+  weightLivraison: number;
+  numberOfPalletLivraison: number;
+  capacityLivraison: number;
+  isWeightLivraison: Boolean;
+  isNumberOfPalletLivraison: Boolean;
+  isCapacityLivraison: Boolean;
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     private accountService: AccountService,
@@ -90,24 +97,23 @@ orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
     private turnStatusService: TurnStatusService,
     private paymentTypeService: PaymentTypeService,
     private addressService: AddressService,
-    private contactService:ContactService,
-    private toastr :ToastrService,
+    private contactService: ContactService,
+    private toastr: ToastrService,
 
-    private orderTransportInfoLineDocumentService:OrderTransportInfoLineDocumentService
+    private orderTransportInfoLineDocumentService: OrderTransportInfoLineDocumentService
   ) {}
 
   ngOnInit() {
     //this.displayDialog = false;
-console.log(".......");
+    console.log(".......");
 
     this.selectedOrderTransportInfoLine.account;
     this.initForm();
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
-   // this.selectedAccount = this.selectedOrderTransport.account;
-    this.lines =this.orderTransportService.getLinesAller();
-
+    // this.selectedAccount = this.selectedOrderTransport.account;
+    this.lines = this.orderTransportService.getLinesAller();
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
@@ -117,51 +123,55 @@ console.log(".......");
       this.paymentTypeList = data;
       // this.selectedOrderTransportInfoLine.paymentTypeEnlevement=this.paymentTypeList.filter(f=>f.id==2)[0];
       // this.selectedOrderTransportInfoLine.paymentTypeLivraison=this.paymentTypeList.filter(f=>f.id==2)[0];
-this.initForm();
+      this.initForm();
       console.log(this.paymentTypeList);
-
     });
     if (this.editMode) {
-      this.selectAddress =
-        this.selectedOrderTransportInfoLine.address;
-        this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
-       // this.selectContact =this.selectedOrderTransportInfoLine.contact;
+      this.selectAddress = this.selectedOrderTransportInfoLine.address;
+      this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
+      // this.selectContact =this.selectedOrderTransportInfoLine.contact;
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
-      this.getOrderTransportInfoLineDocumentEnlevement(this.selectedOrderTransportInfoLine);
+      this.getOrderTransportInfoLineDocumentEnlevement(
+        this.selectedOrderTransportInfoLine
+      );
 
       //this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
-
-
     } else {
-
       console.log(this.selectedOrderTransportTrajetQuantity);
 
-      this.selectedOrderTransportInfoLine.weightEnlevement=0;
+      this.selectedOrderTransportInfoLine.weightEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.numberOfPalletEnlevement=0;
+      this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.capacityEnlevement=0;
+      this.selectedOrderTransportInfoLine.capacityEnlevement = 0;
 
+      this.selectedOrderTransportInfoLine.weightLivraison =
+        this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.weightLivraison;
 
-      this.selectedOrderTransportInfoLine.weightLivraison=this.selectedOrderTransportTrajetQuantity?.weightEnlevement-this.selectedOrderTransportTrajetQuantity?.weightLivraison;
+      this.selectedOrderTransportInfoLine.numberOfPalletLivraison =
+        this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
 
-      this.selectedOrderTransportInfoLine.numberOfPalletLivraison=this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement-this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
+      this.selectedOrderTransportInfoLine.capacityLivraison =
+        this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
 
-      this.selectedOrderTransportInfoLine.capacityLivraison=this.selectedOrderTransportTrajetQuantity?.capacityEnlevement-this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
+      this.weightLivraison =
+        this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.weightLivraison;
 
+      this.numberOfPalletLivraison =
+        this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
 
-    this. weightLivraison=this.selectedOrderTransportTrajetQuantity?.weightEnlevement-this.selectedOrderTransportTrajetQuantity?.weightLivraison;
-
-    this.numberOfPalletLivraison=this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement-this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
-
-    this.capacityLivraison=this.selectedOrderTransportTrajetQuantity?.capacityEnlevement-this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
-
-
-
+      this.capacityLivraison =
+        this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
+        this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
     }
-console.log(this.selectedOrderTransportInfoLine);
+    console.log(this.selectedOrderTransportInfoLine);
 
-   // this.displayDialog = true;
+    // this.displayDialog = true;
     this.initForm();
   }
 
@@ -185,36 +195,19 @@ console.log(this.selectedOrderTransportInfoLine);
           this.selectContact.name,
           Validators.required
         ),
-        deliveryInfoTel1: new FormControl(
-          this.selectContact.tel1
-        ),
-        deliveryInfoEmail: new FormControl(
-          this.selectContact.email
-        ),
+        deliveryInfoTel1: new FormControl(this.selectContact.tel1),
+        deliveryInfoEmail: new FormControl(this.selectContact.email),
 
         deliveryInfoAddressName: new FormControl(
           this.selectAddress,
           Validators.required
         ),
-        deliveryInfoLine1: new FormControl(
-          this.selectAddress.line1
-        ),
-        deliveryInfoCity: new FormControl(
-          this.selectAddress.city
-        ),
-        deliveryInfoZip: new FormControl(
-          this.selectAddress.zip
-        ),
-        deliveryInfoCountry: new FormControl(
-          this.selectAddress.country
-        ),
-        deliveryInfoLatitude: new FormControl(
-          this.selectAddress.latitude
-        ),
-        deliveryInfoLongitude: new FormControl(
-          this.selectAddress.longitude
-        ),
-
+        deliveryInfoLine1: new FormControl(this.selectAddress.line1),
+        deliveryInfoCity: new FormControl(this.selectAddress.city),
+        deliveryInfoZip: new FormControl(this.selectAddress.zip),
+        deliveryInfoCountry: new FormControl(this.selectAddress.country),
+        deliveryInfoLatitude: new FormControl(this.selectAddress.latitude),
+        deliveryInfoLongitude: new FormControl(this.selectAddress.longitude),
       }),
       enlevement: new FormGroup({
         numberOfPallets: new FormControl(
@@ -231,12 +224,7 @@ console.log(this.selectedOrderTransportInfoLine);
         comment: new FormControl(
           this.selectedOrderTransportInfoLine.commentEnlevement
         ),
-        contreBL: new FormControl(
-          this.selectedOrderTransportInfoLine.contreBlEnlevement
-        ),
-        contreFacture: new FormControl(
-          this.selectedOrderTransportInfoLine?.contreFactureEnlevement
-        ),
+
         paymentType: new FormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
         ),
@@ -244,7 +232,7 @@ console.log(this.selectedOrderTransportInfoLine);
           this.selectedOrderTransportInfoLine?.paymentAmountEnlevement
         ),
         date: new FormControl(
-         new Date(this.selectedOrderTransportInfoLine?.dateEnlevement)
+          new Date(this.selectedOrderTransportInfoLine?.dateEnlevement)
         ),
       }),
       livraison: new FormGroup({
@@ -262,12 +250,7 @@ console.log(this.selectedOrderTransportInfoLine);
         comment: new FormControl(
           this.selectedOrderTransportInfoLine.commentLivraison
         ),
-        contreBL: new FormControl(
-          this.selectedOrderTransportInfoLine?.contreBlLivraison
-        ),
-        contreFacture: new FormControl(
-          this.selectedOrderTransportInfoLine?.contreFactureLivraison
-        ),
+
         paymentType: new FormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeLivraison
         ),
@@ -318,11 +301,9 @@ console.log(this.selectedOrderTransportInfoLine);
     }
 
     let formvalue = this.orderTransportInfoLineForm.value;
-  //  this.getValueFromEnlevementForm();
-    this.selectedOrderTransportInfoLine.address =
-    this.selectAddress;
-    this.selectedOrderTransportInfoLine.contact =
-    this.selectContact;
+    //  this.getValueFromEnlevementForm();
+    this.selectedOrderTransportInfoLine.address = this.selectAddress;
+    this.selectedOrderTransportInfoLine.contact = this.selectContact;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;
@@ -354,49 +335,50 @@ console.log(this.selectedOrderTransportInfoLine);
         this.selectedOrderTransportInfoLine.turnStatus = data[0];
       });
     }
-    this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments= this.orderTransportInfoLineDocuments;
+    this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
+      this.orderTransportInfoLineDocuments;
     console.log(this.selectedOrderTransportInfoLine);
 
     this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
     this.onShowDialog();
   }
-  getOrderTransportInfoLineDocumentEnlevement(line:OrderTransportInfoLine){
-  this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
+  getOrderTransportInfoLineDocumentEnlevement(line: OrderTransportInfoLine) {
+    this.orderTransportInfoLineDocuments =
+      this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
 
-console.log(this.orderTransportInfoLineDocuments);
-this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
-this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
+    console.log(this.orderTransportInfoLineDocuments);
+    this.orderTransportInfoLineDocumentEnlevement =
+      this.orderTransportInfoLineDocuments.filter(
+        (f) =>  f.type == 1
+      );
 
-this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
-this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
+    this.orderTransportInfoLineDocumentLivraison =
+      this.orderTransportInfoLineDocuments.filter(
+        (f) => f.type == 2
+      );
 
+    // this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.id+",orderTransportInfoLine.id:"+line.id).subscribe(
+    //   data=>{
+    //       if(data[0]){
+    //           this.orderTransportInfoLineDocuments=data;
+    //       }
+    //     this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
+    //     this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
 
-// this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.id+",orderTransportInfoLine.id:"+line.id).subscribe(
-//   data=>{
-//       if(data[0]){
-//           this.orderTransportInfoLineDocuments=data;
-//       }
-//     this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
-//     this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
+    //     this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
+    //     this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
 
-//     this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
-//     this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
-
-
-//   }
-// );
-
+    //   }
+    // );
   }
-
 
   destroyEnlevement() {
     this.selectedOrderTransportInfoLine.capacityEnlevement = null;
     this.selectedOrderTransportInfoLine.weightEnlevement = null;
     this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = null;
     this.selectedOrderTransportInfoLine.commentEnlevement = null;
-    this.selectedOrderTransportInfoLine.contreBlEnlevement = null;
-    this.selectedOrderTransportInfoLine.contreFactureEnlevement = null;
+
     this.selectedOrderTransportInfoLine.paymentTypeEnlevement = null;
   }
   validateEnlevement() {
@@ -413,20 +395,18 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
       formvalue["enlevement"]["capacity"];
     this.selectedOrderTransportInfoLine.commentEnlevement =
       formvalue["enlevement"]["comment"];
-      this.selectedOrderTransportInfoLine.paymentAmountEnlevement =
+    this.selectedOrderTransportInfoLine.paymentAmountEnlevement =
       formvalue["enlevement"]["paymentAmount"];
 
-      this.selectedOrderTransportInfoLine.dateEnlevement =
+    this.selectedOrderTransportInfoLine.dateEnlevement =
       formvalue["enlevement"]["date"];
-
   }
   destroyLivraison() {
     this.selectedOrderTransportInfoLine.capacityLivraison = null;
     this.selectedOrderTransportInfoLine.weightLivraison = null;
     this.selectedOrderTransportInfoLine.numberOfPalletLivraison = null;
     this.selectedOrderTransportInfoLine.commentLivraison = null;
-    this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
-    this.selectedOrderTransportInfoLine.contreFactureLivraison = null;
+
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = null;
   }
   validateLivraison() {
@@ -444,12 +424,11 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
       formvalue["livraison"]["capacity"];
     this.selectedOrderTransportInfoLine.commentLivraison =
       formvalue["livraison"]["comment"];
-      this.selectedOrderTransportInfoLine.paymentAmountLivraison =
+    this.selectedOrderTransportInfoLine.paymentAmountLivraison =
       formvalue["livraison"]["paymentAmount"];
 
-      this.selectedOrderTransportInfoLine.dateLivraison =
+    this.selectedOrderTransportInfoLine.dateLivraison =
       formvalue["livraison"]["date"];
-
   }
   onSelectorderTransportType(event) {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
@@ -479,52 +458,45 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
     this.showDialog.emit(a);
   }
 
-  onAddressSearch(event){
+  onAddressSearch(event) {
     this.addressService
-    .find('delivery:true,code~' + event.query)
-    .subscribe(data => (this.addressList = data))
+      .find("delivery:true,code~" + event.query)
+      .subscribe((data) => (this.addressList = data));
   }
 
   onSelectAddress(event) {
-    this.selectedOrderTransportInfoLine.address=event;
+    this.selectedOrderTransportInfoLine.address = event;
 
     this.setInfoAddress(event);
-    this.contactService.find('address.id:'+event.id).subscribe(
-      data=>{
-        console.log(data);
+    this.contactService.find("address.id:" + event.id).subscribe((data) => {
+      console.log(data);
 
-        this.contactList=data
-      }
-    );
-     // this.showDialogContactAddress = true;
-
+      this.contactList = data;
+    });
+    // this.showDialogContactAddress = true;
   }
   onSelectContact(event) {
-    this.selectedOrderTransportInfoLine.contact=event.value;
+    this.selectedOrderTransportInfoLine.contact = event.value;
 
     this.setInfoContact(event.value);
-     // this.showDialogContactAddress = true;
-
+    // this.showDialogContactAddress = true;
   }
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
   }
 
   affectedContactAddressInfoSelected(event) {
-
     this.setInfoAddress(event);
   }
 
   setInfoAddress(event) {
     console.log("enleventm set");
     console.log(event);
-    this.selectAddress=event;
+    this.selectAddress = event;
     console.log("addrs");
-   console.log( this.selectAddress);
-
+    console.log(this.selectAddress);
 
     this.orderTransportInfoLineForm.controls["general"].patchValue({
-
       deliveryInfoAddressName: event,
 
       deliveryInfoLine1: event.line1,
@@ -540,210 +512,138 @@ this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineD
   setInfoContact(event) {
     console.log("enleventm set");
     console.log(event);
-    this.selectContact=event;
+    this.selectContact = event;
     this.orderTransportInfoLineForm.controls["general"].patchValue({
       deliveryInfoName: event,
       deliveryInfoTel1: event.tel1,
       deliveryInfoEmail: event.email,
       // deliveryInfoAccount: event.account,
-
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
-  }
-
-
-
-  onChangeCBLEnlevement(event) {
-    this.selectedOrderTransportInfoLine.contreBlEnlevement = event.checked;
-    console.log(this.selectedOrderTransportInfoLine.contreBlEnlevement);
-  }
-  onChangeCBLLivraison(event) {
-    this.selectedOrderTransportInfoLine.contreBlLivraison = event.checked;
-    console.log(this.selectedOrderTransportInfoLine.contreBlLivraison);
-  }
-  onChangeCFEnlevement(event) {
-    this.selectedOrderTransportInfoLine.contreFactureEnlevement = event.checked;
-    console.log(this.selectedOrderTransportInfoLine.contreFactureEnlevement);
-  }
-  onChangeCFLivraison(event) {
-    this.selectedOrderTransportInfoLine.contreFactureLivraison = event.checked;
-    console.log(this.selectedOrderTransportInfoLine.contreFactureLivraison);
   }
 
   ngOnDestroy() {
     this.subscrubtion.unsubscribe();
   }
 
-  onShowDialogLine(line, mode,trajetType:number,contreType:string) {
-
-
-
-
-    if(trajetType==1 && contreType=="BL"){
-      this.showDialogEnlevementBl = true;
-    }
-    else if(trajetType==1 && contreType=="FACTURE"){
-      this.showDialogEnlevementFacture = true;
-    }
-    else if(trajetType==2 && contreType=="BL"){
-      this.showDialogLivraisonBl = true;
-    }
-    else if(trajetType==2 && contreType=="FACTURE"){
-      this.showDialogLivraisonFacture = true;
-    }
-
-console.log(mode);
-
+  onShowDialogLine(line, mode, trajetType: number) {
     if (mode == true) {
       this.selectedOrderTransportInfoLineDocument = line;
       this.editModeLine = true;
-
     } else {
       this.editModeLine = false;
-
+    }
+    if (trajetType == 1) {
+      this.showDialogEnlevement = true;
+      this.showDialogLivraison = false;
+    } else if (trajetType == 2) {
+      this.showDialogLivraison = true;
+      this.showDialogEnlevement = false;
     }
 
+    console.log(mode);
   }
   onHideDialogLine(event) {
-
-    this.showDialogEnlevementBl = event;
-    this.showDialogEnlevementFacture = event;
+    this.showDialogEnlevement = event;
+    this.showDialogLivraison = event;
 
   }
 
-  onLineEditedDocumentEnlevementBL(line :OrderTransportInfoLineDocument){
-    console.log("EnlBl");
+  onLineEditedDocumentEnlevement(line: OrderTransportInfoLineDocument) {
+    console.log("Enl");
 
-    this.orderTransportInfoLineDocumentEnlevementBL = this.orderTransportInfoLineDocumentEnlevementBL.filter(
-      (l) => l.numero !== line.numero
-    );
-    line.contreType="BL";
-    line.type=1;
+    this.orderTransportInfoLineDocumentEnlevement =
+      this.orderTransportInfoLineDocumentEnlevement.filter(
+        (l) => l.numero !== line.numero
+      );
+    line.type = 1;
     this.onLineEditedDocument(line);
 
-    this.orderTransportInfoLineDocumentEnlevementBL.push(line);
+    this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
 
-  onLineEditedDocumentEnlevementFacture(line :OrderTransportInfoLineDocument){
-    console.log("enlvFacture");
+  onLineEditedDocumentLivraison(line: OrderTransportInfoLineDocument) {
+    console.log("liv");
 
-    this.orderTransportInfoLineDocumentEnlevementFacture = this.orderTransportInfoLineDocumentEnlevementFacture.filter(
-      (l) => l.numero !== line.numero
-    );
-    line.contreType="FACTURE";
-    line.type=1;
+    this.orderTransportInfoLineDocumentLivraison =
+      this.orderTransportInfoLineDocumentLivraison.filter(
+        (l) => l.numero !== line.numero
+      );
+    line.type = 2;
     this.onLineEditedDocument(line);
 
-    this.orderTransportInfoLineDocumentEnlevementFacture.push(line);
+    this.orderTransportInfoLineDocumentLivraison.push(line);
   }
 
-  onLineEditedDocumentLivraisonBL(line :OrderTransportInfoLineDocument){
-    console.log("livBl");
-
-    this.orderTransportInfoLineDocumentLivraisonBL = this.orderTransportInfoLineDocumentLivraisonBL.filter(
-      (l) => l.numero !== line.numero
-    );
-    line.contreType="BL";
-    line.type=2;
-    this.onLineEditedDocument(line);
-
-    this.orderTransportInfoLineDocumentLivraisonBL.push(line);
-  }
-
-  onLineEditedDocumentLivraisonFacture(line :OrderTransportInfoLineDocument){
-    console.log("livFacture");
-
-    this.orderTransportInfoLineDocumentLivraisonFacture = this.orderTransportInfoLineDocumentLivraisonFacture.filter(
-      (l) => l.numero !== line.numero
-    );
-    line.contreType="FACTURE";
-    line.type=2;
-    this.onLineEditedDocument(line);
-    this.orderTransportInfoLineDocumentLivraisonFacture.push(line);
-  }
-
-  onLineEditedDocument(line :OrderTransportInfoLineDocument){
+  onLineEditedDocument(line: OrderTransportInfoLineDocument) {
     console.log("LineEditDocument");
 
-    this.orderTransportInfoLineDocuments = this.orderTransportInfoLineDocuments.filter(
-      (l) => (l.numero !== line.numero)
-    );
-
-    this.orderTransportInfoLineDocuments.push(line);
-  }
-
-  onShowdialogAddress(){
-    this.showDialogAddress=true
-  }
-  onHideDialogAddress(event){
-    this.showDialogAddress = event;
-
-  }
-  onLineEditedAddress(line: Address) {
-
-    this.setInfoAddress(line);
-        console.log(line);
-     }
-
-     onLineEditedContact(contact:Contact){
-      this.contactService.find('address.id:'+this.selectAddress.id).subscribe(
-        data=>{
-          console.log(data);
-
-          this.contactList=data ;
-          this.setInfoContact(contact);
-        }
+    this.orderTransportInfoLineDocuments =
+      this.orderTransportInfoLineDocuments.filter(
+        (l) => l.numero !== line.numero
       );
 
+    this.orderTransportInfoLineDocuments.push(line);
+    console.log( this.orderTransportInfoLineDocuments);
 
-     }
-  onShowdialogContact(){
-    console.log(this.selectAddress);
-
-    if(this.selectAddress.code !=null){
-    this.showDialogContact=true
-
-    }else {
-      this.toastr.info('sélectionné l adress', 'Info');
-
-    }
   }
 
+  onShowdialogAddress() {
+    this.showDialogAddress = true;
+  }
+  onHideDialogAddress(event) {
+    this.showDialogAddress = event;
+  }
+  onLineEditedAddress(line: Address) {
+    this.setInfoAddress(line);
+    console.log(line);
+  }
 
+  onLineEditedContact(contact: Contact) {
+    this.contactService
+      .find("address.id:" + this.selectAddress.id)
+      .subscribe((data) => {
+        console.log(data);
+
+        this.contactList = data;
+        this.setInfoContact(contact);
+      });
+  }
+  onShowdialogContact() {
+    console.log(this.selectAddress);
+
+    if (this.selectAddress.code != null) {
+      this.showDialogContact = true;
+    } else {
+      this.toastr.info("sélectionné l adress", "Info");
+    }
+  }
 
   onHideDialogContact(event) {
     this.showDialogContact = event;
   }
 
-  validateNumberOfPalletsLivraison(event){
-    if(  event.value > this.numberOfPalletLivraison){
-      this.isNumberOfPalletLivraison=true;
-    }else{
-      this.isNumberOfPalletLivraison=false;
-
+  validateNumberOfPalletsLivraison(event) {
+    if (event.value > this.numberOfPalletLivraison) {
+      this.isNumberOfPalletLivraison = true;
+    } else {
+      this.isNumberOfPalletLivraison = false;
     }
-
   }
 
-  validateWeightLivraison(event){
-    if(  event.value > this.weightLivraison){
-      this.isWeightLivraison=true;
-    }else{
-      this.isWeightLivraison=false;
-
+  validateWeightLivraison(event) {
+    if (event.value > this.weightLivraison) {
+      this.isWeightLivraison = true;
+    } else {
+      this.isWeightLivraison = false;
     }
-
   }
 
-  validateCapacityLivraison(event){
-    if(  event.value > this.capacityLivraison){
-      this.isCapacityLivraison=true;
-    }else{
-      this.isCapacityLivraison=false;
-
+  validateCapacityLivraison(event) {
+    if (event.value > this.capacityLivraison) {
+      this.isCapacityLivraison = true;
+    } else {
+      this.isCapacityLivraison = false;
     }
-
   }
-
-
 }

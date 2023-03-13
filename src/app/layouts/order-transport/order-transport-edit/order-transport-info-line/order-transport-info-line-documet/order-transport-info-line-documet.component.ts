@@ -1,3 +1,5 @@
+import { OrderTransportDocumentType } from './../../../../../shared/models/order-transport-document-type';
+import { OrderTransportDocumentTypeService } from './../../../../../shared/services/api/order-transport-document-type.service';
 import { log } from 'console';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { RoundPipe } from 'ngx-pipes';
@@ -20,21 +22,26 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier';
   lineForm: FormGroup;
-
+ orderTransportDocumentTypeList : OrderTransportDocumentType[]=[];
 
   constructor(
     private formBuilder: FormBuilder,
-
+  private orderTransportDocumentTypeService : OrderTransportDocumentTypeService,
 
     private authentificationService:AuthenticationService,
 
   ) { }
 
   ngOnInit() {
+ console.log("ddddd");
 
     this.title = 'Ajouter';
     this.displayDialog = true;
-
+  this.orderTransportDocumentTypeService.findAll().subscribe(
+    data=>{
+   this.orderTransportDocumentTypeList=data;
+    }
+  );
 
     if (!this.editMode) {
       this.selectedOrderTransportInfoLineDocument = new OrderTransportInfoLineDocument();
@@ -55,6 +62,8 @@ console.log(this.selectedOrderTransportInfoLineDocument);
   initForm() {
     this.lineForm = new FormGroup({
       'numero': new FormControl(this.selectedOrderTransportInfoLineDocument.numero, Validators.required),
+      'documentType': new FormControl(this.selectedOrderTransportInfoLineDocument.numero, Validators.required),
+
     });
   }
 
@@ -72,7 +81,10 @@ console.log(this.selectedOrderTransportInfoLineDocument);
   }
 
 
+  onSelectorderTransportDocumentType(event){
 
+    this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType=event.value
+  }
 
 
 

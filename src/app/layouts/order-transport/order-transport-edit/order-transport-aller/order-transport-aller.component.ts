@@ -116,6 +116,7 @@ export class OrderTransportAllerComponent implements OnInit {
           }
         );
         }
+        this.onShowDialogOrderTransportInfoLine(null,false);
     this.initForm();
     console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
@@ -357,7 +358,7 @@ console.log(">0");
   }
 
   onShowDialogOrderTransportInfoLine(line, mode) {
-    this.showDialogOrderTransportInfoLine = false;
+    this.showDialogOrderTransportInfoLine = null;
 
      if(line!=null){
        this.getTrajetQuantity();
@@ -367,6 +368,7 @@ console.log(">0");
 
     if (mode == true) {
       console.log("modifier");
+      this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
       this.selectOrderTransportInfoLine = line;
       this.editModeOrderTransportInfoLine = true;
     } else {

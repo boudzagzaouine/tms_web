@@ -1,3 +1,4 @@
+import { OrderTransportDocumentType } from './order-transport-document-type';
 import { OrderTransportInfoLine } from './order-transport-info-line';
 import { Account } from './account';
 import { PaymentType } from './payment-method';
@@ -13,6 +14,7 @@ export class OrderTransportInfoLineDocument {
    contreType :string ; // BL ou FACTURE
    type:number ; // 1 Enlevement . 2 Livraison . 3 Enlevement/Livraison
    numero:string="";
+   orderTransportDocumentType: OrderTransportDocumentType;
    file:any;
 	  fileType:string;
 	  fileName :string;

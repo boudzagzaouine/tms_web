@@ -1,3 +1,4 @@
+import { OrderTransportDocumentTypeService } from './services/api/order-transport-document-type.service';
 import { AccountPricingServiceService } from './services/api/account-pricing-service.service';
 import { CompanyImportService } from './services/api/company-import.service';
 import { OrderTransportInfoLineDocumentService } from './services/api/order-transport-info-line-documet.service';
@@ -377,7 +378,8 @@ export class SharedModule {
         TransportPlanLocationService,
         AgencyService,
         OrderTransportInfoLineDocumentService,
-        CompanyImportService
+        CompanyImportService,
+        OrderTransportDocumentTypeService
       ],
 
     };

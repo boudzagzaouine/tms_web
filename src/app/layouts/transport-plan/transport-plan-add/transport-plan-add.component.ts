@@ -95,7 +95,7 @@ export class TransportPlanAddComponent implements OnInit {
   sortMargeService: any;
   sortMargeValue: any;
   test: 4.5;
-
+ purchasePrice : number ;
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
@@ -168,6 +168,7 @@ export class TransportPlanAddComponent implements OnInit {
       transport: new FormControl(this.selectedTransportPlan?.transport?.name),
       salePrice: new FormControl(this.selectedTransportPlan.salePrice),
       purchasePrice: new FormControl(this.selectedTransportPlan.purchasePrice),
+      purchasePriceNegotiated: new FormControl(this.selectedTransportPlan.purchasePriceNegotiated),
       date: new FormControl(new Date(this.selectedTransportPlan.dateDepart)),
     });
   }
@@ -393,12 +394,13 @@ export class TransportPlanAddComponent implements OnInit {
         (data) => {
           if (data > 0) {
             let purchase = data;
+            element.transport.purchaseAmount=purchase;
             let sale = this.catalogPricing.saleAmountHt;
             element.marginRate = ((sale - purchase) / purchase) * 100;
           } else {
             let purchase = element.purchaseAmountHt;
+            element.transport.purchaseAmount=purchase;
             let sale = this.catalogPricing.saleAmountHt;
-
             element.marginRate = ((sale - purchase) / purchase) * 100;
           }
         }
@@ -549,6 +551,9 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectedTransportPlan.vehicleCategory =
       this.selectOrderTransport.vehicleCategory;
     this.selectedTransportPlan.transport = this.selectedTransport.transport;
+
+    this.selectedTransportPlan.purchasePrice = this.selectedTransport.transport.purchaseAmount;
+
     if (this.selectedTransportPlan.transport.interneOrExterne == true) {
       this.isInterOrPrestataire = true;
       this.showDialogVehicle = true;
@@ -583,12 +588,15 @@ export class TransportPlanAddComponent implements OnInit {
 
     this.selectedTransportPlan.account = this.selectOrderTransport.account;
 
-    this.selectedTransportPlan.purchasePrice =
-      this.selectedTransport.purchaseAmountHt;
+    // this.selectedTransportPlan.purchasePrice =
+    //   this.selectedTransport.purchaseAmountHt;
+
+    this.selectedTransportPlan.purchasePriceNegotiated =formValue['purchasePriceNegotiated'];
     this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
     this.selectedTransportPlan.totalPriceHT = this.selectOrderTransport.priceHT;
     this.selectedTransportPlan.totalPriceTTC = this.selectOrderTransport.priceTTC;
     this.selectedTransportPlan.totalPriceVat = this.selectOrderTransport.priceVat;
+
 
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
     this.selectedTransportPlan.margineService =

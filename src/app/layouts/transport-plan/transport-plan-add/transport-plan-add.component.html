@@ -382,7 +382,31 @@
           </p-calendar>
         </div>
       </div>
-
+      <div class="row m-2 mt-3 justify-content-around divRowInfo">
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold">{{ "Tarif Achat" | translate }} *</label>
+          <br />
+          <input
+            formControlName="purchasePrice"
+            [attr.disabled]="'true'"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+        <div class="form-group col-md-3 divLineInfo">
+          <label class="font-weight-bold">{{ "Tarif Négocié" | translate }} *</label>
+          <br />
+          <input
+            formControlName="purchasePriceNegotiated"
+            type="text"
+            class="form-control"
+            pInputText
+          />
+        </div>
+        <div class="form-group col-md-6 divLineInfo">
+</div>
+    </div>
       <div
         class="row m-2 mt-3 justify-content-around divRowInfo"
         *ngIf="isInterOrPrestataire == true"

@@ -28,6 +28,8 @@ export class Transport {
 
   interneOrExterne:Boolean=false;
 
+  purchaseAmount:number;
+
   factureTransport:Boolean=false;
   factureService:Boolean=false;
 

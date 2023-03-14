@@ -30,6 +30,7 @@ export class TransportPlan {
   turnStatus :TurnStatus;
   salePrice :number;
   purchasePrice :number;
+  purchasePriceNegotiated :number ;
   dateDepart: Date = new Date();
   dateValidate: Date = new Date();
   // villeSource :Ville;

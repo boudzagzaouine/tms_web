@@ -42,14 +42,13 @@ import { Address } from "./../../../../shared/models";
 })
 export class OrderTransportInfoLineComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
-  @Input() selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
+  selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
   @Input() displayDialog: boolean = false;
 
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
     new EventEmitter<OrderTransportInfoLine>();
-  selectedOrderTransport: OrderTransport = new OrderTransport();
   orderTransportInfoLineForm: FormGroup;
   selectAddress: Address = new Address();
   selectContact: Contact = new Contact();
@@ -59,20 +58,17 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   title = " Trajet";
   subscrubtion = new Subscription();
-  //accountList: Account[] = [];
   selectedAccount: Account = new Account();
   showDialogContactAddress: Boolean = false;
-  //selectedAccount: Account = new Account();
-
   lines: OrderTransportInfoLine[] = [];
+  Infolines: OrderTransportInfoLine[] = [];
+
   turnStatus: TurnStatus = new TurnStatus();
   paymentTypeList: PaymentType[] = [];
   orderTransportInfoLineDocumentEnlevement: OrderTransportInfoLineDocument[] =
     [];
-
   orderTransportInfoLineDocumentLivraison: OrderTransportInfoLineDocument[] =
     [];
-
   selectedOrderTransportInfoLineDocument: OrderTransportInfoLineDocument =
     new OrderTransportInfoLineDocument();
   orderTransportInfoLineDocuments: OrderTransportInfoLineDocument[] = [];
@@ -89,9 +85,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
   isWeightLivraison: Boolean;
   isNumberOfPalletLivraison: Boolean;
   isCapacityLivraison: Boolean;
+
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
-    private accountService: AccountService,
     public orderTransportService: OrderTransportService,
     private messageService: MessageService,
     private turnStatusService: TurnStatusService,
@@ -100,20 +96,16 @@ export class OrderTransportInfoLineComponent implements OnInit {
     private contactService: ContactService,
     private toastr: ToastrService,
 
-    private orderTransportInfoLineDocumentService: OrderTransportInfoLineDocumentService
   ) {}
 
   ngOnInit() {
-    //this.displayDialog = false;
-    console.log(".......");
+    console.log(this.selectedOrderTransportInfoLine.lineNumber);
 
+    //this.displayDialog = false;
     this.selectedOrderTransportInfoLine.account;
     this.initForm();
-    this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
-      ? this.orderTransportService.getOrderTransport()
-      : new OrderTransport();
-    // this.selectedAccount = this.selectedOrderTransport.account;
-    this.lines = this.orderTransportService.getLinesAller();
+
+   // this.lines = this.orderTransportService.getLinesAller();
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
@@ -121,53 +113,27 @@ export class OrderTransportInfoLineComponent implements OnInit {
     });
     this.paymentTypeService.findAll().subscribe((data) => {
       this.paymentTypeList = data;
-      // this.selectedOrderTransportInfoLine.paymentTypeEnlevement=this.paymentTypeList.filter(f=>f.id==2)[0];
-      // this.selectedOrderTransportInfoLine.paymentTypeLivraison=this.paymentTypeList.filter(f=>f.id==2)[0];
       this.initForm();
       console.log(this.paymentTypeList);
     });
+    this.getTrajetQuantity();
     if (this.editMode) {
       this.selectAddress = this.selectedOrderTransportInfoLine.address;
       this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
-      // this.selectContact =this.selectedOrderTransportInfoLine.contact;
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
       this.getOrderTransportInfoLineDocumentEnlevement(
         this.selectedOrderTransportInfoLine
       );
 
-      //this.orderTransportInfoLineDocuments=this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments;
     } else {
       console.log(this.selectedOrderTransportTrajetQuantity);
+      // this.selectedOrderTransportInfoLine.weightEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.weightEnlevement = 0;
+      // this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.numberOfPalletEnlevement = 0;
+      // this.selectedOrderTransportInfoLine.capacityEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.capacityEnlevement = 0;
 
-      this.selectedOrderTransportInfoLine.weightLivraison =
-        this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.weightLivraison;
-
-      this.selectedOrderTransportInfoLine.numberOfPalletLivraison =
-        this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
-
-      this.selectedOrderTransportInfoLine.capacityLivraison =
-        this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
-
-      this.weightLivraison =
-        this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.weightLivraison;
-
-      this.numberOfPalletLivraison =
-        this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
-
-      this.capacityLivraison =
-        this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
-        this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
     }
     console.log(this.selectedOrderTransportInfoLine);
 
@@ -187,10 +153,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.orderTransportType,
           Validators.required
         ),
-        // account: new FormControl(
-        //   this.selectedOrderTransportInfoLine.account,
-        //   Validators.required
-        // ),
+
         deliveryInfoName: new FormControl(
           this.selectContact.name,
           Validators.required
@@ -264,34 +227,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
     });
   }
 
-  // getValueFromEnlevementForm() {
-  //   let formvalue = this.orderTransportInfoLineForm.value;
-  //   this.selectContact.name = formvalue["general"][
-  //     "deliveryInfoName"
-  //   ].name
-  //     ? formvalue["general"]["deliveryInfoName"].name
-  //     : formvalue["general"]["deliveryInfoName"];
-  //   this.selectContact.tel1 =
-  //     formvalue["general"]["deliveryInfoTel1"];
-  //   this.selectContact.email =
-  //     formvalue["general"]["deliveryInfoEmail"];
-  //   // this.selectContact.account =
-  //   //   formvalue["general"]["deliveryInfoAccount"];
-  //   this.selectAddress.line1 =
-  //     formvalue["general"]["deliveryInfoLine1"];
-  //   this.selectAddress.city =
-  //     formvalue["general"]["deliveryInfoCity"];
-  //   this.selectAddress.zip =
-  //     formvalue["general"]["deliveryInfoZip"];
-  //   this.selectAddress.country =
-  //     formvalue["general"]["deliveryInfoCountry"];
-  //   // this.selectAddress.date =
-  //   //   formvalue["general"]["deliveryInfoDate"];
-  //   this.selectAddress.latitude =
-  //     formvalue["general"]["deliveryInfoLatitude"];
-  //   this.selectAddress.longitude =
-  //     formvalue["general"]["deliveryInfoLongitude"];
-  // }
 
   onSubmit() {
     this.isFormSubmitted = true;
@@ -301,7 +236,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
     }
 
     let formvalue = this.orderTransportInfoLineForm.value;
-    //  this.getValueFromEnlevementForm();
     this.selectedOrderTransportInfoLine.address = this.selectAddress;
     this.selectedOrderTransportInfoLine.contact = this.selectContact;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
@@ -338,10 +272,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments;
     console.log(this.selectedOrderTransportInfoLine);
-
-    this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
+      this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
     this.onShowDialog();
+
   }
   getOrderTransportInfoLineDocumentEnlevement(line: OrderTransportInfoLine) {
     this.orderTransportInfoLineDocuments =
@@ -358,19 +292,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
         (f) => f.type == 2
       );
 
-    // this.orderTransportInfoLineDocumentService.find("type:"+line.orderTransportType.id+",orderTransportInfoLine.id:"+line.id).subscribe(
-    //   data=>{
-    //       if(data[0]){
-    //           this.orderTransportInfoLineDocuments=data;
-    //       }
-    //     this.orderTransportInfoLineDocumentEnlevementBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==1);
-    //     this.orderTransportInfoLineDocumentEnlevementFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==1);
 
-    //     this.orderTransportInfoLineDocumentLivraisonBL=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="BL" && f.type==2);
-    //     this.orderTransportInfoLineDocumentLivraisonFacture=this.orderTransportInfoLineDocuments.filter(f=> f.contreType=="FACTURE" && f.type==2);
+  }
+  getquantityLivraison(){
 
-    //   }
-    // );
   }
 
   destroyEnlevement() {
@@ -440,18 +365,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   onSelectPaymentTypeLivraison(event) {
     this.selectedOrderTransportInfoLine.paymentTypeLivraison = event.value;
   }
-  // onSelectAccount(event) {
-  //   this.selectedOrderTransportInfoLine.account = event;
-  //   this.selectedAccount = event;
-  // }
 
-  // onAccountSearch(event) {
-  //   console.log(this.selectedAccount);
-  //   // account.id:'+this.selectedAccount.id+',
-  //   this.accountService
-  //     .find("name~" + event.query)
-  //     .subscribe((data) => (this.accountList = data));
-  // }
 
   onShowDialog() {
     let a = false;
@@ -473,13 +387,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
       this.contactList = data;
     });
-    // this.showDialogContactAddress = true;
   }
   onSelectContact(event) {
     this.selectedOrderTransportInfoLine.contact = event.value;
 
     this.setInfoContact(event.value);
-    // this.showDialogContactAddress = true;
   }
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
@@ -508,6 +420,51 @@ export class OrderTransportInfoLineComponent implements OnInit {
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
+  getTrajetQuantity(){
+    this.selectedOrderTransportTrajetQuantity=new OrderTransportTrajetQuantity();
+    this.lines=this.orderTransportService.getLinesAller();
+if(this.selectedOrderTransportInfoLine.lineNumber != undefined && this.selectedOrderTransportInfoLine!= null){
+  this.lines=this.orderTransportService.getLinesAller().filter(f=> f.lineNumber<this.selectedOrderTransportInfoLine.lineNumber);
+}
+if(this.lines.length>0){
+    this.lines.forEach(ot => {
+      if(ot.orderTransportType.id==1 || ot.orderTransportType.id==3){
+                this.selectedOrderTransportTrajetQuantity.weightEnlevement += ot.weightEnlevement;
+        this.selectedOrderTransportTrajetQuantity.numberOfPalletEnlevement += ot.numberOfPalletEnlevement;
+        this.selectedOrderTransportTrajetQuantity.capacityEnlevement += ot.capacityEnlevement;
+    }else if (ot.orderTransportType.id==2 || ot.orderTransportType.id==3){
+        this.selectedOrderTransportTrajetQuantity.weightLivraison += ot.weightLivraison;
+        this.selectedOrderTransportTrajetQuantity.numberOfPalletLivraison += ot.numberOfPalletLivraison;
+        this.selectedOrderTransportTrajetQuantity.capacityLivraison += ot.capacityLivraison;
+    }
+    });
+
+  //   this.selectedOrderTransportInfoLine.weightLivraison =
+  //   this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
+  //   this.selectedOrderTransportTrajetQuantity?.weightLivraison;
+
+  // this.selectedOrderTransportInfoLine.numberOfPalletLivraison =
+  //   this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
+  //   this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
+
+  // this.selectedOrderTransportInfoLine.capacityLivraison =
+  //   this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
+  //   this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
+
+  this.weightLivraison =
+    this.selectedOrderTransportTrajetQuantity?.weightEnlevement -
+    this.selectedOrderTransportTrajetQuantity?.weightLivraison;
+
+  this.numberOfPalletLivraison =
+    this.selectedOrderTransportTrajetQuantity?.numberOfPalletEnlevement -
+    this.selectedOrderTransportTrajetQuantity?.numberOfPalletLivraison;
+
+  this.capacityLivraison =
+    this.selectedOrderTransportTrajetQuantity?.capacityEnlevement -
+    this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
+  }
+
+  }
 
   setInfoContact(event) {
     console.log("enleventm set");
@@ -517,7 +474,6 @@ export class OrderTransportInfoLineComponent implements OnInit {
       deliveryInfoName: event,
       deliveryInfoTel1: event.tel1,
       deliveryInfoEmail: event.email,
-      // deliveryInfoAccount: event.account,
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
@@ -624,6 +580,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
   }
 
   validateNumberOfPalletsLivraison(event) {
+    console.log(event.value);
+  console.log(this.numberOfPalletLivraison);
+
     if (event.value > this.numberOfPalletLivraison) {
       this.isNumberOfPalletLivraison = true;
     } else {

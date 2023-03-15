@@ -6,43 +6,51 @@
   <div class="row  mt-1 ">
     <div class="col-md-2">
       <label class="font-weight-bold">
-        Code</label><br />
+        Prestataire</label><br />
         <p-autoComplete
         [(ngModel)]="codeSearch"
-        [suggestions]="OrderTransportCodeList"
-        (completeMethod)="onOrderTransportSearch($event)"
-        field="code"
+        [suggestions]="transportList"
+        (completeMethod)="onTransportSearch($event)"
+        field="name"
       ></p-autoComplete>
     </div>
-
-
     <div class="col-md-2">
-      <label class="font-weight-bold">{{ "Type " | translate }}</label
-      ><br />
-      <p-dropdown
-        [options]="turnTypeList"
+      <label class="font-weight-bold">
+        Société</label><br />
+        <p-autoComplete
+        [(ngModel)]="companySearch"
+        [suggestions]="companyList"
+        (completeMethod)="onCompanySearch($event)"
+        field="name"
+      ></p-autoComplete>
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">
+        Catégotie</label><br />
+        <p-dropdown
+        [options]="categoryList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="turnTypeSearch"
+        [(ngModel)]="categorySearch"
         filter="true"
       >
       </p-dropdown>
-
     </div>
 
     <div class="col-md-2">
-      <label class="font-weight-bold">{{ "Type Chargement " | translate }}</label
-      ><br />
-      <p-dropdown
-        [options]="loadingTypeList"
+      <label class="font-weight-bold">
+        Type</label><br />
+        <p-dropdown
+        [options]="rejectTypeList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="loadingTypeSearch"
+        [(ngModel)]="rejectTypeSearch"
         filter="true"
       >
       </p-dropdown>
-
     </div>
+
+
 
     </div>
 
@@ -69,7 +77,7 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="orderTransportList"
+  [objectList]="transportPlanHistoryList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
@@ -78,8 +86,9 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-  [permissionDelete]="['TRANSPORT_ORDER_DELETE']"
-  [permissionEdit]="['TRANSPORT_ORDER_EDIT']"
+  [permissionDelete]="['TRANSPORT_REFUSAL_DELETE']"
+
+
 
 ></app-data-table>
 

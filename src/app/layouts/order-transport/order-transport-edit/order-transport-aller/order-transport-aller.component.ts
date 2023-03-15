@@ -38,7 +38,6 @@ export class OrderTransportAllerComponent implements OnInit {
   map:any;
   mainLayer:any;
   orderTransportInfoForm: FormGroup;
-  selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
   selectOrderTransportTrajetQuantity:OrderTransportTrajetQuantity= new OrderTransportTrajetQuantity();
@@ -85,21 +84,20 @@ export class OrderTransportAllerComponent implements OnInit {
 
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
-      this.selectedOrderTransportInfo.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
+      if(  this.selectedOrderTransportInfo.packagingType==undefined &&   this.selectedOrderTransportInfo.packagingType==null){
+    this.selectedOrderTransportInfo.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
        this.initForm();
+      }
+
     });
 
-    this.containerTypeService.findAll().subscribe((data) => {
-      this.containerTypeList = data;
-    });
 
-    this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
-      ? this.orderTransportService.getOrderTransport()
-      : new OrderTransport();
     this.selectedOrderTransportInfo =
       this.orderTransportService.getorderTransportInfoAller()
         ? this.orderTransportService.getorderTransportInfoAller()
         : new OrderTransportInfo();
+
+console.log( this.selectedOrderTransportInfo);
 
     this.packageDetails = this.selectedOrderTransportInfo.packageDetails
       ? this.selectedOrderTransportInfo.packageDetails
@@ -118,11 +116,9 @@ export class OrderTransportAllerComponent implements OnInit {
         }
         this.onShowDialogOrderTransportInfoLine(null,false);
     this.initForm();
-    console.log(this.selectedOrderTransportInfo.trajetUnique);
   }
 
   initForm() {
-    console.log(this.selectedOrderTransportInfo.turnStatus);
 
     this.orderTransportInfoForm = new FormGroup({
       packagingType: new FormControl(
@@ -160,13 +156,15 @@ export class OrderTransportAllerComponent implements OnInit {
     if (this.orderTransportInfoForm.invalid) {
       return;
     }
+    this.getTrajetQuantity();
+
     if(this.orderTransportInfoLines[0] !=null){
 
 console.log(">0");
 
         if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
           this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée'});
-          console.log("Quantité Chargée est inférieure à la quantité Livrée");
+          console.log("Quantité Chargée est supérieure à la quantité Livrée");
 
         }
         else if(this.selectOrderTransportTrajetQuantity.weightEnlevement>this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement>this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement>this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
@@ -175,7 +173,6 @@ console.log(">0");
 
         }
        else {
-        this.getTrajetQuantity();
           this.loadForm();
           this.nextstep.emit(true);
       }
@@ -361,9 +358,9 @@ console.log(">0");
   onShowDialogOrderTransportInfoLine(line, mode) {
     this.showDialogOrderTransportInfoLine = null;
 
-     if(line!=null){
-       this.getTrajetQuantity();
-     }
+    //  if(line!=null){
+    //    this.getTrajetQuantity();
+    //  }
    this.showDialogOrderTransportInfoLine = true;
    console.log(this.showDialogOrderTransportInfoLine);
 
@@ -398,6 +395,7 @@ console.log(">0");
 
   getTrajetQuantity(){
     this.selectOrderTransportTrajetQuantity=new OrderTransportTrajetQuantity();
+    this.orderTransportInfoLines=this.orderTransportService.getLinesAller();
 if(this.orderTransportInfoLines.length>0){
     this.orderTransportInfoLines.forEach(ot => {
       if(ot.orderTransportType.id==1 || ot.orderTransportType.id==3){
@@ -418,34 +416,6 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
   }
   }
 
-  getTrajet(){
-   let size = this.orderTransportInfoLines.length-1;
-      let trajetSource = this.orderTransportInfoLines[0].address?.ville?.code;
-       let trajetDistination = this.orderTransportInfoLines[size].address?.ville?.code;
-
-       console.log(trajetSource+'-'+trajetDistination);
-
-       this.trajetService.find('code~'+trajetSource+'-'+trajetDistination).subscribe(
-        data=>{
-          console.log(data);
-           if(data[0]!=null){
-                this.selectedOrderTransportInfo.trajet=data[0];
-
-          console.log(this.selectedOrderTransportInfo.trajet);
-          this.getTrajetQuantity();
-          this.loadForm();
-          this.nextstep.emit(true);
-           }else{
-            this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Trajet n existe pas '});
-
-           }
-
-
-        }
-       );
-       //console.log(trajetSource +"-----" + trajetDistination);
-
-  }
 
   // fin Line
 

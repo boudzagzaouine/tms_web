@@ -1,3 +1,4 @@
+import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { log } from 'console';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
@@ -54,9 +55,9 @@ export class TransportPlanListComponent implements OnInit {
   TransportPlanExportList: Array<TransportPlan> = [];
   titleList = 'Liste des Plans de Transport';
   subscriptions= new Subscription();
-
+  selectTransportPlanHistory = new TransportPlanHistory();
   items: MenuItem[];
-
+  showDialogReject:Boolean;
   home: MenuItem;
   fileUrl;
 
@@ -216,13 +217,48 @@ console.log(this.selectedTransportPlans);
       this.onDeleteAll();
     }else if(this.editMode === 4){
       this.generateExportInvoiceState();
-    } else {
+    } else if(this.editMode === 5){
+      this.confirmationService.confirm({
+        message: 'Voulez-vous vraiment Annuler Plan Transport ?',
+        accept: () => {
+          this.selectTransportPlanHistory = new TransportPlanHistory();
+          this.selectTransportPlanHistory.orderTransport =
+            this.selectedTransportPlans[0].orderTransport;
+            this.selectTransportPlanHistory.transportPlan=this.selectedTransportPlans[0];
+          this.selectTransportPlanHistory.transport =
+          this.selectedTransportPlans[0].transport;
+          this.selectTransportPlanHistory.vehicleCategory =
+          this.selectedTransportPlans[0].vehicleCategory;
+          this.selectTransportPlanHistory.marginRate =
+          this.selectedTransportPlans[0].marginRate;
+          this.selectTransportPlanHistory.margineService =
+          this.selectedTransportPlans[0].margineService;
+          this.selectTransportPlanHistory.salePrice =
+          this.selectedTransportPlans[0].salePrice;
+
+          this.selectTransportPlanHistory.purchasePrice =
+          this.selectedTransportPlans[0].purchasePrice;
+
+            this.selectTransportPlanHistory.trajet =
+            this.selectedTransportPlans[0]?.trajet;
+
+          this.selectTransportPlanHistory.type = 3;
+          this.showDialogReject = true;
+
+
+        }
+      });
+    }else {
       console.log("modif");
 
       this.showDialog = true;
       this.router.navigate(['/core/transport-plan/edit/', this.selectedTransportPlans[0]?.id]);
     }
 
+  }
+  onShowDialog(event) {
+    this.showDialogReject = event;
+    this.loadData();
   }
 
   public downloadAsPDF() {

@@ -18,13 +18,12 @@ import { Company } from './../../../shared/models/company';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { Component, OnInit } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
-
 @Component({
-  selector: 'app-transport-plan-refus',
-  templateUrl: './transport-plan-refus.component.html',
-  styleUrls: ['./transport-plan-refus.component.css']
+  selector: 'app-transport-plan-list-cancel',
+  templateUrl: './transport-plan-list-cancel.component.html',
+  styleUrls: ['./transport-plan-list-cancel.component.scss']
 })
-export class TransportPlanRefusComponent implements OnInit {
+export class TransportPlanListCancelComponent implements OnInit {
 
   page = 0;
   size = 10;
@@ -46,7 +45,7 @@ export class TransportPlanRefusComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   TransportPlanHistoryExportList: Array<TransportPlanHistory> = [];
-  titleList = 'Liste des Refus';
+  titleList = 'liste des Plan transport annulé';
   subscriptions= new Subscription();
 
   items: MenuItem[];
@@ -114,12 +113,12 @@ this.vehicleCategoryService.findAll().subscribe(
   }
 );
 
-this.orderTransportRejectTypeService.find('type:2').subscribe(
+this.orderTransportRejectTypeService.find('type:3').subscribe(
   data=> {
     this.rejectTypeList=data;
   }
 );
-this.searchQuery = 'type:2';
+
 
   }
 
@@ -159,6 +158,13 @@ this.searchQuery = 'type:2';
 
   }
   loadData(search: string = '') {
+    if(search !=''){
+      search = ',type:3';
+
+    }else {
+      search = 'type:3';
+
+    }
     this.spinner.show();
     this.subscriptions.add(this.transportPlanHistoryService.sizeSearch(search).subscribe(
       data => {
@@ -199,7 +205,7 @@ this.searchQuery = 'type:2';
 
 
     const buffer = new EmsBuffer();
-    buffer.append(`type:${2}`);
+
 
     if (this.transportSearch != null && this.transportSearch !== undefined) {
       buffer.append(`transport.name~${this.transportSearch.name}`);
@@ -243,7 +249,6 @@ this.searchQuery = 'type:2';
    this.categorySearch=null;
    this.rejectTypeSearch=null;
     this.page = 0;
-    this.searchQuery = 'type:2';
     this.loadData(this.searchQuery);
   }
 

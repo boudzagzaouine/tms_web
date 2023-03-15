@@ -1,3 +1,5 @@
+import { OrderTransportCancelComponent } from './order-transport-cancel/order-transport-cancel.component';
+import { OrderTransportAffectedComponent } from './order-transport-affected/order-transport-affected.component';
 import { OrderTransportInfoLineDocumetComponent } from './order-transport-edit/order-transport-info-line/order-transport-info-line-documet/order-transport-info-line-documet.component';
 import { GenerateContactEditComponent } from './order-transport-edit/generate-address-contact/generate-contact-edit/generate-contact-edit.component';
 import { GenerateAddressEditComponent } from './order-transport-edit/generate-address-contact/generate-address-edit/generate-address-edit.component';
@@ -110,7 +112,9 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     OrderTransportItineraryComponent,
     GenerateAddressEditComponent,
     GenerateContactEditComponent,
-    OrderTransportInfoLineDocumetComponent
+    OrderTransportInfoLineDocumetComponent,
+    OrderTransportAffectedComponent,
+    OrderTransportCancelComponent
   ]
 })
 export class OrderTransportModule { }

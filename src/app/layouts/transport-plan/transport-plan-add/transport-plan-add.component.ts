@@ -169,6 +169,8 @@ export class TransportPlanAddComponent implements OnInit {
       salePrice: new FormControl(this.selectedTransportPlan.salePrice),
       purchasePrice: new FormControl(this.selectedTransportPlan.purchasePrice),
       purchasePriceNegotiated: new FormControl(this.selectedTransportPlan.purchasePriceNegotiated),
+      remark: new FormControl(this.selectedTransportPlan.remark),
+
       date: new FormControl(new Date(this.selectedTransportPlan.dateDepart)),
     });
   }
@@ -532,7 +534,13 @@ export class TransportPlanAddComponent implements OnInit {
     ) {
       this.toastr.info("Selectionner Transport", "Info");
     } else {
-      this.generatePlanTransport();
+      this.confirmationService.confirm({
+        message: 'Voulez-vous vraiment affecter?',
+        accept: () => {
+          this.generatePlanTransport();
+        }
+      });
+
     }
   }
 
@@ -666,8 +674,11 @@ export class TransportPlanAddComponent implements OnInit {
       this.toastr.info("Selectionner Transport", "Info");
     } else {
       this.selectTransportPlanHistory = new TransportPlanHistory();
+
       this.selectTransportPlanHistory.orderTransport =
         this.selectOrderTransport;
+        this.selectTransportPlanHistory.account =
+        this.selectOrderTransport.account;
       this.selectTransportPlanHistory.transport =
         this.selectedTransport.transport;
       this.selectTransportPlanHistory.vehicleCategory =

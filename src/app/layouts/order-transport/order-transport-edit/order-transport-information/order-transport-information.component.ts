@@ -1,10 +1,10 @@
-import { ContactService } from './../../../../shared/services/api/contact.service';
-import { Contact } from './../../../../shared/models/contact';
-import { VehicleTray } from './../../../../shared/models/vehicle-tray';
-import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
-import { LoadingTypeService } from './../../../../shared/services/api/loading-type.service';
-import { LoadingType } from './../../../../shared/models/loading-type';
-import { OrderTransportInfoService } from './../../../../shared/services/api/order-transport-info.service';
+import { ContactService } from "./../../../../shared/services/api/contact.service";
+import { Contact } from "./../../../../shared/models/contact";
+import { VehicleTray } from "./../../../../shared/models/vehicle-tray";
+import { VehicleTrayService } from "./../../../../shared/services/api/vehicle-tray.service";
+import { LoadingTypeService } from "./../../../../shared/services/api/loading-type.service";
+import { LoadingType } from "./../../../../shared/models/loading-type";
+import { OrderTransportInfoService } from "./../../../../shared/services/api/order-transport-info.service";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
 import { VehicleCategoryService } from "./../../../../shared/services/api/vehicle-category.service";
 import { TurnStatusService } from "./../../../../shared/services/api/turn-status.service";
@@ -20,7 +20,13 @@ import { TurnType } from "./../../../../shared/models/turn-Type";
 import { MenuItem, ConfirmationService } from "primeng/api";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+} from "@angular/core";
 
 @Component({
   selector: "app-order-transport-information",
@@ -39,79 +45,51 @@ export class OrderTransportInformationComponent implements OnInit {
   turnStatusList: TurnStatus[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
   accountList: Account[] = [];
-  vehicleTrayList:VehicleTray[]=[];
+  vehicleTrayList: VehicleTray[] = [];
   isFormSubmitted = false;
   index: number = 0;
   activeIndex: number = 0;
   home: MenuItem;
   items: MenuItem[];
-  contactList:Contact[]=[];
-  selectedContact:Contact=new Contact();
+  contactList: Contact[] = [];
+  selectedContact: Contact = new Contact();
   constructor(
     private turnTypeService: TurnTypeService,
     public OrderTransportService: OrderTransportService,
-    private loadingTypeService:LoadingTypeService,
+    private loadingTypeService: LoadingTypeService,
     private accountService: AccountService,
-    private vehicleTrayService :VehicleTrayService,
-    private activatedRoute: ActivatedRoute,
+    private vehicleTrayService: VehicleTrayService,
     private turnStatusService: TurnStatusService,
-    private vehicleCategoryService: VehicleCategoryService,
-    private orderTransportInfoService :OrderTransportInfoService,
-    private contactService:ContactService
+    private vehicleCategoryService: VehicleCategoryService
   ) {}
 
   ngOnInit() {
-
- this.load();
-    let id = this.activatedRoute.snapshot.params["id"];
-    if (id) {
-      this.OrderTransportService.findById(id).subscribe((data) => {
-        this.selectedOrderTransport = data;
-        this.selectedContact=this.selectedOrderTransport.contact;
-        this.contactList=this.selectedOrderTransport?.account?.contacts;
-        console.log(this.selectedOrderTransport);
-
-        this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
-          data=>{
-                    this.OrderTransportService.addOrderTransportInfoAller(data[0]);
-
-
-          }
-        );
-        this.OrderTransportService.cloneOrderTransport(
-          this.selectedOrderTransport
-        );
+    this.load();
+    console.log(this.OrderTransportService.getOrderTransportCode());
+    if (
+      this.OrderTransportService.getOrderTransportCode() != null ||
+      this.OrderTransportService.getOrderTransportCode() != undefined
+    ) {
+      this.selectedOrderTransport =
+        this.OrderTransportService.getOrderTransport();
+      this.selectedContact = this.selectedOrderTransport.contact;
+      this.contactList = this.selectedOrderTransport?.account?.contacts;
+      this.initForm();
+    } else {
+      this.OrderTransportService.generateCode().subscribe((data) => {
+        this.selectedOrderTransport.code = data;
+        this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
+          (f) => f.id == 1
+        )[0];
+        this.selectedOrderTransport.turnType = this.turnTypeList.filter(
+          (f) => f.id == 1
+        )[0];
         this.initForm();
       });
       this.initForm();
-    } else {
-      if (
-        this.OrderTransportService.getOrderTransportCode() != null ||
-        this.OrderTransportService.getOrderTransportCode() != undefined
-      ) {
-        this.selectedOrderTransport =
-          this.OrderTransportService.getOrderTransport();
-          this.selectedContact=this.selectedOrderTransport.contact;
-          this.contactList=this.selectedOrderTransport?.account?.contacts;
-        this.initForm();
-      } else {
-        this.OrderTransportService.generateCode().subscribe((data) => {
-          this.selectedOrderTransport.code = data;
-          this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
-            (f) => f.id == 1
-          )[0];
-          this.selectedOrderTransport.turnType = this.turnTypeList.filter(
-            (f) => f.id == 1
-          )[0];
-          this.initForm();
-        });
-        this.initForm();
-      }
     }
+    // }
     this.initForm();
-  }
-  ngOnChanges() {
-    this.selectedOrderTransport =this.OrderTransportService.getOrderTransport();
   }
 
   initForm() {
@@ -126,7 +104,7 @@ export class OrderTransportInformationComponent implements OnInit {
       ),
       loadingType: new FormControl(
         {
-          value: this.selectedOrderTransport.loadingType
+          value: this.selectedOrderTransport.loadingType,
         },
         Validators.required
       ),
@@ -175,15 +153,10 @@ export class OrderTransportInformationComponent implements OnInit {
   }
   onSelectAccount(event: any) {
     this.selectedOrderTransport.account = event;
-
-    this.contactList=this.selectedOrderTransport.account.contacts;
-    console.log( this.contactList);
-
+    this.contactList = this.selectedOrderTransport.account.contacts;
   }
-  onSelectContact(){
-    this.selectedOrderTransport.contact=this.selectedContact;
-    console.log(this.selectedContact);
-
+  onSelectContact() {
+    this.selectedOrderTransport.contact = this.selectedContact;
   }
 
   onSelectStatus(event) {
@@ -203,12 +176,16 @@ export class OrderTransportInformationComponent implements OnInit {
     this.selectedOrderTransport.turnType = event.value ? event.value : event;
     this.turnTypeId.emit(this.selectedOrderTransport.turnType.id);
   }
-  load(){
+  load() {
     this.loadingTypeService.findAll().subscribe((data) => {
       this.loadingTypeList = data;
-      this.selectedOrderTransport.loadingType=this.loadingTypeList[0];
-      this.initForm();
-
+      if (
+        this.selectedOrderTransport.loadingType == null &&
+        this.selectedOrderTransport.loadingType == undefined
+      ) {
+        this.selectedOrderTransport.loadingType = this.loadingTypeList[0];
+        this.initForm();
+      }
     });
     this.turnTypeService.findAll().subscribe((data) => {
       this.turnTypeList = data;
@@ -218,21 +195,27 @@ export class OrderTransportInformationComponent implements OnInit {
     });
     this.vehicleCategoryService.findAll().subscribe((data) => {
       this.vehicleCategoryList = data;
-      console.log(this.vehicleCategoryList);
-
-      this.selectedOrderTransport.vehicleCategory=this.vehicleCategoryList.filter(f=> f.id==1)[0];
-    console.log(this.selectedOrderTransport.vehicleCategory);
-
-      this.initForm();
+      if (
+        this.selectedOrderTransport.vehicleCategory == null &&
+        this.selectedOrderTransport.vehicleCategory == undefined
+      ) {
+        this.selectedOrderTransport.vehicleCategory =
+          this.vehicleCategoryList.filter((f) => f.id == 1)[0];
+        this.initForm();
+      }
     });
 
     this.vehicleTrayService.findAll().subscribe((data) => {
       this.vehicleTrayList = data;
-      this.selectedOrderTransport.vehicleTray=this.vehicleTrayList.filter(f=> f.id==1)[0];
-      this.initForm();
-
-      console.log(this.vehicleTrayList);
-
+      if (
+        this.selectedOrderTransport.vehicleTray == null &&
+        this.selectedOrderTransport.vehicleTray == undefined
+      ) {
+        this.selectedOrderTransport.vehicleTray = this.vehicleTrayList.filter(
+          (f) => f.id == 1
+        )[0];
+        this.initForm();
+      }
     });
   }
 

@@ -103,6 +103,7 @@
   [permissionEdit]="['TRANSPORT_PLAN_EDIT']"
   [permissionCreate]="['TRANSPORT_PLAN_CREATE']"
  [generateInvoiceBtnVisible]="false"
+ [generateCancelPTBtnVisible]="false"
 
 ></app-data-table>
 
@@ -112,6 +113,14 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
 </p-confirmDialog>
 
+
+<div *ngIf="showDialogReject == true">
+  <app-transport-plan-cancel
+    [editMode]="editMode"
+    [selectedTransportPlanHistroy]="selectTransportPlanHistory"
+    (showDialog)="onShowDialog($event)"
+  ></app-transport-plan-cancel>
+</div>
 
  <!-- <div id="pdfTable" #pdfTable
 >

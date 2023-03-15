@@ -69,7 +69,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
    this.spinner.hide();
 
    if (close) {
-     this.router.navigate(['/core/order-transport/list']);
+     this.router.navigate(['/core/order-transport/to-affect']);
    } else {
 
      this.router.navigate(['/core/order-transport/edit']);

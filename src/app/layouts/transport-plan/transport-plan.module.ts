@@ -1,3 +1,5 @@
+import { TransportPlanListCancelComponent } from './transport-plan-list-cancel/transport-plan-list-cancel.component';
+import { TransportPlanCancelComponent } from './transport-plan-list/transport-plan-cancel/transport-plan-cancel.component';
 import { InvoiceTransportPlanComponent } from './invoice-transport-plan/invoice-transport-plan.component';
 import { InvoicePlanTransportComponent } from './../invoice-plan-transport/invoice-plan-transport.component';
 import { NgxPrintModule } from 'ngx-print';
@@ -94,6 +96,6 @@ import {RatingModule} from 'primeng/rating';
      NgxPrintModule,
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent]
 })
 export class TransportPlanModule { }

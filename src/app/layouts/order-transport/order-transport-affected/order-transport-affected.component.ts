@@ -14,13 +14,11 @@ import { OrderTransport } from './../../../shared/models/order-transport';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-order-transport-list',
-  templateUrl: './order-transport-list.component.html',
-  styleUrls: ['./order-transport-list.component.scss']
+  selector: 'app-order-transport-affected',
+  templateUrl: './order-transport-affected.component.html',
+  styleUrls: ['./order-transport-affected.component.css']
 })
-export class OrderTransportListComponent implements OnInit {
-
-
+export class OrderTransportAffectedComponent implements OnInit {
 
   page = 0;
   size = 10;
@@ -135,9 +133,9 @@ export class OrderTransportListComponent implements OnInit {
   }
   loadData(search: string = '') {
     if(search!=''){
-   search +=',turnStatus.id:1';
+   search +=',turnStatus.id:2';
     }else {
-      search +='turnStatus.id:1';
+      search +='turnStatus.id:2';
 
     }
     this.spinner.show();
@@ -187,7 +185,7 @@ export class OrderTransportListComponent implements OnInit {
 
 
   onOrderTransportSearch(event){
-    this.subscriptions.add(this.orderTransportService.find('turnStatus.id:1,code~' + event.query).subscribe(
+    this.subscriptions.add(this.orderTransportService.find('turnStatus.id:2,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
     ));
   }
@@ -251,5 +249,4 @@ export class OrderTransportListComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
 }

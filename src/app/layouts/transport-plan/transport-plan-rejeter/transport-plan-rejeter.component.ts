@@ -89,12 +89,11 @@ export class TransportPlanRejeterComponent implements OnInit {
      // { field: 'date', header: 'Date', type: 'date' },
 
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
-       { field: 'orderTransport', child: 'company',child2:'name', header: 'Société', type: 'object2' },
+      { field: 'account', child:'name', header: 'Compte', type: 'object' },
 
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
-      { field: 'villeSource', child: 'code', header: 'Ville Source', type: 'object' },
-      { field: 'villeDistination', child: 'code', header: 'Ville Destination', type: 'object' },
+      { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
 
       { field: 'purchasePrice', header: 'Prix Achat HT', type: 'number' },
       { field: 'salePrice', header: 'Prix Vente HT', type: 'number' },

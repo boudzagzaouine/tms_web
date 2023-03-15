@@ -5,7 +5,7 @@ import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Router } from '@angular/router';
 import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
-import { CompanyService } from './../../../shared/services/api/company.service';
+import { AccountService } from './../../../shared/services/api/account.service';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,17 +14,16 @@ import { TransportPlanHistoryService } from './../../../shared/services/api/tran
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { TurnStatus } from './../../../shared/models/turn-status';
-import { Company } from './../../../shared/models/company';
+import { Account } from './../../../shared/models/account';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { Component, OnInit } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
-
 @Component({
-  selector: 'app-transport-plan-refus',
-  templateUrl: './transport-plan-refus.component.html',
-  styleUrls: ['./transport-plan-refus.component.css']
+  selector: 'app-order-transport-cancel',
+  templateUrl: './order-transport-cancel.component.html',
+  styleUrls: ['./order-transport-cancel.component.scss']
 })
-export class TransportPlanRefusComponent implements OnInit {
+export class OrderTransportCancelComponent implements OnInit {
 
   page = 0;
   size = 10;
@@ -37,16 +36,16 @@ export class TransportPlanRefusComponent implements OnInit {
   transportSearch:Transport;
   selectedTransportPlanHistorys: Array<TransportPlanHistory> = [];
   transportPlanHistoryList: Array<TransportPlanHistory> = [];
-  companySearch:Company;
+  accountSearch:Account;
   turnStatusSearch: TurnStatus;
   turnStatusList:TurnStatus[]=[];
-  companyList:Company[]=[];
+  accountList:Account[]=[];
   className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
   TransportPlanHistoryExportList: Array<TransportPlanHistory> = [];
-  titleList = 'Liste des Refus';
+  titleList = 'liste des ordres transport annulé';
   subscriptions= new Subscription();
 
   items: MenuItem[];
@@ -64,7 +63,7 @@ export class TransportPlanRefusComponent implements OnInit {
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private transportService:TransportServcie,
-    private companyService:CompanyService,
+    private accountService:AccountService,
     private turnStatusService: TurnStatusService,
     private vehicleCategoryService:VehicleCategoryService,
     private orderTransportRejectTypeService:OrderTransportRejectTypeService,
@@ -74,7 +73,7 @@ export class TransportPlanRefusComponent implements OnInit {
   ngOnInit() {
 
     this.items = [
-      {label: 'Refus'},
+      {label: 'Anuler'},
       {label: 'Lister'},
 
   ];
@@ -90,7 +89,7 @@ export class TransportPlanRefusComponent implements OnInit {
        { field: 'account', child:'name', header: 'Compte', type: 'object' },
 
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
-      { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
+      //{ field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
       { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
       { field: 'purchasePrice', header: 'Prix Achat HT', type: 'number' },
       { field: 'salePrice', header: 'Prix Vente HT', type: 'number' },
@@ -114,12 +113,7 @@ this.vehicleCategoryService.findAll().subscribe(
   }
 );
 
-this.orderTransportRejectTypeService.find('type:2').subscribe(
-  data=> {
-    this.rejectTypeList=data;
-  }
-);
-this.searchQuery = 'type:2';
+
 
   }
 
@@ -159,6 +153,13 @@ this.searchQuery = 'type:2';
 
   }
   loadData(search: string = '') {
+    if(search !=''){
+      search = ',orderTransportRejectType.code~CLIENT,type:3';
+
+    }else {
+      search = 'orderTransportRejectType.code~CLIENT,type:3';
+
+    }
     this.spinner.show();
     this.subscriptions.add(this.transportPlanHistoryService.sizeSearch(search).subscribe(
       data => {
@@ -190,22 +191,21 @@ this.searchQuery = 'type:2';
     ));
   }
 
-  onCompanySearch(event){
-    this.subscriptions.add(this.companyService.find('name~' + event.query).subscribe(
-      data => this.companyList = data
+  onAccountSearch(event){
+    this.subscriptions.add(this.accountService.find('name~' + event.query).subscribe(
+      data => this.accountList = data
     ));
   }
   onSearchClicked() {
 
 
     const buffer = new EmsBuffer();
-    buffer.append(`type:${2}`);
 
     if (this.transportSearch != null && this.transportSearch !== undefined) {
       buffer.append(`transport.name~${this.transportSearch.name}`);
     }
-    if (this.companySearch != null && this.companySearch !== undefined) {
-      buffer.append(`orderTransport.company.name~${this.companySearch.name}`);
+    if (this.accountSearch != null && this.accountSearch !== undefined) {
+      buffer.append(`orderTransport.account.name~${this.accountSearch.name}`);
     }
     if (this.categorySearch != null && this.categorySearch !== undefined) {
       buffer.append(`vehicleCategory.code~${this.categorySearch.code}`);
@@ -238,12 +238,11 @@ this.searchQuery = 'type:2';
   reset() {
     this.codeSearch = null;
    this.transportSearch=null;
-   this.companySearch=null;
+   this.accountSearch=null;
    this.turnStatusSearch=null;
    this.categorySearch=null;
    this.rejectTypeSearch=null;
     this.page = 0;
-    this.searchQuery = 'type:2';
     this.loadData(this.searchQuery);
   }
 

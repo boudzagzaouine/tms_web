@@ -19,7 +19,7 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
   breadcrumbItems: MenuItem[];
   home: MenuItem;
   index: number = 0;
-  activeIndex: number = 0;
+  activeIndex: number = -1;
   items: MenuItem[];
   turnTypeId: number = 0;
   subscriptions= new Subscription ();
@@ -49,10 +49,14 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
       }
    );
        this.subscriptions.add( this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
-        this.showStep(this.selectedOrderTransport.turnType.id);
+console.log("edit");
+   this.activeIndex=0;
+       this.showStep(this.selectedOrderTransport.turnType.id);
       });
 
     } else {
+      this.activeIndex=0;
+
       this.showStep(1);
     }
   }

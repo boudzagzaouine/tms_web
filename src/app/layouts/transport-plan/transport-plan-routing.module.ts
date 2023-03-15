@@ -1,3 +1,4 @@
+import { TransportPlanListCancelComponent } from './transport-plan-list-cancel/transport-plan-list-cancel.component';
 import { TransportPlanRejeterComponent } from './transport-plan-rejeter/transport-plan-rejeter.component';
 import { TransportPlanRefusComponent } from './transport-plan-refus/transport-plan-refus.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
 { path: 'list', component: TransportPlanListComponent },
 { path: 'refus', component: TransportPlanRefusComponent },
 { path: 'reject', component: TransportPlanRejeterComponent },
+{ path: 'cancel', component: TransportPlanListCancelComponent },
 
 { path: '', component: TransportPlanComponent },
 

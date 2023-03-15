@@ -40,7 +40,7 @@ trajet:Trajet;
 
   marginRate:number;
   margineService :number;
-
+  remark:string;
   totalPriceHT:number;
   totalPriceTTC:number;
   totalPriceVat:number;

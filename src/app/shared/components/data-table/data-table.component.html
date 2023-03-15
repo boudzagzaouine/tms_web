@@ -59,6 +59,7 @@
                <i class="fa fa-trash-o"></i>
             </button>
 
+
             <button [hidden]="generateInvoiceBtnVisible"
             type="button"
             class="btn btn-sm btn-primary mx-1"
@@ -67,6 +68,14 @@
               {{ "Générer Facture" | translate }}
             </button>
 
+
+            <button [hidden]="generateCancelPTBtnVisible"
+            type="button"
+            class="btn btn-sm btn-primary mx-1"
+             (click)="onEdit(5)" [disabled]="generateCancelPTBtnDisable == false">
+
+              {{ "Annulé" | translate }}
+            </button>
 
 
         </span>

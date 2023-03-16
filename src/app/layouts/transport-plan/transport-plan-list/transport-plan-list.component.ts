@@ -91,7 +91,7 @@ export class TransportPlanListComponent implements OnInit {
      // { field: 'date', header: 'Date', type: 'date' },
 
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
-       { field: 'orderTransport', child: 'account',child2:'name', header: 'Compte', type: 'object2' },
+       { field: 'account', child: 'name', header: 'Compte', type: 'object' },
        { field: 'dateDepart', header: 'Date', type: 'date' },
 
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },

@@ -1,3 +1,4 @@
+import { FileUploadModule } from 'primeng/fileupload';
 import { OrderTransportCancelComponent } from './order-transport-cancel/order-transport-cancel.component';
 import { OrderTransportAffectedComponent } from './order-transport-affected/order-transport-affected.component';
 import { OrderTransportInfoLineDocumetComponent } from './order-transport-edit/order-transport-info-line/order-transport-info-line-documet/order-transport-info-line-documet.component';
@@ -95,7 +96,8 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
      TimelineModule,
      CheckboxModule,
      InputNumberModule,
-     ToggleButtonModule
+     ToggleButtonModule,
+     FileUploadModule
   ],
   declarations: [OrderTransportComponent,
     OrderTransportEditComponent,

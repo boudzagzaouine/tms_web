@@ -552,6 +552,8 @@ export class TransportPlanAddComponent implements OnInit {
         this.selectOrderTransport.trajet;
 
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
+        this.selectedTransportPlan.account= this.selectOrderTransport.account;
+console.log(this.selectOrderTransport.account);
 
 
 

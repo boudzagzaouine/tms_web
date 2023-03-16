@@ -6,7 +6,7 @@ header="{{ title | translate }}"
 [responsive]="true"
 showEffect="fade"
 [modal]="true"
-[style]="{ width: '20vw' }"
+[style]="{ width: '40vw' }"
 (onHide)='onHideDialog()'
 >
 <div>
@@ -17,7 +17,7 @@ showEffect="fade"
 
 
         <div class="row  justify-content-around">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-6">
             <label class="font-weight-bold">{{'Type' | translate}}*</label>
             <span *ngIf="(lineForm.get('documentType').touched && lineForm.get('documentType').invalid) ||
             (isFormSubmitted && lineForm.get('documentType').invalid)" class="text-lighter"
@@ -37,8 +37,8 @@ optionLabel="code"
 
         </div>
 
-          <div class="form-group col-md-12">
-            <label class="font-weight-bold">{{'Numero' | translate}}</label>
+          <div class="form-group col-md-6">
+            <label class="font-weight-bold">{{'Numero' | translate}}*</label>
             <span *ngIf="(lineForm.get('numero').touched && lineForm.get('numero').invalid) ||
             (isFormSubmitted && lineForm.get('numero').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
@@ -53,7 +53,50 @@ optionLabel="code"
 
       </form>
 
+      <div class="row  justify-content-around" >
 
+        <div class="form-group col-sm-12">
+          <div class="card">
+            <p-fileUpload  chooseLabel="Choisir" mode="advanced"
+            (onSelect)="onSelectDocument($event)" multiple="multiple" [showUploadButton]="false" [showCancelButton]="false"
+             maxFileSize="1000000">
+            <ng-template pTemplate="toolbar">
+                <!-- <div>Télécharger 1 fichier</div> -->
+            </ng-template>
+            <ng-template   pTemplate="content">
+                <div>
+                  <table class="table" *ngIf=" this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList[0]?.fileName">
+
+                    <tbody>
+                      <tr *ngFor="let document of  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList">
+                        <td>{{document?.fileName}}</td>
+                        <td>{{document?.fileType}}</td>
+                        <td>
+                          <a  (click)="dowloand(document)"  type="button" class="btn btn-sm btn-primary mx-1"
+                          >
+                          <!--ADD-->
+                          <i class="fa fa-upload"></i>
+                        </a>
+                        <a  type="button" class="btn btn-sm btn-danger mx-1" (click)="deleteFile(document)"
+                         >
+                          <!--ADD-->
+                          <i class="fa fa-trash"></i>
+                      </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                  </div>
+            </ng-template>
+
+    </p-fileUpload>
+
+                </div>
+
+          </div>
+        </div>
 
 
     </div>

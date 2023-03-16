@@ -272,10 +272,30 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments;
     console.log(this.selectedOrderTransportInfoLine);
+    if(this.selectedOrderTransportInfoLine.orderTransportType.id==2 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
+
+      if(this.selectedOrderTransportInfoLine.weightLivraison>this.weightLivraison ){
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Verifier Poids <Livraison>'});
+
+      }else if(this.selectedOrderTransportInfoLine.numberOfPalletLivraison>this.numberOfPalletLivraison ){
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Verifier Nombre de palettes<Livraison>'});
+
+      }else if(this.selectedOrderTransportInfoLine.capacityLivraison>this.capacityLivraison){
+        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Verifier Volume <Livraison>'});
+
+      }
+      else {
+        this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
+        this.displayDialog = false;
+        this.onShowDialog();
+      }
+
+
+    }else{
       this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
     this.onShowDialog();
-
+    }
   }
   getOrderTransportInfoLineDocumentEnlevement(line: OrderTransportInfoLine) {
     this.orderTransportInfoLineDocuments =
@@ -464,6 +484,34 @@ if(this.lines.length>0){
     this.selectedOrderTransportTrajetQuantity?.capacityLivraison;
   }
 
+  }
+
+  affectedNumberOfPalletsLivraison(){
+    console.log( this.numberOfPalletLivraison );
+   // this.selectedOrderTransportInfoLine.numberOfPalletLivraison= this.numberOfPalletLivraison;
+    this.orderTransportInfoLineForm.controls["livraison"].patchValue({
+      numberOfPallets: this.numberOfPalletLivraison
+        });
+        this.orderTransportInfoLineForm.updateValueAndValidity();
+ this.isNumberOfPalletLivraison=false;
+  }
+  affectedWeightLivraison(){
+    console.log( this.weightLivraison );
+   // this.selectedOrderTransportInfoLine.numberOfPalletLivraison= this.numberOfPalletLivraison;
+    this.orderTransportInfoLineForm.controls["livraison"].patchValue({
+      weight: this.weightLivraison
+        });
+        this.orderTransportInfoLineForm.updateValueAndValidity();
+ this.isWeightLivraison=false;
+  }
+  affectedCapacityLivraison(){
+    console.log( this.capacityLivraison );
+   // this.selectedOrderTransportInfoLine.numberOfPalletLivraison= this.numberOfPalletLivraison;
+    this.orderTransportInfoLineForm.controls["livraison"].patchValue({
+      capacity: this.capacityLivraison
+        });
+        this.orderTransportInfoLineForm.updateValueAndValidity();
+ this.isCapacityLivraison=false;
   }
 
   setInfoContact(event) {

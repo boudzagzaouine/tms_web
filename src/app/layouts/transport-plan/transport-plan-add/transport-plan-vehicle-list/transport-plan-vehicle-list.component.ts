@@ -72,7 +72,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
           "vehicle.registrationNumber:" +
             vehicle.registrationNumber +
             ",turnStatus.id!" +
-            3
+            3+';'+4
         )
         .subscribe((data) => {
           console.log(vehicle.registrationNumber);

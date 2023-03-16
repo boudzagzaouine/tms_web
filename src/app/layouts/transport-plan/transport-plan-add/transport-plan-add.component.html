@@ -432,6 +432,7 @@
           <p-dropdown
             formControlName="driver"
             [autoDisplayFirst]="false"
+            [ariaPlaceholder]="this.selectedTransportPlan.vehicleCategory"
             [options]="driverList"
             (onChange)="onSelectDriver($event)"
             optionLabel="name"

@@ -133,9 +133,9 @@ export class OrderTransportAffectedComponent implements OnInit {
   }
   loadData(search: string = '') {
     if(search!=''){
-   search +=',turnStatus.id:2';
+   search +=',turnStatus.id!1';
     }else {
-      search +='turnStatus.id:2';
+      search +='turnStatus.id!1';
 
     }
     this.spinner.show();
@@ -185,7 +185,7 @@ export class OrderTransportAffectedComponent implements OnInit {
 
 
   onOrderTransportSearch(event){
-    this.subscriptions.add(this.orderTransportService.find('turnStatus.id:2,code~' + event.query).subscribe(
+    this.subscriptions.add(this.orderTransportService.find('turnStatus.id!1,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
     ));
   }

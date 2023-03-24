@@ -1,0 +1,237 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog"
+[focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '900px' }" (onHide)="onShowDialog()">
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="catalogTransportPricingForm">
+
+
+          <div class="row justify-content-around">
+
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Transporteur " | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fTransport').touched &&
+                  catalogTransportPricingForm.get('fTransport').invalid) ||
+                  (isFormSubmitted &&
+                  catalogTransportPricingForm.get('fTransport').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+
+
+              <p-autoComplete  formControlName="fTransport" [suggestions]="transportList"
+                (onSelect)="onSelectTransport($event)" (completeMethod)="onTransportSearch($event)" field="name">
+              </p-autoComplete>
+
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="font-weight-bold">{{ "Trajet " | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fTrajet').touched &&
+                  catalogTransportPricingForm.get('fTrajet').invalid) ||
+                  (isFormSubmitted &&
+                  catalogTransportPricingForm.get('fTrajet').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+
+
+              <p-autoComplete  formControlName="fTrajet" [suggestions]="trajetList"
+                (onSelect)="onSelectTrajet($event)" (completeMethod)="onTrajetSearch($event)" field="code">
+              </p-autoComplete>
+
+            </div>
+
+  </div>
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Type " | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fTurnType').touched &&
+                    catalogTransportPricingForm.get('fTurnType').invalid) ||
+                  (isFormSubmitted &&
+                    catalogTransportPricingForm.get('fTurnType').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown [autoDisplayFirst]="false"  [disabled]="true" [options]="turnTypeList" optionLabel="code" [filter]="true"
+                [showClear]="true"  (onChange)="onSelectTurnType($event)"
+                formControlName="fTurnType">
+              </p-dropdown>
+            </div>
+
+ <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Categorie Véhicule" | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fVehicleCategory').touched &&
+                    catalogTransportPricingForm.get('fVehicleCategory').invalid) ||
+                  (isFormSubmitted &&
+                    catalogTransportPricingForm.get('fVehicleCategory').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleCategorieList" optionLabel="code" [filter]="true"
+                [showClear]="true" [disabled]="true"
+               [placeholder]="selectCatalogTransportPricing?.vehicleCategory?.code"
+                (onChange)="onSelectVehicleCateory($event)"
+                formControlName="fVehicleCategory">
+              </p-dropdown>
+            </div>
+  <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Type Remorque" | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fVehicleTray').touched &&
+                    catalogTransportPricingForm.get('fVehicleTray').invalid) ||
+                  (isFormSubmitted &&
+                    catalogTransportPricingForm.get('fVehicleTray').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="vehicleTrayList" optionLabel="code" [filter]="true"
+                [showClear]="true" [disabled]="true" (onChange)="onSelectvehicleTray($event)"
+                formControlName="fVehicleTray">
+              </p-dropdown>
+            </div>
+            <div class="form-group col-sm-3">
+              <label class="font-weight-bold">{{ "Type Chargement" | translate }} *</label>
+              <span *ngIf="
+                  (catalogTransportPricingForm.get('fLoadingType').touched &&
+                    catalogTransportPricingForm.get('fLoadingType').invalid) ||
+                  (isFormSubmitted &&
+                    catalogTransportPricingForm.get('fLoadingType').invalid)
+                " class="text-lighter" style="color: red; font-size: xx-small;">
+                {{ 'Obligatoire' | translate}}
+
+              </span>
+              <p-dropdown [autoDisplayFirst]="false" [options]="loadingTypeList" optionLabel="code" [filter]="true"
+                [showClear]="true" [disabled]="true" (onChange)="onSelectloadingType($event)"
+                formControlName="fLoadingType">
+              </p-dropdown>
+            </div>
+
+
+
+
+            </div>
+
+
+            <div class="row justify-content-around">
+
+
+<div class="form-group col-sm-12">
+   <p-fieldset legend="Achat" [toggleable]="true">
+
+    <div class="row justify-content-around">
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant HT" | translate }} *</label>
+        <span *ngIf="
+            (catalogTransportPricingForm.get('fPurchaseAmountHt').touched &&
+              catalogTransportPricingForm.get('fPurchaseAmountHt').invalid) ||
+            (isFormSubmitted &&
+              catalogTransportPricingForm.get('fPurchaseAmountHt').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <br />
+
+
+          <p-inputNumber inputId="locale-user"   (keyup)="onPurchasePriceChange(1)"
+
+          formControlName="fPurchaseAmountHt"
+        >
+         </p-inputNumber>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Taux TVA" | translate }} *</label>
+        <span *ngIf="
+            (catalogTransportPricingForm.get('fPurchaseVat').touched &&
+              catalogTransportPricingForm.get('fPurchaseVat').invalid) ||
+            (isFormSubmitted &&
+              catalogTransportPricingForm.get('fPurchaseVat').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+        </span>
+        <p-dropdown
+         [autoDisplayFirst]="false"
+         [options]="vatList"
+           [filter]="true"
+           optionLabel="value"
+           [appendTo]="'body'"
+          [showClear]="true"
+           (onChange)="onSelectPurchaseVat($event)"
+            formControlName="fPurchaseVat"></p-dropdown>
+
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TTC" | translate }} *</label>
+        <span *ngIf="
+            (catalogTransportPricingForm.get('fPurchaseAmountTtc').touched &&
+              catalogTransportPricingForm.get('fPurchaseAmountTtc').invalid) ||
+            (isFormSubmitted &&
+              catalogTransportPricingForm.get('fPurchaseAmountTtc').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+
+          <p-inputNumber inputId="locale-user" (keyup)="onPurchasePriceChange(2)"
+
+          formControlName="fPurchaseAmountTtc"
+        >
+         </p-inputNumber>
+
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{ "Montant TVA" | translate }} *</label>
+        <span *ngIf="
+            (catalogTransportPricingForm.get('fPurchaseAmountTva').touched &&
+              catalogTransportPricingForm.get('fPurchaseAmountTva').invalid) ||
+            (isFormSubmitted &&
+              catalogTransportPricingForm.get('fPurchaseAmountTva').invalid)
+          " class="text-lighter" style="color: red; font-size: xx-small;">
+          {{ 'Obligatoire' | translate}}
+
+        </span>
+        <br />
+
+
+          <p-inputNumber inputId="locale-user"
+          formControlName="fPurchaseAmountTva"
+        >
+         </p-inputNumber>
+
+
+      </div>
+    </div>
+
+  </p-fieldset>
+</div>
+
+</div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' |translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{'Valider' |translate}}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

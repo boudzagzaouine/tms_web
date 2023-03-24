@@ -22,7 +22,7 @@ export class GenerateAddressEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Adresse';
+  title = 'Modifier une Adresse';
   addressForm: FormGroup;
   addressCode :string ;
   addressTypeList:any[]=[];
@@ -57,7 +57,7 @@ export class GenerateAddressEditComponent implements OnInit {
     );
 
     if (!this.editMode) {
-      this.title = 'Ajouter un Address';
+      this.title = 'Ajouter une Address';
 
       console.log("new");
       this.selectedAddress = new Address();

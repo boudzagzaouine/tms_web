@@ -92,6 +92,8 @@ export class TransportPlanListComponent implements OnInit {
 
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
        { field: 'account', child: 'name', header: 'Compte', type: 'object' },
+       { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
+
        { field: 'dateDepart', header: 'Date', type: 'date' },
 
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
@@ -224,6 +226,8 @@ console.log(this.selectedTransportPlans);
           this.selectTransportPlanHistory = new TransportPlanHistory();
           this.selectTransportPlanHistory.orderTransport =
             this.selectedTransportPlans[0].orderTransport;
+            this.selectTransportPlanHistory.account =
+            this.selectedTransportPlans[0].account;
             this.selectTransportPlanHistory.transportPlan=this.selectedTransportPlans[0];
           this.selectTransportPlanHistory.transport =
           this.selectedTransportPlans[0].transport;

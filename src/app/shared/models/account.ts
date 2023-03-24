@@ -6,8 +6,8 @@ import { Owner } from './owner';
 import { Planning } from './planning';
 export class Account {
     id = 0;
-    code: string;
-    name: string;
+    code: string= '';
+    name: string = '';
     telephone:string;
    email:string;
     description: string;
@@ -26,6 +26,8 @@ export class Account {
     deliveryDate : Date;
     contacts :Contact[]=[];
     addresses:Address[]=[];
+
+    codeName:string ;
 
 
 // goingSource -goingDistinataire - coming

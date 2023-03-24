@@ -1,3 +1,5 @@
+
+import { TurnStatus } from './../../models/turn-status';
 import { Trajet } from './../../models/trajet';
 import { OrderTransportInfoLine } from './../../models/order-transport-info-line';
 import { TypeInfo } from './../../enum/type-info.enum';
@@ -6,7 +8,7 @@ import { OrderTransport } from './../../models/order-transport';
 import { Transport } from './../../models/transport';
 import { PackagingType } from './../../models/packaging-type';
 import { PackageDetail } from './../../models/package-detail';
-import { Subject } from 'rxjs';
+import { Subject,Observable } from 'rxjs';
 
 import { EmsService } from './ems.service';
 import {Injectable} from '@angular/core';
@@ -20,6 +22,7 @@ export class OrderTransportService  extends EmsService<OrderTransport> {
   orderdeliver  = new Subject<OrderTransport>();
   selectOrderTransport :OrderTransport=new OrderTransport();
   activeIndex = new Subject<number>();
+  subject = new Subject<Boolean>();
   index : number=0;
 
   constructor(proxy: ProxyService) {
@@ -39,6 +42,13 @@ clearObject(){
   this.selectOrderTransport=new OrderTransport();
 this.emitOnchange();}
 
+addIndex(){
+  console.log("change value index true");
+  this.selectOrderTransport.index=true;
+  this.subject.next(this.selectOrderTransport.index);
+  this.emitOnchange();
+
+}
   addOrder(OrderTransport : OrderTransport){
 
     this.selectOrderTransport.code=OrderTransport.code;
@@ -50,6 +60,13 @@ this.emitOnchange();}
     this.selectOrderTransport.vehicleCategory=OrderTransport.vehicleCategory;
     this.selectOrderTransport.vehicleTray=OrderTransport.vehicleTray;
     this.selectOrderTransport.contact=OrderTransport.contact;
+    this.selectOrderTransport.consignment=OrderTransport.consignment;
+    this.selectOrderTransport.port=OrderTransport.port;
+    this.selectOrderTransport.palletResponsibility=OrderTransport.palletResponsibility;
+    this.selectOrderTransport.packagingType=OrderTransport.packagingType;
+    this.selectOrderTransport.marchandiseType=OrderTransport.marchandiseType;
+    this.selectOrderTransport.trajet=OrderTransport.trajet;
+
 
     this.selectOrderTransport.weightTotal=OrderTransport.weightTotal;
     this.selectOrderTransport.capacityTotal=OrderTransport.capacityTotal;
@@ -60,6 +77,18 @@ this.emitOnchange();}
   }
   addTrajet(trajet :Trajet){
     this.selectOrderTransport.trajet=trajet;
+
+   this.emitOnchange();
+
+  }
+  addCode(code :string){
+    this.selectOrderTransport.code=code;
+
+   this.emitOnchange();
+
+  }
+  addStatus(status :TurnStatus){
+    this.selectOrderTransport.turnStatus=status;
 
    this.emitOnchange();
 

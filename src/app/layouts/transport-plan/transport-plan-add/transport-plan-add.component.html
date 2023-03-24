@@ -195,6 +195,8 @@
               </div>
             </div>
           </ng-template>
+
+
         </p-orderList>
       </div>
 
@@ -275,6 +277,14 @@
 </span></span> -->
                 </div>
               </div>
+            </ng-template>
+
+            <ng-template  pTemplate="empty">
+              <div class="text-center" *ngIf="this.selectOrderTransport.id!=null">     <span class="add" style="float: left;">
+
+                <img
+                src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
+                <a (click)='onShowDialogTarifTransport()' class="ml-2">Ajouter Tarification </a></span>  </div>
             </ng-template>
           </p-orderList>
         </span>
@@ -447,8 +457,73 @@
     </form>
 
     <div class="row">
-      <div class="form-group col-md-6"></div>
-      <div class="form-group col-md-6" *ngIf="this.selectedTransport.id > 0">
+      <div class="form-group col-md-8">
+
+
+
+          <div class="card  ">
+            <div class="card-header" style="background-color: #f7f7f7;">
+              <div class="row">
+
+                <div class="col-xs-4 col-md-4 pull-left">
+                  <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogTransportProduct(selectedTransportProductService,false)">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+                <div class=" col-xs-4 col-md-6 pull-center">
+                  <span style="font-size: 16px; color: #5f5b5b;">
+                    <b> {{ "Services" | translate }}</b></span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body border-top-primary">
+              <p-table [value]=" this.selectedTransportPlan?.transportPlanServiceCatalogs" [lazy]="true" [rows]="8"
+                [paginator]="true" [totalRecords]=" this.selectedTransportPlan
+            ?.transportPlanServiceCatalogs?.length" >
+                <ng-template pTemplate="header">
+                  <tr>
+
+                    <th>{{'Service' | translate}}</th>
+                    <th>{{'Prix HT '| translate}}</th>
+                    <th>{{'TVA' | translate}}</th>
+                    <th>{{'Pric TTC '| translate}}</th>
+                    <!-- <th>{{ "Prix" | translate }}</th> -->
+                    <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-line>
+                  <tr>
+                    <td>{{line?.product?.code}}</td>
+                    <td>{{line?.salePriceHT}}</td>
+                    <td>{{line?.saleVat?.value}}</td>
+                    <td>{{line?.salePriceTTC}}</td>
+
+                    <td>
+
+                      <button  type="button" class="btn btn-sm btn-primary mx-1"
+                        (click)="onShowDialogTransportProduct(line,true)">
+                        <!--ADD-->
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-danger mx-1"
+                        (click)="onDeleteTransportProduct(line?.product?.code)">
+                        <!--ADD-->
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+
+              </p-table>
+            </div>
+          </div>
+
+
+
+
+      </div>
+      <div class="form-group col-md-4" *ngIf="this.selectedTransport.id > 0">
         <p-panel [toggleable]="true">
           <ng-template pTemplate="header">
             <span style="color: #3975a7; font-weight: 700; font-size: 12px">
@@ -525,6 +600,8 @@
         {{ "Valider" | translate }}
       </button>
     </div>
+
+
   </div>
 
   <ngx-spinner
@@ -555,4 +632,26 @@
       [vehicleCategory]="this.selectedTransportPlan.vehicleCategory"
     ></app-transport-plan-vehicle-list>
   </div>
+</div>
+
+
+<div *ngIf="showDialogTransportProduct == true">
+
+
+  <app-transport-plan-service-edit
+  (showDialog)="onHideDialogTransportProduct($event)"
+ (transportProductEdited)="onLineEditedTransportProduct($event)"
+ [selectedAccount]="this.selectedTransportPlan?.orderTransport?.account"
+   [selectedTransportServiceCatalog]="this.selectedTransportProductService"
+   [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
+
+</div>
+
+
+<div *ngIf="showDialogCatalogTransport == true">
+  <app-transport-plan-tarif-trajet-transport
+     (showDialog)="onShowDialogTarifTransport($event)"
+    [selectCatalogTransportPricing]="selectCatalogTransportPricing"
+    (acountPricingEdited)="onLineEdited($event)"
+  ></app-transport-plan-tarif-trajet-transport>
 </div>

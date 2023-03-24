@@ -1,3 +1,5 @@
+import { TurnStatus } from './../../../shared/models/turn-status';
+import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
 import { Subscription } from 'rxjs';
 import { OrderTransportInfoService } from './../../../shared/services/api/order-transport-info.service';
 import { ActivatedRoute } from "@angular/router";
@@ -24,10 +26,12 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
   turnTypeId: number = 0;
   subscriptions= new Subscription ();
 
+  turnStatusList: TurnStatus[] = [];
 
   constructor(
     public orderTransportService: OrderTransportService,
     public orderTransportInfoService: OrderTransportInfoService,
+    private turnStatusService: TurnStatusService,
 
     private activatedRoute: ActivatedRoute
   ) {}
@@ -43,6 +47,8 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
     if (id) {
       this.orderTransportService.findById(id).subscribe((data) => {
         this.selectedOrderTransport = data;
+        console.log( this.selectedOrderTransport);
+
    this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
      data=>{
         this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(data[0]));
@@ -55,18 +61,33 @@ console.log("edit");
       });
 
     } else {
-      this.activeIndex=0;
+      this.turnStatusService.findAll().subscribe((data) => {
+        this.turnStatusList = data;
+      });
+      this.orderTransportService.generateCode().subscribe((data) => {
+        this.selectedOrderTransport.code = data;
+        this.orderTransportService.addCode(this.selectedOrderTransport.code);
+
+        this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
+          (f) => f.id == 1
+        )[0];
+  this.orderTransportService.addStatus(this.selectedOrderTransport.turnStatus);
+  this.activeIndex=0;
 
       this.showStep(1);
+      });
+
     }
+
+
   }
 
   showStep(event) {
     this.turnTypeId = event;
     // if (event == 1) {
       this.items = [
-        { label: "COORDONNÉES" },
-        { label: "MARCHANDISES" },
+        { label: "EN-TÊTE" },
+        { label: "DÉTAILS TRAJET" },
         { label: "TARIFICATIONS" },
         { label: "VÉRIFICATION" },
       ];

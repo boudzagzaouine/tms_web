@@ -1,3 +1,5 @@
+import { TransportPlanServiceCatalog } from './transport-plan-service-catalog';
+import { MarchandiseType } from './marchandise-type';
 import { Trajet } from './trajet';
 import { Contact } from './contact';
 import { VehicleTray } from './vehicle-tray';
@@ -24,6 +26,11 @@ export class OrderTransport {
   date:Date = new Date();
   turnType:TurnType; // aller-retour
   loadingType:LoadingType; // complet
+  packagingType: PackagingType;
+  consignment:Boolean;
+  port:string ; // payé true , du false
+  palletResponsibility:string ; //true prestataire /false client
+  marchandiseType:MarchandiseType;
   account :Account;
   contact:Contact;
   turnStatus:TurnStatus;
@@ -31,16 +38,20 @@ export class OrderTransport {
   vehicleTray:VehicleTray;
   trajet:Trajet;
   orderTransportInfoAller:OrderTransportInfo;
-  //orderTransportInfoRetour:OrderTransportInfo;
-
+  remark : string;
   weightTotal: number = 0;
   capacityTotal: number = 0;
   priceHT: number = 0;
   vat :Vat;
   priceTTC:number;
   priceVat:number;
+  totalPriceHT:number;
+  totalPriceTTC:number;
+  totalPriceVat:number;
 
   marginRate:number=0;
   marginValue : number=0;
   owner :Owner;
+  orderTransportServiceCatalogs : TransportPlanServiceCatalog[]=[];
+  index :  boolean ; // variable local
 }

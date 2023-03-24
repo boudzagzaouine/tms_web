@@ -1,3 +1,5 @@
+import { OrderTransportServiceComponent } from './order-transport-edit/order-transport-service/order-transport-service.component';
+import { OrderTransportCompletComponent } from './order-transport-edit/order-transport-complet/order-transport-complet.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { OrderTransportCancelComponent } from './order-transport-cancel/order-transport-cancel.component';
 import { OrderTransportAffectedComponent } from './order-transport-affected/order-transport-affected.component';
@@ -57,6 +59,7 @@ import { AddressEditComponent } from '../settings/account/account-edit/address-e
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import { OrderTransportCompletEditComponent } from './order-transport-edit/order-transport-complet/order-transport-complet-edit/order-transport-complet-edit.component';
 
 @NgModule({
   imports: [
@@ -116,7 +119,11 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     GenerateContactEditComponent,
     OrderTransportInfoLineDocumetComponent,
     OrderTransportAffectedComponent,
-    OrderTransportCancelComponent
+    OrderTransportCancelComponent,
+    OrderTransportCompletComponent,
+    OrderTransportCompletEditComponent,
+    OrderTransportServiceComponent
+
   ]
 })
 export class OrderTransportModule { }

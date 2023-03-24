@@ -99,13 +99,19 @@ export class TarificationComponent implements OnInit {
 
 
       trajet =
-        this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
+        this.selectOrderTransport?.trajet?.code;
 
+console.log( "turnType.id:" +
+this.selectOrderTransport?.turnType?.id +
+",vehicleCategory.id:" +
+this.selectOrderTransport?.vehicleCategory?.id +
+",vehicleTray.id:" +
+this.selectOrderTransport?.vehicleTray?.id +
+",loadingType.id:" +
+this.selectOrderTransport?.loadingType?.id +
+",trajet.code~" +
+trajet);
 
-    console.log(this.selectOrderTransport.turnType.id);
-    console.log(this.selectOrderTransport?.vehicleCategory?.id);
-    console.log(this.selectOrderTransport?.vehicleTray?.id);
-    console.log(this.selectOrderTransport?.loadingType?.id);
 
     this.catalogPricingService
       .find(
@@ -135,15 +141,11 @@ export class TarificationComponent implements OnInit {
 
 
       trajet =
-        this.selectOrderTransport.orderTransportInfoAller?.trajet?.code;
+        this.selectOrderTransport?.trajet?.code;
 
 
 
-    console.log(this.selectOrderTransport.turnType.id);
-    console.log(this.selectOrderTransport?.vehicleCategory?.id);
-    console.log(this.selectOrderTransport?.vehicleTray?.id);
-    console.log(this.selectOrderTransport?.loadingType?.id);
-console.log(          this.selectOrderTransport?.account?.company?.id  );
+
 console.log(       trajet  );
 
 console.log("company.id:" +

@@ -1,3 +1,4 @@
+import { TransportPlanTarifTrajetTransportComponent } from './transport-plan-add/transport-plan-tarif-trajet-transport/transport-plan-tarif-trajet-transport.component';
 import { TransportPlanListCancelComponent } from './transport-plan-list-cancel/transport-plan-list-cancel.component';
 import { TransportPlanCancelComponent } from './transport-plan-list/transport-plan-cancel/transport-plan-cancel.component';
 import { InvoiceTransportPlanComponent } from './invoice-transport-plan/invoice-transport-plan.component';
@@ -50,6 +51,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {DataViewModule} from 'primeng/dataview';
 import { TransportPlanServiceEditComponent } from './transport-plan-edit/transport-plan-service-edit/transport-plan-service-edit.component';
 import {RatingModule} from 'primeng/rating';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   imports: [
@@ -94,8 +96,9 @@ import {RatingModule} from 'primeng/rating';
      SplitButtonModule,
      RatingModule,
      NgxPrintModule,
+     InputNumberModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent]
 })
 export class TransportPlanModule { }

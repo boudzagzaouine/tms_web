@@ -1,6 +1,6 @@
 
 <div class="container-fluid mt-5">
-  <div style="overflow-x: hidden;overflow-y: hidden;height: 62vh; width: 100%;">
+  <div  style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
 
   <form [formGroup]="OrderTransportForm">
 
@@ -10,16 +10,17 @@
           <div class="mt-3 row justify-content-around">
             <div class="form-group col-md-3">
               <label class="font-weight-bold"
-                >{{ "Code" | translate }} *</label
+                >{{ "Donneur d'ordre" | translate }} *</label
               >
               <span
                 *ngIf="
-                  (OrderTransportForm.get('code')
+                  (OrderTransportForm.get('account')
                     .touched &&
-                    OrderTransportForm.get('code')
+                    OrderTransportForm.get('account')
                       .invalid) ||
                   (isFormSubmitted &&
-                    OrderTransportForm.get('code').invalid)
+                    OrderTransportForm.get('account')
+                      .invalid)
                 "
                 class="text-lighter"
                 style="color: red; font-size: xx-small"
@@ -27,13 +28,77 @@
                 {{ "Obligatoire" | translate }}
               </span>
               <br />
-              <input
-                type="text"
-                formControlName="code"
-                class="form-control"
-                pInputText
-              />
+              <!-- <p-autoComplete
+                formControlName="account"
+                [suggestions]="accountList"
+                (onSelect)="onSelectAccount($event)"
+                (completeMethod)="onAccountSearch($event)"
+
+              ></p-autoComplete> -->
+
+
+              <p-autoComplete
+               formControlName="account" field="codeName"
+               [suggestions]="accountList" (onSelect)="onSelectAccount($event)"
+               (completeMethod)="onAccountSearch($event)"  [dropdown]="true"
+               >
+                <ng-template let-account pTemplate="item">
+                    <div class="country-item">
+                        <div>{{account.code}} -> {{account.name}} </div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
             </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Contact" | translate }} </label
+              >
+
+              <br />
+
+              <p-dropdown
+              formControlName="contact"
+              [autoDisplayFirst]="false"
+              [options]="contactList"
+              (onChange)="onSelectContact($event)"
+              [filter]="true"
+              [showClear]="true"
+              optionLabel="name"
+              [placeholder]="this.selectedContact?.name"
+
+
+            ></p-dropdown>
+
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Remarque/Commentaire" | translate }} </label
+              >
+              <br />
+              <input
+                formControlName="remark"
+                  type="text"
+                  class="form-control"
+                  pInputText
+
+                />
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="font-weight-bold"
+                >{{ "Date de la Commande" | translate }} </label
+              >
+              <br />
+              <p-calendar formControlName="date"
+              [showTime]="false" [monthNavigator]="true"
+              [yearNavigator]="true" dateFormat="dd/mm/yy"   [disabled]="'true'" yearRange="1970:2100"
+              >
+             </p-calendar>
+            </div>
+
+
             <div class="form-group col-md-3">
               <label class="font-weight-bold"
                 >{{ "Chargement" | translate }} *</label
@@ -68,98 +133,6 @@
             ></p-dropdown>
 
 
-            </div>
-
-            <div class="form-group col-md-3">
-              <label class="font-weight-bold"
-                >{{ "Type" | translate }} *</label
-              >
-              <span
-                *ngIf="
-                  (OrderTransportForm.get('turnType')
-                    .touched &&
-                    OrderTransportForm.get('turnType')
-                      .invalid) ||
-                  (isFormSubmitted &&
-                    OrderTransportForm.get('turnType')
-                      .invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-              <p-selectButton
-                formControlName="turnType"
-                [options]="turnTypeList"
-                (onChange)="onSelectType($event)"
-                optionLabel="code"
-
-              >
-              </p-selectButton>
-            </div>
-            <div class="form-group col-md-3">
-              <label class="font-weight-bold"
-                >{{ "Statut" | translate }} *</label
-              >
-              <span
-                *ngIf="
-                  (OrderTransportForm.get('status')
-                    .touched &&
-                    OrderTransportForm.get('status')
-                      .invalid) ||
-                  (isFormSubmitted &&
-                    OrderTransportForm.get('status')
-                      .invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-              <p-dropdown
-                formControlName="status"
-                [autoDisplayFirst]="false"
-                [options]="turnStatusList"
-                (onChange)="onSelectStatus($event)"
-                optionLabel="code"
-                [filter]="true"
-                [showClear]="true"
-                [placeholder]="this.selectedOrderTransport.turnStatus"
-              ></p-dropdown>
-            </div>
-
-
-</div>
-
-  <div class="mt-3 row justify-content-around">
- <div class="form-group col-md-3">
-              <label class="font-weight-bold"
-                >{{ "Donneur d'ordre" | translate }} *</label
-              >
-              <span
-                *ngIf="
-                  (OrderTransportForm.get('account')
-                    .touched &&
-                    OrderTransportForm.get('account')
-                      .invalid) ||
-                  (isFormSubmitted &&
-                    OrderTransportForm.get('account')
-                      .invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
-              <br />
-              <p-autoComplete
-                formControlName="account"
-                [suggestions]="accountList"
-                (onSelect)="onSelectAccount($event)"
-                (completeMethod)="onAccountSearch($event)"
-                field="name"
-              ></p-autoComplete>
             </div>
             <div class="form-group col-md-3">
               <label class="font-weight-bold"
@@ -225,84 +198,268 @@
 
             <div class="form-group col-md-3">
               <label class="font-weight-bold"
-                >{{ "Date " | translate }} *</label
+                >{{ "Moyen d'accompagnement" | translate }} *</label
               >
               <span
                 *ngIf="
-                  (OrderTransportForm.get('date')
+                  (OrderTransportForm.get('vehicleTray')
                     .touched &&
-                    OrderTransportForm.get('date')
+                    OrderTransportForm.get('vehicleTray')
                       .invalid) ||
                   (isFormSubmitted &&
-                    OrderTransportForm.get('date').invalid)
+                    OrderTransportForm.get('vehicleTray')
+                      .invalid)
                 "
                 class="text-lighter"
                 style="color: red; font-size: xx-small"
               >
                 {{ "Obligatoire" | translate }}
               </span>
-              <p-calendar
-              [disabled]="true"
-                formControlName="date"
-                [monthNavigator]="true"
-                [yearNavigator]="true"
-                dateFormat="dd/mm/yy"
-                yearRange="1970:2100"
-              >
-              </p-calendar>
+              <p-dropdown
+                formControlName="vehicleTray"
+                [autoDisplayFirst]="false"
+                [options]="vehicleTrayList"
+                (onChange)="onSelectVehicleTray($event)"
+                optionLabel="code"
+                [filter]="true"
+                [showClear]="true"
+                [placeholder]="this.selectedOrderTransport?.vehicleTray?.code"
+              ></p-dropdown>
             </div>
+
+
+
+
+</div>
+
+  <div class="mt-3 row justify-content-around">
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold"
+        >{{ "Départ " | translate }} *</label
+      >
+      <span
+        *ngIf="
+          (OrderTransportForm.get('villeSource')
+            .touched &&
+            OrderTransportForm.get('villeSource')
+              .invalid) ||
+          (isFormSubmitted &&
+            OrderTransportForm.get('villeSource')
+              .invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+      <br />
+      <p-autoComplete
+      field="code"
+        formControlName="villeSource"
+        [suggestions]="villeList"
+
+        (onSelect)="onSelectSource($event)"
+        (completeMethod)="onSourceSearch($event)"
+
+      ></p-autoComplete>
+
+
+
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold"
+        >{{ "Arrivée " | translate }} *</label
+      >
+      <span
+        *ngIf="
+          (OrderTransportForm.get('villeDistination')
+            .touched &&
+            OrderTransportForm.get('villeDistination')
+              .invalid) ||
+          (isFormSubmitted &&
+            OrderTransportForm.get('villeDistination')
+              .invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+      <br />
+      <p-autoComplete
+      field="code"
+        formControlName="villeDistination"
+        [suggestions]="villeList"
+        (onSelect)="onSelectDistination($event)"
+        (completeMethod)="onSourceSearch($event)"
+
+      ></p-autoComplete>
+
+
+
+    </div>
+
+    <div class="form-group col-md-3">
+      <label class="font-weight-bold"
+        >{{ "Type" | translate }} *</label
+      >
+      <span
+        *ngIf="
+          (OrderTransportForm.get('turnType')
+            .touched &&
+            OrderTransportForm.get('turnType')
+              .invalid) ||
+          (isFormSubmitted &&
+            OrderTransportForm.get('turnType')
+              .invalid)
+        "
+        class="text-lighter"
+        style="color: red; font-size: xx-small"
+      >
+        {{ "Obligatoire" | translate }}
+      </span>
+      <p-selectButton [options]="turnTypeList"
+      formControlName="turnType"
+      (onChange)="onSelectType($event)"
+
+       optionLabel="code"></p-selectButton>
+
+      <!-- <p-dropdown
+      formControlName="turnType"
+      [autoDisplayFirst]="false"
+      [options]="turnTypeList"
+
+      [filter]="true"
+      [showClear]="true"
+      optionLabel="code"
+      placeholder="{{selectedOrderTransport?.turnType?.code}}"
+
+
+    ></p-dropdown> -->
+
+    </div>
+
+    <div class="form-group col-sm-3">
+      <label class="font-weight-bold">{{'Port' | translate}} </label>
+
+      <br />
+
+       <div class="form-group  field-checkbox">
+        <p-selectButton [options]="portList"    (onChange)="onSelectPort($event)" formControlName="port"  ></p-selectButton>
+
+     <!-- <span >
+       <p-radioButton formControlName="port"  name="port" value="true" [(ngModel)]="this.selectedOrderTransport.port" (onChange)="onSelectPort($event)" inputId="port"></p-radioButton>
+        <label for="port">Payé</label></span>
+        <span style="margin-left: 20px;" >
+       <p-radioButton formControlName="port"  name="port" value="false" [(ngModel)]="this.selectedOrderTransport.port"  (onChange)="onSelectPort($event)" inputId="port"></p-radioButton>
+        <label for="port">Dû</label></span> -->
+      <!-- <p-checkbox formControlName="port" [(ngModel)]="this.selectedOrderTransport.port" name="consignment"(onChange)="onSelectPort($event)" [binary]="true" inputId="port"></p-checkbox>
+      <label class="font-weight-bold" for="port">{{this.selectedOrderTransport.port?"Payé":"Dû"}}</label> -->
+    </div>
+    </div>
+
+
+
             <div class="form-group col-md-3">
 </div>
   </div>
+
+
+
+
+
+<div class="mt-3 row justify-content-around">
+  <div class="form-group col-md-3">
+    <label class="font-weight-bold"
+      >{{ "Type emballage" | translate }} *</label
+    >
+    <span
+    *ngIf="
+      (OrderTransportForm.get('packagingType').touched &&
+      OrderTransportForm.get('packagingType').invalid) ||
+      (isFormSubmitted &&
+      OrderTransportForm.get('packagingType').invalid)
+    "
+    class="text-lighter"
+    style="color: red; font-size: xx-small"
+  >
+    {{ "Obligatoire" | translate }}
+  </span>
+    <p-dropdown
+    formControlName="packagingType"
+      [autoDisplayFirst]="false"
+      [options]="packagingTypeList"
+      optionLabel="code"
+
+      (onChange)="onSelectPackagingType($event)"
+      [filter]="true"
+      [showClear]="true"
+    ></p-dropdown>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="font-weight-bold"
+      >{{ "Nature marchandise" | translate }} </label
+    >
+    <span
+    *ngIf="
+      (OrderTransportForm.get('marchandiseType').touched &&
+      OrderTransportForm.get('marchandiseType').invalid) ||
+      (isFormSubmitted &&
+      OrderTransportForm.get('marchandiseType').invalid)
+    "
+    class="text-lighter"
+    style="color: red; font-size: xx-small"
+  >
+    {{ "Obligatoire" | translate }}
+  </span>
+    <p-dropdown
+    formControlName="marchandiseType"
+      [autoDisplayFirst]="false"
+      [options]="marchandiseTypeList"
+      optionLabel="code"
+
+      (onChange)="onSelectMarchandiseType($event)"
+      [filter]="true"
+      [showClear]="true"
+    ></p-dropdown>
+  </div>
+  <div class="form-group col-sm-3">
+    <label class="font-weight-bold">{{'Consignation' | translate}} </label>
+
+    <br />
+
+     <div class="field-checkbox">
+    <p-checkbox formControlName="consignment" [(ngModel)]="this.selectedOrderTransport.consignment" name="consignment"(onChange)="onSelectConsignment($event)" [binary]="true" inputId="consignment"></p-checkbox>
+    <label class="font-weight-bold" for="consignment">{{this.selectedOrderTransport.consignment?"Oui":"Non"}}</label>
+  </div>
+</div>
+
+<div class="form-group col-sm-3">
+  <label class="font-weight-bold">{{'Responsabilité palette' | translate}} </label>
+
+  <br />
+
+   <div class="field-checkbox">
+    <p-selectButton [options]="palletResponsibilityList"    (onChange)="onSelectPalletResponsibility($event)" formControlName="palletResponsibility" ></p-selectButton>
+
+    <!-- <span><p-radioButton formControlName="palletResponsibility"  name="palletResponsibility" value="true" [(ngModel)]="this.selectedOrderTransport.palletResponsibility" (onChange)="onSelectPalletResponsibility($event)" inputId="palletResponsibility"></p-radioButton>
+    <label for="palletResponsibility">Transport</label></span>
+    <span style="margin-left: 20px;" ><p-radioButton formControlName="palletResponsibility"  name="palletResponsibility" value="false" [(ngModel)]="this.selectedOrderTransport.palletResponsibility"  (onChange)="onSelectPalletResponsibility($event)" inputId="palletResponsibility"></p-radioButton>
+    <label for="palletResponsibility">Client</label></span> -->
+  <!-- <p-checkbox formControlName="port" [(ngModel)]="this.selectedOrderTransport.port" name="consignment"(onChange)="onSelectPort($event)" [binary]="true" inputId="port"></p-checkbox>
+  <label class="font-weight-bold" for="port">{{this.selectedOrderTransport.port?"Payé":"Dû"}}</label> -->
+</div>
+</div></div>
+
+
+
     <div></div>
   </form>
 
 
-  <p-fieldset legend="contact" [toggleable]="true">
-    <div class="row justify-content-around">
 
-      <div class="form-group col-md-12">
-        <span class="add" style="float: left;" >
-          </span>
-    </div>
-
-    </div>
-    <p-table
-      [value]="contactList"
-      [(selection)]="selectedContact"
-      dataKey="code"
-      [rows]="5"
-      [paginator]="true"
-      [totalRecords]="contactList?.length"
-      responsiveLayout="scroll"
-      (onRowSelect)="onSelectContact()"
-    >
-
-
-      <ng-template pTemplate="header">
-
-        <tr>
-          <th style="width: 3rem"></th>
-          <th>Nom</th>
-
-          <th>Téléphone</th>
-          <th>Fonction</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-contact>
-        <tr>
-          <td>
-            <p-tableRadioButton
-              [value]="contact"
-            ></p-tableRadioButton>
-          </td>
-          <td>{{ contact.name }}</td>
-          <td>{{ contact.tel1 }}</td>
-          <td>{{ contact?.contactFunction?.code }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-fieldset>
 
   </div>
   <div  class="row pull-right mt-5">

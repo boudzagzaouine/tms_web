@@ -1,3 +1,4 @@
+import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
 import { element } from "protractor";
 import { Account } from "./../../../shared/models/account";
 import { CatalogTransportAccountPricingService } from "./../../../shared/services/api/catalog-transport-account-pricing.service";
@@ -54,6 +55,7 @@ export class TransportPlanAddComponent implements OnInit {
   orderTransportList: OrderTransport[] = [];
   orderTransportCloneList: OrderTransport[] = [];
   selectTransportPlanHistory: TransportPlanHistory = new TransportPlanHistory();
+ selectCatalogTransportPricing = new CatalogTransportPricing();
 
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
@@ -84,6 +86,8 @@ export class TransportPlanAddComponent implements OnInit {
   subscriptions = new Subscription();
   editModeTransportProduct: Boolean = false;
   showDialogTransportProduct: Boolean = false;
+  showDialogCatalogTransport: Boolean = false;
+
   showDialogReject: Boolean = false;
   villeList: Ville[] = [];
   selectedVilleSource: Ville = new Ville();
@@ -96,6 +100,7 @@ export class TransportPlanAddComponent implements OnInit {
   sortMargeValue: any;
   test: 4.5;
  purchasePrice : number ;
+selectedTransportProductService = new TransportPlanServiceCatalog();
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
@@ -556,7 +561,7 @@ export class TransportPlanAddComponent implements OnInit {
 console.log(this.selectOrderTransport.account);
 
 
-
+this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTransport.orderTransportServiceCatalogs;
 
     this.selectedTransportPlan.vehicleCategory =
       this.selectOrderTransport.vehicleCategory;
@@ -711,5 +716,117 @@ console.log(this.selectOrderTransport.account);
     this.showDialogReject = event;
     this.searchTransportbyOrderInHistory();
   }
+
+
+
+  onShowDialogTransportProduct(line, mode) {
+    this.showDialogTransportProduct = true;
+
+    if (mode == true) {
+
+
+      this.selectedTransportProductService= line;
+      this.editModeTransportProduct = true;
+    } else if (mode == false) {
+
+      this.selectedTransportProductService = new TransportPlanServiceCatalog();
+      this.selectedTransportProductService.transport=this.selectedTransportPlan.transport;
+      this.selectedTransportProductService.account=this.selectedTransportPlan.account;
+      this.selectedTransportProductService.invoice=this.selectedTransportPlan.transport.factureService;
+
+      this.editModeTransportProduct = false;
+    }
+  }
+
+  onLineEditedTransportProduct(line: TransportPlanServiceCatalog) {
+    console.log(line);
+
+    if (
+      this.selectedTransportPlan.transportPlanServiceCatalogs == null ||
+      this.selectedTransportPlan.transportPlanServiceCatalogs == undefined
+    ) {
+      this.selectedTransportPlan.transportPlanServiceCatalogs = [];
+    }
+    this.selectedTransportPlan.transportPlanServiceCatalogs =   this.selectedTransportPlan.transportPlanServiceCatalogs.filter(
+      (l) => l.product.code !== line.product.code
+    );
+
+    this.selectedTransportPlan.transportPlanServiceCatalogs.push(line);
+    this.calculateAllLines();
+  }
+  onDeleteTransportProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedTransportPlan.transportPlanServiceCatalogs =
+        this.selectedTransportPlan.transportPlanServiceCatalogs.filter((l) => l.product.code !== productCode);
+        this.calculateAllLines();
+      },
+    });
+
+  }
+  onHideDialogTransportProduct(event) {
+    this.showDialogTransportProduct = event;
+  }
+
+
+  calculateAllLines() {
+    console.log("calculate");
+
+  this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
+  this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
+  this.selectedTransportPlan.totalPriceVat=this.selectOrderTransport.priceVat;
+    this.selectedTransportPlan?.transportPlanServiceCatalogs.forEach(line => {
+      this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
+      this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
+      this.selectedTransportPlan.totalPriceVat += +line.salePriceVat;
+    }
+    );
+
+
+
+    this.transportPlanForm.patchValue({
+      'totalPriceHT': this.selectedTransportPlan.totalPriceHT
+    });
+    this.transportPlanForm.patchValue({
+      'totalPriceTTC': this.selectedTransportPlan.totalPriceTTC
+    });
+    this.transportPlanForm.patchValue({
+      'totalPriceVat': this.selectedTransportPlan.totalPriceVat
+    });
+
+
+
+  }
+
+
+
+
+  onShowDialogTarifTransport(event) {
+    console.log(event);
+
+    this.showDialogCatalogTransport = true;
+
+      this.selectCatalogTransportPricing = new CatalogTransportPricing();
+      this.selectCatalogTransportPricing.trajet=this.selectOrderTransport.trajet;
+      this.selectCatalogTransportPricing.turnType=this.selectOrderTransport.turnType;
+      this.selectCatalogTransportPricing.vehicleCategory=this.selectOrderTransport.vehicleCategory;
+      this.selectCatalogTransportPricing.vehicleTray=this.selectOrderTransport.vehicleTray;
+      this.selectCatalogTransportPricing.loadingType=this.selectOrderTransport.loadingType;
+
+
+
+
+
+  }
+
+  onLineEdited(catalogTransportPricingEdited: CatalogTransportPricing) {
+
+    this.showDialogCatalogTransport = false;
+
+
+
+  }
+
 
 }

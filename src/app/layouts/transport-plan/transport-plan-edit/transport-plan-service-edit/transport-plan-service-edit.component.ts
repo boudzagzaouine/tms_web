@@ -27,7 +27,7 @@ import { TransportServcie } from "./../../../../shared/services/api/transport.se
 })
 export class TransportPlanServiceEditComponent implements OnInit {
   @Input() selectedAccount: Account = new Account();
-
+  @Input() type:number // 1 add Or  2 edit
   @Input() selectedTransportServiceCatalog: TransportPlanServiceCatalog =
     new TransportPlanServiceCatalog();
   @Input() editMode = false;
@@ -70,7 +70,7 @@ console.log(this.selectedAccount);
 
     this.subscriptions.add(
       this.accountService
-        .find("company.id:" + this.selectedAccount.company.id)
+        .find("company.id:" + this.selectedAccount?.company?.id)
         .subscribe((data: Account[]) => {
           this.accountList = data;
         })

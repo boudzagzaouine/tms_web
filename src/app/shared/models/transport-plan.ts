@@ -36,7 +36,7 @@ export class TransportPlan {
   // villeSource :Ville;
   // villeDistination : Ville;
 trajet:Trajet;
-  transportPlanServiceCatalogs:TransportPlanServiceCatalog[]=[];
+  //transportPlanServiceCatalogs:TransportPlanServiceCatalog[]=[];
 
   marginRate:number;
   margineService :number;

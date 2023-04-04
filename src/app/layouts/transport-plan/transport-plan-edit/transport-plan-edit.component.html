@@ -280,9 +280,8 @@
       </div>
     </div>
     <div class="card-body border-top-primary">
-      <p-table [value]=" this.selectedTransportPlan?.transportPlanServiceCatalogs" [lazy]="true" [rows]="8"
-        [paginator]="true" [totalRecords]=" this.selectedTransportPlan
-    ?.transportPlanServiceCatalogs?.length" >
+      <p-table [value]=" this.selectedOrderTransport.orderTransportServiceCatalogs" [lazy]="true" [rows]="8"
+        [paginator]="true" [totalRecords]=" this.selectedOrderTransport.orderTransportServiceCatalogs?.length" >
         <ng-template pTemplate="header">
           <tr>
 
@@ -462,7 +461,8 @@
  (transportProductEdited)="onLineEditedTransportProduct($event)"
  [selectedAccount]="this.selectedTransportPlan?.orderTransport?.account"
    [selectedTransportServiceCatalog]="this.selectedTransportProductService"
-   [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
+   [editMode]="editModeTransportProduct"
+   [type]="2"></app-transport-plan-service-edit>
 
 </div>
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>

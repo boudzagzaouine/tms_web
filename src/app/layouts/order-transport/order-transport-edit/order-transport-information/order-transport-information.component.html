@@ -215,16 +215,9 @@
               >
                 {{ "Obligatoire" | translate }}
               </span>
-              <p-dropdown
-                formControlName="vehicleTray"
-                [autoDisplayFirst]="false"
-                [options]="vehicleTrayList"
-                (onChange)="onSelectVehicleTray($event)"
-                optionLabel="code"
-                [filter]="true"
-                [showClear]="true"
-                [placeholder]="this.selectedOrderTransport?.vehicleTray?.code"
-              ></p-dropdown>
+              <p-multiSelect [options]="vehicleAccompanimentList"
+              formControlName="vehicleAccompaniments"
+              optionLabel="code" ></p-multiSelect>
             </div>
 
 
@@ -347,17 +340,9 @@
       <br />
 
        <div class="form-group  field-checkbox">
-        <p-selectButton [options]="portList"    (onChange)="onSelectPort($event)" formControlName="port"  ></p-selectButton>
+        <p-selectButton [options]="portList" optionLabel="code"    (onChange)="onSelectPort($event)" formControlName="portObject"  ></p-selectButton>
 
-     <!-- <span >
-       <p-radioButton formControlName="port"  name="port" value="true" [(ngModel)]="this.selectedOrderTransport.port" (onChange)="onSelectPort($event)" inputId="port"></p-radioButton>
-        <label for="port">Payé</label></span>
-        <span style="margin-left: 20px;" >
-       <p-radioButton formControlName="port"  name="port" value="false" [(ngModel)]="this.selectedOrderTransport.port"  (onChange)="onSelectPort($event)" inputId="port"></p-radioButton>
-        <label for="port">Dû</label></span> -->
-      <!-- <p-checkbox formControlName="port" [(ngModel)]="this.selectedOrderTransport.port" name="consignment"(onChange)="onSelectPort($event)" [binary]="true" inputId="port"></p-checkbox>
-      <label class="font-weight-bold" for="port">{{this.selectedOrderTransport.port?"Payé":"Dû"}}</label> -->
-    </div>
+         </div>
     </div>
 
 
@@ -437,20 +422,15 @@
 </div>
 
 <div class="form-group col-sm-3">
+  <span *ngIf="this.selectedOrderTransport.consignment==true">
   <label class="font-weight-bold">{{'Responsabilité palette' | translate}} </label>
 
   <br />
 
    <div class="field-checkbox">
-    <p-selectButton [options]="palletResponsibilityList"    (onChange)="onSelectPalletResponsibility($event)" formControlName="palletResponsibility" ></p-selectButton>
-
-    <!-- <span><p-radioButton formControlName="palletResponsibility"  name="palletResponsibility" value="true" [(ngModel)]="this.selectedOrderTransport.palletResponsibility" (onChange)="onSelectPalletResponsibility($event)" inputId="palletResponsibility"></p-radioButton>
-    <label for="palletResponsibility">Transport</label></span>
-    <span style="margin-left: 20px;" ><p-radioButton formControlName="palletResponsibility"  name="palletResponsibility" value="false" [(ngModel)]="this.selectedOrderTransport.palletResponsibility"  (onChange)="onSelectPalletResponsibility($event)" inputId="palletResponsibility"></p-radioButton>
-    <label for="palletResponsibility">Client</label></span> -->
-  <!-- <p-checkbox formControlName="port" [(ngModel)]="this.selectedOrderTransport.port" name="consignment"(onChange)="onSelectPort($event)" [binary]="true" inputId="port"></p-checkbox>
-  <label class="font-weight-bold" for="port">{{this.selectedOrderTransport.port?"Payé":"Dû"}}</label> -->
+    <p-selectButton [options]="palletResponsibilityList"  optionLabel="code"  (onChange)="onSelectPalletResponsibility($event)" formControlName="palletResponsibilityObject" ></p-selectButton>
 </div>
+</span>
 </div></div>
 
 
@@ -462,15 +442,27 @@
 
 
   </div>
-  <div  class="row pull-right mt-5">
-    <button
+  <!-- d-flex align-items-center justify-content-center  -->
+  <div class="container-fluid">
+
+  <div  class="row pull-right  mt-5">
+    <!-- <button type="button" class="btn btn-success m-1" (click)="next()">
+      {{ "Valider" | translate }}
+    </button> -->
+
+    <!-- <p-button pRipple  label="Valider" icon="fa fa-chevron-right" styleClass="p-button-lg" class="p-button-rounded p-button-success" iconPos="right"></p-button> -->
+    <button pButton pRipple type="button" label="Suivant" styleClass="p-button-lg"  icon="fa fa-angle-double-right"
+     class="p-button-rounded  bNext" (click)="next()" iconPos="right"></button>
+
+
+    <!-- <button
       type="button"
       pButton
       icon="fa fa-chevron-right"
       (click)="next()"
-    ></button>
+    ></button> -->
   </div>
-
+</div>
 </div>
 
 

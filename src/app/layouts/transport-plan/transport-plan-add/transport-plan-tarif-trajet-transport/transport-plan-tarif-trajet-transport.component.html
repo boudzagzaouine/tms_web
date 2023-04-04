@@ -40,7 +40,7 @@
               </span>
 
 
-              <p-autoComplete  formControlName="fTrajet" [suggestions]="trajetList"
+              <p-autoComplete  formControlName="fTrajet" [disabled]="true" [suggestions]="trajetList"
                 (onSelect)="onSelectTrajet($event)" (completeMethod)="onTrajetSearch($event)" field="code">
               </p-autoComplete>
 

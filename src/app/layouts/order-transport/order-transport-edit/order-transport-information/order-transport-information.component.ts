@@ -1,11 +1,15 @@
-import { MarchandiseTypeService } from './../../../../shared/services/api/marchandise-type.service';
-import { TrajetService } from './../../../../shared/services/api/trajet.service';
-import { MarchandiseType } from './../../../../shared/models/marchandise-type';
-import { Responsability } from './../../../../shared/models/responsability';
-import { PackagingTypeService } from './../../../../shared/services/api/packaging-type.service';
-import { PackagingType } from './../../../../shared/models/packagingType';
-import { VilleService } from './../../../../shared/services/api/ville.service';
-import { Ville } from './../../../../shared/models/ville';
+import { OrderTransportAccompaniment } from "./../../../../shared/models/order-transport-accompaniment";
+import { VehicleAccompaniment } from "./../../../../shared/models/vehicle-accompaniment";
+import { VehicleAccompanimentService } from "./../../../../shared/services/api/vehicle-accompaniment.service";
+import { SelectObject } from "./../../../../shared/models/select-object";
+import { MarchandiseTypeService } from "./../../../../shared/services/api/marchandise-type.service";
+import { TrajetService } from "./../../../../shared/services/api/trajet.service";
+import { MarchandiseType } from "./../../../../shared/models/marchandise-type";
+import { Responsability } from "./../../../../shared/models/responsability";
+import { PackagingTypeService } from "./../../../../shared/services/api/packaging-type.service";
+import { PackagingType } from "./../../../../shared/models/packagingType";
+import { VilleService } from "./../../../../shared/services/api/ville.service";
+import { Ville } from "./../../../../shared/models/ville";
 import { ContactService } from "./../../../../shared/services/api/contact.service";
 import { Contact } from "./../../../../shared/models/contact";
 import { VehicleTray } from "./../../../../shared/models/vehicle-tray";
@@ -51,10 +55,12 @@ export class OrderTransportInformationComponent implements OnInit {
 
   loadingTypeList: LoadingType[] = [];
   turnTypeList: TurnType[] = [];
-  packagingTypeList:PackagingType[]=[];
+  packagingTypeList: PackagingType[] = [];
   turnStatusList: TurnStatus[] = [];
   vehicleCategoryList: VehicleCategory[] = [];
   accountList: Account[] = [];
+  vehicleAccompanimentList: VehicleAccompaniment[] = [];
+
   vehicleTrayList: VehicleTray[] = [];
   isFormSubmitted = false;
   index: number = 0;
@@ -63,29 +69,30 @@ export class OrderTransportInformationComponent implements OnInit {
   items: MenuItem[];
   contactList: Contact[] = [];
   villeList: Ville[] = [];
-  villeSource:Ville;
-  villeDestination:Ville;
-  marchandiseTypeList:MarchandiseType[]=[];
-  portList:Array<string>=[];
-  palletResponsibilityList:Array<string>=[];
+  villeSource: Ville;
+  villeDestination: Ville;
+  marchandiseTypeList: MarchandiseType[] = [];
+  portList: Array<SelectObject> = [];
+
+  palletResponsibilityList: Array<SelectObject> = [];
   selectedContact: Contact = new Contact();
   constructor(
     private turnTypeService: TurnTypeService,
+    private vehicleAccompanimentService: VehicleAccompanimentService,
     public OrderTransportService: OrderTransportService,
     private loadingTypeService: LoadingTypeService,
     private accountService: AccountService,
     private vehicleTrayService: VehicleTrayService,
     private villeService: VilleService,
     private vehicleCategoryService: VehicleCategoryService,
-    private packagingTypeService : PackagingTypeService,
-    private trajetService:TrajetService,
-    private messageService:MessageService,
-    private marchandiseTypeService:MarchandiseTypeService
+    private packagingTypeService: PackagingTypeService,
+    private trajetService: TrajetService,
+    private messageService: MessageService,
+    private marchandiseTypeService: MarchandiseTypeService
   ) {}
 
   ngOnInit() {
     this.load();
-
 
     console.log(this.OrderTransportService.getOrderTransportCode());
     if (
@@ -94,13 +101,48 @@ export class OrderTransportInformationComponent implements OnInit {
     ) {
       this.selectedOrderTransport =
         this.OrderTransportService.getOrderTransport();
-      this.selectedContact = this.selectedOrderTransport.contact;
-      console.log("port");
 
-      console.log(this.selectedOrderTransport.port);
+      this.selectedContact = this.selectedOrderTransport.contact;
+
+      this.selectedOrderTransport.vehicleAccompaniments =
+        this.selectedOrderTransport.orderTransportAccompaniments.map(
+          (f) => f.vehicleAccompaniment
+        );
+
+      if (
+        this.selectedOrderTransport.port?.trim() ===
+        this.portList[0].code?.trim()
+      ) {
+        this.selectedOrderTransport.portObject = this.portList[0];
+      } else if (
+        this.selectedOrderTransport.port?.trim() ===
+        this.portList[1].code?.trim()
+      ) {
+        this.selectedOrderTransport.portObject = this.portList[1];
+      }
+
+      if (
+        this.selectedOrderTransport.palletResponsibility?.trim() ===
+        this.palletResponsibilityList[0]?.code?.trim()
+      ) {
+        this.selectedOrderTransport.palletResponsibilityObject =
+          this.palletResponsibilityList[0];
+      } else if (
+        this.selectedOrderTransport.palletResponsibility?.trim() ===
+        this.palletResponsibilityList[1]?.code?.trim()
+      ) {
+        this.selectedOrderTransport.palletResponsibilityObject =
+          this.palletResponsibilityList[1];
+      }
+      console.log(this.selectedOrderTransport?.vehicleCategory);
+
+      this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
+
+      console.log(this.vehicleTrayList);
 
       this.villeSource = this.selectedOrderTransport?.trajet?.villeSource;
-      this.villeDestination = this.selectedOrderTransport?.trajet?.villeDestination;
+      this.villeDestination =
+        this.selectedOrderTransport?.trajet?.villeDestination;
       this.contactList = this.selectedOrderTransport?.account?.contacts;
       this.initForm();
     }
@@ -109,28 +151,14 @@ export class OrderTransportInformationComponent implements OnInit {
 
   initForm() {
     this.OrderTransportForm = new FormGroup({
-
-
-      contact: new FormControl(
-        this.selectedOrderTransport.contact,
-
-      ),
-      remark : new FormControl(
-        this.selectedOrderTransport.remark,
-
-      ),
-      villeSource: new FormControl(
-        this.villeSource,Validators.required
-
-      ),
+      contact: new FormControl(this.selectedOrderTransport.contact),
+      remark: new FormControl(this.selectedOrderTransport.remark),
+      villeSource: new FormControl(this.villeSource, Validators.required),
       villeDistination: new FormControl(
-        this.villeDestination,Validators.required
-
+        this.villeDestination,
+        Validators.required
       ),
-      date :  new FormControl(
-        new Date (this.selectedOrderTransport.date)
-
-      ),
+      date: new FormControl(new Date(this.selectedOrderTransport.date)),
       loadingType: new FormControl(
         {
           value: this.selectedOrderTransport.loadingType,
@@ -159,20 +187,15 @@ export class OrderTransportInformationComponent implements OnInit {
         Validators.required
       ),
       marchandiseType: new FormControl(
-        this.selectedOrderTransport.marchandiseType,
-
+        this.selectedOrderTransport.marchandiseType
       ),
-      consignment: new FormControl(
-        this.selectedOrderTransport.consignment,
-
+      vehicleAccompaniments: new FormControl(
+        this.selectedOrderTransport.vehicleAccompaniments
       ),
-      port: new FormControl(
-        this.selectedOrderTransport.port,
-
-      ),
-      palletResponsibility :new FormControl(
-        this.selectedOrderTransport.palletResponsibility,
-
+      consignment: new FormControl(this.selectedOrderTransport.consignment),
+      portObject: new FormControl(this.selectedOrderTransport.portObject),
+      palletResponsibilityObject: new FormControl(
+        this.selectedOrderTransport.palletResponsibilityObject
       ),
     });
   }
@@ -185,32 +208,64 @@ export class OrderTransportInformationComponent implements OnInit {
     }
     console.log(this.selectedOrderTransport);
 
+    this.selectedOrderTransport.vehicleAccompaniments =
+      this.OrderTransportForm.value["vehicleAccompaniments"];
+    this.selectedOrderTransport.orderTransportAccompaniments = [];
+    this.selectedOrderTransport.vehicleAccompaniments.forEach((element) => {
+      let oTAccompaniment = new OrderTransportAccompaniment();
+      oTAccompaniment.vehicleAccompaniment = element;
+      this.selectedOrderTransport.orderTransportAccompaniments.push(
+        oTAccompaniment
+      );
+
+      //  const otA =    this.selectedOrderTransport.orderTransportAccompaniments.find(
+      //   line => line.vehicleAccompaniment.id ===   oTAccompaniment.vehicleAccompaniment.id
+      // );
+      // if (otA == null) {
+      //   this.selectedOrderTransport.orderTransportAccompaniments.push(oTAccompaniment);
+      // }
+    });
+    console.log(this.selectedOrderTransport.vehicleAccompaniments);
+
     // const formValue = this.OrderTransportForm.value;
-console.log('villeSource.code~'+this.villeSource.code +',villeDestination.code~'+this.villeDestination.code);
+    console.log(
+      "villeSource.code~" +
+        this.villeSource.code +
+        ",villeDestination.code~" +
+        this.villeDestination.code
+    );
 
-this.trajetService.find('villeSource.code~'+this.villeSource?.code +',villeDestination.code~'+this.villeDestination?.code).subscribe(
-  data=>{
-    console.log(data);
+    this.trajetService
+      .find(
+        "villeSource.code~" +
+          this.villeSource?.code +
+          ",villeDestination.code~" +
+          this.villeDestination?.code
+      )
+      .subscribe((data) => {
+        console.log(data);
 
-    if(data[0]!=null){
-      this.selectedOrderTransport.trajet=data[0];
-    this.OrderTransportService.addOrder(this.selectedOrderTransport);
-    this.nextstep.emit(true);
-    this.isFormSubmitted = false;
-  }else{
-    this.messageService.add({severity:'error', summary: 'Erreur', detail: "Trajet n'existe pas "});
-
-  }
-})
-
+        if (data[0] != null) {
+          this.selectedOrderTransport.trajet = data[0];
+          this.OrderTransportService.addOrder(this.selectedOrderTransport);
+          this.nextstep.emit(true);
+          this.isFormSubmitted = false;
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: "Erreur",
+            detail: "Trajet n'existe pas ",
+          });
+        }
+      });
   }
 
   onAccountSearch(event: any) {
     let search;
-    if(!isNaN(event.query)){
-     search="code~" + event.query
-    }else {
-      search="name~" + event.query
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
     }
     this.accountService
       .find(search)
@@ -234,23 +289,26 @@ this.trajetService.find('villeSource.code~'+this.villeSource?.code +',villeDesti
   onSelectStatus(event) {
     this.selectedOrderTransport.turnStatus = event.value;
   }
-  onSelectConsignment(event){
+  onSelectConsignment(event) {
     console.log(event.checked);
 
-        this.selectedOrderTransport.consignment=event.checked;
-      }
-      onSelectPort(event){
-        console.log(event.value);
+    this.selectedOrderTransport.consignment = event.checked;
+  }
+  onSelectPort(event) {
+    console.log(event.value.code);
 
-            this.selectedOrderTransport.port=event.value;
-          }
-          onSelectPalletResponsibility(event){
-            console.log(event.value);
+    this.selectedOrderTransport.port = event.value.code;
+  }
+  onSelectPalletResponsibility(event) {
+    console.log(event.value.code);
 
-                this.selectedOrderTransport.palletResponsibility=event.value;
-              }
+    this.selectedOrderTransport.palletResponsibility = event.value.code;
+  }
   onSelectCategory(event) {
+    console.log(this.selectedOrderTransport.vehicleCategory );
+
     this.selectedOrderTransport.vehicleCategory = event.value;
+  this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
   }
   onSelectVehicleTray(event) {
     this.selectedOrderTransport.vehicleTray = event.value;
@@ -263,35 +321,51 @@ this.trajetService.find('villeSource.code~'+this.villeSource?.code +',villeDesti
     this.selectedOrderTransport.turnType = event.value ? event.value : event;
     this.turnTypeId.emit(this.selectedOrderTransport.turnType.id);
   }
-  onSelectSource(event){
-    this.villeSource =  event;
-
+  onSelectSource(event) {
+    this.villeSource = event;
   }
-  onSelectDistination(event){
-    this.villeDestination =  event;
-
+  onSelectDistination(event) {
+    this.villeDestination = event;
   }
-  onSourceSearch (event){
-    this.villeService.find('code~'+event.query).subscribe((data) => {
+  onSourceSearch(event) {
+    this.villeService.find("code~" + event.query).subscribe((data) => {
       this.villeList = data;
-
+    });
+  }
+  getVehicleCategoryTray(vehicleCategory:VehicleCategory) {
+    console.log(vehicleCategory);
+    this.vehicleCategoryService.findById(vehicleCategory.id).subscribe((data) => {
+      this.selectedOrderTransport.vehicleCategory=data;
+      this.vehicleTrayList =
+        this.selectedOrderTransport?.vehicleCategory?.vehicleCategoryTrays.map(
+          (m) => m.vehicleTray
+        );
     });
   }
   load() {
-    this.portList=["Payé","Dû"];
-    this.palletResponsibilityList=["Transport","Client"];
+    this.portList = [new SelectObject("Payé"), new SelectObject("Dû")];
+    this.palletResponsibilityList = [
+      new SelectObject("Transport"),
+      new SelectObject("Client"),
+    ];
+
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
-      if(  this.selectedOrderTransport.packagingType==undefined &&   this.selectedOrderTransport.packagingType==null){
-    this.selectedOrderTransport.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
-       this.initForm();
+      if (
+        this.selectedOrderTransport.packagingType == undefined &&
+        this.selectedOrderTransport.packagingType == null
+      ) {
+        this.selectedOrderTransport.packagingType =
+          this.packagingTypeList.filter((f) => f.id == 1)[0];
+        this.initForm();
       }
-
     });
     this.marchandiseTypeService.findAll().subscribe((data) => {
       this.marchandiseTypeList = data;
+    });
 
-
+    this.vehicleAccompanimentService.findAll().subscribe((data) => {
+      this.vehicleAccompanimentList = data;
     });
     this.loadingTypeService.findAll().subscribe((data) => {
       this.loadingTypeList = data;
@@ -309,10 +383,12 @@ this.trajetService.find('villeSource.code~'+this.villeSource?.code +',villeDesti
         this.selectedOrderTransport.turnType == null &&
         this.selectedOrderTransport.turnType == undefined
       ) {
-        this.selectedOrderTransport.turnType =
-          this.turnTypeList.filter((f) => f.id == 1)[0];
+        this.selectedOrderTransport.turnType = this.turnTypeList.filter(
+          (f) => f.id == 1
+        )[0];
         this.initForm();
-      }    });
+      }
+    });
 
     this.vehicleCategoryService.findAll().subscribe((data) => {
       this.vehicleCategoryList = data;
@@ -322,22 +398,25 @@ this.trajetService.find('villeSource.code~'+this.villeSource?.code +',villeDesti
       ) {
         this.selectedOrderTransport.vehicleCategory =
           this.vehicleCategoryList.filter((f) => f.id == 1)[0];
+          this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
+        // this.vehicleTrayList= this.selectedOrderTransport?.vehicleCategory?.vehicleCategoryTrays.map(m=>m.vehicleTray);
+
         this.initForm();
       }
     });
 
-    this.vehicleTrayService.findAll().subscribe((data) => {
-      this.vehicleTrayList = data;
-      if (
-        this.selectedOrderTransport.vehicleTray == null &&
-        this.selectedOrderTransport.vehicleTray == undefined
-      ) {
-        this.selectedOrderTransport.vehicleTray = this.vehicleTrayList.filter(
-          (f) => f.id == 1
-        )[0];
-        this.initForm();
-      }
-    });
+    // this.vehicleTrayService.findAll().subscribe((data) => {
+    //   this.vehicleTrayList = data;
+    //   if (
+    //     this.selectedOrderTransport.vehicleTray == null &&
+    //     this.selectedOrderTransport.vehicleTray == undefined
+    //   ) {
+    //     this.selectedOrderTransport.vehicleTray = this.vehicleTrayList.filter(
+    //       (f) => f.id == 1
+    //     )[0];
+    //     this.initForm();
+    //   }
+    // });
   }
 
   next() {

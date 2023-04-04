@@ -1,3 +1,5 @@
+import { VehicleTray } from './vehicle-tray';
+import { VehicleCategoryTray } from './vehicle-category-tray';
 import { CatalogTransportPricing } from './CatalogTransportPricing';
 import { InsuranceType } from './insurance-Type';
 import { Owner } from './owner';
@@ -23,6 +25,10 @@ export class VehicleCategory {
  vehicles:Vehicle[]=[];
  transports :Transport[]=[];
  priceKm : number;
- catalogTransportPricings:CatalogTransportPricing[]=[];
+ vehicleCategoryTrays : VehicleCategoryTray[]=[];
+ vehicleTrays : VehicleTray[]=[]; //local
+
+
+ //catalogTransportPricings:CatalogTransportPricing[]=[];
 
 }

@@ -201,38 +201,8 @@
       </div>
 
       <div class="form-group col-md-6">
-        <!-- <span *ngIf="isInterOrPrestataire=='Interne'">
-  <p-orderList [value]="vehicleAvailable"  (onSelectionChange)="onSelectVehicle($event)" [listStyle]="{'max-height':'30rem'}"
-  header="Liste des Véhicule" filterBy="state"
-   filterPlaceholder="Recherche Par Matricule" [dragdrop]="true">
-    <ng-template let-vehicle pTemplate="item" >
-        <div class="product-item">
-            <div class="image-container">
-                    <img src="./assets/img/truckCat.png"  class="product-image" />
-            </div>
-            <div class="product-list-detail">
-              <span>Code  :<span style="   color: #4084bd;  font-weight: 600; font-size: 15px;"> {{vehicle?.code}}</span></span><br>
 
-              <span>Matricule  :<span style="   color: #4084bd;  font-weight: 600; font-size: 15px;"> {{vehicle?.registrationNumber}}</span></span>
-              <br>
-           <i class="pi pi-tag product-category-icon"></i>
-              <span style="font-size: 14px;font-weight:600">
-                {{vehicle?.vehicleCategory?.code}}</span>
-
-<br>
-                <i class="pi pi-tag product-category-icon"></i>
-                <span class="product-category"style="     font-weight: 800;     font-size: 17px;" >
-                  {{vehicle?.vehicleCategory?.tonnage}}<span style=" color: #4084bd;  font-size: 10px;  font-weight: 800;" >KG</span> </span>
-            </div>
-            <div class="product-list-action">
-                <span [class]="'customer-badge status-'+vehicle.state">{{vehicle.state}}</span>
-            </div>
-        </div>
-    </ng-template>
-</p-orderList>
-
-</span> -->
-        <span>
+        <span *ngIf="transportOrCatalog==false">
           <p-orderList
             [value]="catalogTransportPricingList"
             (onSelectionChange)="onselectTransport($event)"
@@ -241,6 +211,7 @@
             filterBy="transport.name"
             filterPlaceholder="Recherche Par Prestataire"
             [dragdrop]="true"
+
           >
             <ng-template let-transport pTemplate="item">
               <div class="product-item">
@@ -259,6 +230,13 @@
                     style="font-weight: 700; font-size: 13px"
                   >
                     {{ transport?.vehicleCategory?.code }}
+                  </span><br>
+                  <i class="fa fa-money product-category-icon"></i>
+                  <span
+                    class="product-category"
+                    style="font-weight: 700; font-size: 13px"
+                  >
+                  {{ transport.purchaseAmountHt }}DH
                   </span>
                 </div>
                 <div class="product-list-action">
@@ -284,11 +262,16 @@
 
                 <img
                 src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
-                <a (click)='onShowDialogTarifTransport()' class="ml-2">Ajouter Tarification </a></span>  </div>
-            </ng-template>
+                <a (click)='onShowDialogTarifTransport()' class="ml-2">Aucun Transporteur ,Choisir un autre </a></span>  </div>
+
+              </ng-template>
           </p-orderList>
         </span>
 
+
+
+
+     
         <div class="row mt-3 justify-content-around m-0">
           <div class="form-group col-md-1"></div>
           <div class="form-group col-md-4">
@@ -332,6 +315,21 @@
       <div class="row m-2 mt-3 justify-content-around divRowInfo">
         <div class="form-group col-md-3 divLineInfo">
           <label class="font-weight-bold">{{ "Order" | translate }} *</label>
+          <span
+          *ngIf="
+            (transportPlanForm.get('orderTransport')
+              .touched &&
+              transportPlanForm.get('orderTransport')
+                .invalid) ||
+            (isFormSubmitted &&
+            transportPlanForm.get('orderTransport')
+                .invalid)
+          "
+          class="text-lighter"
+          style="color: red; font-size: xx-small"
+        >
+          {{ "Obligatoire" | translate }}
+        </span>
           <br />
           <input
             formControlName="orderTransport"
@@ -346,6 +344,21 @@
           <label class="font-weight-bold"
             >{{ "Catégorie" | translate }} *</label
           >
+          <span
+          *ngIf="
+            (transportPlanForm.get('vehicleCategory')
+              .touched &&
+              transportPlanForm.get('vehicleCategory')
+                .invalid) ||
+            (isFormSubmitted &&
+            transportPlanForm.get('vehicleCategory')
+                .invalid)
+          "
+          class="text-lighter"
+          style="color: red; font-size: xx-small"
+        >
+          {{ "Obligatoire" | translate }}
+        </span>
           <br />
           <input
             formControlName="vehicleCategory"
@@ -360,6 +373,21 @@
           <label class="font-weight-bold"
             >{{ "Transport" | translate }} *</label
           >
+          <span
+          *ngIf="
+            (transportPlanForm.get('transport')
+              .touched &&
+              transportPlanForm.get('transport')
+                .invalid) ||
+            (isFormSubmitted &&
+            transportPlanForm.get('transport')
+                .invalid)
+          "
+          class="text-lighter"
+          style="color: red; font-size: xx-small"
+        >
+          {{ "Obligatoire" | translate }}
+        </span>
           <br />
           <input
             formControlName="transport"
@@ -386,17 +414,32 @@
       <div class="row m-2 mt-3 justify-content-around divRowInfo">
         <div class="form-group col-md-3 divLineInfo">
           <label class="font-weight-bold">{{ "Tarif Achat" | translate }} *</label>
+          <span
+          *ngIf="
+            (transportPlanForm.get('purchasePrice')
+              .touched &&
+              transportPlanForm.get('purchasePrice')
+                .invalid) ||
+            (isFormSubmitted &&
+            transportPlanForm.get('purchasePrice')
+                .invalid)
+          "
+          class="text-lighter"
+          style="color: red; font-size: xx-small"
+        >
+          {{ "Obligatoire" | translate }}
+        </span>
           <br />
           <input
             formControlName="purchasePrice"
-            [attr.disabled]="'true'"
+
             type="text"
             class="form-control"
             pInputText
           />
         </div>
         <div class="form-group col-md-3 divLineInfo">
-          <label class="font-weight-bold">{{ "Tarif Négocié" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Tarif Négocié" | translate }} </label>
           <br />
           <input
             formControlName="purchasePriceNegotiated"
@@ -406,7 +449,7 @@
           />
         </div>
         <div class="form-group col-md-6 divLineInfo">
-          <label class="font-weight-bold">{{ "Remarque" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Remarque" | translate }} </label>
           <br />
           <input
             formControlName="remark"
@@ -421,7 +464,7 @@
         *ngIf="isInterOrPrestataire == true"
       >
         <div class="form-group col-md-3 divLineInfo">
-          <label class="font-weight-bold">{{ "Vehicule" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Vehicule" | translate }} </label>
 
           <br />
           <input
@@ -434,7 +477,7 @@
         </div>
         <div class="form-group col-md-3 divLineInfo">
           <label class="font-weight-bold"
-            >{{ "Chauffeur" | translate }} *</label
+            >{{ "Chauffeur" | translate }} </label
           >
 
           <br />
@@ -461,7 +504,7 @@
 
 
 
-          <div class="card  ">
+          <div class="card  " *ngIf="this.selectedTransportPlan.orderTransport?.id>0">
             <div class="card-header" style="background-color: #f7f7f7;">
               <div class="row">
 
@@ -477,9 +520,8 @@
               </div>
             </div>
             <div class="card-body border-top-primary">
-              <p-table [value]=" this.selectedTransportPlan?.transportPlanServiceCatalogs" [lazy]="true" [rows]="8"
-                [paginator]="true" [totalRecords]=" this.selectedTransportPlan
-            ?.transportPlanServiceCatalogs?.length" >
+              <p-table [value]=" this.selectOrderTransport.orderTransportServiceCatalogs" [lazy]="true" [rows]="8"
+                [paginator]="true" [totalRecords]=" this.selectOrderTransport?.orderTransportServiceCatalogs?.length" >
                 <ng-template pTemplate="header">
                   <tr>
 
@@ -641,17 +683,18 @@
   <app-transport-plan-service-edit
   (showDialog)="onHideDialogTransportProduct($event)"
  (transportProductEdited)="onLineEditedTransportProduct($event)"
- [selectedAccount]="this.selectedTransportPlan?.orderTransport?.account"
+ [selectedAccount]="this.selectOrderTransport?.account"
    [selectedTransportServiceCatalog]="this.selectedTransportProductService"
-   [editMode]="editModeTransportProduct"></app-transport-plan-service-edit>
+   [editMode]="editModeTransportProduct"
+   [type]="1"></app-transport-plan-service-edit>
 
 </div>
 
 
 <div *ngIf="showDialogCatalogTransport == true">
   <app-transport-plan-tarif-trajet-transport
-     (showDialog)="onShowDialogTarifTransport($event)"
+     (showDialog)="onHideDialogTarifTransport($event)"
     [selectCatalogTransportPricing]="selectCatalogTransportPricing"
-    (acountPricingEdited)="onLineEdited($event)"
+    (acountPricingEdited)="onLineTarifTransport($event)"
   ></app-transport-plan-tarif-trajet-transport>
 </div>

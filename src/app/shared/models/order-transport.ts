@@ -1,3 +1,6 @@
+import { OrderTransportAccompaniment } from './order-transport-accompaniment';
+import { VehicleAccompaniment } from './vehicle-accompaniment';
+import { SelectObject } from './select-object';
 import { TransportPlanServiceCatalog } from './transport-plan-service-catalog';
 import { MarchandiseType } from './marchandise-type';
 import { Trajet } from './trajet';
@@ -29,7 +32,9 @@ export class OrderTransport {
   packagingType: PackagingType;
   consignment:Boolean;
   port:string ; // payé true , du false
+  portObject:SelectObject; //local
   palletResponsibility:string ; //true prestataire /false client
+  palletResponsibilityObject : SelectObject;//local
   marchandiseType:MarchandiseType;
   account :Account;
   contact:Contact;
@@ -53,5 +58,9 @@ export class OrderTransport {
   marginValue : number=0;
   owner :Owner;
   orderTransportServiceCatalogs : TransportPlanServiceCatalog[]=[];
+  orderTransportAccompaniments : OrderTransportAccompaniment[]=[];
+
+  vehicleAccompaniments : VehicleAccompaniment[]=[];//local
+
   index :  boolean ; // variable local
 }

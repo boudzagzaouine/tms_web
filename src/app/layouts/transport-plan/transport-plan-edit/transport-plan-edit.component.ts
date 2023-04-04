@@ -40,8 +40,6 @@ export class TransportPlanEditComponent implements OnInit {
   vehicleList:Vehicle[]=[];
   driverList:Driver[]=[];
   selectedOrderTransport: OrderTransport = new OrderTransport();
-  selectedOrderTransportInfoAller: OrderTransportInfo = new OrderTransportInfo();
-  selectedOrderTransportInfoRetour: OrderTransportInfo = new OrderTransportInfo();
   vehicleCategoryList : VehicleCategory[]=[];
   transportList : Transport[]=[];
   isFormSubmitted : Boolean =false;
@@ -89,41 +87,12 @@ export class TransportPlanEditComponent implements OnInit {
           this.transportPlanService.findById(id).subscribe(
             (data) => {
               this.selectedTransportPlan=data;
- console.log( this.selectedTransportPlan);
-
-              this.orderTransportService.findById(this.selectedTransportPlan.orderTransport.id).subscribe((data) => {
-                this.selectedOrderTransport = data;
-                console.log(this.selectedOrderTransport);
-
-                if(this.selectedOrderTransport?.turnType?.id==1 ||this.selectedOrderTransport?.turnType?.id==3 ){
-
-           this.orderTransportInfoService.find('type~'+'Aller'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
-             aller=>{
-              if(aller[0]){
-             this.selectedOrderTransportInfoAller=aller[0];
-            }
-                       console.log(aller);
-
-              }
-           );
-            }
-
-            if(this.selectedOrderTransport?.turnType?.id==2 ||this.selectedOrderTransport?.turnType?.id==3 ){
-
-              this.orderTransportInfoService.find('type~'+'Retour'+',orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
-                retour=>{
-if(retour[0]){
-                  this.selectedOrderTransportInfoRetour=retour[0];
-
-                                          }                          console.log(retour);
-
-                 }
-              );
-               }
-
-
-
+            console.log( this.selectedTransportPlan);
+            this.orderTransportService.findById(this.selectedTransportPlan.orderTransport.id).subscribe(
+              (data) => {
+              this.selectedOrderTransport=data;
               });
+
 
               this.initForm();
             })
@@ -215,6 +184,10 @@ onSubmit(close=false){
      (data) => {
        this.selectedTransportPlan = data;
 
+       this.orderTransportService.set(this.selectedOrderTransport).subscribe(
+        (data) => {
+          this.selectedOrderTransport = data;
+        });
        this.toastr.success(
          "Elément Turn est Enregistré Avec Succès ",
          "Edition"
@@ -260,24 +233,24 @@ onSubmit(close=false){
     console.log(line);
 
     if (
-      this.selectedTransportPlan.transportPlanServiceCatalogs == null ||
-      this.selectedTransportPlan.transportPlanServiceCatalogs == undefined
+      this.selectedOrderTransport.orderTransportServiceCatalogs == null ||
+      this.selectedOrderTransport.orderTransportServiceCatalogs == undefined
     ) {
-      this.selectedTransportPlan.transportPlanServiceCatalogs = [];
+      this.selectedOrderTransport.orderTransportServiceCatalogs = [];
     }
-    this.selectedTransportPlan.transportPlanServiceCatalogs =   this.selectedTransportPlan.transportPlanServiceCatalogs.filter(
+    this.selectedOrderTransport.orderTransportServiceCatalogs =   this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
       (l) => l.product.code !== line.product.code
     );
 
-    this.selectedTransportPlan.transportPlanServiceCatalogs.push(line);
+    this.selectedOrderTransport.orderTransportServiceCatalogs.push(line);
     this.calculateAllLines();
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Suprimer?",
       accept: () => {
-        this.selectedTransportPlan.transportPlanServiceCatalogs =
-        this.selectedTransportPlan.transportPlanServiceCatalogs.filter((l) => l.product.code !== productCode);
+        this.selectedOrderTransport.orderTransportServiceCatalogs =
+        this.selectedOrderTransport.orderTransportServiceCatalogs.filter((l) => l.product.code !== productCode);
         this.calculateAllLines();
       },
     });
@@ -294,7 +267,7 @@ onSubmit(close=false){
   this.selectedTransportPlan.totalPriceHT=this.selectedOrderTransport.priceHT;
   this.selectedTransportPlan.totalPriceTTC=this.selectedOrderTransport.priceTTC;
   this.selectedTransportPlan.totalPriceVat=this.selectedOrderTransport.priceVat;
-    this.selectedTransportPlan?.transportPlanServiceCatalogs.forEach(line => {
+    this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
       this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
       this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
       this.selectedTransportPlan.totalPriceVat += +line.salePriceVat;

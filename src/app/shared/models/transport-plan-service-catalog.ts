@@ -1,3 +1,4 @@
+import { OrderTransport } from './order-transport';
 import { Account } from './account';
 import { Address } from './address';
 import { Transport } from './transport';
@@ -16,7 +17,7 @@ export class TransportPlanServiceCatalog {
   purchasePriceHT: number;
   purchaseVat: Vat;
   purchasePriceTTC: number;
-
+  orderTransport:OrderTransport;
   salePriceHT: number;
   saleVat: Vat;
   salePriceTTC: number;

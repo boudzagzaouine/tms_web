@@ -272,23 +272,36 @@
     </div>
 
     </div>
+    <div class="container-fluid">
+
     <div class="row pull-left mt-5">
-      <button
+      <button pButton pRipple type="button"
+      label="Précédent" styleClass="p-button-lg"
+       icon="fa fa-angle-double-left"
+         class="p-button-rounded  bNext"
+          iconPos="left" (click)="previous()"></button>
+      <!-- <button
         type="button"
         pButton
         icon="fa fa-chevron-left"
         (click)="previous()"
-      ></button>
+      ></button> -->
     </div>
     <div class="row pull-right mt-5">
-      <button
+      <button pButton pRipple type="button"
+      label="Suivant" styleClass="p-button-lg"
+       icon="fa fa-angle-double-right"
+         class="p-button-rounded bNext"
+          iconPos="right" (click)="next()"></button>
+
+      <!-- <button
         type="button"
         pButton
         icon="fa fa-chevron-right"
         (click)="next()"
-      ></button>
+      ></button> -->
     </div>
-
+</div>
 
       <div *ngIf="showDialogContactAddress == true">
         <app-generate-address-contact

@@ -69,6 +69,7 @@ export class TransportPlanTarifTrajetTransportComponent implements OnInit {
 
   ngOnInit() {
     this.load();
+console.log(this.selectCatalogTransportPricing);
 
 
       this.turnTypeid = this.selectCatalogTransportPricing?.turnType?.id;
@@ -155,7 +156,7 @@ export class TransportPlanTarifTrajetTransportComponent implements OnInit {
       } else {
         this.existPricing();
       }
-    } 
+    }
     this.spinner.hide();
   }
 

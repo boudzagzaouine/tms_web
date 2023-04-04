@@ -1,3 +1,6 @@
+import { VehicleTray } from './../../../../shared/models/vehicle-tray';
+import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
+import { VehicleCategoryTray } from './../../../../shared/models/vehicle-category-tray';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
@@ -25,9 +28,11 @@ export class VehicleCategorieEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier une catégorie de véhicule';
   subscriptions= new Subscription();
+  vehicleTrayList:VehicleTray[]=[];
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
+    private vehicleTrayService:VehicleTrayService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
     private messageService: MessageService,
@@ -35,9 +40,21 @@ export class VehicleCategorieEditComponent implements OnInit {
   ) { }
   ngOnInit() {
 
+    this.vehicleTrayService.findAll().subscribe(
+      data=> {
+        this.vehicleTrayList=data;
+      }
+    )
+
     if (this.editMode === 1) {
       this.selectedVehicleCategory = new VehicleCategory();
       this.title = 'Ajouter une catégorie de véhicule';
+
+    }
+    else {
+      console.log(this.selectedVehicleCategory.vehicleCategoryTrays);
+
+      this.selectedVehicleCategory.vehicleTrays=this.selectedVehicleCategory.vehicleCategoryTrays.map(f=>f.vehicleTray)
 
     }
     this.displayDialog = true;
@@ -56,6 +73,8 @@ export class VehicleCategorieEditComponent implements OnInit {
       'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
       'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
       'fPriceKm': new FormControl(this.selectedVehicleCategory.priceKm),
+      'fVehicleTrays': new FormControl(this.selectedVehicleCategory.vehicleTrays),
+
     });
 
   }
@@ -75,6 +94,14 @@ export class VehicleCategorieEditComponent implements OnInit {
     this.selectedVehicleCategory.emptyWeight = this.vehicleCategoryForm.value['fEmptyWeight'];
     this.selectedVehicleCategory.totalWeight = this.vehicleCategoryForm.value['fTotalWeight'];
     this.selectedVehicleCategory.priceKm = this.vehicleCategoryForm.value['fPriceKm'];
+
+    this.selectedVehicleCategory.vehicleTrays = this.vehicleCategoryForm.value["fVehicleTrays"];
+    this.selectedVehicleCategory.vehicleCategoryTrays=[];
+    this.selectedVehicleCategory.vehicleTrays.forEach(element => {
+   let vehicleCategoryTray= new VehicleCategoryTray();
+   vehicleCategoryTray.vehicleTray=element;
+     this.selectedVehicleCategory.vehicleCategoryTrays.push(vehicleCategoryTray);
+    });
 
     this.selectedVehicleCategory.owner=this.authentificationService.getDefaultOwner();
 

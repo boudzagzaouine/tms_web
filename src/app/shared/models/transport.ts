@@ -35,7 +35,7 @@ export class Transport {
 
   priceContrat:number=0; // local
   price:number=0; // local
-
+  catalogTransportPricing:CatalogTransportPricing;
 
 
 }

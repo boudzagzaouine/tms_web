@@ -57,7 +57,7 @@ export class GenerateAddressEditComponent implements OnInit {
     );
 
     if (!this.editMode) {
-      this.title = 'Ajouter une Address';
+      this.title = 'Ajouter une Adresse';
 
       console.log("new");
       this.selectedAddress = new Address();

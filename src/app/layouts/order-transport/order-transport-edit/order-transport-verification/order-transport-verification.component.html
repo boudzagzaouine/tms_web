@@ -160,9 +160,9 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
             </div>
 
   </div>
-
+<div class="container-fluid">
 <div class="text-center mt-5 mr-3 ml-3">
-  <a class="btn btn-primary m-1" [routerLink]="['/core/order-transport/list']">
+  <a class="btn btn-primary m-1" [routerLink]="['/core/order-transport/to-affect']">
     {{ "Fermer" | translate }}
   </a>
   <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
@@ -173,13 +173,20 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
   </button>
 </div>
 <div class="row pull-left mt-5">
-  <button
+  <button pButton pRipple type="button"
+  label="Précédent" styleClass="p-button-lg"
+   icon="fa fa-angle-double-left"
+     class="p-button-rounded  bNext"
+      iconPos="left" (click)="previous()"></button>
+  <!-- <button
     type="button"
     pButton
     icon="fa fa-chevron-left"
     (click)="previous()"
-  ></button>
+  ></button> -->
 </div>
+</div>
+
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
 
 <!-- <div *ngIf="showDialogMap == true"> -->

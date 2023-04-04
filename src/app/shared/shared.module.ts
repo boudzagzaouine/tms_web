@@ -1,3 +1,4 @@
+import { VehicleAccompanimentService } from './services/api/vehicle-accompaniment.service';
 import { MarchandiseTypeService } from './services/api/marchandise-type.service';
 import { OrderTransportDocumentTypeService } from './services/api/order-transport-document-type.service';
 import { AccountPricingServiceService } from './services/api/account-pricing-service.service';
@@ -381,7 +382,8 @@ export class SharedModule {
         OrderTransportInfoLineDocumentService,
         CompanyImportService,
         OrderTransportDocumentTypeService,
-        MarchandiseTypeService
+        MarchandiseTypeService,
+        VehicleAccompanimentService
       ],
 
     };

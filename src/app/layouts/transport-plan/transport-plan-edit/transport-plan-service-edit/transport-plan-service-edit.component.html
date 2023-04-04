@@ -21,19 +21,7 @@
             </p-dropdown>
 
             </div>
-
-          <div class="form-group col-md-4 ">
-            <label class="font-weight-bold">{{'Compte'| translate}}</label><br />
-            <p-dropdown  formControlName="account"
-            [options]="accountList"
-            [disabled]="'true'"
-            [autoDisplayFirst]="false"
-            [placeholder]="this.selectedTransportServiceCatalog?.account?.name"
-             (onChange)="onSelectAccount($event)"
-            optionLabel="name"  [filter]="true" [showClear]="true">
-          </p-dropdown>
-            </div>
-            <div class="form-group col-sm-2">
+ <div class="form-group col-sm-2">
               <label class="font-weight-bold">{{'Avec Facture' | translate}} </label>
 
               <br />
@@ -42,6 +30,18 @@
               <label class="font-weight-bold" for="invoice">{{this.selectedTransportServiceCatalog.invoice?"Oui":"Non"}}</label>
             </div>
 </div>
+          <div class="form-group col-md-4 ">
+            <!-- <label class="font-weight-bold">{{'Compte'| translate}}</label><br />
+            <p-dropdown  formControlName="account"
+            [options]="accountList"
+            [disabled]="'true'"
+            [autoDisplayFirst]="false"
+            [placeholder]="this.selectedTransportServiceCatalog?.account?.name"
+             (onChange)="onSelectAccount($event)"
+            optionLabel="name"  [filter]="true" [showClear]="true">
+          </p-dropdown> -->
+            </div>
+
 
             <div class="form-group col-md-2"></div>
           </div>
@@ -67,7 +67,7 @@
                         </div>
 </div>
 
-                        <!-- <div class="row  justify-content-around">
+                        <div class="row  justify-content-around" *ngIf="this.type==1">
 
             <div class="form-group col-md-4 ">
               <label class="font-weight-bold">{{'Prix Achat HT'| translate}}</label><br />
@@ -93,9 +93,9 @@
                 </div>
 
 
-          </div> -->
+          </div>
 
-          <div class="row  justify-content-around">
+          <div class="row  justify-content-around" *ngIf="this.type==2">
 
             <div class="form-group col-md-4 ">
               <label class="font-weight-bold">{{'Prix Vente HT'| translate}}</label><br />

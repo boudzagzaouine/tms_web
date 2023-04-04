@@ -66,6 +66,7 @@ addIndex(){
     this.selectOrderTransport.packagingType=OrderTransport.packagingType;
     this.selectOrderTransport.marchandiseType=OrderTransport.marchandiseType;
     this.selectOrderTransport.trajet=OrderTransport.trajet;
+    this.selectOrderTransport.orderTransportAccompaniments=OrderTransport.orderTransportAccompaniments;
 
 
     this.selectOrderTransport.weightTotal=OrderTransport.weightTotal;

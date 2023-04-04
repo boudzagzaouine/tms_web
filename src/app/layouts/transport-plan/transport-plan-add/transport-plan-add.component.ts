@@ -1,3 +1,5 @@
+import { TransportServiceService } from './../../../shared/services/api/transport-service.service';
+import { TransportAccountServiceService } from './../../../shared/services/api/transport-account-service.service';
 import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
 import { element } from "protractor";
 import { Account } from "./../../../shared/models/account";
@@ -30,7 +32,7 @@ import { TransportPlanService } from "./../../../shared/services/api/transport-p
 import { DriverService } from "./../../../shared/services/api/driver.service";
 import { TransportPlan } from "./../../../shared/models/transport-plan";
 import { Driver } from "./../../../shared/models/driver";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Transport } from "./../../../shared/models/transport";
 import { VehicleCategory } from "./../../../shared/models/vehicle-category";
 import { VehicleCategorieComponent } from "./../../settings/vehicle-categorie/vehicle-categorie.component";
@@ -50,13 +52,13 @@ import { table } from "console";
 })
 export class TransportPlanAddComponent implements OnInit {
   selectedTransportPlan: TransportPlan = new TransportPlan();
-  transportPlans: TransportPlan[] = [];
   selectOrderTransport: OrderTransport = new OrderTransport();
   orderTransportList: OrderTransport[] = [];
   orderTransportCloneList: OrderTransport[] = [];
   selectTransportPlanHistory: TransportPlanHistory = new TransportPlanHistory();
  selectCatalogTransportPricing = new CatalogTransportPricing();
-
+ transportPlanHistoryList: TransportPlanHistory[] = [];
+  transportList : Transport[]=[];
   selectedVehicle: Vehicle = new Vehicle();
   driverList: Driver[] = [];
   catalogTransportPricingList: CatalogTransportPricing[] = [];
@@ -87,7 +89,7 @@ export class TransportPlanAddComponent implements OnInit {
   editModeTransportProduct: Boolean = false;
   showDialogTransportProduct: Boolean = false;
   showDialogCatalogTransport: Boolean = false;
-
+  transportOrCatalog : Boolean=false; //false catalog  // true transport
   showDialogReject: Boolean = false;
   villeList: Ville[] = [];
   selectedVilleSource: Ville = new Ville();
@@ -98,16 +100,16 @@ export class TransportPlanAddComponent implements OnInit {
   sortTransportitems: any[];
   sortMargeService: any;
   sortMargeValue: any;
-  test: 4.5;
  purchasePrice : number ;
 selectedTransportProductService = new TransportPlanServiceCatalog();
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
     private orderTransportInfoService: OrderTransportInfoService,
-    private vehicleService: VehicleService,
     private catalogTransportPricingService: CatalogTransportPricingService,
     private catalogTransportAccountPricingService: CatalogTransportAccountPricingService,
+    private transportAccountServiceService: TransportAccountServiceService,
+    private transportServiceService: TransportServiceService,
 
     private driverService: DriverService,
     private turnStatusService: TurnStatusService,
@@ -116,7 +118,6 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
     private toastr: ToastrService,
     private villeService: VilleService,
     private router: Router,
-    private maintenanceService: MaintenanceService,
     private confirmationService: ConfirmationService,
     private catalogPricingService: CatalogPricingService,
     private transportPlanHitoryService: TransportPlanHistoryService
@@ -161,18 +162,18 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
   initForm() {
     this.transportPlanForm = new FormGroup({
       orderTransport: new FormControl(
-        this.selectedTransportPlan.orderTransport?.code
+        this.selectedTransportPlan.orderTransport?.code,Validators.required
       ),
       vehicle: new FormControl(
         this.selectedTransportPlan?.vehicle?.registrationNumber
       ),
       driver: new FormControl(this.selectedTransportPlan.driver),
       vehicleCategory: new FormControl(
-        this.selectedTransportPlan?.vehicleCategory?.code
+        this.selectedTransportPlan?.vehicleCategory?.code,Validators.required
       ),
-      transport: new FormControl(this.selectedTransportPlan?.transport?.name),
+      transport: new FormControl(this.selectedTransportPlan?.transport?.name,Validators.required),
       salePrice: new FormControl(this.selectedTransportPlan.salePrice),
-      purchasePrice: new FormControl(this.selectedTransportPlan.purchasePrice),
+      purchasePrice: new FormControl(this.selectedTransportPlan.purchasePrice,Validators.required),
       purchasePriceNegotiated: new FormControl(this.selectedTransportPlan.purchasePriceNegotiated),
       remark: new FormControl(this.selectedTransportPlan.remark),
 
@@ -304,6 +305,7 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
       .find("orderTransport.id:" + this.selectOrderTransport.id)
       .subscribe((data) => {
         if (data[0] != null) {
+          this.transportPlanHistoryList=data;
           data.forEach((element) => {
             this.catalogTransportPricingList =
               this.catalogTransportPricingList.filter(
@@ -525,6 +527,9 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
   onselectTransport(event) {
     console.log(event.value[0]);
     this.selectedTransport = event.value[0];
+
+    this.selectedTransportPlan.purchasePrice = this.selectedTransport.transport.purchaseAmount;
+  this.initForm();
   }
 
   affectedTransport() {
@@ -561,14 +566,14 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
 console.log(this.selectOrderTransport.account);
 
 
-this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTransport.orderTransportServiceCatalogs;
+
 
     this.selectedTransportPlan.vehicleCategory =
       this.selectOrderTransport.vehicleCategory;
     this.selectedTransportPlan.transport = this.selectedTransport.transport;
 
     this.selectedTransportPlan.purchasePrice = this.selectedTransport.transport.purchaseAmount;
-
+    this.affectedService();
     if (this.selectedTransportPlan.transport.interneOrExterne == true) {
       this.isInterOrPrestataire = true;
       this.showDialogVehicle = true;
@@ -581,6 +586,72 @@ this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTranspor
 
     this.initForm();
   }
+
+
+affectedService(){
+
+  this.selectOrderTransport.orderTransportServiceCatalogs.forEach(element => {
+
+       element.transport=this.selectedTransport.transport
+       element.account=this.selectOrderTransport.account;
+       element.invoice=this.selectedTransport.transport.factureService;
+
+       let requete;
+  requete =
+  "company.id:" +
+  this.selectOrderTransport.account.company.id +
+      ",transport.id:" +
+      this.selectedTransport.transport.id +
+      ",product.id:" +
+      element.product.id
+    //   if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTransportServiceCatalog?.account?.id !=undefined){
+    //     requete+=",account.id:"+this.selectedTransportServiceCatalog.account.id;
+    //  }
+      console.log(requete);
+  this.transportAccountServiceService
+  .find(
+  requete
+  )
+  .subscribe((data) => {
+//     if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
+//       data= data.filter(f=> f.account==null);
+//  }
+    if (data[0]) {
+      console.log(data);
+      console.log("account");
+      element.purchasePriceHT=data[0].purchaseAmountHt;
+      element.purchasePriceTTC=data[0].purchaseAmountTtc;
+      element.purchaseVat=data[0].purchaseVat;
+
+
+
+    } else {
+      this.transportServiceService
+      .find(
+        "transport.id:" +
+          this.selectedTransport.transport.id +
+          ",product.id:" +
+          element.product.id
+      )
+      .subscribe((data) => {
+        if (data[0]) {
+          element.purchasePriceHT=data[0].purchaseAmountHt;
+          element.purchasePriceTTC=data[0].purchaseAmountTtc;
+          element.purchaseVat=data[0].purchaseVat;
+        } else {
+          element.purchasePriceHT=0;
+          element.purchasePriceTTC=0;
+               }
+      });
+    }
+  });
+
+  });
+}
+
+
+
+
 
   onSelectedVehicle(event) {
     this.selectedTransportPlan.vehicle = event;
@@ -742,24 +813,24 @@ this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTranspor
     console.log(line);
 
     if (
-      this.selectedTransportPlan.transportPlanServiceCatalogs == null ||
-      this.selectedTransportPlan.transportPlanServiceCatalogs == undefined
+      this.selectOrderTransport.orderTransportServiceCatalogs == null ||
+      this.selectOrderTransport.orderTransportServiceCatalogs == undefined
     ) {
-      this.selectedTransportPlan.transportPlanServiceCatalogs = [];
+      this.selectOrderTransport.orderTransportServiceCatalogs = [];
     }
-    this.selectedTransportPlan.transportPlanServiceCatalogs =   this.selectedTransportPlan.transportPlanServiceCatalogs.filter(
+    this.selectOrderTransport.orderTransportServiceCatalogs =   this.selectOrderTransport.orderTransportServiceCatalogs.filter(
       (l) => l.product.code !== line.product.code
     );
 
-    this.selectedTransportPlan.transportPlanServiceCatalogs.push(line);
+    this.selectOrderTransport.orderTransportServiceCatalogs.push(line);
     this.calculateAllLines();
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Suprimer?",
       accept: () => {
-        this.selectedTransportPlan.transportPlanServiceCatalogs =
-        this.selectedTransportPlan.transportPlanServiceCatalogs.filter((l) => l.product.code !== productCode);
+        this.selectOrderTransport.orderTransportServiceCatalogs =
+        this.selectOrderTransport.orderTransportServiceCatalogs.filter((l) => l.product.code !== productCode);
         this.calculateAllLines();
       },
     });
@@ -776,7 +847,7 @@ this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTranspor
   this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
   this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
   this.selectedTransportPlan.totalPriceVat=this.selectOrderTransport.priceVat;
-    this.selectedTransportPlan?.transportPlanServiceCatalogs.forEach(line => {
+    this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
       this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
       this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
       this.selectedTransportPlan.totalPriceVat += +line.salePriceVat;
@@ -802,30 +873,31 @@ this.selectedTransportPlan.transportPlanServiceCatalogs=this.selectOrderTranspor
 
 
 
-  onShowDialogTarifTransport(event) {
+  onLineTarifTransport(event) {
     console.log(event);
 
     this.showDialogCatalogTransport = true;
-
-      this.selectCatalogTransportPricing = new CatalogTransportPricing();
-      this.selectCatalogTransportPricing.trajet=this.selectOrderTransport.trajet;
-      this.selectCatalogTransportPricing.turnType=this.selectOrderTransport.turnType;
-      this.selectCatalogTransportPricing.vehicleCategory=this.selectOrderTransport.vehicleCategory;
-      this.selectCatalogTransportPricing.vehicleTray=this.selectOrderTransport.vehicleTray;
-      this.selectCatalogTransportPricing.loadingType=this.selectOrderTransport.loadingType;
-
-
-
-
+    this.selectCatalogTransportPricing=event;
 
   }
+  onShowDialogTarifTransport() {
 
-  onLineEdited(catalogTransportPricingEdited: CatalogTransportPricing) {
+    this.transportOrCatalog=true;
 
-    this.showDialogCatalogTransport = false;
+    this.transportService.findAll().subscribe(data=>{
 
-
-
+      this.transportList=data;
+    });
+    // this.showDialogCatalogTransport = true;
+    //  this.selectCatalogTransportPricing = new CatalogTransportPricing();
+    //   this.selectCatalogTransportPricing.trajet=this.selectOrderTransport.trajet;
+    //   this.selectCatalogTransportPricing.turnType=this.selectOrderTransport.turnType;
+    //   this.selectCatalogTransportPricing.vehicleCategory=this.selectOrderTransport.vehicleCategory;
+    //   this.selectCatalogTransportPricing.vehicleTray=this.selectOrderTransport.vehicleTray;
+    //   this.selectCatalogTransportPricing.loadingType=this.selectOrderTransport.loadingType;
+  }
+  onHideDialogTarifTransport(event) {
+    this.showDialogCatalogTransport = event;
   }
 
 

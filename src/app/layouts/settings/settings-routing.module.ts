@@ -1,3 +1,6 @@
+import { VehicleAccompanimentComponent } from './vehicle-accompaniment/vehicle-accompaniment.component';
+import { VehicleTrayComponent } from './vehicle-tray/vehicle-tray.component';
+import { VehicleTray } from './../../shared/models/vehicle-tray';
 import { ContactComponent } from './contact/contact.component';
 import { AgencyComponent } from './agency/agency.component';
 import { HabilitationRoleComponent } from './habilitation-role/habilitation-role.component';
@@ -160,7 +163,9 @@ const routes: Routes = [
       { path: 'user', component: UserComponent},
       { path: 'group-habilitation', component: GroupHabilitationComponent},
       { path: 'agency', component: AgencyComponent},
-      { path: 'contact', component: ContactComponent}
+      { path: 'contact', component: ContactComponent},
+      { path: 'vehicle-tray', component: VehicleTrayComponent},
+      { path: 'vehicle-accompaniment', component: VehicleAccompanimentComponent}
 
 
     ]

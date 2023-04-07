@@ -1,3 +1,4 @@
+import { VatService } from './../../../shared/services/api/vat.service';
 import { TransportServiceService } from './../../../shared/services/api/transport-service.service';
 import { TransportAccountServiceService } from './../../../shared/services/api/transport-account-service.service';
 import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
@@ -44,6 +45,7 @@ import { OrderTransportService } from "./../../../shared/services/api/order-tran
 import { ConfirmationService, MenuItem } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import { table } from "console";
+import { Vat } from './../../../shared/models';
 
 @Component({
   selector: "app-transport-plan-add",
@@ -102,6 +104,7 @@ export class TransportPlanAddComponent implements OnInit {
   sortMargeValue: any;
  purchasePrice : number ;
 selectedTransportProductService = new TransportPlanServiceCatalog();
+selectVatService: Vat=new Vat();
   constructor(
     private orderTransportService: OrderTransportService,
     private transportPlanService: TransportPlanService,
@@ -110,7 +113,7 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
     private catalogTransportAccountPricingService: CatalogTransportAccountPricingService,
     private transportAccountServiceService: TransportAccountServiceService,
     private transportServiceService: TransportServiceService,
-
+    private vatService:VatService,
     private driverService: DriverService,
     private turnStatusService: TurnStatusService,
     private transportService: TransportServcie,
@@ -146,6 +149,10 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
     });
 
     this.loadOrderTransport();
+
+    this.vatService.findById(4).subscribe((data) => {
+      this.selectVatService = data;
+    });
 
     this.transportService.findAll().subscribe((data) => {
       this.selectDefaulTransport = data[0];
@@ -183,6 +190,9 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
 
   //  List  OrderTransport status cree
   loadOrderTransport() {
+    this.transportOrCatalog=false;
+console.log(this.transportOrCatalog);
+
     //turnStatus .id =  1 => cree
     this.orderTransportService.find("turnStatus.id:" + 1).subscribe((data) => {
       this.orderTransportList = data;
@@ -203,7 +213,6 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
       //       element.orderTransportInfoRetour = data[0];
       //     });
        });
-      console.log(this.orderTransportList);
 
     });
     this.sortOrderTransportByValeur();
@@ -221,7 +230,6 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
   }
 
   onSortOrder() {
-    console.log(this.sortMargeValue);
     let tables = this.orderTransportList;
 
     this.orderTransportList = [];
@@ -244,27 +252,25 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
 
     this.catalogTransportPricingList = [];
     this.catalogTransportPricingList.push(...tables);
-    console.log(this.sortMargeService);
 
-    if (this.sortMargeService == "marge") {
-      console.log("marge");
+    if (this.sortMargeService == "service") {
 
+ this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
+        (n1, n2) => n2.margeService - n1.margeService
+      );
+    } else {
       this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
         (n1, n2) => n2.marginRate - n1.marginRate
       );
-    } else {
-      console.log("service");
 
-      this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
-        (n1, n2) => n2.margeService - n1.margeService
-      );
     }
 
-    console.log(this.catalogTransportPricingList);
   }
 
   // List Prestataire from CatalogueTransport  By Category and turnType , Source ,Distination
   loadTransport(event) {
+    this.transportOrCatalog=false;
+
     this.selectOrderTransport =
       event.id != null || event.id != undefined ? event : event.value[0];
 
@@ -293,6 +299,9 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
       .subscribe((data) => {
         if (data[0] != null || data[0] != undefined) {
           this.catalogTransportPricingList = data;
+          this.catalogTransportPricingList = this.catalogTransportPricingList.sort(
+            (n1, n2) => n2.marginRate - n1.marginRate
+          );
           this.searchTransportbyOrderInHistory();
         } else {
           this.catalogTransportPricingList = [];
@@ -448,7 +457,6 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
       .subscribe((data) => {
         if (data[0] != null) {
           purcahse = data[0].purchaseAmountHt;
-          console.log(purcahse);
 
           subject.next(purcahse);
         } else {
@@ -492,7 +500,6 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
     this.orderTransportList = [];
     this.orderTransportList.push(...allerList);
    // this.orderTransportList.push(...retourList);
-    console.log(this.orderTransportList);
     this.sortOrderTransportByValeur();
   }
   onSelectVilleSource(event) {
@@ -521,11 +528,11 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
   }
 
   onSelectVehicle(event) {
-    console.log(event.value[0]);
     this.selectedVehicle = event.value[0];
   }
   onselectTransport(event) {
     console.log(event.value[0]);
+
     this.selectedTransport = event.value[0];
 
     this.selectedTransportPlan.purchasePrice = this.selectedTransport.transport.purchaseAmount;
@@ -556,14 +563,12 @@ selectedTransportProductService = new TransportPlanServiceCatalog();
 
   generatePlanTransport() {
     this.selectedTransportPlan.orderTransport = this.selectOrderTransport;
-    console.log(this.selectOrderTransport);
 
       this.selectedTransportPlan.trajet =
         this.selectOrderTransport.trajet;
 
         this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
         this.selectedTransportPlan.account= this.selectOrderTransport.account;
-console.log(this.selectOrderTransport.account);
 
 
 
@@ -596,60 +601,81 @@ affectedService(){
        element.account=this.selectOrderTransport.account;
        element.invoice=this.selectedTransport.transport.factureService;
 
-       let requete;
-  requete =
-  "company.id:" +
-  this.selectOrderTransport.account.company.id +
-      ",transport.id:" +
-      this.selectedTransport.transport.id +
-      ",product.id:" +
-      element.product.id
-    //   if(this.selectedTransportServiceCatalog?.account?.id != null || this.selectedTransportServiceCatalog?.account?.id !=undefined){
-    //     requete+=",account.id:"+this.selectedTransportServiceCatalog.account.id;
-    //  }
-      console.log(requete);
-  this.transportAccountServiceService
-  .find(
-  requete
-  )
-  .subscribe((data) => {
-//     if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
-//       data= data.filter(f=> f.account==null);
-//  }
-    if (data[0]) {
-      console.log(data);
-      console.log("account");
-      element.purchasePriceHT=data[0].purchaseAmountHt;
-      element.purchasePriceTTC=data[0].purchaseAmountTtc;
-      element.purchaseVat=data[0].purchaseVat;
+       this.transportAccountServiceService
+       .find(
+         "company.id:" +
+         this.selectOrderTransport.account.company.id +
+             ",transport.id:" +
+             this.selectedTransport.transport.id +
+             ",product.id:" +
+             element.product.id+
+             ",account.id:" +
+             this.selectOrderTransport.account.id
+       )
+       .subscribe((data) => {
+         if (data[0]!=null) {
+           element.purchasePriceHT=data[0].purchaseAmountHt;
+           element.purchasePriceTTC=data[0].purchaseAmountTtc;
+           element.purchaseVat=data[0].purchaseVat;
+         } else {
+          this.transportAccountServiceService
+          .find(
+            "company.id:" +
+            this.selectOrderTransport.account.company.id +
+                ",transport.id:" +
+                this.selectedTransport.transport.id +
+                ",product.id:" +
+                element.product.id
 
+          )
+          .subscribe((data) => {
+               data= data.filter(f=> f.account==null);
+            if (data[0]) {
+              element.purchasePriceHT=data[0].purchaseAmountHt;
+              element.purchasePriceTTC=data[0].purchaseAmountTtc;
+              element.purchaseVat=data[0].purchaseVat;
+            } else {
+              this.transportServiceService
+              .find(
+                "transport.id:" +
+                  this.selectedTransport.transport.id +
+                  ",product.id:" +
+                  element.product.id
+              )
+              .subscribe((data) => {
+                if (data[0]) {
+                  element.purchasePriceHT=data[0].purchaseAmountHt;
+                  element.purchasePriceTTC=data[0].purchaseAmountTtc;
+                  element.purchaseVat=data[0].purchaseVat;
+                } else {
+                  element.purchasePriceHT=0;
+                  element.purchasePriceTTC=0;
+                       }
+              });
 
+            }
 
-    } else {
-      this.transportServiceService
-      .find(
-        "transport.id:" +
-          this.selectedTransport.transport.id +
-          ",product.id:" +
-          element.product.id
-      )
-      .subscribe((data) => {
-        if (data[0]) {
-          element.purchasePriceHT=data[0].purchaseAmountHt;
-          element.purchasePriceTTC=data[0].purchaseAmountTtc;
-          element.purchaseVat=data[0].purchaseVat;
-        } else {
-          element.purchasePriceHT=0;
-          element.purchasePriceTTC=0;
-               }
-      });
-    }
-  });
+          });
 
+         }
+
+        });
   });
 }
 
 
+  getServiceByCompanyandAccount(){
+
+
+  }
+  getServiceByCompany(){
+
+
+  }
+
+  getServiceByTransport(){
+
+  }
 
 
 
@@ -676,6 +702,7 @@ affectedService(){
 
     // this.selectedTransportPlan.purchasePrice =
     //   this.selectedTransport.purchaseAmountHt;
+    this.selectedTransportPlan.purchasePrice =formValue['purchasePrice'];
 
     this.selectedTransportPlan.purchasePriceNegotiated =formValue['purchasePriceNegotiated'];
     this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
@@ -690,6 +717,24 @@ affectedService(){
     this.selectedTransportPlan.dateDepart = formValue['date'];
     this.selectedTransportPlan.dateValidate = new Date();
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
+
+    if(this.transportOrCatalog==false){
+      console.log("catalog");
+
+    this.savePlan();
+
+
+    }else if(this.transportOrCatalog==true){
+      console.log("transport");
+
+      this.saveCatalogTransportPricing();
+
+    }
+
+  }
+
+  savePlan(){
+
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
       (data) => {
         this.selectedTransportPlan = data;
@@ -710,13 +755,12 @@ affectedService(){
       },
       () => this.spinner.hide()
     );
+
   }
 
   changeStatusOrderTransport() {
-    console.log(this.selectOrderTransport);
     if (this.selectOrderTransport.turnStatus.id == 1) {
       this.selectOrderTransport.turnStatus = this.selectStatusValide;
-      console.log(this.selectOrderTransport);
 
       this.orderTransportService.set(this.selectOrderTransport).subscribe(
         (data) => {
@@ -770,7 +814,6 @@ affectedService(){
       this.selectTransportPlanHistory.purchasePrice =
         this.selectedTransport.purchaseAmountHt;
 
-        console.log("aller ");
 
 
         this.selectTransportPlanHistory.trajet =
@@ -810,7 +853,6 @@ affectedService(){
   }
 
   onLineEditedTransportProduct(line: TransportPlanServiceCatalog) {
-    console.log(line);
 
     if (
       this.selectOrderTransport.orderTransportServiceCatalogs == null ||
@@ -842,7 +884,6 @@ affectedService(){
 
 
   calculateAllLines() {
-    console.log("calculate");
 
   this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
   this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
@@ -874,7 +915,6 @@ affectedService(){
 
 
   onLineTarifTransport(event) {
-    console.log(event);
 
     this.showDialogCatalogTransport = true;
     this.selectCatalogTransportPricing=event;
@@ -883,11 +923,28 @@ affectedService(){
   onShowDialogTarifTransport() {
 
     this.transportOrCatalog=true;
-
+let catalogs =[]
     this.transportService.findAll().subscribe(data=>{
-
+      this.transportOrCatalog=true;
       this.transportList=data;
+
+      this.transportPlanHistoryList.forEach((element) => {
+        this.transportList =
+          this.transportList.filter(
+            (f) => f.id != element.transport.id
+          );
+      });
+
+      this.transportList.forEach(element => {
+        let cat : CatalogTransportPricing = new CatalogTransportPricing()
+        cat.transport=element;
+    cat.id=1;
+    catalogs.push(cat);
+    this.catalogTransportPricingList= catalogs;
+      });
     });
+
+
     // this.showDialogCatalogTransport = true;
     //  this.selectCatalogTransportPricing = new CatalogTransportPricing();
     //   this.selectCatalogTransportPricing.trajet=this.selectOrderTransport.trajet;
@@ -895,6 +952,68 @@ affectedService(){
     //   this.selectCatalogTransportPricing.vehicleCategory=this.selectOrderTransport.vehicleCategory;
     //   this.selectCatalogTransportPricing.vehicleTray=this.selectOrderTransport.vehicleTray;
     //   this.selectCatalogTransportPricing.loadingType=this.selectOrderTransport.loadingType;
+  }
+
+  saveCatalogTransportPricing(){
+    this.selectCatalogTransportPricing = new CatalogTransportPricing();
+      this.selectCatalogTransportPricing.trajet=this.selectOrderTransport.trajet;
+      this.selectCatalogTransportPricing.turnType=this.selectOrderTransport.turnType;
+      this.selectCatalogTransportPricing.vehicleCategory=this.selectOrderTransport.vehicleCategory;
+      this.selectCatalogTransportPricing.vehicleTray=this.selectOrderTransport.vehicleTray;
+      this.selectCatalogTransportPricing.loadingType=this.selectOrderTransport.loadingType;
+      this.selectCatalogTransportPricing.transport=this.selectedTransport.transport;
+      this.selectCatalogTransportPricing.purchaseAmountHt=this.selectedTransportPlan.purchasePrice
+      this.selectCatalogTransportPricing.purchaseAmountTva = ( this.selectCatalogTransportPricing.purchaseAmountHt / 100) * this.selectVatService.value;
+      this.selectCatalogTransportPricing.purchaseVat=this.selectVatService;
+      this.selectCatalogTransportPricing.purchaseAmountTtc += +this.selectCatalogTransportPricing.purchaseAmountHt  +this.selectCatalogTransportPricing.purchaseAmountTva;
+
+      console.log( this.selectCatalogTransportPricing);
+
+
+      this.catalogTransportPricingService
+      .find(
+        "turnType.id:" +
+          this.selectCatalogTransportPricing.turnType.id +
+          ",loadingType.id:" +
+          this.selectCatalogTransportPricing.loadingType.id +
+          ",vehicleCategory.tonnage >" +
+          this.selectCatalogTransportPricing.vehicleCategory.tonnage +
+          ",vehicleTray.id:" +
+          this.selectCatalogTransportPricing.vehicleTray.id +
+          ",trajet.code~" +
+          this.selectCatalogTransportPricing.trajet.code +
+          ",transport.id:" +
+          this.selectCatalogTransportPricing.transport.id +
+          ",transport.active:" +
+          true
+      )
+      .subscribe((data) => {
+        if (data[0] != null || data[0] != undefined) {
+          console.log(data);
+
+          this.toastr.success("tarif deja existe ", "Info");
+
+        } else {
+          this.toastr.success("existe pas ", "Info");
+
+ this.catalogTransportPricingService.set(this.selectCatalogTransportPricing).subscribe(
+        data=>{
+         this.savePlan();
+          this.toastr.info("Elément Tarif est Enregistré Avec Succès  ", "Info");
+
+        }
+      )
+
+
+        }
+      });
+
+
+
+
+
+
+
   }
   onHideDialogTarifTransport(event) {
     this.showDialogCatalogTransport = event;

@@ -172,37 +172,7 @@ console.log(this.selectedAccount);
   }
 
 
-
-
-  onSearchPriceServiceTransport() {
-
-
-          console.log("transport");
-
-          this.transportServiceService
-            .find(
-              "transport.id:" +
-                this.selectedTransportServiceCatalog.transport.id +
-                ",product.id:" +
-                this.selectedTransportServiceCatalog.product.id
-            )
-            .subscribe((data) => {
-              if (data[0]) {
-                this.initPurchase(
-                  data[0].purchaseAmountHt,
-                  data[0].purchaseAmountTtc,
-                  data[0].purchaseVat
-                );
-              } else {
-                this.initPurchase(0, 0, null);
-              }
-            });
-
-  }
-
-
-
-  onSearchSalePriceServiceBycompany() {
+  onSearchSalePriceServiceByAccount() {
 
     let requete;
     requete =
@@ -210,8 +180,7 @@ console.log(this.selectedAccount);
       this.selectedAccount.company.id +
       ",product.id:" +
       this.selectedTransportServiceCatalog.product.id+
-     ",account.id:"+this.selectedTransportServiceCatalog.account.id;
-
+      ",account.id:"+this.selectedAccount.id;
 
  console.log(requete);
 
@@ -221,13 +190,9 @@ console.log(this.selectedAccount);
       )
       .subscribe((data) => {
         console.log(data);
-        if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
-             data= data.filter(f=> f.account==null);
-        }
-        console.log(data);
-
         if (data[0]) {
-          console.log("companyService");
+          console.log("accountService");
+          console.log(data);
 
           this.initSale(
             data[0].saleAmountHt,
@@ -235,14 +200,15 @@ console.log(this.selectedAccount);
             data[0].saleVat
           );
         } else {
-          console.log("accountService");
-          this.onSearchSalePriceServiceByAccount();
+            // if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
+        //      data= data.filter(f=> f.account==null);
+        // }
+          this.onSearchSalePriceServiceByCompany();
         }
       });
   }
 
-
-  onSearchSalePriceServiceByAccount() {
+ onSearchSalePriceServiceByCompany() {
 
     let requete;
     requete =
@@ -259,13 +225,12 @@ console.log(this.selectedAccount);
       )
       .subscribe((data) => {
         console.log(data);
-        if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
-             data= data.filter(f=> f.account==null);
-        }
+              data= data.filter(f=> f.account==null);
+
         console.log(data);
 
         if (data[0]) {
-          console.log("accountService");
+          console.log("companyService");
 
           this.initSale(
             data[0].saleAmountHt,
@@ -273,14 +238,13 @@ console.log(this.selectedAccount);
             data[0].saleVat
           );
         } else {
-          console.log("catalogService");
+          console.log("prixService");
           this.onSearchSalePriceServiceInCatalog();
         }
       });
   }
 
-
-  onSearchSalePriceServiceInCatalog() {
+    onSearchSalePriceServiceInCatalog() {
     this.catalogServiceService
       .find("product.id:" + this.selectedTransportServiceCatalog.product.id)
       .subscribe((data) => {
@@ -295,6 +259,72 @@ console.log(this.selectedAccount);
         }
       });
   }
+
+  // onSearchPriceServiceTransport() {
+
+
+  //         console.log("transport");
+
+  //         this.transportServiceService
+  //           .find(
+  //             "transport.id:" +
+  //               this.selectedTransportServiceCatalog.transport.id +
+  //               ",product.id:" +
+  //               this.selectedTransportServiceCatalog.product.id
+  //           )
+  //           .subscribe((data) => {
+  //             if (data[0]) {
+  //               this.initPurchase(
+  //                 data[0].purchaseAmountHt,
+  //                 data[0].purchaseAmountTtc,
+  //                 data[0].purchaseVat
+  //               );
+  //             } else {
+  //               this.initPurchase(0, 0, null);
+  //             }
+  //           });
+
+  // }
+
+
+
+
+
+
+
+//   onSearchSalePriceServiceByCompany() {
+
+//     let requete;
+//     requete =
+//       "company.id:" +
+//       this.selectedAccount.company.id +
+//       ",product.id:" +
+//       this.selectedTransportServiceCatalog.product.id
+
+//  console.log(requete);
+
+//     this.accountPricingServiceService
+//       .find(
+//       requete
+//       )
+//       .subscribe((data) => {
+//         console.log(data);
+//         if (data[0]) {
+//           console.log("accountService");
+//           this.initSale(
+//             data[0].saleAmountHt,
+//             data[0].saleAmountTtc,
+//             data[0].saleVat
+//           );
+//         } else {
+//           console.log("catalogService");
+//           this.onSearchSalePriceServiceInCatalog();
+//         }
+//       });
+//   }
+
+
+
 
   initPurchase(
     purchaseAmountht: number,

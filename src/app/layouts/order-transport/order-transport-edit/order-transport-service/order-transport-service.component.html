@@ -1,11 +1,11 @@
 <p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{ width: '70vw' }" (onHide)='onHideDialog()'>
+  showEffect="fade" [modal]="false"  [draggable]="false" [resizable]="false" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
   <div>
     <div class="modal-body">
       <div class="card-body">
         <form [formGroup]="transportProductForm">
 
-       
+
 
 
           <div class="row  justify-content-around">

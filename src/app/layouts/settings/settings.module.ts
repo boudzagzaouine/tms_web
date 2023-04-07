@@ -1,3 +1,9 @@
+import { VehicleAccompanimentEditComponent } from './vehicle-accompaniment/vehicle-accompaniment-edit/vehicle-accompaniment-edit.component';
+import { VehicleAccompanimentComponent } from './vehicle-accompaniment/vehicle-accompaniment.component';
+import { VehicleAccompaniment } from './../../shared/models/vehicle-accompaniment';
+import { VehicleTrayEditComponent } from './vehicle-tray/vehicle-tray-edit/vehicle-tray-edit.component';
+import { VehicleTrayComponent } from './vehicle-tray/vehicle-tray.component';
+import { VehicleTray } from './../../shared/models/vehicle-tray';
 import { ContactContactEditComponent } from './contact/contact-contact-edit/contact-contact-edit.component';
 import { ContactComponent } from './contact/contact.component';
 import { AgencyEditComponent } from './agency/agency-edit/agency-edit.component';
@@ -346,9 +352,11 @@ GroupHabilitationComponent,
 AgencyComponent,
 AgencyEditComponent ,
 ContactContactEditComponent,
-ContactComponent
-
-
+ContactComponent,
+VehicleTrayComponent,
+VehicleTrayEditComponent,
+VehicleAccompanimentComponent,
+VehicleAccompanimentEditComponent
 
 
 

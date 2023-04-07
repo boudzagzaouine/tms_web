@@ -27,7 +27,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
   selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
-  @Input() displayDialog: boolean = false;
+  @Input() displayDialog:Boolean;
  @Input() orderTypeTitle : string ;
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
@@ -430,7 +430,7 @@ console.log("hani hnaaaa ");
     if (this.selectAddress.code != null) {
       this.showDialogContact = true;
     } else {
-      this.toastr.info("sélectionné l adress", "Info");
+      this.toastr.info("sélectionné adresse", "Info");
     }
   }
 

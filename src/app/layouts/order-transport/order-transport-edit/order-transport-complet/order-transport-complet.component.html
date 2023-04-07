@@ -40,12 +40,7 @@
             >{{ "Poids" | translate }}<span style="font-size: 9px;"> (KG)</span> </label
           >
 
-        <!-- <input
-        formControlName="weight"
-          type="text"
-          class="form-control"
-          pInputText
-        /> -->
+      
         <p-inputNumber inputId="locale-user"   [minFractionDigits]="2" formControlName="weight">
         </p-inputNumber>
         </div>
@@ -65,7 +60,6 @@
           <div class="row justify-content-around">
 
           <div class="form-group col-md-6">
-            <!-- <p-button  (click)='onShowDialogPackageDetail(null,false)'>Ajouter Details d'emballage</p-button> -->
             <span class="add" style="float: left;" *ngIf="   this.selectedOrderTransportInfo.packagingType?.id>0">
               <img *ngIf="   this.selectedOrderTransportInfo.packagingType?.id==2" src="./assets/img/add.png" style="width: 30px ; height: 30px;">
 
@@ -229,7 +223,6 @@
               <th>{{'Prix HT '| translate}}</th>
               <th>{{'TVA' | translate}}</th>
               <th>{{'Pric TTC '| translate}}</th>
-              <!-- <th>{{ "Prix" | translate }}</th> -->
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
             </tr>
@@ -245,12 +238,10 @@
 
                 <button  type="button" class="btn btn-sm btn-primary mx-1"
                   (click)="onShowDialogTransportProduct(line,true)">
-                  <!--ADD-->
                   <i class="fa fa-pencil"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger mx-1"
                   (click)="onDeleteTransportProduct(line?.product?.code)">
-                  <!--ADD-->
                   <i class="fa fa-trash"></i>
                 </button>
               </td>
@@ -280,12 +271,7 @@
        icon="fa fa-angle-double-left"
          class="p-button-rounded  bNext"
           iconPos="left" (click)="previous()"></button>
-      <!-- <button
-        type="button"
-        pButton
-        icon="fa fa-chevron-left"
-        (click)="previous()"
-      ></button> -->
+
     </div>
     <div class="row pull-right mt-5">
       <button pButton pRipple type="button"
@@ -294,12 +280,7 @@
          class="p-button-rounded bNext"
           iconPos="right" (click)="next()"></button>
 
-      <!-- <button
-        type="button"
-        pButton
-        icon="fa fa-chevron-right"
-        (click)="next()"
-      ></button> -->
+
     </div>
 </div>
 

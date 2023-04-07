@@ -43,56 +43,42 @@ import { OrderTransport } from "./../../../../shared/models/order-transport";
 export class OrderTransportCompletComponent implements OnInit {
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
-  itineraries: Array<Itinerary> = [];
-  itinerary: Itinerary = new Itinerary();
-  map: any;
-  mainLayer: any;
   orderTransportInfoForm: FormGroup;
-
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
-  selectOrderTransportTrajetQuantity: OrderTransportTrajetQuantity =
-    new OrderTransportTrajetQuantity();
-    selectedOrderTransport: OrderTransport = new OrderTransport();
-
+  selectedOrderTransport: OrderTransport = new OrderTransport();
+  
+  selectPackageDetail: PackageDetail;
   idPackageDetail: number = 0;
   packageDetails: PackageDetail[] = [];
-  selectPackageDetail: PackageDetail;
   editModePackageDetail: boolean = false;
 
-  idOrderTransportLine: number = 0;
   orderTransportInfoLines: OrderTransportInfoLine[] = [];
   selectOrderTransportInfoLineEnlevement: OrderTransportInfoLine;
   selectOrderTransportInfoLineLivraison: OrderTransportInfoLine;
-
   editModeOrderTransportInfoLine: boolean = false;
   showDialogOrderTransportInfoLineEnlevement: boolean = false;
   showDialogOrderTransportInfoLineLivraison: boolean = false;
-  selectedaccountInitialOrFinal: string = "false";
+
   showDialogContactAddress: boolean = false;
   showDialogPackageDetail: boolean = false;
   orderTransportTypeList: OrderTransportType[] = [];
 
-  containerTypeList: ContainerType[] = [];
   packagingTypeList: PackagingType[] = [];
   accountList: Account[] = [];
   isFormSubmitted = false;
   trajetList: Trajet[] = [];
   turnStatus: TurnStatus = new TurnStatus();
-  statusList: TurnStatus[] = [];
   showDialogTransportProduct:Boolean=false;
   editModeTransportProduct: Boolean=false;
 
   selectedTransportProductService = new TransportPlanServiceCatalog();
   constructor(
-    private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
     private confirmationService: ConfirmationService,
     private accountService: AccountService,
     public orderTransportService: OrderTransportService,
-    private messageService: MessageService,
     private trajetService: TrajetService,
     private orderTransportTypeService: OrderTransportTypeService,
-    private villeService: VilleService,
     private turnStatusService: TurnStatusService
   ) {}
 
@@ -241,12 +227,10 @@ export class OrderTransportCompletComponent implements OnInit {
 
   onSelectAccountInitial() {
     this.showDialogContactAddress = true;
-    this.selectedaccountInitialOrFinal = "Initial";
   }
 
   onSelectAccountFinal() {
     this.showDialogContactAddress = true;
-    this.selectedaccountInitialOrFinal = "Final";
   }
   // fin account
 

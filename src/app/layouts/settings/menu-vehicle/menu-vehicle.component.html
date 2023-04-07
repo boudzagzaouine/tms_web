@@ -1,17 +1,29 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <p-tabView>
-  <p-tabPanel *hasPermission="['CATEGORY_VEHICLE_VIEW']" header="{{ 'Catégorie de véhicule' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel [cache]="false" *hasPermission="['CATEGORY_VEHICLE_VIEW']" header="{{ 'Catégorie de véhicule' | translate }}" headerStyleClass="onglet-p-5">
       <ng-template pTemplate="content">
          <app-vehicle-categorie></app-vehicle-categorie>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['CONTRACT_TYPE_VIEW']" header="{{ 'Type de contrat' | translate }}" headerStyleClass="onglet-p-3">
+
+  <p-tabPanel [cache]="false" *hasPermission="['VEHICLE_TRAY_VIEW']" header="{{ 'Type Remorque' | translate }}" headerStyleClass="onglet-p-5">
+    <ng-template pTemplate="content">
+       <app-vehicle-tray></app-vehicle-tray>
+    </ng-template>
+</p-tabPanel>
+
+<p-tabPanel [cache]="false" *hasPermission="['VEHICLE_TRAY_VIEW']" header="{{ 'Moyen d accompagnement' | translate }}" headerStyleClass="onglet-p-5">
+  <ng-template pTemplate="content">
+     <app-vehicle-accompaniment></app-vehicle-accompaniment>
+  </ng-template>
+</p-tabPanel>
+  <p-tabPanel [cache]="false" *hasPermission="['CONTRACT_TYPE_VIEW']" header="{{ 'Type de contrat' | translate }}" headerStyleClass="onglet-p-5">
       <ng-template pTemplate="content">
         <app-contract-type></app-contract-type>
       </ng-template>
   </p-tabPanel>
 
-  <p-tabPanel *hasPermission="['CONSUMPTION_TYPE_VIEW']" header="{{ 'Type de consommation ' | translate }}" headerStyleClass="onglet-p-3">
+  <p-tabPanel [cache]="false" *hasPermission="['CONSUMPTION_TYPE_VIEW']" header="{{ 'Type de consommation ' | translate }}" headerStyleClass="onglet-p-5">
     <ng-template pTemplate="content">
       <app-comsumption-type></app-comsumption-type>
     </ng-template>

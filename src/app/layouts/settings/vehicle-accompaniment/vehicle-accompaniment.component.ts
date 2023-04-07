@@ -1,20 +1,19 @@
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { BadgeType } from './../../../shared/models/badge-Type';
-import { Component, OnInit } from '@angular/core';
-import { MenuItem, ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
-import { EmsBuffer } from '../../../shared/utils';
-import { BadgeTypeService } from '../../../shared/services';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GlobalService } from './../../../shared/services/api/global.service';
+import { VehicleAccompanimentService } from './../../../shared/services/api/vehicle-accompaniment.service';
 import { Subscription } from 'rxjs';
+import { VehicleAccompaniment } from './../../../shared/models/vehicle-accompaniment';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-badge-type',
-  templateUrl: './badge-type.component.html',
-  styleUrls: ['./badge-type.component.css'],
-  providers: [ConfirmationService]
+  selector: 'app-vehicle-accompaniment',
+  templateUrl: './vehicle-accompaniment.component.html',
+  styleUrls: ['./vehicle-accompaniment.component.scss']
 })
-export class BadgeTypeComponent implements OnInit {
+export class VehicleAccompanimentComponent implements OnInit {
 
   page = 0;
   size = 5;
@@ -22,18 +21,18 @@ export class BadgeTypeComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   descriptionSearch = '';
-  codeList: Array<BadgeType> = [];
+  codeList: Array<VehicleAccompaniment> = [];
   cols: any[];
-  badgeTypeList: Array<BadgeType> = [];
-  selectedBadgeTypes: Array<BadgeType> = [];
+  vehicleAccompanimentList: Array<VehicleAccompaniment> = [];
+  selectedVehicleAccompaniments: Array<VehicleAccompaniment> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
-  titleList = 'Liste des types de badges';
-  badgeTypeExportList: Array<BadgeType> = [];
+  titleList = 'Liste des Moyen accompagnement';
+  vehicleAccompanimentExportList: Array<VehicleAccompaniment> = [];
   subscriptions= new Subscription();
 
-  constructor(private badgeTypeService: BadgeTypeService,
+  constructor(private vehicleAccompanimentService: VehicleAccompanimentService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -44,7 +43,7 @@ export class BadgeTypeComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.className = BadgeType.name;
+    this.className = VehicleAccompaniment.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
@@ -56,13 +55,13 @@ export class BadgeTypeComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.subscriptions.add(this.badgeTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleAccompanimentService.find(this.searchQuery).subscribe(
       data => {
-        this.badgeTypeExportList = data;
+        this.vehicleAccompanimentExportList = data;
         if (event != null) {
-          this.globalService.generateExcel(event, this.badgeTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.vehicleAccompanimentExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.badgeTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.vehicleAccompanimentExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -76,10 +75,10 @@ export class BadgeTypeComponent implements OnInit {
 
   }
   onExportPdf(event) {
-    this.subscriptions.add(this.badgeTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.vehicleAccompanimentService.find(this.searchQuery).subscribe(
       data => {
-        this.badgeTypeExportList = data;
-        this.globalService.generatePdf(event, this.badgeTypeExportList, this.className, this.titleList);
+        this.vehicleAccompanimentExportList = data;
+        this.globalService.generatePdf(event, this.vehicleAccompanimentExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -91,15 +90,15 @@ export class BadgeTypeComponent implements OnInit {
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.badgeTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.vehicleAccompanimentService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
    // this.searchQuery='description:null'
-    this.subscriptions.add(this.badgeTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.vehicleAccompanimentService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.badgeTypeList = data;
+        this.vehicleAccompanimentList = data;
 
         this.spinner.hide();
       },
@@ -132,7 +131,7 @@ export class BadgeTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.subscriptions.add(this.badgeTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.vehicleAccompanimentService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     ));
   }
@@ -147,7 +146,7 @@ export class BadgeTypeComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedBadgeTypes = event.object;
+    this.selectedVehicleAccompaniments = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -158,12 +157,12 @@ export class BadgeTypeComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedBadgeTypes.length >= 1) {
+    if (this.selectedVehicleAccompaniments.length >= 1) {
       this.confirmationService.confirm({
         message: ' Voulez vous vraiment Supprimer  ?',
         accept: () => {
-          const ids = this.selectedBadgeTypes.map(x => x.id);
-          this.subscriptions.add(this.badgeTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedVehicleAccompaniments.map(x => x.id);
+          this.subscriptions.add(this.vehicleAccompanimentService.deleteAllByIds(ids).subscribe(
             data => {
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
@@ -179,7 +178,7 @@ export class BadgeTypeComponent implements OnInit {
           ));
         }
       });
-    } else if (this.selectedBadgeTypes.length < 1) {
+    } else if (this.selectedVehicleAccompaniments.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 
@@ -196,5 +195,6 @@ export class BadgeTypeComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
 
 }

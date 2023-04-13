@@ -1,3 +1,4 @@
+import { InformationContactEditComponent } from './order-transport-edit/order-transport-information/information-contact-edit/information-contact-edit.component';
 import { OrderTransportServiceComponent } from './order-transport-edit/order-transport-service/order-transport-service.component';
 import { OrderTransportCompletComponent } from './order-transport-edit/order-transport-complet/order-transport-complet.component';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -60,6 +61,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import { OrderTransportCompletEditComponent } from './order-transport-edit/order-transport-complet/order-transport-complet-edit/order-transport-complet-edit.component';
+import { InformationAccountEditComponent } from './order-transport-edit/order-transport-information/information-account-edit/information-account-edit.component';
+import { OrderTransportCompletRetourComponent } from './order-transport-edit/order-transport-complet-retour/order-transport-complet-retour.component';
 
 @NgModule({
   imports: [
@@ -122,7 +125,10 @@ import { OrderTransportCompletEditComponent } from './order-transport-edit/order
     OrderTransportCancelComponent,
     OrderTransportCompletComponent,
     OrderTransportCompletEditComponent,
-    OrderTransportServiceComponent
+    OrderTransportServiceComponent,
+    InformationAccountEditComponent,
+    OrderTransportCompletRetourComponent,
+    InformationContactEditComponent
 
   ]
 })

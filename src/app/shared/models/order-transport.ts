@@ -43,6 +43,7 @@ export class OrderTransport {
   vehicleTray:VehicleTray;
   trajet:Trajet;
   orderTransportInfoAller:OrderTransportInfo;
+  orderTransportInfoRetour:OrderTransportInfo;
   remark : string;
   weightTotal: number = 0;
   capacityTotal: number = 0;
@@ -63,4 +64,6 @@ export class OrderTransport {
   vehicleAccompaniments : VehicleAccompaniment[]=[];//local
 
   index :  boolean ; // variable local
+
+  indexStep :  number ; // variable local
 }

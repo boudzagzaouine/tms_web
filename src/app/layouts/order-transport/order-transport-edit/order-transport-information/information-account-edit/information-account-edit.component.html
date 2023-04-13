@@ -1,0 +1,132 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="accountForm">
+
+          <div class="row  justify-content-around">
+
+            <div class="form-group col-sm-12 col-md-6">
+              <label class="font-weight-bold">{{'Code' | translate}} *</label>
+              <span *ngIf="(accountForm.get('code').touched && accountForm.get('code').invalid) ||
+                  (isFormSubmitted && accountForm.get('code').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire'| translate}}
+              </span>
+              <br />
+              <input type="text" class="form-control"  pInputText formControlName="code" />
+
+            </div>
+            <!-- [attr.disabled]="true" -->
+
+              <div class="form-group col-sm-12 col-md-6">
+              <label class="font-weight-bold">{{'Nom' | translate}} *</label>
+              <span *ngIf="(accountForm.get('name').touched && accountForm.get('name').invalid) ||
+                  (isFormSubmitted && accountForm.get('name').invalid)" class="text-lighter"
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire'| translate}}
+              </span>
+              <br />
+              <input type="text" class="form-control" pInputText formControlName="name" />
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+
+            </div>
+          </div>
+
+          <div class="row  justify-content-around">
+
+            <div class="form-group col-sm-12 col-md-6">
+              <label class="font-weight-bold">{{'Tel ' | translate}}</label><br />
+              <input type="text" class="form-control" pInputText formControlName="tel1" />
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6">
+              <label class="font-weight-bold">{{'Société' | translate}}</label><br />
+
+              <p-autoComplete  formControlName="company" [suggestions]="companies"
+              (onSelect)="onSelectCompany($event)" (completeMethod)="onCompanySearch($event)" field="name">
+            </p-autoComplete>
+  </div>
+          </div>
+
+
+
+
+    <div class="row  justify-content-around">
+      <div class="form-group col-sm-6">
+        <label class="font-weight-bold">{{"Premiére Ligne d'adresse" | translate}} *</label>
+        <span *ngIf="(accountForm.get('line1').touched && accountForm.get('line1').invalid) ||
+        (isFormSubmitted && accountForm.get('line1').invalid)" class="text-lighter"
+          style="color: red; font-size: xx-small;">
+           {{'Obligatoire' | translate }}
+        </span>
+        <input type="text" class="form-control" pInputText formControlName="line1"
+       />
+      </div>
+
+      <div class="form-group col-sm-6">
+
+      </div>
+
+    </div>
+
+    <div class="row  justify-content-around">
+
+
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold">{{'Pays  ' | translate}}* </label>
+      <br />
+      <span *ngIf="(accountForm.get('country').touched && accountForm.get('country').invalid) ||
+      (isFormSubmitted && accountForm.get('country').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+         {{'Obligatoire' | translate }}
+      </span>
+      <p-autoComplete  formControlName="country" [suggestions]="paysList"
+      (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
+    </p-autoComplete>
+
+
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label class="font-weight-bold">{{'Ville ' | translate}} *</label>
+      <br />
+      <span *ngIf="(accountForm.get('city').touched && accountForm.get('city').invalid) ||
+      (isFormSubmitted && accountForm.get('city').invalid)" class="text-lighter"
+        style="color: red; font-size: xx-small;">
+         {{'Obligatoire' | translate }}
+      </span>
+      <p-autoComplete  formControlName="city" [suggestions]="villeList"
+      (onSelect)="onSelectVille($event)" (completeMethod)="onVilleSearch($event)" field="code">
+    </p-autoComplete>
+
+    </div>
+    <div class="form-group col-sm-3"></div>
+  </div>
+
+
+
+
+
+        </form>
+
+
+
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+      <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

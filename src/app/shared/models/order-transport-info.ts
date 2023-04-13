@@ -23,7 +23,7 @@ export class OrderTransportInfo {
   capacityTotal: number ;
   priceTTC: number ;
   orderTransport :OrderTransport;
-
+  type:number; //1 aller // 2 retour 
   weightEnlevement: number ;
   weightLivraison: number =0;
 

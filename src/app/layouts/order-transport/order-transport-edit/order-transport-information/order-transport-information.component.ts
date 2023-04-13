@@ -73,7 +73,8 @@ export class OrderTransportInformationComponent implements OnInit {
   villeDestination: Ville;
   marchandiseTypeList: MarchandiseType[] = [];
   portList: Array<SelectObject> = [];
-
+  showDialogAccount:boolean=false;
+    showDialogContact:boolean=false;
   palletResponsibilityList: Array<SelectObject> = [];
   selectedContact: Contact = new Contact();
   constructor(
@@ -88,13 +89,13 @@ export class OrderTransportInformationComponent implements OnInit {
     private packagingTypeService: PackagingTypeService,
     private trajetService: TrajetService,
     private messageService: MessageService,
-    private marchandiseTypeService: MarchandiseTypeService
+    private marchandiseTypeService: MarchandiseTypeService,
+    private contactService:ContactService
   ) {}
 
   ngOnInit() {
     this.load();
 
-    console.log(this.OrderTransportService.getOrderTransportCode());
     if (
       this.OrderTransportService.getOrderTransportCode() != null ||
       this.OrderTransportService.getOrderTransportCode() != undefined
@@ -134,11 +135,9 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.palletResponsibilityObject =
           this.palletResponsibilityList[1];
       }
-      console.log(this.selectedOrderTransport?.vehicleCategory);
 
       this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
 
-      console.log(this.vehicleTrayList);
 
       this.villeSource = this.selectedOrderTransport?.trajet?.villeSource;
       this.villeDestination =
@@ -206,7 +205,6 @@ export class OrderTransportInformationComponent implements OnInit {
     if (this.OrderTransportForm.invalid) {
       return;
     }
-    console.log(this.selectedOrderTransport);
 
     this.selectedOrderTransport.vehicleAccompaniments =
       this.OrderTransportForm.value["vehicleAccompaniments"];
@@ -225,15 +223,9 @@ export class OrderTransportInformationComponent implements OnInit {
       //   this.selectedOrderTransport.orderTransportAccompaniments.push(oTAccompaniment);
       // }
     });
-    console.log(this.selectedOrderTransport.vehicleAccompaniments);
 
     // const formValue = this.OrderTransportForm.value;
-    console.log(
-      "villeSource.code~" +
-        this.villeSource.code +
-        ",villeDestination.code~" +
-        this.villeDestination.code
-    );
+
 
     this.trajetService
       .find(
@@ -243,7 +235,6 @@ export class OrderTransportInformationComponent implements OnInit {
           this.villeDestination?.code
       )
       .subscribe((data) => {
-        console.log(data);
 
         if (data[0] != null) {
           this.selectedOrderTransport.trajet = data[0];
@@ -272,7 +263,6 @@ export class OrderTransportInformationComponent implements OnInit {
       .subscribe((data) => (this.accountList = data));
   }
   onSelectAccount(event: any) {
-    console.log(event);
 
     this.selectedOrderTransport.account = event;
     this.contactList = this.selectedOrderTransport.account.contacts;
@@ -290,22 +280,18 @@ export class OrderTransportInformationComponent implements OnInit {
     this.selectedOrderTransport.turnStatus = event.value;
   }
   onSelectConsignment(event) {
-    console.log(event.checked);
 
     this.selectedOrderTransport.consignment = event.checked;
   }
   onSelectPort(event) {
-    console.log(event.value.code);
 
     this.selectedOrderTransport.port = event.value.code;
   }
   onSelectPalletResponsibility(event) {
-    console.log(event.value.code);
 
     this.selectedOrderTransport.palletResponsibility = event.value.code;
   }
   onSelectCategory(event) {
-    console.log(this.selectedOrderTransport.vehicleCategory );
 
     this.selectedOrderTransport.vehicleCategory = event.value;
   this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
@@ -333,14 +319,15 @@ export class OrderTransportInformationComponent implements OnInit {
     });
   }
   getVehicleCategoryTray(vehicleCategory:VehicleCategory) {
-    console.log(vehicleCategory);
-    this.vehicleCategoryService.findById(vehicleCategory.id).subscribe((data) => {
+    if(vehicleCategory?.id !=null){
+    this.vehicleCategoryService.findById(vehicleCategory?.id).subscribe((data) => {
       this.selectedOrderTransport.vehicleCategory=data;
       this.vehicleTrayList =
         this.selectedOrderTransport?.vehicleCategory?.vehicleCategoryTrays.map(
           (m) => m.vehicleTray
         );
     });
+  }
   }
   load() {
     this.portList = [new SelectObject("Payé"), new SelectObject("Dû")];
@@ -393,11 +380,13 @@ export class OrderTransportInformationComponent implements OnInit {
     this.vehicleCategoryService.findAll().subscribe((data) => {
       this.vehicleCategoryList = data;
       if (
-        this.selectedOrderTransport.vehicleCategory == null &&
-        this.selectedOrderTransport.vehicleCategory == undefined
+        this.selectedOrderTransport.vehicleCategory?.id == null &&
+        this.selectedOrderTransport.vehicleCategory?.id == undefined
       ) {
         this.selectedOrderTransport.vehicleCategory =
           this.vehicleCategoryList.filter((f) => f.id == 1)[0];
+
+
           this.getVehicleCategoryTray(this.selectedOrderTransport.vehicleCategory);
         // this.vehicleTrayList= this.selectedOrderTransport?.vehicleCategory?.vehicleCategoryTrays.map(m=>m.vehicleTray);
 
@@ -417,6 +406,61 @@ export class OrderTransportInformationComponent implements OnInit {
     //     this.initForm();
     //   }
     // });
+  }
+
+  affectedAccountInsert(account :Account){
+
+
+
+    this.selectedOrderTransport.account=account;
+this.initForm();
+
+  }
+  onHideDialogAccount(){
+    this.showDialogAccount=false;
+  }
+
+  affectedContactInsert(contact :Contact){
+console.log("dkhal contact");
+
+this.contactService.find('account.id:'+contact.account.id).subscribe(
+  data=>{
+
+this.contactList=[];
+this.contactList=data
+console.log(this.contactList);
+
+  this.selectedOrderTransport.contact=this.contactList.filter(f=>f.id==contact.id)[0];
+ console.log( this.selectedOrderTransport.contact.name);
+
+this.initForm();
+  }
+)
+
+
+
+  }
+  onHideDialogContact(){
+    this.showDialogContact=false;
+  }
+
+  onShowdialogAccount(){
+
+   this.showDialogAccount=true;
+
+
+
+  }
+  onShowdialogContact(){
+    if(  this.selectedOrderTransport.account){
+       this.showDialogContact=true;
+  }else{
+    this.messageService.add({
+      severity: "error",
+      summary: "Erreur",
+      detail: "Selectionner un Compte ",
+    });
+  }
   }
 
   next() {

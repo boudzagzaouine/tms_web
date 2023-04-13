@@ -1,3 +1,4 @@
+import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { TurnStatus } from './../../../shared/models/turn-status';
 import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
 import { Subscription } from 'rxjs';
@@ -18,6 +19,9 @@ import { OrderTransportService } from "./../../../shared/services/api/order-tran
 })
 export class OrderTransportEditComponent implements OnInit,OnDestroy {
   selectedOrderTransport: OrderTransport = new OrderTransport();
+  selectedOrderTransportInforAller: OrderTransportInfo = new OrderTransportInfo();
+  selectedOrderTransportInforRetour: OrderTransportInfo = new OrderTransportInfo();
+
   breadcrumbItems: MenuItem[];
   home: MenuItem;
   index: number = 0;
@@ -32,7 +36,6 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
     public orderTransportService: OrderTransportService,
     public orderTransportInfoService: OrderTransportInfoService,
     private turnStatusService: TurnStatusService,
-
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -40,6 +43,13 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
     this.breadcrumbItems = [
       { label: "Order de  Transport" },
       { label: "Editer", routerLink: "/core/order-transport/edit" },
+    ];
+
+    this.items = [
+      { label: "EN-TÊTE" },
+      { label: "DÉTAILS TRAJET ALLER" },
+      { label: "TARIFICATIONS" },
+      { label: "VÉRIFICATION" },
     ];
     this.home = { icon: "pi pi-home" };
 
@@ -51,7 +61,13 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
 
    this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
      data=>{
-        this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(data[0]));
+      console.log(data);
+
+         this.selectedOrderTransportInforAller=data.filter(f=>f.type ==1)[0];
+         this.selectedOrderTransportInforRetour=data.filter(f=>f.type ==2)[0];
+        this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
+        this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(this.selectedOrderTransportInforRetour));
+
       }
    );
        this.subscriptions.add( this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
@@ -84,13 +100,34 @@ console.log("edit");
 
   showStep(event) {
     this.turnTypeId = event;
-    // if (event == 1) {
+    if ( this.turnTypeId  == 1) {
       this.items = [
         { label: "EN-TÊTE" },
-        { label: "DÉTAILS TRAJET" },
+        { label: "DÉTAILS TRAJET ALLER" },
         { label: "TARIFICATIONS" },
         { label: "VÉRIFICATION" },
       ];
+
+    }
+    if ( this.turnTypeId  == 2) {
+      this.items = [
+        { label: "EN-TÊTE" },
+        { label: "DÉTAILS TRAJET RETOUR " },
+        { label: "TARIFICATIONS" },
+        { label: "VÉRIFICATION" },
+      ];
+
+    }
+    if ( this.turnTypeId  == 3) {
+      this.items = [
+        { label: "EN-TÊTE" },
+        { label: "DÉTAILS TRAJET ALLER" },
+        { label: "DÉTAILS TRAJET RETOUR" },
+        { label: "TARIFICATIONS" },
+        { label: "VÉRIFICATION" },
+      ];
+
+    }
 
   }
 

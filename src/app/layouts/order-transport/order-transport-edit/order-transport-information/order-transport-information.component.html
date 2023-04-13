@@ -48,6 +48,11 @@
                     </div>
                 </ng-template>
             </p-autoComplete>
+            <span class="add" style="float: left;">
+
+              <img
+              src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
+              <a (click)='onShowdialogAccount()' class="ml-2">Ajouter Compte </a></span>
             </div>
 
             <div class="form-group col-md-3">
@@ -65,11 +70,15 @@
               [filter]="true"
               [showClear]="true"
               optionLabel="name"
-              [placeholder]="this.selectedContact?.name"
+              [placeholder]=" this.selectedOrderTransport?.contact?.name"
 
 
             ></p-dropdown>
+            <span class="add" style="float: left;">
 
+              <img
+              src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
+              <a (click)='onShowdialogContact()' class="ml-2">Ajouter Contact </a></span>
             </div>
 
             <div class="form-group col-md-3">
@@ -478,3 +487,23 @@ type="ball-spin-fade-rotating"
 header="Confirmation"
 icon="pi pi-exclamation-triangle"
 ></p-confirmDialog>
+
+<!-- (showDialog)="onHideDialogGenerateContactAddress($event)" -->
+
+<div *ngIf="showDialogAccount == true">
+  <app-information-account-edit
+  (showDialog)="onHideDialogAccount($event)"
+
+    (accountEdited)="affectedAccountInsert($event)"
+  ></app-information-account-edit>
+</div>
+
+
+<div *ngIf="showDialogContact == true">
+  <app-information-contact-edit
+  [selectedAccount]="this.selectedOrderTransport.account"
+  (showDialog)="onHideDialogContact($event)"
+
+    (contactEdited)="affectedContactInsert($event)"
+  ></app-information-contact-edit>
+</div>

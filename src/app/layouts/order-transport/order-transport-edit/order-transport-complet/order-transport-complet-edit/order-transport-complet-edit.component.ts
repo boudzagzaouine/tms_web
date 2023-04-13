@@ -76,13 +76,11 @@ export class OrderTransportCompletEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-console.log("hani hnaaaa ");
 
    this.orderTransportService.subject.subscribe(
     data =>{
 
-        console.log("susbscrib");
-        console.log(data);
+
 
  if(data==true){
   this.onSubmit();
@@ -93,7 +91,6 @@ console.log("hani hnaaaa ");
    )
 
 
-    console.log(this.selectedOrderTransportInfoLine);
     this.initForm();
     this.paymentTypeService.findAll().subscribe((data) => {
       this.paymentTypeList = data;
@@ -190,7 +187,6 @@ console.log("hani hnaaaa ");
 
   onSubmit() {
     this.isFormSubmitted = true;
-  console.log(this.orderTransportInfoLineForm.controls["general"]);
 
     if (this.orderTransportInfoLineForm.controls["general"].invalid) {
       return;
@@ -223,7 +219,6 @@ console.log("hani hnaaaa ");
 
 
 
-      console.log("seftnalikom data wa salam");
 
 
         this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);

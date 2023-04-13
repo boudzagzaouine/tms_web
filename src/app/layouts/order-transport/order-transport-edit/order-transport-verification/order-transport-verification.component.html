@@ -141,20 +141,21 @@ font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <sp
             <span style="margin-left: -15%;
             margin-right: 15%;">
           <span style="position: absolute;
-          margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.villeSource?.code}}, MAROC</span>
+          margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeSource?.code}}, MAROC</span>
       </span>
           <span style="position: absolute;
-          margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.villeDistination?.code}}, MAROC</span>
+          margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeDistination?.code}}, MAROC</span>
         </div>
           </p-card>
           </div>
           <div class="form-group col-md-12">
             <div style="height: 250px">
 
-            <app-order-transport-itinerary-retour
-            [orderTransportInfoLignes]="this.selectOrderTransportInfoRetour.orderTransportInfoLines"
-                 (itineraryInfo)="onSelectedItineraryInfoRetour($event)"
-          ></app-order-transport-itinerary-retour>
+
+      <app-order-transport-itinerary
+      [orderTransportInfoLignes]="this.selectOrderTransportInfoRetour.orderTransportInfoLines"
+           (itineraryInfo)="onSelectedItineraryInfo($event)"
+    ></app-order-transport-itinerary>
             </div>
               </div>
             </div>

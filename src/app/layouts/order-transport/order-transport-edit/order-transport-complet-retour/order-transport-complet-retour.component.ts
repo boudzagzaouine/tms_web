@@ -34,13 +34,13 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { Address } from "./../../../../shared/models";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
-
 @Component({
-  selector: "app-order-transport-complet",
-  templateUrl: "./order-transport-complet.component.html",
-  styleUrls: ["./order-transport-complet.component.scss"],
+  selector: 'app-order-transport-complet-retour',
+  templateUrl: './order-transport-complet-retour.component.html',
+  styleUrls: ['./order-transport-complet-retour.component.scss']
 })
-export class OrderTransportCompletComponent implements OnInit {
+export class OrderTransportCompletRetourComponent implements OnInit {
+
   // @Input() type: number; //1 aller // 2 retour
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
@@ -110,11 +110,11 @@ export class OrderTransportCompletComponent implements OnInit {
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
 
-      console.log("get aller");
+      console.log("get retour");
 
       this.selectedOrderTransportInfo =
-        this.orderTransportService.getorderTransportInfoAller()
-          ? this.orderTransportService.getorderTransportInfoAller()
+        this.orderTransportService.getorderTransportInfoRetour()
+          ? this.orderTransportService.getorderTransportInfoRetour()
           : new OrderTransportInfo();
 
 
@@ -203,7 +203,7 @@ export class OrderTransportCompletComponent implements OnInit {
 
     ;
 
-      this.orderTransportService.addOrderTransportInfoAller(
+      this.orderTransportService.addOrderTransportInfoRetour(
         this.selectedOrderTransportInfo
       );
 
@@ -318,7 +318,7 @@ export class OrderTransportCompletComponent implements OnInit {
 
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
-        this.orderTransportService.addLinesAller(this.orderTransportInfoLines);
+        this.orderTransportService.addLinesRetour(this.orderTransportInfoLines);
 
     }
 
@@ -383,7 +383,7 @@ console.log(this.size);
         this.orderTransportInfoLines = this.orderTransportInfoLines.filter(
           (l) => l.id !== id
         );
-          this.orderTransportService.addLinesAller(
+          this.orderTransportService.addLinesRetour(
             this.orderTransportInfoLines
           );
 

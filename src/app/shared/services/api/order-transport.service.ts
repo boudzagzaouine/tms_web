@@ -133,8 +133,16 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
   }
 
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){
-
+  console.log(orderTransportInfo);
+  orderTransportInfo.type=1;
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;
+    this.emitOnchange();
+
+  }
+  addOrderTransportInfoRetour(orderTransportInfo :OrderTransportInfo){
+    console.log(orderTransportInfo);
+    orderTransportInfo.type=2;
+    this.selectOrderTransport.orderTransportInfoRetour=orderTransportInfo;
     this.emitOnchange();
 
   }
@@ -157,7 +165,22 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
     else {
       this.selectOrderTransport.orderTransportInfoAller= new OrderTransportInfo();
     }
+    console.log(this.selectOrderTransport.orderTransportInfoAller);
+
     return this.selectOrderTransport.orderTransportInfoAller ;
+  }
+  getorderTransportInfoRetour(){
+    if( this.selectOrderTransport?.orderTransportInfoRetour!=null){
+      if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
+    this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines.sort(function (a, b) {
+      return Number(a.lineNumber) - Number(b.lineNumber);
+    });}}
+    else {
+      this.selectOrderTransport.orderTransportInfoRetour= new OrderTransportInfo();
+    }
+    console.log(this.selectOrderTransport.orderTransportInfoRetour);
+
+    return this.selectOrderTransport.orderTransportInfoRetour ;
   }
 
 
@@ -169,6 +192,16 @@ addLinesAller(orderTransportInfoLine:OrderTransportInfoLine[]){
 }
   getLinesAller(){
   return this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines:[];
+  }
+
+
+addLinesRetour(orderTransportInfoLine:OrderTransportInfoLine[]){
+
+  this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines=orderTransportInfoLine;
+
+}
+  getLinesRetour(){
+  return this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines ? this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines:[];
   }
 
 

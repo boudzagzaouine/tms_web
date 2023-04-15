@@ -42,7 +42,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
   ngAfterViewInit() {
     this.selectOrderTransport=this.orderTransportService.getOrderTransport();
     this.selectOrderTransportInfoAller=this.orderTransportService.getOrderTransport().orderTransportInfoAller;
-   // this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
+   this.selectOrderTransportInfoRetour=this.orderTransportService.getOrderTransport().orderTransportInfoRetour;
 
   }
 
@@ -57,9 +57,14 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
     data =>{
   this.selectOrderTransport =data;
   console.log(  this.selectOrderTransportInfoAller );
-
+   if (this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
     this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
-    this.selectOrderTransportInfoRetour.orderTransport= this.selectOrderTransport;
+
+}
+else if (this.selectOrderTransport.turnType.id== 2 || this.selectOrderTransport.turnType.id==3){
+  this.selectOrderTransportInfoRetour.orderTransport= this.selectOrderTransport;
+
+}
 
     this.saveAller( this.selectOrderTransportInfoAller);
     this.saveRetour( this.selectOrderTransportInfoRetour);

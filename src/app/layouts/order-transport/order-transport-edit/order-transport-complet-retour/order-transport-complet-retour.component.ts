@@ -202,7 +202,7 @@ export class OrderTransportCompletRetourComponent implements OnInit {
     //this.orderTransportService.addTrajet( this.selectedOrderTransportInfo.trajet);
 
     ;
-
+    this.selectedOrderTransportInfo.type=2;
       this.orderTransportService.addOrderTransportInfoRetour(
         this.selectedOrderTransportInfo
       );

@@ -134,14 +134,14 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
 
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){
   console.log(orderTransportInfo);
-  orderTransportInfo.type=1;
+
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;
     this.emitOnchange();
 
   }
   addOrderTransportInfoRetour(orderTransportInfo :OrderTransportInfo){
     console.log(orderTransportInfo);
-    orderTransportInfo.type=2;
+   
     this.selectOrderTransport.orderTransportInfoRetour=orderTransportInfo;
     this.emitOnchange();
 

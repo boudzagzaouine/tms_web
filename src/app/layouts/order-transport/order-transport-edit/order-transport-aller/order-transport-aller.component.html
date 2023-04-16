@@ -4,7 +4,9 @@
 <div class="container-fluid mt-5">
   <form [formGroup]="orderTransportInfoForm">
 
-    <div>
+    <div *ngIf="this.selectedOrderTransport.consignment==true">
+
+      <div  >
 
     <div class="row justify-content-around">
 
@@ -50,15 +52,7 @@
       </p-inputNumber>
       </div>
 
-      <div class="form-group col-md-3">
-        <label class="font-weight-bold"
-          >{{ "Volume  " | translate }}<span style="font-size: 9px;">Mètre cube (m3)</span> </label
-        >
-        <p-inputNumber inputId="locale-user" [disabled]="true"
-         [minFractionDigits]="2" formControlName="capacity">
-        </p-inputNumber>
 
-      </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold"
         >{{ "Nombre de palette  " | translate }}<span style="font-size: 9px;"></span> </label
@@ -68,7 +62,14 @@
      </p-inputNumber>
 
       </div>
+
+      <div class="form-group col-md-3">
+      </div>
+
         </div>
+</div>
+
+
         <div class="row justify-content-around">
 
         <div class="form-group col-md-6">
@@ -148,35 +149,7 @@
 
 
     <div class="row justify-content-around">
-      <div class="form-group col-md-6">
-        <label class="font-weight-bold">{{
-          "Trajet" | translate
-        }} *</label
-        >
-        <span
-        *ngIf="
-          (orderTransportInfoForm.get('orderTransportInfoTrajet').touched &&
-          orderTransportInfoForm.get('orderTransportInfoTrajet').invalid) ||
-          (isFormSubmitted &&
-          orderTransportInfoForm.get('orderTransportInfoTrajet').invalid)
-        "
-        class="text-lighter"
-        style="color: red; font-size: xx-small"
-      >
-        {{ "Obligatoire" | translate }}
-      </span>
-        <br />
 
-        <p-autoComplete
-        formControlName="orderTransportInfoTrajet"
-        [suggestions]="trajetList"
-        (onSelect)="onSelectTrajetSource($event)"
-        (completeMethod)="onTrajetSearch($event)"
-        field="code"
-        appendTo="body"
-      >
-      </p-autoComplete>
-      </div>
       <div class="form-group col-md-3">
         <label class="font-weight-bold">{{
           "Date départ" | translate
@@ -186,17 +159,8 @@
      >
     </p-calendar>
   </div>
-  <div class="form-group col-md-3">
-    <label class="font-weight-bold"
-      >{{ "Statut" | translate }} *</label
-    >
-    <input
-    formControlName="orderTransportInfoStatus"
-      type="text"
-      class="form-control"
-      disabled="'true'"
-      pInputText
-    />
+  <div class="form-group col-md-9">
+
 
   </div>
 
@@ -306,7 +270,29 @@
   </div>
 
   </div>
-  <div class="row pull-left mt-5">
+
+  <div class="container-fluid">
+
+    <div class="row pull-left mt-5">
+      <button pButton pRipple type="button"
+      label="Précédent" styleClass="p-button-lg"
+       icon="fa fa-angle-double-left"
+         class="p-button-rounded  bNext"
+          iconPos="left" (click)="previous()"></button>
+
+    </div>
+    <div class="row pull-right mt-5">
+      <button pButton pRipple type="button"
+      label="Suivant" styleClass="p-button-lg"
+       icon="fa fa-angle-double-right"
+         class="p-button-rounded bNext"
+          iconPos="right" (click)="next()"></button>
+
+
+    </div>
+</div>
+
+  <!-- <div class="row pull-left mt-5">
     <button
       type="button"
       pButton
@@ -321,7 +307,7 @@
       icon="fa fa-chevron-right"
       (click)="next()"
     ></button>
-  </div>
+  </div> -->
 
 
     <div *ngIf="showDialogContactAddress == true">

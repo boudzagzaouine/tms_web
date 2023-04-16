@@ -1,3 +1,4 @@
+import { LoadingType } from './../../../shared/models/loading-type';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { TurnStatus } from './../../../shared/models/turn-status';
 import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
@@ -28,6 +29,7 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
   activeIndex: number = -1;
   items: MenuItem[];
   turnTypeId: number = 0;
+  loadingTypeId :number=0;
   subscriptions= new Subscription ();
 
   turnStatusList: TurnStatus[] = [];
@@ -57,6 +59,7 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
     if (id) {
       this.orderTransportService.findById(id).subscribe((data) => {
         this.selectedOrderTransport = data;
+        this.loadingTypeId=this.selectedOrderTransport.loadingType.id;
         console.log( this.selectedOrderTransport);
 
    this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
@@ -100,6 +103,7 @@ console.log("edit");
 
   showStep(event) {
     this.turnTypeId = event;
+    if(this.loadingTypeId==1){
     if ( this.turnTypeId  == 1) {
       this.items = [
         { label: "EN-TÊTE" },
@@ -128,7 +132,22 @@ console.log("edit");
       ];
 
     }
+  }
+  else if(this.loadingTypeId==2){
 
+      this.items = [
+        { label: "EN-TÊTE" },
+        { label: "DÉTAILS TRAJET" },
+        { label: "TARIFICATIONS" },
+        { label: "VÉRIFICATION" },
+      ];
+
+
+  }
+  }
+
+  showStepByLoadingType(event){
+this.loadingTypeId=event;
   }
 
   previous(event) {

@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderTransportInfo } from './../../../../shared/models/order-transport-info';
 import { OrderTransport } from './../../../../shared/models/order-transport';
 import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
+import { log } from 'console';
 
 @Component({
   selector: 'app-order-transport-verification',
@@ -57,17 +58,31 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
     data =>{
   this.selectOrderTransport =data;
   console.log(  this.selectOrderTransportInfoAller );
-   if (this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
-    this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
+  if(this.selectOrderTransport.loadingType.id==1){
+    if (this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
+      this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
+  console.log("aller");
 
-}
-else if (this.selectOrderTransport.turnType.id== 2 || this.selectOrderTransport.turnType.id==3){
-  this.selectOrderTransportInfoRetour.orderTransport= this.selectOrderTransport;
+      this.saveAller( this.selectOrderTransportInfoAller);
 
-}
+  }
+   if (this.selectOrderTransport.turnType.id== 2 || this.selectOrderTransport.turnType.id==3){
+    this.selectOrderTransportInfoRetour.orderTransport= this.selectOrderTransport;
+    console.log("retour");
 
-    this.saveAller( this.selectOrderTransportInfoAller);
     this.saveRetour( this.selectOrderTransportInfoRetour);
+
+  }
+
+  }else if(this.selectOrderTransport.loadingType.id==2){
+    this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
+    console.log("aller");
+
+        this.saveAller( this.selectOrderTransportInfoAller);
+
+  }
+
+
 
    console.log(data);
    this.orderTransportService.clearObject();

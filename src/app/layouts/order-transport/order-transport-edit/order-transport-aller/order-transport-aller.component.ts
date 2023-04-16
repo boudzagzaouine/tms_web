@@ -38,6 +38,7 @@ export class OrderTransportAllerComponent implements OnInit {
   map:any;
   mainLayer:any;
   orderTransportInfoForm: FormGroup;
+  selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
   selectOrderTransportTrajetQuantity:OrderTransportTrajetQuantity= new OrderTransportTrajetQuantity();
@@ -91,6 +92,9 @@ export class OrderTransportAllerComponent implements OnInit {
 
     });
 
+    this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
+    ? this.orderTransportService.getOrderTransport()
+    : new OrderTransport();
 
     this.selectedOrderTransportInfo =
       this.orderTransportService.getorderTransportInfoAller()
@@ -136,9 +140,9 @@ console.log( this.selectedOrderTransportInfo);
       ),
 
 
-      orderTransportInfoTrajet: new FormControl(
-        this.selectedOrderTransportInfo.trajet,Validators.required
-      ),
+      // orderTransportInfoTrajet: new FormControl(
+      //   this.selectedOrderTransportInfo.trajet,Validators.required
+      // ),
 
       orderTransportInfoInitialDate: new FormControl(
        new Date(this.selectedOrderTransportInfo.date)

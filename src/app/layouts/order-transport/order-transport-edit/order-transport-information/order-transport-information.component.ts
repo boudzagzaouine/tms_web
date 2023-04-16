@@ -49,6 +49,7 @@ import { isNumber } from "@ng-bootstrap/ng-bootstrap/util/util";
 export class OrderTransportInformationComponent implements OnInit {
   @Output() nextstep = new EventEmitter<Boolean>();
   @Output() turnTypeId = new EventEmitter<number>();
+  @Output() loadingTypeId = new EventEmitter<number>();
 
   selectedOrderTransport: OrderTransport = new OrderTransport();
   OrderTransportForm: FormGroup;
@@ -301,6 +302,7 @@ export class OrderTransportInformationComponent implements OnInit {
   }
   onSelectLoadingTypes(event) {
     this.selectedOrderTransport.loadingType = event.value;
+    this.loadingTypeId.emit(this.selectedOrderTransport.loadingType.id)
   }
 
   onSelectType(event) {
@@ -361,6 +363,8 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.loadingType == undefined
       ) {
         this.selectedOrderTransport.loadingType = this.loadingTypeList[0];
+        this.loadingTypeId.emit(this.selectedOrderTransport.loadingType.id)
+
         this.initForm();
       }
     });

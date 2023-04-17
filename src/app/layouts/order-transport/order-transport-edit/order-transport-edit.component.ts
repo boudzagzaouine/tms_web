@@ -65,18 +65,28 @@ export class OrderTransportEditComponent implements OnInit,OnDestroy {
    this.orderTransportInfoService.find('orderTransport.id:'+this.selectedOrderTransport.id).subscribe(
      data=>{
       console.log(data);
+if(this.selectedOrderTransport.loadingType.id==1){
 
          this.selectedOrderTransportInforAller=data.filter(f=>f.type ==1)[0];
          this.selectedOrderTransportInforRetour=data.filter(f=>f.type ==2)[0];
         this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
         this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(this.selectedOrderTransportInforRetour));
 
+}
+ else if(this.selectedOrderTransport.loadingType.id==2){
+  console.log(data);
+
+  this.selectedOrderTransportInforAller=data[0];
+  this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
+
+}
+
       }
    );
        this.subscriptions.add( this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
 console.log("edit");
    this.activeIndex=0;
-       this.showStep(this.selectedOrderTransport.turnType.id);
+       this.showStepByTurnType(this.selectedOrderTransport.turnType.id);
       });
 
     } else {
@@ -93,7 +103,7 @@ console.log("edit");
   this.orderTransportService.addStatus(this.selectedOrderTransport.turnStatus);
   this.activeIndex=0;
 
-      this.showStep(1);
+      this.showStepByTurnType(1);
       });
 
     }
@@ -101,7 +111,7 @@ console.log("edit");
 
   }
 
-  showStep(event) {
+  showStepByTurnType(event) {
     this.turnTypeId = event;
     if(this.loadingTypeId==1){
     if ( this.turnTypeId  == 1) {

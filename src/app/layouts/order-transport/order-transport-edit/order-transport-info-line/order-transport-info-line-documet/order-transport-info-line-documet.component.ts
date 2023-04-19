@@ -51,11 +51,8 @@ console.log( this.selectedOrderTransportInfoLineDocument.orderTransportDocumentL
       this.selectedOrderTransportInfoLineDocument = new OrderTransportInfoLineDocument();
       this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList=[];
 console.log(this.selectedOrderTransportInfoLineDocument);
-
-      // this.maintenanceStateService.findAll().subscribe((data) => {
-      //  this.maintenanceStateList= data.filter(f => f.id === 2);
-      //  this.selectedOrderTransportInfoLineDocument.maintenanceState=this.maintenanceStateList[0];
-      // })
+this.selectedOrderTransportInfoLineDocument.documentStatus=2;
+  
     }
     console.log(this.selectedOrderTransportInfoLineDocument);
 

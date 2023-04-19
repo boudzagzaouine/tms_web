@@ -79,7 +79,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
           console.log(data);
 
           if (data && data > 0) {
-            state = "En Trajet";
+            state = "Trajet";
             subject.next(state);
           } else {
             state = "Disponible";

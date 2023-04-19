@@ -203,12 +203,12 @@
       <div class="form-group col-md-6">
 
         <span >
-          <!-- [listStyle]="{ 'max-height': transportOrCatalog==false?'11rem':'auto',overflow: transportOrCatalog==false?'hidden':'auto' }" -->
+          <!-- [listStyle]="{ 'max-height': '30rem' }" -->
 
           <p-orderList
             [value]="catalogTransportPricingList"
             (onSelectionChange)="onselectTransport($event)"
-            [listStyle]="{ 'max-height': '30rem' }"
+            [listStyle]="{ 'max-height': transportOrCatalog==false?'11rem':'auto',overflow: transportOrCatalog==false?'hidden':'auto' }"
             header="Liste des Transporteurs"
             filterBy="transport.name"
             filterPlaceholder="Recherche Par Prestataire"

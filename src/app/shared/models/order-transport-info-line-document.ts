@@ -20,6 +20,7 @@ export class OrderTransportInfoLineDocument {
 	  fileType:string;
 	  fileName :string;
 	  date :Date=new Date();
+    documentStatus : number ;
 	  orderTransportInfoLine :OrderTransportInfoLine;
     orderTransportDocumentList:OrderTransportDocument[]=[];
 

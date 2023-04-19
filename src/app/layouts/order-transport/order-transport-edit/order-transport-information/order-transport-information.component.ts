@@ -377,6 +377,8 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.turnType = this.turnTypeList.filter(
           (f) => f.id == 1
         )[0];
+        this.turnTypeId.emit(this.selectedOrderTransport.turnType.id)
+
         this.initForm();
       }
     });

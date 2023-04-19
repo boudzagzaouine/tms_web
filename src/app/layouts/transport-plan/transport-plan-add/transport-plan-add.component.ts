@@ -721,7 +721,7 @@ affectedService(){
     if(this.transportOrCatalog==false){
       console.log("catalog");
 
-    this.savePlan();
+    this.savePlan(close);
 
 
     }else if(this.transportOrCatalog==true){
@@ -731,9 +731,11 @@ affectedService(){
 
     }
 
+
+
   }
 
-  savePlan(){
+  savePlan(close = false){
 
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
       (data) => {
@@ -747,6 +749,8 @@ affectedService(){
           this.router.navigate(["/core/transport-plan/list"]);
         } else {
           this.router.navigate(["/core/transport-plan/edit"]);
+          window.location.reload();
+
         }
       },
       (error) => {

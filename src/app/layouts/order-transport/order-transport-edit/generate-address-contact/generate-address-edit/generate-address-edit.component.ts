@@ -1,3 +1,4 @@
+import { Observable, Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { PaysService } from './../../../../../shared/services/api/pays.service';
 import { VilleService } from './../../../../../shared/services/api/ville.service';
@@ -136,16 +137,18 @@ export class GenerateAddressEditComponent implements OnInit {
     this.selectedAddress.owner = this.authentificationService.getDefaultOwner();
     console.log(this.selectedAddress);
 
-    this.addressService.set(  this.selectedAddress).subscribe(
-      data=> {
-              console.log(data);
-              this.addressEdited.emit(data);
-              this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
-      }
-    );
+    // this.addressService.set(  this.selectedAddress).subscribe(
+    //   data=> {
+    //     this.selectedAddress=data;
+              this.addressEdited.emit(this.selectedAddress);
+    //           this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+    //   }
+    // );
     this.displayDialog = false;
 
   }
+
+
 
   onHideDialog() {
     const a = false;
@@ -172,7 +175,17 @@ console.log(this.selectedAddress.country);
   onSelectCity(event){
     this.selectedAddress.city=event.value.code;
     this.selectedAddress.ville=event.value;
-   console.log( this.selectedAddress.city);
+
+    this.addressForm.patchValue({
+      latitude: this.selectedAddress.ville.latitude,
+      longtitude: this.selectedAddress.ville.longitude,
+
+      });
+      this.addressForm.updateValueAndValidity();
+
+    this.selectedAddress.latitude=this.selectedAddress.ville.latitude;
+    this.selectedAddress.longitude=this.selectedAddress.ville.longitude;
+
 
 
   }

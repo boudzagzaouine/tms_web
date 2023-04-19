@@ -111,6 +111,11 @@ console.log("edit");
 
   }
 
+  getOrderTransport(){
+
+    
+  }
+
   showStepByTurnType(event) {
     this.turnTypeId = event;
     if(this.loadingTypeId==1){

@@ -25,7 +25,8 @@
                       <div *ngIf="product?.vehicleTray?.code!=null" class="product-category">Form : {{product?.vehicleTray?.code}}</div>
                     </div>
                   <div class="product-list-action">
-                      <p-button icon="pi pi-plus" label="Sélectionner" (click)="onSelectVehicle(product)" [disabled]="product.state === 'Trajet'"></p-button>
+                    [disabled]="product.state === 'Trajet'"
+                      <p-button icon="pi pi-plus" label="Sélectionner" (click)="onSelectVehicle(product)" ></p-button>
                       <span [class]="'customer-badge status-' + product.state">{{product.state}}</span>
                   </div>
               </div>

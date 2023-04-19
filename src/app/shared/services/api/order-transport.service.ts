@@ -40,6 +40,9 @@ this.selectOrderTransport=OrderTransport;
 }
 clearObject(){
   this.selectOrderTransport=new OrderTransport();
+  this.selectOrderTransport.orderTransportInfoAller=new OrderTransportInfo();
+  this.selectOrderTransport.orderTransportInfoRetour=new OrderTransportInfo();
+
 this.emitOnchange();}
 
 addIndex(){
@@ -141,7 +144,7 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
   }
   addOrderTransportInfoRetour(orderTransportInfo :OrderTransportInfo){
     console.log(orderTransportInfo);
-   
+
     this.selectOrderTransport.orderTransportInfoRetour=orderTransportInfo;
     this.emitOnchange();
 

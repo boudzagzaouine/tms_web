@@ -316,7 +316,7 @@
     <form [formGroup]="transportPlanForm">
       <div class="row m-2 mt-3 justify-content-around divRowInfo">
         <div class="form-group col-md-3 divLineInfo">
-          <label class="font-weight-bold">{{ "Order" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Ordre" | translate }} *</label>
           <span
           *ngIf="
             (transportPlanForm.get('orderTransport')
@@ -432,23 +432,29 @@
           {{ "Obligatoire" | translate }}
         </span>
           <br />
-          <input
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="purchasePrice"
+        ></p-inputNumber>
+          <!-- <input
             formControlName="purchasePrice"
 
             type="text"
             class="form-control"
             pInputText
-          />
+          /> -->
         </div>
         <div class="form-group col-md-3 divLineInfo">
           <label class="font-weight-bold">{{ "Tarif Négocié" | translate }} </label>
           <br />
-          <input
+          <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+          formControlName="purchasePriceNegotiated"
+        ></p-inputNumber>
+          <!-- <input
             formControlName="purchasePriceNegotiated"
             type="text"
             class="form-control"
             pInputText
-          />
+          /> -->
         </div>
         <div class="form-group col-md-6 divLineInfo">
           <label class="font-weight-bold">{{ "Remarque" | translate }} </label>

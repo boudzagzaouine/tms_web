@@ -136,8 +136,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
       general: new FormGroup({
 
         deliveryInfoName: new FormControl(
-          this.selectContact.name,
-          Validators.required
+          this.selectContact.name
         ),
         deliveryInfoTel1: new FormControl(this.selectContact.tel1),
 
@@ -317,12 +316,13 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.showDialogContactAddress = event;
   }
 
-  affectedContactAddressInfoSelected(event) {
-    this.setInfoAddress(event);
-  }
+
 
   setInfoAddress(event) {
     this.selectAddress = event;
+    console.log(this.selectAddress);
+
+
     this.orderTransportInfoLineForm.controls["general"].patchValue({
       deliveryInfoAddressName: event,
       deliveryInfoLine1: event.line1,
@@ -408,7 +408,15 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.showDialogAddress = event;
   }
   onLineEditedAddress(line: Address) {
-    this.setInfoAddress(line);
+    this.addressService.set( line).subscribe(
+      data=> {
+
+        this.setInfoAddress(data);
+
+              this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+      }
+    );
+
   }
 
   onLineEditedContact(contact: Contact) {

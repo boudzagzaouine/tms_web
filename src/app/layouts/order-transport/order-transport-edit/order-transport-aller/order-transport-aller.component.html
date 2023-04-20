@@ -64,6 +64,12 @@
       </div>
 
       <div class="form-group col-md-3">
+        <label class="font-weight-bold"
+        >{{ "Volume   " | translate }}<span style="font-size: 9px;">Metres Cube</span> </label
+      >
+      <p-inputNumber  inputId="integeronly" [disabled]="true"
+       formControlName="capacity">
+     </p-inputNumber>
       </div>
 
         </div>
@@ -264,7 +270,69 @@
     </div>
 
 
+    <div class="row justify-content-around " >
+      <div class="form-group col-md-12">
+        <h4 class="divider donotcross" contenteditable>Services</h4>
+    </div>
+      <div class="card  ">
+        <div class="card-header" style="background-color: #f7f7f7;">
+          <div class="row">
 
+            <div class="col-xs-4 col-md-4 pull-left">
+              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogTransportProduct(selectedTransportProductService,false)">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <span style="font-size: 16px; color: #5f5b5b;">
+                <b> {{ "Services" | translate }}</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top-primary">
+          <p-table [value]=" this.selectedOrderTransport?.orderTransportServiceCatalogs" [lazy]="true" [rows]="8"
+            [paginator]="true" [totalRecords]=" this.selectedOrderTransport
+        ?.orderTransportServiceCatalogs?.length" >
+            <ng-template pTemplate="header">
+              <tr>
+
+                <th>{{'Service' | translate}}</th>
+                <th>{{'Prix de vente HT '| translate}}</th>
+                <th>{{'TVA' | translate}}</th>
+                <th>{{'Pric TTC '| translate}}</th>
+                <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{line?.product?.code}}</td>
+                <td>{{line?.salePriceHT}}</td>
+                <td>{{line?.saleVat?.value}}</td>
+                <td>{{line?.salePriceTTC}}</td>
+
+                <td>
+
+                  <button  type="button" class="btn btn-sm btn-primary mx-1"
+                    (click)="onShowDialogTransportProduct(line,true)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger mx-1"
+                    (click)="onDeleteTransportProduct(line?.product?.code)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </div>
+      </div>
+
+
+
+
+  </div>
 
   </form>
   </div>
@@ -327,4 +395,16 @@
         ></app-package-detail>
     </div>
 
+
+    <div *ngIf="showDialogTransportProduct == true">
+
+
+      <app-order-transport-service
+      (showDialog)="onHideDialogTransportProduct($event)"
+     (transportProductEdited)="onLineEditedTransportProduct($event)"
+     [selectedAccount]="this.selectedOrderTransport?.account"
+       [selectedTransportServiceCatalog]="this.selectedTransportProductService"
+       [editMode]="editModeTransportProduct"></app-order-transport-service>
+
+    </div>
 

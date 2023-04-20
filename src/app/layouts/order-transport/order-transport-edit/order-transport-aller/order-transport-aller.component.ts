@@ -1,3 +1,4 @@
+import { TransportPlanServiceCatalog } from './../../../../shared/models/transport-plan-service-catalog';
 import { log } from 'console';
 import { TrajetService } from './../../../../shared/services/api/trajet.service';
 import { Trajet } from './../../../../shared/models/trajet';
@@ -68,6 +69,10 @@ export class OrderTransportAllerComponent implements OnInit {
   trajetList :Trajet[]=[];
   turnStatus : TurnStatus = new TurnStatus();
   statusList :TurnStatus[]=[];
+  showDialogTransportProduct: Boolean = false;
+  selectedTransportProductService = new TransportPlanServiceCatalog();
+  editModeTransportProduct: Boolean = false;
+
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
@@ -420,6 +425,70 @@ this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTra
   }
   }
 
+
+  onShowDialogTransportProduct(line, mode) {
+    this.showDialogTransportProduct = true;
+
+    if (mode == true) {
+      this.selectedTransportProductService = line;
+      this.editModeTransportProduct = true;
+    } else if (mode == false) {
+      this.selectedTransportProductService = new TransportPlanServiceCatalog();
+      //this.selectedTransportProductService.transport=this.selectedOrderTransport.transport;
+      this.selectedTransportProductService.account =
+        this.selectedOrderTransport.account;
+      //  this.selectedTransportProductService.invoice=this.selectedOrderTransport.transport.factureService;
+
+      this.editModeTransportProduct = false;
+    }
+  }
+
+  onHideDialogTransportProduct(event) {
+    this.showDialogTransportProduct = event;
+  }
+
+  onLineEditedTransportProduct(line: TransportPlanServiceCatalog) {
+    if (
+      this.selectedOrderTransport.orderTransportServiceCatalogs == null ||
+      this.selectedOrderTransport.orderTransportServiceCatalogs == undefined
+    ) {
+      this.selectedOrderTransport.orderTransportServiceCatalogs = [];
+    }
+    this.selectedOrderTransport.orderTransportServiceCatalogs =
+      this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
+        (l) => l.product.code !== line.product.code
+      );
+
+    this.selectedOrderTransport.orderTransportServiceCatalogs.push(line);
+    this.calculateAllLines();
+  }
+  onDeleteTransportProduct(productCode: string) {
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Suprimer?",
+      accept: () => {
+        this.selectedOrderTransport.orderTransportServiceCatalogs =
+          this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
+            (l) => l.product.code !== productCode
+          );
+        this.calculateAllLines();
+      },
+    });
+  }
+  calculateAllLines() {
+    this.selectedOrderTransport.totalPriceHT =
+      this.selectedOrderTransport.priceHT;
+    this.selectedOrderTransport.totalPriceTTC =
+      this.selectedOrderTransport.priceTTC;
+    this.selectedOrderTransport.totalPriceVat =
+      this.selectedOrderTransport.priceVat;
+    this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
+      (line) => {
+        this.selectedOrderTransport.totalPriceHT += +line.salePriceHT;
+        this.selectedOrderTransport.totalPriceTTC += +line.salePriceTTC;
+        this.selectedOrderTransport.totalPriceVat += +line.salePriceVat;
+      }
+    );
+  }
 
   // fin Line
 

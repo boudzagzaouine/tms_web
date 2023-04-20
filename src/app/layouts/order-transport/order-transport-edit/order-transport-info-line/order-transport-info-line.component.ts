@@ -155,8 +155,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
         ),
 
         deliveryInfoName: new FormControl(
-          this.selectContact.name,
-          Validators.required
+          this.selectContact.name
         ),
         deliveryInfoTel1: new FormControl(this.selectContact.tel1),
         deliveryInfoEmail: new FormControl(this.selectContact.email),

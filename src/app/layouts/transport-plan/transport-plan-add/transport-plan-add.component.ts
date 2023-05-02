@@ -567,7 +567,7 @@ console.log(this.transportOrCatalog);
       this.selectedTransportPlan.trajet =
         this.selectOrderTransport.trajet;
 
-        this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller.date;
+        this.selectedTransportPlan.dateDepart= this.selectOrderTransport.orderTransportInfoAller?.date;
         this.selectedTransportPlan.account= this.selectOrderTransport.account;
 
 

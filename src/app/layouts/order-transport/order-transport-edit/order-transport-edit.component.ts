@@ -92,15 +92,16 @@ console.log("edit");
     } else {
       this.turnStatusService.findAll().subscribe((data) => {
         this.turnStatusList = data;
+        this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
+          (f) => f.id == 1
+        )[0];
+  this.orderTransportService.addStatus(this.selectedOrderTransport.turnStatus);
       });
       this.orderTransportService.generateCode().subscribe((data) => {
         this.selectedOrderTransport.code = data;
         this.orderTransportService.addCode(this.selectedOrderTransport.code);
 
-        this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
-          (f) => f.id == 1
-        )[0];
-  this.orderTransportService.addStatus(this.selectedOrderTransport.turnStatus);
+
   this.activeIndex=0;
 
       this.showStepByTurnType(1);
@@ -113,7 +114,7 @@ console.log("edit");
 
   getOrderTransport(){
 
-    
+
   }
 
   showStepByTurnType(event) {

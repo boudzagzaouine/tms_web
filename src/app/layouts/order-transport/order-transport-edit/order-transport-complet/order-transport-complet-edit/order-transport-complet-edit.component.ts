@@ -103,6 +103,9 @@ export class OrderTransportCompletEditComponent implements OnInit {
       this.getOrderTransportInfoLineDocumentEnlevement(
         this.selectedOrderTransportInfoLine
       );
+      // if(this.orderTypeTitle=="Livraison"){
+      //   this.orderTransportInfoLineForm.controls["date"].setValue[];
+      // }
 
     } else {
 
@@ -110,8 +113,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
         this.orderTransportTypeService.findAll().subscribe((data) => {
           this.orderTransportTypeList = data;
           this.selectedOrderTransportInfoLine.orderTransportType=this.orderTransportTypeList.filter((f) => f.id == 1)[0];
-
-        });
+          });
 
       }else if(this.orderTypeTitle=="Livraison"){
 

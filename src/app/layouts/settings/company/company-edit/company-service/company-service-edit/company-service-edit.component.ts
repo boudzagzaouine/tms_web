@@ -128,19 +128,26 @@ export class CompanyServiceEditComponent implements OnInit {
 
   existService() {
 let requete ;
+let accountPridcingList =[];
 requete=`company.id:${this.selectedCompany.id},product.id:${this.productId}`;
 if(this.selectAccountPricingService?.account?.id!=null || this.selectAccountPricingService?.account?.id!=undefined){
   requete+= `,account.id:${this.accountId}`
 }
+
+
+
 console.log(requete);
 
     this.accountPricingServiceService
-      .sizeSearch( requete )
+      .find( requete )
       .subscribe(
         (data) => {
           console.log(data);
+ accountPridcingList= data;
+          if(this.selectAccountPricingService?.account?.id!=null || this.selectAccountPricingService?.account?.id!=undefined){
+          console.log("compte");
 
-          if (data > 0) {
+            if (data.length> 0) {
             this.messageService.add({
               severity: "error",
               summary: "Edition",
@@ -149,8 +156,32 @@ console.log(requete);
             //this.toastr.error('Elément Existe Déja', 'Edition');
           } else {
             this.selectAccountPricingService.company = this.selectedCompany;
+
             this.saveAccountPricingService();
           }
+
+        }
+        else {
+          console.log("sans compte");
+
+ const existPrice =accountPridcingList.find(f=> f.account == null);
+ console.log(existPrice);
+
+ if (existPrice?.length> 0) {
+  this.messageService.add({
+    severity: "error",
+    summary: "Edition",
+    detail: "Elément Existe Déja",
+  });
+  //this.toastr.error('Elément Existe Déja', 'Edition');
+} else if (existPrice == undefined){
+  this.selectAccountPricingService.company = this.selectedCompany;
+
+  this.saveAccountPricingService();
+}
+
+        }
+
           this.spinner.hide();
         },
         (error) => {

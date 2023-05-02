@@ -99,7 +99,7 @@ export class TarificationComponent implements OnInit {
 
 
       trajet =
-        this.selectOrderTransport?.trajet?.code;
+        this.selectOrderTransport?.trajet?.id;
 
 console.log( "turnType.id:" +
 this.selectOrderTransport?.turnType?.id +
@@ -109,8 +109,8 @@ this.selectOrderTransport?.vehicleCategory?.id +
 this.selectOrderTransport?.vehicleTray?.id +
 ",loadingType.id:" +
 this.selectOrderTransport?.loadingType?.id +
-",trajet.code~" +
-trajet);
+",trajet.id:" +
+this.selectOrderTransport?.trajet?.code);
 
 
     this.catalogPricingService
@@ -123,7 +123,7 @@ trajet);
           this.selectOrderTransport?.vehicleTray?.id +
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
-          ",trajet.code~" +
+          ",trajet.id:" +
           trajet
       )
       .subscribe((data) => {
@@ -141,7 +141,7 @@ trajet);
 
 
       trajet =
-        this.selectOrderTransport?.trajet?.code;
+        this.selectOrderTransport?.trajet?.id;
 
 
 
@@ -158,7 +158,7 @@ this.selectOrderTransport?.vehicleCategory?.id +
 this.selectOrderTransport?.vehicleTray?.id +
 ",loadingType.id:" +
 this.selectOrderTransport?.loadingType?.id +
-",trajet.code~" +
+",trajet.id:" +
 trajet);
 
     this.accountPricingService
@@ -173,7 +173,7 @@ trajet);
           this.selectOrderTransport?.vehicleTray?.id +
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
-          ",trajet.code~" +
+          ",trajet.id:" +
           trajet
       )
       .subscribe((data) => {

@@ -61,6 +61,7 @@ export class TrajetEditComponent implements OnInit {
 
   ngOnInit() {
 
+console.log(this.selectTrajet);
 
       this.load();
     if (this.editMode === 1) {

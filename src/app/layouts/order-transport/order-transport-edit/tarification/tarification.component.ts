@@ -1,3 +1,4 @@
+import { Vat } from './../../../../shared/models/vat';
 import { Trajet } from './../../../../shared/models/trajet';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { FormGroup, Validators, FormControl } from "@angular/forms";
@@ -51,7 +52,7 @@ export class TarificationComponent implements OnInit {
   marginRate: number =0;
   marginValue: number = 0;
   tarificationAccount:number=0;
-
+  vatTarif : Vat= new Vat();
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportService: OrderTransportService,
@@ -62,7 +63,8 @@ export class TarificationComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private contractAccountService: ContractAccountService,
     private accountPricingService: AccountPricingService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private vateService:VatService
   ) {}
 
   ngOnInit() {
@@ -82,7 +84,13 @@ export class TarificationComponent implements OnInit {
     this.marginValue = this.selectOrderTransport.marginValue;
     console.log(this.selectOrderTransport.priceHT);
     this.onSearchCatalogPricing();
+    this.vatService.findById(5).subscribe(
+      data=>{
+        this.vatTarif=data;
+      }
+    );
     this.initForm();
+
   }
 
   initForm() {
@@ -96,25 +104,9 @@ export class TarificationComponent implements OnInit {
 
   onSearchCatalogPricing() {
     let trajet;
-
-
       trajet =
-        this.selectOrderTransport?.trajet?.id;
 
-console.log( "turnType.id:" +
-this.selectOrderTransport?.turnType?.id +
-",vehicleCategory.id:" +
-this.selectOrderTransport?.vehicleCategory?.id +
-",vehicleTray.id:" +
-this.selectOrderTransport?.vehicleTray?.id +
-",loadingType.id:" +
-this.selectOrderTransport?.loadingType?.id +
-",trajet.id:" +
-this.selectOrderTransport?.trajet?.code);
-
-
-    this.catalogPricingService
-      .find(
+      this.catalogPricingService.find(
         "turnType.id:" +
           this.selectOrderTransport?.turnType?.id +
           ",vehicleCategory.id:" +
@@ -124,7 +116,8 @@ this.selectOrderTransport?.trajet?.code);
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
           ",trajet.id:" +
-          trajet
+          this.selectOrderTransport?.trajet?.id
+
       )
       .subscribe((data) => {
         console.log(data);
@@ -137,29 +130,6 @@ this.selectOrderTransport?.trajet?.code);
   }
 
   onSearchAccountPricing() {
-    let trajet;
-
-
-      trajet =
-        this.selectOrderTransport?.trajet?.id;
-
-
-
-
-console.log(       trajet  );
-
-console.log("company.id:" +
-this.selectOrderTransport?.account?.company?.id +
-",turnType.id:" +
-this.selectOrderTransport?.turnType?.id +
-",vehicleCategory.id:" +
-this.selectOrderTransport?.vehicleCategory?.id +
-",vehicleTray.id:" +
-this.selectOrderTransport?.vehicleTray?.id +
-",loadingType.id:" +
-this.selectOrderTransport?.loadingType?.id +
-",trajet.id:" +
-trajet);
 
     this.accountPricingService
       .find(
@@ -174,7 +144,7 @@ trajet);
           ",loadingType.id:" +
           this.selectOrderTransport?.loadingType?.id +
           ",trajet.id:" +
-          trajet
+          this.selectOrderTransport?.trajet?.id
       )
       .subscribe((data) => {
         console.log(data);
@@ -194,6 +164,7 @@ console.log( this.tarificationAccount);
           this.tarificationForm.patchValue({
             priceHT: this.selectedAccountPricing.saleAmountHt,
           });
+
           this.tarificationForm.controls["priceHT"].disable();
         } else {
           this.tarificationAccount=2;
@@ -240,17 +211,32 @@ console.log( this.tarificationAccount);
   calculatePrice(){
     this.selectOrderTransport.priceHT =
     this.tarificationForm.controls["priceHT"].value;
- this.selectOrderTransport.vat=this.selectedCatalogPricing?.saleVat;
+    console.log(  this.selectOrderTransport.priceHT);
+console.log(this.selectedCatalogPricing);
+
+ this.selectOrderTransport.vat=this.selectedCatalogPricing?.saleVat?this.selectedCatalogPricing?.saleVat:this.vatTarif;
+ console.log(   this.selectOrderTransport.vat);
+
     const amountTva = (this.selectOrderTransport.priceHT / 100) *  this.selectOrderTransport?.vat?.value;
     const priceTTC = this.selectOrderTransport.priceHT + amountTva;
     this.selectOrderTransport.priceTTC=priceTTC;
     this.selectOrderTransport.priceVat=amountTva;
+    console.log("helooo");
+    console.log(this.selectOrderTransport.priceTTC);
+    console.log(this.selectOrderTransport.priceVat);
+
+
   }
 
   loadForm() {}
 
   next() {
     this.calculatePrice();
+      this.selectOrderTransport.totalPriceHT =this.selectOrderTransport.priceHT + this.selectOrderTransport.totalServiceHT;
+    this.selectOrderTransport.totalPriceTTC =this.selectOrderTransport.priceTTC + this.selectOrderTransport.totalServiceTTC;
+    this.selectOrderTransport.totalPriceVat =this.selectOrderTransport.priceVat + this.selectOrderTransport.totalServiceVat;
+    this.orderTransportService.addTotalPrice(this.selectOrderTransport.totalPriceHT,this.selectOrderTransport.totalPriceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.totalPriceVat);
+
     this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
     this.orderTransportService.addMarginRate(this.marginRate);
     this.orderTransportService.addMarginValue(this.marginValue);

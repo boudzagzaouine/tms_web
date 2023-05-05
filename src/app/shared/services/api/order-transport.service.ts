@@ -114,6 +114,13 @@ addIndex(){
     this.emitOnchange();
 
   }
+  addTotalPrice(priceHt : number,priceTTC:number,vat:Vat,priceVat:number){
+    this.selectOrderTransport.totalPriceHT=priceHt;
+    this.selectOrderTransport.totalPriceTTC=priceTTC;
+    this.selectOrderTransport.totalPriceVat=priceVat;
+    this.emitOnchange();
+
+  }
   addMarginRate(marginRate : number){
     this.selectOrderTransport.marginRate=marginRate;
     this.emitOnchange();

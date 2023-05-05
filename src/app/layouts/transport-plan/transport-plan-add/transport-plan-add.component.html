@@ -490,7 +490,18 @@
 
           <br />
 
-          <p-dropdown
+          <p-autoComplete
+          formControlName="driver" field="codeName"
+          [suggestions]="driverList" (onSelect)="onSelectDriver($event)"
+          (completeMethod)="onDriverSearch($event)"  [dropdown]="true"
+          >
+           <ng-template let-driver pTemplate="item">
+               <div class="country-item">
+                   <div>{{driver.code}} -> {{driver.name}} </div>
+               </div>
+           </ng-template>
+       </p-autoComplete>
+          <!-- <p-dropdown
             formControlName="driver"
             [autoDisplayFirst]="false"
             [ariaPlaceholder]="this.selectedTransportPlan.vehicleCategory"
@@ -500,7 +511,7 @@
             [filter]="true"
             [showClear]="true"
             [dataKey]="name"
-          ></p-dropdown>
+          ></p-dropdown> -->
         </div>
 
         <div class="form-group col-md-6"></div>
@@ -533,24 +544,28 @@
                 <ng-template pTemplate="header">
                   <tr>
 
-                    <th>{{'Service' | translate}}</th>
-                    <th>{{'Prix HT '| translate}}</th>
-                    <th>{{'TVA' | translate}}</th>
-                    <th>{{'Pric TTC '| translate}}</th>
-                    <!-- <th>{{ "Prix" | translate }}</th> -->
-                    <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-line>
-                  <tr>
-                    <td>{{line?.product?.code}}</td>
-                    <td>{{line?.purchasePriceHT}}</td>
-                    <td>{{line?.purchaseVat?.value}}</td>
-                    <td>{{line?.purchasePriceTTC}}</td>
+              <th>{{'Service' | translate}}</th>
+              <th>{{'Quantité '| translate}}</th>
 
-                    <td>
+              <th>{{'Total  Vente HT '| translate}}</th>
+              <th>{{'TVA '| translate}}</th>
 
+              <th>{{'Total Vente TTC '| translate}}</th>
+              <th style="width: 18%;">{{ "Actions" | translate }}</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{line?.product?.code}}</td>
+              <td>{{line?.quantity}}</td>
+              <td>{{line?.totalSalePriceHT}}</td>
+                       <td>{{line?.totalSalePriceVat}}</td>
+
+              <td>{{line?.totalSalePriceTTC}}</td>
+
+              <td>
                       <button  type="button" class="btn btn-sm btn-primary mx-1"
                         (click)="onShowDialogTransportProduct(line,true)">
                         <!--ADD-->

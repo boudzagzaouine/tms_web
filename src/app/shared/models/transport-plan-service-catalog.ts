@@ -17,10 +17,19 @@ export class TransportPlanServiceCatalog {
   purchasePriceHT: number;
   purchaseVat: Vat;
   purchasePriceTTC: number;
+  quantity : number;
   orderTransport:OrderTransport;
   salePriceHT: number;
   saleVat: Vat;
   salePriceTTC: number;
   salePriceVat: number;
+
+  totalSalePriceHT: number;
+  totalSalePriceTTC: number;
+  totalSalePriceVat: number;
+
+  totalPurchasePriceHT: number;
+  totalPurchasePriceTTC: number;
+  totalPurchasePriceVat: number;
   owner:Owner ;
 }

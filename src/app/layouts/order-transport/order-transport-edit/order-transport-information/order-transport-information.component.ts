@@ -230,10 +230,10 @@ export class OrderTransportInformationComponent implements OnInit {
 
     this.trajetService
       .find(
-        "villeSource.code~" +
-          this.villeSource?.code +
-          ",villeDestination.code~" +
-          this.villeDestination?.code
+        "villeSource.id:" +
+          this.villeSource?.id +
+          ",villeDestination.id:" +
+          this.villeDestination?.id
       )
       .subscribe((data) => {
 

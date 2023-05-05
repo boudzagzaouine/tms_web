@@ -144,9 +144,9 @@ selectVatService: Vat=new Vat();
 
     ];
 
-    this.driverService.findAll().subscribe((data) => {
-      this.driverList = data;
-    });
+    // this.driverService.findAll().subscribe((data) => {
+    //   this.driverList = data;
+    // });
 
     this.loadOrderTransport();
 
@@ -515,6 +515,18 @@ console.log(this.transportOrCatalog);
     this.selectedTransportPlan.driver = event.value;
   }
 
+  onDriverSearch(event: any) {
+    let search;
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
+    }
+    this.driverService
+      .find(search)
+      .subscribe((data) => (this.driverList = data));
+  }
+
   //// fin  afficher dernier prix dernier achat prestataire
 
   onSelectedTarification() {
@@ -614,9 +626,16 @@ affectedService(){
        )
        .subscribe((data) => {
          if (data[0]!=null) {
+
+
            element.purchasePriceHT=data[0].purchaseAmountHt;
            element.purchasePriceTTC=data[0].purchaseAmountTtc;
            element.purchaseVat=data[0].purchaseVat;
+           const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+           element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
+           element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
+           element.totalPurchasePriceVat=amountTva
+
          } else {
           this.transportAccountServiceService
           .find(
@@ -634,6 +653,10 @@ affectedService(){
               element.purchasePriceHT=data[0].purchaseAmountHt;
               element.purchasePriceTTC=data[0].purchaseAmountTtc;
               element.purchaseVat=data[0].purchaseVat;
+              const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+              element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
+              element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
+              element.totalPurchasePriceVat=amountTva
             } else {
               this.transportServiceService
               .find(
@@ -647,6 +670,10 @@ affectedService(){
                   element.purchasePriceHT=data[0].purchaseAmountHt;
                   element.purchasePriceTTC=data[0].purchaseAmountTtc;
                   element.purchaseVat=data[0].purchaseVat;
+                  const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+                  element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
+                  element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
+                  element.totalPurchasePriceVat=amountTva
                 } else {
                   element.purchasePriceHT=0;
                   element.purchasePriceTTC=0;
@@ -889,15 +916,28 @@ affectedService(){
 
   calculateAllLines() {
 
-  this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
-  this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
-  this.selectedTransportPlan.totalPriceVat=this.selectOrderTransport.priceVat;
-    this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
-      this.selectedTransportPlan.totalPriceHT += +line.salePriceHT;
-      this.selectedTransportPlan.totalPriceTTC += +line.salePriceTTC;
-      this.selectedTransportPlan.totalPriceVat += +line.salePriceVat;
-    }
+
+    this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(
+      (line) => {
+        this.selectOrderTransport.totalServiceHT += +line.totalSalePriceHT;
+        this.selectOrderTransport.totalServiceTTC += +line.totalSalePriceTTC;
+        this.selectOrderTransport.totalServiceVat += +line.totalSalePriceVat;
+      }
     );
+    this.selectOrderTransport.totalPriceHT =this.selectOrderTransport.priceHT + this.selectOrderTransport.totalServiceHT;
+    this.selectOrderTransport.totalPriceTTC =this.selectOrderTransport.priceTTC + this.selectOrderTransport.totalServiceTTC;
+    this.selectOrderTransport.totalPriceVat =this.selectOrderTransport.priceVat + this.selectOrderTransport.totalServiceVat;
+   
+
+  // this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
+  // this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
+  // this.selectedTransportPlan.totalPriceVat=this.selectOrderTransport.priceVat;
+  //   this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
+  //     this.selectedTransportPlan.totalPriceHT += +line.totalSalePriceHT;
+  //     this.selectedTransportPlan.totalPriceTTC += +line.totalSalePriceTTC;
+  //     this.selectedTransportPlan.totalPriceVat += +line.totalSalePriceVat;
+  //   }
+  //   );
 
 
 

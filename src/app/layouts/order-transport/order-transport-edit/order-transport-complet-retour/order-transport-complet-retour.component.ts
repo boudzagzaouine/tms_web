@@ -427,8 +427,8 @@ console.log(this.size);
       this.selectedOrderTransport.priceVat;
     this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
       (line) => {
-        this.selectedOrderTransport.totalPriceHT += +line.salePriceHT;
-        this.selectedOrderTransport.totalPriceTTC += +line.salePriceTTC;
+        this.selectedOrderTransport.totalPriceHT += +line.totalSalePriceHT;
+        this.selectedOrderTransport.totalPriceTTC += +line.totalSalePriceTTC;
         this.selectedOrderTransport.totalPriceVat += +line.salePriceVat;
       }
     );

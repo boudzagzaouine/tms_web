@@ -219,10 +219,14 @@
           <ng-template pTemplate="header">
             <tr>
 
+
               <th>{{'Service' | translate}}</th>
-              <th>{{'Prix de vente HT '| translate}}</th>
-              <th>{{'TVA' | translate}}</th>
-              <th>{{'Pric TTC '| translate}}</th>
+              <th>{{'Quantité '| translate}}</th>
+
+              <th>{{'Total  Vente HT '| translate}}</th>
+              <th>{{'TVA '| translate}}</th>
+
+              <th>{{'Total Vente TTC '| translate}}</th>
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
             </tr>
@@ -230,9 +234,11 @@
           <ng-template pTemplate="body" let-line>
             <tr>
               <td>{{line?.product?.code}}</td>
-              <td>{{line?.salePriceHT}}</td>
-              <td>{{line?.saleVat?.value}}</td>
-              <td>{{line?.salePriceTTC}}</td>
+              <td>{{line?.quantity}}</td>
+              <td>{{line?.totalSalePriceHT}}</td>
+                       <td>{{line?.totalSalePriceVat}}</td>
+
+              <td>{{line?.totalSalePriceTTC}}</td>
 
               <td>
 

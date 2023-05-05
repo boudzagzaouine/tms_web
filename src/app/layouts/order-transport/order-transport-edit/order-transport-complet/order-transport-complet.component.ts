@@ -419,17 +419,20 @@ console.log(this.size);
     });
   }
   calculateAllLines() {
-    this.selectedOrderTransport.totalPriceHT =
-      this.selectedOrderTransport.priceHT;
-    this.selectedOrderTransport.totalPriceTTC =
-      this.selectedOrderTransport.priceTTC;
-    this.selectedOrderTransport.totalPriceVat =
-      this.selectedOrderTransport.priceVat;
+    // this.selectedOrderTransport.totalPriceHT =
+    //   this.selectedOrderTransport.priceHT;
+    // this.selectedOrderTransport.totalPriceTTC =
+    //   this.selectedOrderTransport.priceTTC;
+    // this.selectedOrderTransport.totalPriceVat =
+    //   this.selectedOrderTransport.priceVat;
+    this.selectedOrderTransport.totalServiceHT = 0.0;
+    this.selectedOrderTransport.totalServiceTTC = 0.0;
+    this.selectedOrderTransport.totalServiceVat = 0.0;
     this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
       (line) => {
-        this.selectedOrderTransport.totalPriceHT += +line.salePriceHT;
-        this.selectedOrderTransport.totalPriceTTC += +line.salePriceTTC;
-        this.selectedOrderTransport.totalPriceVat += +line.salePriceVat;
+        this.selectedOrderTransport.totalServiceHT += +line.totalSalePriceHT;
+        this.selectedOrderTransport.totalServiceTTC += +line.totalSalePriceTTC;
+        this.selectedOrderTransport.totalServiceVat += +line.totalSalePriceVat;
       }
     );
   }

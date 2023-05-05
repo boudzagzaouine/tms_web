@@ -145,7 +145,7 @@ console.log(data);
 
 
         if (data>0) {
-          state = "Trajet";
+          state = "En Trajet";
           console.log("trajet");
 
           subject.next(state);

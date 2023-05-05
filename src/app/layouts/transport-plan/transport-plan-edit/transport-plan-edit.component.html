@@ -170,25 +170,6 @@
   [placeholder]="this.selectedTransportPlan?.driver?.name"
 ></p-dropdown>
   </div>
-
-  <div class="form-group col-md-6 " ></div>
-</div>
-  <div class="row mt-3 justify-content-around ">
-
-    <div class="form-group col-md-3  " >
-      <label class="font-weight-bold"
-        >{{ "Prix de Vente HT" | translate }} *</label>
-      <br />
-      
-      <input
-      formControlName="price"
-   [attr.disabled]="'true'"
-        type="text"
-        class="form-control"
-        pInputText
-      />
-    </div>
-
   <div class="form-group col-md-3  " >
     <label class="font-weight-bold"
       >{{ "Statut" | translate }} *</label>
@@ -201,6 +182,70 @@
       pInputText
     />
   </div>
+  <div class="form-group col-md-3 " ></div>
+</div>
+
+<div class="row mt-3 justify-content-around ">
+
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Prix  Achat HT" | translate }} *</label>
+    <br />
+
+    <input
+    formControlName="priceP"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+  <div class="form-group col-md-3  " >
+    <label class="font-weight-bold"
+      >{{ "Prix Service  Achat HT" | translate }} *</label>
+    <br />
+
+    <input
+    formControlName="priceServiceP"
+ [attr.disabled]="'true'"
+      type="text"
+      class="form-control"
+      pInputText
+    />
+  </div>
+  <div class="form-group col-md-6  " >
+</div>
+  </div>
+
+  <div class="row mt-3 justify-content-around ">
+
+    <div class="form-group col-md-3  " >
+      <label class="font-weight-bold"
+        >{{ "Prix de Vente HT" | translate }} *</label>
+      <br />
+
+      <input
+      formControlName="price"
+   [attr.disabled]="'true'"
+        type="text"
+        class="form-control"
+        pInputText
+      />
+    </div>
+
+    <div class="form-group col-md-3  " >
+      <label class="font-weight-bold"
+        >{{ "Prix Service Vente HT" | translate }} *</label>
+      <br />
+
+      <input
+      formControlName="priceServiceS"
+   [attr.disabled]="'true'"
+        type="text"
+        class="form-control"
+        pInputText
+      />
+    </div>
 
   <div class="form-group col-md-6" ></div>
 
@@ -287,10 +332,12 @@
           <tr>
 
             <th>{{'Service' | translate}}</th>
-            <th>{{'Prix HT '| translate}}</th>
-            <th>{{'TVA' | translate}}</th>
-            <th>{{'Pric TTC '| translate}}</th>
-            <!-- <th>{{ "Prix" | translate }}</th> -->
+            <th>{{'Quantité '| translate}}</th>
+
+            <th>{{'Total  Vente HT '| translate}}</th>
+            <th>{{'TVA '| translate}}</th>
+
+            <th>{{'Total Vente TTC '| translate}}</th>
             <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
           </tr>
@@ -298,9 +345,11 @@
         <ng-template pTemplate="body" let-line>
           <tr>
             <td>{{line?.product?.code}}</td>
-            <td>{{line?.salePriceHT}}</td>
-            <td>{{line?.saleVat?.value}}</td>
-            <td>{{line?.salePriceTTC}}</td>
+            <td>{{line?.quantity}}</td>
+            <td>{{line?.totalSalePriceHT}}</td>
+                     <td>{{line?.totalSalePriceVat}}</td>
+
+            <td>{{line?.totalSalePriceTTC}}</td>
 
             <td>
 

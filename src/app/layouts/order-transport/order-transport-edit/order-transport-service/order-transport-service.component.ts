@@ -105,14 +105,9 @@ console.log(this.selectedAccount);
         Validators.required
       ),
 
-      purchasePriceHT: this.formBuilder.control(
-        this.selectedTransportServiceCatalog.purchasePriceHT
-      ),
-      purchaseVat: this.formBuilder.control(
-        this.selectedTransportServiceCatalog.purchaseVat
-      ),
-      purchasePriceTTC: this.formBuilder.control(
-        this.selectedTransportServiceCatalog.purchasePriceTTC
+
+      quantity: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.quantity
       ),
 
       salePriceHT: this.formBuilder.control(
@@ -124,6 +119,14 @@ console.log(this.selectedAccount);
       salePriceTTC: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceTTC
       ),
+
+      totalSalePriceHT: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.totalSalePriceHT
+      ),
+
+      totalSalePriceTTC: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.totalSalePriceTTC
+      ),
     });
   }
 
@@ -133,17 +136,19 @@ console.log(this.selectedAccount);
       return;
     }
 
-    // this.selectedTransportServiceCatalog.Day = this.transportProductForm.value['day'];
-    // this.selectedTransportServiceCatalog.code = this.transportProductCode;
-    this.selectedTransportServiceCatalog.purchasePriceHT =
-      this.transportProductForm.value["purchasePriceHT"];
-    this.selectedTransportServiceCatalog.purchasePriceTTC =
-      this.transportProductForm.value["purchasePriceTTC"];
+
 
     this.selectedTransportServiceCatalog.salePriceHT =
       this.transportProductForm.value["salePriceHT"];
     this.selectedTransportServiceCatalog.salePriceTTC =
       this.transportProductForm.value["salePriceTTC"];
+
+      this.selectedTransportServiceCatalog.quantity =
+      this.transportProductForm.value["quantity"];
+         this.selectedTransportServiceCatalog.totalSalePriceHT =
+      this.transportProductForm.value["totalSalePriceHT"];
+      this.selectedTransportServiceCatalog.totalSalePriceTTC =
+      this.transportProductForm.value["totalSalePriceTTC"];
 
     this.selectedTransportServiceCatalog.owner =
       this.authentificationService.getDefaultOwner();
@@ -161,14 +166,11 @@ console.log(this.selectedAccount);
 
 
   onSelectProduct(event) {
-    //this.selectedProduct = event as Product;
     this.selectedTransportServiceCatalog.product = event as Product;
     this.selectedTransportServiceCatalog.account=this.selectedAccount;
-  //  this.onSearchPurchasePriceServiceByAccount();
 
     this.onSearchSalePriceServiceByAccount();
-    // this.selectedTransportServiceCatalog.purchaseVat =
-    //   this.selectedTransportServiceCatalog.product.purchaseVat;
+
   }
 
 
@@ -200,9 +202,7 @@ console.log(this.selectedAccount);
             data[0].saleVat
           );
         } else {
-            // if(this.selectedTransportServiceCatalog?.account?.id == null || this.selectedTransportServiceCatalog?.account?.id ==undefined){
-        //      data= data.filter(f=> f.account==null);
-        // }
+
           this.onSearchSalePriceServiceByCompany();
         }
       });
@@ -260,72 +260,6 @@ console.log(this.selectedAccount);
       });
   }
 
-  // onSearchPriceServiceTransport() {
-
-
-  //         console.log("transport");
-
-  //         this.transportServiceService
-  //           .find(
-  //             "transport.id:" +
-  //               this.selectedTransportServiceCatalog.transport.id +
-  //               ",product.id:" +
-  //               this.selectedTransportServiceCatalog.product.id
-  //           )
-  //           .subscribe((data) => {
-  //             if (data[0]) {
-  //               this.initPurchase(
-  //                 data[0].purchaseAmountHt,
-  //                 data[0].purchaseAmountTtc,
-  //                 data[0].purchaseVat
-  //               );
-  //             } else {
-  //               this.initPurchase(0, 0, null);
-  //             }
-  //           });
-
-  // }
-
-
-
-
-
-
-
-//   onSearchSalePriceServiceByCompany() {
-
-//     let requete;
-//     requete =
-//       "company.id:" +
-//       this.selectedAccount.company.id +
-//       ",product.id:" +
-//       this.selectedTransportServiceCatalog.product.id
-
-//  console.log(requete);
-
-//     this.accountPricingServiceService
-//       .find(
-//       requete
-//       )
-//       .subscribe((data) => {
-//         console.log(data);
-//         if (data[0]) {
-//           console.log("accountService");
-//           this.initSale(
-//             data[0].saleAmountHt,
-//             data[0].saleAmountTtc,
-//             data[0].saleVat
-//           );
-//         } else {
-//           console.log("catalogService");
-//           this.onSearchSalePriceServiceInCatalog();
-//         }
-//       });
-//   }
-
-
-
-
   initPurchase(
     purchaseAmountht: number,
     purchaseAmountTtc: number,
@@ -348,14 +282,6 @@ console.log(this.selectedAccount);
     this.initForm();
   }
 
-  onSelectPurchaseVat(event) {
-    let purchaseVat =  event.value;
-
-    this.selectedTransportServiceCatalog.purchaseVat = purchaseVat;
-    console.log(this.selectedTransportServiceCatalog.purchaseVat);
-
-    this.onPriceChange(1);
-  }
 
   onSelectSaleVat(event) {
     let saleVat =  event.value;
@@ -372,70 +298,79 @@ console.log(this.selectedAccount);
     this.displayDialog = false;
   }
 
-  onPriceChange(n: Number) {
-    let purchasePrice = +this.transportProductForm.value["purchasePriceHT"];
-    let purchasePriceTTC = +this.transportProductForm.value["purchasePriceTTC"];
-    let purchaseVat = this.transportProductForm.value["purchaseVat"].value;
 
-    if (purchasePrice === undefined || purchasePrice == null) {
-      purchasePrice = 0;
-    }
-    if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
-      purchasePriceTTC = 0;
-    }
-    if (purchaseVat === undefined || purchaseVat == null) {
-      purchaseVat = 0;
-    }
+onQuantityChange(){
+  let salePrice = +this.transportProductForm.value["salePriceHT"];
+  let salePriceTTC = +this.transportProductForm.value["salePriceTTC"];
 
-    if (n === 1) {
-      const amountTva = (purchasePrice / 100) * purchaseVat;
-      const purchasePriceTTC = purchasePrice + amountTva;
-      this.transportProductForm.patchValue({
-        purchasePriceTTC: purchasePriceTTC.toFixed(2),
-      });
-    }
-    if (n === 2) {
-      purchasePrice = purchasePriceTTC / (1 + purchaseVat / 100);
-      this.transportProductForm.patchValue({
-        purchasePriceHT: purchasePrice.toFixed(2),
-      });
-    }
-  }
+  if (this.selectedTransportServiceCatalog.product == null) {
+    return;
+}
+const price = +this.transportProductForm.value['salePriceHT'];
+
+const qty = +this.transportProductForm.value['quantity'];
+const vat =
+    this.selectedTransportServiceCatalog.product !== null &&
+    this.selectedTransportServiceCatalog.product.vat !== null
+        ? this.selectedTransportServiceCatalog.product.vat.value
+        : 0;
+        const amountTva = (price/100) * vat;
+        const priceTTC = price + amountTva;
+        this.selectedTransportServiceCatalog.salePriceVat=amountTva;
+        this.selectedTransportServiceCatalog.totalSalePriceVat=salePriceTTC-salePrice;
+
+this.transportProductForm.patchValue({
+  totalSalePriceHT: (price * qty).toFixed(2),
+  totalSalePriceTTC: (priceTTC * qty).toFixed(2)
+});
+
+
+}
 
   onPriceSaleChange(n: Number) {
-    let purchasePrice = +this.transportProductForm.value["salePriceHT"];
-    let purchasePriceTTC = +this.transportProductForm.value["salePriceTTC"];
-    let purchaseVat = this.transportProductForm.value["saleVat"].value;
+    let salePrice = +this.transportProductForm.value["salePriceHT"];
+    let salePriceTTC = +this.transportProductForm.value["salePriceTTC"];
+    let saleVat = this.transportProductForm.value["saleVat"].value;
+    const qty = +this.transportProductForm.value['quantity'];
 
-    if (purchasePrice === undefined || purchasePrice == null) {
-      purchasePrice = 0;
+    if (salePrice === undefined || salePrice == null) {
+      salePrice = 0;
     }
-    if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
-      purchasePriceTTC = 0;
+    if (salePriceTTC === undefined || salePriceTTC == null) {
+      salePriceTTC = 0;
     }
-    if (purchaseVat === undefined || purchaseVat == null) {
-      purchaseVat = 0;
+    if (saleVat === undefined || saleVat == null) {
+      saleVat = 0;
     }
 
     if (n === 1) {
-      const amountTva = (purchasePrice / 100) * purchaseVat;
-      const purchasePriceTTC = purchasePrice + amountTva;
+      const amountTva = (salePrice / 100) * saleVat;
+      const purchasePriceTTC = salePrice + amountTva;
       this.selectedTransportServiceCatalog.salePriceVat=amountTva;
 
       this.transportProductForm.patchValue({
         salePriceTTC: purchasePriceTTC.toFixed(2),
+          totalSalePriceHT: (salePrice * qty).toFixed(2),
+  totalSalePriceTTC: (salePriceTTC * qty).toFixed(2)
       });
+      this.selectedTransportServiceCatalog.totalSalePriceVat=salePriceTTC-salePrice;
+
     }
     if (n === 2) {
 
-      purchasePrice = purchasePriceTTC / (1 + purchaseVat / 100);
-      const amountTva = (purchasePrice / 100) * purchaseVat;
+      salePrice =salePriceTTC / (1 + saleVat / 100);
+      const amountTva = (salePrice / 100) * saleVat;
       this.selectedTransportServiceCatalog.salePriceVat=amountTva;
 
       this.transportProductForm.patchValue({
-        salePriceHT: purchasePrice.toFixed(2),
+        salePriceHT: salePrice.toFixed(2),
+        totalSalePriceHT: (salePrice * qty).toFixed(2),
+        totalSalePriceTTC: (salePriceTTC * qty).toFixed(2)
       });
+      this.selectedTransportServiceCatalog.totalSalePriceVat=salePriceTTC-salePrice;
+
     } console.log(this.selectedTransportServiceCatalog);
+
   }
 
 

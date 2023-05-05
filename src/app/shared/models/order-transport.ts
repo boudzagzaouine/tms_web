@@ -51,6 +51,9 @@ export class OrderTransport {
   vat :Vat;
   priceTTC:number;
   priceVat:number;
+  totalServiceHT:number;
+  totalServiceTTC:number;
+  totalServiceVat:number;
   totalPriceHT:number;
   totalPriceTTC:number;
   totalPriceVat:number;

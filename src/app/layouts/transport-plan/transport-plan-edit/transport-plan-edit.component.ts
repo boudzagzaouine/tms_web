@@ -119,7 +119,7 @@ initForm(){
     vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
     transport :new FormControl(this.selectedTransportPlan.transport),
     priceP :new FormControl(this.selectedTransportPlan.purchasePrice),
-    priceServiceP :new FormControl(this.selectedOrderTransport.totalServiceHT),
+    priceServiceP :new FormControl(this.selectedTransportPlan.totalServiceHT),
 
     price :new FormControl(this.selectedTransportPlan.salePrice),
     priceServiceS :new FormControl(this.selectedOrderTransport.totalServiceHT),

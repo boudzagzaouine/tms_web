@@ -1,3 +1,4 @@
+import { TransportPlanAddServiceEditComponent } from './transport-plan-add/transport-plan-add-service-edit/transport-plan-add-service-edit.component';
 import { TransportPlanTarifTrajetTransportComponent } from './transport-plan-add/transport-plan-tarif-trajet-transport/transport-plan-tarif-trajet-transport.component';
 import { TransportPlanListCancelComponent } from './transport-plan-list-cancel/transport-plan-list-cancel.component';
 import { TransportPlanCancelComponent } from './transport-plan-list/transport-plan-cancel/transport-plan-cancel.component';
@@ -99,6 +100,6 @@ import {InputNumberModule} from 'primeng/inputnumber';
      InputNumberModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent]
 })
 export class TransportPlanModule { }

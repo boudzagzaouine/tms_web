@@ -17,6 +17,8 @@ export class TransportPlanServiceCatalog {
   purchasePriceHT: number;
   purchaseVat: Vat;
   purchasePriceTTC: number;
+  purchasePriceVat: number;
+
   quantity : number;
   orderTransport:OrderTransport;
   salePriceHT: number;

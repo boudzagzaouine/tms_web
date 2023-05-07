@@ -589,7 +589,13 @@ console.log(this.transportOrCatalog);
       this.selectOrderTransport.vehicleCategory;
     this.selectedTransportPlan.transport = this.selectedTransport.transport;
 
-    this.selectedTransportPlan.purchasePrice = this.selectedTransport.transport.purchaseAmount;
+    this.selectedTransportPlan.purchasePrice = this.selectedTransport.purchaseAmountHt;
+    this.selectedTransportPlan.purchasePriceNegotiated = this.selectedTransport.purchaseAmountHt;
+    this.selectedTransportPlan.purchaseVat = this.selectedTransport.purchaseVat;
+
+    this.selectedTransportPlan.purchasePriceTtc = this.selectedTransport.purchaseAmountTtc;
+    this.selectedTransportPlan.purchasePriceVat = this.selectedTransport.purchaseAmountTva;
+
     this.affectedService();
     if (this.selectedTransportPlan.transport.interneOrExterne == true) {
       this.isInterOrPrestataire = true;
@@ -606,6 +612,7 @@ console.log(this.transportOrCatalog);
 
 
 affectedService(){
+console.log("affect Service");
 
   this.selectOrderTransport.orderTransportServiceCatalogs.forEach(element => {
 
@@ -632,10 +639,16 @@ affectedService(){
            element.purchasePriceTTC=data[0].purchaseAmountTtc;
            element.purchaseVat=data[0].purchaseVat;
            const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+           element.purchasePriceVat=amountTva;
+
            element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
            element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
-           element.totalPurchasePriceVat=amountTva
+           element.totalPurchasePriceVat=(element.totalPurchasePriceHT/100)*element.purchaseVat.value
+           console.log(1);
 
+           console.log(element);
+
+           this.calculateAllLines();
          } else {
           this.transportAccountServiceService
           .find(
@@ -654,9 +667,15 @@ affectedService(){
               element.purchasePriceTTC=data[0].purchaseAmountTtc;
               element.purchaseVat=data[0].purchaseVat;
               const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+              element.purchasePriceVat=amountTva;
+
               element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
               element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
-              element.totalPurchasePriceVat=amountTva
+              element.totalPurchasePriceVat=(element.totalPurchasePriceHT/100)*element.purchaseVat.value;
+              console.log(element);
+              console.log(2);
+
+              this.calculateAllLines();
             } else {
               this.transportServiceService
               .find(
@@ -671,12 +690,22 @@ affectedService(){
                   element.purchasePriceTTC=data[0].purchaseAmountTtc;
                   element.purchaseVat=data[0].purchaseVat;
                   const amountTva = (element.purchasePriceHT/100) * element.purchaseVat.value;
+                  element.purchasePriceVat=amountTva;
+
                   element.totalPurchasePriceHT=element.purchasePriceHT*element.quantity;
                   element.totalPurchasePriceTTC=element.purchasePriceTTC*element.quantity
-                  element.totalPurchasePriceVat=amountTva
+                  element.totalPurchasePriceVat=(element.totalPurchasePriceHT/100)*element.purchaseVat.value
+                  console.log(element);
+                  console.log(3);
+
+
+                    this.calculateAllLines();
                 } else {
                   element.purchasePriceHT=0;
                   element.purchasePriceTTC=0;
+                  console.log(5);
+
+                  this.calculateAllLines();
                        }
               });
 
@@ -688,6 +717,7 @@ affectedService(){
 
         });
   });
+
 }
 
 
@@ -733,9 +763,7 @@ affectedService(){
 
     this.selectedTransportPlan.purchasePriceNegotiated =formValue['purchasePriceNegotiated'];
     this.selectedTransportPlan.salePrice = this.selectOrderTransport.priceHT;
-    this.selectedTransportPlan.totalPriceHT = this.selectOrderTransport.priceHT;
-    this.selectedTransportPlan.totalPriceTTC = this.selectOrderTransport.priceTTC;
-    this.selectedTransportPlan.totalPriceVat = this.selectOrderTransport.priceVat;
+
 
 
     this.selectedTransportPlan.marginRate = this.selectedTransport.marginRate;
@@ -744,6 +772,9 @@ affectedService(){
     this.selectedTransportPlan.dateDepart = formValue['date'];
     this.selectedTransportPlan.dateValidate = new Date();
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
+
+
+    console.log(this.selectedTransportPlan);
 
     if(this.transportOrCatalog==false){
       console.log("catalog");
@@ -916,7 +947,12 @@ affectedService(){
 
   calculateAllLines() {
 
-
+    this.selectOrderTransport.totalServiceHT =0;
+    this.selectOrderTransport.totalServiceTTC =0;
+    this.selectOrderTransport.totalServiceVat =0;
+    this.selectOrderTransport.totalPriceHT =0;
+    this.selectOrderTransport.totalPriceTTC =0;
+    this.selectOrderTransport.totalPriceVat =0;
     this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(
       (line) => {
         this.selectOrderTransport.totalServiceHT += +line.totalSalePriceHT;
@@ -927,17 +963,29 @@ affectedService(){
     this.selectOrderTransport.totalPriceHT =this.selectOrderTransport.priceHT + this.selectOrderTransport.totalServiceHT;
     this.selectOrderTransport.totalPriceTTC =this.selectOrderTransport.priceTTC + this.selectOrderTransport.totalServiceTTC;
     this.selectOrderTransport.totalPriceVat =this.selectOrderTransport.priceVat + this.selectOrderTransport.totalServiceVat;
-   
 
-  // this.selectedTransportPlan.totalPriceHT=this.selectOrderTransport.priceHT;
-  // this.selectedTransportPlan.totalPriceTTC=this.selectOrderTransport.priceTTC;
-  // this.selectedTransportPlan.totalPriceVat=this.selectOrderTransport.priceVat;
-  //   this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
-  //     this.selectedTransportPlan.totalPriceHT += +line.totalSalePriceHT;
-  //     this.selectedTransportPlan.totalPriceTTC += +line.totalSalePriceTTC;
-  //     this.selectedTransportPlan.totalPriceVat += +line.totalSalePriceVat;
-  //   }
-  //   );
+    this.selectedTransportPlan.totalServiceHT = 0;
+        this.selectedTransportPlan.totalServiceTTC = 0;
+        this.selectedTransportPlan.totalServiceVat = 0;
+        this.selectedTransportPlan.totalPriceHT = 0;
+        this.selectedTransportPlan.totalPriceTTC = 0;
+        this.selectedTransportPlan.totalPriceVat = 0;
+    this.selectOrderTransport?.orderTransportServiceCatalogs.forEach(
+      (line) => {
+        console.log(line.totalPurchasePriceHT);
+
+        this.selectedTransportPlan.totalServiceHT += +line.totalPurchasePriceHT;
+        this.selectedTransportPlan.totalServiceTTC += +line.totalPurchasePriceTTC;
+        this.selectedTransportPlan.totalServiceVat += +line.totalPurchasePriceVat;
+
+      }
+    );
+    console.log(this.selectedTransportPlan.totalServiceHT);
+
+    this.selectedTransportPlan.totalPriceHT =this.selectedTransportPlan.purchasePriceNegotiated + this.selectedTransportPlan.totalServiceHT;
+    this.selectedTransportPlan.totalPriceTTC =this.selectedTransportPlan.purchasePriceTtc + this.selectedTransportPlan.totalServiceTTC;
+    this.selectedTransportPlan.totalPriceVat =this.selectedTransportPlan.purchasePriceVat + this.selectedTransportPlan.totalServiceVat;
+
 
 
 

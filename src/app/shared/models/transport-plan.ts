@@ -1,3 +1,4 @@
+import { Vat } from './vat';
 import { Account } from './account';
 import { Trajet } from './trajet';
 import { Company } from './company';
@@ -31,6 +32,10 @@ export class TransportPlan {
   salePrice :number;
   purchasePrice :number;
   purchasePriceNegotiated :number ;
+  purchaseVat :Vat;
+  purchasePriceTtc :number;
+  purchasePriceVat :number;
+
   dateDepart: Date = new Date();
   dateValidate: Date = new Date();
   // villeSource :Ville;
@@ -41,6 +46,11 @@ trajet:Trajet;
   marginRate:number;
   margineService :number;
   remark:string;
+
+  totalServiceHT:number;
+  totalServiceTTC:number;
+  totalServiceVat:number;
+
   totalPriceHT:number;
   totalPriceTTC:number;
   totalPriceVat:number;

@@ -41,5 +41,6 @@ export class Driver {
    charged: Date;
    salary : Date;
    dateOfAssignment: Date = new Date() ;
+   codeName:string  ;
 
 }

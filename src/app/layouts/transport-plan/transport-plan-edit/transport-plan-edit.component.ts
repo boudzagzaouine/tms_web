@@ -87,10 +87,13 @@ export class TransportPlanEditComponent implements OnInit {
           this.transportPlanService.findById(id).subscribe(
             (data) => {
               this.selectedTransportPlan=data;
+              this.initForm();
             console.log( this.selectedTransportPlan);
             this.orderTransportService.findById(this.selectedTransportPlan.orderTransport.id).subscribe(
               (data) => {
               this.selectedOrderTransport=data;
+              this.initForm();
+
               console.log(this.selectedOrderTransport);
 
               });
@@ -104,6 +107,8 @@ export class TransportPlanEditComponent implements OnInit {
   }
 
 initForm(){
+  console.log(this.selectedTransportPlan.totalServiceHT);
+
   this.transportPlanForm = new FormGroup({
 
     orderTransport: new FormControl(this.selectedTransportPlan.orderTransport?.code),
@@ -118,18 +123,18 @@ initForm(){
     driver:new FormControl(this.selectedTransportPlan.driver),
     vehicleCategory :new FormControl(this.selectedTransportPlan.vehicleCategory),
     transport :new FormControl(this.selectedTransportPlan.transport),
-    priceP :new FormControl(this.selectedTransportPlan.purchasePrice),
-    priceServiceP :new FormControl(this.selectedTransportPlan.totalServiceHT),
+    purchasePriceNegotiated :new FormControl(this.selectedTransportPlan.purchasePriceNegotiated),
+    totalServicePurchaseHt :new FormControl(this.selectedTransportPlan.totalServiceHT),
 
     price :new FormControl(this.selectedTransportPlan.salePrice),
-    priceServiceS :new FormControl(this.selectedOrderTransport.totalServiceHT),
+    totalServiceSaleHt :new FormControl(this.selectedOrderTransport.totalServiceHT),
+
 
     date :new FormControl(new Date (this.selectedTransportPlan.dateDepart)),
     status :new FormControl(this.selectedTransportPlan.turnStatus?.code),
 
-    totalPriceHT :new FormControl(this.selectedTransportPlan.totalPriceHT),
-    totalPriceTTC :new FormControl(this.selectedTransportPlan.totalPriceTTC),
-    totalPriceVat :new FormControl(this.selectedTransportPlan.totalPriceVat),
+    totalPurchasePriceHT :new FormControl(this.selectedTransportPlan.totalPriceHT),
+    totalSalePriceHT :new FormControl(this.selectedOrderTransport.totalPriceHT),
 
 
   })
@@ -271,8 +276,13 @@ onSubmit(close=false){
     console.log("calculate");
 
 
-
-  this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
+    this.selectedOrderTransport.totalServiceHT =0;
+    this.selectedOrderTransport.totalServiceTTC =0;
+    this.selectedOrderTransport.totalServiceVat =0;
+    this.selectedOrderTransport.totalPriceHT =0;
+    this.selectedOrderTransport.totalPriceTTC =0;
+    this.selectedOrderTransport.totalPriceVat =0;
+    this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
       (line) => {
         this.selectedOrderTransport.totalServiceHT += +line.totalSalePriceHT;
         this.selectedOrderTransport.totalServiceTTC += +line.totalSalePriceTTC;
@@ -283,29 +293,44 @@ onSubmit(close=false){
     this.selectedOrderTransport.totalPriceTTC =this.selectedOrderTransport.priceTTC + this.selectedOrderTransport.totalServiceTTC;
     this.selectedOrderTransport.totalPriceVat =this.selectedOrderTransport.priceVat + this.selectedOrderTransport.totalServiceVat;
 
+    this.selectedTransportPlan.totalServiceHT = 0;
+        this.selectedTransportPlan.totalServiceTTC = 0;
+        this.selectedTransportPlan.totalServiceVat = 0;
+        this.selectedTransportPlan.totalPriceHT = 0;
+        this.selectedTransportPlan.totalPriceTTC = 0;
+        this.selectedTransportPlan.totalPriceVat = 0;
+    this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
+      (line) => {
+        console.log(line.totalPurchasePriceHT);
+
+        this.selectedTransportPlan.totalServiceHT += +line.totalPurchasePriceHT;
+        this.selectedTransportPlan.totalServiceTTC += +line.totalPurchasePriceTTC;
+        this.selectedTransportPlan.totalServiceVat += +line.totalPurchasePriceVat;
+
+      }
+    );
+    console.log(this.selectedTransportPlan.totalServiceHT);
+
+    this.selectedTransportPlan.totalPriceHT =this.selectedTransportPlan.purchasePriceNegotiated + this.selectedTransportPlan.totalServiceHT;
+    this.selectedTransportPlan.totalPriceTTC =this.selectedTransportPlan.purchasePriceTtc + this.selectedTransportPlan.totalServiceTTC;
+    this.selectedTransportPlan.totalPriceVat =this.selectedTransportPlan.purchasePriceVat + this.selectedTransportPlan.totalServiceVat;
+ console.log( this.selectedTransportPlan.totalPriceVat);
+ console.log(this.selectedTransportPlan.purchasePriceVat);
+ console.log( this.selectedTransportPlan.totalServiceVat);
 
 
-  // this.selectedTransportPlan.totalPriceHT=this.selectedOrderTransport.priceHT;
-  // this.selectedTransportPlan.totalPriceTTC=this.selectedOrderTransport.priceTTC;
-  // this.selectedTransportPlan.totalPriceVat=this.selectedOrderTransport.priceVat;
-  //   this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(line => {
-  //     this.selectedTransportPlan.totalPriceHT += +line.totalSalePriceHT;
-  //     this.selectedTransportPlan.totalPriceTTC += +line.totalPurchasePriceTTC;
-  //     this.selectedTransportPlan.totalPriceVat += +line.totalPurchasePriceVat;
-  //   }
-  //   );
+
 
 
 
     this.transportPlanForm.patchValue({
-      'totalPriceHT': this.selectedTransportPlan.totalPriceHT
+      'totalPriceHT': this.selectedTransportPlan.totalPriceHT,
+      'totalServicePurchaseHt': this.selectedTransportPlan.totalServiceHT,
+      'totalSalePriceHT': this.selectedOrderTransport.totalPriceHT,
+      'totalServiceSaleHt': this.selectedOrderTransport.totalServiceHT,
+
     });
-    this.transportPlanForm.patchValue({
-      'totalPriceTTC': this.selectedTransportPlan.totalPriceTTC
-    });
-    this.transportPlanForm.patchValue({
-      'totalPriceVat': this.selectedTransportPlan.totalPriceVat
-    });
+
 
 
 

@@ -511,8 +511,10 @@ console.log(this.transportOrCatalog);
     this.selectedVilleDistination = event;
     this.resetSearchByVille();
   }
-  onSelectDriver(event) {
-    this.selectedTransportPlan.driver = event.value;
+  onSelectDriver(event: any) {
+    this.selectedTransportPlan.driver = event;
+    console.log(this.selectedTransportPlan.driver);
+
   }
 
   onDriverSearch(event: any) {
@@ -773,7 +775,7 @@ console.log("affect Service");
     this.selectedTransportPlan.dateValidate = new Date();
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
 
-
+this.calculateAllLines();
     console.log(this.selectedTransportPlan);
 
     if(this.transportOrCatalog==false){

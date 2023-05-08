@@ -261,11 +261,14 @@ export class OrderTransportInformationComponent implements OnInit {
     }
     this.accountService
       .find(search)
-      .subscribe((data) => (this.accountList = data));
+      .subscribe((data) =>{console.log(data);
+       (this.accountList = data)});
   }
   onSelectAccount(event: any) {
 
     this.selectedOrderTransport.account = event;
+    console.log( this.selectedOrderTransport.account);
+
     this.contactList = this.selectedOrderTransport.account.contacts;
   }
   onSelectContact(event) {

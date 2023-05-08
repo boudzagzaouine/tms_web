@@ -496,22 +496,12 @@
           (completeMethod)="onDriverSearch($event)"  [dropdown]="true"
           >
            <ng-template let-driver pTemplate="item">
-               <div class="country-item">
+               <div class="driver-item">
                    <div>{{driver.code}} -> {{driver.name}} </div>
                </div>
            </ng-template>
        </p-autoComplete>
-          <!-- <p-dropdown
-            formControlName="driver"
-            [autoDisplayFirst]="false"
-            [ariaPlaceholder]="this.selectedTransportPlan.vehicleCategory"
-            [options]="driverList"
-            (onChange)="onSelectDriver($event)"
-            optionLabel="name"
-            [filter]="true"
-            [showClear]="true"
-            [dataKey]="name"
-          ></p-dropdown> -->
+
         </div>
 
         <div class="form-group col-md-6"></div>
@@ -548,10 +538,10 @@
               <th>{{'Service' | translate}}</th>
               <th>{{'Quantité '| translate}}</th>
 
-              <th>{{'Total  Vente HT '| translate}}</th>
+              <th>{{'Total  Achat  HT '| translate}}</th>
               <th>{{'TVA '| translate}}</th>
 
-              <th>{{'Total Vente TTC '| translate}}</th>
+              <th>{{'Total Achat TTC '| translate}}</th>
               <th style="width: 18%;">{{ "Actions" | translate }}</th>
 
             </tr>
@@ -560,10 +550,10 @@
             <tr>
               <td>{{line?.product?.code}}</td>
               <td>{{line?.quantity}}</td>
-              <td>{{line?.totalSalePriceHT}}</td>
-                       <td>{{line?.totalSalePriceVat}}</td>
+              <td>{{line?.totalPurchasePriceHT}}</td>
+                       <td>{{line?.totalPurchasePriceVat}}</td>
 
-              <td>{{line?.totalSalePriceTTC}}</td>
+              <td>{{line?.totalPurchasePriceTTC}}</td>
 
               <td>
                       <button  type="button" class="btn btn-sm btn-primary mx-1"
@@ -668,7 +658,7 @@
 
 
   </div>
-
+</div>
   <ngx-spinner
     bdColor="rgba(255,255,255,0)"
     size="large"
@@ -697,19 +687,19 @@
       [vehicleCategory]="this.selectedTransportPlan.vehicleCategory"
     ></app-transport-plan-vehicle-list>
   </div>
-</div>
+
 
 
 <div *ngIf="showDialogTransportProduct == true">
 
 
-  <app-transport-plan-service-edit
+  <app-transport-plan-add-service-edit
   (showDialog)="onHideDialogTransportProduct($event)"
  (transportProductEdited)="onLineEditedTransportProduct($event)"
  [selectedAccount]="this.selectOrderTransport?.account"
    [selectedTransportServiceCatalog]="this.selectedTransportProductService"
    [editMode]="editModeTransportProduct"
-   [type]="1"></app-transport-plan-service-edit>
+   ></app-transport-plan-add-service-edit>
 
 </div>
 

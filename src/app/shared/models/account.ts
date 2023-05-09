@@ -27,7 +27,7 @@ export class Account {
     contacts :Contact[]=[];
     addresses:Address[]=[];
 
-    //codeName:string ;
+   
 
 
 // goingSource -goingDistinataire - coming

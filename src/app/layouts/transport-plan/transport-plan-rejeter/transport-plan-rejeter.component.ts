@@ -97,7 +97,7 @@ export class TransportPlanRejeterComponent implements OnInit {
 
       { field: 'purchasePrice', header: 'Prix Achat HT', type: 'number' },
       { field: 'salePrice', header: 'Prix Vente HT', type: 'number' },
-      { field: 'marginRate', header: 'Taux Margine', type: 'number' },
+      { field: 'marginRate', header: ' Taux Marge', type: 'number' },
       { field: 'margineService', header: 'Taux Service', type: 'number' },
 
 

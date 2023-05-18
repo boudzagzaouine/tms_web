@@ -320,16 +320,16 @@ onSubmit(close=false){
 
 
 
+  this.initForm();
 
 
+    // this.transportPlanForm.patchValue({
+    //   'totalPriceHT': this.selectedTransportPlan.totalPriceHT,
+    //   'totalServicePurchaseHt': this.selectedTransportPlan.totalServiceHT,
+    //   'totalSalePriceHT': this.selectedOrderTransport.totalPriceHT,
+    //   'totalServiceSaleHt': this.selectedOrderTransport.totalServiceHT,
 
-    this.transportPlanForm.patchValue({
-      'totalPriceHT': this.selectedTransportPlan.totalPriceHT,
-      'totalServicePurchaseHt': this.selectedTransportPlan.totalServiceHT,
-      'totalSalePriceHT': this.selectedOrderTransport.totalPriceHT,
-      'totalServiceSaleHt': this.selectedOrderTransport.totalServiceHT,
-
-    });
+    // });
 
 
 

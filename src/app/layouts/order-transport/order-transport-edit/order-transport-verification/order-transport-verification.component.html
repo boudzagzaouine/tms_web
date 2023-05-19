@@ -1,54 +1,56 @@
+<div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
 
-  <div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
+  <div class="mt-3 row justify-content-around">
+    <div class="form-group col-md-4">
 
- <div class="mt-3 row justify-content-around" >
-  <div class="form-group col-md-4">
+      <p-card>
+        <h5><b>Client : </b> {{this.selectOrderTransport.account?.name}}</h5>
+        <hr>
 
-<p-card>
-  <h5><b>Client : </b> {{this.selectOrderTransport.account?.name}}</h5><hr>
+        <h5><b>Type : </b> {{this.selectOrderTransport?.turnType?.code}}</h5>
+        <hr>
 
- <h5><b>Type : </b> {{this.selectOrderTransport?.turnType?.code}}</h5><hr>
+        <h5><b>Chargement : </b> {{this.selectOrderTransport?.loadingType?.code}}</h5>
+        <hr>
 
- <h5><b>Chargement : </b> {{this.selectOrderTransport?.loadingType?.code}}</h5><hr>
-
- <h5><b>Date : </b> {{this.selectOrderTransport?.date | date : 'dd-MM-yyyy'}}</h5>
+        <h5><b>Date : </b> {{this.selectOrderTransport?.date | date : 'dd-MM-yyyy'}}</h5>
 
 
-  </p-card>
+      </p-card>
 
-  </div>
+    </div>
 
-  <div class="form-group col-md-4">
+    <div class="form-group col-md-4">
 
- <div class="row">
-  <div class="form-group col-md-6">
-    <p-card>
-      <p> <b>Prix de vente HT</b>: <span style="font-size: 18px;
+      <div class="row">
+        <div class="form-group col-md-6">
+          <p-card>
+            <p> <b>Prix de vente HT</b>: <span style="font-size: 18px;
       font-weight: bold;">{{this.selectOrderTransport?.priceHT}} <span style="font-size: 15px;">DH</span></span></p>
 
 
 
-   </p-card>
-</div>
-<div class="form-group col-md-6">
-  <p-card>
+          </p-card>
+        </div>
+        <div class="form-group col-md-6">
+          <p-card>
 
- <p> <b>Prix de Service HT</b>:
-   <span style="font-size: 18px;
+            <p> <b>Prix de Service HT</b>:
+              <span style="font-size: 18px;
    font-weight: bold;">{{this.selectOrderTransport?.totalServiceHT}} <span style="font-size: 15px;">DH</span></span>
-   </p>
+            </p>
 
 
- </p-card>
-</div>
-<div class="form-group col-md-12">
-  <p-card>
+          </p-card>
+        </div>
+        <div class="form-group col-md-12">
+          <p-card>
 
-   <p> <b>Total </b>:
-     <span style="font-size: 18px;
+            <p> <b>Total </b>:
+              <span style="font-size: 18px;
      font-weight: bold;">{{this.selectOrderTransport?.totalPriceHT}} <span style="font-size: 15px;">DH</span></span>
-     </p>
-  <!-- <table>
+            </p>
+            <!-- <table>
 
     <tr>
       <th rowspan="4"width="40%">    <img src="./assets/img/prix1.png" width="30px">
@@ -66,40 +68,41 @@
 
   </table> -->
 
- </p-card>
-</div>
+          </p-card>
+        </div>
 
 
- </div>
+      </div>
 
 
-</div>
+    </div>
 
-<div class="form-group col-md-4">
-  <p-card>
+    <div class="form-group col-md-4">
+      <p-card>
 
-    <img src="./assets/img/truckExpress.png" width="130px">
+        <img src="./assets/img/truckExpress.png" width="130px">
 
-    <!-- <p style="font-size: 12px;
+        <!-- <p style="font-size: 12px;
     font-weight: bold;">{{this.selectOrderTransport?.vehicleCategory?.code}}</p> -->
-    <br>
-    <span style="font-size: 18px;
-    font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <span style="font-size: 15px;">KG</span></span>
+        <br>
+        <span style="font-size: 18px;
+    font-weight: bold;"> {{this.selectOrderTransport?.vehicleCategory?.tonnage}} <span
+            style="font-size: 15px;">KG</span></span>
 
 
-</p-card>
+      </p-card>
+    </div>
+
+
   </div>
 
 
-  </div>
 
-
-
- <div class="mt-3 row justify-content-around"  >
-  <div class="form-group col-md-12">
-    <h4 class="divider donotcross" contenteditable>Trajet</h4>
-</div>
-<!-- <div class="form-group col-md-12">
+  <div class="mt-3 row justify-content-around">
+    <div class="form-group col-md-12">
+      <h4 class="divider donotcross" contenteditable>Trajet</h4>
+    </div>
+    <!-- <div class="form-group col-md-12">
   <button
     pButton
     pRipple
@@ -110,35 +113,37 @@
     class="p-button-outlined"
   ></button>
 </div> -->
-  <div class="form-group col-md-12">
-  <p-card>
-    <div>
-      <span style="margin-left: 15%;
+    <div class="form-group col-md-12">
+      <p-card>
+        <div>
+          <span style="margin-left: 15%;
       margin-right: 15%;">
-    <span style="position: absolute;
-    margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransport?.trajet?.villeSource?.code}}, MAROC</span>
-</span>
-    <span style="position: absolute;
-    margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransport?.trajet?.villeDestination?.code}}, MAROC</span>
-  </div>
-    </p-card>
+            <span style="position: absolute;
+    margin-top: -20px;"><b>Depuis</b></span> <span><img src="./assets/img/depuis.png" width="30px"> </span> <span
+              style="margin-left: 1%;">{{this.selectOrderTransport?.trajet?.villeSource?.code}}, MAROC</span>
+          </span>
+          <span style="position: absolute;
+    margin-top: -20px;"><b>Vers</b></span> <span><img src="./assets/img/vers.png" width="30px"> </span> <span
+            style="margin-left: 1%;">{{this.selectOrderTransport?.trajet?.villeDestination?.code}}, MAROC</span>
+        </div>
+      </p-card>
     </div>
     <div class="form-group col-md-12">
       <div style="height: 250px">
 
-      <app-order-transport-itinerary
-      [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
-           (itineraryInfo)="onSelectedItineraryInfo($event)"
-    ></app-order-transport-itinerary>
+        <app-order-transport-itinerary
+          [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
+          (itineraryInfo)="onSelectedItineraryInfo($event)"></app-order-transport-itinerary>
       </div>
-        </div>
-      </div>
+    </div>
+  </div>
 
-      <div class="mt-3 row justify-content-around"  *ngIf="this.selectOrderTransport?.turnType?.id==2 || this.selectOrderTransport?.turnType?.id==3">
-        <div class="form-group col-md-12">
-          <h4 class="divider donotcross" contenteditable>Retour</h4>
-      </div>
-      <!-- <div class="form-group col-md-12">
+  <div class="mt-3 row justify-content-around"
+    *ngIf="this.selectOrderTransport?.turnType?.id==2 || this.selectOrderTransport?.turnType?.id==3">
+    <div class="form-group col-md-12">
+      <h4 class="divider donotcross" contenteditable>Retour</h4>
+    </div>
+    <!-- <div class="form-group col-md-12">
         <button
           pButton
           pRipple
@@ -149,65 +154,64 @@
           class="p-button-outlined"
         ></button>
       </div> -->
-        <div class="form-group col-md-12">
-        <p-card>
-          <div>
-            <span style="margin-left: -15%;
+    <div class="form-group col-md-12">
+      <p-card>
+        <div>
+          <span style="margin-left: -15%;
             margin-right: 15%;">
+            <span style="position: absolute;
+          margin-top: -20px;"><b>Depuis</b></span> <span><img src="./assets/img/depuis.png" width="30px"> </span> <span
+              style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeSource?.code}}, MAROC</span>
+          </span>
           <span style="position: absolute;
-          margin-top: -20px;"><b>Depuis</b></span>  <span><img src="./assets/img/depuis.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeSource?.code}}, MAROC</span>
-      </span>
-          <span style="position: absolute;
-          margin-top: -20px;"><b>Vers</b></span>  <span><img src="./assets/img/vers.png" width="30px"> </span> <span style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeDistination?.code}}, MAROC</span>
+          margin-top: -20px;"><b>Vers</b></span> <span><img src="./assets/img/vers.png" width="30px"> </span> <span
+            style="margin-left: 1%;">{{this.selectOrderTransportInfoRetour?.trajet?.villeDistination?.code}},
+            MAROC</span>
         </div>
-          </p-card>
-          </div>
-          <div class="form-group col-md-12">
-            <div style="height: 250px">
+      </p-card>
+    </div>
+    <div class="form-group col-md-12">
+      <div style="height: 250px">
 
 
-      <app-order-transport-itinerary
-      [orderTransportInfoLignes]="this.selectOrderTransportInfoRetour.orderTransportInfoLines"
-           (itineraryInfo)="onSelectedItineraryInfo($event)"
-    ></app-order-transport-itinerary>
-            </div>
-              </div>
-            </div>
-
+        <app-order-transport-itinerary
+          [orderTransportInfoLignes]="this.selectOrderTransportInfoRetour.orderTransportInfoLines"
+          (itineraryInfo)="onSelectedItineraryInfo($event)"></app-order-transport-itinerary>
+      </div>
+    </div>
   </div>
-<div class="container-fluid">
-<div class="text-center mt-5 mr-3 ml-3">
-  <a class="btn btn-primary m-1" [routerLink]="['/core/order-transport/to-affect']">
-    {{ "Annuler" | translate }}
-  </a>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
-    {{ "Valider et continuer" | translate }}
-  </button>
-  <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
-    {{ "Valider" | translate }}
-  </button>
+
 </div>
-<div class="row pull-left mt-5">
-  <button pButton pRipple type="button"
-  label="Précédent" styleClass="p-button-lg"
-   icon="fa fa-angle-double-left"
-     class="p-button-rounded  bNext"
-      iconPos="left" (click)="previous()"></button>
-  <!-- <button
+<div class="container-fluid">
+  <div class="text-center mt-5 mr-3 ml-3">
+    <a class="btn btn-primary m-1" [routerLink]="['/core/order-transport/to-affect']">
+      {{ "Annuler" | translate }}
+    </a>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit()">
+      {{ "Valider et continuer" | translate }}
+    </button>
+    <button type="button" class="btn btn-success m-1" (click)="onSubmit(true)">
+      {{ "Valider" | translate }}
+    </button>
+  </div>
+  <div class="row pull-left mt-5">
+    <button pButton pRipple type="button" label="Précédent" styleClass="p-button-lg" icon="fa fa-angle-double-left"
+      class="p-button-rounded  bNext" iconPos="left" (click)="previous()"></button>
+    <!-- <button
     type="button"
     pButton
     icon="fa fa-chevron-left"
     (click)="previous()"
   ></button> -->
-</div>
+  </div>
 </div>
 
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
 
 <!-- <div *ngIf="showDialogMap == true"> -->
-  <!-- <app-order-transport-itinerary
+<!-- <app-order-transport-itinerary
     [orderTransportInfoLignes]="this.selectOrderTransportInfoAller.orderTransportInfoLines"
     (showDialog)="onHideDialogMapAller($event)"
 
   ></app-order-transport-itinerary> -->
- <!-- </div> -->
+<!-- </div> -->

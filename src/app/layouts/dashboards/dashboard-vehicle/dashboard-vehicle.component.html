@@ -12,7 +12,7 @@
             <div class="col-md-3">
                 <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
                 <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="vehicleCodeList"
-                    (completeMethod)="onVehicleCodeSearch($event)" (onSelect)="onSelectVehicle($event)" field="code">
+                    (completeMethod)="onVehicleCodeSearch($event)"  field="code">
                 </p-autoComplete>
 
             </div>
@@ -38,7 +38,6 @@
                     [(ngModel)]="senioritySearch" [showClear]="true">
                 </p-dropdown>
             </div>
-
 
         </div>
 

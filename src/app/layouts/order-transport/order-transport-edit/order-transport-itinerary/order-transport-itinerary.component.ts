@@ -16,6 +16,7 @@ import 'leaflet-routing-machine';
 export class OrderTransportItineraryComponent implements OnInit {
 
   @Output() showDialog = new EventEmitter<boolean>();
+  //@Output() distance1 = new EventEmitter<string>();
   @Output() itineraryInfo = new EventEmitter<itineraryInfo>();
   @Input () orderTransportInfoLignes: Array<OrderTransportInfoLine> = [];
    selectItineraryInfo :itineraryInfo = new itineraryInfo();

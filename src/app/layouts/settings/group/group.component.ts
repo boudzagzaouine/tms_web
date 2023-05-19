@@ -120,6 +120,8 @@ export class GroupComponent implements OnInit {
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
       buffer.append(`code~${this.codeSearch}`);
+      
+   
     }
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
@@ -127,12 +129,11 @@ export class GroupComponent implements OnInit {
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
-
   }
   onCodeSearch(event: any) {
     this.subscriptions.add(this.userGroupService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
-    ));
+      ));
   }
   reset() {
     this.codeSearch = null;

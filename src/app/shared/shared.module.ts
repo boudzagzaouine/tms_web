@@ -187,12 +187,13 @@ import { SupplierHolidayService } from './services/api/supplier-holiday.service'
 import { HolidayService } from './services/api/account-holiday.service';
 import { PlanningService } from './services/api/planning-service';
 import { CompanyImport } from './import/company-import';
+import { TmsDashboardService } from './services/api/tms-dashboard.service';
 
 
 @NgModule({
   declarations: [DataTableComponent,HasPermissionDirective],
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModalModule,
@@ -317,6 +318,7 @@ export class SharedModule {
         SubscriptionCardService,
         NotificationStateService ,
         DashboardService,
+        TmsDashboardService,
         AgentService,
         StockViewService,
         PumpService,

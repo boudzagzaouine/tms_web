@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { DashboardsRoutingModule } from './dashboards-routing.module';
-import { DashboardsComponent } from './dashboards.component';
-import { DashboardVehicleComponent } from './dashboard-vehicle/dashboard-vehicle.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { TmsDashboardsRoutingModule } from './tms-dashboards-routing.module';
 import {CalendarModule} from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,16 +20,17 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { StepsModule } from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { DashboardDriverComponent } from './dashboard-driver/dashboard-driver.component';
 import {ChartModule} from 'primeng/chart';
 import {ProgressBarModule} from 'primeng/progressbar';
-
-
+import { TmsDashboardVehicleComponent } from './tms-dashboard-vehicle/tms-dashboard-vehicle.component';
+import { TmsDashboardDriverComponent } from './tms-dashboard-driver/tms-dashboard-driver.component';
+import { TransportComponent } from './transport/transport.component';
 @NgModule({
-  declarations: [DashboardsComponent, DashboardVehicleComponent, DashboardDriverComponent],
+  providers:[DatePipe],
+  declarations: [TmsDashboardVehicleComponent, TmsDashboardDriverComponent, TransportComponent],
   imports: [
     CommonModule,
-    DashboardsRoutingModule,
+    TmsDashboardsRoutingModule,
     CalendarModule,
     ButtonModule,
     SharedModule,
@@ -44,9 +42,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    
     NgxSpinnerModule,
-  
     CalendarModule,
     ConfirmDialogModule,
     TabViewModule,
@@ -60,8 +56,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
     BreadcrumbModule,
     ToastModule,
     ChartModule ,
-
     ProgressBarModule
   ]
 })
-export class DashboardsModule { }
+export class TmsDashboardsModule { }

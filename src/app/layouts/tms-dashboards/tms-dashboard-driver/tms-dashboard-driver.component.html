@@ -1,0 +1,57 @@
+<div class="page-content fade-in-up">
+    <p-panel header="Filters" [toggleable]="true">
+
+        <div class="row  mt-1 ">
+            <div class="col-md-3">
+                <label class="font-weight-bold">{{'Conducteur' | translate}} </label><br />
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="driverList"
+                    (completeMethod)="onDriverCodeSearch($event)" field="name"></p-autoComplete>
+
+            </div>
+
+            <div class="col-md-3">
+                <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
+                <p-calendar [maxDateCount]='2' [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+
+            </div>
+
+
+        </div>
+        <br />
+        <br />
+        <div class="text-center">
+            <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+                <i class="fa fa-refresh mr-2"></i>
+                {{'Réinitialiser'| translate}}
+            </button>
+
+            <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+                <i class="fa fa-search mr-2"></i>
+
+                {{' Rechercher'| translate}}
+            </button>
+        </div>
+    </p-panel>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{trajetsTraveled| number : '1.2-2'}} DH/KM</h2>
+                    <div class="m-b-5">Trajets parcouru</div><i class="ti-bar-chart widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2'}} KM</h2>
+                    <div class="m-b-5">Kilométrage parcouru</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>

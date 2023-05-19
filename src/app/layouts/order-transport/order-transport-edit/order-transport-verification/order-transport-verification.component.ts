@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderTransportInfo } from './../../../../shared/models/order-transport-info';
 import { OrderTransport } from './../../../../shared/models/order-transport';
 import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
-import { log } from 'console';
+import { itineraryInfo } from './../../../../shared/models/itineraryInfo';
 
 @Component({
   selector: 'app-order-transport-verification',
@@ -21,6 +21,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
   selectOrderTransportInfoAller :OrderTransportInfo= new OrderTransportInfo();
   selectOrderTransportInfoRetour :OrderTransportInfo= new OrderTransportInfo();
   showDialogMap: boolean;
+  distance:number;
   itineraryLignes: OrderTransportInfoLine = new OrderTransportInfoLine
   constructor(private orderTransportService :OrderTransportService,
     private orderTransportinfoService :OrderTransportInfoService,
@@ -52,13 +53,17 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
 
   console.log(this.selectOrderTransport);
    this.selectOrderTransport.orderTransportInfoAller=null;
+   console.log(this.onSelectedItineraryInfo);
+   this.selectOrderTransport.numberKm=this.distance;
    //this.selectOrderTransport.orderTransportInfoRetour=null;
+   console.log("================>"+this.selectOrderTransport.numberKm);
 
   this.orderTransportService.set(this.selectOrderTransport).subscribe(
     data =>{
   this.selectOrderTransport =data;
   this.orderTransportService.addOrder(this.selectOrderTransport);
   console.log(  this.selectOrderTransportInfoAller );
+  
   if(this.selectOrderTransport.loadingType.id==1){
     if (this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
       this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
@@ -167,9 +172,10 @@ this.previousstep.emit(true);
     //this.subscriptions.unsubscribe();
   }
 
-  onSelectedItineraryInfo(event){
-    console.log("infoooooooooooo");
-    console.log(event);
+  onSelectedItineraryInfo(itineraryInfo:itineraryInfo){
+  
+    this.distance=itineraryInfo.distance;
+    console.log(this.distance)
 
    }
    onSelectedItineraryInfoRetour(event){

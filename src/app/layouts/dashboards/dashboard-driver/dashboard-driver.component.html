@@ -2,33 +2,28 @@
     <p-panel header="Filters" [toggleable]="true">
 
         <div class="row  mt-1 ">
-          
 
 
-            <div class="col-md-3">            
-                <label class="font-weight-bold">{{'Conducteur' | translate}}  </label
-                ><br />
-                <p-autoComplete
-                [(ngModel)]="codeSearch"
-                [suggestions]="driverList"
-                (completeMethod)="onDriverCodeSearch($event)"
-                field="name"
-              ></p-autoComplete>
-             
-              </div>
-           
-      
-         
-      
+
             <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date' | translate}} </label
-                ><br /> 
-                <p-calendar          [maxDateCount]='2'     [(ngModel)]="dateSearch"
-                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon" [readonlyInput]="true"></p-calendar>
-             
-              </div>
+                <label class="font-weight-bold">{{'Conducteur' | translate}} </label><br />
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="driverList"
+                    (completeMethod)="onDriverCodeSearch($event)" field="name"></p-autoComplete>
 
-              <!-- <div class="col-md-3">
+            </div>
+
+
+
+
+            <div class="col-md-3">
+                <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
+                <p-calendar [maxDateCount]='2' [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+
+            </div>
+
+            <!-- <div class="col-md-3">
                 <label class="font-weight-bold ">{{'Ancienneté par tranche'| translate}}</label><br />
                 <p-dropdown
                 [options]="seniorityList"
@@ -38,29 +33,29 @@
               >
               </p-dropdown>
               </div> -->
-      
-          
-          </div>
-      
-          <br />
-          <br />
-          <div class="text-center">
-            <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-              <i class="fa fa-refresh mr-2"></i>
-              {{'Réinitialiser'| translate}}
-            </button>
-      
-            <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-              <i class="fa fa-search mr-2"></i>
-      
-              {{' Rechercher'| translate}}
-            </button>
-          </div>
-      
-      </p-panel>
-      <br />
 
-      <!-- <div class="row">
+
+        </div>
+
+        <br />
+        <br />
+        <div class="text-center">
+            <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+                <i class="fa fa-refresh mr-2"></i>
+                {{'Réinitialiser'| translate}}
+            </button>
+
+            <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+                <i class="fa fa-search mr-2"></i>
+
+                {{' Rechercher'| translate}}
+            </button>
+        </div>
+
+    </p-panel>
+    <br />
+
+    <!-- <div class="row">
         <div class="col-lg-4 col-md-6">
             <div class="ibox  color-dark widget-stat">
                 <div class="ibox-body">
@@ -115,8 +110,7 @@
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{averageConsumption | number : '1.2-2'}} DH/KM</h2>
-                    <div class="m-b-5">Consommation moyenne</div><i
-                        class="ti-bar-chart widget-stat-icon"></i>
+                    <div class="m-b-5">Consommation moyenne</div><i class="ti-bar-chart widget-stat-icon"></i>
                 </div>
             </div>
         </div>
@@ -125,8 +119,7 @@
             <div class="ibox bg-info color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2'}} KM</h2>
-                    <div class="m-b-5">Kilométrage parcouru</div><i
-                        class="fa fa-tachometer widget-stat-icon"></i>
+                    <div class="m-b-5">Kilométrage parcouru</div><i class="fa fa-tachometer widget-stat-icon"></i>
                 </div>
             </div>
         </div>
@@ -134,15 +127,14 @@
             <div class="ibox bg-dark color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{totalNumberOfProblems}}</h2>
-                    <div class="m-b-5">Nombre total de problèmes</div><i
-                        class="fa fa-cogs widget-stat-icon"></i>
+                    <div class="m-b-5">Nombre total de problèmes</div><i class="fa fa-cogs widget-stat-icon"></i>
                 </div>
             </div>
         </div>
     </div>
 
 
-    
+
 
 
     <div class="row">
@@ -150,8 +142,7 @@
             <div class="ibox bg-warning color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{correctiveMaintenanceCosts}} DH</h2>
-                    <div class="m-b-5">Coûts de maintenance corrective</div><i
-                        class="fa fa-money widget-stat-icon"></i>
+                    <div class="m-b-5">Coûts de maintenance corrective</div><i class="fa fa-money widget-stat-icon"></i>
                 </div>
             </div>
         </div>
@@ -160,8 +151,7 @@
             <div class="ibox bg-danger color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{preventiveMaintenanceCosts}} DH</h2>
-                    <div class="m-b-5">Coût de maintenance préventive</div><i
-                        class="fa fa-money widget-stat-icon"></i>
+                    <div class="m-b-5">Coût de maintenance préventive</div><i class="fa fa-money widget-stat-icon"></i>
                 </div>
             </div>
         </div>
@@ -186,7 +176,7 @@
                                     <span class="h2 m-0">{{gasoilCosts}} DH</span>
                                 </div>
                             </div>
-                           
+
                         </div>
                     </div>
                     <div>
@@ -195,49 +185,50 @@
                 </div>
             </div>
         </div>
-     
+
     </div>
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="ibox">
-            <div class="ibox-head">
-                <div class="ibox-title">Consomation de gasoil </div>
-            </div>
-            <div class="ibox-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Consomation de gasoil </div>
+                </div>
+                <div class="ibox-body">
 
-                <p-table [value]="dieselDeclarationList" responsiveLayout="scroll"
-                [scrollable]="true" scrollHeight="400px">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th class="font-weight-bold ">Chauffeurs</th>
-                            <th class="font-weight-bold ">Cin</th>
-                            <th class="font-weight-bold ">Date Affectation</th>
-                            <th class="font-weight-bold ">Quantité</th>
-                            <th class="font-weight-bold ">Data</th>
+                    <p-table [value]="dieselDeclarationList" responsiveLayout="scroll" [scrollable]="true"
+                        scrollHeight="400px">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="font-weight-bold ">Chauffeurs</th>
+                                <th class="font-weight-bold ">Cin</th>
+                                <th class="font-weight-bold ">Date Affectation</th>
+                                <th class="font-weight-bold ">Quantité</th>
+                                <th class="font-weight-bold ">Data</th>
 
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-gasoil>
-                        <tr>
-                             <td  class="font-weight-bold h6">{{gasoil[0]}}</td>
-                            <td  class="font-weight-bold h6">{{gasoil[1]}}</td>
-                            <td  class="font-weight-bold h6">{{gasoil[2] | date: 'dd-MM-yyyy'}}</td>
-                            <td  class="font-weight-bold h6">{{gasoil[3]}}L</td> 
-
-                            
-                            <td >
-                                <p-progressBar value="{{gasoil[4] | number : '1.2-2'}}" [showValue]="true"></p-progressBar>
-                             <!-- <p class="align-center">{{gasoil[4] | number : '1.2-2'}} %</p>    -->
-                            </td> 
-
-                        </tr>
-                    </ng-template>
-                </p-table>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-gasoil>
+                            <tr>
+                                <td class="font-weight-bold h6">{{gasoil[0]}}</td>
+                                <td class="font-weight-bold h6">{{gasoil[1]}}</td>
+                                <td class="font-weight-bold h6">{{gasoil[2] | date: 'dd-MM-yyyy'}}</td>
+                                <td class="font-weight-bold h6">{{gasoil[3]}}L</td>
 
 
+                                <td>
+                                    <p-progressBar value="{{gasoil[4] | number : '1.2-2'}}"
+                                        [showValue]="true"></p-progressBar>
+                                    <!-- <p class="align-center">{{gasoil[4] | number : '1.2-2'}} %</p>    -->
+                                </td>
 
-                <!-- <table class="table table-striped m-t-20 visitors-table">
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+
+
+                    <!-- <table class="table table-striped m-t-20 visitors-table">
                     <thead>
                         <tr>
                             <th>Chauffeurs</th>
@@ -313,11 +304,11 @@
                         </tr>
                     </tbody>
                 </table> -->
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
 
 
     <!-- <div class="row">

@@ -1,0 +1,57 @@
+<div class="page-content fade-in-up">
+  <p-panel header="Filters" [toggleable]="true">
+
+    <div class="row">
+
+
+      <div class="col-md-2">
+        <label class="font-weight-bold">{{'Nom' |translate}}</label><br />
+        <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameList" (completeMethod)="onNameSearch($event)"
+          field="name"></p-autoComplete>
+      </div>
+
+
+    </div>
+    <br />
+    <br />
+    <div class="text-center">
+      <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+        <i class="fa fa-refresh mr-2"></i>
+        {{'Réinitialiser'| translate}}
+      </button>
+
+      <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+        <i class="fa fa-search mr-2"></i>
+
+        {{' Rechercher'| translate}}
+      </button>
+    </div>
+  </p-panel>
+  <br />
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <div class="ibox bg-info color-white widget-stat">
+        <div class="ibox-body">
+          <h2 class="m-b-5 font-strong">{{refusedtransport}} Trajets</h2>
+          <div class="m-b-5">Trajets réfusé</div><i class="fa fa-tachometer widget-stat-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="ibox bg-success color-white widget-stat">
+        <div class="ibox-body">
+          <h2 class="m-b-5 font-strong">{{canceledtransport }} </h2>
+          <div class="m-b-5">Trajets annulé</div><i class="fa fa-tachometer widget-stat-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="ibox bg-success color-white widget-stat">
+        <div class="ibox-body">
+          <h2 class="m-b-5 font-strong">{{rejectedtransport }} </h2>
+          <div class="m-b-5">Trajets rejecté</div><i class="fa fa-tachometer widget-stat-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

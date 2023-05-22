@@ -61,6 +61,19 @@ export class TmsDashboardService {
     return this.http.get<any>(fullurl);
   }
 
+  getvalidertransport(
+    transportId: number
+  ): Observable<any> {
+    const fullurl =
+      this.url +
+      'Tmsdashboard' + '/transportvalider?transportId=' +
+      transportId +
+      '&token=' +
+      this.getToken();
+    console.log(fullurl);
+    return this.http.get<any>(fullurl);
+  }
+
   getcanceledtransport(
     transportId: number
   ): Observable<any> {

@@ -14,6 +14,8 @@ export class TransportComponent implements OnInit {
   nameList: Array<Transport> = [];
   refusedtransport: number = 0;
   canceledtransport: number = 0;
+
+  validertransport: number = 0;
   rejectedtransport: number = 0;
 
   constructor(private tmsDashboardService: TmsDashboardService, private tranportService: TransportServcie) { }
@@ -51,6 +53,12 @@ export class TransportComponent implements OnInit {
           this.rejectedtransport = data ? data : 0;
           console.log(data);
         });
+        this.tmsDashboardService.getvalidertransport(transportId)
+        .subscribe(
+          data => {
+            this.validertransport = data ? data : 0;
+            console.log(data);
+          });
 
   }
   reset() {

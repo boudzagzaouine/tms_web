@@ -80,7 +80,8 @@
     <div class="form-group col-md-4">
       <p-card>
 
-        <img src="./assets/img/truckExpress.png" width="130px">
+   <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==1"> <img src="./assets/img/truckExpress.png" width="130px"></span>
+   <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==2"> <img src="./assets/img/truck14.png" width="130px"></span>
 
         <!-- <p style="font-size: 12px;
     font-weight: bold;">{{this.selectOrderTransport?.vehicleCategory?.code}}</p> -->
@@ -98,11 +99,11 @@
 
 
 
-  <div class="mt-3 row justify-content-around">
-    <div class="form-group col-md-12">
-      <h4 class="divider donotcross" contenteditable>Trajet</h4>
-    </div>
-    <!-- <div class="form-group col-md-12">
+ <div class="mt-3 row justify-content-around"  >
+  <div class="form-group col-md-12">
+    <h4 class="divider donotcross" >Trajet</h4>
+</div>
+<!-- <div class="form-group col-md-12">
   <button
     pButton
     pRipple
@@ -138,12 +139,11 @@
     </div>
   </div>
 
-  <div class="mt-3 row justify-content-around"
-    *ngIf="this.selectOrderTransport?.turnType?.id==2 || this.selectOrderTransport?.turnType?.id==3">
-    <div class="form-group col-md-12">
-      <h4 class="divider donotcross" contenteditable>Retour</h4>
-    </div>
-    <!-- <div class="form-group col-md-12">
+      <div class="mt-3 row justify-content-around"  *ngIf="this.selectOrderTransport?.turnType?.id==2 || this.selectOrderTransport?.turnType?.id==3">
+        <div class="form-group col-md-12">
+          <h4 class="divider donotcross" >Retour</h4>
+      </div>
+      <!-- <div class="form-group col-md-12">
         <button
           pButton
           pRipple

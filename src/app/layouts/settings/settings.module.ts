@@ -193,11 +193,11 @@ import { SinisterEditComponent } from './sinister/sinister-edit/sinister-edit.co
 import {FileUploadModule} from 'primeng/fileupload';
 import { SubscriptionCardTypeComponent } from './subscription-card-type/subscription-card-type.component';
 import { AddressDeliveryEditComponent } from './delivery-address/address-delivery-edit/address-delivery-edit.component';
-import {CardModule} from 'primeng/card';
 import { TransportAccountServiceComponent } from './transport/transport-edit/transport-account-service/transport-account-service.component';
 import {PasswordModule} from 'primeng/password';
 import {OrderListModule} from 'primeng/orderlist';
 import {TreeModule} from 'primeng/tree';
+import {CardModule} from 'primeng/card';
 
 
 

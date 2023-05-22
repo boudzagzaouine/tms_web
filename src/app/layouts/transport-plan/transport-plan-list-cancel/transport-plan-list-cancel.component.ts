@@ -93,7 +93,7 @@ export class TransportPlanListCancelComponent implements OnInit {
       { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
       { field: 'purchasePrice', header: 'Prix Achat HT', type: 'number' },
       { field: 'salePrice', header: 'Prix Vente HT', type: 'number' },
-      { field: 'marginRate', header: 'Taux Margine', type: 'number' },
+      { field: 'marginRate', header: ' Taux Marge', type: 'number' },
       { field: 'margineService', header: 'Taux Service', type: 'number' },
 
       { field: 'orderTransportRejectType', child: 'code', header: 'Type Refus', type: 'object' },

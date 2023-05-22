@@ -17,7 +17,12 @@
           formControlName="product" (onSelect)="onSelectProduct($event)"></p-autoComplete>
 
             </div>
-            <div class="form-group col-md-8 ">
+            <div class="form-group col-md-4 ">
+              <label class="font-weight-bold">{{'Quantity'| translate}}</label><br />
+              <input type="text" class="form-control" pInputText
+              (keyup)="onQuantityChange()" formControlName="quantity" />
+              </div>
+            <div class="form-group col-md-4 ">
                         </div>
 </div>
 
@@ -53,16 +58,19 @@
 
           <div class="row  justify-content-around">
 
-            <div class="form-group col-md-4 ">
-              <label class="font-weight-bold">{{'Quantity'| translate}}</label><br />
-              <input type="text" class="form-control" pInputText
-              (keyup)="onQuantityChange()" formControlName="quantity" />
-              </div>
+
               <div class="form-group col-md-4 ">
                 <label class="font-weight-bold">{{'Total HT'| translate}}</label><br />
                 <input type="text" class="form-control" pInputText
             formControlName="totalSalePriceHT" />
                 </div>
+
+                <div class="form-group col-md-4 ">
+                  <label class="font-weight-bold">{{'Total TVA'| translate}}</label><br />
+                  <input type="text" class="form-control" pInputText
+              formControlName="totalSalePriceVat" />
+                  </div>
+
                 <div class="form-group col-md-4 ">
                   <label class="font-weight-bold">{{'Total TTC'| translate}}</label><br />
                   <input type="text" class="form-control" pInputText

@@ -3,7 +3,7 @@ import { VehicleCategoryService } from './../../../shared/services';
 import { Vehicle, VehicleCategory } from './../../../shared/models';
 import { Patrimony } from './../../../shared/models/patrimony';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
-import { TmsDashboardService } from './../../../shared/services/api/tms-dashboard.service';
+import { TmsdashboardService } from './../../../shared/services/api/tms-dashboard.service';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-tms-dashboard-vehicle',
@@ -15,12 +15,11 @@ export class TmsDashboardVehicleComponent implements OnInit {
   vehicleCategoryList: Array<VehicleCategory> = [];
   categorySearch: VehicleCategory;
   vehicleCodeList: Array<Patrimony> = [];
-  dateSearch: Date;
-  trajetTraveled: number = 0;
+  dateDepartSearch: Date;
+  dateFinSearch: Date; trajetTraveled: number = 0;
   kilometerTraveled: number = 0;
-
   constructor(public datepipe: DatePipe,
-    private tmsDashboardService: TmsDashboardService,
+    private tmsDashboardService: TmsdashboardService,
     private patrimonyService: PatrimonyService,
     private vehicleCategoryService: VehicleCategoryService) { }
 
@@ -41,9 +40,8 @@ export class TmsDashboardVehicleComponent implements OnInit {
   }
 
   onSearchClicked() {
-    if (this.dateSearch != null && this.dateSearch != undefined) {
-      this.searchWithVehicleDate();
-    }
+    this.searchWithVehicleDate();
+
   }
 
   searchWithVehicleDate() {
@@ -60,11 +58,9 @@ export class TmsDashboardVehicleComponent implements OnInit {
       categoryId = this.categorySearch.id;
     }
 
-    if (this.dateSearch != null) {
-      dateDebut = this.dateSearch[0];
-      dateFin = this.dateSearch[1];
-      console.log(this.datepipe.transform(dateDebut, 'yyyy/MM/dd'));
-      console.log(this.datepipe.transform(dateFin, 'yyyy/MM/dd'));
+    if (this.dateDepartSearch != null && this.dateFinSearch != null) {
+      dateDebut = this.dateDepartSearch;
+      dateFin = this.dateFinSearch;
     }
 
     this.tmsDashboardService.getNumberTrajetsVehicle(vehicleId, categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
@@ -74,16 +70,20 @@ export class TmsDashboardVehicleComponent implements OnInit {
           console.log(data);
         });
 
-        this.tmsDashboardService.getmileagevehicle(vehicleId, categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
-        .subscribe(
-          data => {
-            this.kilometerTraveled = data ? data : 0;
-            console.log(data);
-          });
+    this.tmsDashboardService.getmileagevehicle(vehicleId, categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
+      .subscribe(
+        data => {
+          this.kilometerTraveled = data ? data : 0;
+          console.log(data);
+
+        });
+
+
   }
   reset() {
     this.codeSearch = null;
-    this.dateSearch = null;
+    this.dateDepartSearch = null;
+    this.dateFinSearch = null;
     this.categorySearch = null;
     this.trajetTraveled = 0;
   }

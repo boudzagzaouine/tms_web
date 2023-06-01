@@ -18,10 +18,17 @@
             </div>
 
             <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
-                <p-calendar [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true" [maxDateCount]='2'></p-calendar>
+                <label class="font-weight-bold"> {{'Date initial' | translate}} </label><br />
+                <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+
+            </div>
+            <div class="col-md-3">
+                <label class="font-weight-bold"> {{'Date final' | translate}} </label><br />
+                <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
 
             </div>
             <div class="col-md-3">
@@ -30,6 +37,7 @@
                     [autoDisplayFirst]="false" [(ngModel)]="categorySearch" filter="true">
                 </p-dropdown>
             </div>
+
 
         </div>
 
@@ -51,15 +59,15 @@
     </p-panel>
     <br />
     <div class="row">
-        <div class="col-lg-4 col-md-6">
+        <div class=" col-md-4">
             <div class="ibox bg-info color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong">{{trajetTraveled}} Trajets</h2>
+                    <h2 class="m-b-5 font-strong">{{trajetTraveled}} </h2>
                     <div class="m-b-5">Trajets parcouru</div><i class="fa fa-tachometer widget-stat-icon"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+        <div class=" col-md-4">
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{kilometerTraveled | number : '1.2'}} KM</h2>
@@ -67,5 +75,7 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>

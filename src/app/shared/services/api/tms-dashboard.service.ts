@@ -7,7 +7,7 @@ import { AuthenticationService } from './authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TmsDashboardService {
+export class TmsdashboardService {
 
   private readonly url = REST_URL;
   constructor(private http: HttpClient,
@@ -36,65 +36,106 @@ export class TmsDashboardService {
   }
 
   getrefusedtransport(
-    transportId: number
+    transportId: number,
+     dateDepart:string,
+     dateFin:string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportrefused?transportId=' +
       transportId +
+      '&dateDepart='+
+      dateDepart+
+      '&dateFin='+
+      dateFin+
       '&token=' +
       this.getToken();
-    console.log(fullurl);
     return this.http.get<any>(fullurl);
   }
 
   getrejectededtransport(
-    transportId: number
+    transportId: number,
+    dateDepart:string,
+    dateFin:string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportrejected?transportId=' +
       transportId +
+      '&dateDepart='+
+      dateDepart+
+      '&dateFin='+
+      dateFin+
       '&token=' +
       this.getToken();
-    console.log(fullurl);
     return this.http.get<any>(fullurl);
   }
 
   getvalidertransport(
-    transportId: number
+    transportId: number,
+     dateDepart:string,
+     dateFin:string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportvalider?transportId=' +
       transportId +
+      '&dateDepart='+
+      dateDepart+
+      '&dateFin='+
+      dateFin+
       '&token=' +
       this.getToken();
-    console.log(fullurl);
     return this.http.get<any>(fullurl);
   }
 
   getcanceledtransport(
-    transportId: number
+    transportId: number,
+    dateDepart:string,
+    dateFin:string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportcanceled?transportId=' +
       transportId +
+      '&dateDepart='+
+      dateDepart+
+      '&dateFin='+
+      dateFin+
       '&token=' +
       this.getToken();
-    console.log(fullurl);
     return this.http.get<any>(fullurl);
   }
-  getmileagedriver(
-    vehicleId: number,
-    dateDepart: string,
-    dateFin: string
+  getplantransportaverageduration(
+    driverId: number,
+    ordertypeId: number
+
   ): Observable<any> {
     const fullurl =
       this.url +
-      'Tmsdashboard' + '/mileagevdriver?driverId=' +
-      vehicleId +
+      'Tmsdashboard' + '/plantransportaverageduration?driverId=' +
+      driverId +
+      '&ordertypeId='
+      + ordertypeId +
+      '&token=' +
+      this.getToken();
+    console.log(fullurl);
+
+    return this.http.get<any>(fullurl);
+  }
+  gettrajetaverageduration(
+    driverId: number,
+    trajetId: number,
+    dateDepart: string,
+    dateFin: string
+
+  ): Observable<any> {
+    const fullurl =
+      this.url +
+      'Tmsdashboard' + '/durationtrajet?driverId=' +
+      driverId +
+      '&trajetId='
+      + trajetId +
       '&dateDepart=' +
       dateDepart +
       '&dateFin=' +
@@ -102,7 +143,78 @@ export class TmsDashboardService {
       '&token=' +
       this.getToken();
     console.log(fullurl);
+
     return this.http.get<any>(fullurl);
+  }
+  gettrajetaveragedurationattent(
+    driverId: number,
+    trajetId: number,
+    dateDepart: string,
+    dateFin: string
+
+  ): Observable<any> {
+    const fullurl =
+      this.url +
+      'Tmsdashboard' + '/durationtrajetattent?driverId=' +
+      driverId +
+      '&trajetId='
+      + trajetId +
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
+      '&token=' +
+      this.getToken();
+    console.log(fullurl);
+
+    return this.http.get<any>(fullurl);
+  }
+  gettrajetaveragedurationoperation(
+    driverId: number,
+    operationId: number,
+    trajetId: number,
+    dateDepart: string,
+    dateFin: string,
+
+  ): Observable<any> {
+    const fullurl =
+      this.url +
+      'Tmsdashboard' + '/avgdurationoperationtrajet?driverId=' +
+      driverId +
+      '&operationId=' +
+      operationId +
+      '&trajetId=' +
+      + trajetId +
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
+      '&token=' +
+      this.getToken();
+    console.log(fullurl);
+
+    return this.http.get<any>(fullurl);
+  }
+  getmileagedriver(
+    driverId: number,
+    dateDepart: string,
+    dateFin: string
+  ): Observable<any> {
+
+    let fullurl = this.url + 'Tmsdashboard' + '/mileagevdriver?driverId=' + driverId
+
+    if (dateDepart != null) {
+      fullurl += '&dateDepart=' + dateDepart
+    }
+
+    if (dateFin != null) {
+      fullurl += '&dateFin=' + dateFin
+    }
+
+    fullurl += '&token=' + this.getToken();
+    return this.http.get<any>(fullurl);
+
+
   }
 
   getNumberTrajetsVehicle(
@@ -123,7 +235,6 @@ export class TmsDashboardService {
       dateFin +
       '&token=' +
       this.getToken();
-    console.log(fullurl);
     return this.http.get<any>(fullurl);
   }
 
@@ -132,20 +243,28 @@ export class TmsDashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/numbertrajetsdriver?driverId=' +
-      driverId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
+
+
+    let fullurl = this.url + 'Tmsdashboard' + '/numbertrajetsdriver?driverId=' + driverId
+
+    if (dateDepart != null) {
+      fullurl += '&dateDepart=' + dateDepart
+    }
+
+    if (dateFin != null) {
+      fullurl += '&dateFin=' + dateFin
+    }
+
+    fullurl += '&token=' + this.getToken();
     return this.http.get<any>(fullurl);
   }
+
   getToken(): string {
     return this.authService.computeToken();
   }
+
+
+
+
+
 }

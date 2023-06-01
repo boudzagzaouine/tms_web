@@ -17,16 +17,18 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { TabViewModule } from 'primeng/tabview';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { OrganizationChartModule } from 'primeng/organizationchart';
 import { StepsModule } from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import {ChartModule} from 'primeng/chart';
 import {ProgressBarModule} from 'primeng/progressbar';
-import { TmsDashboardVehicleComponent } from './tms-dashboard-vehicle/tms-dashboard-vehicle.component';
 import { TmsDashboardDriverComponent } from './tms-dashboard-driver/tms-dashboard-driver.component';
 import { TransportComponent } from './transport/transport.component';
+import { TmsDashboardVehicleComponent } from './tms-dashboard-vehicle/tms-dashboard-vehicle.component';
 @NgModule({
   providers:[DatePipe],
+  bootstrap:[],
   declarations: [TmsDashboardVehicleComponent, TmsDashboardDriverComponent, TransportComponent],
   imports: [
     CommonModule,
@@ -56,6 +58,7 @@ import { TransportComponent } from './transport/transport.component';
     BreadcrumbModule,
     ToastModule,
     ChartModule ,
+    OrganizationChartModule,
     ProgressBarModule
   ]
 })

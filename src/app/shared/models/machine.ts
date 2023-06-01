@@ -8,6 +8,7 @@ import { VehicleCategory } from './vehicle-category';
 import { BadgeType } from './badge-Type';
 import { MaintenancePlan } from './maintenance-plan';
 import { Owner } from './owner';
+import { Transport } from './transport';
 
 export class Machine extends Patrimony {
 

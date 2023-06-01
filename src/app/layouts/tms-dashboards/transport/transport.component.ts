@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TmsDashboardService } from './../../../shared/services/api/tms-dashboard.service';
+import { TmsdashboardService } from './../../../shared/services/api/tms-dashboard.service';
 import { Transport } from './../../../shared/models/transport';
 import { TransportServcie } from './../../../shared/services/api/transport.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transport',
@@ -14,11 +15,17 @@ export class TransportComponent implements OnInit {
   nameList: Array<Transport> = [];
   refusedtransport: number = 0;
   canceledtransport: number = 0;
-
+  dateDepartSearch: Date;
+  dateFinSearch: Date;
+  data: any;
+  options: any;
   validertransport: number = 0;
   rejectedtransport: number = 0;
 
-  constructor(private tmsDashboardService: TmsDashboardService, private tranportService: TransportServcie) { }
+  constructor(
+    public datepipe: DatePipe,
+    private tmsDashboardService: TmsdashboardService,
+    private tranportService: TransportServcie) { }
 
   ngOnInit(): void {
   }
@@ -30,38 +37,81 @@ export class TransportComponent implements OnInit {
     );
 
   }
+
   onSearchClicked() {
     var transportId = 0
-    if (this.nameSearch != null && this.nameSearch.name !== '') transportId = this.nameSearch.id;
+    var dateDepart = new Date(), dateFin = new Date();
 
-    this.tmsDashboardService.getrefusedtransport(transportId)
-      .subscribe( 
+    if (this.nameSearch != null && this.nameSearch.name !== '') transportId = this.nameSearch.id;
+    if (this.dateDepartSearch != null && this.dateFinSearch != null) {
+      dateDepart = this.dateDepartSearch;
+      dateFin = this.dateFinSearch;
+    }
+
+    this.tmsDashboardService.getrefusedtransport(transportId, this.datepipe.transform(dateDepart, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
+      .subscribe(
         data => {
           this.refusedtransport = data ? data : 0;
-          console.log(data);
+
         });
 
-    this.tmsDashboardService.getcanceledtransport(transportId)
+    this.tmsDashboardService.getcanceledtransport(transportId, this.datepipe.transform(dateDepart, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
       .subscribe(
         data => {
           this.canceledtransport = data ? data : 0;
-          console.log(data);
+
         });
-    this.tmsDashboardService.getrejectededtransport(transportId)
+    this.tmsDashboardService.getrejectededtransport(transportId, this.datepipe.transform(dateDepart, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
       .subscribe(
         data => {
           this.rejectedtransport = data ? data : 0;
-          console.log(data);
+
         });
-        this.tmsDashboardService.getvalidertransport(transportId)
-        .subscribe(
-          data => {
-            this.validertransport = data ? data : 0;
-            console.log(data);
-          });
+    this.tmsDashboardService.getvalidertransport(transportId, this.datepipe.transform(dateDepart, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
+      .subscribe(
+        data => {
+          this.validertransport = data ? data : 0;
+          console.log(this.refusedtransport, this.canceledtransport, this.validertransport, this.rejectedtransport)
+
+          this.onChartTransport()
+        });
+
 
   }
   reset() {
     this.nameSearch = null;
+  }
+
+  onChartTransport() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    this.data = {
+      labels: ['Annulé', 'Rejecté', 'Refusé', 'Validé'],
+      datasets: [
+        {
+          data: [this.canceledtransport, this.rejectedtransport, this.refusedtransport, this.validertransport],
+
+          backgroundColor:
+            [documentStyle.getPropertyValue('--green-500'),
+            documentStyle.getPropertyValue('--yellow-500'),
+            documentStyle.getPropertyValue('--blue-500'),
+            documentStyle.getPropertyValue('--orange-500')],
+          hoverBackgroundColor:
+            [documentStyle.getPropertyValue('--green-400'),
+            documentStyle.getPropertyValue('--yellow-400'),
+            documentStyle.getPropertyValue('--blue-400'),
+            documentStyle.getPropertyValue('--orange-400'),]
+        }
+      ]
+    };
+    this.options = {
+
+      legend: {
+        labels: {
+          usePointStyle: true
+        }
+      }
+
+    };
   }
 }

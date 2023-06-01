@@ -1,19 +1,19 @@
-<p-panel  [toggleable]="true">
-  <ng-template pTemplate = "header" >
-    <img src="./assets/img/depuis.png" width="30px"
-    height="30px">          <span style="font-weight: 600"> {{orderTypeTitle}}</span>
-</ng-template>
-<div class="container-fluid">
+<p-panel [toggleable]="true">
+  <ng-template pTemplate="header">
+    <img src="./assets/img/depuis.png" width="30px" height="30px"> <span style="font-weight: 600">
+      {{orderTypeTitle}}</span>
+  </ng-template>
+  <div class="container-fluid">
 
-  <div   class="mt-3 row justify-content-around">
-    <div class="form-group col-md-12">
-            <form [formGroup]="orderTransportInfoLineForm" >
-        <div >
-        <div formGroupName="general">
-          <div class="row  justify-content-around">
+    <div class="mt-3 row justify-content-around">
+      <div class="form-group col-md-12">
+        <form [formGroup]="orderTransportInfoLineForm">
+          <div>
+            <div formGroupName="general">
+              <div class="row  justify-content-around">
 
-          <div class="form-group col-md-3">
-            <!-- <label class="font-weight-bold">{{'Type' | translate}}*</label>
+                <div class="form-group col-md-3">
+                  <!-- <label class="font-weight-bold">{{'Type' | translate}}*</label>
             <span *ngIf="(orderTransportInfoLineForm.controls['general'].get('orderTransportType').touched && orderTransportInfoLineForm.controls['general'].get('orderTransportType').invalid) ||
     (isFormSubmitted && orderTransportInfoLineForm.controls['general'].get('orderTransportType').invalid)" class="text-lighter"
       style="color: red; font-size: xx-small;">
@@ -30,331 +30,272 @@ optionLabel="code"
 [showClear]="true"
 ></p-dropdown> -->
 
-        </div>
+                </div>
 
 
-        <div class="form-group col-md-3">
+                <div class="form-group col-md-3">
 
-      </div>
+                </div>
 
-        <div class="form-group col-md-6">
-</div>
-</div>
-
-
-<div class="row  justify-content-around">
-
-    <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
+                </div>
+              </div>
 
 
+              <div class="row  justify-content-around">
+
+                <div class="form-group col-md-12">
 
 
-        <div class="row justify-content-around">
-
-          <div class="form-group col-md-12">
-
-     <div class="row">
 
 
-            <div class="form-group col-md-6">
-              <label class="font-weight-bold">{{
-                "Nom d'adresse" | translate
-              }} *</label
-              >
+                  <div class="row justify-content-around">
 
-              <span
-              *ngIf="
+                    <div class="form-group col-md-12">
+
+                      <div class="row">
+
+
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{
+                            "Nom d'adresse" | translate
+                            }} *</label>
+
+                          <span *ngIf="
                 (orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').touched &&
                 orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid) ||
                 (isFormSubmitted &&
                 orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid)
-              "
-              class="text-lighter"
-              style="color: red; font-size: xx-small"
-            >
-              {{ "Obligatoire" | translate }}
-            </span>
-              <p-autoComplete
-              formControlName="deliveryInfoAddressName"
-              [suggestions]="addressList"
-              (onSelect)="onSelectAddress($event)"
-              (completeMethod)="onAddressSearch($event)"
-              [placeholder]="this.selectAddress?.code"
-              field="code"
-              appendTo="body"
-            >
-            </p-autoComplete>
-            <span class="add" style="float: left;">
+              " class="text-lighter" style="color: red; font-size: xx-small">
+                            {{ "Obligatoire" | translate }}
+                          </span>
+                          <p-autoComplete formControlName="deliveryInfoAddressName" [suggestions]="addressList"
+                            (onSelect)="onSelectAddress($event)" (completeMethod)="onAddressSearch($event)"
+                            [placeholder]="this.selectAddress?.code" field="code" appendTo="body">
+                          </p-autoComplete>
+                          <span class="add" style="float: left;">
 
-              <img
-              src="./assets/img/address.png" style="width: 20px ; height: 20px;">
-              <a (click)='onShowdialogAddress()' class="ml-2">Ajouter Adresse </a></span>
-            </div>
-            <div class="form-group col-md-6"></div>
+                            <img src="./assets/img/address.png" style="width: 20px ; height: 20px;">
+                            <a (click)='onShowdialogAddress()' class="ml-2">Ajouter Adresse </a></span>
+                        </div>
+                        <div class="form-group col-md-6"></div>
 
 
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold"
-                  >{{ "Ligne d'adresse " | translate }} </label
-                >
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{ "Ligne d'adresse " | translate }} </label>
 
-                <br />
-                <input
-                formControlName="deliveryInfoLine1"
-                  type="text"
-                  class="form-control"
-                  pInputText
-                  [attr.disabled]="'true'"
+                          <br />
+                          <input formControlName="deliveryInfoLine1" type="text" class="form-control" pInputText
+                            [attr.disabled]="'true'" />
+                        </div>
 
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{
+                            "Ville" | translate
+                            }}</label>
 
-                />
-              </div>
+                          <br />
+                          <input formControlName="deliveryInfoCity" type="text" class="form-control" pInputText
+                            [attr.disabled]="'true'" />
+                        </div>
 
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Ville" | translate
-                }}</label
-                >
-
-                <br />
-                <input
-                formControlName="deliveryInfoCity"
-                  type="text"
-                  class="form-control"
-                  pInputText
-                  [attr.disabled]="'true'"
-                />
-              </div>
-
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Contact" | translate
-                }} </label
-                >
-                <span
-                *ngIf="
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{
+                            "Contact" | translate
+                            }} </label>
+                          <span *ngIf="
                   (orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').touched &&
                   orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').invalid) ||
                   (isFormSubmitted &&
                   orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
+                " class="text-lighter" style="color: red; font-size: xx-small">
+                            {{ "Obligatoire" | translate }}
+                          </span>
 
-                <p-dropdown
-            formControlName="deliveryInfoName"
-            [autoDisplayFirst]="false"
-            [options]="contactList"
-            optionLabel="name"
-            (onChange)="onSelectContact($event)"
-            [filter]="true"
-            appendTo="body"
-            [showClear]="true"
-            ></p-dropdown>
-            <span class="add" style="float: left;">
+                          <p-dropdown formControlName="deliveryInfoName" [autoDisplayFirst]="false"
+                            [options]="contactList" optionLabel="name" (onChange)="onSelectContact($event)"
+                            [filter]="true" appendTo="body" [showClear]="true"></p-dropdown>
+                          <span class="add" style="float: left;">
 
-              <img
-              src="./assets/img/address.png" style="width: 20px ; height: 20px;">
-              <a (click)='onShowdialogContact()' class="ml-2">Ajouter Contact </a></span>
-              </div>
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Téléphone" | translate
-                }} </label
-                >
+                            <img src="./assets/img/address.png" style="width: 20px ; height: 20px;">
+                            <a (click)='onShowdialogContact()' class="ml-2">Ajouter Contact </a></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{
+                            "Téléphone" | translate
+                            }} </label>
 
-                <br />
-                <input
-                formControlName="deliveryInfoTel1"
-                  type="text"
-                  class="form-control"
-                  pInputText
-                  [attr.disabled]="'true'"
-                />
-              </div>
+                          <br />
+                          <input formControlName="deliveryInfoTel1" type="text" class="form-control" pInputText
+                            [attr.disabled]="'true'" />
+                        </div>
 
 
 
-     </div>
-       </div>
-
-
-
-
-
-
-
-
-          </div>
-
-
-
-    </div>
-    </div>
-        </div>
-
-   <div  *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 "  headerStyleClass="onglet-p-2">
-              <div formGroupName="livraison"  >
-      <div class="row  justify-content-around">
-        <div class="form-group col-md-12">
-                  <div class="row justify-content-around">
-
-
-
-
-                    <div class="form-group col-md-12">
-                      <label class="font-weight-bold">{{
-                        "Consigne Livreur" | translate
-                      }} </label
-                      >
-
-                      <br />
-                      <textarea pInputTextarea
-                      formControlName="comment"
-                        type="text"
-                        class="form-control"
-                      ></textarea>
+                      </div>
                     </div>
 
-                    <div class="form-group col-md-6">
-                      <label class="font-weight-bold">{{
-                        "Date Livraison" | translate
-                      }}</label
-                      ><br />
-                    <p-calendar formControlName="date" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
-                   >
-                  </p-calendar>
+
+
+
+
+
+
+
+                  </div>
+
+
+
                 </div>
-                <div class="form-group col-md-6">
-</div>
-
-</div>
-
-
-
-</div>
-
-
-<div class="form-group col-md-12">
-
-  <div class="row justify-content-around">
-
-
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{'Retour de fonds' | translate}}</label>
-                <p-dropdown
-              formControlName="paymentType"
-              [autoDisplayFirst]="false"
-              [options]="paymentTypeList"
-              optionLabel="code"
-              (onChange)="onSelectPaymentTypeLivraison($event)"
-              [filter]="true"
-              appendTo="body"
-              [showClear]="true"
-              ></p-dropdown>
-
               </div>
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Montant" | translate
-                }} </label
-                >
+            </div>
 
-                <br />
-                <!-- <input
+            <div *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==2 " headerStyleClass="onglet-p-2">
+              <div formGroupName="livraison">
+                <div class="row  justify-content-around">
+                  <div class="form-group col-md-12">
+                    <div class="row justify-content-around">
+
+
+
+
+                      <div class="form-group col-md-12">
+                        <label class="font-weight-bold">{{
+                          "Consigne Livreur" | translate
+                          }} </label>
+
+                        <br />
+                        <textarea pInputTextarea formControlName="comment" type="text" class="form-control"></textarea>
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{
+                          "Date Livraison" | translate
+                          }}</label><br />
+                        <p-calendar formControlName="date" [showTime]="true" [monthNavigator]="true"
+                          [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100">
+                        </p-calendar>
+                      </div>
+                      <div class="form-group col-md-6">
+                      </div>
+
+                    </div>
+
+
+
+                  </div>
+
+
+                  <div class="form-group col-md-12">
+
+                    <div class="row justify-content-around">
+
+
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{'Retour de fonds' | translate}}</label>
+                        <p-dropdown formControlName="paymentType" [autoDisplayFirst]="false" [options]="paymentTypeList"
+                          optionLabel="code" (onChange)="onSelectPaymentTypeLivraison($event)" [filter]="true"
+                          appendTo="body" [showClear]="true"></p-dropdown>
+
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{
+                          "Montant" | translate
+                          }} </label>
+
+                        <br />
+                        <!-- <input
                 formControlName="paymentAmount"
                   type="text"
                   class="form-control"
                   pInputText
                 /> -->
-                  <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                  formControlName="paymentAmount"
-                ></p-inputNumber>
+                        <p-inputNumber inputId="locale-user" [minFractionDigits]="2"
+                          formControlName="paymentAmount"></p-inputNumber>
+                      </div>
+
+
+
+                      <div class="form-group col-md-6">
+
+
+                      </div>
+                    </div>
+
+
+                    <div class="card  ">
+                      <div class="card-header" style="background-color: #f7f7f7;">
+                        <div class="row">
+
+                          <div class="col-xs-4 col-md-4 pull-left">
+                            <button type="button" class="btn btn-sm btn-primary mx-1"
+                              (click)="onShowDialogLine(actionLineM,false,2)">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                          <div class=" col-xs-4 col-md-6 pull-center">
+                            <span style="font-size: 16px; color: #5f5b5b;">
+                              <b> {{ "Liste des Documents" | translate }}</b></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body border-top-primary">
+
+
+
+                        <p-table [value]=" this.orderTransportInfoLineDocumentLivraison" [lazy]="true" [rows]="size"
+                          [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraison?.length">
+                          <ng-template pTemplate="header">
+                            <tr>
+
+                              <th>{{'Numero' | translate}}</th>
+                              <th>{{'Type' | translate}}</th>
+
+                              <th style="width: 25%;">{{ "Actions" | translate }}</th>
+
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-line>
+                            <tr>
+                              <td>{{line?.numero}}</td>
+                              <td>{{line?.orderTransportDocumentType?.code}}</td>
+
+                              <td>
+
+                                <button type="button" class="btn btn-sm btn-primary mx-1"
+                                  (click)="onShowDialogLine(line,true,2)">
+
+                                  <i class="fa fa-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger mx-1"
+                                  (click)="onDeleteLine(line.numero)">
+
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </ng-template>
+
+                        </p-table>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+
+                </div>
               </div>
-
-
-
-<div class="form-group col-md-6">
-
-
-</div>
-</div>
-
-
-       <div class="card  ">
-        <div class="card-header" style="background-color: #f7f7f7;">
-          <div class="row">
-
-            <div class="col-xs-4 col-md-4 pull-left">
-              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,2)">
-                <i class="fa fa-plus"></i>
-              </button>
             </div>
-            <div class=" col-xs-4 col-md-6 pull-center">
-              <span style="font-size: 16px; color: #5f5b5b;">
-                <b> {{ "Liste des Documents" | translate }}</b></span>
-            </div>
-          </div>
-        </div>
-        <div class="card-body border-top-primary">
 
-
-
-  <p-table [value]=" this.orderTransportInfoLineDocumentLivraison" [lazy]="true" [rows]="size"
-  [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraison?.length">
-  <ng-template pTemplate="header">
-    <tr>
-
-      <th>{{'Numero' | translate}}</th>
-      <th>{{'Type' | translate}}</th>
-
-      <th style="width: 25%;">{{ "Actions" | translate }}</th>
-
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-line>
-    <tr>
-      <td>{{line?.numero}}</td>
-      <td>{{line?.orderTransportDocumentType?.code}}</td>
-
-      <td>
-
-        <button  type="button" class="btn btn-sm btn-primary mx-1"
-          (click)="onShowDialogLine(line,true,2)">
-
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button  type="button" class="btn btn-sm btn-danger mx-1"
-          (click)="onDeleteLine(line.numero)">
-
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-    </tr>
-  </ng-template>
-
-</p-table>
-  </div></div>
-
-
-
-
-</div>
-
-
-
-
-</div>
-</div>
-          </div>
-
-          <div *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 "  headerStyleClass="onglet-p-2">
-                <div formGroupName="enlevement"  >
-        <div class="row  justify-content-around">
-          <div class="form-group col-md-12">
+            <div *ngIf="this.selectedOrderTransportInfoLine?.orderTransportType?.id ==1 " headerStyleClass="onglet-p-2">
+              <div formGroupName="enlevement">
+                <div class="row  justify-content-around">
+                  <div class="form-group col-md-12">
                     <div class="row justify-content-around">
 
 
@@ -364,176 +305,163 @@ optionLabel="code"
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
                           "Consigne Livreur" | translate
-                        }} </label
-                        >
+                          }} </label>
 
                         <br />
-                        <textarea pInputTextarea
-                        formControlName="comment"
-                          type="text"
-                          class="form-control"
-                        ></textarea>
+                        <textarea pInputTextarea formControlName="comment" type="text" class="form-control"></textarea>
                       </div>
 
 
-                    <div class="form-group col-md-6">
-                      <label class="font-weight-bold">{{
-                        "Date d'enlevement" | translate
-                      }}</label
-                      ><br />
-                    <p-calendar formControlName="date" [showTime]="true" [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100"
-                   >
-                  </p-calendar>
-                </div>
-                <div class="form-group col-md-6">
-</div>
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{
+                          "Date d'enlevement" | translate
+                          }}</label><br />
+                        <p-calendar formControlName="date" [showTime]="true" [monthNavigator]="true"
+                          [yearNavigator]="true" dateFormat="dd/mm/yy" yearRange="1970:2100">
+                        </p-calendar>
+                      </div>
+                      <div class="form-group col-md-6">
+                      </div>
 
-</div>
-
+                    </div>
 
 
-</div>
+
+                  </div>
 
 
-<div class="form-group col-md-12">
+                  <div class="form-group col-md-12">
 
 
-  <div class="row justify-content-around">
+                    <div class="row justify-content-around">
 
 
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{'Retour de fonds' | translate}}</label>
-                <p-dropdown
-              formControlName="paymentType"
-              [autoDisplayFirst]="false"
-              [options]="paymentTypeList"
-              optionLabel="code"
-              (onChange)="onSelectPaymentTypeEnlevement($event)"
-              [filter]="true"
-              appendTo="body"
-              [showClear]="true"
-              ></p-dropdown>
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{'Retour de fonds' | translate}}</label>
+                        <p-dropdown formControlName="paymentType" [autoDisplayFirst]="false" [options]="paymentTypeList"
+                          optionLabel="code" (onChange)="onSelectPaymentTypeEnlevement($event)" [filter]="true"
+                          appendTo="body" [showClear]="true"></p-dropdown>
 
-              </div>
-              <div class="form-group col-md-6">
-                <label class="font-weight-bold">{{
-                  "Montant" | translate
-                }} </label
-                >
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="font-weight-bold">{{
+                          "Montant" | translate
+                          }} </label>
 
-                <br />
-                <!-- <input
+                        <br />
+                        <!-- <input
                 formControlName="paymentAmount"
                   type="text"
                   class="form-control"
                   pInputText
                 /> -->
-                  <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-                  formControlName="paymentAmount"
-                ></p-inputNumber>
-              </div>
+                        <p-inputNumber inputId="locale-user" [minFractionDigits]="2"
+                          formControlName="paymentAmount"></p-inputNumber>
+                      </div>
 
 
 
-<div class="form-group col-md-6">
+                      <div class="form-group col-md-6">
 
 
-</div>
-</div>
-
-
-
+                      </div>
+                    </div>
 
 
 
-        <div class="card  ">
-          <div class="card-header" style="background-color: #f7f7f7;">
-            <div class="row">
 
-              <div class="col-xs-4 col-md-4 pull-left">
-                <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onShowDialogLine(actionLineM,false,1)">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </div>
-              <div class=" col-xs-4 col-md-6 pull-center">
-                <span style="font-size: 16px; color: #5f5b5b;">
-                  <b> {{ "Liste des Documents" | translate }}</b></span>
+
+
+                    <div class="card  ">
+                      <div class="card-header" style="background-color: #f7f7f7;">
+                        <div class="row">
+
+                          <div class="col-xs-4 col-md-4 pull-left">
+                            <button type="button" class="btn btn-sm btn-primary mx-1"
+                              (click)="onShowDialogLine(actionLineM,false,1)">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                          <div class=" col-xs-4 col-md-6 pull-center">
+                            <span style="font-size: 16px; color: #5f5b5b;">
+                              <b> {{ "Liste des Documents" | translate }}</b></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body border-top-primary">
+
+
+                        <p-table [value]=" this.orderTransportInfoLineDocumentEnlevement" [lazy]="true" [rows]="size"
+                          [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevement?.length">
+                          <ng-template pTemplate="header">
+                            <tr>
+
+                              <th>{{'Numero' | translate}}</th>
+                              <th>{{'Type' | translate}}</th>
+
+                              <th style="width: 25%;">{{ "Actions" | translate }}</th>
+
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-line>
+                            <tr>
+                              <td>{{line?.numero}}</td>
+                              <td>{{line?.orderTransportDocumentType?.code}}</td>
+
+                              <td>
+
+                                <button type="button" class="btn btn-sm btn-primary mx-1"
+                                  (click)="onShowDialogLine(line,true,1)">
+                                  <!--ADD-->
+                                  <i class="fa fa-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger mx-1"
+                                  (click)="onDeleteLine(line.numero)">
+                                  <!--ADD-->
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </ng-template>
+
+                        </p-table>
+
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+
+                </div>
               </div>
             </div>
+
           </div>
-          <div class="card-body border-top-primary">
+        </form>
 
 
-    <p-table [value]=" this.orderTransportInfoLineDocumentEnlevement" [lazy]="true" [rows]="size"
-    [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevement?.length">
-    <ng-template pTemplate="header">
-      <tr>
+      </div>
+    </div>
 
-        <th>{{'Numero' | translate}}</th>
-        <th>{{'Type' | translate}}</th>
-
-        <th style="width: 25%;">{{ "Actions" | translate }}</th>
-
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-line>
-      <tr>
-        <td>{{line?.numero}}</td>
-        <td>{{line?.orderTransportDocumentType?.code}}</td>
-
-        <td>
-
-          <button type="button" class="btn btn-sm btn-primary mx-1"
-            (click)="onShowDialogLine(line,true,1)">
-            <!--ADD-->
-            <i class="fa fa-pencil"></i>
-          </button>
-          <button  type="button" class="btn btn-sm btn-danger mx-1"
-            (click)="onDeleteLine(line.numero)">
-            <!--ADD-->
-            <i class="fa fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </ng-template>
-
-  </p-table>
-
-    </div></div>
-
-
-
-
-</div>
-
-
-
-
-</div>
-</div>
-            </div>
-
-</div>
-    </form>
-
-
-</div>
-</div>
-
-</div>
+  </div>
 
 </p-panel>
 
 <div *ngIf="showDialogEnlevement == true">
   <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)"
-   (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevement($event)"
+    (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentEnlevement($event)"
     [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument"
     [editMode]="editModeLine"></app-order-transport-info-line-documet>
 </div>
 
 <div *ngIf="showDialogLivraison == true">
   <app-order-transport-info-line-documet (showDialog)="onHideDialogLine($event)"
-   (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraison($event)"
+    (orderTransportInfoLineDocumentEdited)="onLineEditedDocumentLivraison($event)"
     [selectedOrderTransportInfoLineDocument]="selectedOrderTransportInfoLineDocument"
     [editMode]="editModeLine"></app-order-transport-info-line-documet>
 </div>
@@ -542,16 +470,11 @@ optionLabel="code"
 
 
 <div *ngIf="showDialogContact == true">
-  <app-generate-contact-edit
-   (showDialog)="onHideDialogContact($event)"
-  (contactEdited)="onLineEditedContact($event)"
-  [selectedAddress]="selectAddress"
-  ></app-generate-contact-edit>
+  <app-generate-contact-edit (showDialog)="onHideDialogContact($event)" (contactEdited)="onLineEditedContact($event)"
+    [selectedAddress]="selectAddress"></app-generate-contact-edit>
 </div>
 
 <div *ngIf="showDialogAddress == true">
-  <app-generate-address-edit
-   (showDialog)="onHideDialogAddress($event)"
-  (addressEdited)="onLineEditedAddress($event)"
-></app-generate-address-edit>
+  <app-generate-address-edit (showDialog)="onHideDialogAddress($event)"
+    (addressEdited)="onLineEditedAddress($event)"></app-generate-address-edit>
 </div>

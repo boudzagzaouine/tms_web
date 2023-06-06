@@ -25,8 +25,8 @@
             </div>
             <div class="col-md-3">
                 <label class="font-weight-bold ">{{"L'opération" | translate}}</label><br />
-                <p-dropdown [options]="orderTypeList" [showClear]="true" [autoDisplayFirst]="false"
-                    [(ngModel)]="typeSearch" filter="true">
+                <p-dropdown [options]="operationList" [showClear]="true" [autoDisplayFirst]="false"
+                    [(ngModel)]="typeoperation" filter="true">
                 </p-dropdown>
             </div>
             <br/>
@@ -39,7 +39,7 @@
                     "Trajet" | translate
                     }}</label><br />
 
-                <p-autoComplete [(ngModel)]="codeSearch2" [suggestions]="codeList"
+                <p-autoComplete [(ngModel)]="codeSearch2" [suggestions]="trajetList"
                     (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
 
             </div>
@@ -102,8 +102,24 @@
             <div class="ibox bg-yellow color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{hourstrajetoperation}} H {{minutestrajetoperation}} MIN</h2>
-                    <div class="m-b-5">Durée moyenne d'operation</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                    <div class="m-b-5">Durée moyenne d'opération</div><i class="fa fa-tachometer widget-stat-icon"></i>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h3 class="m-0">Driver Statistiques </h3>
+                        </div>
+                     
+                    </div>
+                    <div class="card">
+                        <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+                    </div>
+                    </div>
+            </div>
+        </div>

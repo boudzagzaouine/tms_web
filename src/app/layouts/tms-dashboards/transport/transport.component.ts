@@ -80,11 +80,12 @@ export class TransportComponent implements OnInit {
   }
   reset() {
     this.nameSearch = null;
+    this.dateDepartSearch = null;
+    this.dateFinSearch = null;
   }
 
   onChartTransport() {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
     this.data = {
       labels: ['Annulé', 'Rejecté', 'Refusé', 'Validé'],
       datasets: [

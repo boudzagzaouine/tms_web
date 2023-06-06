@@ -115,8 +115,6 @@ console.log( this.orderTransportService.getItineraryAller());
  this.selectItineraryInfo.time=this.time;
  this.itineraryInfo.emit(this.selectItineraryInfo);
 
-
-
  new Date()
  }
  ).addTo(this.map).hide();

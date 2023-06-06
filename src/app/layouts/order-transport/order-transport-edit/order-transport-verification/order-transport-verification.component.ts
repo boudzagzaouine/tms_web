@@ -175,7 +175,7 @@ this.previousstep.emit(true);
   onSelectedItineraryInfo(itineraryInfo:itineraryInfo){
   
     this.distance=itineraryInfo.distance;
-    console.log(this.distance)
+    console.log('----------->'+this.distance)
 
    }
    onSelectedItineraryInfoRetour(event){

@@ -36,7 +36,8 @@ export class TmsDashboardVehicleComponent implements OnInit {
   onVehicleCodeSearch(event: any) {
     this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleCodeList = data.filter(f => f.patrimony_type == 'vehicule')
-    )
+      )
+     
   }
 
   onSearchClicked() {
@@ -52,10 +53,12 @@ export class TmsDashboardVehicleComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch.code !== '') {
 
       vehicleId = this.codeSearch.id;
-      registration = this.codeSearch.registrationNumber;
+      console.log('-------->'+vehicleId);
+    //  registration = this.codeSearch.registrationNumber;
     }
     if (this.categorySearch != null && this.categorySearch.code !== '') {
       categoryId = this.categorySearch.id;
+      console.log('-------->'+categoryId);
     }
 
     if (this.dateDepartSearch != null && this.dateFinSearch != null) {

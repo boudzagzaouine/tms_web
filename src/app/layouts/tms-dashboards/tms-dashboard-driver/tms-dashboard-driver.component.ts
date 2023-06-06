@@ -16,10 +16,10 @@ export class TmsDashboardDriverComponent implements OnInit {
   codeSearch: Driver;
   codeSearch2: Trajet;
   driverList: Array<Driver> = [];
-  orderTypeList: Array<string> = [];
+  operationList: Array<string> = [];
   dateDepartSearch: Date;
   dateFinSearch: Date;
-  typeSearch: string
+  typeoperation: string
   mileageTraveled: number = 0;
   hourstrajet: number = 0;
   minutestrajet: number = 0;
@@ -28,7 +28,7 @@ export class TmsDashboardDriverComponent implements OnInit {
   hourstrajetoperation: number = 0;
   minutestrajetoperation: number = 0;
   trajetsTraveled: number = 0;
-  codeList: Array<Trajet> = [];
+  trajetList: Array<Trajet> = [];
   data: any;
   options: any;
   constructor(private datepipe: DatePipe,
@@ -38,7 +38,7 @@ export class TmsDashboardDriverComponent implements OnInit {
     private driverservice: DriverService) { }
 
   ngOnInit(): void {
-    this.orderTypeList = ['Enlevement', 'Livraison']
+    this.operationList = ['Enlevement', 'Livraison']
 
   }
 
@@ -50,7 +50,7 @@ export class TmsDashboardDriverComponent implements OnInit {
 
   onCodeSearch(event: any) {
     this.trajetService.find('code~' + event.query).subscribe(
-      data => this.codeList = data
+      data => this.trajetList = data
     )
   }
   onSearchClicked() {
@@ -64,9 +64,9 @@ export class TmsDashboardDriverComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch.name != '') {
       driverId = this.codeSearch.id;
     }
-    if (this.typeSearch != null && this.typeSearch != '') {
-      if (this.typeSearch === "Enlevement") operationtype = 1;
-      if (this.typeSearch === "Livraison") operationtype = 2;
+    if (this.typeoperation != null && this.typeoperation != '') {
+      if (this.typeoperation === "Enlevement") operationtype = 1;
+      if (this.typeoperation === "Livraison") operationtype = 2;
     }
 
     if (this.codeSearch2 != null && this.codeSearch2.code != '') {
@@ -79,17 +79,19 @@ export class TmsDashboardDriverComponent implements OnInit {
       dateFin = this.dateFinSearch;
     }
 
-    this.tmsDashboardService.getNumberTrajetsDriver(driverId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.getNumberTrajetsDriver(driverId,trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
           this.trajetsTraveled = data ? data : 0;
-
+      
         });
 
-    this.tmsDashboardService.getmileagedriver(driverId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.getmileagedriver(driverId,trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
+          console.log('----------->'+driverId,trajetId,dateDebut,dateFin);
           this.mileageTraveled = data ? data : 0;
+          console.log('----------->'+data);
 
         });
 
@@ -116,18 +118,61 @@ export class TmsDashboardDriverComponent implements OnInit {
 
           this.hourstrajetoperation = Math.floor(data / 60);
           this.minutestrajetoperation = Math.floor(data % 60);
-console.log(data);
         }
       )
 
   }
+ /*  onChartDriver() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    const monthNames: string[] = [];
+    let currentDate = new Date(this.dateDepartSearch);
+    while (currentDate <= this.dateFinSearch) {
+      const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate);
+      currentDate.setDate(currentDate.getDate() + 1);
+      monthNames.push(monthName);
+      currentDate.setMonth(currentDate.getMonth() + 1);
+    }
+    this.data = {
+      labels: monthNames,
+      datasets: [
+          {
+              label: 'My First dataset',
+              backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+              borderColor: documentStyle.getPropertyValue('--blue-500'),
+              data: [65, 59, 80, 81, 56, 55, 40]
+          },
+          {
+              label: 'My Second dataset',
+              backgroundColor: documentStyle.getPropertyValue('--pink-500'),
+              borderColor: documentStyle.getPropertyValue('--pink-500'),
+              data: [28, 48, 40, 19, 86, 27, 90]
+          }
+      ]
+  };
+  this.options = {
+
+    legend: {
+      labels: {
+        usePointStyle: true
+      }
+    }
+
+  };
+
+} */
+
 
   reset() {
     this.codeSearch = null;
+    this.codeSearch2 = null;
     this.dateDepartSearch = null;
     this.dateFinSearch = null;
     this.mileageTraveled = 0;
-
+    this.typeoperation=null;
   }
 
 }

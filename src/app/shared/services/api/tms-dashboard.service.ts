@@ -203,21 +203,25 @@ export class TmsdashboardService {
   }
   getmileagedriver(
     driverId: number,
+    trajetId: number,
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
 
-    let fullurl = this.url + 'Tmsdashboard' + '/mileagevdriver?driverId=' + driverId
+    const fullurl =
+      this.url +
+      'Tmsdashboard' + '/mileagedriver?driverId=' +
+      driverId +
+      '&trajetId=' +
+      + trajetId +
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
+      '&token=' +
+      this.getToken();
+    console.log(fullurl);
 
-    if (dateDepart != null) {
-      fullurl += '&dateDepart=' + dateDepart
-    }
-
-    if (dateFin != null) {
-      fullurl += '&dateFin=' + dateFin
-    }
-
-    fullurl += '&token=' + this.getToken();
     return this.http.get<any>(fullurl);
 
 
@@ -246,23 +250,26 @@ export class TmsdashboardService {
 
   getNumberTrajetsDriver(
     driverId: number,
+    trajetId: number,
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
 
+    const fullurl =
+    this.url +
+    'Tmsdashboard' + '/numbertrajetsdriver?driverId=' +
+    driverId +
+    '&trajetId=' +
+    + trajetId +
+    '&dateDepart=' +
+    dateDepart +
+    '&dateFin=' +
+    dateFin +
+    '&token=' +
+    this.getToken();
+  console.log(fullurl);
 
-    let fullurl = this.url + 'Tmsdashboard' + '/numbertrajetsdriver?driverId=' + driverId
-
-    if (dateDepart != null) {
-      fullurl += '&dateDepart=' + dateDepart
-    }
-
-    if (dateFin != null) {
-      fullurl += '&dateFin=' + dateFin
-    }
-
-    fullurl += '&token=' + this.getToken();
-    return this.http.get<any>(fullurl);
+  return this.http.get<any>(fullurl);
   }
 
   getToken(): string {

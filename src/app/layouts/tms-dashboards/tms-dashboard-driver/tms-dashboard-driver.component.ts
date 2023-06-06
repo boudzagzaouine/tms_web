@@ -93,7 +93,7 @@ export class TmsDashboardDriverComponent implements OnInit {
 
         });
 
-    this.tmsDashboardService.gettrajetaverageduration(driverId, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.gettrajetaverageduration(driverId,operationtype, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
@@ -101,7 +101,7 @@ export class TmsDashboardDriverComponent implements OnInit {
           this.minutestrajet = Math.floor(data % 60);
 
         });
-    this.tmsDashboardService.gettrajetaveragedurationattent(driverId, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.gettrajetaveragedurationattent(driverId,operationtype, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
@@ -116,7 +116,7 @@ export class TmsDashboardDriverComponent implements OnInit {
 
           this.hourstrajetoperation = Math.floor(data / 60);
           this.minutestrajetoperation = Math.floor(data % 60);
-
+console.log(data);
         }
       )
 

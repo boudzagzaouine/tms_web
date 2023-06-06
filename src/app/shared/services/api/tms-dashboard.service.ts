@@ -37,17 +37,17 @@ export class TmsdashboardService {
 
   getrefusedtransport(
     transportId: number,
-     dateDepart:string,
-     dateFin:string
+    dateDepart: string,
+    dateFin: string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportrefused?transportId=' +
       transportId +
-      '&dateDepart='+
-      dateDepart+
-      '&dateFin='+
-      dateFin+
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
       '&token=' +
       this.getToken();
     return this.http.get<any>(fullurl);
@@ -55,17 +55,17 @@ export class TmsdashboardService {
 
   getrejectededtransport(
     transportId: number,
-    dateDepart:string,
-    dateFin:string
+    dateDepart: string,
+    dateFin: string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportrejected?transportId=' +
       transportId +
-      '&dateDepart='+
-      dateDepart+
-      '&dateFin='+
-      dateFin+
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
       '&token=' +
       this.getToken();
     return this.http.get<any>(fullurl);
@@ -73,17 +73,17 @@ export class TmsdashboardService {
 
   getvalidertransport(
     transportId: number,
-     dateDepart:string,
-     dateFin:string
+    dateDepart: string,
+    dateFin: string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportvalider?transportId=' +
       transportId +
-      '&dateDepart='+
-      dateDepart+
-      '&dateFin='+
-      dateFin+
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
       '&token=' +
       this.getToken();
     return this.http.get<any>(fullurl);
@@ -91,17 +91,17 @@ export class TmsdashboardService {
 
   getcanceledtransport(
     transportId: number,
-    dateDepart:string,
-    dateFin:string
+    dateDepart: string,
+    dateFin: string
   ): Observable<any> {
     const fullurl =
       this.url +
       'Tmsdashboard' + '/transportcanceled?transportId=' +
       transportId +
-      '&dateDepart='+
-      dateDepart+
-      '&dateFin='+
-      dateFin+
+      '&dateDepart=' +
+      dateDepart +
+      '&dateFin=' +
+      dateFin +
       '&token=' +
       this.getToken();
     return this.http.get<any>(fullurl);
@@ -125,6 +125,7 @@ export class TmsdashboardService {
   }
   gettrajetaverageduration(
     driverId: number,
+    operationId: number,
     trajetId: number,
     dateDepart: string,
     dateFin: string
@@ -134,6 +135,8 @@ export class TmsdashboardService {
       this.url +
       'Tmsdashboard' + '/durationtrajet?driverId=' +
       driverId +
+      '&operationId=' +
+      operationId +
       '&trajetId='
       + trajetId +
       '&dateDepart=' +
@@ -148,6 +151,7 @@ export class TmsdashboardService {
   }
   gettrajetaveragedurationattent(
     driverId: number,
+    operationId: number,
     trajetId: number,
     dateDepart: string,
     dateFin: string
@@ -157,6 +161,8 @@ export class TmsdashboardService {
       this.url +
       'Tmsdashboard' + '/durationtrajetattent?driverId=' +
       driverId +
+      '&operationId=' +
+      operationId +
       '&trajetId='
       + trajetId +
       '&dateDepart=' +

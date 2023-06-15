@@ -15,8 +15,8 @@ import { TrajetService } from './../../../shared/services/api/trajet.service';
 export class TmsDashboardDriverComponent implements OnInit {
   codeSearch: Driver;
   codeSearch2: Trajet;
+  trajetList: Array<Trajet> = [];
   driverList: Array<Driver> = [];
-  operationList: Array<string> = [];
   dateDepartSearch: Date;
   dateFinSearch: Date;
   typeoperation: string
@@ -28,7 +28,6 @@ export class TmsDashboardDriverComponent implements OnInit {
   hourstrajetoperation: number = 0;
   minutestrajetoperation: number = 0;
   trajetsTraveled: number = 0;
-  trajetList: Array<Trajet> = [];
   data: any;
   options: any;
   constructor(private datepipe: DatePipe,
@@ -38,7 +37,6 @@ export class TmsDashboardDriverComponent implements OnInit {
     private driverservice: DriverService) { }
 
   ngOnInit(): void {
-    this.operationList = ['Enlevement', 'Livraison']
 
   }
 
@@ -56,17 +54,15 @@ export class TmsDashboardDriverComponent implements OnInit {
   onSearchClicked() {
 
 
-    let driverId: number;
-    let operationtype: number;
-    let trajetId: number;
-    let dateDebut= new Date(), dateFin= new Date();
+    let driverId;
+    let trajetId;
+    var oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    var dateDebut = oneYearAgo;
+    var dateFin = new Date();
 
     if (this.codeSearch != null && this.codeSearch.name != '') {
       driverId = this.codeSearch.id;
-    }
-    if (this.typeoperation != null && this.typeoperation != '') {
-      if (this.typeoperation === "Enlevement") operationtype = 1;
-      if (this.typeoperation === "Livraison") operationtype = 2;
     }
 
     if (this.codeSearch2 != null && this.codeSearch2.code != '') {
@@ -77,6 +73,8 @@ export class TmsDashboardDriverComponent implements OnInit {
     if (this.dateDepartSearch != null && this.dateFinSearch != null) {
       dateDebut = this.dateDepartSearch;
       dateFin = this.dateFinSearch;
+      console.log(dateDebut);
+      console.log(dateFin);
     }
 
     this.tmsDashboardService.getNumberTrajetsDriver(driverId,trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
@@ -95,7 +93,7 @@ export class TmsDashboardDriverComponent implements OnInit {
 
         });
 
-    this.tmsDashboardService.gettrajetaverageduration(driverId,operationtype, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.gettrajetaveragedurationdriver(driverId, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
@@ -103,7 +101,7 @@ export class TmsDashboardDriverComponent implements OnInit {
           this.minutestrajet = Math.floor(data % 60);
 
         });
-    this.tmsDashboardService.gettrajetaveragedurationattent(driverId,operationtype, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.gettrajetaveragedurationattentdriver(driverId, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
@@ -112,12 +110,13 @@ export class TmsDashboardDriverComponent implements OnInit {
 
         }
       )
-    this.tmsDashboardService.gettrajetaveragedurationoperation(driverId, operationtype, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+    this.tmsDashboardService.gettrajetaveragedurationoperationdriver(driverId, trajetId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
           this.hourstrajetoperation = Math.floor(data / 60);
           this.minutestrajetoperation = Math.floor(data % 60);
+          console.log('fffffffffff'+data);
         }
       )
 

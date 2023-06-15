@@ -1,7 +1,7 @@
-<div class="page-content fade-in-up">
+<div class="container">
     <p-panel header="Filters" [toggleable]="true">
 
-        <div class="row  mt-1 ">
+        <div class="row  ">
             <div class="col-md-3">
                 <label class="font-weight-bold">{{'Conducteur' | translate}} </label><br />
                 <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="driverList"
@@ -9,32 +9,32 @@
 
             </div>
 
-            <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date initial' | translate}} </label><br />
-                <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
-                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true"></p-calendar>
+            <div class="form-group col-md-6 col-sm-12">
+                <label class="font-weight-bold"> {{'Date ' | translate}} </label><br />
+                <div class="row">
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-black">Du</span>
+                        </div>
+                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+                    </div>
 
+
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <!-- <label class="font-weight-bold"> {{'Date finale' | translate}} </label>-->
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text text-black">Au</span>
+                        </div>
+                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+
+                    </div>
+                </div>
             </div>
             <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date finale' | translate}} </label><br />
-                <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
-                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true"></p-calendar>
-
-            </div>
-            <div class="col-md-3">
-                <label class="font-weight-bold ">{{"L'opération" | translate}}</label><br />
-                <p-dropdown [options]="operationList" [showClear]="true" [autoDisplayFirst]="false"
-                    [(ngModel)]="typeoperation" filter="true">
-                </p-dropdown>
-            </div>
-            <br/>
-       
-
-        </div>
-        <div class="row  mt-3 ">
-            <div class="col-md-2">
                 <label class="font-weight-bold">{{
                     "Trajet" | translate
                     }}</label><br />
@@ -43,7 +43,11 @@
                     (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
 
             </div>
+            <br />
+
+
         </div>
+
         <br />
         <br />
         <div class="text-center">
@@ -65,7 +69,7 @@
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong">{{trajetsTraveled}}</h2>
-                    <div class="m-b-5">Transport plan effectué</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    <div class="m-b-5">plan transport effectué</div><i class="ti-bar-chart widget-stat-icon"></i>
                 </div>
             </div>
         </div>
@@ -107,7 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-6">
             <div class="ibox">
                 <div class="ibox-body">
@@ -123,3 +127,5 @@
                     </div>
             </div>
         </div>
+     </div> -->
+</div>

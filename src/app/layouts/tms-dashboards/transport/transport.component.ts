@@ -39,9 +39,12 @@ export class TransportComponent implements OnInit {
   }
 
   onSearchClicked() {
-    var transportId = 0
-    var dateDepart = new Date(), dateFin = new Date();
-
+    var transportId;
+    var oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    var dateDepart = oneYearAgo;
+    var dateFin = new Date();
+    console.log(dateDepart, dateFin);
     if (this.nameSearch != null && this.nameSearch.name !== '') transportId = this.nameSearch.id;
     if (this.dateDepartSearch != null && this.dateFinSearch != null) {
       dateDepart = this.dateDepartSearch;
@@ -86,12 +89,12 @@ export class TransportComponent implements OnInit {
 
   onChartTransport() {
     const documentStyle = getComputedStyle(document.documentElement);
+    console.log(this.canceledtransport, this.rejectedtransport, this.refusedtransport, this.validertransport)
     this.data = {
       labels: ['Annulé', 'Rejecté', 'Refusé', 'Validé'],
       datasets: [
         {
           data: [this.canceledtransport, this.rejectedtransport, this.refusedtransport, this.validertransport],
-
           backgroundColor:
             [documentStyle.getPropertyValue('--green-500'),
             documentStyle.getPropertyValue('--yellow-500'),

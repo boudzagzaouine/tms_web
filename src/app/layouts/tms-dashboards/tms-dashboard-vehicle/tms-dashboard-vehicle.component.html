@@ -11,25 +11,36 @@
 
             <div class="col-md-3">
                 <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
-                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="vehicleCodeList"
-                    (completeMethod)="onVehicleCodeSearch($event)" field="code">
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="vehicleRegistrationNumberList"
+                    (completeMethod)="onVehicleCodeSearch($event)" field="registrationNumber">
                 </p-autoComplete>
 
             </div>
 
-            <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date initial' | translate}} </label><br />
-                <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
-                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true"></p-calendar>
+            <div class="form-group col-md-6 col-sm-12">
+                <label class="font-weight-bold"> {{'Date ' | translate}} </label><br />
+                <div class="row">
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-black">Du</span>
+                        </div>
+                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+                    </div>
 
-            </div>
-            <div class="col-md-3">
-                <label class="font-weight-bold"> {{'Date final' | translate}} </label><br />
-                <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
-                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-                    [readonlyInput]="true"></p-calendar>
 
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <!-- <label class="font-weight-bold"> {{'Date finale' | translate}} </label>-->
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text text-black">Au</span>
+                        </div>
+                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+
+                    </div>
+                </div>
             </div>
             <div class="col-md-3">
                 <label class="font-weight-bold ">{{'Catégorie' | translate}}</label><br />
@@ -37,7 +48,15 @@
                     [autoDisplayFirst]="false" [(ngModel)]="categorySearch" filter="true">
                 </p-dropdown>
             </div>
+            <div class="col-md-3">
+                <label class="font-weight-bold">{{
+                    "Trajet" | translate
+                    }}</label><br />
 
+                <p-autoComplete [(ngModel)]="codeSearch2" [suggestions]="trajetList"
+                    (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
+
+            </div>
 
         </div>
 
@@ -75,7 +94,32 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajet}} H {{minutestrajet}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne de trajet</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
 
-
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajetattent}} H {{minutestrajetattent}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne d'attente</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-yellow color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajetoperation}} H {{minutestrajetoperation}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne d'opération</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

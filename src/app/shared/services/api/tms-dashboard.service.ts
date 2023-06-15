@@ -15,24 +15,21 @@ export class TmsdashboardService {
 
   getmileagevehicle(
     vehicleId: number,
-    CategoryId: number,
+    trajetId: number,
+    categoryId: number,
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/mileagevehicle?vehicleId=' +
-      vehicleId +
-      '&categoryId=' +
-      CategoryId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
-    return this.http.get<any>(fullurl);
+   
+    let url1 = this.url + 'tmsdashboard' + '/mileagevehicle?' + '&token=' + this.getToken();
+    vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+
+    return this.http.get<any>(url1);
   }
 
   getrefusedtransport(
@@ -40,17 +37,13 @@ export class TmsdashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/transportrefused?transportId=' +
-      transportId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    return this.http.get<any>(fullurl);
+      let url1 = this.url + 'tmsdashboard' + '/transportrefused?' + '&token=' + this.getToken();
+      transportId != null? url1 = url1 + '&transportId=' + transportId:url1 = url1 + '&transportId=*';
+      if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+      if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+      console.log(url1);
+  
+      return this.http.get<any>(url1);
   }
 
   getrejectededtransport(
@@ -58,17 +51,13 @@ export class TmsdashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/transportrejected?transportId=' +
-      transportId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    return this.http.get<any>(fullurl);
+      let url1 = this.url + 'tmsdashboard' + '/transportrejected?' + '&token=' + this.getToken();
+      transportId != null? url1 = url1 + '&transportId=' + transportId:url1 = url1 + '&transportId=*'
+      if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+      if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+      console.log(url1);
+  
+      return this.http.get<any>(url1);
   }
 
   getvalidertransport(
@@ -76,17 +65,13 @@ export class TmsdashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/transportvalider?transportId=' +
-      transportId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    return this.http.get<any>(fullurl);
+      let url1 = this.url + 'tmsdashboard' + '/transportvalider?' + '&token=' + this.getToken();
+      transportId != null? url1 = url1 + '&transportId=' + transportId:url1 = url1 + '&transportId=*'      
+      if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+      if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+      console.log(url1);
+  
+      return this.http.get<any>(url1);
   }
 
   getcanceledtransport(
@@ -94,112 +79,120 @@ export class TmsdashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/transportcanceled?transportId=' +
-      transportId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    return this.http.get<any>(fullurl);
-  }
-  getplantransportaverageduration(
-    driverId: number,
-    ordertypeId: number
+    let url1 = this.url + 'tmsdashboard' + '/transportcanceled?' + '&token=' + this.getToken();
+    transportId != null? url1 = url1 + '&transportId=' + transportId:url1 = url1 + '&transportId=*'    
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
 
-  ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/plantransportaverageduration?driverId=' +
-      driverId +
-      '&ordertypeId='
-      + ordertypeId +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
-
-    return this.http.get<any>(fullurl);
+    return this.http.get<any>(url1);
   }
-  gettrajetaverageduration(
+
+  gettrajetaveragedurationdriver(
     driverId: number,
-    operationId: number,
     trajetId: number,
     dateDepart: string,
     dateFin: string
 
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/durationtrajet?driverId=' +
-      driverId +
-      '&operationId=' +
-      operationId +
-      '&trajetId='
-      + trajetId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
+    let url1 = this.url + 'tmsdashboard' + '/durationtrajet?' + '&token=' + this.getToken();
+    driverId != null? url1 = url1 + '&driverId=' + driverId:url1 = url1 + '&driverId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    if(dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if(dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
 
-    return this.http.get<any>(fullurl);
+    return this.http.get<any>(url1);
   }
-  gettrajetaveragedurationattent(
+  gettrajetaveragedurationvehicle(
+    vehicleId: number,
+    trajetId: number,
+    categoryId: number,
+    dateDepart: string,
+    dateFin: string
+
+  ): Observable<any> {
+    let url1 = this.url + 'tmsdashboard' + '/durationtrajetvehicle?' + '&token=' + this.getToken();
+    vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+
+    return this.http.get<any>(url1);
+  }
+  gettrajetaveragedurationattentdriver(
     driverId: number,
-    operationId: number,
     trajetId: number,
     dateDepart: string,
     dateFin: string
 
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/durationtrajetattent?driverId=' +
-      driverId +
-      '&operationId=' +
-      operationId +
-      '&trajetId='
-      + trajetId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
+    let url1 = this.url + 'tmsdashboard' + '/durationtrajetattent?' + '&token=' + this.getToken();
+    driverId != null? url1 = url1 + '&driverId=' + driverId:url1 = url1 + '&driverId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
 
-    return this.http.get<any>(fullurl);
+    return this.http.get<any>(url1);
   }
-  gettrajetaveragedurationoperation(
+  
+  gettrajetaveragedurationattentvehicle(
+    vehicleId: number,
+    trajetId: number,
+    categoryId: number,
+    dateDepart: string,
+    dateFin: string
+
+  ): Observable<any> {
+    let url1 = this.url + 'tmsdashboard' + '/durationtrajetattentvehicle?' + '&token=' + this.getToken();
+    vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+    return this.http.get<any>(url1);
+  }
+
+  
+  gettrajetaveragedurationoperationdriver(
     driverId: number,
-    operationId: number,
     trajetId: number,
     dateDepart: string,
     dateFin: string,
 
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/avgdurationoperationtrajet?driverId=' +
-      driverId +
-      '&operationId=' +
-      operationId +
-      '&trajetId=' +
-      + trajetId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
 
-    return this.http.get<any>(fullurl);
+    let url1 = this.url + 'tmsdashboard' + '/avgdurationoperationtrajet?' + '&token=' + this.getToken();
+    driverId != null? url1 = url1 + '&driverId=' + driverId:url1 = url1 + '&driverId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+
+    return this.http.get<any>(url1);
+  }
+  gettrajetaveragedurationoperationvehicle(
+    vehicleId: number,
+    trajetId: number,
+    categoryId: number,
+    dateDepart: string,
+    dateFin: string,
+
+  ): Observable<any> {
+
+    let url1 = this.url + 'tmsdashboard' + '/avgdurationoperationtrajetvehicle?' + '&token=' + this.getToken();
+    vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+
+    return this.http.get<any>(url1);
   }
   getmileagedriver(
     driverId: number,
@@ -207,45 +200,35 @@ export class TmsdashboardService {
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
+    let url1 = this.url + 'tmsdashboard' + '/mileagedriver?' + '&token=' + this.getToken();
+    driverId != null? url1 = url1 + '&driverId=' + driverId:url1 = url1 + '&driverId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
 
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/mileagedriver?driverId=' +
-      driverId +
-      '&trajetId=' +
-      + trajetId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    console.log(fullurl);
-
-    return this.http.get<any>(fullurl);
+    return this.http.get<any>(url1);
 
 
   }
 
   getNumberTrajetsVehicle(
     vehicleId: number,
-    CategoryId: number,
+    trajetId: number,
+    categoryId: number,
     dateDepart: string,
-    dateFin: string
+    dateFin: string,
   ): Observable<any> {
-    const fullurl =
-      this.url +
-      'Tmsdashboard' + '/numbertrajetsvehicle?vehicleId=' +
-      vehicleId +
-      '&categoryId=' +
-      CategoryId +
-      '&dateDepart=' +
-      dateDepart +
-      '&dateFin=' +
-      dateFin +
-      '&token=' +
-      this.getToken();
-    return this.http.get<any>(fullurl);
+      
+    let url1 = this.url + 'tmsdashboard' + '/numbertrajetsvehicle?' + '&token=' + this.getToken();
+    vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
+
+    return this.http.get<any>(url1);
   }
 
   getNumberTrajetsDriver(
@@ -255,21 +238,14 @@ export class TmsdashboardService {
     dateFin: string
   ): Observable<any> {
 
-    const fullurl =
-    this.url +
-    'Tmsdashboard' + '/numbertrajetsdriver?driverId=' +
-    driverId +
-    '&trajetId=' +
-    + trajetId +
-    '&dateDepart=' +
-    dateDepart +
-    '&dateFin=' +
-    dateFin +
-    '&token=' +
-    this.getToken();
-  console.log(fullurl);
+    let url1 = this.url + 'tmsdashboard' + '/numbertrajetsdriver?' + '&token=' + this.getToken();
+    driverId != null? url1 = url1 + '&driverId=' + driverId:url1 = url1 + '&driverId=*';
+    trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
+    if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
+    if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
+    console.log(url1);
 
-  return this.http.get<any>(fullurl);
+    return this.http.get<any>(url1);
   }
 
   getToken(): string {

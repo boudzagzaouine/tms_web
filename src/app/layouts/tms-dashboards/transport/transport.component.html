@@ -1,27 +1,38 @@
-<div class="page-content fade-in-up">
+<div class="page-content fade-in-up ">
   <p-panel header="Filters" [toggleable]="true">
 
     <div class="row">
 
 
       <div class="col-md-3">
-        <label class="font-weight-bold">{{'Nom' |translate}}</label><br />
+        <label class="font-weight-bold">{{'Transporteur' |translate}}</label><br />
         <p-autoComplete [(ngModel)]="nameSearch" [suggestions]="nameList" (completeMethod)="onNameSearch($event)"
           field="name"></p-autoComplete>
       </div>
-      <div class="col-md-3">
-        <label class="font-weight-bold"> {{'Date initial' | translate}} </label><br />
-        <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
-            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-            [readonlyInput]="true"></p-calendar>
+      <div class="form-group col-md-6 col-sm-12">
+        <label class="font-weight-bold"> {{'Date ' | translate}} </label><br />
+        <div class="row">
+            <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-black">Du</span>
+                </div>
+                <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+            </div>
 
-    </div>
-    <div class="col-md-3">
-        <label class="font-weight-bold"> {{'Date final' | translate}} </label><br />
-        <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
-            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
-            [readonlyInput]="true"></p-calendar>
 
+            <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                <!-- <label class="font-weight-bold"> {{'Date finale' | translate}} </label>-->
+                <div class="input-group-prepend ">
+                    <span class="input-group-text text-black">Au</span>
+                </div>
+                <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                    [readonlyInput]="true"></p-calendar>
+
+            </div>
+        </div>
     </div>
 
     </div>

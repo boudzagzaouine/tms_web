@@ -875,6 +875,9 @@ export class TransportPlanAddComponent implements OnInit {
         this.selectedTransport.marginRate;
       this.selectTransportPlanHistory.margineService =
         this.selectedTransport.margeService;
+        if(event===2) this.selectTransportPlanHistory.transportPlanRefusDate=new Date()
+        if(event===1) this.selectTransportPlanHistory.transportPlanRejectDate=new Date();
+        console.log(event);
       this.selectTransportPlanHistory.salePrice =
         this.selectOrderTransport.priceHT;
       this.selectTransportPlanHistory.purchasePrice =

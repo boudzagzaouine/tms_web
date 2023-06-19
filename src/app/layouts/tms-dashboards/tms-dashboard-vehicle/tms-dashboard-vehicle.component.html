@@ -24,7 +24,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text text-black">Du</span>
                         </div>
-                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                        <p-calendar  placeholder="jj-mm-aaaa" [showButtonBar]="true" dateFormat="dd-mm-yy" [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
                             [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
                             [readonlyInput]="true"></p-calendar>
                     </div>
@@ -35,7 +35,7 @@
                         <div class="input-group-prepend ">
                             <span class="input-group-text text-black">Au</span>
                         </div>
-                        <p-calendar [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                        <p-calendar placeholder="jj-mm-aaaa" [showButtonBar]="true" dateFormat="dd-mm-yy" [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
                             [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
                             [readonlyInput]="true"></p-calendar>
 

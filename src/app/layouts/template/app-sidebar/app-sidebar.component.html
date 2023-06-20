@@ -38,17 +38,23 @@ height: 100vh; padding-bottom: 10%;">
         <ul class="nav-2-level collapse">
 
           <li>
-            <a routerLink="/core/tmsdashboards/vehicle" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Véhicules' | translate}}</a>
+            <a routerLink="/core/tmsdashboards/vehicle" class="m-a">
+              <i class="sidebar-item-icon fa ">
+                <img src="./assets/img/Menu/vehicle.png" width="19px" height="19px">
+              </i> {{'Véhicule' | translate}}</a>
           </li>
 
           <li>
-            <a routerLink="/core/tmsdashboards/driver" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Cauffeurs' | translate}}</a>
+            <a routerLink="/core/tmsdashboards/driver" class="m-a">
+              <i class="sidebar-item-icon fa ">
+                <img src="./assets/img/Menu/Chauffeur.png" width="19px" height="19px">
+              </i> {{'Chauffeur' | translate}}</a>
           </li>
           <li>
-            <a routerLink="/core/tmsdashboards/transport" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Transporteurs' | translate}}</a>
+            <a routerLink="/core/tmsdashboards/transport" class="m-a">
+              <i class="sidebar-item-icon fa ">
+                <img src="./assets/img/Menu/machine.png" width="19px" height="19px">
+              </i> {{'Transporteur' | translate}}</a>
           </li>
         </ul>
       </li>
@@ -233,7 +239,8 @@ height: 100vh; padding-bottom: 10%;">
       <li *hasPermission="['VEHICLE_VIEW','VEHICLE_CREATE']">
 
 
-        <a class="text-white"><i class="sidebar-item-icon fa ">
+        <a class="text-white">
+          <i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/vehicle.png" width="25px" height="25px">
           </i>
           <span class="nav-label">{{'Véhicule' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>

@@ -66,5 +66,5 @@ export class Vehicle extends Patrimony {
     interneOrExterne:string ;
     durationInMonths:number ;
     state : string ; // local
-
+    lastCity :string ;
 }

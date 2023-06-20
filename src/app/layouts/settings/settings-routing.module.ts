@@ -83,6 +83,7 @@ import { PumpsComponent } from './pumps/pumps.component';
 import { FuelPumpsComponent } from './fuel-pumps/fuel-pumps.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { AccountComponent } from './account/account.component';
+import { UserPasswordComponent } from './user/user-password/user-password.component';
 
 const routes: Routes = [
   {
@@ -165,7 +166,8 @@ const routes: Routes = [
       { path: 'agency', component: AgencyComponent},
       { path: 'contact', component: ContactComponent},
       { path: 'vehicle-tray', component: VehicleTrayComponent},
-      { path: 'vehicle-accompaniment', component: VehicleAccompanimentComponent}
+      { path: 'vehicle-accompaniment', component: VehicleAccompanimentComponent},
+      { path: 'user-password', component: UserPasswordComponent}
 
 
     ]

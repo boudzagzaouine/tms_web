@@ -114,8 +114,11 @@
 
           {{user}}</a>
         <ul class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" routerLink="/core/settings/user-password"><i class="fa fa-power-off"></i>{{ 'Mot de Passe' | translate }}</a>
           <a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off"></i>{{ 'Deconnexion' | translate }}</a>
+
         </ul>
+
       </li>
     </ul>
     <!-- END TOP-RIGHT TOOLBAR-->

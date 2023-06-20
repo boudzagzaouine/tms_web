@@ -63,9 +63,9 @@ export class BadgeTypeEditComponent implements OnInit {
     this.selectedBadgeType.description = this.badgeTypeForm.value['description'];
  this.selectedBadgeType.owner=this.authentificationService.getDefaultOwner();
  console.log("owner");
- 
+
  console.log(this.selectedBadgeType.owner);
- 
+
     this.subscriptions.add( this.badgeTypeService.set(this.selectedBadgeType).subscribe(
       data => {
         //this.toastr.success('Elément est Enregistré avec succès', 'Edition');

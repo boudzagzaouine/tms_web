@@ -174,12 +174,13 @@
       [resizableColumns]="true"
       [reorderableColumns]="true"
       [(selection)]="selectedObjects"
-      selectionMode="multiple"
+
       [reorderableColumns]="true"
       (onRowSelect)="onRowSelect($event)"
       (onRowUnselect)="onRowUnselect($event)"
       [scrollable]="true"
-
+    selectionMode="multiple"
+      dataKey="code"
 
     >
 
@@ -203,8 +204,9 @@
         let-rowIndex="rowIndex"
       >
         <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-          <td style="width:40px">
-            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          <td style="width:40px" >
+            <p-tableCheckbox [value]="rowData" [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"></p-tableCheckbox>
+
           </td>
 
           <td *ngFor="let col of columns; let i = index" style="width:160px">

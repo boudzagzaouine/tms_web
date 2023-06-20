@@ -97,6 +97,10 @@ selectDefaulVat:Vat = new Vat();
       quantity: this.formBuilder.control(
         this.selectedTransportServiceCatalog.quantity? this.selectedTransportServiceCatalog.quantity:1
       ),
+      dateService: this.formBuilder.control(
+        new Date(this.selectedTransportServiceCatalog.dateService)
+      ),
+
 
       salePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceHT
@@ -131,6 +135,10 @@ selectDefaulVat:Vat = new Vat();
       this.transportProductForm.value["salePriceHT"];
     this.selectedTransportServiceCatalog.salePriceTTC =
       this.transportProductForm.value["salePriceTTC"];
+
+
+      this.selectedTransportServiceCatalog.dateService =
+      this.transportProductForm.value["dateService"];
 
       this.selectedTransportServiceCatalog.quantity =
       this.transportProductForm.value["quantity"];

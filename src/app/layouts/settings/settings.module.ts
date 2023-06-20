@@ -198,6 +198,7 @@ import {PasswordModule} from 'primeng/password';
 import {OrderListModule} from 'primeng/orderlist';
 import {TreeModule} from 'primeng/tree';
 import {CardModule} from 'primeng/card';
+import { UserPasswordComponent } from './user/user-password/user-password.component';
 
 
 
@@ -356,7 +357,8 @@ ContactComponent,
 VehicleTrayComponent,
 VehicleTrayEditComponent,
 VehicleAccompanimentComponent,
-VehicleAccompanimentEditComponent
+VehicleAccompanimentEditComponent,
+UserPasswordComponent
 
 
 

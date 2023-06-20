@@ -18,7 +18,7 @@ export class TransportPlanServiceCatalog {
   purchaseVat: Vat;
   purchasePriceTTC: number;
   purchasePriceVat: number;
-
+ dateService: Date = new  Date();
   quantity : number;
   orderTransport:OrderTransport;
   salePriceHT: number;

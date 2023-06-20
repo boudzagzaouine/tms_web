@@ -45,7 +45,23 @@ export class TransportPlanVehicleListComponent implements OnInit {
    console.log(data);
 
                   vehicle.state = data;
-                  this.onSearchVehicleAvailable();
+
+
+                  this.searchLastCityByVehicle(vehicle).subscribe((last) => {
+                    console.log(last);
+console.log("ddddddddddddddddddddddd");
+
+                                   vehicle.lastCity = last?last:"";
+
+
+
+
+
+                                   this.onSearchVehicleAvailable();
+
+                               });
+
+
 
               });
 
@@ -83,6 +99,31 @@ export class TransportPlanVehicleListComponent implements OnInit {
             subject.next(state);
           } else {
             state = "Disponible";
+            subject.next(state);
+          }
+        });
+      return subject.asObservable();
+    }
+    searchLastCityByVehicle(vehicle: Vehicle): Observable<string> {
+      let state: string = "";
+      var subject = new Subject<string>();
+      this.transportPlanService
+        .find(
+          "vehicle.registrationNumber:" +
+            vehicle.registrationNumber +
+            ",turnStatus.id!" +
+            1+';'+4
+        )
+        .subscribe((data) => {
+         console.log("-----last----");
+
+console.log(data);
+
+
+          if (data[0] ) {
+            state = data.sort(
+              (n1, n2) => n2.dateDepart - n1.dateDepart
+            )[0].trajet?.villeDestination?.code;
             subject.next(state);
           }
         });

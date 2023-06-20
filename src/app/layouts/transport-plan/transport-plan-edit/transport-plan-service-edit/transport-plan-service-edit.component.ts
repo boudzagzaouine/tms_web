@@ -141,7 +141,9 @@ console.log(this.selectedAccount);
       quantity: this.formBuilder.control(
         this.selectedTransportServiceCatalog.quantity? this.selectedTransportServiceCatalog.quantity:1
       ),
-
+      dateService: this.formBuilder.control(
+        new Date(this.selectedTransportServiceCatalog.dateService)
+      ),
       salePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceHT
       ),
@@ -177,7 +179,8 @@ console.log(this.selectedAccount);
     this.selectedTransportServiceCatalog.purchasePriceTTC =
       this.transportProductForm.value["purchasePriceTTC"];
 
-
+      this.selectedTransportServiceCatalog.dateService =
+      this.transportProductForm.value["dateService"];
       this.selectedTransportServiceCatalog.totalPurchasePriceHT =
       this.transportProductForm.value["totalPurchasePriceHT"];
     this.selectedTransportServiceCatalog.totalPurchasePriceTTC =

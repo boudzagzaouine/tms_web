@@ -213,9 +213,7 @@ getBarChartGasoilByVehicle(
     return this.http.get<any[]>(fullurl);
 }
 
-getaverageAgeByVehicle(
-    
-): Observable<any> {
+getaverageAgeByVehicle( ): Observable<any> {
     const fullurl =
         this.url +
         'dashboard' +
@@ -501,14 +499,6 @@ getTotalnumberofproblemsbyseniorityvehicle(
   console.log(fullurl);
   return this.http.get<any>(fullurl);
 }
-
-
-
-
-
-
-
-
 
 
   getToken(): string {

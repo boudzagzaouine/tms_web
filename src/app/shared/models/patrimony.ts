@@ -11,7 +11,7 @@ export abstract class Patrimony {
 
   id: number;
   code: string;
-  registrationNumber;
+  registrationNumber:string;
   patrimony_type;
 
 

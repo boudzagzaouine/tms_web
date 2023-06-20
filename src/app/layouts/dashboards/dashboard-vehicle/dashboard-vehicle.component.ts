@@ -110,7 +110,7 @@ export class DashboardVehicleComponent implements OnInit {
     onVehicleCodeSearch(event: any) {
         this.patrimonyService.find('code~' + event.query).subscribe(
             data => this.vehicleCodeList = data.filter(f => f.patrimony_type == 'vehicule')
-        )
+            )
     }
 
     onSelectVehicle(event: Vehicle) {

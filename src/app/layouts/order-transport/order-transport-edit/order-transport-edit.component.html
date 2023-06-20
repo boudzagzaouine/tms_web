@@ -9,21 +9,22 @@
 
         <!-- <span class="h4" > {{this.selectedOrderTransport.code}}</span> -->
 
-</div>
-<div class="form-group col-md-4">
-  <!-- <button type="button" class="btn " style="background: #5CADE2; color: white;">{{this.selectedOrderTransport.date |date:'dd'}}</button>
+      </div>
+      <div class="form-group col-md-4">
+        <!-- <button type="button" class="btn " style="background: #5CADE2; color: white;">{{this.selectedOrderTransport.date |date:'dd'}}</button>
   <button type="button" class="btn "style="background: #F7B518; color: white;">{{this.selectedOrderTransport.date |date:'MM'}}</button>
   <button type="button" class="btn "style="background: #EC7064; color: white;">{{this.selectedOrderTransport.date |date:'yyyy'}}</button> -->
 
-  <!-- <span class="h4" > {{this.selectedOrderTransport.date |date:'dd-MM-yyyy'}}</span> -->
+        <!-- <span class="h4" > {{this.selectedOrderTransport.date |date:'dd-MM-yyyy'}}</span> -->
 
-</div>
-<div class="form-group col-md-4">
-  <button type="button" class="btn btn-outline-success btn-sm" style="float: right;    min-width: 30%;"> {{this.selectedOrderTransport.turnStatus?.code}}</button>
+      </div>
+      <div class="form-group col-md-4">
+        <button type="button" class="btn btn-outline-success btn-sm" style="float: right;    min-width: 30%;">
+          {{this.selectedOrderTransport.turnStatus?.code}}</button>
 
-  <!-- <span class="h4" > {{this.selectedOrderTransport.turnStatus?.code}}</span> -->
+        <!-- <span class="h4" > {{this.selectedOrderTransport.turnStatus?.code}}</span> -->
 
-</div>
+      </div>
     </div>
 
 
@@ -31,59 +32,63 @@
 
   <div class="card-body border-top-primary">
 
-      <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false" > </p-steps>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"> </p-steps>
 
 
-      <span *ngIf="activeIndex==0">
-<app-order-transport-information (nextstep)="next($event)"
-(turnTypeId)="showStepByTurnType($event)" (loadingTypeId)="showStepByLoadingType($event)"></app-order-transport-information>
+    <span *ngIf="activeIndex==0">
+      <app-order-transport-information (nextstep)="next($event)" (turnTypeId)="showStepByTurnType($event)"
+        (loadingTypeId)="showStepByLoadingType($event)"></app-order-transport-information>
 
-      </span>
-      <span *ngIf="activeIndex==1">
-     <span *ngIf="this.loadingTypeId==1">
-        <span   *ngIf="this.turnTypeId==1 ||this.turnTypeId==3 " >
-        <app-order-transport-complet (nextstep)="next($event)" (previousstep)="previous($event)"></app-order-transport-complet>
+    </span>
+    <span *ngIf="activeIndex==1">
+      <span *ngIf="this.loadingTypeId==1">
+        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==3 ">
+          <app-order-transport-complet (nextstep)="next($event)"
+            (previousstep)="previous($event)"></app-order-transport-complet>
         </span>
-      <span *ngIf="this.turnTypeId==2">
-        <app-order-transport-complet-retour (nextstep)="next($event)"  (previousstep)="previous($event)"></app-order-transport-complet-retour>
-        </span>
-</span>
-<span *ngIf="this.loadingTypeId==2">
-  <app-order-transport-aller (nextstep)="next($event)"  (previousstep)="previous($event)"></app-order-transport-aller>
-
-</span>
-
-      </span>
-      <span *ngIf="activeIndex==2">
-       <span *ngIf="this.turnTypeId==3">
-        <app-order-transport-complet-retour (nextstep)="next($event)"  (previousstep)="previous($event)"></app-order-transport-complet-retour>
-        </span>
-
-        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 " >
-          <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
+        <span *ngIf="this.turnTypeId==2">
+          <app-order-transport-complet-retour (nextstep)="next($event)"
+            (previousstep)="previous($event)"></app-order-transport-complet-retour>
         </span>
       </span>
-      <span *ngIf="activeIndex==3">
-         <span *ngIf="this.turnTypeId==3">
-          <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
-        </span>
-<!--   -->
-        <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2">
-          <app-order-transport-verification  (previousstep)="previous($event)"></app-order-transport-verification>
-        </span>
+      <span *ngIf="this.loadingTypeId==2">
+        <app-order-transport-aller (nextstep)="next($event)"
+          (previousstep)="previous($event)"></app-order-transport-aller>
+
       </span>
 
-      <span *ngIf="activeIndex==4">
-        <span *ngIf="this.turnTypeId==3">
-          <app-order-transport-verification  (previousstep)="previous($event)"></app-order-transport-verification>
-        </span>
+    </span>
+    <span *ngIf="activeIndex==2">
+      <span *ngIf="this.turnTypeId==3">
+        <app-order-transport-complet-retour (nextstep)="next($event)"
+          (previousstep)="previous($event)"></app-order-transport-complet-retour>
       </span>
 
+      <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 ">
+        <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
+      </span>
+    </span>
+    <span *ngIf="activeIndex==3">
+      <span *ngIf="this.turnTypeId==3">
+        <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
+      </span>
+      <!--   -->
+      <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2">
+        <app-order-transport-verification (previousstep)="previous($event)"></app-order-transport-verification>
+      </span>
+    </span>
+
+    <span *ngIf="activeIndex==4">
+      <span *ngIf="this.turnTypeId==3">
+        <app-order-transport-verification (previousstep)="previous($event)"></app-order-transport-verification>
+      </span>
+    </span>
 
 
 
 
-      <div></div>
+
+    <div></div>
 
 
   </div>
@@ -95,13 +100,5 @@
 
 
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
-<ngx-spinner
-  bdColor="rgba(255,255,255,0)"
-  size="large"
-  color="#00d2ff"
-  type="ball-spin-fade-rotating"
-></ngx-spinner>
-<p-confirmDialog
-  header="Confirmation"
-  icon="pi pi-exclamation-triangle"
-></p-confirmDialog>
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

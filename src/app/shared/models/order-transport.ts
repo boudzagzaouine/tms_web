@@ -32,6 +32,7 @@ export class OrderTransport {
   packagingType: PackagingType;
   consignment:Boolean;
   port:string ; // payé true , du false
+  numberKm: number;
   portObject:SelectObject; //local
   palletResponsibility:string ; //true prestataire /false client
   palletResponsibilityObject : SelectObject;//local

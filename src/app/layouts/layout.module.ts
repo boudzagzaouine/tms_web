@@ -16,6 +16,7 @@ import { TableModule } from 'primeng/table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { ToastModule } from 'primeng/toast';
+import { TmsDashboardsComponent } from './tms-dashboards/tms-dashboards.component';
 
 
 
@@ -25,7 +26,9 @@ import { ToastModule } from 'primeng/toast';
     LayoutComponent,
     AppHeaderComponent,
     AppSidebarComponent,
-    AppFooterComponent
+    AppFooterComponent,
+    TmsDashboardsComponent,
+    
  
 
 

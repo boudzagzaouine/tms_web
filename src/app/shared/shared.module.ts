@@ -139,9 +139,9 @@ import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.s
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
-import {FieldsetModule} from 'primeng/fieldset';
-import {RadioButtonModule} from 'primeng/radiobutton';
-import {CardModule} from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CardModule } from 'primeng/card';
 
 import {
   BadgeTypeService,
@@ -187,10 +187,10 @@ import { SupplierHolidayService } from './services/api/supplier-holiday.service'
 import { HolidayService } from './services/api/account-holiday.service';
 import { PlanningService } from './services/api/planning-service';
 import { CompanyImport } from './import/company-import';
-
+import { TmsdashboardService } from './services/api/tms-dashboard.service';
 
 @NgModule({
-  declarations: [DataTableComponent,HasPermissionDirective],
+  declarations: [DataTableComponent, HasPermissionDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -223,13 +223,13 @@ import { CompanyImport } from './import/company-import';
     SelectButtonModule,
     StepsModule,
     OverlayPanelModule,
-     TreeTableModule,
-     ScrollPanelModule,
-     ToastModule,
-     CardModule
+    TreeTableModule,
+    ScrollPanelModule,
+    ToastModule,
+    CardModule
   ],
   exports: [
-    DataTableComponent,NgxPermissionsModule,HasPermissionDirective
+    DataTableComponent, NgxPermissionsModule, HasPermissionDirective
   ]
 })
 export class SharedModule {
@@ -315,8 +315,9 @@ export class SharedModule {
         DieselDeclarationService,
         ConditionalTypeService,
         SubscriptionCardService,
-        NotificationStateService ,
+        NotificationStateService,
         DashboardService,
+        TmsdashboardService,
         AgentService,
         StockViewService,
         PumpService,
@@ -365,7 +366,7 @@ export class SharedModule {
         CatalogPricingImportService,
         CatalogServiceService,
         AccountPricingServiceService,
-      AccountService,
+        AccountService,
         TransportServiceService,
         TransportAccountServiceService,
         TransportPlanServiceCatalogService,

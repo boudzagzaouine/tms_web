@@ -1,126 +1,100 @@
-
-<p-dialog
-header="{{ title | translate }}"
-[(visible)]="displayDialog"
-[focusOnShow]="false"
-[responsive]="true"
-showEffect="fade"
-[modal]="true"
-[style]="{ width: '40vw' }"
-(onHide)='onHideDialog()'
->
-<div>
-  <div class="modal-body">
-    <div class="card-body">
-      <form [formGroup]="lineForm">
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '40vw' }" (onHide)='onHideDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+        <form [formGroup]="lineForm">
 
 
 
-        <div class="row  justify-content-around">
-          <div class="form-group col-md-6">
-            <label class="font-weight-bold">{{'Type' | translate}}*</label>
-            <span *ngIf="(lineForm.get('documentType').touched && lineForm.get('documentType').invalid) ||
+          <div class="row  justify-content-around">
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{'Type' | translate}}*</label>
+              <span *ngIf="(lineForm.get('documentType').touched && lineForm.get('documentType').invalid) ||
             (isFormSubmitted && lineForm.get('documentType').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span>
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span>
 
-            <p-dropdown
-formControlName="documentType"
-[autoDisplayFirst]="false"
-[options]="orderTransportDocumentTypeList"
-optionLabel="code"
-(onChange)="onSelectorderTransportDocumentType($event)"
-[filter]="true"
-[showClear]="true"
-></p-dropdown>
+              <p-dropdown formControlName="documentType" [autoDisplayFirst]="false"
+                [options]="orderTransportDocumentTypeList" optionLabel="code"
+                (onChange)="onSelectorderTransportDocumentType($event)" [filter]="true" [showClear]="true"></p-dropdown>
 
-        </div>
+            </div>
 
-          <div class="form-group col-md-6">
-            <label class="font-weight-bold">{{'Numero' | translate}}*</label>
-            <span *ngIf="(lineForm.get('numero').touched && lineForm.get('numero').invalid) ||
+            <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{'Numero' | translate}}*</label>
+              <span *ngIf="(lineForm.get('numero').touched && lineForm.get('numero').invalid) ||
             (isFormSubmitted && lineForm.get('numero').invalid)" class="text-lighter"
-              style="color: red; font-size: xx-small;">
-               {{'Obligatoire' | translate }}
-            </span><br />
-            <input type="text" class="form-control" formControlName="numero" pInputText  />
+                style="color: red; font-size: xx-small;">
+                {{'Obligatoire' | translate }}
+              </span><br />
+              <input type="text" class="form-control" formControlName="numero" pInputText />
+            </div>
+
+
+
           </div>
 
+        </form>
 
+        <div class="row  justify-content-around">
 
-        </div>
+          <div class="form-group col-sm-12">
+            <div class="card">
+              <p-fileUpload chooseLabel="Choisir" mode="advanced" (onSelect)="onSelectDocument($event)"
+                multiple="multiple" [showUploadButton]="false" [showCancelButton]="false" maxFileSize="1000000">
+                <ng-template pTemplate="toolbar">
+                  <!-- <div>Télécharger 1 fichier</div> -->
+                </ng-template>
+                <ng-template pTemplate="content">
+                  <div>
+                    <table class="table"
+                      *ngIf=" this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList[0]?.fileName">
 
-      </form>
-
-      <div class="row  justify-content-around" >
-
-        <div class="form-group col-sm-12">
-          <div class="card">
-            <p-fileUpload  chooseLabel="Choisir" mode="advanced"
-            (onSelect)="onSelectDocument($event)" multiple="multiple" [showUploadButton]="false" [showCancelButton]="false"
-             maxFileSize="1000000">
-            <ng-template pTemplate="toolbar">
-                <!-- <div>Télécharger 1 fichier</div> -->
-            </ng-template>
-            <ng-template   pTemplate="content">
-                <div>
-                  <table class="table" *ngIf=" this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList[0]?.fileName">
-
-                    <tbody>
-                      <tr *ngFor="let document of  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList">
-                        <td>{{document?.fileName}}</td>
-                        <td>{{document?.fileType}}</td>
-                        <td>
-                          <a  (click)="dowloand(document)"  type="button" class="btn btn-sm btn-primary mx-1"
-                          >
-                          <!--ADD-->
-                          <i class="fa fa-upload"></i>
-                        </a>
-                        <a  type="button" class="btn btn-sm btn-danger mx-1" (click)="deleteFile(document)"
-                         >
-                          <!--ADD-->
-                          <i class="fa fa-trash"></i>
-                      </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      <tbody>
+                        <tr
+                          *ngFor="let document of  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList">
+                          <td>{{document?.fileName}}</td>
+                          <td>{{document?.fileType}}</td>
+                          <td>
+                            <a (click)="dowloand(document)" type="button" class="btn btn-sm btn-primary mx-1">
+                              <!--ADD-->
+                              <i class="fa fa-upload"></i>
+                            </a>
+                            <a type="button" class="btn btn-sm btn-danger mx-1" (click)="deleteFile(document)">
+                              <!--ADD-->
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
 
                   </div>
-            </ng-template>
+                </ng-template>
 
-    </p-fileUpload>
+              </p-fileUpload>
 
-                </div>
+            </div>
 
           </div>
         </div>
 
 
+      </div>
     </div>
   </div>
-</div>
-<p-footer>
-  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-    <button
-    type="button"
-    pButton
-    (click)="onHideDialog()"
-    class="p-button-primary"
-    label="{{'Annuler' | translate }}"
-  ></button>
-  <button
-      type="button"
-      pButton
-      (click)="onSubmit()"
-      class="p-button-success"
-      label="{{ 'Valider' | translate }}"
-    ></button>
-  </div>
-</p-footer>
+      <button type="button" pButton (click)="onHideDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+      <button type="button" pButton (click)="onSubmit()" class="p-button-success"
+        label="{{ 'Valider' | translate }}"></button>
+    </div>
+  </p-footer>
 </p-dialog>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

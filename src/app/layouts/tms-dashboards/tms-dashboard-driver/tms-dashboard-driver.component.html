@@ -1,0 +1,133 @@
+<div class="container">
+    <p-panel header="Filters" [toggleable]="true">
+
+        <div class="row  ">
+            <div class="col-md-3">
+                <label class="font-weight-bold">{{'Conducteur' | translate}} </label><br />
+                <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="driverList"
+                    (completeMethod)="onDriverCodeSearch($event)" field="name"></p-autoComplete>
+
+            </div>
+
+            <div class="form-group col-md-6 col-sm-12">
+                <label class="font-weight-bold"> {{'Date ' | translate}} </label><br />
+                <div class="row">
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-black">Du</span>
+                        </div>
+                        <p-calendar placeholder="jj-mm-aaaa" [showButtonBar]="true" dateFormat="dd-mm-yy"
+                            [maxDateCount]='1' [(ngModel)]="dateDepartSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+                    </div>
+
+
+                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                        <!-- <label class="font-weight-bold"> {{'Date finale' | translate}} </label>-->
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text text-black">Au</span>
+                        </div>
+                        <p-calendar placeholder="jj-mm-aaaa" [showButtonBar]="true" dateFormat="dd-mm-yy"
+                            [maxDateCount]='1' [(ngModel)]="dateFinSearch" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" inputId="icon"
+                            [readonlyInput]="true"></p-calendar>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="font-weight-bold">{{
+                    "Trajet" | translate
+                    }}</label><br />
+
+                <p-autoComplete [(ngModel)]="codeSearch2" [suggestions]="trajetList"
+                    (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
+
+            </div>
+            <br />
+
+
+        </div>
+
+        <br />
+        <br />
+        <div class="text-center">
+            <button type="button" class="btn btn-primary mr-2" (click)="reset()">
+                <i class="fa fa-refresh mr-2"></i>
+                {{'Réinitialiser'| translate}}
+            </button>
+
+            <button type="button" class="btn btn-success" (click)="onSearchClicked()">
+                <i class="fa fa-search mr-2"></i>
+
+                {{' Rechercher'| translate}}
+            </button>
+        </div>
+    </p-panel>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{trajetsTraveled}}</h2>
+                    <div class="m-b-5">plan transport effectué</div><i class="ti-bar-chart widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{mileageTraveled | number : '1.2'}} KM</h2>
+                    <div class="m-b-5">Kilométrage parcouru</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajet}} H {{minutestrajet}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne de trajet</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajetattent}} H {{minutestrajetattent}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne d'attente</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="ibox bg-yellow color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{hourstrajetoperation}} H {{minutestrajetoperation}} MIN</h2>
+                    <div class="m-b-5">Durée moyenne d'opération</div><i class="fa fa-tachometer widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h3 class="m-0">Driver Statistiques </h3>
+                        </div>
+                     
+                    </div>
+                    <div class="card">
+                        <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+                    </div>
+                    </div>
+            </div>
+        </div>
+     </div> -->
+</div>

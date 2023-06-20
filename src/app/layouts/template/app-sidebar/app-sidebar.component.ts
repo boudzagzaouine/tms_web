@@ -8,9 +8,9 @@ import { $ } from 'protractor';
 })
 export class AppSidebarComponent implements OnInit {
 
-constructor(private permissionService:NgxPermissionsService){
+  constructor(private permissionService: NgxPermissionsService) {
 
-}
+  }
 
   ngOnInit() {
 

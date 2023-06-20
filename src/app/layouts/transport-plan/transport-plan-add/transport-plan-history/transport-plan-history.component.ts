@@ -37,7 +37,7 @@ export class TransportPlanHistoryComponent implements OnInit {
 
   ngOnInit() {
 
- console.log(this.selectedTransportPlanHistroy);
+ console.log("==================>  "+this.selectedTransportPlanHistroy.type);
 
     if (this.editMode === 1) {
       this.selectedTransportPlanHistroy = new TransportPlanHistory();

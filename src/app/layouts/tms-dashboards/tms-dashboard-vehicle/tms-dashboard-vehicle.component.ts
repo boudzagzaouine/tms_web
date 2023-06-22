@@ -19,7 +19,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
   vehicleCategoryList: Array<VehicleCategory> = [];
   vehicleBrandTypeList: Array<BrandVehicleType> = [];
   seniorityList: any[];
-   senioritySearch: any;
+  senioritySearch: any;
   categorySearch: VehicleCategory;
   marqueSearch : BrandVehicleType;
   vehicleRegistrationNumberList: Array<Patrimony> = [];
@@ -54,11 +54,13 @@ export class TmsDashboardVehicleComponent implements OnInit {
       }
     )
 
-    this.seniorityList = [{ mode: '2', header: "Moins d'un an", slice1: '0', slice2: '1' },
-        { mode: '2', header: "entre 1 et 3 ans", slice1: '0', slice2: '1' },
-        { mode: '2', header: "entre 3 et 5 ans", slice1: '0', slice2: '1' },
-        { mode: '2', header: "entre 5 et 10 ans", slice1: '0', slice2: '1' },
-        { mode: '1', header: "plus de 10 ans", slice1: '0', slice2: '10' }]
+    this.seniorityList = [
+      { mode: '1', header: "Moins d'un an" },
+      { mode: '2', header: "entre 1 et 3 ans" },
+      { mode: '3', header: "entre 3 et 5 ans" },
+      { mode: '4', header: "entre 5 et 10 ans" },
+      { mode: '5', header: "plus de 10 ans" }
+  ]
 
   }
 
@@ -70,7 +72,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
   }
 
   onSearchClicked() {
-    this.searchWithVehicleDate();
+    this.searchvehicule();
 
   }
   onCodeSearch(event: any) {
@@ -79,15 +81,21 @@ export class TmsDashboardVehicleComponent implements OnInit {
     )
   }
 
-  searchWithVehicleDate() {
+  searchvehicule() {
     var vehicleId
     var categoryId;
     let trajetId;
     let marqueId;
+    let mode ;
     var oneYearAgo = new Date();
+
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     var dateDebut = oneYearAgo;
     var dateFin = new Date();
+    if (this.senioritySearch != null && this.senioritySearch.code !== '') {
+      mode=this.senioritySearch.mode
+      console.log('ertrtrtttt'+mode);
+    }
     if (this.codeSearch != null && this.codeSearch.code !== '') {
 
       vehicleId = this.codeSearch.id;
@@ -113,21 +121,24 @@ export class TmsDashboardVehicleComponent implements OnInit {
       console.log('tttttttttttttttt'+dateDebut,dateFin);
     }
 
-    this.tmsDashboardService.getNumberTrajetsVehicle(vehicleId, trajetId,categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
+    this.tmsDashboardService.getNumberTrajetsVehicle(vehicleId, trajetId,categoryId,marqueId,mode,  
+      this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
       .subscribe(
         data => {
           this.trajetTraveled = data ? data : 0;
           console.log(data);
         });
 
-    this.tmsDashboardService.getmileagevehicle(vehicleId,trajetId, categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
+    this.tmsDashboardService.getmileagevehicle(vehicleId,trajetId, categoryId,marqueId,mode, 
+      this.datepipe.transform(dateDebut, 'yyyy/MM/dd'), this.datepipe.transform(dateFin, 'yyyy/MM/dd'))
       .subscribe(
         data => {
           this.kilometerTraveled = data ? data : 0;
           console.log('mile'+data);
 
         });
-        this.tmsDashboardService.gettrajetaveragedurationvehicle(vehicleId, trajetId,categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+        this.tmsDashboardService.gettrajetaveragedurationvehicle(vehicleId, trajetId,categoryId,marqueId,mode, 
+           this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
       this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
         data => {
 
@@ -135,7 +146,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
           this.minutestrajet = Math.floor(data % 60);
           console.log('dure'+data);
         })
-        this.tmsDashboardService.gettrajetaveragedurationattentvehicle(vehicleId, trajetId,categoryId,marqueId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+        this.tmsDashboardService.gettrajetaveragedurationattentvehicle(vehicleId, trajetId,categoryId,marqueId,mode,  this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
         this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
           data => {
   
@@ -144,7 +155,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
             this.minutestrajetattent = Math.floor(data % 60);
             console.log('atent'+data);
           });
-          this.tmsDashboardService.gettrajetaveragedurationoperationvehicle(vehicleId, trajetId,categoryId,marqueId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+          this.tmsDashboardService.gettrajetaveragedurationoperationvehicle(vehicleId, trajetId,categoryId,marqueId,mode,  this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
           this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
             data => {
     
@@ -162,6 +173,6 @@ export class TmsDashboardVehicleComponent implements OnInit {
     this.dateFinSearch = null;
     this.categorySearch = null;
     this.trajetTraveled = 0;
-
+    this.senioritySearch = null;
   }
 }

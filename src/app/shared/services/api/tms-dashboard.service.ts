@@ -17,6 +17,8 @@ export class TmsdashboardService {
     vehicleId: number,
     trajetId: number,
     categoryId: number,
+    marqueId:any,
+    senioritymode:any,
     dateDepart: string,
     dateFin: string
   ): Observable<any> {
@@ -25,6 +27,8 @@ export class TmsdashboardService {
     vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
     trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
     categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    marqueId != null? url1 = url1 + '&marqueId=' + marqueId:url1 = url1 + '&marqueId=*';
+    senioritymode != null? url1 = url1 + '&senioritymode=' + senioritymode:url1 = url1 + '&senioritymode=*';
     if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
     if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
     console.log(url1);
@@ -108,6 +112,8 @@ export class TmsdashboardService {
     vehicleId: number,
     trajetId: number,
     categoryId: number,
+    marqueId:any,
+    senioritymode:any,
     dateDepart: string,
     dateFin: string
 
@@ -116,6 +122,8 @@ export class TmsdashboardService {
     vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
     trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
     categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    marqueId != null? url1 = url1 + '&marqueId=' + marqueId:url1 = url1 + '&marqueId=*';
+    senioritymode != null? url1 = url1 + '&senioritymode=' + senioritymode:url1 = url1 + '&senioritymode=*';
     if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
     if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
     console.log(url1);
@@ -144,6 +152,7 @@ export class TmsdashboardService {
     trajetId: any,
     categoryId: any,
     marqueId:any,
+    senioritymode:any,
     dateDepart: string,
     dateFin: string
 
@@ -153,6 +162,7 @@ export class TmsdashboardService {
     trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
     categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
     marqueId != null? url1 = url1 + '&marqueId=' + marqueId:url1 = url1 + '&marqueId=*';
+    senioritymode != null? url1 = url1 + '&senioritymode=' + senioritymode:url1 = url1 + '&senioritymode=*';    
     if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
     if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
     console.log(url1);
@@ -182,6 +192,7 @@ export class TmsdashboardService {
     trajetId: number,
     categoryId: number,
     marqueId:any,
+    senioritymode:any,
     dateDepart: string,
     dateFin: string,
 
@@ -192,6 +203,7 @@ export class TmsdashboardService {
     trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
     categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
     marqueId != null? url1 = url1 + '&marqueId=' + marqueId:url1 = url1 + '&marqueId=*';
+    senioritymode != null? url1 = url1 + '&senioritymode=' + senioritymode:url1 = url1 + '&senioritymode=*';
     if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
     if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
     console.log(url1);
@@ -220,6 +232,8 @@ export class TmsdashboardService {
     vehicleId: number,
     trajetId: number,
     categoryId: number,
+    marqueId:any,
+    senioritymode:any,
     dateDepart: string,
     dateFin: string,
   ): Observable<any> {
@@ -228,6 +242,8 @@ export class TmsdashboardService {
     vehicleId != null? url1 = url1 + '&vehicleId=' + vehicleId:url1 = url1 + '&vehicleId=*';
     trajetId != null? url1 = url1 + '&trajetId=' + trajetId:url1 = url1 + '&trajetId=*';
     categoryId != null? url1 = url1 + '&categoryId=' + categoryId:url1 = url1 + '&categoryId=*';
+    marqueId != null? url1 = url1 + '&marqueId=' + marqueId:url1 = url1 + '&marqueId=*';
+    senioritymode != null? url1 = url1 + '&senioritymode=' + senioritymode:url1 = url1 + '&senioritymode=*';
     if (dateDepart != null) url1 = url1 + '&dateDepart=' + dateDepart;
     if (dateFin != null) url1 = url1 + '&dateFin=' + dateFin;
     console.log(url1);

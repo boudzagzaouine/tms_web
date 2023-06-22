@@ -7,7 +7,8 @@ import { TmsdashboardService } from './../../../shared/services/api/tms-dashboar
 import { DatePipe } from '@angular/common';
 import { Trajet } from './../../../shared/models/trajet';
 import { TrajetService } from './../../../shared/services/api/trajet.service';
-
+import { BrandVehicleType } from './../../../shared/models/brand-vehicle-type';
+import { BrandVehicleTypeService } from './../../../shared/services/api/brand-vehicle-type.service';
 @Component({
   selector: 'app-tms-dashboard-vehicle',
   templateUrl: './tms-dashboard-vehicle.component.html',
@@ -16,7 +17,11 @@ import { TrajetService } from './../../../shared/services/api/trajet.service';
 export class TmsDashboardVehicleComponent implements OnInit {
   codeSearch: Vehicle;
   vehicleCategoryList: Array<VehicleCategory> = [];
+  vehicleBrandTypeList: Array<BrandVehicleType> = [];
+  seniorityList: any[];
+   senioritySearch: any;
   categorySearch: VehicleCategory;
+  marqueSearch : BrandVehicleType;
   vehicleRegistrationNumberList: Array<Patrimony> = [];
   dateDepartSearch: Date;
   codeSearch2: Trajet;
@@ -33,7 +38,8 @@ export class TmsDashboardVehicleComponent implements OnInit {
     private tmsDashboardService: TmsdashboardService,
     private trajetService: TrajetService,
     private patrimonyService: PatrimonyService,
-    private vehicleCategoryService: VehicleCategoryService) { }
+    private vehicleCategoryService: VehicleCategoryService,
+    private brandVehicleTypeService:BrandVehicleTypeService) { }
 
   ngOnInit(): void {
 
@@ -42,6 +48,17 @@ export class TmsDashboardVehicleComponent implements OnInit {
         this.vehicleCategoryList = data;
       }
     )
+    this.brandVehicleTypeService.findAll().subscribe(
+      data => {
+        this.vehicleBrandTypeList = data;
+      }
+    )
+
+    this.seniorityList = [{ mode: '2', header: "Moins d'un an", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 1 et 3 ans", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 3 et 5 ans", slice1: '0', slice2: '1' },
+        { mode: '2', header: "entre 5 et 10 ans", slice1: '0', slice2: '1' },
+        { mode: '1', header: "plus de 10 ans", slice1: '0', slice2: '10' }]
 
   }
 
@@ -66,6 +83,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
     var vehicleId
     var categoryId;
     let trajetId;
+    let marqueId;
     var oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
     var dateDebut = oneYearAgo;
@@ -79,6 +97,10 @@ export class TmsDashboardVehicleComponent implements OnInit {
     if (this.categorySearch != null && this.categorySearch.code !== '') {
       categoryId = this.categorySearch.id;
       console.log('-------->'+categoryId);
+    }
+    if (this.marqueSearch != null && this.marqueSearch.code !== '') {
+      marqueId = this.marqueSearch.id;
+      console.log('fggfgfgfg-->'+marqueId);
     }
     if (this.codeSearch2 != null && this.codeSearch2.code != '') {
       trajetId = this.codeSearch2.id;
@@ -113,7 +135,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
           this.minutestrajet = Math.floor(data % 60);
           console.log('dure'+data);
         })
-        this.tmsDashboardService.gettrajetaveragedurationattentvehicle(vehicleId, trajetId,categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+        this.tmsDashboardService.gettrajetaveragedurationattentvehicle(vehicleId, trajetId,categoryId,marqueId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
         this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
           data => {
   
@@ -122,7 +144,7 @@ export class TmsDashboardVehicleComponent implements OnInit {
             this.minutestrajetattent = Math.floor(data % 60);
             console.log('atent'+data);
           });
-          this.tmsDashboardService.gettrajetaveragedurationoperationvehicle(vehicleId, trajetId,categoryId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
+          this.tmsDashboardService.gettrajetaveragedurationoperationvehicle(vehicleId, trajetId,categoryId,marqueId, this.datepipe.transform(dateDebut, 'yyyy/MM/dd'),
           this.datepipe.transform(dateFin, 'yyyy/MM/dd')).subscribe(
             data => {
     

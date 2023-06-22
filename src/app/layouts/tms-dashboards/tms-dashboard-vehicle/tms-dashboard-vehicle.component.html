@@ -17,10 +17,10 @@
 
             </div>
 
-            <div class="form-group col-md-6 col-sm-12">
+            <div class="form-group col-md-6 ">
                 <label class="font-weight-bold"> {{'Date ' | translate}} </label><br />
                 <div class="row">
-                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                    <div class=" input-group input-group-sm col-md-6 ">
                         <div class="input-group-prepend">
                             <span class="input-group-text text-black">Du</span>
                         </div>
@@ -30,7 +30,7 @@
                     </div>
 
 
-                    <div class=" input-group input-group-sm col-md-6 col-sm-12">
+                    <div class=" input-group input-group-sm col-md-6 ">
                         <!-- <label class="font-weight-bold"> {{'Date finale' | translate}} </label>-->
                         <div class="input-group-prepend ">
                             <span class="input-group-text text-black">Au</span>
@@ -57,7 +57,18 @@
                     (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
 
             </div>
-
+            <div class="col-md-3">
+                <label class="font-weight-bold ">{{'Marque' | translate}}</label><br />
+                <p-dropdown [autoDisplayFirst]="false" [options]="vehicleBrandTypeList" optionLabel="code"
+                  [filter]="true" [showClear]="true" [(ngModel)]="marqueSearch"></p-dropdown>
+            </div>
+            <div class="col-md-3">
+                <label class="font-weight-bold ">{{'Ancienneté par tranche'| translate}}</label><br />
+                <p-dropdown [options]="seniorityList" optionLabel="header" [autoDisplayFirst]="false"
+                    [(ngModel)]="senioritySearch" [showClear]="true">
+                </p-dropdown>
+            </div>
+          
         </div>
 
         <br />

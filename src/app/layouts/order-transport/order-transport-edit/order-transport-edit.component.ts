@@ -20,7 +20,7 @@ import { OrderTransportService } from "./../../../shared/services/api/order-tran
 })
 export class OrderTransportEditComponent implements OnInit, OnDestroy {
 
-  
+
   selectedOrderTransport: OrderTransport = new OrderTransport();
   selectedOrderTransportInforAller: OrderTransportInfo = new OrderTransportInfo();
   selectedOrderTransportInforRetour: OrderTransportInfo = new OrderTransportInfo();
@@ -106,6 +106,7 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
         this.activeIndex = 0;
 
         this.showStepByTurnType(1);
+
       });
 
     }

@@ -209,12 +209,17 @@
 
         <div class="row mt-3 justify-content-around m-0">
           <div class="form-group col-md-1"></div>
-          <div class="form-group col-md-4">
+
+          <div class="form-group col-md-11">
             <button type="text" style="width: 100%" pButton label="Affecter" (click)="affectedTransport()"></button>
 
             <!-- <i class="pi pi-sliders-h" style="font-size: 2rem"></i>  -->
           </div>
 
+
+        </div>
+        <div class="row mt-3 justify-content-around m-0">
+          <div class="form-group col-md-1"></div>
           <div class="form-group col-md-3">
             <button type="text" style="width: 100%" class="p-button-danger" pButton label="Refuser"
               (click)="OnSelectedRefus(2)"></button>
@@ -224,6 +229,12 @@
             <button type="text" style="width: 100%" class="p-button-danger" pButton label="Rejeter"
               (click)="OnSelectedRefus(1)"></button>
           </div>
+
+          <div class="form-group col-md-4">
+            <button type="text" style="width: 100%" class="p-button-warning" pButton label="En Attente"
+              (click)="OnSelectedRefus(4)"></button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -496,6 +507,10 @@
 <div *ngIf="showDialogReject == true">
   <app-transport-plan-history [editMode]="editMode" [selectedTransportPlanHistroy]="selectTransportPlanHistory"
     (showDialog)="onShowDialog($event)"></app-transport-plan-history>
+</div>
+<div *ngIf="showDialogEnAttente == true">
+  <app-transport-plan-history-enattente  [selectedOrderTransportId]="this.selectOrderTransport.id"
+    (showDialog)="onShowDialogEnAttente($event)"></app-transport-plan-history-enattente>
 </div>
 
 <div *ngIf="showDialogVehicle == true">

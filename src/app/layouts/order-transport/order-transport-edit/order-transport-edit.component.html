@@ -52,8 +52,8 @@
         </span>
       </span>
       <span *ngIf="this.loadingTypeId==2">
-        <app-order-transport-aller (nextstep)="next($event)"
-          (previousstep)="previous($event)"></app-order-transport-aller>
+        <app-order-transport-groupage (nextstep)="next($event)"
+          (previousstep)="previous($event)"></app-order-transport-groupage>
 
       </span>
 
@@ -69,7 +69,7 @@
       </span>
     </span>
     <span *ngIf="activeIndex==3">
-      <span *ngIf="this.turnTypeId==3">
+      <span *ngIf="this.turnTypeId==3" >
         <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
       </span>
       <!--   -->

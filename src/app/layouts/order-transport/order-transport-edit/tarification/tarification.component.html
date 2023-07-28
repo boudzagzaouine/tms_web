@@ -1,6 +1,6 @@
 
   <div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
-
+<div *ngIf="this.selectOrderTransport.groupageUnique==false">
 <div class="container mt-5">
   <form [formGroup]="tarificationForm">
 
@@ -70,7 +70,7 @@
 </div>
 </form>
 </div>
-<div >
+
 <div class="container mt-5" *ngIf="(this.tarificationAccount!=1)">
   <div class="row justify-content-around">
 

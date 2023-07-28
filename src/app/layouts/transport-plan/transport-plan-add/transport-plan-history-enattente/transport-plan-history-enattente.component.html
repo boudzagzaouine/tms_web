@@ -1,0 +1,70 @@
+<p-dialog header="{{ title | translate }}" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{ width: '550px' }" (onHide)='onShowDialog()'>
+  <div>
+    <div class="modal-body">
+      <div class="card-body">
+
+
+
+      <div class="card-body border-top-primary">
+        <!-- selectedInsurance?.insuranceTermLignes -->
+        <p-table
+          [value]="transportPlanHistoryList"
+          [rows]="5"
+          [paginator]="true"
+          [totalRecords]="
+          transportPlanHistoryList?.length
+          "
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{ "Order Transport" | translate }}</th>
+              <th>{{ "Transporteur" | translate }}</th>
+
+              <th style="width: 40%">{{ "Action" | translate }}</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-line>
+            <tr>
+              <td>{{ line?.orderTransport?.code }}</td>
+              <td>{{ line?.transport.name }}</td>
+              <td>
+
+                <button
+                  type="button"
+                  (click)="onSelectOrder(line,2)"
+                  class="btn btn-sm btn-danger mx-1"
+                >
+                Refuser
+                </button>
+
+                <button
+                type="button"
+                (click)="onSelectOrder(line,1)"
+                class="btn btn-sm btn-danger mx-1"
+              >
+               Rejeter
+              </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+      <button type="button" pButton (click)="onShowDialog()" class="p-button-primary"
+        label="{{'Annuler' | translate }}"></button>
+
+    </div>
+  </p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
+<div *ngIf="showDialogReject == true">
+  <app-transport-plan-history [editMode]="editMode" [selectedTransportPlanHistroy]="selectTransportPlanHistory"
+    (showDialog)="onShowDialogHistory($event)"></app-transport-plan-history>
+</div>

@@ -27,11 +27,11 @@ import { OrderTransport } from "./../../../../shared/models/order-transport";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
-  selector: "app-order-transport-aller",
-  templateUrl: "./order-transport-aller.component.html",
-  styleUrls: ["./order-transport-aller.component.scss"],
+  selector: "app-order-transport-groupage",
+  templateUrl: "./order-transport-groupage.component.html",
+  styleUrls: ["./order-transport-groupage.component.scss"],
 })
-export class OrderTransportAllerComponent implements OnInit {
+export class OrderTransportGroupageComponent implements OnInit {
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
   itineraries : Array<Itinerary>=[];

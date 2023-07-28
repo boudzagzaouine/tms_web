@@ -63,7 +63,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
   this.selectOrderTransport =data;
   this.orderTransportService.addOrder(this.selectOrderTransport);
   console.log(  this.selectOrderTransportInfoAller );
-  
+
   if(this.selectOrderTransport.loadingType.id==1){
     if (this.selectOrderTransport.turnType.id== 1 || this.selectOrderTransport.turnType.id==3){
       this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
@@ -82,7 +82,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
 
   }else if(this.selectOrderTransport.loadingType.id==2){
     this.selectOrderTransportInfoAller.orderTransport= this.selectOrderTransport;
-    console.log("aller");
+    console.log("grupage");
 
         this.saveAller( this.selectOrderTransportInfoAller);
 
@@ -173,7 +173,7 @@ this.previousstep.emit(true);
   }
 
   onSelectedItineraryInfo(itineraryInfo:itineraryInfo){
-  
+
     this.distance=itineraryInfo.distance;
     console.log('----------->'+this.distance)
 

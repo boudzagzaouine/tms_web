@@ -1,3 +1,10 @@
+import { VatService } from './../../../../shared/services/api/vat.service';
+import { Vat } from './../../../../shared/models/vat';
+import { AccountPricing } from './../../../../shared/models/account-pricing';
+import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
+import { CatalogPricingService } from './../../../../shared/services/api/catalog-pricing.service';
+import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
+import { TrajetService } from './../../../../shared/services/api/trajet.service';
 import { log } from "console";
 import { ToastrService } from "ngx-toastr";
 import { ContactService } from "./../../../../shared/services/api/contact.service";
@@ -76,6 +83,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   showDialogLivraison: boolean;
   editModeLine: boolean;
   addressList: Address[] = [];
+  accountList:Account[]=[];
   contactList: Contact[] = [];
   showDialogContact: Boolean = false;
   showDialogAddress: Boolean = false;
@@ -85,7 +93,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
   isWeightLivraison: Boolean;
   isNumberOfPalletLivraison: Boolean;
   isCapacityLivraison: Boolean;
-
+  selectedCatalogPricing:CatalogPricing= new CatalogPricing();
+ selectedOrderTransport : OrderTransport=new OrderTransport();
+ selectedAccountPricing : AccountPricing = new AccountPricing();
+ vatList:Vat[]=[];
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     public orderTransportService: OrderTransportService,
@@ -95,6 +106,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
     private addressService: AddressService,
     private contactService: ContactService,
     private toastr: ToastrService,
+    private accountService:AccountService,
+    private  trajetService:TrajetService,
+    private accountPricingService :AccountPricingService,
+    private catalogPricingService:CatalogPricingService,
+    private vatService : VatService
 
   ) {}
 
@@ -105,7 +121,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.account;
     this.initForm();
 
-   // this.lines = this.orderTransportService.getLinesAller();
+   this.selectedOrderTransport = this.orderTransportService.getOrderTransport();
 
     this.orderTransportTypeService.findAll().subscribe((data) => {
       this.orderTransportTypeList = data;
@@ -114,6 +130,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.paymentTypeService.findAll().subscribe((data) => {
       this.paymentTypeList = data;
       this.initForm();
+      console.log(this.paymentTypeList);
+    });
+    this.vatService.findAll().subscribe((data) => {
+      this.vatList = data;
+
       console.log(this.paymentTypeList);
     });
     this.getTrajetQuantity();
@@ -153,7 +174,21 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.orderTransportType,
           Validators.required
         ),
-
+        account: new FormControl(
+          this.selectedOrderTransportInfoLine.account
+        ),
+        priceHT: new FormControl(
+          this.selectedOrderTransportInfoLine.priceHT,
+          Validators.required
+        ),
+        vat: new FormControl(
+          this.selectedOrderTransportInfoLine.vat,
+          Validators.required
+        ),
+        priceTTC: new FormControl(
+          this.selectedOrderTransportInfoLine.priceTTC,
+          Validators.required
+        ),
         deliveryInfoName: new FormControl(
           this.selectContact.name
         ),
@@ -170,6 +205,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
         deliveryInfoCountry: new FormControl(this.selectAddress.country),
         deliveryInfoLatitude: new FormControl(this.selectAddress.latitude),
         deliveryInfoLongitude: new FormControl(this.selectAddress.longitude),
+
       }),
       enlevement: new FormGroup({
         numberOfPallets: new FormControl(
@@ -235,8 +271,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
     }
 
     let formvalue = this.orderTransportInfoLineForm.value;
-    this.selectedOrderTransportInfoLine.address = this.selectAddress;
-    this.selectedOrderTransportInfoLine.contact = this.selectContact;
+    this.selectedOrderTransportInfoLine.priceHT =
+      formvalue["general"]["priceHT"];
+      this.selectedOrderTransportInfoLine.priceTTC =
+      formvalue["general"]["priceTTC"];
+      this.selectedOrderTransportInfoLine.vat =
+      formvalue["general"]["vat"];
+    this.selectedOrderTransportInfoLine.address = this.selectAddress.id >0 ?this.selectAddress:null;
+    this.selectedOrderTransportInfoLine.contact = this.selectContact.id>0 ?this.selectContact:null;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;
@@ -378,6 +420,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportType = event.value;
   }
 
+  onSelectVat(event) {
+    this.selectedOrderTransportInfoLine.vat = event.value;
+  }
+
   onSelectPaymentTypeEnlevement(event) {
     this.selectedOrderTransportInfoLine.paymentTypeEnlevement = event.value;
   }
@@ -389,6 +435,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
   onShowDialog() {
     let a = false;
     this.showDialog.emit(a);
+  }
+   onAccountSearch(event) {
+    this.accountService
+      .find("name~" + event.query)
+      .subscribe((data) => (this.accountList = data));
+  }
+  onSelectAccount(event) {
+    this.selectedOrderTransportInfoLine.account = event.value;
   }
 
   onAddressSearch(event) {
@@ -438,7 +492,21 @@ export class OrderTransportInfoLineComponent implements OnInit {
       deliveryInfoLongitude: event.longitude,
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
+    console.log("hhshshs");
+
+this.verifyTrajet(this.selectedOrderTransport.trajet.villeSource.id,event.ville.id);
   }
+
+  getTarification(){
+
+
+
+
+
+
+  }
+
+
   getTrajetQuantity(){
     this.selectedOrderTransportTrajetQuantity=new OrderTransportTrajetQuantity();
     this.lines=this.orderTransportService.getLinesAller();
@@ -599,7 +667,108 @@ if(this.lines.length>0){
   }
   onLineEditedAddress(line: Address) {
     this.setInfoAddress(line);
+
     console.log(line);
+  }
+  verifyTrajet(sourceId:number , distinationId :number ){
+
+    this.trajetService
+      .find(
+        "villeSource.id:" +
+          sourceId +
+          ",villeDestination.id:" +
+          distinationId
+      )
+      .subscribe((data) => {
+console.log("hh");
+
+        if (data[0] != null) {
+          console.log(data);
+this.onSearchAccountPricing(distinationId);
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'Existe'});
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: "Erreur",
+            detail: "Trajet n'existe pas ",
+          });
+        }
+      });
+
+  }
+
+  onSearchCatalogPricing(distinationId:number) {
+    let trajet;
+      trajet =
+
+      this.catalogPricingService.find(
+        "turnType.id:" +
+          this.selectedOrderTransport?.turnType?.id +
+          ",vehicleCategory.id:" +
+          this.selectedOrderTransport?.vehicleCategory?.id +
+          ",vehicleTray.id:" +
+          this.selectedOrderTransport?.vehicleTray?.id +
+          ",loadingType.id:" +
+          this.selectedOrderTransport?.loadingType?.id +
+          ",trajet.villeSource.id:" +
+          this.selectedOrderTransport?.trajet?.villeSource.id +
+          ",trajet.villeDestination.id:" +
+distinationId
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if (data[0]) {
+          console.log("price catalog");
+
+          this.selectedCatalogPricing = data[0];
+          this.orderTransportInfoLineForm.controls["general"].patchValue({
+            priceHT: this.selectedCatalogPricing.saleAmountHt,
+            vat: this.selectedCatalogPricing.saleVat,
+            priceTTC: this.selectedCatalogPricing.saleAmountTtc,
+
+          });
+
+        }
+
+      });
+  }
+
+  onSearchAccountPricing(distinationId:number) {
+
+    this.accountPricingService
+      .find(
+        "company.id:" +
+          this.selectedOrderTransport?.account?.company?.id +
+          ",turnType.id:" +
+          this.selectedOrderTransport?.turnType?.id +
+          ",vehicleCategory.id:" +
+          this.selectedOrderTransport?.vehicleCategory?.id +
+          ",vehicleTray.id:" +
+          this.selectedOrderTransport?.vehicleTray?.id +
+          ",loadingType.id:" +
+          this.selectedOrderTransport?.loadingType?.id +
+          ",trajet.villeSource.id:" +
+          this.selectedOrderTransport?.trajet?.villeSource.id +
+          ",trajet.villeDestination.id:" +
+distinationId
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if (data[0]) {
+          this.selectedAccountPricing = data[0];
+          console.log("pricAccount");
+
+          this.orderTransportInfoLineForm.controls["general"].patchValue({
+            priceHT: this.selectedAccountPricing.saleAmountHt,
+            vat: this.selectedAccountPricing.saleVat,
+            priceTTC: this.selectedAccountPricing.saleAmountTtc,
+
+          });
+
+        } else {
+          this.onSearchCatalogPricing(distinationId);
+        }
+      });
   }
 
   onLineEditedContact(contact: Contact) {

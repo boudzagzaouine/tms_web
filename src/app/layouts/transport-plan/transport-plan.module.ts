@@ -53,6 +53,7 @@ import {DataViewModule} from 'primeng/dataview';
 import { TransportPlanServiceEditComponent } from './transport-plan-edit/transport-plan-service-edit/transport-plan-service-edit.component';
 import {RatingModule} from 'primeng/rating';
 import {InputNumberModule} from 'primeng/inputnumber';
+import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/transport-plan-history-enattente/transport-plan-history-enattente.component';
 
 @NgModule({
   imports: [
@@ -100,6 +101,6 @@ import {InputNumberModule} from 'primeng/inputnumber';
      InputNumberModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent,TransportPlanHistoryEnattenteComponent]
 })
 export class TransportPlanModule { }

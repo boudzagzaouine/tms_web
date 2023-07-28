@@ -1,4 +1,4 @@
-import { Address } from '.';
+import { Address, Vat } from '.';
 import { Contact } from './contact';
 import { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
 import { Account } from './account';
@@ -52,6 +52,8 @@ export class OrderTransportInfoLine {
   orderTransportInfoLineDocuments:OrderTransportInfoLineDocument[]=[];
 
   type: string ;
-
+  priceHT: number = 0;
+  vat :Vat;
+  priceTTC: number =0;
 
 }

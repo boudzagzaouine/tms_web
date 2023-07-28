@@ -89,6 +89,11 @@ export class TarificationComponent implements OnInit {
         this.vatTarif=data;
       }
     );
+    if(this.selectOrderTransport.groupageUnique==true){
+      console.log("groupage");
+
+      this.calculatePriceGroupage();
+    }
     this.initForm();
 
   }
@@ -210,7 +215,7 @@ console.log( this.tarificationAccount);
   }
   calculatePrice(){
     this.selectOrderTransport.priceHT =
-    this.tarificationForm.controls["priceHT"].value;
+    this.tarificationForm?.controls["priceHT"]?.value != undefined ?this.tarificationForm.controls["priceHT"].value : this.selectOrderTransport.priceHT ;
     console.log(  this.selectOrderTransport.priceHT);
 console.log(this.selectedCatalogPricing);
 
@@ -232,9 +237,9 @@ console.log(this.selectedCatalogPricing);
 
   next() {
     this.calculatePrice();
-      this.selectOrderTransport.totalPriceHT =this.selectOrderTransport.priceHT + this.selectOrderTransport.totalServiceHT;
-    this.selectOrderTransport.totalPriceTTC =this.selectOrderTransport.priceTTC + this.selectOrderTransport.totalServiceTTC;
-    this.selectOrderTransport.totalPriceVat =this.selectOrderTransport.priceVat + this.selectOrderTransport.totalServiceVat;
+      this.selectOrderTransport.totalPriceHT =(this.selectOrderTransport.priceHT) + (this.selectOrderTransport.totalServiceHT?this.selectOrderTransport.totalServiceHT:0);
+    this.selectOrderTransport.totalPriceTTC =(this.selectOrderTransport.priceTTC )+ (this.selectOrderTransport.totalServiceTTC?this.selectOrderTransport.totalServiceTTC:0);
+    this.selectOrderTransport.totalPriceVat =(this.selectOrderTransport.priceVat) + (this.selectOrderTransport.totalServiceVat?this.selectOrderTransport.totalServiceVat:0);
     this.orderTransportService.addTotalPrice(this.selectOrderTransport.totalPriceHT,this.selectOrderTransport.totalPriceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.totalPriceVat);
 
     this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
@@ -243,5 +248,18 @@ console.log(this.selectedCatalogPricing);
 
     //this.orderTransportService.addOrderTransportTransport(this.orderTransportTransports);
     this.nextstep.emit(true);
+  }
+
+
+  calculatePriceGroupage(){
+    console.log();
+
+    this.orderTransportInfoAllerLignes.forEach(element => {
+      this.selectOrderTransport.priceHT+=element.priceHT as number
+      this.selectOrderTransport.priceTTC+=element.priceTTC as number
+      this.selectOrderTransport.priceVat+=(element.priceTTC - element.priceHT) as number
+    });
+    this.calculatePrice();
+
   }
 }

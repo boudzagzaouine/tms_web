@@ -207,23 +207,9 @@
 
             <div class="form-group col-md-3">
               <label class="font-weight-bold"
-                >{{ "Moyen d'accompagnement" | translate }} *</label
-              >
-              <span
-                *ngIf="
-                  (OrderTransportForm.get('vehicleTray')
-                    .touched &&
-                    OrderTransportForm.get('vehicleTray')
-                      .invalid) ||
-                  (isFormSubmitted &&
-                    OrderTransportForm.get('vehicleTray')
-                      .invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small"
-              >
-                {{ "Obligatoire" | translate }}
-              </span>
+                >{{ "Moyen d'accompagnement" | translate }} </label
+              ><br>
+
               <p-multiSelect [options]="vehicleAccompanimentList"
               formControlName="vehicleAccompaniments"
               optionLabel="code" ></p-multiSelect>
@@ -431,6 +417,18 @@
 </div>
 
 <div class="form-group col-sm-3">
+  <span *ngIf="this.selectedOrderTransport?.loadingType?.id==2">
+
+  <label class="font-weight-bold">{{'Donneur d´ordre Unique' | translate}} </label>
+  <br />
+   <div class="field-checkbox">
+  <p-checkbox formControlName="groupageUnique" [(ngModel)]="this.selectedOrderTransport.groupageUnique" name="groupageUnique"(onChange)="onSelectGroupageUnique($event)" [binary]="true" inputId="consignment"></p-checkbox>
+  <label class="font-weight-bold" for="groupageUnique">{{this.selectedOrderTransport.groupageUnique?"Oui":"Non"}}</label>
+</div>
+</span>
+</div>
+
+<div class="form-group col-sm-3">
   <span *ngIf="this.selectedOrderTransport.consignment==true">
   <label class="font-weight-bold">{{'Responsabilité palette' | translate}} </label>
 
@@ -440,7 +438,9 @@
     <p-selectButton [options]="palletResponsibilityList"  optionLabel="code"  (onChange)="onSelectPalletResponsibility($event)" formControlName="palletResponsibilityObject" ></p-selectButton>
 </div>
 </span>
-</div></div>
+</div>
+
+</div>
 
 
 

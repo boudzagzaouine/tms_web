@@ -179,8 +179,7 @@ export class OrderTransportInformationComponent implements OnInit {
         Validators.required
       ),
       vehicleTray: new FormControl(
-        this.selectedOrderTransport.vehicleTray,
-        Validators.required
+        this.selectedOrderTransport.vehicleTray
       ),
       packagingType: new FormControl(
         this.selectedOrderTransport.packagingType,
@@ -193,6 +192,8 @@ export class OrderTransportInformationComponent implements OnInit {
         this.selectedOrderTransport.vehicleAccompaniments
       ),
       consignment: new FormControl(this.selectedOrderTransport.consignment),
+      groupageUnique: new FormControl(this.selectedOrderTransport.groupageUnique),
+
       portObject: new FormControl(this.selectedOrderTransport.portObject),
       palletResponsibilityObject: new FormControl(
         this.selectedOrderTransport.palletResponsibilityObject
@@ -286,6 +287,10 @@ export class OrderTransportInformationComponent implements OnInit {
   onSelectConsignment(event) {
 
     this.selectedOrderTransport.consignment = event.checked;
+  }
+
+  onSelectGroupageUnique(event){
+    this.selectedOrderTransport.groupageUnique = event.checked;
   }
   onSelectPort(event) {
 
@@ -430,7 +435,6 @@ this.initForm();
   }
 
   affectedContactInsert(contact :Contact){
-console.log("dkhal contact");
 
 this.contactService.find('account.id:'+contact.account.id).subscribe(
   data=>{

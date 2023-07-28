@@ -1,12 +1,16 @@
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { AgencyService } from './../../../shared/services/api/agency.service';
-import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalService } from './../../../shared/services/api/global.service';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Agency } from './../../../shared/models/agency';
-import { Component, OnInit } from '@angular/core';
+import { User } from './../../../shared/models/User';
+import { Zone } from './../../../shared/models/Zone';
+import { AgencyService } from './../../../shared/services/api/agency.service';
+import { GlobalService } from './../../../shared/services/api/global.service';
+import { UserService } from './../../../shared/services/api/user.service';
+import { ZoneServcie } from './../../../shared/services/api/zone.service';
+import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 
 @Component({
   selector: 'app-agency',
@@ -20,6 +24,10 @@ export class AgencyComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: string;
+  zoneSearch: Zone;
+  zoneList: Array<Zone>
+  responsableList: Array<User>
+  responsableSearch: User
   descriptionSearch = '';
   codeList: Array<Agency> = [];
   cols: any[];
@@ -30,9 +38,11 @@ export class AgencyComponent implements OnInit {
   className: string;
   titleList = 'Liste des Agences';
   agencyExportList: Array<Agency> = [];
-  subscriptions= new Subscription();
+  subscriptions = new Subscription();
 
   constructor(private agencyService: AgencyService,
+    private zoneService: ZoneServcie,
+    private responsableService: UserService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -102,9 +112,9 @@ export class AgencyComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
-      //  this.toastr.error(error.error.message, 'Erreur');
+        //  this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
@@ -134,8 +144,20 @@ export class AgencyComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   }
+  onZoneSearch(event: any) {
+    this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
+      data => this.zoneList = data.map(f => f.code)
+    ));
+  }
+  onResponsableSearch(event: any) {
+    this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
+      data => this.responsableList = data.map(f => f.code)
+    ));
+  }
   reset() {
     this.codeSearch = null;
+    this.zoneSearch = null;
+    this.responsableSearch = null;
     this.descriptionSearch = null;
     this.page = 0;
     this.searchQuery = '';
@@ -164,14 +186,14 @@ export class AgencyComponent implements OnInit {
           this.subscriptions.add(this.agencyService.deleteAllByIds(ids).subscribe(
             data => {
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
-              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+              this.messageService.add({ severity: 'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés' });
 
               this.loadData();
             },
             error => {
-              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+              this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
-             // this.toastr.error(error.error.message, 'Erreur');
+              // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

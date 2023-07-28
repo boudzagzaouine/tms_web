@@ -27,7 +27,6 @@ import { TmsDashboardsComponent } from './tms-dashboards/tms-dashboards.componen
     AppHeaderComponent,
     AppSidebarComponent,
     AppFooterComponent,
-    TmsDashboardsComponent,
     
  
 

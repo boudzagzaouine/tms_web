@@ -188,11 +188,12 @@ import { HolidayService } from './services/api/account-holiday.service';
 import { PlanningService } from './services/api/planning-service';
 import { CompanyImport } from './import/company-import';
 import { TmsdashboardService } from './services/api/tms-dashboard.service';
+import { ZoneVilleService } from './services/api/zone-ville.service';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
   imports: [
-    CommonModule,
+ CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModalModule,
@@ -384,7 +385,9 @@ export class SharedModule {
         CompanyImportService,
         OrderTransportDocumentTypeService,
         MarchandiseTypeService,
-        VehicleAccompanimentService
+        VehicleAccompanimentService,
+        ZoneVilleService
+       
       ],
 
     };

@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ZoneServcie } from './../../../../shared/services/api/zone.service';
+import { ZoneServcie } from '../../../../shared/services/api/zone.service';
 import { Zone } from './../../../../shared/models/Zone';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';

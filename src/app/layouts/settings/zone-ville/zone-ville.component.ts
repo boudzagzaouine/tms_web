@@ -1,39 +1,47 @@
-import { GlobalService } from './../../../shared/services/api/global.service';
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ZoneServcie } from '../../../shared/services/api/zone.service';
-import { Zone } from './../../../shared/models/Zone';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { Ville } from './../../../shared/models/ville';
+import { Zone } from './../../../shared/models/Zone';
+import { GlobalService } from './../../../shared/services/api/global.service';
+import { VilleService } from './../../../shared/services/api/ville.service';
+import { ZoneServcie } from '../../../shared/services/api/zone.service';
+import { EmsBuffer } from './../../../shared/utils';
+import { ZoneVille } from './../../../shared/models/zone-ville';
+import { ZoneVilleService } from './../../../shared/services/api/zone-ville.service';
 
 @Component({
-  selector: 'app-zone',
-  templateUrl: './zone.component.html',
-  styleUrls: ['./zone.component.css']
+  selector: 'app-zone-ville',
+  templateUrl: './zone-ville.component.html',
+  styleUrls: ['./zone-ville.component.css']
 })
-export class ZoneComponent implements OnInit {
-
+export class ZoneVilleComponent implements OnInit {
   page = 0;
   size = 5;
   collectionSize: number;
   searchQuery = '';
-  nameSearch: Zone;
+  zoneSearch: Zone;
+  villeSearch: Ville;
+
   descriptionSearch = '';
-  nameList: Array<Zone> = [];
-  cols: any[];
   zoneList: Array<Zone> = [];
-  selectedZones: Array<Zone> = [];
+  villeList: Array<Ville> = [];
+  cols: any[];
+  zoneVilleList: Array<ZoneVille> = [];
+  selectedZoneVilles: Array<ZoneVille> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
-  zoneExportList: Array<Zone> = [];
-  titleList = 'Liste des zones';
+  zoneVilleExportList: Array<ZoneVille> = [];
+  titleList = 'Liste des zone-ville';
   subscriptions= new Subscription();
   items: MenuItem[];
   home: MenuItem;
   constructor(private zoneService: ZoneServcie,
+    private zoneVilleService:ZoneVilleService,
+    private villeService:VilleService,
     private spinner: NgxSpinnerService,
     private globalService :GlobalService,
     private toastr: ToastrService,
@@ -44,16 +52,16 @@ export class ZoneComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {label: 'Paramétrage'},
-      {label: 'Zone' ,routerLink:'/core/settings/zone'},
+      {label: 'ZoneVille' ,routerLink:'/core/settings/zone-ville'},
   
   ];
   this.home = {icon: 'pi pi-home'};
 
 
-    this.className = Zone.name;
+    this.className = ZoneVille.name;
     this.cols = [
-      { field: 'code', header: 'Code' , type:'string'},
-      { field: 'description', header: 'Description' ,type:'string'},
+      { field: 'zone',child: 'code', header: 'Zone', type: 'object' },
+      { field: 'ville',child: 'code', header: 'Ville', type: 'object' },
 
 
     ];
@@ -64,14 +72,14 @@ export class ZoneComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add( this.zoneService.sizeSearch(search).subscribe(
+    this.subscriptions.add( this.zoneVilleService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add(this.zoneService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.zoneVilleService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.zoneList = data;
+        this.zoneVilleList = data;
 
         this.spinner.hide();
       },
@@ -93,13 +101,13 @@ export class ZoneComponent implements OnInit {
 
   onExportExcel(event) {
 
-    this.subscriptions.add(this.zoneService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.zoneVilleService.find(this.searchQuery).subscribe(
       data => {
-        this.zoneExportList = data;
+        this.zoneVilleExportList = data;
         if (event != null) {
-          this.globalService.generateExcel(event, this.zoneExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.zoneVilleExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.zoneExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.zoneVilleExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -115,10 +123,10 @@ export class ZoneComponent implements OnInit {
 
   }
   onExportPdfGlobal(event) {
-    this.subscriptions.add(this.zoneService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.zoneVilleService.find(this.searchQuery).subscribe(
       data => {
-        this.zoneExportList = data;
-        this.globalService.generatePdf(event, this.zoneExportList, this.className, this.titleList);
+        this.zoneVilleExportList = data;
+        this.globalService.generatePdf(event, this.zoneVilleExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -135,8 +143,11 @@ export class ZoneComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.nameSearch != null && this.nameSearch.code !== '') {
-      buffer.append(`code~${this.nameSearch.code}`);
+    if (this.zoneSearch != null && this.zoneSearch.code !== '') {
+      buffer.append(`code~${this.zoneSearch.code}`);
+    }
+    if (this.villeSearch != null && this.villeSearch.code !== '') {
+      buffer.append(`code~${this.villeSearch.code}`);
     }
 
     this.page = 0;
@@ -144,13 +155,19 @@ export class ZoneComponent implements OnInit {
     this.loadData(this.searchQuery);
 
   }
-  onNameSearch(event: any) {
+  onZoneSearch(event: any) {
     this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
-      data => this.nameList = data
+      data => this.zoneList = data
+    ));
+  }
+  onVilleSearch(event: any) {
+    this.subscriptions.add(this.villeService.find('code~' + event.query).subscribe(
+      data => this.villeList = data
     ));
   }
   reset() {
-    this.nameSearch = null;
+    this.zoneList = null;
+    this.villeList = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -159,7 +176,7 @@ export class ZoneComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedZones = event.object;
+    this.selectedZoneVilles = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -170,12 +187,12 @@ export class ZoneComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedZones.length >= 1) {
+    if (this.selectedZoneVilles.length >= 1) {
       this.confirmationService.confirm({
         message: 'Voulez vous vraiment Suprimer?',
         accept: () => {
-          const ids = this.selectedZones.map(x => x.id);
-          this.subscriptions.add(this.zoneService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedZoneVilles.map(x => x.id);
+          this.subscriptions.add(this.zoneVilleService.deleteAllByIds(ids).subscribe(
             data => {
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
@@ -189,7 +206,7 @@ export class ZoneComponent implements OnInit {
           ));
         }
       });
-    } else if (this.selectedZones.length < 1) {
+    } else if (this.selectedZoneVilles.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 
@@ -204,5 +221,4 @@ export class ZoneComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
 }

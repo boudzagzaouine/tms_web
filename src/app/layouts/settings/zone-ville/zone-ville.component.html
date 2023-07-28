@@ -1,29 +1,22 @@
-<br />
+<p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row">
-    <div class="col-md-2" >
-      <label class="font-weight-bold">{{'Code' |translate}}</label
-      ><br />
-      <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
-      (completeMethod)="onCodeSearch($event)"></p-autoComplete>
-    </div>
-
-    <div class="col-md-2">
-      <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
-      <input type="text" pInputText [(ngModel)]="descriptionSearch" />
-    </div>
     <div class="col-md-2" >
       <label class="font-weight-bold">{{'Zone' |translate}}</label
       ><br />
       <p-autoComplete [(ngModel)]="zoneSearch" [suggestions]="zoneList"
-      (completeMethod)="onZoneSearch($event)"></p-autoComplete>
+      (completeMethod)="onZoneSearch($event)" field='code'></p-autoComplete>
+      
     </div>
     <div class="col-md-2" >
-      <label class="font-weight-bold">{{'Responsable' |translate}}</label
-      ><br />
-      <p-autoComplete [(ngModel)]="responsableSearch" [suggestions]="responsableList"
-      (completeMethod)="onResponsableSearch($event)"></p-autoComplete>
-    </div>
+        <label class="font-weight-bold">{{'Ville' |translate}}</label
+        ><br />
+        <p-autoComplete [(ngModel)]="villeSearch" [suggestions]="villeList"
+        (completeMethod)="onVilleSearch($event)" field='code'></p-autoComplete>
+        
+      </div>
+
+
   </div>
   <br />
 
@@ -40,44 +33,44 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="agencyList"
+  [objectList]="zoneVilleList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
-  (exportBtnExcelGlobal)="onExportExcel($event)"
-  (exportBtnPdf)="onExportPdf($event)"
-  (exportBtnExcelVue)="onExportExcel($event)"
-  [listName]="titleList"
+  [listName]="'Liste des villes par zones'"
   [viewBtnVisible]="'false'"
-  [permissionCreate]="['AGENCY_CREATE']"
-  [permissionDelete]="['AGENCY_DELETE']"
-  [permissionEdit]="['AGENCY_EDIT']"
+
+  (exportBtnExcelGlobal)="onExportExcel($event)"
+  (exportBtnPdf)="onExportPdfGlobal($event)"
+  (exportBtnExcelVue)="onExportExcel($event)"
+
+
+  [permissionCreate]="['ZONE_VILLE_CREATE']"
+  [permissionDelete]="['ZONE_VILLE_DELETE']"
+  [permissionEdit]="['ZONE_VILLE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">
-  <app-badge-type-edit
+  <app-zone-ville-edit
     [editMode]="editMode"
-    [selectedAgency]="selectedAgencys[0]"
+    [selectedzonevilles]="selectedZoneVilles[0]"
     (showDialog)="onShowDialog($event)"
-  ></app-badge-type-edit>
+  ></app-zone-ville-edit>
 </div>
-<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
 <ngx-spinner
   bdColor="rgba(255,255,255,0)"
   size="large"
   color="#00d2ff"
   type="ball-spin-fade-rotating"
 ></ngx-spinner>
-
-
-
 <p-confirmDialog
-
   header="Confirmation"
   icon="pi pi-exclamation-triangle"
   [acceptLabel]="'Oui'"
   [rejectLabel]="'Non'"
 >
 </p-confirmDialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 

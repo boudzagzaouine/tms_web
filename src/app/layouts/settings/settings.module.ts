@@ -199,6 +199,8 @@ import {OrderListModule} from 'primeng/orderlist';
 import {TreeModule} from 'primeng/tree';
 import {CardModule} from 'primeng/card';
 import { UserPasswordComponent } from './user/user-password/user-password.component';
+import { ZoneVilleComponent } from './zone-ville/zone-ville.component';
+import { ZoneVilleEditComponent } from './zone-ville/zone-ville-edit/zone-ville-edit.component';
 
 
 
@@ -358,7 +360,9 @@ VehicleTrayComponent,
 VehicleTrayEditComponent,
 VehicleAccompanimentComponent,
 VehicleAccompanimentEditComponent,
-UserPasswordComponent
+UserPasswordComponent,
+ZoneVilleComponent,
+ZoneVilleEditComponent
 
 
 
@@ -410,6 +414,7 @@ UserPasswordComponent
   exports :[
     ContactEditComponent,
     AddressEditComponent,
+    ZoneVilleEditComponent
   ]
 })
 export class SettingsModule { }

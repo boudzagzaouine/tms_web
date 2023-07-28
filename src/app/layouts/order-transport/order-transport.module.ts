@@ -1,3 +1,4 @@
+import { OrderTransportGroupageComponent } from './order-transport-edit/order-transport-groupage/order-transport-groupage.component';
 import { InformationContactEditComponent } from './order-transport-edit/order-transport-information/information-contact-edit/information-contact-edit.component';
 import { OrderTransportServiceComponent } from './order-transport-edit/order-transport-service/order-transport-service.component';
 import { OrderTransportCompletComponent } from './order-transport-edit/order-transport-complet/order-transport-complet.component';
@@ -15,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TarificationComponent } from './order-transport-edit/tarification/tarification.component';
 import { OrderTransportInfoLineComponent } from './order-transport-edit/order-transport-info-line/order-transport-info-line.component';
 import { PackageDetailComponent } from './order-transport-edit/package-detail/package-detail.component';
-import { OrderTransportAllerComponent } from './order-transport-edit/order-transport-aller/order-transport-aller.component';
 import { GenerateAddressContactComponent } from './order-transport-edit/generate-address-contact/generate-address-contact.component';
 import { OrderTransportInformationComponent } from './order-transport-edit/order-transport-information/order-transport-information.component';
 import { OrderTransportInfo } from './../../shared/models/order-transport-info';
@@ -109,7 +109,7 @@ import { OrderTransportCompletRetourComponent } from './order-transport-edit/ord
     OrderTransportEditComponent,
     OrderTransportListComponent,
     OrderTransportInformationComponent,
-    OrderTransportAllerComponent,
+    OrderTransportGroupageComponent,
     GenerateAddressContactComponent,
     PackageDetailComponent,
     OrderTransportInfoLineComponent,

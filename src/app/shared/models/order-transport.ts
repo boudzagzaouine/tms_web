@@ -38,13 +38,14 @@ export class OrderTransport {
   palletResponsibilityObject : SelectObject;//local
   marchandiseType:MarchandiseType;
   account :Account;
+  accountUnique :Boolean; // for groupage
   contact:Contact;
   turnStatus:TurnStatus;
   vehicleCategory :VehicleCategory ;
   vehicleTray:VehicleTray;
   trajet:Trajet;
-  orderTransportInfoAller:OrderTransportInfo;
-  orderTransportInfoRetour:OrderTransportInfo;
+  orderTransportInfoAller:OrderTransportInfo; //local
+  orderTransportInfoRetour:OrderTransportInfo; // local
   remark : string;
   weightTotal: number = 0;
   capacityTotal: number = 0;
@@ -65,6 +66,7 @@ export class OrderTransport {
   orderTransportServiceCatalogs : TransportPlanServiceCatalog[]=[];
   orderTransportAccompaniments : OrderTransportAccompaniment[]=[];
 
+  groupageUnique:Boolean=false;
   vehicleAccompaniments : VehicleAccompaniment[]=[];//local
 
   index :  boolean ; // variable local

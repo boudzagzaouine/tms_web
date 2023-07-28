@@ -1,7 +1,8 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['BADGE_TYPE_VIEW']" header="{{'Type de badge' | translate }}"   headerStyleClass="onglet-p-4">
+  <p-tabPanel *hasPermission="['BADGE_TYPE_VIEW']" header="{{'Type de badge' | translate }}"
+   headerStyleClass="onglet-p-4">
       <ng-template pTemplate="content">
                  <app-badge-type></app-badge-type>
       </ng-template>

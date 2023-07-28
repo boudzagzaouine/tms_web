@@ -82,6 +82,62 @@ optionLabel="code"
           <p-fieldset legend="Address" [toggleable]="true">
      <div class="row">
 
+      <div class="form-group col-md-6" *ngIf=" this.selectedOrderTransport.groupageUnique==true">
+        <label class="font-weight-bold">{{
+          "Client" | translate
+        }} </label
+        >
+
+
+        <p-autoComplete
+        formControlName="account"
+        [suggestions]="accountList"
+        (onSelect)="onSelectAccount($event)"
+        (completeMethod)="onAccountSearch($event)"
+        field="name"
+        appendTo="body"
+      >
+      </p-autoComplete>
+      <span class="add" style="float: left;">
+
+        <img
+        src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
+        <a (click)='onShowdialogAddress()' class="ml-2">Ajouter Adresse </a></span>
+      </div>
+
+ <div class="form-group col-md-6">
+              <label class="font-weight-bold">{{
+                "Nom d'addresse" | translate
+              }} *</label
+              >
+
+              <span
+              *ngIf="
+                (orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').touched &&
+                orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid) ||
+                (isFormSubmitted &&
+                orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid)
+              "
+              class="text-lighter"
+              style="color: red; font-size: xx-small"
+            >
+              {{ "Obligatoire" | translate }}
+            </span>
+              <p-autoComplete
+              formControlName="deliveryInfoAddressName"
+              [suggestions]="addressList"
+              (onSelect)="onSelectAddress($event)"
+              (completeMethod)="onAddressSearch($event)"
+              field="code"
+              appendTo="body"
+            >
+            </p-autoComplete>
+            <span class="add" style="float: left;">
+
+              <img
+              src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
+              <a (click)='onShowdialogAddress()' class="ml-2">Ajouter Adresse </a></span>
+            </div>
 
             <div class="form-group col-md-6">
               <label class="font-weight-bold">{{
@@ -116,7 +172,6 @@ optionLabel="code"
               src="./assets/img/add2.png" style="width: 20px ; height: 20px;">
               <a (click)='onShowdialogAddress()' class="ml-2">Ajouter Adresse </a></span>
             </div>
-            <div class="form-group col-md-6"></div>
 
 
               <div class="form-group col-md-6">
@@ -229,6 +284,74 @@ optionLabel="code"
         </p-panel>
     </div>
     </div>
+
+
+    <div class="row  justify-content-around">
+
+      <div class="form-group col-md-12">
+
+          <p-panel  [toggleable]="true">
+            <ng-template pTemplate = "header" >
+              <img src="./assets/img/depuis.png" width="30px"
+              height="30px">          <span style="font-weight: 600"> Tarification</span>
+          </ng-template>
+          <div class="row  justify-content-around">
+
+
+          <div class="form-group col-md-4">
+            <label class="font-weight-bold">{{
+              "Prix HT" | translate
+            }}<span style="font-size: 9px;"> DH</span> </label
+            >
+            <br />
+            <div class="p-inputgroup">
+            <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+            formControlName="priceHT"
+          ></p-inputNumber>
+          </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="font-weight-bold">{{
+              " TVA" | translate
+            }} </label
+            >
+            <br />
+
+              <p-dropdown
+              formControlName="vat"
+              [autoDisplayFirst]="false"
+              [options]="vatList"
+              optionLabel="value"
+              (onChange)="onSelectVat($event)"
+              [filter]="true"
+              appendTo="body"
+              [showClear]="true"
+              ></p-dropdown>
+
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="font-weight-bold">{{
+              "Prix TTC" | translate
+            }}<span style="font-size: 9px;"> DH</span> </label
+            >
+            <br />
+            <div class="p-inputgroup">
+            <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+            formControlName="priceTTC"
+          ></p-inputNumber>
+          </div>
+          </div>
+</div>
+          </p-panel>
+      </div>
+    </div>
+
+
+
+
+
         </div>
 
         <p-tabView>
@@ -619,7 +742,7 @@ optionLabel="code"
                 <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
                 formControlName="paymentAmount"
               ></p-inputNumber>
-             
+
                   <!-- <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
                   formControlName="paymentAmount"
                 ></p-inputNumber> -->

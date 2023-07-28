@@ -6,6 +6,7 @@ import { AddressContactOrderTransportInfo } from './address-contact-order-transp
 import { PackageDetail } from "./package-detail";
 import { PackagingType } from "./packaging-type";
 import { OrderTransport } from './order-transport';
+import { Vat } from './vat';
 
 export class OrderTransportInfo {
   id: number;
@@ -21,9 +22,8 @@ export class OrderTransportInfo {
   numberOfPallet:number;
   weightTotal: number ;
   capacityTotal: number ;
-  priceTTC: number ;
   orderTransport :OrderTransport;
-  type:number; //1 aller // 2 retour 
+  type:number; //1 aller // 2 retour
   weightEnlevement: number ;
   weightLivraison: number =0;
 
@@ -36,4 +36,7 @@ export class OrderTransportInfo {
 
   numberKmRetour : number ;
   timeRetour:number ;
+ 
+  priceTTC: number =0;
+
 }

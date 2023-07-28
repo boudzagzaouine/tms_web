@@ -17,6 +17,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { ToastModule } from 'primeng/toast';
 import { TmsDashboardsComponent } from './tms-dashboards/tms-dashboards.component';
+import { AddRetourOrderTransportComponent } from './add-retour-order-transport/add-retour-order-transport.component';
 
 
 
@@ -27,6 +28,7 @@ import { TmsDashboardsComponent } from './tms-dashboards/tms-dashboards.componen
     AppHeaderComponent,
     AppSidebarComponent,
     AppFooterComponent,
+    AddRetourOrderTransportComponent,
     
  
 

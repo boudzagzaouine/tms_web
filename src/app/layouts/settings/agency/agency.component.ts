@@ -11,6 +11,7 @@ import { GlobalService } from './../../../shared/services/api/global.service';
 import { UserService } from './../../../shared/services/api/user.service';
 import { ZoneServcie } from './../../../shared/services/api/zone.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { ZoneVille } from './../../../shared/models/zone-ville';
 
 @Component({
   selector: 'app-agency',
@@ -23,7 +24,7 @@ export class AgencyComponent implements OnInit {
   size = 5;
   collectionSize: number;
   searchQuery = '';
-  codeSearch: string;
+  codeSearch: Agency;
   zoneSearch: Zone;
   zoneList: Array<Zone>
   responsableList: Array<User>
@@ -130,8 +131,8 @@ export class AgencyComponent implements OnInit {
 
   onSearchClicked() {
     const buffer = new EmsBuffer();
-    if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+    if (this.codeSearch != null && this.codeSearch.code !== '') {
+      buffer.append(`code~${this.codeSearch.code}`);
     }
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);

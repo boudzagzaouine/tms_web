@@ -78,7 +78,7 @@ export class ZoneVilleComponent implements OnInit {
       }
     ));
     this.subscriptions.add(this.zoneVilleService.findPagination(this.page, this.size, search).subscribe(
-          data => {
+      data => {
         this.zoneVilleList = data;
 
         this.spinner.hide();
@@ -148,6 +148,7 @@ export class ZoneVilleComponent implements OnInit {
     }
     if (this.villeSearch != null && this.villeSearch.code !== '') {
       buffer.append(`ville.code~${this.villeSearch.code}`);
+     // console.log("villesearch :" +this.villeSearch.code);
     }
 
     this.page = 0;
@@ -162,12 +163,16 @@ export class ZoneVilleComponent implements OnInit {
   }
   onVilleSearch(event: any) {
     this.subscriptions.add(this.villeService.find('code~' + event.query).subscribe(
-      data => this.villeList = data
-    ));
+      data => {
+        this.villeList = data
+        console.log('ville : '+data[0].code);
+      }
+    )
+    );
   }
   reset() {
-    this.zoneSearch=null;
-    this.villeSearch=null
+    this.zoneSearch = null;
+    this.villeSearch = null
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -201,7 +206,7 @@ export class ZoneVilleComponent implements OnInit {
             error => {
               this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
               // this.toastr.error(error.error.message, 'Erreur');
-            },() => this.spinner.hide()
+            }, () => this.spinner.hide()
           ));
         }
       });

@@ -71,8 +71,8 @@ export class ZoneVilleEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.zoneVilleForm.invalid) { return; }
     this.spinner.show();
-    this.selectedzonevilles .zone = this.zoneVilleForm.value['zone'];
-    this.selectedzonevilles .ville = this.zoneVilleForm.value['ville'];
+    this.selectedzonevilles.zone = this.zoneVilleForm.value['zone'];
+    this.selectedzonevilles.ville = this.zoneVilleForm.value['ville'];
     console.log(    this.selectedzonevilles );
     
     this.subscriptions.add( this.zoneVilleService.set(this.selectedzonevilles ).subscribe(

@@ -59,7 +59,7 @@ export class ProxyService {
           this.getToken();
           //console.log("fullurl");
 
-     // console.log(fullurl);
+     console.log(fullurl);
       return this.http.get<any[]>(fullurl);
   }
 
@@ -205,7 +205,7 @@ export class ProxyService {
       return this.http.get<number>(fullurl);
   }
 
-  sizeSearch(controller: string, search: string): Observable<number> {
+sizeSearch(controller: string, search: string): Observable<number> {
       const fullurl =
           this.url +
           controller +
@@ -213,7 +213,7 @@ export class ProxyService {
           search +
           '&token=' +
           this.getToken();
-     // console.log(fullurl);
+      console.log(fullurl);
       return this.http.get<number>(fullurl);
   }
 

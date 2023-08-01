@@ -57,6 +57,8 @@ export class AgencyComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
+      { field: 'zone', child: 'code', header: 'Zone', type: 'object' },
+      { field: 'responsable', child: 'code', header: 'Responsable', type: 'object' },
 
     ];
 
@@ -134,6 +136,12 @@ export class AgencyComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
+    if (this.zoneSearch != null && this.zoneSearch.code !== '') {
+      buffer.append(`zone.code~${this.zoneSearch.code}`);
+    }
+    if (this.responsableSearch != null && this.responsableSearch.code !== '') {
+      buffer.append(`responsable.code~${this.responsableSearch.code}`);
+    }
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -141,17 +149,17 @@ export class AgencyComponent implements OnInit {
   }
   onCodeSearch(event: any) {
     this.subscriptions.add(this.agencyService.find('code~' + event.query).subscribe(
-      data => this.codeList = data.map(f => f.code)
+      data => this.codeList = data
     ));
   }
   onZoneSearch(event: any) {
     this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
-      data => this.zoneList = data.map(f => f.code)
+      data => this.zoneList = data
     ));
   }
   onResponsableSearch(event: any) {
     this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
-      data => this.responsableList = data.map(f => f.code)
+      data => this.responsableList = data
     ));
   }
   reset() {

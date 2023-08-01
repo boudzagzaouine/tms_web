@@ -1,12 +1,15 @@
-import { MessageService } from 'primeng/api';
-import { ToastrService } from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
-import { AgencyService } from './../../../../shared/services/api/agency.service';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { User } from './../../../../shared/models/User';
+import { Zone } from './../../../../shared/models/Zone';
 import { Agency } from './../../../../shared/models/agency';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AgencyService } from './../../../../shared/services/api/agency.service';
+import { UserService } from './../../../../shared/services/api/user.service';
+import { ZoneServcie } from './../../../../shared/services/api/zone.service';
 
 @Component({
   selector: 'app-agency-edit',
@@ -17,16 +20,21 @@ export class AgencyEditComponent implements OnInit {
 
   @Input() selectedAgency = new Agency();
   @Input() editMode: number;
+  zoneSearch: Zone;
+  zoneList: Array<Zone>
+  responsableList: Array<User>
+  responsableSearch: User
   @Output() showDialog = new EventEmitter<boolean>();
 
   agencyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Agence';
-  subscriptions= new Subscription();
+  subscriptions = new Subscription();
 
   constructor(private agencyService: AgencyService,
-    private authentificationService:AuthenticationService,
+    private zoneService: ZoneServcie,
+    private responsableService: UserService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private messageService: MessageService
@@ -50,6 +58,9 @@ export class AgencyEditComponent implements OnInit {
     this.agencyForm = new FormGroup({
       'code': new FormControl(this.selectedAgency.code, Validators.required),
       'description': new FormControl(this.selectedAgency.description),
+      'zone': new FormControl(this.selectedAgency.zone, Validators.required),
+      'responsable': new FormControl(this.selectedAgency.responsable, Validators.required),
+
     });
   }
 
@@ -60,14 +71,15 @@ export class AgencyEditComponent implements OnInit {
     this.spinner.show();
     this.selectedAgency.code = this.agencyForm.value['code'];
     this.selectedAgency.description = this.agencyForm.value['description'];
+    this.selectedAgency.zone = this.agencyForm.value['zone'];
+    this.selectedAgency.responsable = this.agencyForm.value['responsable'];
 
- console.log("owner");
+  
 
-
-    this.subscriptions.add( this.agencyService.set(this.selectedAgency).subscribe(
+    this.subscriptions.add(this.agencyService.set(this.selectedAgency).subscribe(
       data => {
         //this.toastr.success('Elément est Enregistré avec succès', 'Edition');
-        this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
+        this.messageService.add({ severity: 'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès' });
 
         // this.loadData();
         this.displayDialog = false;
@@ -75,14 +87,24 @@ export class AgencyEditComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
-       // this.toastr.error(error.error.message, 'Erreur');
+        // this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
       },
       () => this.spinner.hide()
     ));
 
+  }
+  onZoneSearch(event: any) {
+    this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
+      data => this.zoneList = data.map(f => f.code)
+    ));
+  }
+  onResponsableSearch(event: any) {
+    this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
+      data => this.responsableList = data.map(f => f.code)
+    ));
   }
   onShowDialog() {
     let a = false;

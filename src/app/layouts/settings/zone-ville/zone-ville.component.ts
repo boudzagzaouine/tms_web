@@ -3,14 +3,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ZoneServcie } from '../../../shared/services/api/zone.service';
 import { Ville } from './../../../shared/models/ville';
 import { Zone } from './../../../shared/models/Zone';
+import { ZoneVille } from './../../../shared/models/zone-ville';
 import { GlobalService } from './../../../shared/services/api/global.service';
 import { VilleService } from './../../../shared/services/api/ville.service';
-import { ZoneServcie } from '../../../shared/services/api/zone.service';
-import { EmsBuffer } from './../../../shared/utils';
-import { ZoneVille } from './../../../shared/models/zone-ville';
 import { ZoneVilleService } from './../../../shared/services/api/zone-ville.service';
+import { EmsBuffer } from './../../../shared/utils';
 
 @Component({
   selector: 'app-zone-ville',
@@ -36,14 +36,15 @@ export class ZoneVilleComponent implements OnInit {
   className: string;
   zoneVilleExportList: Array<ZoneVille> = [];
   titleList = 'Liste des zone-ville';
-  subscriptions= new Subscription();
+  subscriptions = new Subscription();
   items: MenuItem[];
   home: MenuItem;
   constructor(private zoneService: ZoneServcie,
-    private zoneVilleService:ZoneVilleService,
-    private villeService:VilleService,
+
+    private zoneVilleService: ZoneVilleService,
+    private villeService: VilleService,
     private spinner: NgxSpinnerService,
-    private globalService :GlobalService,
+    private globalService: GlobalService,
     private toastr: ToastrService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -51,17 +52,16 @@ export class ZoneVilleComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {label: 'Paramétrage'},
-      {label: 'ZoneVille' ,routerLink:'/core/settings/zone-ville'},
-  
-  ];
-  this.home = {icon: 'pi pi-home'};
+      { label: 'Paramétrage' },
+      { label: 'ZoneVille', routerLink: '/core/settings/zone-ville' },
+    ];
+    this.home = { icon: 'pi pi-home' };
 
 
     this.className = ZoneVille.name;
     this.cols = [
-      { field: 'zone',child: 'code', header: 'Zone', type: 'object' },
-      { field: 'ville',child: 'code', header: 'Ville', type: 'object' },
+      { field: 'zone', child: 'code', header: 'Zone', type: 'object' },
+      { field: 'ville', child: 'code', header: 'Ville', type: 'object' },
 
 
     ];
@@ -72,19 +72,19 @@ export class ZoneVilleComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add( this.zoneVilleService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.zoneVilleService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
     this.subscriptions.add(this.zoneVilleService.findPagination(this.page, this.size, search).subscribe(
-      data => {
+          data => {
         this.zoneVilleList = data;
 
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
         //this.toastr.error(error.error.message, 'Erreur');
         this.spinner.hide();
@@ -113,7 +113,7 @@ export class ZoneVilleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
         this.spinner.hide();
       },
@@ -130,7 +130,7 @@ export class ZoneVilleComponent implements OnInit {
         this.spinner.hide();
       },
       error => {
-        this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
 
         this.spinner.hide();
       },
@@ -144,10 +144,10 @@ export class ZoneVilleComponent implements OnInit {
   onSearchClicked() {
     const buffer = new EmsBuffer();
     if (this.zoneSearch != null && this.zoneSearch.code !== '') {
-      buffer.append(`code~${this.zoneSearch.code}`);
+      buffer.append(`zone.code~${this.zoneSearch.code}`);
     }
     if (this.villeSearch != null && this.villeSearch.code !== '') {
-      buffer.append(`code~${this.villeSearch.code}`);
+      buffer.append(`ville.code~${this.villeSearch.code}`);
     }
 
     this.page = 0;
@@ -166,8 +166,8 @@ export class ZoneVilleComponent implements OnInit {
     ));
   }
   reset() {
-    this.zoneList = null;
-    this.villeList = null;
+    this.zoneSearch=null;
+    this.villeSearch=null
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
@@ -194,13 +194,13 @@ export class ZoneVilleComponent implements OnInit {
           const ids = this.selectedZoneVilles.map(x => x.id);
           this.subscriptions.add(this.zoneVilleService.deleteAllByIds(ids).subscribe(
             data => {
-              this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
+              this.messageService.add({ severity: 'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés' });
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();
             },
             error => {
-              this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-             // this.toastr.error(error.error.message, 'Erreur');
+              this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
+              // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()
           ));

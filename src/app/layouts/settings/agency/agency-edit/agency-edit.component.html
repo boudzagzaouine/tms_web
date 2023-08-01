@@ -28,7 +28,18 @@ showEffect="fade"
             (keydown.space)="$event.preventDefault()"
            />
           </div>
-
+          <div class="col-md-2" >
+            <label class="font-weight-bold">{{'Zone' |translate}}</label
+            ><br />
+            <p-autoComplete [(ngModel)]="zoneSearch" [suggestions]="zoneList"
+            (completeMethod)="onZoneSearch($event)"></p-autoComplete>
+          </div>
+          <div class="col-md-2" >
+            <label class="font-weight-bold">{{'Responsable' |translate}}</label
+            ><br />
+            <p-autoComplete [(ngModel)]="responsableSearch" [suggestions]="responsableList"
+            (completeMethod)="onResponsableSearch($event)"></p-autoComplete>
+          </div>
           <div class="form-group col-sm-12">
             <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="description" />

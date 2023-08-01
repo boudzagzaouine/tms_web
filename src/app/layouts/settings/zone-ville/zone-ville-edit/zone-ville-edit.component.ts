@@ -21,13 +21,15 @@ import { VilleService } from './../../../../shared/services/api/ville.service';
 export class ZoneVilleEditComponent implements OnInit {
 
 
-  @Input() selectedzonevilles = new ZoneVille();
+  @Input() selectedzoneville = new ZoneVille();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
   zoneVilleForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   zoneList:Zone[];
+  villeSearch:Ville;
+  zoneSearch:Zone
   villeList:Ville[]
   title = 'Modifier une zone et ville';
   subscriptions= new Subscription();
@@ -45,7 +47,7 @@ export class ZoneVilleEditComponent implements OnInit {
 
 
     if (this.editMode === 1) {
-      this.selectedzonevilles = new ZoneVille();
+      this.selectedzoneville = new ZoneVille();
       this.title = 'Ajouter une zone et ville';
 
     }
@@ -58,8 +60,8 @@ export class ZoneVilleEditComponent implements OnInit {
 
   initForm() {
     this.zoneVilleForm = new FormGroup({
-      'zone': new FormControl(this.selectedzonevilles.zone, Validators.required),
-      'ville': new FormControl(this.selectedzonevilles.ville,Validators.required),
+      'zone': new FormControl(this.selectedzoneville.zone, Validators.required),
+      'ville': new FormControl(this.selectedzoneville.ville,Validators.required),
 
     });
   }
@@ -69,11 +71,11 @@ export class ZoneVilleEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.zoneVilleForm.invalid) { return; }
     this.spinner.show();
-    this.selectedzonevilles.zone = this.zoneVilleForm.value['zone'];
-    this.selectedzonevilles.ville = this.zoneVilleForm.value['ville'];
-    console.log(    this.selectedzonevilles);
+    this.selectedzoneville.zone = this.zoneVilleForm.value['zone'];
+    this.selectedzoneville.ville = this.zoneVilleForm.value['ville'];
+    console.log(    this.selectedzoneville);
     
-    this.subscriptions.add( this.zoneVilleService.set(this.selectedzonevilles).subscribe(
+    this.subscriptions.add( this.zoneVilleService.set(this.selectedzoneville).subscribe(
       data => {
         console.log(data);
         

@@ -1,6 +1,6 @@
-import { LayoutComponent } from './layout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
   {
@@ -12,6 +12,8 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
+      { path: 'add-retour-order', loadChildren: () => import('./add-retour-order-transport/add-retour-order-transport.module').then(m => m.AddRetourOrderTransportModule) },
+
       {
         path: 'consomptions',
         loadChildren: () => import('./commission-driver/commission-driver.module')
@@ -76,7 +78,7 @@ const routes: Routes = [
 
   ],
   imports: [RouterModule.forChild(routes)],
-  exports: [
+exports: [
     RouterModule,
   ]
 })

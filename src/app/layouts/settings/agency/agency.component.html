@@ -5,23 +5,23 @@
       <label class="font-weight-bold">{{'Code' |translate}}</label
       ><br />
       <p-autoComplete [(ngModel)]="codeSearch" [suggestions]="codeList"
-      (completeMethod)="onCodeSearch($event)"></p-autoComplete>
+      (completeMethod)="onCodeSearch($event)" field="code"></p-autoComplete>
     </div>
 
     <div class="col-md-2">
       <label class="font-weight-bold">{{ "Description" | translate }}</label><br />
-      <input type="text" pInputText [(ngModel)]="descriptionSearch" />
+      <input type="text"  pInputText [(ngModel)]="descriptionSearch" />
     </div>
     <div class="col-md-2" >
       <label class="font-weight-bold">{{'Zone' |translate}}</label
       ><br />
-      <p-autoComplete [(ngModel)]="zoneSearch" [suggestions]="zoneList"
+      <p-autoComplete [(ngModel)]="zoneSearch" field="code" [suggestions]="zoneList"
       (completeMethod)="onZoneSearch($event)"></p-autoComplete>
     </div>
     <div class="col-md-2" >
       <label class="font-weight-bold">{{'Responsable' |translate}}</label
       ><br />
-      <p-autoComplete [(ngModel)]="responsableSearch" [suggestions]="responsableList"
+      <p-autoComplete [(ngModel)]="responsableSearch" field="code" [suggestions]="responsableList"
       (completeMethod)="onResponsableSearch($event)"></p-autoComplete>
     </div>
   </div>
@@ -56,11 +56,11 @@
 ></app-data-table>
 
 <div *ngIf="showDialog == true">
-  <app-badge-type-edit
+  <app-agency-edit
     [editMode]="editMode"
     [selectedAgency]="selectedAgencys[0]"
     (showDialog)="onShowDialog($event)"
-  ></app-badge-type-edit>
+  ></app-agency-edit>
 </div>
 <p-toast position="top-right" [baseZIndex]="5000"></p-toast>
 <ngx-spinner

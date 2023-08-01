@@ -20,16 +20,16 @@ export class AgencyEditComponent implements OnInit {
 
   @Input() selectedAgency = new Agency();
   @Input() editMode: number;
+  @Output() showDialog = new EventEmitter<boolean>();
   zoneSearch: Zone;
   zoneList: Array<Zone>
   responsableList: Array<User>
   responsableSearch: User
-  @Output() showDialog = new EventEmitter<boolean>();
 
   agencyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
-  title = 'Modifier Agence';
+  title = 'Modifier une Agence';
   subscriptions = new Subscription();
 
   constructor(private agencyService: AgencyService,
@@ -45,7 +45,7 @@ export class AgencyEditComponent implements OnInit {
 
     if (this.editMode === 1) {
       this.selectedAgency = new Agency();
-      this.title = 'Ajouter Agence';
+      this.title = 'Ajouter une Agence';
     }
 
     this.displayDialog = true;
@@ -74,7 +74,7 @@ export class AgencyEditComponent implements OnInit {
     this.selectedAgency.zone = this.agencyForm.value['zone'];
     this.selectedAgency.responsable = this.agencyForm.value['responsable'];
 
-  
+  console.log("uffff"+this.selectedAgency.responsable.code);
 
     this.subscriptions.add(this.agencyService.set(this.selectedAgency).subscribe(
       data => {
@@ -98,12 +98,12 @@ export class AgencyEditComponent implements OnInit {
   }
   onZoneSearch(event: any) {
     this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
-      data => this.zoneList = data.map(f => f.code)
+      data => this.zoneList = data
     ));
   }
   onResponsableSearch(event: any) {
     this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
-      data => this.responsableList = data.map(f => f.code)
+      data => this.responsableList = data
     ));
   }
   onShowDialog() {

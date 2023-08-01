@@ -212,6 +212,7 @@ import { ZoneVilleService } from './services/api/zone-ville.service';
     TabViewModule,
     PanelModule,
     MultiSelectModule,
+    BreadcrumbModule,
     SplitButtonModule,
     DialogModule,
     PaginatorModule,

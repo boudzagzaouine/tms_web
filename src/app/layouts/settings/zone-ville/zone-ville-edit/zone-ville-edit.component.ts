@@ -21,7 +21,7 @@ import { VilleService } from './../../../../shared/services/api/ville.service';
 export class ZoneVilleEditComponent implements OnInit {
 
 
-  @Input() selectedzoneville = new ZoneVille();
+  @Input() selectedzonevilles  = new ZoneVille();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
   zoneVilleForm: FormGroup;
@@ -47,7 +47,7 @@ export class ZoneVilleEditComponent implements OnInit {
 
 
     if (this.editMode === 1) {
-      this.selectedzoneville = new ZoneVille();
+      this.selectedzonevilles  = new ZoneVille();
       this.title = 'Ajouter une zone et ville';
 
     }
@@ -60,8 +60,8 @@ export class ZoneVilleEditComponent implements OnInit {
 
   initForm() {
     this.zoneVilleForm = new FormGroup({
-      'zone': new FormControl(this.selectedzoneville.zone, Validators.required),
-      'ville': new FormControl(this.selectedzoneville.ville,Validators.required),
+      'zone': new FormControl(this.selectedzonevilles.zone, Validators.required),
+      'ville': new FormControl(this.selectedzonevilles.ville,Validators.required),
 
     });
   }
@@ -71,11 +71,11 @@ export class ZoneVilleEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.zoneVilleForm.invalid) { return; }
     this.spinner.show();
-    this.selectedzoneville.zone = this.zoneVilleForm.value['zone'];
-    this.selectedzoneville.ville = this.zoneVilleForm.value['ville'];
-    console.log(    this.selectedzoneville);
+    this.selectedzonevilles .zone = this.zoneVilleForm.value['zone'];
+    this.selectedzonevilles .ville = this.zoneVilleForm.value['ville'];
+    console.log(    this.selectedzonevilles );
     
-    this.subscriptions.add( this.zoneVilleService.set(this.selectedzoneville).subscribe(
+    this.subscriptions.add( this.zoneVilleService.set(this.selectedzonevilles ).subscribe(
       data => {
         console.log(data);
         

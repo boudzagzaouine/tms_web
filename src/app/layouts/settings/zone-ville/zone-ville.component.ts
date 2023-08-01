@@ -201,8 +201,7 @@ export class ZoneVilleComponent implements OnInit {
             error => {
               this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
               // this.toastr.error(error.error.message, 'Erreur');
-            },
-            () => this.spinner.hide()
+            },() => this.spinner.hide()
           ));
         }
       });

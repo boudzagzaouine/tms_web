@@ -571,7 +571,6 @@ this.showDialogEnAttente=true;
   this.confirmationService.confirm({
     message: "Voulez-vous vraiment affecter?",
     accept: () => {
-
       this.generatePlanTransport();
     },
   });
@@ -643,6 +642,9 @@ this.showDialogEnAttente=true;
               this.selectOrderTransport.account.id
           )
           .subscribe((data) => {
+            console.log("data");
+console.log(data);
+
             if (data[0] != null) {
               element.purchasePriceHT = data[0].purchaseAmountHt;
               element.purchasePriceTTC = data[0].purchaseAmountTtc;
@@ -780,7 +782,7 @@ this.showDialogEnAttente=true;
     this.selectedTransportPlan.dateDepart = formValue["date"];
     this.selectedTransportPlan.dateValidate = new Date();
     this.selectedTransportPlan.turnStatus = this.selectStatusCree;
-
+  this.selectedTransportPlan.trajet=this.selectOrderTransport.trajet;
     this.calculateAllLines();
     console.log(this.selectedTransportPlan);
 

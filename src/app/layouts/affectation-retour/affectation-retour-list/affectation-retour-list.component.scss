@@ -1,0 +1,111 @@
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  width: 100%;
+
+  img {
+      width: 120px;
+    //  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      margin-right: 1rem;
+  }
+
+  .product-list-detail {
+      flex: 1 1 0;
+  }
+
+  .product-list-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+  }
+
+  .product-category-icon {
+      vertical-align: middle;
+      margin-right: .5rem;
+  }
+
+  .product-category {
+      vertical-align: middle;
+      line-height: 1;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .product-item {
+      flex-wrap: wrap;
+
+      .image-container {
+          width: 100%;
+          text-align: center;
+      }
+
+      img {
+          margin: 0 0 1rem 0;
+          width: 100px;
+      }
+  }
+}
+
+:host ::ng-deep .p-orderlist-item{
+box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+border-radius: 5px;
+ }
+
+ :host ::ng-deep .p-orderlist-controls{
+visibility: hidden;
+}
+
+
+:host ::ng-deep.p-buttonset .p-button:first-of-type{
+ width: 50%;
+}
+:host ::ng-deep .p-buttonset .p-button:last-of-type{
+  width: 50%;
+}
+
+
+// .divRowInfo {box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+//   border-radius: 5px;
+//   margin: 2px;
+// }
+// .divLineInfo{
+//   margin-top: 9px;
+//   border-right: 1px solid #dce0e6;
+// }
+// :host ::ng-deep .divRowInfo .divLineInfo .p-inputtext{
+
+//   border: none;
+// }
+// :host ::ng-deep .divRowInfo .divLineInfo .p-dropdown{
+
+//   border: none;
+// }
+
+
+.add {
+  align-items: center;
+    color: #4084bd;
+    text-decoration: underline;
+    font-family: "Effra-Medium";
+    font-size: 15px;
+    width: 100%;
+}
+
+:host ::ng-deep .p-orderlist-list{
+max-height: 9rem;
+    min-height: 9rem;
+}
+
+
+:host ::ng-deep  .p-datatable .p-datatable-thead > tr .thTable {
+  text-align: center;
+
+   font-size: 16px;
+   border-radius: 3px;
+}
+:host ::ng-deep  .p-datatable .p-datatable-thead > tr > th{
+border-bottom: 1px solid  #4084bd;
+}  ;
+

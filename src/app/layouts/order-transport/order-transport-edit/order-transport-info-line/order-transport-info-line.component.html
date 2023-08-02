@@ -82,7 +82,7 @@ optionLabel="code"
           <p-fieldset legend="Address" [toggleable]="true">
      <div class="row">
 
-      <div class="form-group col-md-6" *ngIf=" this.selectedOrderTransport.groupageUnique==true">
+      <div class="form-group col-md-6" *ngIf=" this.selectedOrderTransport.groupageUnique==false">
         <label class="font-weight-bold">{{
           "Client" | translate
         }} </label
@@ -286,7 +286,7 @@ optionLabel="code"
     </div>
 
 
-    <div class="row  justify-content-around">
+    <div class="row  justify-content-around" *ngIf=" this.selectedOrderTransport.groupageUnique==false">
 
       <div class="form-group col-md-12">
 

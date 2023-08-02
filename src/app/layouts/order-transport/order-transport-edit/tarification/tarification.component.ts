@@ -89,9 +89,8 @@ export class TarificationComponent implements OnInit {
         this.vatTarif=data;
       }
     );
-    if(this.selectOrderTransport.groupageUnique==true){
+    if(this.selectOrderTransport?.turnType?.id ==2 && this.selectOrderTransport.groupageUnique==false){
       console.log("groupage");
-
       this.calculatePriceGroupage();
     }
     this.initForm();
@@ -253,7 +252,9 @@ console.log(this.selectedCatalogPricing);
 
   calculatePriceGroupage(){
     console.log();
-
+    this.selectOrderTransport.priceHT=0;
+    this.selectOrderTransport.priceTTC=0;
+    this.selectOrderTransport.priceVat=0;
     this.orderTransportInfoAllerLignes.forEach(element => {
       this.selectOrderTransport.priceHT+=element.priceHT as number
       this.selectOrderTransport.priceTTC+=element.priceTTC as number

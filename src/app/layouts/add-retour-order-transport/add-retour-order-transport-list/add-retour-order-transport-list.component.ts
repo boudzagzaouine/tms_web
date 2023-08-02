@@ -122,13 +122,12 @@ export class AddRetourOrderTransportListComponent implements OnInit {
   }
 
 
-  loadData() {
-    console.log('load');
+  loadData(search:string='') {
+   console.log('serch : '+search);
     if (this.villedestination != null && this.villedestination.id > 0) {
-      console.log('ville id  : ' + this.villedestination.id);
-      this.spinner.show();
-
-      var search = 'turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id;
+   search!=''?search += ',turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id:
+   search += 'turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
+   this.spinner.show();
 
       this.spinner.show();
       this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
@@ -158,7 +157,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     console.log('lazi');
     this.size = event.rows;
     this.page = event.first / this.size;
-    this.loadData();
+    this.loadData(this.searchQuery);
   }
   onObjectEdited(event) {
 
@@ -184,7 +183,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData();
+    this.loadData(this.searchQuery);
 
   }
 

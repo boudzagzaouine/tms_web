@@ -94,7 +94,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
   }
   getVilleDestination() {
     this.currentUser = this.authenticationService.getCurrentUser();
-    if (this.currentUser.userGroup.id === 1) {
+    if (this.currentUser.userGroup.id === 4) {
       console.log('user');
       this.subscriptions.add(this.agencyservice.find("responsable.id:" + this.currentUser.id).subscribe(
         data => {
@@ -165,9 +165,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     this.selectedOrderTransports = event.object;
 
     if (this.editMode != 3) {
-      console.log('editmode  : ' + this.editMode);
-      console.log('editmode  : ' + this.selectedOrderTransports[0].id);
-      this.router.navigate(['/core/order-transport/edit/', this.selectedOrderTransports[0].id]);
+      this.router.navigate(['/core/order-transport/edit', this.selectedOrderTransports[0].id]);
     }
 
   }

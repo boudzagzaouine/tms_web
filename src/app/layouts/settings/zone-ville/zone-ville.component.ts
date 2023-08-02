@@ -80,6 +80,7 @@ export class ZoneVilleComponent implements OnInit {
     this.subscriptions.add(this.zoneVilleService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.zoneVilleList = data;
+        
 
         this.spinner.hide();
       },

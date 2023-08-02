@@ -59,7 +59,7 @@ export class AgencyComponent implements OnInit {
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
       { field: 'zone', child: 'code', header: 'Zone', type: 'object' },
-      { field: 'responsable', child: 'code', header: 'Responsable', type: 'object' },
+      { field: 'responsable', child: 'surname', header: 'Responsable', type: 'object' },
 
     ];
 
@@ -141,7 +141,7 @@ export class AgencyComponent implements OnInit {
       buffer.append(`zone.code~${this.zoneSearch.code}`);
     }
     if (this.responsableSearch != null && this.responsableSearch.code !== '') {
-      buffer.append(`responsable.code~${this.responsableSearch.code}`);
+      buffer.append(`responsable.surname~${this.responsableSearch.code}`);
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -159,7 +159,7 @@ export class AgencyComponent implements OnInit {
     ));
   }
   onResponsableSearch(event: any) {
-    this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.responsableService.find('surname~' + event.query).subscribe(
       data => this.responsableList = data
     ));
   }

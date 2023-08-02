@@ -102,7 +102,7 @@ export class AgencyEditComponent implements OnInit {
     ));
   }
   onResponsableSearch(event: any) {
-    this.subscriptions.add(this.responsableService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.responsableService.find('surname~' + event.query).subscribe(
       data => this.responsableList = data
     ));
   }

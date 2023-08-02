@@ -21,7 +21,7 @@
     <div class="col-md-2" >
       <label class="font-weight-bold">{{'Responsable' |translate}}</label
       ><br />
-      <p-autoComplete [(ngModel)]="responsableSearch" field="code" [suggestions]="responsableList"
+      <p-autoComplete [(ngModel)]="responsableSearch" field="surname" [suggestions]="responsableList"
       (completeMethod)="onResponsableSearch($event)"></p-autoComplete>
     </div>
   </div>

@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { LoadingType } from './../../../shared/models/loading-type';
-import { EmsBuffer } from './../../../shared/utils/ems-buffer';
+import { Address } from './../../../shared/models/address';
 import { Agency } from './../../../shared/models/agency';
+import { LoadingType } from './../../../shared/models/loading-type';
 import { OrderTransport } from './../../../shared/models/order-transport';
 import { User } from './../../../shared/models/user';
+import { Ville } from './../../../shared/models/ville';
+import { AddressService } from './../../../shared/services/api/address.service';
 import { AgencyService } from './../../../shared/services/api/agency.service';
 import { AuthenticationService } from './../../../shared/services/api/authentication.service';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
 import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
+import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
+import { VilleService } from './../../../shared/services/api/ville.service';
+import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 @Component({
   selector: 'app-add-retour-order-transport-list',
   templateUrl: './add-retour-order-transport-list.component.html',
@@ -24,17 +29,21 @@ export class AddRetourOrderTransportListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: OrderTransport;
-  OrderTransportCodeList : OrderTransport[]=[];
-  loadingTypeSearch:LoadingType;
-  loadingTypeList:LoadingType[]=[];
+  OrderTransportCodeList: OrderTransport[] = [];
+  loadingTypeSearch: LoadingType;
+  loadingTypeList: LoadingType[] = [];
   titleList = 'Liste des orders de transport';
   orderTransportList: Array<OrderTransport> = [];
   className: string;
+  editMode: number;
+  selectedOrderTransports: Array<OrderTransport> = [];
+  currentUser: User
+  villedestination: Ville = new Ville()
+  adressdestination: Address = new Address()
   agency: Agency = new Agency()
   orderTransportExportList: Array<OrderTransport> = [];
   subscriptions = new Subscription();
   cols: any[];
-  //currentUser: User;
   items: MenuItem[];
 
   home: MenuItem;
@@ -42,14 +51,21 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private globalService: GlobalService,
     private toastr: ToastrService,
-    private loadingTypeService:LoadingTypeService,
+    private adressService: AddressService,
+    private villeService: VilleService,
+    private router: Router,
+    private loadingTypeService: LoadingTypeService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private authenticationService: AuthenticationService,
     private agencyservice: AgencyService,
-    private orderTransportService: OrderTransportService) { }
+
+    private orderTransportService: OrderTransportService) {
+
+  }
 
   ngOnInit(): void {
+
     this.items = [
       { label: 'OrderTransport' },
       { label: 'Lister', routerLink: "/core/settings/add-order-retour/list" },]
@@ -69,58 +85,97 @@ export class AddRetourOrderTransportListComponent implements OnInit {
 
     ];
     this.loadingTypeService.findAll().subscribe(
-      data =>{
-        this.loadingTypeList=data;
+      data => {
+        this.loadingTypeList = data;
       }
     );
 
-    const currentUser: User = this.authenticationService.getCurrentUser();
-    if (currentUser.userGroup.id = 4) {
-
-      console.log('user===> :  ' + currentUser.id);
-      this.agencyservice.find("responsable.id:" + currentUser.id).subscribe(
+    this.getVilleDestination();
+  }
+  getVilleDestination() {
+    this.currentUser = this.authenticationService.getCurrentUser();
+    if (this.currentUser.userGroup.id === 1) {
+      console.log('user');
+      this.subscriptions.add(this.agencyservice.find("responsable.id:" + this.currentUser.id).subscribe(
         data => {
+          console.log(data);
+
           this.agency = data[0]
-          console.log('agency===> :  ' + this.agency.code);
-        }
+          this.adressService.findById(this.agency.address.id).subscribe(
+            data => {
+              this.adressdestination = data
+              this.villeService.findById(this.adressdestination.ville.id).subscribe(
+                data => {
+                  this.villedestination = data
+                  this.loadData();
+                  console.log(this.villedestination.code);
+                }
+              )
+            }
+          )
+
+        },
+
       )
+      );
     }
-    this.loadData();
   }
 
-  loadData(search: string = '') {
-    this.spinner.show();
-    if (search != '') {
-      search += ',turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:25';
-    } else {
-      search += 'turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:25';
 
+  loadData() {
+    console.log('load');
+    if (this.villedestination != null && this.villedestination.id > 0) {
+      console.log('ville id  : ' + this.villedestination.id);
+      this.spinner.show();
+
+      var search = 'turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id;
+
+      this.spinner.show();
+      this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
+        data => {
+          this.collectionSize = data;
+          this.spinner.hide();
+        }
+      ));
+      this.subscriptions.add(this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
+        data => {
+
+          this.orderTransportList = data;
+          console.log('sizeorder===>' + this.orderTransportList.length);
+
+          this.spinner.hide();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
+        },
+        () => this.spinner.hide()
+      ));
     }
-    this.spinner.show();
-    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
-      data => {
-        this.collectionSize = data;
-        this.spinner.hide();
-      }
-    ));
-    this.subscriptions.add(this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
-      data => {
+  }
 
-        this.orderTransportList = data;
-        console.log('sizeorder===>' + this.orderTransportList.length);
+  loadDataLazy(event) {
 
-        this.spinner.hide();
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
-      },
-      () => this.spinner.hide()
-    ));
+    console.log('lazi');
+    this.size = event.rows;
+    this.page = event.first / this.size;
+    this.loadData();
+  }
+  onObjectEdited(event) {
+
+    this.editMode = event.operationMode;
+    this.selectedOrderTransports = event.object;
+
+    if (this.editMode != 3) {
+      console.log('editmode  : ' + this.editMode);
+      console.log('editmode  : ' + this.selectedOrderTransports[0].id);
+      this.router.navigate(['/core/order-transport/edit/', this.selectedOrderTransports[0].id]);
+    }
+
   }
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
-  
+
     if (this.codeSearch != null && this.codeSearch !== undefined) {
       buffer.append(`code~${this.codeSearch.code}`);
     }
@@ -129,12 +184,12 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData(this.searchQuery);
+    this.loadData();
 
   }
 
 
-  onOrderTransportSearch(event){
+  onOrderTransportSearch(event) {
     this.subscriptions.add(this.orderTransportService.find('turnStatus.id:5,turnType.id:1,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
     ));
@@ -178,18 +233,14 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     ));
 
   }
-  loadDataLazy(event) {
-    this.size = event.rows;
-    this.page = event.first / this.size;
-    this.loadData(this.searchQuery);
-  }
+
 
   reset() {
     this.codeSearch = null;
-   this.loadingTypeSearch=null;
+    this.loadingTypeSearch = null;
     this.page = 0;
     this.searchQuery = '';
-    this.loadData(this.searchQuery);
+    this.loadData();
   }
 
   ngOnDestroy() {

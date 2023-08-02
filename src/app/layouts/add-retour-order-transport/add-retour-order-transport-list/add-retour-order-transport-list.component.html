@@ -51,7 +51,9 @@
   [objectList]="orderTransportList"
   [collectionSize]="collectionSize"
   [size]="size"
+  (objectEdited)="onObjectEdited($event)"
   (lazyLoadData)="loadDataLazy($event)"
+  [permissionEdit]="['ADD-ORDER-RETOUR_EDIT']"
   [listName]="'Liste des orders de transport'"
   [viewBtnVisible]="'false'"
 

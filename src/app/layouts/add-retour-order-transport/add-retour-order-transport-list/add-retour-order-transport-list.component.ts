@@ -91,6 +91,8 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     );
 
     this.getVilleDestination();
+    this.loadData();
+    console.log(this.villedestination.code);
   }
   getVilleDestination() {
     this.currentUser = this.authenticationService.getCurrentUser();
@@ -118,16 +120,18 @@ export class AddRetourOrderTransportListComponent implements OnInit {
 
       )
       );
+      
     }
+    
   }
 
 
   loadData(search:string='') {
-   console.log('serch : '+search);
+   console.log(this.villedestination.code);
     if (this.villedestination != null && this.villedestination.id > 0) {
-   search!=''?search += ',turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id:
-   search += 'turnStatus.id:5,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
-   this.spinner.show();
+   search!=''?search += ',turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id:
+   search += 'turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
+   
 
       this.spinner.show();
       this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
@@ -187,7 +191,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
 
 
   onOrderTransportSearch(event) {
-    this.subscriptions.add(this.orderTransportService.find('turnStatus.id:5,turnType.id:1,code~' + event.query).subscribe(
+    this.subscriptions.add(this.orderTransportService.find('turnStatus.id!3;4;1,turnType.id:1,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
     ));
   }

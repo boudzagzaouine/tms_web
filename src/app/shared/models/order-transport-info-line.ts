@@ -20,9 +20,9 @@ export class OrderTransportInfoLine {
   lineNumber: number;
   orderTransportInfo :OrderTransportInfo;
   account:Account;
-  numberOfPalletEnlevement:number;
-  weightEnlevement :number;
-  capacityEnlevement : number;
+  numberOfPalletEnlevement:number=0;
+  weightEnlevement :number=0;
+  capacityEnlevement : number=0;
   commentEnlevement : string ;
   paymentTypeEnlevement: PaymentType;
   //contreBlEnlevement: Boolean=false;
@@ -32,9 +32,9 @@ export class OrderTransportInfoLine {
   fileEnlevement:any[];
 
 
-  numberOfPalletLivraison:number;
-  weightLivraison :number;
-  capacityLivraison : number;
+  numberOfPalletLivraison:number=0;
+  weightLivraison :number=0;
+  capacityLivraison : number=0;
   commentLivraison : string ;
   paymentTypeLivraison: PaymentType;
   //contreBlLivraison: Boolean=false;

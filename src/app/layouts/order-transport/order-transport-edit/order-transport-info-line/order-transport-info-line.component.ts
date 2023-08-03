@@ -178,16 +178,13 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.account
         ),
         priceHT: new FormControl(
-          this.selectedOrderTransportInfoLine.priceHT,
-          Validators.required
+          this.selectedOrderTransportInfoLine.priceHT
         ),
         vat: new FormControl(
-          this.selectedOrderTransportInfoLine.vat,
-          Validators.required
+          this.selectedOrderTransportInfoLine.vat
         ),
         priceTTC: new FormControl(
-          this.selectedOrderTransportInfoLine.priceTTC,
-          Validators.required
+          this.selectedOrderTransportInfoLine.priceTTC
         ),
         deliveryInfoName: new FormControl(
           this.selectContact.name
@@ -313,6 +310,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments;
     console.log(this.selectedOrderTransportInfoLine);
+
+
+
     if(this.selectedOrderTransportInfoLine.orderTransportType.id==2 || this.selectedOrderTransportInfoLine.orderTransportType.id==3){
 
       if(this.selectedOrderTransportInfoLine.weightLivraison>this.weightLivraison ){
@@ -337,6 +337,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.displayDialog = false;
     this.onShowDialog();
     }
+
   }
   getOrderTransportInfoLineDocumentEnlevement(line: OrderTransportInfoLine) {
     this.orderTransportInfoLineDocuments =
@@ -353,8 +354,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
         (f) => f.type == 2
       );
 
+      }
 
-  }
   getquantityLivraison(){
 
   }

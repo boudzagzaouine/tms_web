@@ -1,0 +1,97 @@
+<!-- <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb> -->
+
+<div class="card mt-1">
+  <div class="card-header">
+    <span class="h4">Plan Transport</span>
+  </div>
+
+  <div class="card-body border-top-primary">
+<div class="row  justify-content-around">
+  <div class="form-group col-md-12">
+    <p-orderList [value]="transportPlanList"
+      [listStyle]="{ 'max-height': '60rem' }" header="Liste des Ordre de Transports" [dragdrop]="true"
+      [responsive]="true" >
+      <ng-template let-plan pTemplate="item">
+        <div class="product-item">
+          <div class="image-container">
+            <span *ngIf="plan?.orderTransport?.vehicleCategory?.id==1"> <img src="./assets/img/truckExpress.png" class="product-image"></span>
+            <span *ngIf="plan?.orderTransport?.vehicleCategory?.id==2"> <img src="./assets/img/truck14.png" class="product-image"></span>
+
+    </div>
+          <div class="product-list-detail">
+            <div class="row  justify-content-around">
+
+            <div class="form-group col-md-4">
+
+            <span>
+              <img src="./assets/img/account.png" style="width: 5%;">
+
+              <span style="font-size: 14px   ;  font-weight: bold;">{{
+                plan?.account?.name
+                }}</span></span><br>
+                <span>
+                  <img src="./assets/img/map.png" style="width: 5%;">
+
+                  <span style="font-size: 14px ;  font-weight: bold;">{{
+                    plan?.orderTransport?.trajet?.code
+                    }}</span></span>
+</div>
+<div class="form-group col-md-2">
+  <span>
+    <img src="./assets/img/truck50.png" style="width: 12%;">
+
+    <span style="font-size: 14px ;  font-weight: bold;">{{
+      plan?.orderTransport?.vehicleTray?.code
+      }}</span></span><br>
+      <span>
+        <img src="./assets/img/truck50.png" style="width: 12%;">
+
+        <span style="font-size: 14px;  font-weight: bold;">{{
+          plan?.vehicleCategory?.code
+          }}</span></span>
+
+</div>
+
+
+                <div class="form-group col-md-4">
+                  <span>
+                    <img src="./assets/img/supplier1.png" style="width: 5%;">
+
+                    <span style="font-size: 14px;  font-weight: bold;">{{
+                      plan?.transport?.name
+                      }}</span></span><br><br>
+                      <span style="
+                      background: #4084bd;
+                      color: white;
+                      padding: 4px 14px 4px 14px;
+                      border-radius: 5px;
+                      text-align: center;
+                    ">
+                    {{ plan?.turnStatus?.code }}
+                    </span>
+
+
+</div>
+<div class="form-group col-md-2">
+
+
+  <button type="text" style="width: 100%" pButton label="Affecter" (click)="affectedTransport()"></button>
+
+</div>
+
+
+</div>
+
+          </div>
+
+        </div>
+      </ng-template>
+
+
+    </p-orderList>
+  </div>
+
+  </div>
+</div>
+
+</div>

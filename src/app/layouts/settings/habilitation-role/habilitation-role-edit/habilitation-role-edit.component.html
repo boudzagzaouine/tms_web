@@ -38,7 +38,7 @@ showEffect="fade"
 
 
 
-            <p-autoComplete [disabled]="(editMode==2)" formControlName="parent" [suggestions]="parentList"
+            <p-autoComplete [disabled]="(editMode==2)" [appendTo]="'body'" formControlName="parent" [suggestions]="parentList"
               (onSelect)="onSelectParent($event)" (completeMethod)="onParentSearch($event)" field="code">
             </p-autoComplete>
 

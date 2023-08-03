@@ -1,3 +1,4 @@
+import { Ville } from './../../../../shared/models/ville';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -9,7 +10,6 @@ import { ZoneVille } from './../../../../shared/models/zone-ville';
 import { ZoneVilleService } from './../../../../shared/services/api/zone-ville.service';
 import { Zone } from './../../../../shared/models/Zone';
 
-import { Ville } from './../../../../shared/models/Ville';
 import { ZoneServcie } from './../../../../shared/services/api/zone.service';
 import { VilleService } from './../../../../shared/services/api/ville.service';
 
@@ -74,11 +74,11 @@ export class ZoneVilleEditComponent implements OnInit {
     this.selectedzonevilles.zone = this.zoneVilleForm.value['zone'];
     this.selectedzonevilles.ville = this.zoneVilleForm.value['ville'];
     console.log(    this.selectedzonevilles );
-    
+
     this.subscriptions.add( this.zoneVilleService.set(this.selectedzonevilles ).subscribe(
       data => {
         console.log(data);
-        
+
         this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
 
         //this.toastr.success('Elément est Enregistré avec succès', 'Edition');

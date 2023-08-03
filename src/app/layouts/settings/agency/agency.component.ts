@@ -1,10 +1,10 @@
+import { User } from './../../../shared/models/user';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Agency } from './../../../shared/models/agency';
-import { User } from './../../../shared/models/User';
 import { Zone } from './../../../shared/models/Zone';
 import { AgencyService } from './../../../shared/services/api/agency.service';
 import { GlobalService } from './../../../shared/services/api/global.service';

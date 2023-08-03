@@ -189,6 +189,7 @@ import { PlanningService } from './services/api/planning-service';
 import { CompanyImport } from './import/company-import';
 import { TmsdashboardService } from './services/api/tms-dashboard.service';
 import { ZoneVilleService } from './services/api/zone-ville.service';
+import { OrderList, OrderListModule } from 'primeng/orderlist';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
@@ -228,10 +229,45 @@ import { ZoneVilleService } from './services/api/zone-ville.service';
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule
+    CardModule,OrderListModule
   ],
   exports: [
-    DataTableComponent, NgxPermissionsModule, HasPermissionDirective
+    DataTableComponent, NgxPermissionsModule, HasPermissionDirective,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModalModule,
+    NgxSpinnerModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
+    TranslateModule,
+    DropdownModule,
+    TableModule,
+    AutoCompleteModule,
+    CalendarModule,
+    InputTextModule,
+    KeyFilterModule,
+    CheckboxModule,
+    TabMenuModule,
+    TabViewModule,
+    PanelModule,
+    MultiSelectModule,
+    BreadcrumbModule,
+    SplitButtonModule,
+    DialogModule,
+    PaginatorModule,
+    PanelModule,
+    FieldsetModule,
+    RadioButtonModule,
+    BreadcrumbModule,
+    PickListModule,
+    SelectButtonModule,
+    StepsModule,
+    OverlayPanelModule,
+    TreeTableModule,
+    ScrollPanelModule,
+    ToastModule,
+    CardModule,OrderListModule
   ]
 })
 export class SharedModule {
@@ -388,7 +424,7 @@ export class SharedModule {
         MarchandiseTypeService,
         VehicleAccompanimentService,
         ZoneVilleService
-       
+
       ],
 
     };

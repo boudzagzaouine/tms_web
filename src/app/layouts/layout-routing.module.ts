@@ -68,6 +68,7 @@ const routes: Routes = [
       { path: 'invoice', loadChildren: () => import('./invoice-plan-transport/invoice-plan-transport.module').then(m => m.InvoicePlanTransportModule) },
       { path: 'tracking', loadChildren: () => import('./tracking/tracking.module').then(m => m.TrackingModule) },
 
+      { path: 'affectation-retour', loadChildren: () => import('./affectation-retour/affectation-retour.module').then(m => m.AffectationRetourModule) },
 
 
     ],

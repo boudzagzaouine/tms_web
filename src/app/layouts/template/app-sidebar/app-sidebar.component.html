@@ -561,6 +561,13 @@ height: 100vh; padding-bottom: 10%;">
           <span class="nav-label">{{'Suivi' | translate}}</span></a>
       </li>
 
+      <li *hasPermission="['TRACKING_VIEW']">
+        <a class="text-white" routerLink="/core/affectation-retour/list"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
+          </i>
+          <span class="nav-label">{{'Affectation Retour ' | translate}}</span></a>
+      </li>
+
 
 
     </ul>

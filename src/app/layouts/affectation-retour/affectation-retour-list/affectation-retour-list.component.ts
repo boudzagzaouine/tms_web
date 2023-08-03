@@ -7,6 +7,7 @@ import { TransportPlan } from './../../../shared/models/transport-plan';
 import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
 import { Component, OnInit } from '@angular/core';
 import { AgencyService } from './../../../shared/services/api/agency.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-affectation-retour-list',
@@ -21,12 +22,19 @@ export class AffectationRetourListComponent implements OnInit {
   constructor(private transportPlanService:TransportPlanService,
               private agencyService:AgencyService,
               private authenticationService:AuthenticationService,
-              private zonerVilleService:ZoneVilleService) { }
+              private zonerVilleService:ZoneVilleService,
+              private router :Router) { }
 
   ngOnInit() {
 
 this.getAgencyByUser();
 console.log("ng on init");
+
+  }
+
+  affectedTransport(){
+
+    this.router.navigate(['/core/order-transport/edit']);
 
   }
 

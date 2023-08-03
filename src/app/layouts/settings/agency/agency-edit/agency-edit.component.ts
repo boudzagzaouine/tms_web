@@ -1,10 +1,10 @@
+import { User } from './../../../../shared/models/user';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { User } from './../../../../shared/models/User';
 import { Zone } from './../../../../shared/models/Zone';
 import { Agency } from './../../../../shared/models/agency';
 import { AgencyService } from './../../../../shared/services/api/agency.service';

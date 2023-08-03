@@ -12,6 +12,8 @@ import { UserService } from './../../../shared/services/api/user.service';
 import { ZoneServcie } from './../../../shared/services/api/zone.service';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ZoneVille } from './../../../shared/models/zone-ville';
+import { Address } from './../../../shared/models/address';
+import { AddressService } from './../../../shared/services/api/address.service';
 
 @Component({
   selector: 'app-agency',
@@ -31,6 +33,8 @@ export class AgencyComponent implements OnInit {
   responsableSearch: User
   descriptionSearch = '';
   codeList: Array<Agency> = [];
+  adressSearch:Address
+  adressList: Array<Agency> = [];
   cols: any[];
   agencyList: Array<Agency> = [];
   selectedAgencys: Array<Agency> = [];
@@ -43,6 +47,7 @@ export class AgencyComponent implements OnInit {
 
   constructor(private agencyService: AgencyService,
     private zoneService: ZoneServcie,
+    private adressService: AddressService,
     private responsableService: UserService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
@@ -58,6 +63,7 @@ export class AgencyComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
+      { field: 'address', child: 'code', header: 'Adress', type: 'object' },
       { field: 'zone', child: 'code', header: 'Zone', type: 'object' },
       { field: 'responsable', child: 'surname', header: 'Responsable', type: 'object' },
 
@@ -137,12 +143,16 @@ export class AgencyComponent implements OnInit {
     if (this.descriptionSearch != null && this.descriptionSearch !== '') {
       buffer.append(`description~${this.descriptionSearch}`);
     }
+    if (this.adressSearch != null && this.adressSearch.code !== '') {
+      buffer.append(`address.code~${this.adressSearch.code}`);
+    }
     if (this.zoneSearch != null && this.zoneSearch.code !== '') {
       buffer.append(`zone.code~${this.zoneSearch.code}`);
     }
     if (this.responsableSearch != null && this.responsableSearch.code !== '') {
       buffer.append(`responsable.surname~${this.responsableSearch.code}`);
     }
+    
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -158,6 +168,11 @@ export class AgencyComponent implements OnInit {
       data => this.zoneList = data
     ));
   }
+  onAdressSearch(event: any) {
+    this.subscriptions.add(this.adressService.find('code~' + event.query).subscribe(
+      data => this.adressList = data
+    ));
+  }
   onResponsableSearch(event: any) {
     this.subscriptions.add(this.responsableService.find('surname~' + event.query).subscribe(
       data => this.responsableList = data
@@ -166,6 +181,7 @@ export class AgencyComponent implements OnInit {
   reset() {
     this.codeSearch = null;
     this.zoneSearch = null;
+    this.adressSearch=null;
     this.responsableSearch = null;
     this.descriptionSearch = null;
     this.page = 0;

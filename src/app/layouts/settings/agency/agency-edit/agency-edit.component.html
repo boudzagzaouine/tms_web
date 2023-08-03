@@ -45,15 +45,27 @@ showEffect="fade"
         
           </div>
           <div class="form-group col-sm-12">
+            <label class="font-weight-bold">{{'Address' | translate}} *</label>
+            <span *ngIf="(agencyForm.get('address').touched && agencyForm.get('address').invalid) ||
+            (isFormSubmitted && agencyForm.get('address').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+              </span>
+              <br />
+            <p-autoComplete formControlName="address" [suggestions]="adressList"
+            (completeMethod)="onAdressSearch($event)" field='code'></p-autoComplete>
+        
+          </div>
+          <div class="form-group col-sm-12">
             <label class="font-weight-bold">{{'Responsable' | translate}} *</label>
-            <span *ngIf="(agencyForm.get('zone').touched && agencyForm.get('zone').invalid) ||
-            (isFormSubmitted && agencyForm.get('zone').invalid)" class="text-lighter"
+            <span *ngIf="(agencyForm.get('responsable').touched && agencyForm.get('responsable').invalid) ||
+            (isFormSubmitted && agencyForm.get('responsable').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>
             <br />
             <p-autoComplete formControlName="responsable" [suggestions]="responsableList"
-            (completeMethod)="onResponsableSearch($event)" field='code'></p-autoComplete>
+            (completeMethod)="onResponsableSearch($event)" field='surname'></p-autoComplete>
         
           </div>
          

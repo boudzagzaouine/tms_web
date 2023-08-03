@@ -13,6 +13,12 @@
       <input type="text"  pInputText [(ngModel)]="descriptionSearch" />
     </div>
     <div class="col-md-2" >
+      <label class="font-weight-bold">{{'Address' |translate}}</label
+      ><br />
+      <p-autoComplete [(ngModel)]="adressSearch" field="code" [suggestions]="adressList"
+      (completeMethod)="onAdressSearch($event)"></p-autoComplete>
+    </div>
+    <div class="col-md-2" >
       <label class="font-weight-bold">{{'Zone' |translate}}</label
       ><br />
       <p-autoComplete [(ngModel)]="zoneSearch" field="code" [suggestions]="zoneList"

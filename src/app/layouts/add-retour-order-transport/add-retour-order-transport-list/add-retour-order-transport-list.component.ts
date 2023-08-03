@@ -91,16 +91,13 @@ export class AddRetourOrderTransportListComponent implements OnInit {
     );
 
     this.getVilleDestination();
-    this.loadData();
-    console.log(this.villedestination.code);
+   // this.loadData();
   }
   getVilleDestination() {
     this.currentUser = this.authenticationService.getCurrentUser();
     if (this.currentUser.userGroup.id === 4) {
-      console.log('user');
       this.subscriptions.add(this.agencyservice.find("responsable.id:" + this.currentUser.id).subscribe(
         data => {
-          console.log(data);
 
           this.agency = data[0]
           this.adressService.findById(this.agency.address.id).subscribe(
@@ -110,30 +107,24 @@ export class AddRetourOrderTransportListComponent implements OnInit {
                 data => {
                   this.villedestination = data
                   this.loadData();
-                  console.log(this.villedestination.code);
                 }
               )
             }
           )
-
         },
-
       )
       );
-      
     }
-    
   }
 
 
-  loadData(search:string='') {
-   console.log(this.villedestination.code);
+  loadData(search: string = '') {
+    this.spinner.show();
     if (this.villedestination != null && this.villedestination.id > 0) {
-   search!=''?search += ',turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id:
-   search += 'turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
-   
+      search != '' ? search += ',turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id :
+        search += 'turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
 
-      this.spinner.show();
+
       this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
         data => {
           this.collectionSize = data;

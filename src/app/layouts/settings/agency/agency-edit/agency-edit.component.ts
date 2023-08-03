@@ -6,10 +6,12 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { User } from './../../../../shared/models/User';
 import { Zone } from './../../../../shared/models/Zone';
+import { Address } from './../../../../shared/models/Address';
 import { Agency } from './../../../../shared/models/agency';
 import { AgencyService } from './../../../../shared/services/api/agency.service';
 import { UserService } from './../../../../shared/services/api/user.service';
 import { ZoneServcie } from './../../../../shared/services/api/zone.service';
+import { AddressService } from './../../../../shared/services/api/address.service';
 
 @Component({
   selector: 'app-agency-edit',
@@ -25,7 +27,8 @@ export class AgencyEditComponent implements OnInit {
   zoneList: Array<Zone>
   responsableList: Array<User>
   responsableSearch: User
-
+  adressSearch:Address
+  adressList: Array<Agency> = [];
   agencyForm: FormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -33,6 +36,7 @@ export class AgencyEditComponent implements OnInit {
   subscriptions = new Subscription();
 
   constructor(private agencyService: AgencyService,
+    private adressService: AddressService,
     private zoneService: ZoneServcie,
     private responsableService: UserService,
     private spinner: NgxSpinnerService,
@@ -59,6 +63,7 @@ export class AgencyEditComponent implements OnInit {
       'code': new FormControl(this.selectedAgency.code, Validators.required),
       'description': new FormControl(this.selectedAgency.description),
       'zone': new FormControl(this.selectedAgency.zone, Validators.required),
+      'address': new FormControl(this.selectedAgency.address, Validators.required),
       'responsable': new FormControl(this.selectedAgency.responsable, Validators.required),
 
     });
@@ -72,6 +77,7 @@ export class AgencyEditComponent implements OnInit {
     this.selectedAgency.code = this.agencyForm.value['code'];
     this.selectedAgency.description = this.agencyForm.value['description'];
     this.selectedAgency.zone = this.agencyForm.value['zone'];
+    this.selectedAgency.address = this.agencyForm.value['address'];
     this.selectedAgency.responsable = this.agencyForm.value['responsable'];
 
   console.log("uffff"+this.selectedAgency.responsable.code);
@@ -99,6 +105,11 @@ export class AgencyEditComponent implements OnInit {
   onZoneSearch(event: any) {
     this.subscriptions.add(this.zoneService.find('code~' + event.query).subscribe(
       data => this.zoneList = data
+    ));
+  }
+  onAdressSearch(event: any) {
+    this.subscriptions.add(this.adressService.find('code~' + event.query).subscribe(
+      data => this.adressList = data
     ));
   }
   onResponsableSearch(event: any) {

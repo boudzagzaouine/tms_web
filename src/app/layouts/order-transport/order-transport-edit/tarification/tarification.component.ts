@@ -89,7 +89,7 @@ export class TarificationComponent implements OnInit {
         this.vatTarif=data;
       }
     );
-    if(this.selectOrderTransport?.turnType?.id ==2 && this.selectOrderTransport.groupageUnique==false){
+    if(this.selectOrderTransport?.loadingType?.id ==2 && this.selectOrderTransport.groupageUnique==false){
       console.log("groupage");
       this.calculatePriceGroupage();
     }

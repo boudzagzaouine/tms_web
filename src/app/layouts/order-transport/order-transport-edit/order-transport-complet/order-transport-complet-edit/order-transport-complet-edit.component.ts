@@ -200,8 +200,8 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments;
     let formvalue = this.orderTransportInfoLineForm.value;
-    this.selectedOrderTransportInfoLine.address = this.selectAddress;
-    this.selectedOrderTransportInfoLine.contact = this.selectContact;
+    this.selectedOrderTransportInfoLine.address = this.selectAddress?.id>0 ? this.selectAddress:null;
+    this.selectedOrderTransportInfoLine.contact = this.selectContact?.id>0 ?this.selectContact: null;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;

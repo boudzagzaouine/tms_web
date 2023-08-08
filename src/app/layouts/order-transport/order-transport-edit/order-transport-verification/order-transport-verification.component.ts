@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,6 +29,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private router: Router,
+    private authenticationService:AuthenticationService
 
 
     ) { }
@@ -58,6 +60,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
    //this.selectOrderTransport.orderTransportInfoRetour=null;
    console.log("================>"+this.selectOrderTransport.numberKm);
 
+   this.selectOrderTransport.user=this.authenticationService.getCurrentUser();
   this.orderTransportService.set(this.selectOrderTransport).subscribe(
     data =>{
   this.selectOrderTransport =data;

@@ -1,3 +1,4 @@
+import { AffectationRetourEditComponent } from './affectation-retour-edit/affectation-retour-edit.component';
 import { AffectationRetourListComponent } from './affectation-retour-list/affectation-retour-list.component';
 import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -12,6 +13,6 @@ import { AffectationRetourRoutingModule } from './affectation-retour-routing.mod
     SharedModule,
 
   ],
-  declarations: [AffectationRetourComponent,AffectationRetourListComponent]
+  declarations: [AffectationRetourComponent,AffectationRetourListComponent,AffectationRetourEditComponent]
 })
 export class AffectationRetourModule { }

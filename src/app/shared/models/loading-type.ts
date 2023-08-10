@@ -8,8 +8,13 @@ export class LoadingType {
   description: string;
   owner:Owner ;
 
-  constructor(code :string){
 
-    this.code = code;
+  constructor(){
+
+
    }
+  // constructor(code :string){
+
+  //   this.code = code;
+  //  }
 }

@@ -1,3 +1,4 @@
+import { User } from './user';
 import { OrderTransportAccompaniment } from './order-transport-accompaniment';
 import { VehicleAccompaniment } from './vehicle-accompaniment';
 import { SelectObject } from './select-object';
@@ -67,6 +68,10 @@ export class OrderTransport {
   orderTransportAccompaniments : OrderTransportAccompaniment[]=[];
 
   groupageUnique:Boolean=false;
+
+   user :User;
+
+
   vehicleAccompaniments : VehicleAccompaniment[]=[];//local
 
   index :  boolean ; // variable local

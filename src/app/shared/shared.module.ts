@@ -190,6 +190,7 @@ import { CompanyImport } from './import/company-import';
 import { TmsdashboardService } from './services/api/tms-dashboard.service';
 import { ZoneVilleService } from './services/api/zone-ville.service';
 import { OrderList, OrderListModule } from 'primeng/orderlist';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
@@ -229,7 +230,7 @@ import { OrderList, OrderListModule } from 'primeng/orderlist';
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule
+    CardModule,OrderListModule,InputNumberModule
   ],
   exports: [
     DataTableComponent, NgxPermissionsModule, HasPermissionDirective,
@@ -267,7 +268,7 @@ import { OrderList, OrderListModule } from 'primeng/orderlist';
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule
+    CardModule,OrderListModule,InputNumberModule
   ]
 })
 export class SharedModule {

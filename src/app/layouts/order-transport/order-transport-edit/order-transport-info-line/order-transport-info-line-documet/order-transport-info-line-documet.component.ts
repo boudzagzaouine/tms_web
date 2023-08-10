@@ -86,6 +86,7 @@ this.selectedOrderTransportInfoLineDocument.documentStatus=2;
   onSelectorderTransportDocumentType(event){
 
     this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType=event.value
+    console.log('ffff'+event.value.id);
   }
 
   onSelectDocument(event) {

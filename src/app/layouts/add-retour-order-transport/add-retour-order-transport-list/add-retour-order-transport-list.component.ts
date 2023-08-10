@@ -121,8 +121,8 @@ export class AddRetourOrderTransportListComponent implements OnInit {
   loadData(search: string = '') {
     this.spinner.show();
     if (this.villedestination != null && this.villedestination.id > 0) {
-      search != '' ? search += ',turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id :
-        search += 'turnStatus.id!3;4;1,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
+      search != '' ? search += ',turnStatus.id!3;4;1;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id :
+        search += 'turnStatus.id!3;4;1;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
 
 
       this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(

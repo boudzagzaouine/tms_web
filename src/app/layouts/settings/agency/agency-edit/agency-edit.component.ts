@@ -110,7 +110,7 @@ export class AgencyEditComponent implements OnInit {
   onAdressSearch(event: any) {
     this.subscriptions.add(this.adressService.find('code~' + event.query).subscribe(
       data => this.adressList = data
-    ));
+    )); 
   }
   onResponsableSearch(event: any) {
     this.subscriptions.add(this.responsableService.find('surname~' + event.query).subscribe(

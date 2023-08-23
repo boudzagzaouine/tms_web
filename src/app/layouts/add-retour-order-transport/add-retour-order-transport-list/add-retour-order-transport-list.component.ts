@@ -65,7 +65,7 @@ export class AddRetourOrderTransportListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+   
     this.items = [
       { label: 'OrderTransport' },
       { label: 'Lister', routerLink: "/core/settings/add-order-retour/list" },]
@@ -119,16 +119,16 @@ export class AddRetourOrderTransportListComponent implements OnInit {
 
 
   loadData(search: string = '') {
-    this.spinner.show();
     if (this.villedestination != null && this.villedestination.id > 0) {
-      search != '' ? search += ',turnStatus.id!3;4;1;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id :
-        search += 'turnStatus.id!3;4;1;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
+      this.spinner.show();
+      search != '' ? search += ',turnStatus.id!3;4;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id :
+        search += 'turnStatus.id!3;4;2,turnType.id:1,trajet.villeDestination.id:' + this.villedestination.id
 
 
       this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
         data => {
           this.collectionSize = data;
-          this.spinner.hide();
+          
         }
       ));
       this.subscriptions.add(this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
@@ -141,9 +141,11 @@ export class AddRetourOrderTransportListComponent implements OnInit {
         },
         error => {
           this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur' });
+          this.spinner.hide();
         },
         () => this.spinner.hide()
       ));
+   
     }
   }
 

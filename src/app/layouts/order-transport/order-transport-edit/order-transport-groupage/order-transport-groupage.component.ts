@@ -34,15 +34,15 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 export class OrderTransportGroupageComponent implements OnInit {
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
-  itineraries : Array<Itinerary>=[];
-  itinerary :Itinerary= new Itinerary();
-  map:any;
-  mainLayer:any;
+  itineraries: Array<Itinerary> = [];
+  itinerary: Itinerary = new Itinerary();
+  map: any;
+  mainLayer: any;
   orderTransportInfoForm: FormGroup;
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
-  selectOrderTransportTrajetQuantity:OrderTransportTrajetQuantity= new OrderTransportTrajetQuantity();
+  selectOrderTransportTrajetQuantity: OrderTransportTrajetQuantity = new OrderTransportTrajetQuantity();
 
   idPackageDetail: number = 0;
   packageDetails: PackageDetail[] = [];
@@ -66,9 +66,9 @@ export class OrderTransportGroupageComponent implements OnInit {
   packagingTypeList: PackagingType[] = [];
   accountList: Account[] = [];
   isFormSubmitted = false;
-  trajetList :Trajet[]=[];
-  turnStatus : TurnStatus = new TurnStatus();
-  statusList :TurnStatus[]=[];
+  trajetList: Trajet[] = [];
+  turnStatus: TurnStatus = new TurnStatus();
+  statusList: TurnStatus[] = [];
   showDialogTransportProduct: Boolean = false;
   selectedTransportProductService = new TransportPlanServiceCatalog();
   editModeTransportProduct: Boolean = false;
@@ -83,47 +83,44 @@ export class OrderTransportGroupageComponent implements OnInit {
     private trajetService: TrajetService,
 
     private villeService: VilleService,
-    private turnStatusService:TurnStatusService
-  ) {}
+    private turnStatusService: TurnStatusService
+  ) { }
 
   ngOnInit() {
 
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
-      if(  this.selectedOrderTransportInfo.packagingType==undefined &&   this.selectedOrderTransportInfo.packagingType==null){
-    this.selectedOrderTransportInfo.packagingType=this.packagingTypeList.filter(f=> f.id==1)[0];
-       this.initForm();
+      if (this.selectedOrderTransportInfo.packagingType == undefined && this.selectedOrderTransportInfo.packagingType == null) {
+        this.selectedOrderTransportInfo.packagingType = this.packagingTypeList.filter(f => f.id == 1)[0];
+        this.initForm();
       }
 
     });
 
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
-    ? this.orderTransportService.getOrderTransport()
-    : new OrderTransport();
+      ? this.orderTransportService.getOrderTransport()
+      : new OrderTransport();
 
     this.selectedOrderTransportInfo =
       this.orderTransportService.getorderTransportInfoAller()
         ? this.orderTransportService.getorderTransportInfoAller()
         : new OrderTransportInfo();
 
-console.log( this.selectedOrderTransportInfo);
+    console.log(this.selectedOrderTransportInfo);
 
     this.packageDetails = this.selectedOrderTransportInfo.packageDetails
       ? this.selectedOrderTransportInfo.packageDetails
       : [];
-    this.orderTransportInfoLines = this.selectedOrderTransportInfo
-      .orderTransportInfoLines
-      ? this.selectedOrderTransportInfo.orderTransportInfoLines
-      : [];
-      if( this.selectedOrderTransportInfo.turnStatus==null){
-        this.turnStatusService.find('id:'+1).subscribe(
-          data =>{
-            this.selectedOrderTransportInfo.turnStatus=data[0];
-            this.initForm();
-          }
-        );
+    this.orderTransportInfoLines = this.selectedOrderTransportInfo.orderTransportInfoLines? this.selectedOrderTransportInfo.orderTransportInfoLines: [];
+    if (this.selectedOrderTransportInfo.turnStatus == null) {
+      this.turnStatusService.find('id:' + 1).subscribe(
+        data => {
+          this.selectedOrderTransportInfo.turnStatus = data[0];
+          this.initForm();
         }
-        this.onShowDialogOrderTransportInfoLine(null,false);
+      );
+    }
+    this.onShowDialogOrderTransportInfoLine(null, false);
     this.initForm();
   }
 
@@ -150,9 +147,9 @@ console.log( this.selectedOrderTransportInfo);
       // ),
 
       orderTransportInfoInitialDate: new FormControl(
-       new Date(this.selectedOrderTransportInfo.date)
+        new Date(this.selectedOrderTransportInfo.date)
       ),
-      orderTransportInfoStatus : new FormControl(
+      orderTransportInfoStatus: new FormControl(
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
 
@@ -167,28 +164,28 @@ console.log( this.selectedOrderTransportInfo);
     }
     this.getTrajetQuantity();
 
-    if(this.orderTransportInfoLines[0] !=null){
+    if (this.orderTransportInfoLines[0] != null) {
 
-console.log(">0");
+      console.log(">0");
 
-        if(this.selectOrderTransportTrajetQuantity.weightEnlevement<this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement<this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement<this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée'});
-          console.log("Quantité Chargée est supérieure à la quantité Livrée");
+      if (this.selectOrderTransportTrajetQuantity.weightEnlevement < this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement < this.selectOrderTransportTrajetQuantity.capacityLivraison || this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement < this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison) {
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée' });
+        console.log("Quantité Chargée est supérieure à la quantité Livrée");
 
-        }
-        else if(this.selectOrderTransportTrajetQuantity.weightEnlevement>this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement>this.selectOrderTransportTrajetQuantity.capacityLivraison ||this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement>this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison){
-          this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Quantité Chargée est inférieure à la quantité Livrée'});
-          console.log("Quantité livrée est supérieure à la quantité chargée");
-
-        }
-       else {
-          this.loadForm();
-          this.nextstep.emit(true);
       }
-}else {
-  this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet'});
+      else if (this.selectOrderTransportTrajetQuantity.weightEnlevement > this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement > this.selectOrderTransportTrajetQuantity.capacityLivraison || this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement > this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison) {
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Quantité Chargée est inférieure à la quantité Livrée' });
+        console.log("Quantité livrée est supérieure à la quantité chargée");
 
-}
+      }
+      else {
+        this.loadForm();
+        this.nextstep.emit(true);
+      }
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur ! Ajouter Trajet' });
+
+    }
 
 
   }
@@ -199,11 +196,11 @@ console.log(">0");
       this.orderTransportInfoForm.value["weight"];
     this.selectedOrderTransportInfo.capacityTotal =
       this.orderTransportInfoForm.value["capacity"];
-      this.selectedOrderTransportInfo.numberOfPallet =
+    this.selectedOrderTransportInfo.numberOfPallet =
       this.orderTransportInfoForm.value["numberOfPallet"];
-      this.selectedOrderTransportInfo.date =
+    this.selectedOrderTransportInfo.date =
       this.orderTransportInfoForm.value["orderTransportInfoInitialDate"];
-      this.selectedOrderTransportInfo.orderTransportInfoLines =
+    this.selectedOrderTransportInfo.orderTransportInfoLines =
       this.orderTransportInfoLines;
 
     this.selectedOrderTransportInfo.packageDetails = this.packageDetails;
@@ -222,18 +219,18 @@ console.log(">0");
 
 
 
-  onSelectTrajetSource(event){
-   this.selectedOrderTransportInfo.trajet=event;
+  onSelectTrajetSource(event) {
+    this.selectedOrderTransportInfo.trajet = event;
   }
   // onSelectVilleDistination(event){
   //   this.selectedOrderTransportInfo.villeDistination=event;
   //  }
 
-   onTrajetSearch(event){
+  onTrajetSearch(event) {
     this.trajetService
-    .find('code~' + event.query)
-    .subscribe(data => (this.trajetList = data))
-   }
+      .find('code~' + event.query)
+      .subscribe(data => (this.trajetList = data))
+  }
 
   onHideDialogGenerateContactAddress(event) {
     this.showDialogContactAddress = event;
@@ -328,7 +325,7 @@ console.log(">0");
     });
 
     const size = this.orderTransportInfoLines.length;
-    this.idOrderTransportLine=size;
+    this.idOrderTransportLine = size;
     if (size == 0) {
       this.idOrderTransportLine--;
       orderTransportInfoLine.id = this.idOrderTransportLine;
@@ -370,8 +367,8 @@ console.log(">0");
     //  if(line!=null){
     //    this.getTrajetQuantity();
     //  }
-   this.showDialogOrderTransportInfoLine = true;
-   console.log(this.showDialogOrderTransportInfoLine);
+    this.showDialogOrderTransportInfoLine = true;
+    console.log(this.showDialogOrderTransportInfoLine);
 
     if (mode == true) {
       console.log("modifier");
@@ -402,27 +399,27 @@ console.log(">0");
   }
 
 
-  getTrajetQuantity(){
-    this.selectOrderTransportTrajetQuantity=new OrderTransportTrajetQuantity();
-    this.orderTransportInfoLines=this.orderTransportService.getLinesAller();
-if(this.orderTransportInfoLines.length>0){
-    this.orderTransportInfoLines.forEach(ot => {
-      if(ot.orderTransportType.id==1 || ot.orderTransportType.id==3){
-                this.selectOrderTransportTrajetQuantity.weightEnlevement += ot.weightEnlevement;
-        this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement += ot.numberOfPalletEnlevement;
-        this.selectOrderTransportTrajetQuantity.capacityEnlevement += ot.capacityEnlevement;
-    }else if (ot.orderTransportType.id==2 || ot.orderTransportType.id==3){
-        this.selectOrderTransportTrajetQuantity.weightLivraison += ot.weightLivraison;
-        this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison += ot.numberOfPalletLivraison;
-        this.selectOrderTransportTrajetQuantity.capacityLivraison += ot.capacityLivraison;
-    }
-    });
-this.selectOrderTransportTrajetQuantity.firstTrajet=false;
-this.orderTransportInfoForm.controls["weight"].setValue(   this.selectOrderTransportTrajetQuantity?.weightEnlevement ?this.selectOrderTransportTrajetQuantity?.weightEnlevement:0);
-this.orderTransportInfoForm.controls["numberOfPallet"].setValue(   this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement?this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement:0);
-this.orderTransportInfoForm.controls["capacity"].setValue(   this.selectOrderTransportTrajetQuantity?.capacityEnlevement ?this.selectOrderTransportTrajetQuantity?.capacityEnlevement:0);
+  getTrajetQuantity() {
+    this.selectOrderTransportTrajetQuantity = new OrderTransportTrajetQuantity();
+    this.orderTransportInfoLines = this.orderTransportService.getLinesAller();
+    if (this.orderTransportInfoLines.length > 0) {
+      this.orderTransportInfoLines.forEach(ot => {
+        if (ot.orderTransportType.id == 1 || ot.orderTransportType.id == 3) {
+          this.selectOrderTransportTrajetQuantity.weightEnlevement += ot.weightEnlevement;
+          this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement += ot.numberOfPalletEnlevement;
+          this.selectOrderTransportTrajetQuantity.capacityEnlevement += ot.capacityEnlevement;
+        } else if (ot.orderTransportType.id == 2 || ot.orderTransportType.id == 3) {
+          this.selectOrderTransportTrajetQuantity.weightLivraison += ot.weightLivraison;
+          this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison += ot.numberOfPalletLivraison;
+          this.selectOrderTransportTrajetQuantity.capacityLivraison += ot.capacityLivraison;
+        }
+      });
+      this.selectOrderTransportTrajetQuantity.firstTrajet = false;
+      this.orderTransportInfoForm.controls["weight"].setValue(this.selectOrderTransportTrajetQuantity?.weightEnlevement ? this.selectOrderTransportTrajetQuantity?.weightEnlevement : 0);
+      this.orderTransportInfoForm.controls["numberOfPallet"].setValue(this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement ? this.selectOrderTransportTrajetQuantity?.numberOfPalletEnlevement : 0);
+      this.orderTransportInfoForm.controls["capacity"].setValue(this.selectOrderTransportTrajetQuantity?.capacityEnlevement ? this.selectOrderTransportTrajetQuantity?.capacityEnlevement : 0);
 
-  }
+    }
   }
 
 

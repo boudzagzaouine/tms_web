@@ -25,12 +25,13 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PickListModule } from 'primeng/picklist';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { PanelModule } from 'primeng/panel';
 import { StepsModule } from 'primeng/steps';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { TabViewModule } from 'primeng/tabview';
+import {TabMenuModule} from 'primeng/tabmenu';
+import {PanelModule} from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { SharedModule } from './../../shared/shared.module';
@@ -89,7 +90,10 @@ import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/tra
      ScrollPanelModule,
      RadioButtonModule,
      ToastModule,
+     TabViewModule,
+     PanelModule,
      CardModule,
+     TabMenuModule,
      TimelineModule,
      OrderListModule,
      SelectButtonModule,

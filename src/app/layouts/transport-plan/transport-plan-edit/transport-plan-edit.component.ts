@@ -28,6 +28,7 @@ import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { OrderTransportInfoLine } from './../../../shared/models/order-transport-info-line';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { OrderTransportInfoLineService } from './../../../shared/services/api/order-transport-info-line.service';
 @Component({
   selector: 'app-transport-plan-edit',
   templateUrl: './transport-plan-edit.component.html',
@@ -42,13 +43,18 @@ export class TransportPlanEditComponent implements OnInit {
   driverList: Driver[] = [];
   selectedOrderTransport: OrderTransport = new OrderTransport();
   vehicleCategoryList: VehicleCategory[] = [];
-  orderTransportInfoLines: OrderTransportInfoLine[] = [];
+  turnstatutList: TurnStatus[] = [];
+  orderTransportInfoLinesAller: OrderTransportInfoLine[] = [];
+  orderTransportInfoLinesRetour: OrderTransportInfoLine[] = [];
+
   orderTransportInfos: OrderTransportInfo[] = [];
   transportList: Transport[] = [];
   isFormSubmitted: Boolean = false;
   selectedTransportProductService = new TransportPlanServiceCatalog();
   editModeTransportProduct: Boolean = false;
   showDialogTransportProduct: Boolean = false;
+  selectedline: OrderTransportInfoLine = new OrderTransportInfoLine();
+  ;
 
   constructor(private transportPlanService: TransportPlanService,
     private activatedRoute: ActivatedRoute,
@@ -57,8 +63,10 @@ export class TransportPlanEditComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     public orderTransportService: OrderTransportService,
     public orderTransportInfoService: OrderTransportInfoService,
+    private orderTransportInfoLineService: OrderTransportInfoLineService,
     private toastr: ToastrService,
     private router: Router,
+    private turnStatutservice: TurnStatusService,
     private spinner: NgxSpinnerService,
     private vehicleService: VehicleService,
     private confirmationService: ConfirmationService
@@ -68,28 +76,28 @@ export class TransportPlanEditComponent implements OnInit {
     this.items = [
 
       {
-        label: 'Arrivé', icon: 'pi pi-file-pdf', command: () => {
-
+        label: 'Arrivé', icon: 'pi pi-file-pdf', command: (event) => {
+          this.handleItemClick(event, this.selectedline);
         }
       },
       {
-        label: 'Fin Déchargement', icon: 'pi pi-file-excel', command: () => {
-
+        label: 'Fin Déchargement', icon: 'pi pi-file-excel', command: (event) => {
+          this.handleItemClick(event, this.selectedline);
         }
       },
       {
-        label: 'CHARGÉ', icon: 'pi pi-file-excel', command: () => {
-
+        label: 'CHARGÉ', icon: 'pi pi-file-excel', command: (event) => {
+          this.handleItemClick(event, this.selectedline);
         }
       },
       {
-        label: 'DECHARGÉ', icon: 'pi pi-file-excel', command: () => {
-
+        label: 'DECHARGÉ', icon: 'pi pi-file-excel', command: (event) => {
+          this.handleItemClick(event, this.selectedline);
         }
       },
       {
-        label: 'Fin Chargement', icon: 'pi pi-file-excel', command: () => {
-
+        label: 'Fin Chargement', icon: 'pi pi-file-excel', command: (event) => {
+          this.handleItemClick(event, this.selectedline);
         }
       },
 
@@ -99,6 +107,11 @@ export class TransportPlanEditComponent implements OnInit {
         this.driverList = data;
       }
     );
+    this.turnStatutservice.findAll().subscribe(
+      data => {
+        this.turnstatutList = data;
+      }
+    )
     this.vehicleCategoryService.findAll().subscribe(
       data => {
         this.vehicleCategoryList = data;
@@ -127,6 +140,10 @@ export class TransportPlanEditComponent implements OnInit {
 
                 if (this.selectedOrderTransport.turnType.id === 1) this.getOrderTransportInfoAllerFromOrderTransport(this.selectedOrderTransport)
                 if (this.selectedOrderTransport.turnType.id === 2) this.getOrderTransportInfoRetourFromOrderTransport(this.selectedOrderTransport)
+                if (this.selectedOrderTransport.turnType.id === 3) {
+                  this.getOrderTransportInfoAllerFromOrderTransport(this.selectedOrderTransport)
+                  this.getOrderTransportInfoRetourFromOrderTransport(this.selectedOrderTransport)
+                }
 
                 this.initForm();
                 console.log(this.selectedOrderTransport);
@@ -139,15 +156,97 @@ export class TransportPlanEditComponent implements OnInit {
 
     }
   }
-  changestatut(){
-    
+  public handleActionsClick(line: OrderTransportInfoLine) {
+    console.log('Selected Line:', line);
+    this.selectedline = line;
   }
+  handleItemClick(event: any, line: OrderTransportInfoLine) {
+
+    const selectedItemLabel = event.item.label;
+    //this.selectedLabel = selectedItemLabel;
+    switch (selectedItemLabel) {
+      case 'Arrivé':
+        line.turnStatus = this.turnstatutList.filter(f => f.id === 10)[0]
+        this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 10)[0]
+
+        this.orderTransportInfoLineService.set(line).subscribe(
+          data => {
+          }
+
+        )
+        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+          data => {
+
+          }
+        )
+        break;
+      case 'Fin Déchargement':
+        line.turnStatus = this.turnstatutList.filter(f => f.id === 12)[0]
+        this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 12)[0]
+
+        this.orderTransportInfoLineService.set(line).subscribe(
+          data => {
+          }
+        )
+        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+          data => {
+
+          }
+        )
+        break;
+      case 'CHARGÉ':
+        line.turnStatus = this.turnstatutList.filter(f => f.id === 6)[0]
+        this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 6)[0]
+
+        this.orderTransportInfoLineService.set(line).subscribe(
+          data => {
+          }
+        )
+        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+          data => {
+
+          }
+        )
+        break;
+      case 'DECHARGÉ':
+        line.turnStatus = this.turnstatutList.filter(f => f.id === 7)[0]
+        this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 7)[0]
+
+        this.orderTransportInfoLineService.set(line).subscribe(
+          data => {
+          }
+        )
+        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+          data => {
+
+          }
+        )
+        break;
+      case 'Fin Chargement':
+        line.turnStatus = this.turnstatutList.filter(f => f.id === 11)[0]
+        this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 11)[0]
+        this.orderTransportInfoLineService.set(line).subscribe(
+          data => {
+          }
+        )
+        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
+          data => {
+
+          }
+        )
+        break;
+
+      default:
+        break;
+    }
+  }
+
   getOrderTransportInfoAllerFromOrderTransport(oT: OrderTransport) {
     this.orderTransportInfoService.find("orderTransport.id:" + oT.id + ",type:1").subscribe(
       data => {
         this.orderTransportInfos = data;
 
-        this.orderTransportInfoLines = this.orderTransportInfos[0].orderTransportInfoLines ?
+        this.orderTransportInfoLinesAller = this.orderTransportInfos[0].orderTransportInfoLines ?
           this.orderTransportInfos[0].orderTransportInfoLines : [];
         console.log('ff' + data.length);
       })
@@ -157,7 +256,7 @@ export class TransportPlanEditComponent implements OnInit {
       data => {
         this.orderTransportInfos = data;
 
-        this.orderTransportInfoLines = this.orderTransportInfos[0].orderTransportInfoLines ?
+        this.orderTransportInfoLinesRetour = this.orderTransportInfos[0].orderTransportInfoLines ?
           this.orderTransportInfos[0].orderTransportInfoLines : [];
         console.log('ff' + data.length);
       })

@@ -191,6 +191,7 @@ import { TmsdashboardService } from './services/api/tms-dashboard.service';
 import { ZoneVilleService } from './services/api/zone-ville.service';
 import { OrderList, OrderListModule } from 'primeng/orderlist';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { OrderTransportInfoLineService } from './services/api/order-transport-info-line.service';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
@@ -283,6 +284,7 @@ export class SharedModule {
         BadgeService,
         ContractTypeService,
         DriverService,
+        OrderTransportInfoLineService,
         InsuranceTermService,
         InsuranceService,
         MaintenancePlanService,

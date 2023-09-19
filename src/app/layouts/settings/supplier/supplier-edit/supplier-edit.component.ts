@@ -313,7 +313,7 @@ export class SupplierEditComponent implements OnInit {
   }
   onDeletePlanning(day: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedSupplier.plannings =
           this.selectedSupplier.plannings.filter((l) => l.day.code !== day);
@@ -385,7 +385,7 @@ this.days.forEach(element => {
   }
   onDeleteSupplierProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedSupplier.supplierProducts =
           this.selectedSupplier.supplierProducts.filter((l) => l.product.code !== productCode);

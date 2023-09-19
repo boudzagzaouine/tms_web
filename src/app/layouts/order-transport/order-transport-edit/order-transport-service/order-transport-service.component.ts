@@ -1,3 +1,5 @@
+import { OrderTransportService } from './../../../../shared/services/api/order-transport.service';
+import { OrderTransport } from './../../../../shared/models/order-transport';
 import { AccountPricingServiceService } from './../../../../shared/services/api/account-pricing-service.service';
 import { CatalogService } from "./../../../../shared/models/catalog-service";
 import { VatService } from "./../../../../shared/services/api/vat.service";
@@ -46,6 +48,7 @@ export class OrderTransportServiceComponent implements OnInit {
   transportList: Transport[] = [];
   subscriptions = new Subscription();
 selectDefaulVat:Vat = new Vat();
+selectOrderTransport :OrderTransport= new OrderTransport();
   constructor(
     private formBuilder: FormBuilder,
     private authentificationService: AuthenticationService,
@@ -54,10 +57,14 @@ selectDefaulVat:Vat = new Vat();
     private accountService: AccountService,
     private transportService: TransportServcie,
     private accountPricingServiceService: AccountPricingServiceService,
-    private catalogServiceService: CatalogServiceService
+    private catalogServiceService: CatalogServiceService,
+    private orderTransportService:OrderTransportService
   ) {}
 
   ngOnInit() {
+
+    this.selectOrderTransport=this.orderTransportService.getOrderTransport();
+
     this.subscriptions.add(
       this.vatService.findAll().subscribe((data: Vat[]) => {
         this.vats = data;
@@ -101,6 +108,9 @@ selectDefaulVat:Vat = new Vat();
         new Date(this.selectedTransportServiceCatalog.dateService)
       ),
 
+      account: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.account
+      ),
 
       salePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceHT
@@ -163,10 +173,35 @@ selectDefaulVat:Vat = new Vat();
     });
   }
 
+  onAccountSearch(event) {
+    let search;
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
+    }
+    this.accountService
+      .find(search)
+      .subscribe((data) =>{console.log(data);
+       (this.accountList = data)});
 
+
+  }
+
+  onSelectAccount(event) {
+    this.selectedTransportServiceCatalog.account = event;
+
+  }
   onSelectProduct(event) {
     this.selectedTransportServiceCatalog.product = event as Product;
-    this.selectedTransportServiceCatalog.account=this.selectedAccount;
+
+
+    if( ( this.selectOrderTransport?.loadingType?.id ==2 &&
+      this.selectOrderTransport.groupageUnique==true)||
+      ( this.selectOrderTransport?.loadingType?.id ==1)){
+        this.selectedTransportServiceCatalog.account=this.selectedAccount;
+
+    }
     this.onSearchSalePriceServiceByAccount();
 
   }
@@ -254,10 +289,16 @@ selectDefaulVat:Vat = new Vat();
 
   initSale(saleAmountht: number, saleAmountTtc: number, saleVat: Vat) {
     console.log(saleVat);
-    this.selectedTransportServiceCatalog.salePriceHT = saleAmountht;
-    this.selectedTransportServiceCatalog.salePriceTTC = saleAmountTtc;
-    this.selectedTransportServiceCatalog.saleVat = saleVat;
-    this.initForm();
+
+this.transportProductForm.patchValue({
+  salePriceHT: saleAmountht,
+  salePriceTTC: saleAmountTtc,
+  saleVat: saleVat
+});
+    // this.selectedTransportServiceCatalog.salePriceHT = saleAmountht;
+    // this.selectedTransportServiceCatalog.salePriceTTC = saleAmountTtc;
+    // this.selectedTransportServiceCatalog.saleVat = saleVat;
+    ///this.initForm();
   }
 
   onSelectSaleVat(event) {
@@ -282,6 +323,7 @@ onQuantityChange(){
 }
 
 const qty = +this.transportProductForm.value['quantity'];
+this.selectedTransportServiceCatalog.saleVat=this.transportProductForm.value['saleVat']
 const vat =
     this.selectedTransportServiceCatalog.saleVat !== null &&
     this.selectedTransportServiceCatalog.saleVat !== null

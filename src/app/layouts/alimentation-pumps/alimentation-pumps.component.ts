@@ -37,7 +37,7 @@ export class AlimentationPumpsComponent implements OnInit {
   alimentationPumpExportList: Array<AlimentationPump> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private alimentationPumpService: AlimentationPumpService,
     private fuelPumpService : FuelPumpService,
@@ -52,20 +52,20 @@ export class AlimentationPumpsComponent implements OnInit {
     this.items = [
       {label: 'AlimentationPump'},
       {label: 'Lister'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
-   
+
     this.className = AlimentationPump.name;
     this.cols = [
-    
-      
+
+
       {
         field: 'fuelPump',child: 'code',   header: 'pompe à carburant',    type: 'object'
       },
-      
+
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'
       },
@@ -145,15 +145,15 @@ export class AlimentationPumpsComponent implements OnInit {
     if (this.fuelPumpSearch != null && this.fuelPumpSearch.code !== '') {
       buffer.append(`fuelPump.pump.code~${this.fuelPumpSearch.code}`);
     }
-   
-    
+
+
     if (this.dateSearch != null) {
       console.log(this.dateSearch);
 
       buffer.append('receptionDate>'+ this.dateSearch.toISOString());
     }
 
-  
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -165,7 +165,7 @@ export class AlimentationPumpsComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   }
-  
+
   reset() {
     this.fuelPumpSearch = null;
 
@@ -191,7 +191,7 @@ export class AlimentationPumpsComponent implements OnInit {
 
     if (this.selectedAlimentationPumps.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedAlimentationPumps.map(x => x.id);
           this.subscriptions.add(this.alimentationPumpService.deleteAllByIds(ids).subscribe(
@@ -219,7 +219,7 @@ export class AlimentationPumpsComponent implements OnInit {
       data => this.fuelPumpCodeList = data ,
     ));
   }
- 
+
 
   onShowDialog(event) {
 

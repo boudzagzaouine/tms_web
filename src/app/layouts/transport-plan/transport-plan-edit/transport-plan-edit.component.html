@@ -76,18 +76,30 @@
           <input formControlName="account" [attr.disabled]="'true'" type="text" class="form-control" pInputText />
         </div>
       </div>
-
+      <!-- *ngIf="this.selectedTransportPlan?.transport?.interneOrExterne==true" -->
       <div class="row mt-3 justify-content-around "
-        *ngIf="this.selectedTransportPlan?.transport?.interneOrExterne==true">
+       >
 
 
         <div class="form-group col-md-3  ">
           <label class="font-weight-bold">{{ "Vehicule" | translate }} *</label>
 
           <br />
-          <p-autoComplete formControlName="vehicle" [suggestions]="vehicleList" (onSelect)="onSelectVehicle($event)"
+          <p-autoComplete
+          formControlName="vehicle" field="codeRegistrationNumber"
+          [suggestions]="vehicleList" (onSelect)="onSelectVehicle($event)"
+          (completeMethod)="onVehicleSearch($event)"  [dropdown]="true"
+          >
+           <ng-template let-vehicle pTemplate="item">
+               <div class="vehicle-item">
+                   <div>{{vehicle.code}} -> {{vehicle.registrationNumber}} </div>
+               </div>
+           </ng-template>
+       </p-autoComplete>
+
+          <!-- <p-autoComplete formControlName="vehicle" [suggestions]="vehicleList" (onSelect)="onSelectVehicle($event)"
             (completeMethod)="onVehicleSearch($event)" field="registrationNumber">
-          </p-autoComplete>
+          </p-autoComplete> -->
 
         </div>
         <div class="form-group col-md-3 ">
@@ -95,9 +107,23 @@
 
           <br />
 
+
+
+          <p-autoComplete
+          formControlName="driver" field="codeName"
+          [suggestions]="driverList" (onSelect)="onSelectDriver($event)"
+          (completeMethod)="onDriverSearch($event)"  [dropdown]="true"
+          >
+           <ng-template let-driver pTemplate="item">
+               <div class="driver-item">
+                   <div>{{driver.code}} -> {{driver.name}} </div>
+               </div>
+           </ng-template>
+       </p-autoComplete>
+<!--
           <p-dropdown formControlName="driver" [autoDisplayFirst]="false" [options]="driverList"
             (onChange)="onSelectDriver($event)" optionLabel="name" [filter]="true" [showClear]="true" [dataKey]="name"
-            [placeholder]="this.selectedTransportPlan?.driver?.name"></p-dropdown>
+            [placeholder]="this.selectedTransportPlan?.driver?.name"></p-dropdown> -->
         </div>
         <div class="form-group col-md-3  ">
           <label class="font-weight-bold">{{ "Statut" | translate }} *</label>

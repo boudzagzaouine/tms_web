@@ -259,7 +259,7 @@ this.orderTransportRejectTypeService.find('type:3').subscribe(
 
     if (this.selectedTransportPlanHistorys.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedTransportPlanHistorys.map(x => x.id);
           this.subscriptions.add( this.transportPlanHistoryService.deleteAllByIds(ids).subscribe(

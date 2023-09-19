@@ -820,7 +820,7 @@ console.log(data);
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectOrderTransport.orderTransportServiceCatalogs =
           this.selectOrderTransport.orderTransportServiceCatalogs.filter(

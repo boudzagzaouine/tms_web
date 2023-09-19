@@ -173,7 +173,7 @@ page = 0;
 
     if (this.selectedaddresss.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedaddresss.map(x => x.id);
           this.subscriptions.add(this.addressService.deleteAllByIds(ids).subscribe(

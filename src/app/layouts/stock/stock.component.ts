@@ -46,7 +46,7 @@ export class StockComponent implements OnInit {
   stockExportList: Array<Stock> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private stockService: StockService,
     private productService : ProductService,
@@ -63,9 +63,9 @@ export class StockComponent implements OnInit {
     this.items = [
       {label: 'Stock'},
       {label: 'Lister'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.subscriptions.add(this.productTypeService.findAll().subscribe(
@@ -76,7 +76,7 @@ export class StockComponent implements OnInit {
       {
         field: 'product',child: 'code',   header: 'Produit',    type: 'object'
       },
-  
+
       {
         field: 'uom',child: 'code',   header: 'Unité de mesure',    type: 'object'
       },
@@ -162,8 +162,8 @@ export class StockComponent implements OnInit {
     if (this.productSearch != null && this.productSearch.code !== '') {
       buffer.append(`product.code~${this.productSearch.code}`);
     }
-   
-    
+
+
     if (this.dateSearch != null) {
       console.log(this.dateSearch);
 
@@ -185,7 +185,7 @@ export class StockComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   }
-  
+
   reset() {
     this.productSearch = null;
     this.productTypeSearch = null;
@@ -212,7 +212,7 @@ export class StockComponent implements OnInit {
 
     if (this.selectedStock.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedStock.map(x => x.id);
           this.subscriptions.add(this.stockService.deleteAllByIds(ids).subscribe(

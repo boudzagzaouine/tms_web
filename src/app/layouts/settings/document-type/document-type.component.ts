@@ -1,11 +1,11 @@
+import { OrderTransportDocumentTypeService } from './../../../shared/services/api/order-transport-document-type.service';
+import { OrderTransportDocumentType } from './../../../shared/models/order-transport-document-type';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { ConfirmationService, PrimeNGConfig, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalService } from './../../../shared/services/api/global.service';
-import { DocumentTypeService } from './../../../shared/services/api/document-type.service';
 import { Subscription } from 'rxjs';
-import { DocumentType } from './../../../shared/models/document-type';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -22,18 +22,18 @@ export class DocumentTypeComponent implements OnInit {
   searchQuery = '';
   codeSearch: string;
   descriptionSearch = '';
-  codeList: Array<DocumentType> = [];
+  codeList: Array<OrderTransportDocumentType> = [];
   cols: any[];
-  documentTypeList: Array<DocumentType> = [];
-  selectedDocumentTypes: Array<DocumentType> = [];
+  orderTransportDocumentTypeList: Array<OrderTransportDocumentType> = [];
+  selectedOrderTransportDocumentTypes: Array<OrderTransportDocumentType> = [];
   showDialog: boolean;
   editMode: number;
   className: string;
   titleList = 'Liste des types de Documents';
-  documentTypeExportList: Array<DocumentType> = [];
+  orderTransportDocumentTypeExportList: Array<OrderTransportDocumentType> = [];
   subscriptions= new Subscription();
 
-  constructor(private documentTypeService: DocumentTypeService,
+  constructor(private orderTransportDocumentTypeService: OrderTransportDocumentTypeService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -44,7 +44,7 @@ export class DocumentTypeComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.className = DocumentType.name;
+    this.className = OrderTransportDocumentType.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
@@ -56,13 +56,13 @@ export class DocumentTypeComponent implements OnInit {
   }
   onExportExcel(event) {
 
-    this.subscriptions.add(this.documentTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.orderTransportDocumentTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.documentTypeExportList = data;
+        this.orderTransportDocumentTypeExportList = data;
         if (event != null) {
-          this.globalService.generateExcel(event, this.documentTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(event, this.orderTransportDocumentTypeExportList, this.className, this.titleList);
         } else {
-          this.globalService.generateExcel(this.cols, this.documentTypeExportList, this.className, this.titleList);
+          this.globalService.generateExcel(this.cols, this.orderTransportDocumentTypeExportList, this.className, this.titleList);
 
         }
         this.spinner.hide();
@@ -76,10 +76,10 @@ export class DocumentTypeComponent implements OnInit {
 
   }
   onExportPdf(event) {
-    this.subscriptions.add(this.documentTypeService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.orderTransportDocumentTypeService.find(this.searchQuery).subscribe(
       data => {
-        this.documentTypeExportList = data;
-        this.globalService.generatePdf(event, this.documentTypeExportList, this.className, this.titleList);
+        this.orderTransportDocumentTypeExportList = data;
+        this.globalService.generatePdf(event, this.orderTransportDocumentTypeExportList, this.className, this.titleList);
         this.spinner.hide();
       },
       error => {
@@ -91,14 +91,14 @@ export class DocumentTypeComponent implements OnInit {
   }
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.documentTypeService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.orderTransportDocumentTypeService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add(this.documentTypeService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.orderTransportDocumentTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.documentTypeList = data;
+        this.orderTransportDocumentTypeList = data;
 
         this.spinner.hide();
       },
@@ -131,7 +131,7 @@ export class DocumentTypeComponent implements OnInit {
 
   }
   onCodeSearch(event: any) {
-    this.subscriptions.add(this.documentTypeService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.orderTransportDocumentTypeService.find('code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     ));
   }
@@ -146,7 +146,7 @@ export class DocumentTypeComponent implements OnInit {
   onObjectEdited(event) {
 
     this.editMode = event.operationMode;
-    this.selectedDocumentTypes = event.object;
+    this.selectedOrderTransportDocumentTypes = event.object;
     if (this.editMode === 3) {
       this.onDeleteAll();
     } else {
@@ -157,12 +157,12 @@ export class DocumentTypeComponent implements OnInit {
 
   onDeleteAll() {
 
-    if (this.selectedDocumentTypes.length >= 1) {
+    if (this.selectedOrderTransportDocumentTypes.length >= 1) {
       this.confirmationService.confirm({
         message: ' Voulez vous vraiment Supprimer  ?',
         accept: () => {
-          const ids = this.selectedDocumentTypes.map(x => x.id);
-          this.subscriptions.add(this.documentTypeService.deleteAllByIds(ids).subscribe(
+          const ids = this.selectedOrderTransportDocumentTypes.map(x => x.id);
+          this.subscriptions.add(this.orderTransportDocumentTypeService.deleteAllByIds(ids).subscribe(
             data => {
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
@@ -178,7 +178,7 @@ export class DocumentTypeComponent implements OnInit {
           ));
         }
       });
-    } else if (this.selectedDocumentTypes.length < 1) {
+    } else if (this.selectedOrderTransportDocumentTypes.length < 1) {
       this.toastr.warning('aucun ligne sélectionnée');
     }
 

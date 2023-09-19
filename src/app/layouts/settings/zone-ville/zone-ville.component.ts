@@ -80,7 +80,7 @@ export class ZoneVilleComponent implements OnInit {
     this.subscriptions.add(this.zoneVilleService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.zoneVilleList = data;
-        
+
 
         this.spinner.hide();
       },
@@ -195,7 +195,7 @@ export class ZoneVilleComponent implements OnInit {
 
     if (this.selectedZoneVilles.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedZoneVilles.map(x => x.id);
           this.subscriptions.add(this.zoneVilleService.deleteAllByIds(ids).subscribe(

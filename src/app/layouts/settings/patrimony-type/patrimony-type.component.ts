@@ -106,7 +106,7 @@ export class PatrimonyTypeComponent implements OnInit {
 
     if (this.selectedPatrimonyTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedPatrimonyTypes.map(x => x.id);
           this.patrimonyTypeService.deleteAllByIds(ids).subscribe(

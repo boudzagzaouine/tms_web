@@ -116,7 +116,7 @@ console.log('debut');
   onDeleteLine(commissionD: CommissionDriver) {
 
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
 
     this.commissiondriverList = this.commissiondriverList.filter(

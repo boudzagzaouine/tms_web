@@ -41,7 +41,7 @@ export class ActionEditComponent implements OnInit {
   actionSearch: Action;
 
   constructor(
-  
+
     private actionTpeService: ActionTypeService,
     private confirmationService: ConfirmationService,
     private maintenanceStateService : MaintenanceStateService,
@@ -98,7 +98,7 @@ export class ActionEditComponent implements OnInit {
     }
 
     this.selectedAction.actionType = this.actionForm.value['FcodeType'];
- 
+
     this.lineActionEdited.emit(this.selectedAction);
 
     this.displayDialog = false;
@@ -114,7 +114,7 @@ export class ActionEditComponent implements OnInit {
 
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedAction.actionLines = this.selectedAction.actionLines.filter(
           (l) => l.product.id !== id

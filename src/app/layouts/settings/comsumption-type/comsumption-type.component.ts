@@ -66,7 +66,7 @@ export class ComsumptionTypeComponent implements OnInit {
     ));
     this.subscriptions.add(this.consumptionTypeService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        
+
         this.consumptionTypeList = data;
         this.spinner.hide();
       },
@@ -143,7 +143,7 @@ export class ComsumptionTypeComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   } reset() {
-    
+
     this.codeSearch = null;
     this.page = 0;
     this.searchQuery = '';
@@ -166,7 +166,7 @@ export class ComsumptionTypeComponent implements OnInit {
 
     if (this.selectedonsumptionTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedonsumptionTypes.map(x => x.id);
           this.subscriptions.add(this.consumptionTypeService.deleteAllByIds(ids).subscribe(

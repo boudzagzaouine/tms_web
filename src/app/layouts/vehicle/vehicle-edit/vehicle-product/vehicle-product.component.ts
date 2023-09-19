@@ -108,7 +108,7 @@ export class VehicleProductComponent implements OnInit {
 
   onRowEditCancel(product: Product, index: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
     //this.selectedVehicleProduct.vehicleProductReferences.splice(index, 1);
     this.selectedVehicleProduct.vehicleProductReferences = this.selectedVehicleProduct.vehicleProductReferences.filter(

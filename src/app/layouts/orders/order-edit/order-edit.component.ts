@@ -246,7 +246,7 @@ export class OrderEditComponent implements OnInit {
 
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedPurchaseOrder.purshaseOrderLines = this.selectedPurchaseOrder.purshaseOrderLines.filter(
           (l) => l.id !== id

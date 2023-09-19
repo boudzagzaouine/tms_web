@@ -304,11 +304,36 @@ export class TransportPlanEditComponent implements OnInit {
     console.log(event);
     this.selectedTransportPlan.transport = event;
   }
-  onVehicleSearch(event) {
-    this.vehicleService
-      .find('registrationNumber~' + event.query)
-      .subscribe(data => (this.vehicleList = data))
+  onVehicleSearch(
+    event: any) {
+      let search;
+      // if (!isNaN(event.query)) {
+      //   search = "code~" + event.query;
+      // } else {
+        search = "registrationNumber~" + event.query;
+    // }
+      this.vehicleService
+        .find(search)
+        .subscribe((data) =>{console.log(data);
+         (this.vehicleList = data)});
+
   }
+
+  onDriverSearch(
+    event: any) {
+      let search;
+      if (!isNaN(event.query)) {
+        search = "code~" + event.query;
+      } else {
+        search = "name~" + event.query;
+     }
+      this.driverService
+        .find(search)
+        .subscribe((data) =>{console.log(data);
+         (this.driverList = data)});
+
+  }
+
   onSelectVehicle(event) {
     console.log(event);
     this.selectedTransportPlan.vehicle = event;
@@ -413,7 +438,7 @@ export class TransportPlanEditComponent implements OnInit {
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedOrderTransport.orderTransportServiceCatalogs =
           this.selectedOrderTransport.orderTransportServiceCatalogs.filter((l) => l.product.code !== productCode);

@@ -28,7 +28,7 @@
 <app-data-table
   [className]="className"
   [cols]="cols"
-  [objectList]="documentTypeList"
+  [objectList]="orderTransportDocumentTypeList"
   [collectionSize]="collectionSize"
   [size]="size"
   (objectEdited)="onObjectEdited($event)"
@@ -46,7 +46,7 @@
 <div *ngIf="showDialog == true">
   <app-document-type-edit
     [editMode]="editMode"
-    [selectedDocumentType]="selectedDocumentTypes[0]"
+    [selectedOrderTransportDocumentType]="selectedOrderTransportDocumentTypes[0]"
     (showDialog)="onShowDialog($event)"
   ></app-document-type-edit>
 </div>

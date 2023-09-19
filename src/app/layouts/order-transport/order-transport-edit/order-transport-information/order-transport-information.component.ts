@@ -179,7 +179,8 @@ export class OrderTransportInformationComponent implements OnInit {
         Validators.required
       ),
       vehicleTray: new FormControl(
-        this.selectedOrderTransport.vehicleTray
+        this.selectedOrderTransport.vehicleTray,
+        Validators.required
       ),
       packagingType: new FormControl(
         this.selectedOrderTransport.packagingType,

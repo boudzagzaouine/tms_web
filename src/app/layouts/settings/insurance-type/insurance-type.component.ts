@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./insurance-type.component.css']
 })
 export class InsuranceTypeComponent implements OnInit {
- 
-  title = 'Modifier Type Assurance';  
+
+  title = 'Modifier Type Assurance';
   titleList = 'Liste des types assurance';
   page = 0;
   size = 10;
@@ -169,7 +169,7 @@ export class InsuranceTypeComponent implements OnInit {
   onDeleteAll() {
     if (this.selectedInsuranceTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedInsuranceTypes.map(x => x.id);
           this.subscriptions.add(this.insuranceTypeService.deleteAllByIds(ids).subscribe(
@@ -191,7 +191,7 @@ export class InsuranceTypeComponent implements OnInit {
           ));
         }
       });
-    } 
+    }
   }
 
   onShowDialog(event) {

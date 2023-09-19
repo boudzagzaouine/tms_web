@@ -46,7 +46,7 @@ export class StockViewComponent implements OnInit {
   stockExportList: Array<StockView> = [];
   subscriptions= new Subscription ();
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private stockViewService: StockViewService,
     private productService : ProductService,
@@ -63,9 +63,9 @@ export class StockViewComponent implements OnInit {
     this.items = [
       {label: 'StockView'},
       {label: 'Lister'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.subscriptions.add(this.productTypeService.findAll().subscribe(
@@ -80,12 +80,12 @@ export class StockViewComponent implements OnInit {
       {
         field: 'product',child: 'description',   header: 'Description',    type: 'object'
       },
-  
-    
+
+
       {
         field: 'quantity',   header: 'Quantité',    type: 'number'
       },
-    
+
       {
         field: 'price',   header: 'Prix HT',    type: 'number'
       },
@@ -143,7 +143,7 @@ export class StockViewComponent implements OnInit {
 
         this.stockList = data
         console.log(this.stockList);
-        
+
         this.spinner.hide();
       },
       error => {
@@ -164,7 +164,7 @@ export class StockViewComponent implements OnInit {
     if (this.productSearch != null && this.productSearch.code !== '') {
       buffer.append(`product.code~${this.productSearch.code}`);
     }
-   
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     this.loadData(this.searchQuery);
@@ -176,7 +176,7 @@ export class StockViewComponent implements OnInit {
       data => this.codeList = data.map(f => f.code)
     ));
   }
-  
+
   reset() {
     this.productSearch = null;
     this.productTypeSearch = null;
@@ -203,7 +203,7 @@ export class StockViewComponent implements OnInit {
 
     if (this.selectedStock.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedStock.map(x => x.id);
           this.subscriptions.add(this.stockViewService.deleteAllByIds(ids).subscribe(

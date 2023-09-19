@@ -64,10 +64,10 @@ export class MaintenancePreventiveListComponent implements OnInit {
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'description', header: 'Description', type: 'string' },
-     
+
     ];
 
-  
+
 
   }
 
@@ -207,7 +207,7 @@ export class MaintenancePreventiveListComponent implements OnInit {
 
     if (this.selectMaintenancePlans.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectMaintenancePlans.map(x => x.id);
 

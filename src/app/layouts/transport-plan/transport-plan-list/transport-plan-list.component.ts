@@ -379,7 +379,7 @@ export class TransportPlanListComponent implements OnInit {
 
     if (this.selectedTransportPlans.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedTransportPlans.map(x => x.id);
           this.subscriptions.add(this.transportPlanService.deleteAllByIds(ids).subscribe(

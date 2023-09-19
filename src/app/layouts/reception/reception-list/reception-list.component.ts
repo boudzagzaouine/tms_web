@@ -313,7 +313,7 @@ export class ReceptionListComponent implements OnInit {
   onDeleteAll() {
     if (this.selectedReceptions.length >= 1) {
       this.confirmationService.confirm({
-        message: "Voulez vous vraiment Suprimer?",
+        message: "Voulez vous vraiment Supprimer?",
         accept: () => {
           const ids = this.selectedReceptions.map((x) => x.id);
           this.subscrubtion.add(

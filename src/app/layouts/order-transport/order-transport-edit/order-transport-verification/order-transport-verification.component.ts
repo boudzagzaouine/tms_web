@@ -121,6 +121,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
     this.orderTransportinfoService.set(aller).subscribe(
       data =>{
     this.selectOrderTransportInfoAller =data;
+  
      console.log(data);
      this.orderTransportService.addOrderTransportInfoAller(this.selectOrderTransportInfoAller);
      this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');

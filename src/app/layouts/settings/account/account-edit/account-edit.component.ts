@@ -278,7 +278,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   }
   onDeletePlanning(day: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedAccount.plannings = this.selectedAccount.plannings.filter(
           (l) => l.day.code !== day
@@ -350,7 +350,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   }
   onDeleteContact(code: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedAccount.contacts = this.selectedAccount.contacts.filter(
           (l) => l.code !== code
@@ -392,7 +392,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   }
   onDeleteAddress(code: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedAccount.addresses = this.selectedAccount.addresses.filter(
           (l) => l.code !== code

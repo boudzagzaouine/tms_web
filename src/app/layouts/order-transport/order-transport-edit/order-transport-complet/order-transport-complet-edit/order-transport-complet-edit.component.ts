@@ -2,7 +2,7 @@ import { OrderTransportTrajetQuantity } from './../../../../../shared/models/ord
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { observable, Subscription } from "rxjs";
 import { Address, Contact, Account, PaymentType } from "./../../../../../shared/models";
 import { OrderTransportInfoLine } from "./../../../../../shared/models/order-transport-info-line";
@@ -72,6 +72,8 @@ export class OrderTransportCompletEditComponent implements OnInit {
     private addressService: AddressService,
     private contactService: ContactService,
     private toastr: ToastrService,
+    private confirmationService: ConfirmationService
+
 
   ) {}
 
@@ -379,6 +381,19 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
     this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
+  onDeleteLineEnlevement(line){
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Supprimer?",
+      accept: () => {
+        this.orderTransportInfoLineDocumentEnlevement =
+          this.orderTransportInfoLineDocumentEnlevement.filter(
+            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
+          );
+
+      },
+    });
+
+  }
 
   onLineEditedDocumentLivraison(line: OrderTransportInfoLineDocument) {
 
@@ -390,6 +405,22 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.onLineEditedDocument(line);
 
     this.orderTransportInfoLineDocumentLivraison.push(line);
+  }
+
+  onDeleteLineLivraison(line , mode:number){
+
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Supprimer?",
+      accept: () => {
+        this.orderTransportInfoLineDocumentLivraison =
+          this.orderTransportInfoLineDocumentLivraison.filter(
+            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
+          );
+
+      },
+    });
+
+
   }
 
   onLineEditedDocument(line: OrderTransportInfoLineDocument) {

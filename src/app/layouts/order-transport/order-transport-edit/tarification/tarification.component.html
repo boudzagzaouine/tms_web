@@ -150,20 +150,80 @@
 
 
 </div>
-<div class="row">
 
-<div class="form-group col-md-12">
+    </div>
+
+    </div>
+    </div>
+
+    </div>
+
+
+
 </div>
-</div>
-    </div>
-
-    </div>
-    </div>
-
-    </div>
-</div>
 
 
+<div class="row" *ngIf="(this.selectOrderTransport?.loadingType?.id==2) && (this.selectOrderTransport?.accountUnique!=true)">
+
+  <div class="form-group col-md-12">
+
+
+    <div class="row justify-content-around ">
+      <div class="form-group col-md-12">
+        <h4 class="divider donotcross" contenteditable>Tarification</h4>
+      </div>
+      <div class="card  ">
+        <div class="card-header" style="background-color: #f7f7f7;">
+          <div class="row">
+
+            <div class="col-xs-4 col-md-4 pull-left">
+
+            </div>
+            <div class=" col-xs-4 col-md-6 pull-center">
+              <span style="font-size: 16px; color: #5f5b5b;">
+                <b> {{ "Tarification" | translate }}</b></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top-primary">
+          <p-table [value]=" this.tarificationTransportServiceAccountList" [lazy]="true" [rows]="8"
+            [paginator]="true" [totalRecords]=" this.tarificationTransportServiceAccountList?.length">
+            <ng-template pTemplate="header">
+              <tr>
+
+                <th>{{'Client' | translate}}</th>
+                <th>{{'Prix de vente HT '| translate}}</th>
+                <th>{{'Service' | translate}}</th>
+                <th>{{'total '| translate}}</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{line?.account?.name}}</td>
+                <td>{{line?.priceTransport}}</td>
+                <td>{{line?.priceService}}</td>
+                <td>{{line?.totalPrice}}</td>
+
+
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+
+  </div>
+  </div>
 
 
 <div class="container mt-5">

@@ -232,7 +232,7 @@ export class ProductComponent implements OnInit {
 
     if (this.selectProducts.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectProducts.map(x => x.id);
           this.subscriptions.add(this.productService.deleteAllByIds(ids).subscribe(

@@ -178,7 +178,7 @@ export class TestDataTableComponent implements OnInit {
 
     if (this.selectedInsuranceTerms.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedInsuranceTerms.map(x => x.id);
           this.insuranceTermService.deleteAllByIds(ids).subscribe(

@@ -344,7 +344,7 @@ export class ReceptionEditComponent implements OnInit {
 
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedReception.receptionLines = this.selectedReception.receptionLines.filter(
           (l) => l.id !== id

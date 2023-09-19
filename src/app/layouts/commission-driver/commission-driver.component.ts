@@ -137,7 +137,7 @@ export class CommissionDriverComponent implements OnInit {
 
     if (this.selectedCommissionDriverTypes.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedCommissionDriverTypes.map(x => x.id);
           this.commissionDriverService.deleteAllByIds(ids).subscribe(

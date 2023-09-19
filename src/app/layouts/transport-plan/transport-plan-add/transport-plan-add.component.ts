@@ -635,7 +635,7 @@ this.showDialogEnAttente=true;
             "company.id:" +
               this.selectOrderTransport.account.company.id +
               ",transport.id:" +
-              this.selectedTransport.transport.id +
+              this.selectedTransport?.transport.id +
               ",product.id:" +
               element.product.id +
               ",account.id:" +
@@ -859,38 +859,62 @@ console.log(data);
       this.toastr.info("Selectionner Transport", "Info");
     } else {
       this.selectTransportPlanHistory = new TransportPlanHistory();
-      this.transportPlanService.find(
-        "ordertransport.id:" + this.selectOrderTransport.id
-      );
-      this.selectTransportPlanHistory.orderTransport =
-        this.selectOrderTransport;
-      //console.log(this.selectedTransportPlan.id);
-      //this.selectTransportPlanHistory.transportPlan =this.selectedTransportPlan
-      this.selectTransportPlanHistory.account =
-        this.selectOrderTransport.account;
-      this.selectTransportPlanHistory.transport =
-        this.selectedTransport.transport;
-      this.selectTransportPlanHistory.vehicleCategory =
-        this.selectOrderTransport.vehicleCategory;
-      this.selectTransportPlanHistory.marginRate =
-        this.selectedTransport.marginRate;
-      this.selectTransportPlanHistory.margineService =
-        this.selectedTransport.margeService;
-      this.selectTransportPlanHistory.date = new Date();
+      // this.transportPlanService.find(
+      //   "ordertransport.id:" + this.selectOrderTransport.id
+      // );
+ let existe = 0;
+        this.transportPlanHitoryService.find(
+        "orderTransport.id:" + this.selectOrderTransport.id +
+        ",transport.id:" + this.selectedTransport.transport.id
+      ).subscribe(
+        data => {
+  if(data[0]){
+    existe=1;
 
-      console.log(event);
-      this.selectTransportPlanHistory.salePrice =
-        this.selectOrderTransport.priceHT;
-      this.selectTransportPlanHistory.purchasePrice =
-        this.selectedTransport.purchaseAmountHt;
-      this.selectTransportPlanHistory.trajet =
-        this.selectOrderTransport?.trajet;
-      this.selectTransportPlanHistory.type = event;
-      if (this.selectTransportPlanHistory.type == 4) {
-        this.saveTransportPlanHistory();
-      } else {
-        this.showDialogReject = true;
-      }
+  }
+
+
+  if(existe==0 ){
+
+    this.selectTransportPlanHistory.orderTransport =
+    this.selectOrderTransport;
+  //console.log(this.selectedTransportPlan.id);
+  //this.selectTransportPlanHistory.transportPlan =this.selectedTransportPlan
+  this.selectTransportPlanHistory.account =
+    this.selectOrderTransport.account;
+  this.selectTransportPlanHistory.transport =
+    this.selectedTransport.transport;
+  this.selectTransportPlanHistory.vehicleCategory =
+    this.selectOrderTransport.vehicleCategory;
+  this.selectTransportPlanHistory.marginRate =
+    this.selectedTransport.marginRate;
+  this.selectTransportPlanHistory.margineService =
+    this.selectedTransport.margeService;
+  this.selectTransportPlanHistory.date = new Date();
+
+  console.log(event);
+  this.selectTransportPlanHistory.salePrice =
+    this.selectOrderTransport.priceHT;
+  this.selectTransportPlanHistory.purchasePrice =
+    this.selectedTransport.purchaseAmountHt;
+  this.selectTransportPlanHistory.trajet =
+    this.selectOrderTransport?.trajet;
+  this.selectTransportPlanHistory.type = event;
+  if (this.selectTransportPlanHistory.type == 4) {
+    this.saveTransportPlanHistory();
+  } else {
+    this.showDialogReject = true;
+  }
+}else if (existe==1) {
+  this.toastr.info("Deja En Attente", "Info");
+
+}
+        }
+      );
+
+
+
+
     }
   }
 
@@ -907,7 +931,7 @@ console.log(data);
             //this.messageService.add({severity:'success', summary: 'Edition', detail: 'Elément est Enregistré avec succès'});
 
             // this.loadData();
-
+this.loadTransport(this.selectOrderTransport);
             this.spinner.hide();
           },
           (error) => {
@@ -926,6 +950,66 @@ console.log(data);
   }
   onShowDialogEnAttente(event) {
     this.showDialogEnAttente = event;
+  }
+
+  onAffected(event){
+  let transportPlanHistoryAffected = new TransportPlanHistory();
+  transportPlanHistoryAffected=event;
+  console.log(transportPlanHistoryAffected);
+
+  this.catalogTransportPricingService
+  .find(
+    "turnType.id:" +
+      this.selectOrderTransport.turnType.id +
+      ",loadingType.id:" +
+      this.selectOrderTransport.loadingType.id +
+      ",vehicleCategory.tonnage >" +
+      this.selectOrderTransport.vehicleCategory.tonnage +
+      ",vehicleTray.id:" +
+      this.selectOrderTransport.vehicleTray.id +
+      ",trajet.id:" +
+      this.selectOrderTransport.trajet.id +
+      ",transport.id:" +transportPlanHistoryAffected.transport.id
+
+  )
+  .subscribe((data) => {
+    if (data[0] != null || data[0] != undefined) {
+      this.catalogTransportPricingList=[];
+      this.catalogTransportPricingList.push(data[0])
+    this.selectedTransport=data[0];
+    console.log(this.selectedTransport);
+
+    this.selectedTransportPlan.purchasePrice =
+    this.selectedTransport.purchaseAmountHt;
+    console.log( this.selectedTransportPlan.purchasePrice);
+
+  this.initForm();
+    this.catalogPricingService
+    .find(
+      "turnType.id:" +
+        this.selectOrderTransport.turnType.id +
+        ",loadingType.id:" +
+        this.selectOrderTransport.loadingType.id +
+        ",vehicleCategory.id:" +
+        this.selectOrderTransport.vehicleCategory.id +
+        ",vehicleTray.id:" +
+        this.selectOrderTransport.vehicleTray.id +
+        ",trajet.id:" +   this.selectOrderTransport.trajet.id
+
+    )
+    .subscribe((data) => {
+      if (data[0] != null || data[0] != undefined) {
+        this.catalogPricing = data[0];
+        this.calculateTransportMarge();
+      } else {
+        this.catalogPricing = new CatalogPricing();
+      }
+    });    } else {
+      this.selectedTransport= null;
+    }
+  });
+this.generatePlanTransport();
+this.showDialogEnAttente = false;
   }
 
   onShowDialogTransportProduct(line, mode) {
@@ -964,7 +1048,7 @@ console.log(data);
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectOrderTransport.orderTransportServiceCatalogs =
           this.selectOrderTransport.orderTransportServiceCatalogs.filter(

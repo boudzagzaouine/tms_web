@@ -240,7 +240,7 @@ export class InsuranceComponent implements OnInit {
 
     if (this.selectedInsurance.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedInsurance.map(x => x.id);
           this.insuranceService.deleteAllByIds(ids).subscribe(

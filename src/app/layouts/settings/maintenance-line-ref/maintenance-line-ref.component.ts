@@ -118,7 +118,7 @@ export class MaintenanceLineRefComponent implements OnInit {
 
     if (this.selectedMaintenanceLineRefs.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedMaintenanceLineRefs.map(x => x.id);
           this.maintenanceLineRefService.deleteAllByIds(ids).subscribe(

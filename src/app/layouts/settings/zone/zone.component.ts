@@ -45,7 +45,7 @@ export class ZoneComponent implements OnInit {
     this.items = [
       {label: 'Paramétrage'},
       {label: 'Zone' ,routerLink:'/core/settings/zone'},
-  
+
   ];
   this.home = {icon: 'pi pi-home'};
 
@@ -172,7 +172,7 @@ export class ZoneComponent implements OnInit {
 
     if (this.selectedZones.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedZones.map(x => x.id);
           this.subscriptions.add(this.zoneService.deleteAllByIds(ids).subscribe(

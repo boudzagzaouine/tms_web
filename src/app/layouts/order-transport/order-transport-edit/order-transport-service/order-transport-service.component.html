@@ -4,7 +4,34 @@
     <div class="modal-body">
       <div class="card-body">
         <form [formGroup]="transportProductForm">
+          <div class="row  justify-content-around"
+          *ngIf="
+          (this.selectOrderTransport?.loadingType?.id ==2 && this.selectOrderTransport.groupageUnique==false)
+          ">
 
+            <div class="form-group col-md-4">
+              <label class="font-weight-bold">{{'Client' | translate}}*</label>
+              <span *ngIf="(transportProductForm.get('account').touched && transportProductForm.get('account').invalid) ||
+              (isFormSubmitted && transportProductForm.get('account').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire'| translate}}
+          </span>
+          <p-autoComplete
+          formControlName="account" field="codeName"
+          [suggestions]="accountList" (onSelect)="onSelectAccount($event)"
+          (completeMethod)="onAccountSearch($event)"  [dropdown]="true"
+          >
+           <ng-template let-account pTemplate="item">
+               <div class="account-item">
+                   <div>{{account.code}} -> {{account.name}} </div>
+               </div>
+           </ng-template>
+       </p-autoComplete>
+            </div>
+            <div class="form-group col-md-8">
+</div>
+
+            </div>
           <div class="row  justify-content-around">
             <div class="form-group col-md-4">
               <label class="font-weight-bold">{{'Service' | translate}}*</label>

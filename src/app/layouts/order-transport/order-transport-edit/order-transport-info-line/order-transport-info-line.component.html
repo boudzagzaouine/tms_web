@@ -82,14 +82,26 @@ optionLabel="code"
           <p-fieldset legend="Address" [toggleable]="true">
      <div class="row">
 
-      <div class="form-group col-md-6" *ngIf=" this.selectedOrderTransport.groupageUnique==false">
+      <div class="form-group col-md-6"
+      *ngIf=" this.selectedOrderTransport.groupageUnique==false">
         <label class="font-weight-bold">{{
           "Client" | translate
         }} </label
         >
 
-
         <p-autoComplete
+        formControlName="account" field="codeName"
+        [suggestions]="accountList" (onSelect)="onSelectAccount($event)"
+        (completeMethod)="onAccountSearch($event)"  [dropdown]="true"
+        >
+         <ng-template let-account pTemplate="item">
+             <div class="account-item">
+                 <div>{{account.code}} -> {{account.name}} </div>
+             </div>
+         </ng-template>
+     </p-autoComplete>
+
+        <!-- <p-autoComplete
         formControlName="account"
         [suggestions]="accountList"
         (onSelect)="onSelectAccount($event)"
@@ -97,7 +109,7 @@ optionLabel="code"
         field="name"
         appendTo="body"
       >
-      </p-autoComplete>
+      </p-autoComplete> -->
       <span class="add" style="float: left;">
 
         <img
@@ -306,7 +318,7 @@ optionLabel="code"
             <br />
             <div class="p-inputgroup">
             <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-            formControlName="priceHT"
+            formControlName="priceHT"  (keyup)="onPriceChange(1)"
           ></p-inputNumber>
           </div>
           </div>
@@ -339,7 +351,7 @@ optionLabel="code"
             <br />
             <div class="p-inputgroup">
             <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
-            formControlName="priceTTC"
+            formControlName="priceTTC"  (keyup)="onPriceChange(2)"
           ></p-inputNumber>
           </div>
           </div>
@@ -582,7 +594,7 @@ optionLabel="code"
           <i class="fa fa-pencil"></i>
         </button>
         <button  type="button" class="btn btn-sm btn-danger mx-1"
-          (click)="onDeleteLine(line.numero)">
+          (click)="onDeleteLineLivraison(line)">
 
           <i class="fa fa-trash"></i>
         </button>
@@ -804,7 +816,7 @@ optionLabel="code"
             <i class="fa fa-pencil"></i>
           </button>
           <button  type="button" class="btn btn-sm btn-danger mx-1"
-            (click)="onDeleteLine(line.numero)">
+            (click)="onDeleteLineEnlevement(line)">
             <!--ADD-->
             <i class="fa fa-trash"></i>
           </button>

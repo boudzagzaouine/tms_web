@@ -642,7 +642,7 @@ export class MaintenancePlanComponent implements OnInit {
   }
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedMaintenance.actionLineMaintenances = this.selectedMaintenance.actionLineMaintenances.filter(
           (l) => l.product.id !== id

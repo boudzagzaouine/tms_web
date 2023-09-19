@@ -13,13 +13,13 @@ showEffect="fade"
 <div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="documentTypeForm">
+      <form [formGroup]="orderTransportDocumentTypeForm">
 
         <div class="row  justify-content-around">
           <div class="form-group col-sm-12">
             <label class="font-weight-bold">{{'Code' | translate}} *</label>
-            <span *ngIf="(documentTypeForm.get('code').touched && documentTypeForm.get('code').invalid) ||
-            (isFormSubmitted && documentTypeForm.get('code').invalid)" class="text-lighter"
+            <span *ngIf="(orderTransportDocumentTypeForm.get('code').touched && orderTransportDocumentTypeForm.get('code').invalid) ||
+            (isFormSubmitted && orderTransportDocumentTypeForm.get('code').invalid)" class="text-lighter"
               style="color: red; font-size: xx-small;">
                {{'Obligatoire' | translate }}
             </span>

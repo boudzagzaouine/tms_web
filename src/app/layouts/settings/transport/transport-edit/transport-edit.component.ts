@@ -139,8 +139,9 @@ export class TransportEditComponent implements OnInit {
 
       description: new FormControl(this.selectedTransport.description),
       line1: new FormControl(
-        this.selectAddress.line1
+        this.selectAddress.line1, Validators.required
       ),
+
       line2: new FormControl(this.selectAddress.line2),
       city: new FormControl(this.selectAddress.ville),
       country: new FormControl(this.selectAddress.pays),
@@ -161,7 +162,6 @@ export class TransportEditComponent implements OnInit {
     if (this.transportForm.invalid) {
       return;
     }
-    this.spinner.show();
 
     this.selectedTransport.name = this.transportForm.value["name"];
     this.selectedTransport.description =
@@ -180,7 +180,7 @@ export class TransportEditComponent implements OnInit {
     this.selectedTransport.owner =
       this.authentificationService.getDefaultOwner();
 
-      if(this.selectAddress.line1){
+      if(this.selectAddress?.line1 ){
         console.log("address");
         this.selectedTransport.address=this.selectAddress;
         console.log(this.selectAddress);
@@ -208,6 +208,8 @@ this.saveTransport();
   }
 
   saveTransport(){
+    this.spinner.show();
+
     this.transportService.set(this.selectedTransport).subscribe(
       (data) => {
         this.messageService.add({

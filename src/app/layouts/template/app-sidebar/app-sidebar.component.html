@@ -146,6 +146,10 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/activity-area" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Secteur d'activité" | translate}}</a>
           </li>
+          <li *hasPermission="['ACTIVITY_AREA_VIEW']">
+            <a routerLink="/core/settings/document-type" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Type Document" | translate}}</a>
+          </li>
           <li *hasPermission="['REFUSAL_REASON_VIEW','REJECTION_REASON_VIEW']">
             <a routerLink="/core/settings/menu-motif" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Motif" | translate}}</a>

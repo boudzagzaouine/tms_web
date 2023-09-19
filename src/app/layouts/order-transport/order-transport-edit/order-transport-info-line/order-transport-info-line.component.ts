@@ -20,7 +20,7 @@ import { PaymentType } from "./../../../../shared/models/payment-method";
 import { TurnStatusService } from "./../../../../shared/services/api/turn-status.service";
 import { TurnStatus } from "./../../../../shared/models/turn-status";
 import { Observable } from "rxjs/Observable";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { OrderTransportType } from "./../../../../shared/models/order-transport-type";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";
 import { OrderTransportTypeService } from "./../../../../shared/services/api/order-transport-type.service";
@@ -110,7 +110,9 @@ export class OrderTransportInfoLineComponent implements OnInit {
     private  trajetService:TrajetService,
     private accountPricingService :AccountPricingService,
     private catalogPricingService:CatalogPricingService,
-    private vatService : VatService
+    private vatService : VatService,
+    private confirmationService: ConfirmationService
+
 
   ) {}
 
@@ -274,8 +276,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
       formvalue["general"]["priceTTC"];
       this.selectedOrderTransportInfoLine.vat =
       formvalue["general"]["vat"];
-    this.selectedOrderTransportInfoLine.address = this.selectAddress.id >0 ?this.selectAddress:null;
-    this.selectedOrderTransportInfoLine.contact = this.selectContact.id>0 ?this.selectContact:null;
+    this.selectedOrderTransportInfoLine.address = this.selectAddress?.id >0 ?this.selectAddress:null;
+    this.selectedOrderTransportInfoLine.contact = this.selectContact?.id>0 ?this.selectContact:null;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;
@@ -423,6 +425,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   onSelectVat(event) {
     this.selectedOrderTransportInfoLine.vat = event.value;
+    this.onPriceChange(1);
   }
 
   onSelectPaymentTypeEnlevement(event) {
@@ -438,12 +441,25 @@ export class OrderTransportInfoLineComponent implements OnInit {
     this.showDialog.emit(a);
   }
    onAccountSearch(event) {
+    let search;
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
+    }
     this.accountService
-      .find("name~" + event.query)
-      .subscribe((data) => (this.accountList = data));
+      .find(search)
+      .subscribe((data) =>{console.log(data);
+       (this.accountList = data)});
+
+    // this.accountService
+    //   .find("name~" + event.query)
+    //   .subscribe((data) => (this.accountList = data));
   }
   onSelectAccount(event) {
-    this.selectedOrderTransportInfoLine.account = event.value;
+    this.selectedOrderTransportInfoLine.account = event;
+    console.log( this.selectedOrderTransportInfoLine.account);
+
   }
 
   onAddressSearch(event) {
@@ -586,12 +602,14 @@ if(this.lines.length>0){
     console.log("enleventm set");
     console.log(event);
     this.selectContact = event;
+    if(this.selectContact?.id>0){
     this.orderTransportInfoLineForm.controls["general"].patchValue({
       deliveryInfoName: event,
       deliveryInfoTel1: event.tel1,
       deliveryInfoEmail: event.email,
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
+  }
   }
 
   ngOnDestroy() {
@@ -615,6 +633,10 @@ if(this.lines.length>0){
 
     console.log(mode);
   }
+
+
+
+
   onHideDialogLine(event) {
     this.showDialogEnlevement = event;
     this.showDialogLivraison = event;
@@ -634,6 +656,19 @@ if(this.lines.length>0){
     this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
 
+  onDeleteLineEnlevement(line){
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Supprimer?",
+      accept: () => {
+        this.orderTransportInfoLineDocumentEnlevement =
+          this.orderTransportInfoLineDocumentEnlevement.filter(
+            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
+          );
+
+      },
+    });
+
+  }
   onLineEditedDocumentLivraison(line: OrderTransportInfoLineDocument) {
     console.log("liv");
 
@@ -646,7 +681,21 @@ if(this.lines.length>0){
 
     this.orderTransportInfoLineDocumentLivraison.push(line);
   }
+ onDeleteLineLivraison(line , mode:number){
 
+    this.confirmationService.confirm({
+      message: "Voulez vous vraiment Supprimer?",
+      accept: () => {
+        this.orderTransportInfoLineDocumentLivraison =
+          this.orderTransportInfoLineDocumentLivraison.filter(
+            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
+          );
+
+      },
+    });
+
+
+  }
   onLineEditedDocument(line: OrderTransportInfoLineDocument) {
     console.log("LineEditDocument");
 
@@ -822,4 +871,38 @@ distinationId
       this.isCapacityLivraison = false;
     }
   }
+
+
+
+onPriceChange(n: Number) {
+  let purchasePrice = +this.orderTransportInfoLineForm.value["general"]['priceHT'];
+  let purchasePriceTTC = +this.orderTransportInfoLineForm.value["general"]['priceTTC'];
+  let vat = this.orderTransportInfoLineForm.value["general"]['vat']?.value;
+console.log(purchasePrice);
+console.log(purchasePriceTTC);
+console.log(vat);
+
+
+  if (purchasePrice === undefined || purchasePrice == null) {
+    purchasePrice = 0;
+  } if (purchasePriceTTC === undefined || purchasePriceTTC == null) {
+    purchasePriceTTC = 0;
+  } if (vat === undefined || vat == null) {
+    vat = 0;
+  }
+
+  if (n === 1) {
+    const amountTva = (purchasePrice / 100) * vat;
+    const priceTTC = purchasePrice + amountTva;
+    this.orderTransportInfoLineForm.controls["general"].patchValue({
+      'priceTTC': priceTTC,
+    });
+  }if (n === 2) {
+      purchasePrice = purchasePriceTTC / (1 + vat / 100);
+      this.orderTransportInfoLineForm.controls["general"].patchValue({
+        priceHT: purchasePrice
+      });
+  }
+
+}
 }

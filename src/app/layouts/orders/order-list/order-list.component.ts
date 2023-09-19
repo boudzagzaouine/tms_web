@@ -87,7 +87,7 @@ export class OrderListComponent implements OnInit {
   loadDataLazy(event) {
     this.size = event.rows;
     this.page = event.first / this.size;
-    
+
     this.loadData(this.searchQuery);
   }
 
@@ -192,7 +192,7 @@ export class OrderListComponent implements OnInit {
 
     if (this.selectedOrders.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedOrders.map(x => x.id);
           this.subscrubtion.add(this.purchaseOrderService.deleteAllByIds(ids).subscribe(

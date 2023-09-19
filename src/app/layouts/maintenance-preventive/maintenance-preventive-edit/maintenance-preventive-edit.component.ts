@@ -134,8 +134,8 @@ export class MaintenancePreventiveEditComponent implements OnInit {
         this.subscriptions.push(this.maintenancePreventiveService.findById(id).subscribe(
           data => {
             this.selectedMaintenancePreventive = data;
-            
-   
+
+
             this.initForm();
 
           },
@@ -160,12 +160,12 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
 
   initForm() {
-    
+
     this.maintenacePlanForm = new FormGroup({
-    
+
         'fcode': new FormControl(this.selectedMaintenancePreventive.code, Validators.required),
         'fdescription': new FormControl(this.selectedMaintenancePreventive.description),
-     
+
     });
 
   }
@@ -178,7 +178,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
 
   onShowDialogAction(line,mode) {
-    
+
      this.showDialog = true;
     if (mode== true) {
       this.selectActionPlan = line;
@@ -197,7 +197,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.isFormSubmitted = true;
     if (this.maintenacePlanForm.invalid ) { return; }
 
-   
+
 
     this.selectedMaintenancePreventive.description = this.maintenacePlanForm.value['fdescription'];
  this.selectedMaintenancePreventive.owner=this.authentificationService.getDefaultOwner();
@@ -205,7 +205,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     this.maintenancePreventiveService.set(this.selectedMaintenancePreventive).subscribe(
       dataM => {
         this.toastr.success('Elément P est Enregistré Avec Succès', 'Edition');
- 
+
         this.isFormSubmitted = false;
         this.spinner.hide();
         this.selectedMaintenancePreventive = new MaintenancePlan();
@@ -230,7 +230,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
     );
   }
 
- 
+
 
 
    onHideDialogAction(event) {
@@ -247,7 +247,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   }
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedMaintenancePreventive.actionPlans = this.selectedMaintenancePreventive.actionPlans.filter(
           (l) => l.id !== id

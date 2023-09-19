@@ -91,6 +91,8 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
       });
 
     } else {
+    this.orderTransportService.clearObject();
+
       this.turnStatusService.findAll().subscribe((data) => {
         this.turnStatusList = data;
         this.selectedOrderTransport.turnStatus = this.turnStatusList.filter(
@@ -102,6 +104,7 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
         this.selectedOrderTransport.code = data;
         this.orderTransportService.addCode(this.selectedOrderTransport.code);
 
+        //this.orderTransportService.clearObject();
 
         this.activeIndex = 0;
 

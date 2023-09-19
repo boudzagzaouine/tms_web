@@ -48,7 +48,7 @@ export class MachineListComponent implements OnInit {
   subscriptions= new Subscription();
 
   items: MenuItem[];
-    
+
   home: MenuItem;
   constructor(private machineService: MachineService,
     private contratTypeService: ContractTypeService,
@@ -66,9 +66,9 @@ export class MachineListComponent implements OnInit {
     this.items = [
       {label: 'Machine'},
       {label: 'Lister'},
-   
+
   ];
-  
+
   this.home = {icon: 'pi pi-home'};
 
     this.className = Machine.name;
@@ -233,7 +233,7 @@ export class MachineListComponent implements OnInit {
 
     if (this.selectedMachines.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedMachines.map(x => x.id);
           this.subscriptions.add( this.machineService.deleteAllByIds(ids).subscribe(

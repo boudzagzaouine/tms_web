@@ -121,7 +121,7 @@ export class ActionTypeEditComponent implements OnInit {
   }
   onDeleteActionTypeRepair (id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedActionType.actionTypeRepairs = this.selectedActionType.actionTypeRepairs.filter(
           (l) => l.id !== id

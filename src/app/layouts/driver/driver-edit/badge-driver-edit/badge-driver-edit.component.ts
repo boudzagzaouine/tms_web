@@ -88,7 +88,7 @@ export class BadgeDriverEditComponent implements OnInit {
     this.selectedBadgeDriver.deliveranceDate = this.badgeTypeDriverForm.value['fDateDelivrance'];
     this.selectedBadgeDriver.validityEndDate = this.badgeTypeDriverForm.value['DateFin'];
    this.selectedBadgeType.owner=this.authentificationService.getDefaultOwner();
-   
+
 
 
     this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
@@ -118,7 +118,7 @@ export class BadgeDriverEditComponent implements OnInit {
 
   onDeleteLine(badgeL: BadgeTypeDriver) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
     this.badgeTypeDriverList = this.badgeTypeDriverList.filter(
       p => p.badgeType.id  !== badgeL.badgeType.id );

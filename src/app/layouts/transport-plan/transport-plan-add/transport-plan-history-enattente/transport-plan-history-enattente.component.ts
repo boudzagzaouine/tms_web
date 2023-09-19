@@ -10,6 +10,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class TransportPlanHistoryEnattenteComponent implements OnInit {
   @Input() selectedOrderTransportId :number;
   @Output() showDialog = new EventEmitter<boolean>();
+  @Output() transportPlanHistoryAffected = new EventEmitter<TransportPlanHistory>();
+
   selectTransportPlanHistory : TransportPlanHistory=new TransportPlanHistory();
   displayDialog: boolean;
   title = 'Modifier Motif';
@@ -37,9 +39,20 @@ this.transportPlanHistoryList=data}
   onSelectOrder(event,type:number){
  this.selectTransportPlanHistory=event;
  this.selectTransportPlanHistory.type=type;
-    this.showDialogReject=true;
+
+  this.showDialogReject=true;
+
+
 
   }
+  onAffected(event){
+    this.selectTransportPlanHistory=event;
+
+   this.transportPlanHistoryAffected.emit( this.selectTransportPlanHistory);
+
+
+
+     }
 
   onShowDialogHistory(event){
     this.transportPlanHistoryService

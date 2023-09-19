@@ -118,7 +118,7 @@ export class MaintenanceActionComponent implements OnInit {
 
     if (this.selectedMaintenanceActions.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedMaintenanceActions.map(x => x.id);
           this.maintenanceActionService.deleteAllByIds(ids).subscribe(

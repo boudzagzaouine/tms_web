@@ -285,7 +285,7 @@ console.log(buffer.getValue());
 
     if (this.selectedDrivers.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedDrivers.map(x => x.id);
           this.subscriptions.add(this.driverService.deleteAllByIds(ids).subscribe(
@@ -309,7 +309,7 @@ console.log(buffer.getValue());
   onDeleteDriver(id: number) {
 
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
 
         this.subscriptions.add( this.driverService.delete(id).subscribe(

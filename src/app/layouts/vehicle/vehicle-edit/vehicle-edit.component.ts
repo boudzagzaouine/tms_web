@@ -626,7 +626,7 @@ console.log("---");
     console.log("delete");
 
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedVehicle.vehicleProducts = this.selectedVehicle.vehicleProducts.filter(
           (l) => l.id !== id

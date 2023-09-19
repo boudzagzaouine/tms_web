@@ -56,7 +56,7 @@ export class OrderTransportGroupageComponent implements OnInit {
   capacityMax: number = 0;
   numberOfPalletMax: number = 0;
   editModeOrderTransportInfoLine: boolean = false;
-  showDialogOrderTransportInfoLine: boolean = false;
+  showDialogOrderTransportInfoLine: Boolean = false;
 
   selectedaccountInitialOrFinal: string = "false";
   showDialogContactAddress: boolean = false;
@@ -299,7 +299,7 @@ export class OrderTransportGroupageComponent implements OnInit {
 
   onDeletePackageDetail(id: number) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.packageDetails = this.packageDetails.filter((l) => l.id !== id);
       },
@@ -367,7 +367,7 @@ export class OrderTransportGroupageComponent implements OnInit {
     //  if(line!=null){
     //    this.getTrajetQuantity();
     //  }
-    this.showDialogOrderTransportInfoLine = true;
+    this.showDialogOrderTransportInfoLine = false;
     console.log(this.showDialogOrderTransportInfoLine);
 
     if (mode == true) {
@@ -381,13 +381,13 @@ export class OrderTransportGroupageComponent implements OnInit {
 
       this.editModeOrderTransportInfoLine = false;
     }
-
+    this.showDialogOrderTransportInfoLine = true;
 
   }
 
   onDeleteOrderTransportInfoLine(id: number) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.orderTransportInfoLines = this.orderTransportInfoLines.filter(
           (l) => l.id !== id
@@ -461,7 +461,7 @@ export class OrderTransportGroupageComponent implements OnInit {
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedOrderTransport.orderTransportServiceCatalogs =
           this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
@@ -472,20 +472,20 @@ export class OrderTransportGroupageComponent implements OnInit {
     });
   }
   calculateAllLines() {
-    this.selectedOrderTransport.totalPriceHT =
-      this.selectedOrderTransport.priceHT;
-    this.selectedOrderTransport.totalPriceTTC =
-      this.selectedOrderTransport.priceTTC;
-    this.selectedOrderTransport.totalPriceVat =
-      this.selectedOrderTransport.priceVat;
+    this.selectedOrderTransport.totalServiceHT = 0.0;
+    this.selectedOrderTransport.totalServiceTTC = 0.0;
+    this.selectedOrderTransport.totalServiceVat = 0.0;
     this.selectedOrderTransport?.orderTransportServiceCatalogs.forEach(
       (line) => {
-        this.selectedOrderTransport.totalPriceHT += +line.salePriceHT;
-        this.selectedOrderTransport.totalPriceTTC += +line.salePriceTTC;
-        this.selectedOrderTransport.totalPriceVat += +line.salePriceVat;
+        this.selectedOrderTransport.totalServiceHT += +line.totalSalePriceHT;
+        this.selectedOrderTransport.totalServiceTTC += +line.totalSalePriceTTC;
+        this.selectedOrderTransport.totalServiceVat += +line.totalSalePriceVat;
       }
     );
   }
+
+
+
 
   // fin Line
 

@@ -215,7 +215,7 @@ export class SupplierInvoiceListComponent implements OnInit {
 
     if (this.selectedSupplierInvoice.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedSupplierInvoice.map(x => x.id);
           this.subscrubtion.add(this.supplierInvoiceService.deleteAllByIds(ids).subscribe(

@@ -290,7 +290,7 @@ export class OrderTransportCompletRetourComponent implements OnInit {
 
   onDeletePackageDetail(id: number) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.packageDetails = this.packageDetails.filter((l) => l.id !== id);
       },
@@ -378,7 +378,7 @@ console.log(this.size);
 
   onDeleteOrderTransportInfoLine(id: number) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.orderTransportInfoLines = this.orderTransportInfoLines.filter(
           (l) => l.id !== id
@@ -408,7 +408,7 @@ console.log(this.size);
   }
   onDeleteTransportProduct(productCode: string) {
     this.confirmationService.confirm({
-      message: "Voulez vous vraiment Suprimer?",
+      message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedOrderTransport.orderTransportServiceCatalogs =
           this.selectedOrderTransport.orderTransportServiceCatalogs.filter(

@@ -146,7 +146,7 @@ export class MaintenanceTraitementComponent implements OnInit {
 
   }
   loadDataLazy(event) {
-  
+
     this.size = event.rows;
     this.page = event.first / this.size;
     this.loadData(this.searchQuery);
@@ -237,7 +237,7 @@ export class MaintenanceTraitementComponent implements OnInit {
 
     if (this.selectMaintenances.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectMaintenances.map(x => x.id);
 

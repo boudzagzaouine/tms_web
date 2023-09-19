@@ -1,3 +1,5 @@
+import { TarificationTransportServiceAccount } from './../../../../shared/models/tarification-transport-service-account';
+import { TransportPlanServiceCatalog } from './../../../../shared/models/transport-plan-service-catalog';
 import { Vat } from './../../../../shared/models/vat';
 import { Trajet } from './../../../../shared/models/trajet';
 import { VatService } from './../../../../shared/services/api/vat.service';
@@ -53,6 +55,8 @@ export class TarificationComponent implements OnInit {
   marginValue: number = 0;
   tarificationAccount:number=0;
   vatTarif : Vat= new Vat();
+   tarificationTransportServiceAccountList : TarificationTransportServiceAccount[]=[];
+
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportService: OrderTransportService,
@@ -261,6 +265,49 @@ console.log(this.selectedCatalogPricing);
       this.selectOrderTransport.priceVat+=(element.priceTTC - element.priceHT) as number
     });
     this.calculatePrice();
+    this.calculatePriceTransport();
+  }
+
+
+  calculatePriceTransport(){
+let accountService :TransportPlanServiceCatalog[]=[];
+
+this.orderTransportInfoAllerLignes.forEach(oTInfoAller=>{
+  accountService=[];
+
+  accountService =this.selectOrderTransport.orderTransportServiceCatalogs.filter(otSC=>
+    otSC.account.id==oTInfoAller.account.id
+  );
+  console.log(accountService);
+
+  let tarificationTransportServiceAccount : TarificationTransportServiceAccount=new TarificationTransportServiceAccount();
+  tarificationTransportServiceAccount.priceService=0
+  tarificationTransportServiceAccount.priceTransport=0;
+  tarificationTransportServiceAccount.totalPrice=0;
+
+  tarificationTransportServiceAccount.account=oTInfoAller.account;
+  if(accountService[0]){
+  accountService.forEach(tS=>{
+    console.log(tS);
+
+    tarificationTransportServiceAccount.priceService+=+ tS.totalSalePriceHT
+
+  })}
+  else {
+    tarificationTransportServiceAccount.priceService=0;
+  }
+
+    tarificationTransportServiceAccount.priceTransport=oTInfoAller.priceHT;
+    tarificationTransportServiceAccount.totalPrice=oTInfoAller.priceHT +   tarificationTransportServiceAccount.priceService;
+
+    this.tarificationTransportServiceAccountList.push(tarificationTransportServiceAccount)
+
+
+
+})
 
   }
+
+
+
 }

@@ -123,7 +123,7 @@ export class ActionEditComponent implements OnInit {
 
   onDeleteMaintenanceLine(id: number) {
     this.confirmationService.confirm({
-      message: 'Voulez vous vraiment Suprimer?',
+      message: 'Voulez vous vraiment Supprimer?',
       accept: () => {
         this.selectedAction.actionLineMaintenances = this.selectedAction.actionLineMaintenances.filter(
           (l) => l.product.id !== id

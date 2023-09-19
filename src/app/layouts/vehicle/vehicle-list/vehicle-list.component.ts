@@ -240,7 +240,7 @@ export class VehicleListComponent implements OnInit {
 
   }
 
-  
+
 
   onObjectEdited(event) {
 
@@ -279,7 +279,7 @@ export class VehicleListComponent implements OnInit {
 
     if (this.selectedVehicles.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedVehicles.map(x => x.id);
           this.subscriptions.add(this.vehicleService.deleteAllByIds(ids).subscribe(

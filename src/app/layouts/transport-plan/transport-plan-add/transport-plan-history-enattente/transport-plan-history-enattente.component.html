@@ -21,7 +21,7 @@
               <th>{{ "Order Transport" | translate }}</th>
               <th>{{ "Transporteur" | translate }}</th>
 
-              <th style="width: 40%">{{ "Action" | translate }}</th>
+              <th style="width: 50%">{{ "Action" | translate }}</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-line>
@@ -45,6 +45,15 @@
               >
                Rejeter
               </button>
+
+              <button
+              *ngIf="    transportPlanHistoryList?.length==1"
+              type="button"
+              (click)="onAffected(line)"
+              class="btn btn-sm btn-primary mx-1"
+            >
+             Affecter
+            </button>
               </td>
             </tr>
           </ng-template>

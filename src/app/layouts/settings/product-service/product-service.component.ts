@@ -154,7 +154,7 @@ export class ProductServiceComponent implements OnInit {
     if (this.codeSearch != null && this.codeSearch.code !== '') {
       buffer.append(`code~${this.codeSearch.code}`);
     }
- 
+
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -193,7 +193,7 @@ export class ProductServiceComponent implements OnInit {
 
     if (this.selectProducts.length >= 1) {
       this.confirmationService.confirm({
-        message: 'Voulez vous vraiment Suprimer?',
+        message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectProducts.map(x => x.id);
           this.subscriptions.add(this.productServiceService.deleteAllByIds(ids).subscribe(

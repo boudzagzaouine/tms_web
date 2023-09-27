@@ -109,6 +109,7 @@ export class OrderTransportCompletComponent implements OnInit {
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
+console.log( this.selectedOrderTransport);
 
       console.log("get aller");
 
@@ -116,7 +117,9 @@ export class OrderTransportCompletComponent implements OnInit {
         this.orderTransportService.getorderTransportInfoAller()
           ? this.orderTransportService.getorderTransportInfoAller()
           : new OrderTransportInfo();
+console.log( this.orderTransportService.getorderTransportInfoAller());
 
+console.log(this.selectedOrderTransportInfo);
 
     this.packageDetails = this.selectedOrderTransportInfo.packageDetails
       ? this.selectedOrderTransportInfo.packageDetails
@@ -125,6 +128,9 @@ export class OrderTransportCompletComponent implements OnInit {
       .orderTransportInfoLines
       ? this.selectedOrderTransportInfo.orderTransportInfoLines
       : [];
+      console.log(this.selectedOrderTransportInfo
+        .orderTransportInfoLines);
+
     if (this.selectedOrderTransportInfo.turnStatus == null) {
       this.turnStatusService.find("id:" + 1).subscribe((data) => {
         this.selectedOrderTransportInfo.turnStatus = data[0];
@@ -344,6 +350,9 @@ console.log(this.size);
   }
 
   onShowDialogOrderTransportInfoLineEnlevement(line, mode) {
+    console.log("line");
+console.log(line);
+
     if (mode == true) {
       this.selectOrderTransportInfoLineEnlevement =
         new OrderTransportInfoLine();
@@ -398,10 +407,16 @@ console.log(this.size);
     ) {
       this.selectedOrderTransport.orderTransportServiceCatalogs = [];
     }
-    this.selectedOrderTransport.orderTransportServiceCatalogs =
+
+
+         this.selectedOrderTransport.orderTransportServiceCatalogs =
       this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
         (l) => l.product.code !== line.product.code
       );
+
+
+
+
 
     this.selectedOrderTransport.orderTransportServiceCatalogs.push(line);
     this.calculateAllLines();

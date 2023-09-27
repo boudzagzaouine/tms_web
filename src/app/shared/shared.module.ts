@@ -1,3 +1,4 @@
+import { OrderTransportDocumentService } from './services/api/ordet-transport-document.service';
 import { VehicleAccompanimentService } from './services/api/vehicle-accompaniment.service';
 import { MarchandiseTypeService } from './services/api/marchandise-type.service';
 import { OrderTransportDocumentTypeService } from './services/api/order-transport-document-type.service';
@@ -426,7 +427,8 @@ export class SharedModule {
         OrderTransportDocumentTypeService,
         MarchandiseTypeService,
         VehicleAccompanimentService,
-        ZoneVilleService
+        ZoneVilleService,
+        OrderTransportDocumentService
 
       ],
 

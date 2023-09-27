@@ -103,6 +103,7 @@ export class OrderTransportInformationComponent implements OnInit {
     ) {
       this.selectedOrderTransport =
         this.OrderTransportService.getOrderTransport();
+console.log(this.selectedOrderTransport);
 
       this.selectedContact = this.selectedOrderTransport.contact;
 

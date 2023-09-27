@@ -1,3 +1,4 @@
+import { OrderTransportDocumentService } from './../../../../../shared/services/api/ordet-transport-document.service';
 import { DocumentType } from './../../../../../shared/models/document-type';
 import { OrderTransportDocumentType } from './../../../../../shared/models/order-transport-document-type';
 import { OrderTransportDocumentTypeService } from './../../../../../shared/services/api/order-transport-document-type.service';
@@ -9,6 +10,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { OrderTransportDocument } from './../../../../../shared/models/order-transport-document';
 import { saveAs } from 'file-saver';
+import { logWarnings } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-order-transport-info-line-documet',
@@ -30,7 +32,7 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
   private orderTransportDocumentTypeService : OrderTransportDocumentTypeService,
-
+ private orderTransportDocumentService:OrderTransportDocumentService,
     private authentificationService:AuthenticationService,
 
   ) { }
@@ -52,7 +54,25 @@ console.log( this.selectedOrderTransportInfoLineDocument.orderTransportDocumentL
       this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList=[];
 console.log(this.selectedOrderTransportInfoLineDocument);
 this.selectedOrderTransportInfoLineDocument.documentStatus=2;
-  
+console.log("ajouter");
+
+    }
+
+    else{
+      console.log("modifier");
+
+this.orderTransportDocumentService.find("orderTransportInfoLineDocument.id:"+this.selectedOrderTransportInfoLineDocument.id).subscribe(
+  data=>{
+
+if(data[0]){
+  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList=data
+
+}
+  }
+);
+
+
+
     }
     console.log(this.selectedOrderTransportInfoLineDocument);
 
@@ -78,6 +98,8 @@ this.selectedOrderTransportInfoLineDocument.documentStatus=2;
 
     this.selectedOrderTransportInfoLineDocument.numero = this.lineForm.value['numero'];
      this.orderTransportInfoLineDocumentEdited.emit(this.selectedOrderTransportInfoLineDocument);
+     console.log("Valider");
+
     this.displayDialog = false;
 
   }

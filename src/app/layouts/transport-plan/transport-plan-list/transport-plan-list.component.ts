@@ -1,3 +1,5 @@
+import { Account } from './../../../shared/models/account';
+import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { log } from 'console';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -24,6 +26,7 @@ import { jsPDF } from 'jspdf';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { OrderTransport } from './../../../shared/models/order-transport';
 const htmlToPdfmake = require("html-to-pdfmake");
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -38,16 +41,18 @@ export class TransportPlanListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: TransportPlan;
+  orderTransportSearch: OrderTransport;
   categorySearch: VehicleCategory;
   categoryList: VehicleCategory[] = [];
   transportList: Transport[] = [];
+  orderTrasnportList: OrderTransport[] = [];
   transportSearch: Transport;
   selectedTransportPlans: Array<TransportPlan> = [];
   transportPlanList: Array<TransportPlan> = [];
-  companySearch: Company;
+  companySearch: Account;
   turnStatusSearch: TurnStatus;
   turnStatusList: TurnStatus[] = [];
-  companyList: Company[] = [];
+  companyList: Account[] = [];
   className: string;
   cols: any[];
   editMode: number;
@@ -65,6 +70,8 @@ export class TransportPlanListComponent implements OnInit {
   dateDelivery: Date;
   constructor(private transportPlanService: TransportPlanService,
     private vehicleCategoryService: VehicleCategoryService,
+    private orderTransportService: OrderTransportService,
+
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -175,6 +182,11 @@ export class TransportPlanListComponent implements OnInit {
     this.loadData(this.searchQuery);
   }
 
+  onOrderTransportSearch(event) {
+    this.subscriptions.add(this.orderTransportService.find('code~' + event.query).subscribe(
+      data => this.orderTrasnportList = data
+    ));
+  }
 
   onTransportSearch(event) {
     this.subscriptions.add(this.transportService.find('name~' + event.query).subscribe(
@@ -188,13 +200,17 @@ export class TransportPlanListComponent implements OnInit {
     ));
   }
   onSearchClicked() {
+console.log(this.companySearch);
 
     const buffer = new EmsBuffer();
+    if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
+      buffer.append(`orderTransport.code~${this.orderTransportSearch.code}`);
+    }
     if (this.transportSearch != null && this.transportSearch !== undefined) {
       buffer.append(`transport.name~${this.transportSearch.name}`);
     }
     if (this.companySearch != null && this.companySearch !== undefined) {
-      buffer.append(`orderTransport.company.name~${this.companySearch.name}`);
+      buffer.append(`account.name~${this.companySearch.name}`);
     }
     if (this.categorySearch != null && this.categorySearch !== undefined) {
       buffer.append(`vehicleCategory.code~${this.categorySearch.code}`);
@@ -340,7 +356,7 @@ export class TransportPlanListComponent implements OnInit {
     this.transportSearch = null;
     this.companySearch = null;
     this.turnStatusSearch = null;
-    this.vehicleCategoryService = null;
+    this.categorySearch = null;
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

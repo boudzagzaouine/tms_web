@@ -13,6 +13,7 @@ export class TransportPlanServiceCatalog {
   product: Product;
   transport: Transport;
   account:Account;
+  address: Address;
   invoice:Boolean;
   purchasePriceHT: number;
   purchaseVat: Vat;

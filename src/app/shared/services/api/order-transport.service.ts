@@ -24,8 +24,7 @@ export class OrderTransportService  extends EmsService<OrderTransport> {
   activeIndex = new Subject<number>();
   subject = new Subject<Boolean>();
   index : number=0;
-
-  constructor(proxy: ProxyService) {
+  constructor( proxy: ProxyService) {
     super(proxy, 'orderTransports');
   }
 
@@ -146,6 +145,8 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
   console.log(orderTransportInfo);
 
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;
+    console.log(  this.selectOrderTransport.orderTransportInfoAller);
+
     this.emitOnchange();
 
   }
@@ -167,6 +168,17 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
    return this.selectOrderTransport.orderTransportInfoAller.numberKm;
   }
   getorderTransportInfoAller(){
+    console.log(this.getOrderTransport().orderTransportInfos);
+
+
+    console.log(this.selectOrderTransport?.orderTransportInfoAller);
+    if(this.getOrderTransport().loadingType.id==1){
+    this.selectOrderTransport.orderTransportInfoAller=this.selectOrderTransport.orderTransportInfoAller? this.selectOrderTransport.orderTransportInfoAller:this.selectOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
+
+    }else {
+      this.selectOrderTransport.orderTransportInfoAller=this.getOrderTransport().orderTransportInfos[0];
+
+    }
     if( this.selectOrderTransport?.orderTransportInfoAller!=null){
       if( this.selectOrderTransport?.orderTransportInfoAller?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines.sort(function (a, b) {
@@ -180,6 +192,13 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
     return this.selectOrderTransport.orderTransportInfoAller ;
   }
   getorderTransportInfoRetour(){
+    if(this.getOrderTransport().loadingType.id==1){
+      this.selectOrderTransport.orderTransportInfoRetour=this.selectOrderTransport.orderTransportInfoRetour? this.selectOrderTransport.orderTransportInfoRetour:this.selectOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
+
+      }else {
+        this.selectOrderTransport.orderTransportInfoRetour=this.getOrderTransport().orderTransportInfos[0];
+
+      }
     if( this.selectOrderTransport?.orderTransportInfoRetour!=null){
       if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines.sort(function (a, b) {
@@ -226,6 +245,8 @@ addLinesRetour(orderTransportInfoLine:OrderTransportInfoLine[]){
        soustPriceAller(price :number){
         this.selectOrderTransport.orderTransportInfoAller.priceTTC -= price;
          }
+
+
 
 
 

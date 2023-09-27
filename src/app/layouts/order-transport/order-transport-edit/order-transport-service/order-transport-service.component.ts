@@ -1,3 +1,5 @@
+import { Address } from './../../../../shared/models/address';
+import { AddressService } from './../../../../shared/services/api/address.service';
 import { OrderTransportService } from './../../../../shared/services/api/order-transport.service';
 import { OrderTransport } from './../../../../shared/models/order-transport';
 import { AccountPricingServiceService } from './../../../../shared/services/api/account-pricing-service.service';
@@ -46,6 +48,8 @@ export class OrderTransportServiceComponent implements OnInit {
   vats: Vat[];
   accountList: Account[] = [];
   transportList: Transport[] = [];
+  addressList: Address[] = [];
+
   subscriptions = new Subscription();
 selectDefaulVat:Vat = new Vat();
 selectOrderTransport :OrderTransport= new OrderTransport();
@@ -58,7 +62,8 @@ selectOrderTransport :OrderTransport= new OrderTransport();
     private transportService: TransportServcie,
     private accountPricingServiceService: AccountPricingServiceService,
     private catalogServiceService: CatalogServiceService,
-    private orderTransportService:OrderTransportService
+    private orderTransportService:OrderTransportService,
+    private addressService:AddressService,
   ) {}
 
   ngOnInit() {
@@ -112,6 +117,10 @@ selectOrderTransport :OrderTransport= new OrderTransport();
         this.selectedTransportServiceCatalog.account
       ),
 
+      address: this.formBuilder.control(
+        this.selectedTransportServiceCatalog.address
+      ),
+
       salePriceHT: this.formBuilder.control(
         this.selectedTransportServiceCatalog.salePriceHT
       ),
@@ -133,6 +142,18 @@ selectOrderTransport :OrderTransport= new OrderTransport();
         this.selectedTransportServiceCatalog.totalSalePriceTTC
       ),
     });
+  }
+
+  onAddressSearch(event) {
+    this.addressService
+      .find("delivery:true,code~" + event.query)
+      .subscribe((data) => (this.addressList = data));
+  }
+
+  onSelectAddress(event) {
+    this.selectedTransportServiceCatalog.address = event;
+
+
   }
 
   onSubmit() {

@@ -144,6 +144,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
       this.selectAddress = this.selectedOrderTransportInfoLine.address;
       this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
+      console.log();
+
       this.getOrderTransportInfoLineDocumentEnlevement(
         this.selectedOrderTransportInfoLine
       );

@@ -135,4 +135,10 @@ addDataExchangeTrajet(t: T[]): Observable<T[]> {
 addDataExchangeCompany(t: T[]): Observable<T[]> {
   return this.proxy.addDataExchangeCompany(this.controller, t);
 }
+
+searchOrderTransport(search: string) {
+  return this.proxy.getOrderTransport(this.controller, search);
+}
+
+
 }

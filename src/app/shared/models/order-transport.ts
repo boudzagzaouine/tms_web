@@ -77,4 +77,5 @@ export class OrderTransport {
   index :  boolean ; // variable local
 
   indexStep :  number ; // variable local
+  orderTransportInfos:OrderTransportInfo[]=[];
 }

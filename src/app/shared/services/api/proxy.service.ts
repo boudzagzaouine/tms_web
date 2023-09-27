@@ -384,4 +384,19 @@ addDataExchangeCompany(controller: string, object: any): Observable<any> {
 //   console.log(fullurl);
   return this.http.post(fullurl, object);
 }
+
+
+getOrderTransport(controller: string, search: string): Observable<any> {
+  const fullurl =
+      this.url +
+      controller +
+      '/getOrderTransport?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+      //console.log("fullurl");
+
+ console.log(fullurl);
+  return this.http.get<any>(fullurl);
+}
 }

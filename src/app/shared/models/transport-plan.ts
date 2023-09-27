@@ -25,6 +25,10 @@ export class TransportPlan {
   orderTransport:OrderTransport;
   vehicle :Vehicle;
   driver:Driver;
+
+  vehicleExterne :string;
+  driverExterne:string;
+
   vehicleCategory :VehicleCategory ;
   transport :Transport ;
   account:Account;

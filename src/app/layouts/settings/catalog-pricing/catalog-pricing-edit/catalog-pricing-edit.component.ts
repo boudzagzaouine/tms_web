@@ -134,7 +134,9 @@ console.log(this.selectCatalogPricing);
     if (this.editMode === 1) {
 
 
-       this.existTransport();
+    this.existTransport();
+      // this.insertcatalogTransport();
+
     } else if (this.editMode === 2) {
 
 

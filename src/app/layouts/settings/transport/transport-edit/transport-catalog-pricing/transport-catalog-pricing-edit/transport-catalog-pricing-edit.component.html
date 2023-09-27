@@ -78,7 +78,10 @@
 
               </span>
               <p-dropdown [autoDisplayFirst]="false" [options]="vehicleTrayList" optionLabel="code" [filter]="true"
-                [showClear]="true" [disabled]="(editMode==2)" (onChange)="onSelectvehicleTray($event)"
+                [showClear]="true"
+                [placeholder]="selectCatalogTransportPricing?.vehicleTray?.code"
+
+                [disabled]="(editMode==2)" (onChange)="onSelectvehicleTray($event)"
                 formControlName="fVehicleTray">
               </p-dropdown>
             </div>

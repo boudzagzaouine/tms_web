@@ -96,7 +96,9 @@ export class OrderTransportGroupageComponent implements OnInit {
       }
 
     });
-
+ this.packageDetails = this.selectedOrderTransportInfo.packageDetails
+      ? this.selectedOrderTransportInfo.packageDetails
+      : [];
     this.selectedOrderTransport = this.orderTransportService.getOrderTransport()
       ? this.orderTransportService.getOrderTransport()
       : new OrderTransport();
@@ -108,10 +110,11 @@ export class OrderTransportGroupageComponent implements OnInit {
 
     console.log(this.selectedOrderTransportInfo);
 
-    this.packageDetails = this.selectedOrderTransportInfo.packageDetails
-      ? this.selectedOrderTransportInfo.packageDetails
-      : [];
-    this.orderTransportInfoLines = this.selectedOrderTransportInfo.orderTransportInfoLines? this.selectedOrderTransportInfo.orderTransportInfoLines: [];
+
+    this.orderTransportInfoLines = this.orderTransportService.getorderTransportInfoAller().orderTransportInfoLines;
+   // this.selectedOrderTransportInfo.orderTransportInfoLines? this.selectedOrderTransportInfo.orderTransportInfoLines: [];
+   console.log(this.orderTransportInfoLines);
+
     if (this.selectedOrderTransportInfo.turnStatus == null) {
       this.turnStatusService.find('id:' + 1).subscribe(
         data => {
@@ -451,21 +454,30 @@ export class OrderTransportGroupageComponent implements OnInit {
     ) {
       this.selectedOrderTransport.orderTransportServiceCatalogs = [];
     }
-    this.selectedOrderTransport.orderTransportServiceCatalogs =
-      this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
-        (l) => l.product.code !== line.product.code
-      );
 
+
+     this.selectedOrderTransport.orderTransportServiceCatalogs =
+   this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
+     l =>   (l.product.id !== line.product.id) || (l.account.id !== line.account.id) || (l.address.id !== line.address.id)
+  ) ;
+
+  // const orderline = this.selectedOrderTransport.orderTransportServiceCatalogs.find(
+  //   l => (l.product.id !== line.product.id) && (l.account.id !== line.account.id) && (l.address.id !== line.address.id)
+  // );
+  // if (orderline == null) {
     this.selectedOrderTransport.orderTransportServiceCatalogs.push(line);
     this.calculateAllLines();
+  //}
   }
-  onDeleteTransportProduct(productCode: string) {
+  onDeleteTransportProduct(line: TransportPlanServiceCatalog) {
+    console.log(line);
+
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
         this.selectedOrderTransport.orderTransportServiceCatalogs =
           this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
-            (l) => l.product.code !== productCode
+            (l) =>  (l.product.id !== line.product.id || l.account.id !== line.account.id || l.address.id !== line?.address.id)
           );
         this.calculateAllLines();
       },

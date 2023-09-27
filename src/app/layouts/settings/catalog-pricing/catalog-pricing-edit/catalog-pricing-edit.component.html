@@ -121,6 +121,8 @@
                 [filter]="true"
                 [showClear]="true"
                 [disabled]="editMode == 2"
+                [placeholder]="this.selectCatalogPricing?.vehicleTray?.code"
+
                 (onChange)="onSelectvehicleTray($event)"
                 formControlName="fVehicleTray"
               >

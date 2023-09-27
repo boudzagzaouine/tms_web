@@ -398,10 +398,16 @@ console.log(this.size);
     ) {
       this.selectedOrderTransport.orderTransportServiceCatalogs = [];
     }
-    this.selectedOrderTransport.orderTransportServiceCatalogs =
+
+
+         this.selectedOrderTransport.orderTransportServiceCatalogs =
       this.selectedOrderTransport.orderTransportServiceCatalogs.filter(
         (l) => l.product.code !== line.product.code
       );
+
+
+ 
+
 
     this.selectedOrderTransport.orderTransportServiceCatalogs.push(line);
     this.calculateAllLines();

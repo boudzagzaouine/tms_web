@@ -6,7 +6,7 @@
         <form [formGroup]="transportProductForm">
           <div class="row  justify-content-around"
           *ngIf="
-          (this.selectOrderTransport?.loadingType?.id ==2 && this.selectOrderTransport.groupageUnique==false)
+          (this.selectOrderTransport?.loadingType?.id ==2 )
           ">
 
             <div class="form-group col-md-4">
@@ -28,7 +28,25 @@
            </ng-template>
        </p-autoComplete>
             </div>
-            <div class="form-group col-md-8">
+
+            <div class="form-group col-md-4">
+              <label class="font-weight-bold">{{"Nom d'addresse" | translate}}*</label>
+              <span *ngIf="(transportProductForm.get('address').touched && transportProductForm.get('address').invalid) ||
+              (isFormSubmitted && transportProductForm.get('address').invalid)" class="text-lighter"
+            style="color: red; font-size: xx-small;">
+            {{'Obligatoire'| translate}}
+          </span>
+          <p-autoComplete
+          formControlName="address"
+          [suggestions]="addressList"
+          (onSelect)="onSelectAddress($event)"
+          (completeMethod)="onAddressSearch($event)"
+          field="code"
+          appendTo="body"
+        >
+        </p-autoComplete>
+            </div>
+            <div class="form-group col-md-4">
 </div>
 
             </div>
@@ -45,7 +63,7 @@
 
             </div>
             <div class="form-group col-md-4 ">
-              <label class="font-weight-bold">{{'Quantity'| translate}}</label><br />
+              <label class="font-weight-bold">{{'Quantité'| translate}}</label><br />
               <input type="text" class="form-control" pInputText
               (keyup)="onQuantityChange()" formControlName="quantity" />
               </div>

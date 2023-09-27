@@ -93,7 +93,7 @@ export class TarificationComponent implements OnInit {
         this.vatTarif=data;
       }
     );
-    if(this.selectOrderTransport?.loadingType?.id ==2 && this.selectOrderTransport.groupageUnique==false){
+    if(this.selectOrderTransport?.loadingType?.id ==2 ){
       console.log("groupage");
       this.calculatePriceGroupage();
     }
@@ -207,8 +207,10 @@ console.log( this.tarificationAccount);
   }
 
   previous() {
-
+if(this.selectOrderTransport.loadingType.id==1){
   this.calculatePrice();
+
+}
 
       this.orderTransportService.addPrice(this.selectOrderTransport.priceHT,this.selectOrderTransport.priceTTC,this.selectOrderTransport.vat,this.selectOrderTransport.priceVat);
       this.orderTransportService.addMarginRate(this.marginRate);
@@ -239,7 +241,10 @@ console.log(this.selectedCatalogPricing);
   loadForm() {}
 
   next() {
-    this.calculatePrice();
+    if(this.selectOrderTransport.loadingType.id==1){
+      this.calculatePrice();
+
+    }
       this.selectOrderTransport.totalPriceHT =(this.selectOrderTransport.priceHT) + (this.selectOrderTransport.totalServiceHT?this.selectOrderTransport.totalServiceHT:0);
     this.selectOrderTransport.totalPriceTTC =(this.selectOrderTransport.priceTTC )+ (this.selectOrderTransport.totalServiceTTC?this.selectOrderTransport.totalServiceTTC:0);
     this.selectOrderTransport.totalPriceVat =(this.selectOrderTransport.priceVat) + (this.selectOrderTransport.totalServiceVat?this.selectOrderTransport.totalServiceVat:0);
@@ -260,11 +265,11 @@ console.log(this.selectedCatalogPricing);
     this.selectOrderTransport.priceTTC=0;
     this.selectOrderTransport.priceVat=0;
     this.orderTransportInfoAllerLignes.forEach(element => {
-      this.selectOrderTransport.priceHT+=element.priceHT as number
-      this.selectOrderTransport.priceTTC+=element.priceTTC as number
-      this.selectOrderTransport.priceVat+=(element.priceTTC - element.priceHT) as number
+  this.selectOrderTransport.priceHT+=+(element.priceHT as number)
+      this.selectOrderTransport.priceTTC+=+(element.priceTTC as number)
+      this.selectOrderTransport.priceVat+=+((element.priceTTC - element.priceHT) as number)
     });
-    this.calculatePrice();
+  //  this.calculatePrice();
     this.calculatePriceTransport();
   }
 
@@ -276,7 +281,7 @@ this.orderTransportInfoAllerLignes.forEach(oTInfoAller=>{
   accountService=[];
 
   accountService =this.selectOrderTransport.orderTransportServiceCatalogs.filter(otSC=>
-    otSC.account.id==oTInfoAller.account.id
+    otSC.account.id==oTInfoAller.account.id && otSC?.address?.id==oTInfoAller.address.id
   );
   console.log(accountService);
 
@@ -286,6 +291,8 @@ this.orderTransportInfoAllerLignes.forEach(oTInfoAller=>{
   tarificationTransportServiceAccount.totalPrice=0;
 
   tarificationTransportServiceAccount.account=oTInfoAller.account;
+  tarificationTransportServiceAccount.address=oTInfoAller.address;
+
   if(accountService[0]){
   accountService.forEach(tS=>{
     console.log(tS);

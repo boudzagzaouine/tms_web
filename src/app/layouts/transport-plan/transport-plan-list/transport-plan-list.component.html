@@ -6,9 +6,19 @@
   <div class="row  mt-1 ">
     <div class="col-md-2">
       <label class="font-weight-bold">
+        Ordre Transport</label><br />
+        <p-autoComplete
+        [(ngModel)]="orderTransportSearch"
+        [suggestions]="orderTrasnportList"
+        (completeMethod)="onOrderTransportSearch($event)"
+        field="code"
+      ></p-autoComplete>
+    </div>
+    <div class="col-md-2">
+      <label class="font-weight-bold">
         Prestataire</label><br />
         <p-autoComplete
-        [(ngModel)]="codeSearch"
+        [(ngModel)]="transportSearch"
         [suggestions]="transportList"
         (completeMethod)="onTransportSearch($event)"
         field="name"
@@ -16,7 +26,7 @@
     </div>
     <div class="col-md-2">
       <label class="font-weight-bold">
-        Société</label><br />
+        Client</label><br />
         <p-autoComplete
         [(ngModel)]="companySearch"
         [suggestions]="companyList"

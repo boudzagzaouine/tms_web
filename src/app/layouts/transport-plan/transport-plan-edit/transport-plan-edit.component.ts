@@ -86,12 +86,12 @@ export class TransportPlanEditComponent implements OnInit {
         }
       },
       {
-        label: 'CHARGÉ', icon: 'pi pi-file-excel', command: (event) => {
+        label: 'Chargement', icon: 'pi pi-file-excel', command: (event) => {
           this.handleItemClick(event, this.selectedline);
         }
       },
       {
-        label: 'DECHARGÉ', icon: 'pi pi-file-excel', command: (event) => {
+        label: 'Déchargement', icon: 'pi pi-file-excel', command: (event) => {
           this.handleItemClick(event, this.selectedline);
         }
       },
@@ -169,71 +169,34 @@ export class TransportPlanEditComponent implements OnInit {
         line.turnStatus = this.turnstatutList.filter(f => f.id === 10)[0]
         this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 10)[0]
 
-        this.orderTransportInfoLineService.set(line).subscribe(
-          data => {
-          }
+        this.saveStatus(line,this.selectedTransportPlan);
 
-        )
-        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
-          data => {
-
-          }
-        )
         break;
       case 'Fin Déchargement':
         line.turnStatus = this.turnstatutList.filter(f => f.id === 12)[0]
         this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 12)[0]
 
-        this.orderTransportInfoLineService.set(line).subscribe(
-          data => {
-          }
-        )
-        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
-          data => {
+        this.saveStatus(line,this.selectedTransportPlan);
 
-          }
-        )
         break;
-      case 'CHARGÉ':
+      case 'Chargement':
         line.turnStatus = this.turnstatutList.filter(f => f.id === 6)[0]
         this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 6)[0]
 
-        this.orderTransportInfoLineService.set(line).subscribe(
-          data => {
-          }
-        )
-        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
-          data => {
+        this.saveStatus(line,this.selectedTransportPlan);
 
-          }
-        )
         break;
-      case 'DECHARGÉ':
+      case 'Déchargement':
         line.turnStatus = this.turnstatutList.filter(f => f.id === 7)[0]
         this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 7)[0]
+        this.saveStatus(line,this.selectedTransportPlan);
 
-        this.orderTransportInfoLineService.set(line).subscribe(
-          data => {
-          }
-        )
-        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
-          data => {
 
-          }
-        )
         break;
       case 'Fin Chargement':
         line.turnStatus = this.turnstatutList.filter(f => f.id === 11)[0]
         this.selectedTransportPlan.turnStatus = this.turnstatutList.filter(f => f.id === 11)[0]
-        this.orderTransportInfoLineService.set(line).subscribe(
-          data => {
-          }
-        )
-        this.transportPlanService.set(this.selectedTransportPlan).subscribe(
-          data => {
-
-          }
-        )
+        this.saveStatus(line,this.selectedTransportPlan);
         break;
 
       default:
@@ -241,18 +204,43 @@ export class TransportPlanEditComponent implements OnInit {
     }
   }
 
+
+  saveStatus(line,selectedTransportPlan){
+
+    this.orderTransportInfoLineService.set(line).subscribe(
+      data => {
+      }
+    )
+    this.transportPlanService.set(selectedTransportPlan).subscribe(
+      data => {
+
+      }
+    )
+  }
   getOrderTransportInfoAllerFromOrderTransport(oT: OrderTransport) {
-    this.orderTransportInfoService.find("orderTransport.id:" + oT.id + ",type:1").subscribe(
+    let search ='';
+    if(this.selectedTransportPlan.orderTransport.loadingType.id==1){
+      search=",type:1"
+    }
+    this.orderTransportInfoService.find("orderTransport.id:" + oT.id+search ).subscribe(
       data => {
         this.orderTransportInfos = data;
+        console.log(this.orderTransportInfos);
+
+if(this.orderTransportInfos[0]){
+  console.log(this.orderTransportInfos[0]);
 
         this.orderTransportInfoLinesAller = this.orderTransportInfos[0].orderTransportInfoLines ?
-          this.orderTransportInfos[0].orderTransportInfoLines : [];
+          this.orderTransportInfos[0].orderTransportInfoLines : [];}
         console.log('ff' + data.length);
       })
   }
   getOrderTransportInfoRetourFromOrderTransport(oT: OrderTransport) {
-    this.orderTransportInfoService.find("orderTransport.id:" + oT.id + ",type:2").subscribe(
+    let search ='';
+    if(this.selectedTransportPlan.orderTransport.loadingType.id==1){
+      search=",type:2"
+    }
+    this.orderTransportInfoService.find("orderTransport.id:" + oT.id + search).subscribe(
       data => {
         this.orderTransportInfos = data;
 
@@ -268,6 +256,9 @@ export class TransportPlanEditComponent implements OnInit {
 
       orderTransport: new FormControl(this.selectedTransportPlan.orderTransport?.code),
       vehicle: new FormControl(this.selectedTransportPlan.vehicle),
+      vehicleExterne: new FormControl(this.selectedTransportPlan.vehicleExterne),
+      driverExterne: new FormControl(this.selectedTransportPlan.driverExterne),
+
       turnType: new FormControl(this.selectedTransportPlan?.orderTransport?.turnType?.code),
       loadingType: new FormControl(this.selectedTransportPlan?.orderTransport?.loadingType?.code),
       // villeSource :new FormControl(this.selectedTransportPlan?.villeSource?.code),
@@ -360,7 +351,7 @@ export class TransportPlanEditComponent implements OnInit {
 
 
 
-  onSubmit(close = false) {
+  onSubmit(close = false,closeOt=false) {
 
     this.isFormSubmitted = true;
 
@@ -371,6 +362,17 @@ export class TransportPlanEditComponent implements OnInit {
 
     this.selectedTransportPlan.salePrice = formValue['price'];
     this.selectedTransportPlan.dateDepart = formValue['date'];
+
+    this.selectedTransportPlan.vehicleExterne = formValue['vehicleExterne'];
+    this.selectedTransportPlan.driverExterne = formValue['driverExterne'];
+if(closeOt==true){
+ let statusFermer= this.turnstatutList.filter(f => f.id === 3)[0];
+ this.selectedTransportPlan.turnStatus=statusFermer;
+ this.selectedOrderTransport.turnStatus=statusFermer
+
+}
+
+
     this.transportPlanService.set(this.selectedTransportPlan).subscribe(
       (data) => {
         this.selectedTransportPlan = data;
@@ -399,6 +401,8 @@ export class TransportPlanEditComponent implements OnInit {
 
 
   }
+
+
 
 
   onShowDialogTransportProduct(line, mode) {

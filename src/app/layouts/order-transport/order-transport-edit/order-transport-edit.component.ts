@@ -12,6 +12,7 @@ import { FormGroup } from "@angular/forms";
 import { OrderTransport } from "./../../../shared/models/order-transport";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { OrderTransportService } from "./../../../shared/services/api/order-transport.service";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: "app-order-transport-edit",
@@ -39,7 +40,9 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
     public orderTransportService: OrderTransportService,
     public orderTransportInfoService: OrderTransportInfoService,
     private turnStatusService: TurnStatusService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+
   ) { }
 
   ngOnInit() {
@@ -58,13 +61,18 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
 
     let id = this.activatedRoute.snapshot.params["id"];
     if (id) {
-      this.orderTransportService.findById(id).subscribe((data) => {
+
+     this.subscriptions.add(
+     this.orderTransportService.findById(id).subscribe((data) => {
+    this.spinner.show();
         this.selectedOrderTransport = data;
         this.loadingTypeId = this.selectedOrderTransport.loadingType.id;
         console.log(this.selectedOrderTransport);
 
-        this.orderTransportInfoService.find('orderTransport.id:' + this.selectedOrderTransport.id).subscribe(
+        this.subscriptions.add( this.orderTransportInfoService.find('orderTransport.id:' + this.selectedOrderTransport.id).subscribe(
           data => {
+  this.spinner.show();
+
             console.log(data);
             if (this.selectedOrderTransport.loadingType.id == 1) {
 
@@ -72,23 +80,28 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
               this.selectedOrderTransportInforRetour = data.filter(f => f.type == 2)[0];
               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(this.selectedOrderTransportInforRetour));
+              this.spinner.hide();
+
 
             }
             else if (this.selectedOrderTransport.loadingType.id == 2) {
+
               console.log(data);
 
               this.selectedOrderTransportInforAller = data[0];
               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
-
+              console.log("add ligne ");
+this.spinner.hide();
             }
 
           }
-        );
+        ));
         this.subscriptions.add(this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
         console.log("edit");
         this.activeIndex = 0;
         this.showStepByTurnType(this.selectedOrderTransport.turnType.id);
-      });
+      }));
+
 
     } else {
     this.orderTransportService.clearObject();

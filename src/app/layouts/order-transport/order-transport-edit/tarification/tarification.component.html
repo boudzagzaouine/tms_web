@@ -163,7 +163,7 @@
 </div>
 
 
-<div class="row" *ngIf="(this.selectOrderTransport?.loadingType?.id==2) && (this.selectOrderTransport?.accountUnique!=true)">
+<div class="row" *ngIf="(this.selectOrderTransport?.loadingType?.id==2)">
 
   <div class="form-group col-md-12">
 
@@ -192,6 +192,8 @@
               <tr>
 
                 <th>{{'Client' | translate}}</th>
+                <th>{{'Adresse' | translate}}</th>
+
                 <th>{{'Prix de vente HT '| translate}}</th>
                 <th>{{'Service' | translate}}</th>
                 <th>{{'total '| translate}}</th>
@@ -201,6 +203,8 @@
             <ng-template pTemplate="body" let-line>
               <tr>
                 <td>{{line?.account?.name}}</td>
+                <td>{{line?.address?.name}}</td>
+
                 <td>{{line?.priceTransport}}</td>
                 <td>{{line?.priceService}}</td>
                 <td>{{line?.totalPrice}}</td>

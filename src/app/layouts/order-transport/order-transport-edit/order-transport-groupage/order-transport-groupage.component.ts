@@ -87,14 +87,12 @@ export class OrderTransportGroupageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.packagingTypeService.findAll().subscribe((data) => {
       this.packagingTypeList = data;
       if (this.selectedOrderTransportInfo.packagingType == undefined && this.selectedOrderTransportInfo.packagingType == null) {
         this.selectedOrderTransportInfo.packagingType = this.packagingTypeList.filter(f => f.id == 1)[0];
         this.initForm();
       }
-
     });
  this.packageDetails = this.selectedOrderTransportInfo.packageDetails
       ? this.selectedOrderTransportInfo.packageDetails
@@ -108,12 +106,12 @@ export class OrderTransportGroupageComponent implements OnInit {
         ? this.orderTransportService.getorderTransportInfoAller()
         : new OrderTransportInfo();
 
-    console.log(this.selectedOrderTransportInfo);
 
 
-    this.orderTransportInfoLines = this.orderTransportService.getorderTransportInfoAller().orderTransportInfoLines;
-   // this.selectedOrderTransportInfo.orderTransportInfoLines? this.selectedOrderTransportInfo.orderTransportInfoLines: [];
-   console.log(this.orderTransportInfoLines);
+    this.orderTransportInfoLines = this.orderTransportService.getLinesAller();
+    console.log( this.orderTransportInfoLines);
+
+    // this.selectedOrderTransportInfo.orderTransportInfoLines? this.selectedOrderTransportInfo.orderTransportInfoLines: [];
 
     if (this.selectedOrderTransportInfo.turnStatus == null) {
       this.turnStatusService.find('id:' + 1).subscribe(
@@ -169,16 +167,13 @@ export class OrderTransportGroupageComponent implements OnInit {
 
     if (this.orderTransportInfoLines[0] != null) {
 
-      console.log(">0");
 
       if (this.selectOrderTransportTrajetQuantity.weightEnlevement < this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement < this.selectOrderTransportTrajetQuantity.capacityLivraison || this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement < this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison) {
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Quantité livrée est supérieure à la quantité chargée' });
-        console.log("Quantité Chargée est supérieure à la quantité Livrée");
 
       }
       else if (this.selectOrderTransportTrajetQuantity.weightEnlevement > this.selectOrderTransportTrajetQuantity.weightLivraison || this.selectOrderTransportTrajetQuantity.capacityEnlevement > this.selectOrderTransportTrajetQuantity.capacityLivraison || this.selectOrderTransportTrajetQuantity.numberOfPalletEnlevement > this.selectOrderTransportTrajetQuantity.numberOfPalletLivraison) {
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Quantité Chargée est inférieure à la quantité Livrée' });
-        console.log("Quantité livrée est supérieure à la quantité chargée");
 
       }
       else {
@@ -353,7 +348,6 @@ export class OrderTransportGroupageComponent implements OnInit {
     const orderline = this.orderTransportInfoLines.find(
       (line) => line.id === orderTransportInfoLine.id
     );
-    console.log(orderTransportInfoLine);
 
     if (orderline == null) {
       this.orderTransportInfoLines.push(orderTransportInfoLine);
@@ -371,16 +365,13 @@ export class OrderTransportGroupageComponent implements OnInit {
     //    this.getTrajetQuantity();
     //  }
     this.showDialogOrderTransportInfoLine = false;
-    console.log(this.showDialogOrderTransportInfoLine);
 
     if (mode == true) {
-      console.log("modifier");
       this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
       this.selectOrderTransportInfoLine = line;
       this.editModeOrderTransportInfoLine = true;
     } else {
       this.selectOrderTransportInfoLine = new OrderTransportInfoLine();
-      console.log("add");
 
       this.editModeOrderTransportInfoLine = false;
     }
@@ -470,7 +461,6 @@ export class OrderTransportGroupageComponent implements OnInit {
   //}
   }
   onDeleteTransportProduct(line: TransportPlanServiceCatalog) {
-    console.log(line);
 
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",

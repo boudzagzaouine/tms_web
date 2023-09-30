@@ -105,6 +105,7 @@ export class OrderTransportInformationComponent implements OnInit {
         this.OrderTransportService.getOrderTransport();
 console.log(this.selectedOrderTransport);
 
+
       this.selectedContact = this.selectedOrderTransport.contact;
 
       this.selectedOrderTransport.vehicleAccompaniments =

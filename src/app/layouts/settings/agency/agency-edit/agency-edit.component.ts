@@ -1,3 +1,4 @@
+import { Address } from './../../../../shared/models/address';
 import { User } from './../../../../shared/models/user';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Zone } from './../../../../shared/models/Zone';
-import { Address } from './../../../../shared/models/Address';
 import { Agency } from './../../../../shared/models/agency';
 import { AgencyService } from './../../../../shared/services/api/agency.service';
 import { UserService } from './../../../../shared/services/api/user.service';
@@ -27,7 +27,7 @@ export class AgencyEditComponent implements OnInit {
   zoneList: Array<Zone>
   responsableList: Array<User>
   responsableSearch: User
-  adressSearch:Address
+  adressSearch:Address;
   adressList: Array<Agency> = [];
   agencyForm: FormGroup;
   isFormSubmitted = false;
@@ -110,7 +110,7 @@ export class AgencyEditComponent implements OnInit {
   onAdressSearch(event: any) {
     this.subscriptions.add(this.adressService.find('code~' + event.query).subscribe(
       data => this.adressList = data
-    )); 
+    ));
   }
   onResponsableSearch(event: any) {
     this.subscriptions.add(this.responsableService.find('surname~' + event.query).subscribe(

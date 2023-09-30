@@ -1,3 +1,4 @@
+import { observable } from 'rxjs';
 
 import { TurnStatus } from './../../models/turn-status';
 import { Trajet } from './../../models/trajet';
@@ -29,7 +30,7 @@ export class OrderTransportService  extends EmsService<OrderTransport> {
   }
 
   emitOnchange(){
-    this.orderdeliver.next(this.selectOrderTransport);
+    this.orderdeliver.next(this.selectOrderTransport) ;
   }
 
 cloneOrderTransport(OrderTransport : OrderTransport){
@@ -142,11 +143,9 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
   }
 
   addOrderTransportInfoAller(orderTransportInfo :OrderTransportInfo){
-  console.log(orderTransportInfo);
-
+    console.log("Add Aller");
+    console.log(orderTransportInfo);
     this.selectOrderTransport.orderTransportInfoAller=orderTransportInfo;
-    console.log(  this.selectOrderTransport.orderTransportInfoAller);
-
     this.emitOnchange();
 
   }
@@ -168,17 +167,10 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
    return this.selectOrderTransport.orderTransportInfoAller.numberKm;
   }
   getorderTransportInfoAller(){
-    console.log(this.getOrderTransport().orderTransportInfos);
+  console.log("get Aller ");
 
+    console.log(this.selectOrderTransport.orderTransportInfoAller);
 
-    console.log(this.selectOrderTransport?.orderTransportInfoAller);
-    if(this.getOrderTransport().loadingType.id==1){
-    this.selectOrderTransport.orderTransportInfoAller=this.selectOrderTransport.orderTransportInfoAller? this.selectOrderTransport.orderTransportInfoAller:this.selectOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
-
-    }else {
-      this.selectOrderTransport.orderTransportInfoAller=this.getOrderTransport().orderTransportInfos[0];
-
-    }
     if( this.selectOrderTransport?.orderTransportInfoAller!=null){
       if( this.selectOrderTransport?.orderTransportInfoAller?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoAller.orderTransportInfoLines.sort(function (a, b) {
@@ -187,18 +179,10 @@ this.selectOrderTransport.orderTransportInfoAller.time=time;
     else {
       this.selectOrderTransport.orderTransportInfoAller= new OrderTransportInfo();
     }
-    console.log(this.selectOrderTransport.orderTransportInfoAller);
-
     return this.selectOrderTransport.orderTransportInfoAller ;
   }
   getorderTransportInfoRetour(){
-    if(this.getOrderTransport().loadingType.id==1){
-      this.selectOrderTransport.orderTransportInfoRetour=this.selectOrderTransport.orderTransportInfoRetour? this.selectOrderTransport.orderTransportInfoRetour:this.selectOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
 
-      }else {
-        this.selectOrderTransport.orderTransportInfoRetour=this.getOrderTransport().orderTransportInfos[0];
-
-      }
     if( this.selectOrderTransport?.orderTransportInfoRetour!=null){
       if( this.selectOrderTransport?.orderTransportInfoRetour?.orderTransportInfoLines!=null){
     this.selectOrderTransport.orderTransportInfoRetour.orderTransportInfoLines.sort(function (a, b) {

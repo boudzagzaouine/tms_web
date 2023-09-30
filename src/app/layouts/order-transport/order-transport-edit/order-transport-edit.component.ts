@@ -71,49 +71,47 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
     this.spinner.show();
         this.selectedOrderTransport = data;
         this.loadingTypeId = this.selectedOrderTransport.loadingType.id;
-        console.log(this.selectedOrderTransport);
 
-        // this.subscriptions.add( this.orderTransportInfoService.find('orderTransport.id:' + this.selectedOrderTransport.id).subscribe(
-        //   info => {
+
   this.spinner.show();
 
 
 
-            if (this.selectedOrderTransport.loadingType.id == 1) {
-console.log(this.selectedOrderTransport.orderTransportInfos);
+//             if (this.selectedOrderTransport.loadingType.id == 1) {
+// console.log("complet");
 
-              this.selectedOrderTransportInforAller = this.selectedOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
-              console.log(this.selectedOrderTransportInforAller);
+//               this.selectedOrderTransportInforAller = this.selectedOrderTransport.orderTransportInfos.filter(f => f.type == 1)[0];
 
-              this.selectedOrderTransportInforRetour = this.selectedOrderTransport.orderTransportInfos.filter(f => f.type == 2)[0];
-              console.log(this.selectedOrderTransportInforRetour);
+//               this.selectedOrderTransportInforRetour = this.selectedOrderTransport.orderTransportInfos.filter(f => f.type == 2)[0];
 
-              this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
-              this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(this.selectedOrderTransportInforRetour));
-              this.spinner.hide();
+//               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
+//               this.subscriptions.add(this.orderTransportService.addLinesAller(this.selectedOrderTransportInforAller.orderTransportInfoLines));
+
+//               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoRetour(this.selectedOrderTransportInforRetour));
+//               this.subscriptions.add(this.orderTransportService.addLinesRetour(this.selectedOrderTransportInforRetour.orderTransportInfoLines));
+
+//               this.spinner.hide();
 
 
-            }
-            else if (this.selectedOrderTransport.loadingType.id == 2) {
+//             }
+//             else if (this.selectedOrderTransport.loadingType.id == 2) {
+// console.log("groupage");
 
-              console.log(this.selectedOrderTransport.orderTransportInfos);
 
-              this.selectedOrderTransportInforAller = this.selectedOrderTransport.orderTransportInfos[0];
+//               this.selectedOrderTransportInforAller = this.selectedOrderTransport.orderTransportInfos[0];
 
-              this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
-              console.log("add ligne ");
-this.spinner.hide();
-            }
+//               this.subscriptions.add(this.orderTransportService.addOrderTransportInfoAller(this.selectedOrderTransportInforAller));
+//               this.subscriptions.add(this.orderTransportService.addLinesAller(this.selectedOrderTransportInforAller.orderTransportInfoLines));
+
+ this.spinner.hide();
+//             }
 
 
         //   }
         // ));
         this.subscriptions.add(this.orderTransportService.cloneOrderTransport(this.selectedOrderTransport));
-        console.log("edit");
         this.activeIndex = 0;
         this.showStepByTurnType(this.selectedOrderTransport.turnType.id);
-        console.log(this.selectedOrderTransport);
-console.log(this.orderTransportService.getOrderTransport());
 
       }));
 

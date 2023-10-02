@@ -229,9 +229,20 @@ export class TransportPlanEditComponent implements OnInit {
 
 if(this.orderTransportInfos[0]){
   console.log(this.orderTransportInfos[0]);
+//  this.orderTransportInfoLinesAller = this.orderTransportInfos[0].orderTransportInfoLines ?
+//           this.orderTransportInfos[0].orderTransportInfoLines : [];
+ this.orderTransportInfoLineService.find('orderTransportInfo.id:'+this.orderTransportInfos[0].id).subscribe(
+  data=>{
+if(data[0]){
 
-        this.orderTransportInfoLinesAller = this.orderTransportInfos[0].orderTransportInfoLines ?
-          this.orderTransportInfos[0].orderTransportInfoLines : [];}
+  this.orderTransportInfoLinesAller=data;
+}
+
+  }
+ );
+
+
+       }
         console.log('ff' + data.length);
       })
   }
@@ -244,8 +255,21 @@ if(this.orderTransportInfos[0]){
       data => {
         this.orderTransportInfos = data;
 
-        this.orderTransportInfoLinesRetour = this.orderTransportInfos[0].orderTransportInfoLines ?
-          this.orderTransportInfos[0].orderTransportInfoLines : [];
+        // this.orderTransportInfoLinesRetour = this.orderTransportInfos[0].orderTransportInfoLines ?
+        //   this.orderTransportInfos[0].orderTransportInfoLines : [];
+
+        this.orderTransportInfoLineService.find('orderTransportInfo.id:'+this.orderTransportInfos[0].id).subscribe(
+          data=>{
+        if(data[0]){
+
+          this.orderTransportInfoLinesAller=data;
+        }
+
+          }
+         );
+
+
+
         console.log('ff' + data.length);
       })
   }

@@ -27,49 +27,49 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier';
   lineForm: FormGroup;
- orderTransportDocumentTypeList : OrderTransportDocumentType[]=[];
- orderTransportDocumentList: OrderTransportDocument[]=[];
+  orderTransportDocumentTypeList: OrderTransportDocumentType[] = [];
+  orderTransportDocumentList: OrderTransportDocument[] = [];
   constructor(
     private formBuilder: FormBuilder,
-  private orderTransportDocumentTypeService : OrderTransportDocumentTypeService,
- private orderTransportDocumentService:OrderTransportDocumentService,
-    private authentificationService:AuthenticationService,
+    private orderTransportDocumentTypeService: OrderTransportDocumentTypeService,
+    private orderTransportDocumentService: OrderTransportDocumentService,
+    private authentificationService: AuthenticationService,
 
   ) { }
 
   ngOnInit() {
- console.log("ddddd");
+    console.log("ddddd");
 
     this.title = 'Ajouter';
     this.displayDialog = true;
-  this.orderTransportDocumentTypeService.findAll().subscribe(
-    data=>{
-   this.orderTransportDocumentTypeList=data;
-    }
-  );
-console.log( this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList);
+    this.orderTransportDocumentTypeService.findAll().subscribe(
+      data => {
+        this.orderTransportDocumentTypeList = data;
+      }
+    );
+    console.log(this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList);
 
     if (!this.editMode) {
       this.selectedOrderTransportInfoLineDocument = new OrderTransportInfoLineDocument();
-      this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList=[];
-console.log(this.selectedOrderTransportInfoLineDocument);
-this.selectedOrderTransportInfoLineDocument.documentStatus=2;
-console.log("ajouter");
+      this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList = [];
+      console.log(this.selectedOrderTransportInfoLineDocument);
+      this.selectedOrderTransportInfoLineDocument.documentStatus = 2;
+      console.log("ajouter");
 
     }
 
-    else{
+    else {
       console.log("modifier");
 
-this.orderTransportDocumentService.find("orderTransportInfoLineDocument.id:"+this.selectedOrderTransportInfoLineDocument.id).subscribe(
-  data=>{
+      this.orderTransportDocumentService.find("orderTransportInfoLineDocument.id:" + this.selectedOrderTransportInfoLineDocument.id).subscribe(
+        data => {
 
-if(data[0]){
-  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList=data
+          if (data[0]) {
+            this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList = data
 
-}
-  }
-);
+          }
+        }
+      );
 
 
 
@@ -97,64 +97,67 @@ if(data[0]){
     }
 
     this.selectedOrderTransportInfoLineDocument.numero = this.lineForm.value['numero'];
-     this.orderTransportInfoLineDocumentEdited.emit(this.selectedOrderTransportInfoLineDocument);
-     console.log("Valider");
+    this.orderTransportInfoLineDocumentEdited.emit(this.selectedOrderTransportInfoLineDocument);
+    console.log("Valider");
 
     this.displayDialog = false;
 
   }
 
 
-  onSelectorderTransportDocumentType(event){
+  onSelectorderTransportDocumentType(event) {
 
-    this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType=event.value
-    console.log('ffff'+event.value.id);
+    this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType = event.value
+    console.log('ffff' + event.value.id);
   }
 
   onSelectDocument(event) {
-    let  selectedDocument = new  OrderTransportDocument();
+    let selectedDocument = new OrderTransportDocument();
     let fileReader = new FileReader();
-    var fl : any;
-    for(let file of event.files) {
+    var fl: any;
+    for (let file of event.files) {
       console.log(file);
 
-       // this.uploadedFiles.push(file);
-        fileReader.readAsDataURL(file);
-        selectedDocument.fileName=file.name;
-
-        fileReader.onload =  ()=> {
-          console.log(fileReader.result);
-          selectedDocument.file=(fileReader.result as string).split(",")[1] as any;
-          selectedDocument.fileType=file.type;
-         console.log( selectedDocument.file);
+      // this.uploadedFiles.push(file);
+      fileReader.readAsDataURL(file);
+      selectedDocument.fileName = file.name;
+      var extension = file.name.split('.').pop().toLowerCase()
+      fileReader.onload = () => {
+        console.log(fileReader.result);
+        selectedDocument.file = (fileReader.result as string).split(",")[1] as any;
+        selectedDocument.fileType = extension;
+        console.log(selectedDocument.fileType);
       };
 
-   }
-   this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
-}
+    }
+    this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
+  }
+  deleteFile(orderTransportDocument: OrderTransportDocument){
 
+  }
 
-dowloand(orderTransportDocument:OrderTransportDocument){
-var url=orderTransportDocument.file;
-var binaryString = window.atob(url as any);
-var binaryLen = binaryString.length;
-var bytes = new Uint8Array(binaryLen);
-for (var i = 0; i < binaryLen; i++) {
-   var ascii = binaryString.charCodeAt(i);
-   bytes[i] = ascii;
-}
-const data=new Blob([bytes]);
-let arrayOfBlob = new Array<Blob>();
-arrayOfBlob.push(data);
-var file = new File(arrayOfBlob,orderTransportDocument.fileName,{
- type: orderTransportDocument.fileType });
+  dowloand(orderTransportDocument: OrderTransportDocument) {
+    var url = orderTransportDocument.file;
+    var binaryString = window.atob(url as any);
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+      var ascii = binaryString.charCodeAt(i);
+      bytes[i] = ascii;
+    }
+    const data = new Blob([bytes]);
+    let arrayOfBlob = new Array<Blob>();
+    arrayOfBlob.push(data);
+    var file = new File(arrayOfBlob, orderTransportDocument.fileName, {
+      type: orderTransportDocument.fileType
+    });
 
-let fileReader = new FileReader();
-fileReader.readAsDataURL(file);
-fileReader.onload =  ()=> {
-saveAs(fileReader.result,orderTransportDocument.fileName);
-}
-}
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      saveAs(fileReader.result, orderTransportDocument.fileName);
+    }
+  }
 
 
   onHideDialog() {

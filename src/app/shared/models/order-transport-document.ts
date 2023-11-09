@@ -11,10 +11,11 @@ import { AddressContactOrderTransportInfo } from './address-contact-order-transp
 
 
 export class OrderTransportDocument {
-  id: number;
-   file:any;
-	  fileType:string;
-	  fileName :string;
-	  orderTransportInfoLineDocument :OrderTransportInfoLineDocument;
+	id: number;
+	file: any;
+	fileType: string;
+	fileName: string;
+	filePath: string;
+	orderTransportInfoLineDocument: OrderTransportInfoLineDocument;
 
 }

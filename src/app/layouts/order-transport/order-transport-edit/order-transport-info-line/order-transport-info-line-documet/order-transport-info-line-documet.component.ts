@@ -66,7 +66,6 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
 
           if (data[0]) {
             this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList = data
-
           }
         }
       );
@@ -112,25 +111,20 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   }
 
   onSelectDocument(event) {
-    let selectedDocument = new OrderTransportDocument();
-    let fileReader = new FileReader();
-    var fl: any;
     for (let file of event.files) {
-      console.log(file);
-
-      // this.uploadedFiles.push(file);
+      const selectedDocument = new OrderTransportDocument();
+      const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
-      selectedDocument.fileName = file.name;
-      var extension = file.name.split('.').pop().toLowerCase()
       fileReader.onload = () => {
-        console.log(fileReader.result);
+        
+        selectedDocument.fileName = file.name;
         selectedDocument.file = (fileReader.result as string).split(",")[1] as any;
-        selectedDocument.fileType = extension;
-        console.log(selectedDocument.fileType);
+        selectedDocument.fileType = file.name.split('.').pop().toLowerCase();
+
+        this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
       };
 
     }
-    this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
   }
   deleteFile(orderTransportDocument: OrderTransportDocument){
 

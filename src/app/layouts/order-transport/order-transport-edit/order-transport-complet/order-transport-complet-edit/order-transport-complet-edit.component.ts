@@ -15,6 +15,7 @@ import { OrderTransportTypeService } from "./../../../../../shared/services/api/
 import { OrderTransportService } from "./../../../../../shared/services/api/order-transport.service";
 import { PaymentTypeService } from "./../../../../../shared/services/api/payment-type.service";
 import { TurnStatusService } from "./../../../../../shared/services/api/turn-status.service";
+import { OrderTransportInfoLineDocumentService } from './../../../../../shared/services/api/order-transport-info-line-documet.service';
 
 @Component({
   selector: "app-order-transport-complet-edit",
@@ -27,8 +28,8 @@ export class OrderTransportCompletEditComponent implements OnInit {
   @Input() selectedOrderTransportInfoLine: OrderTransportInfoLine;
   selectedOrderTransportTrajetQuantity: OrderTransportTrajetQuantity;
   @Input() editMode: number;
-  @Input() displayDialog:Boolean;
- @Input() orderTypeTitle : string ;
+  @Input() displayDialog: Boolean;
+  @Input() orderTypeTitle: string;
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
     new EventEmitter<OrderTransportInfoLine>();
@@ -66,7 +67,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     public orderTransportService: OrderTransportService,
-    private messageService: MessageService,
+    private orderTransportInfoLineDocumentService: OrderTransportInfoLineDocumentService,
     private turnStatusService: TurnStatusService,
     private paymentTypeService: PaymentTypeService,
     private addressService: AddressService,
@@ -75,22 +76,22 @@ export class OrderTransportCompletEditComponent implements OnInit {
     private confirmationService: ConfirmationService
 
 
-  ) {}
+  ) { }
 
   ngOnInit() {
 
-   this.orderTransportService.subject.subscribe(
-    data =>{
+    this.orderTransportService.subject.subscribe(
+      data => {
 
 
 
- if(data==true){
-  this.onSubmit();
- }
+        if (data == true) {
+          this.onSubmit();
+        }
 
 
-    }
-   )
+      }
+    )
 
 
     this.initForm();
@@ -111,17 +112,17 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
     } else {
 
-      if(this.orderTypeTitle=="Enlevement"){
+      if (this.orderTypeTitle == "Enlevement") {
         this.orderTransportTypeService.findAll().subscribe((data) => {
           this.orderTransportTypeList = data;
-          this.selectedOrderTransportInfoLine.orderTransportType=this.orderTransportTypeList.filter((f) => f.id == 1)[0];
-          });
+          this.selectedOrderTransportInfoLine.orderTransportType = this.orderTransportTypeList.filter((f) => f.id == 1)[0];
+        });
 
-      }else if(this.orderTypeTitle=="Livraison"){
+      } else if (this.orderTypeTitle == "Livraison") {
 
         this.orderTransportTypeService.findAll().subscribe((data) => {
           this.orderTransportTypeList = data;
-          this.selectedOrderTransportInfoLine.orderTransportType=this.orderTransportTypeList.filter((f) => f.id == 2)[0];
+          this.selectedOrderTransportInfoLine.orderTransportType = this.orderTransportTypeList.filter((f) => f.id == 2)[0];
 
         });
       }
@@ -194,7 +195,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
     if (this.orderTransportInfoLineForm.controls["general"].invalid) {
       return;
     }
-  if (this.selectedOrderTransportInfoLine.turnStatus == null) {
+    if (this.selectedOrderTransportInfoLine.turnStatus == null) {
       this.turnStatusService.find("id:" + 1).subscribe((data) => {
         this.selectedOrderTransportInfoLine.turnStatus = data[0];
       });
@@ -202,8 +203,8 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments;
     let formvalue = this.orderTransportInfoLineForm.value;
-    this.selectedOrderTransportInfoLine.address = this.selectAddress?.id>0 ? this.selectAddress:null;
-    this.selectedOrderTransportInfoLine.contact = this.selectContact?.id>0 ?this.selectContact: null;
+    this.selectedOrderTransportInfoLine.address = this.selectAddress?.id > 0 ? this.selectAddress : null;
+    this.selectedOrderTransportInfoLine.contact = this.selectContact?.id > 0 ? this.selectContact : null;
     if (this.selectedOrderTransportInfoLine.orderTransportType.id == 1) {
       if (this.orderTransportInfoLineForm.controls["enlevement"].invalid) {
         return;
@@ -224,7 +225,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
 
 
-        this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
+    this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
 
 
 
@@ -237,7 +238,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
     this.orderTransportInfoLineDocumentEnlevement =
       this.orderTransportInfoLineDocuments.filter(
-        (f) =>  f.type == 1
+        (f) => f.type == 1
       );
 
     this.orderTransportInfoLineDocumentLivraison =
@@ -381,15 +382,23 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
     this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
-  onDeleteLineEnlevement(line){
+  onDeleteLineEnlevement(line) {
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
-        this.orderTransportInfoLineDocumentEnlevement =
-          this.orderTransportInfoLineDocumentEnlevement.filter(
-            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
-          );
-
+        this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
+          data => {
+            const index = this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.indexOf(line);
+            if (index !== -1) {
+              this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.splice(index, 1);
+              console.log('cc ' + this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.length);
+            }
+            this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+          },
+          error => {
+            this.toastr.error(error.error.message, 'Erreur');
+          }
+        )
       },
     });
 
@@ -407,20 +416,25 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.orderTransportInfoLineDocumentLivraison.push(line);
   }
 
-  onDeleteLineLivraison(line , mode:number){
+  onDeleteLineLivraison(line) {
 
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
-        this.orderTransportInfoLineDocumentLivraison =
-          this.orderTransportInfoLineDocumentLivraison.filter(
-            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
-          );
-
+        this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
+          data => {
+            const index = this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.indexOf(line);
+            if (index !== -1) {
+              this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.splice(index, 1);
+            }
+            this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+          },
+          error => {
+            this.toastr.error(error.error.message, 'Erreur');
+          }
+        )
       },
     });
-
-
   }
 
   onLineEditedDocument(line: OrderTransportInfoLineDocument) {
@@ -441,12 +455,12 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.showDialogAddress = event;
   }
   onLineEditedAddress(line: Address) {
-    this.addressService.set( line).subscribe(
-      data=> {
+    this.addressService.set(line).subscribe(
+      data => {
 
         this.setInfoAddress(data);
 
-              this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
       }
     );
 

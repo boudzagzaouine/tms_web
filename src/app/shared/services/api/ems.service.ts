@@ -17,7 +17,7 @@ export class EmsService<T> {
   }
 
   findAll(): Observable<T[]> {
-   // console.log('from driver service findAll');
+    // console.log('from driver service findAll');
     return this.proxy.findAll(this.controller);
   }
 
@@ -73,6 +73,10 @@ export class EmsService<T> {
     return this.proxy.delete(this.controller, id);
   }
 
+  deletedocsByPath(path:string){
+
+  }
+
   deleteAllByIds(ids: number[]) {
     return this.proxy.deleteAllByIds(this.controller, ids);
   }
@@ -83,62 +87,62 @@ export class EmsService<T> {
 
   generateCode(): Observable<string> {
     return this.proxy.generateCode(this.controller);
-}
+  }
 
-verify() {
-  return this.proxy.verify(this.controller);
-}
+  verify() {
+    return this.proxy.verify(this.controller);
+  }
 
-generateSupplierInvoiceFromReception(t: T): Observable<T> {
-  return this.proxy.generateSupplierInvoiceFromReception(this.controller, t);
-}
-
-
-getLastPriceTransportPlan(search: string) {
-  return this.proxy.getLastPriceTransportPlan(this.controller, search);
-}
-getLastPriceTransportPlans(search: string) {
-  return this.proxy.getLastPriceTransportPlans(this.controller, search);
-}
+  generateSupplierInvoiceFromReception(t: T): Observable<T> {
+    return this.proxy.generateSupplierInvoiceFromReception(this.controller, t);
+  }
 
 
-
-/// export
-
-exportInvoiceState(search: string) {
-  return this.proxy.exportInvoiceState(this.controller, search);
-}
+  getLastPriceTransportPlan(search: string) {
+    return this.proxy.getLastPriceTransportPlan(this.controller, search);
+  }
+  getLastPriceTransportPlans(search: string) {
+    return this.proxy.getLastPriceTransportPlans(this.controller, search);
+  }
 
 
 
-//importing
+  /// export
 
-addDataExchangeAddressDelivery(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeAddressDelivery(this.controller, t);
-}
-addDataExchangeCatalogPricing(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeCatalogPricing(this.controller, t);
-}
-addDataExchangeAccountPricing(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeAccountPricing(this.controller, t);
-}
-addDataExchangeTransportAccountPricing(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeTransportAccountPricing(this.controller, t);
-}
-addDataExchangeTransportPricing(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeTransportPricing(this.controller, t);
-}
+  exportInvoiceState(search: string) {
+    return this.proxy.exportInvoiceState(this.controller, search);
+  }
 
-addDataExchangeTrajet(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeTrajet(this.controller, t);
-}
-addDataExchangeCompany(t: T[]): Observable<T[]> {
-  return this.proxy.addDataExchangeCompany(this.controller, t);
-}
 
-searchOrderTransport(search: string) {
-  return this.proxy.getOrderTransport(this.controller, search);
-}
+
+  //importing
+
+  addDataExchangeAddressDelivery(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeAddressDelivery(this.controller, t);
+  }
+  addDataExchangeCatalogPricing(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeCatalogPricing(this.controller, t);
+  }
+  addDataExchangeAccountPricing(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeAccountPricing(this.controller, t);
+  }
+  addDataExchangeTransportAccountPricing(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeTransportAccountPricing(this.controller, t);
+  }
+  addDataExchangeTransportPricing(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeTransportPricing(this.controller, t);
+  }
+
+  addDataExchangeTrajet(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeTrajet(this.controller, t);
+  }
+  addDataExchangeCompany(t: T[]): Observable<T[]> {
+    return this.proxy.addDataExchangeCompany(this.controller, t);
+  }
+
+  searchOrderTransport(search: string) {
+    return this.proxy.getOrderTransport(this.controller, search);
+  }
 
 
 }

@@ -235,7 +235,11 @@ sizeSearch(controller: string, search: string): Observable<number> {
     return this.http.delete(fullurl);
 }
 
-
+deleteDocsByPath(controller: string, ids: number[]) {
+  const fullurl = this.url + controller + '/deleteAll?ids=' + ids.join(',') + '&token=' + this.getToken();
+ // console.log('delete list : ' + ids.join(','));
+  return this.http.delete(fullurl);
+}
   login(controller: string, code: string, password: string) {
       password = Md5.hashStr(password).toString();
       return this.http.get(

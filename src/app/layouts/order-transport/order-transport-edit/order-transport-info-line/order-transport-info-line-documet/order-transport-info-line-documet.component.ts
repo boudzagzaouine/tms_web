@@ -11,6 +11,8 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { OrderTransportDocument } from './../../../../../shared/models/order-transport-document';
 import { saveAs } from 'file-saver';
 import { logWarnings } from 'protractor/built/driverProviders';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-order-transport-info-line-documet',
@@ -33,13 +35,12 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
     private formBuilder: FormBuilder,
     private orderTransportDocumentTypeService: OrderTransportDocumentTypeService,
     private orderTransportDocumentService: OrderTransportDocumentService,
-    private authentificationService: AuthenticationService,
+    private confirmationService: ConfirmationService,
+    private toastr: ToastrService,
 
   ) { }
 
   ngOnInit() {
-    console.log("ddddd");
-
     this.title = 'Ajouter';
     this.displayDialog = true;
     this.orderTransportDocumentTypeService.findAll().subscribe(
@@ -116,19 +117,35 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        
         selectedDocument.fileName = file.name;
         selectedDocument.file = (fileReader.result as string).split(",")[1] as any;
         selectedDocument.fileType = file.name.split('.').pop().toLowerCase();
-
         this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
       };
 
     }
   }
-  deleteFile(orderTransportDocument: OrderTransportDocument){
-
+  deleteFile(orderTransportDocument: OrderTransportDocument) {
+    this.confirmationService.confirm({
+      message: 'Voulez vous vraiment Suprimer?',
+      accept: () => {
+        console.log('cc');
+         this.orderTransportDocumentService.delete(orderTransportDocument.id).subscribe(
+          data => {
+            const index = this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.indexOf(orderTransportDocument);
+            if (index !== -1) {
+              this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.splice(index, 1);
+            }
+            this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+          },
+          error => {
+            this.toastr.error(error.error.message, 'Erreur');
+          }
+        ) 
+      },
+    });
   }
+
 
   dowloand(orderTransportDocument: OrderTransportDocument) {
     var url = orderTransportDocument.file;

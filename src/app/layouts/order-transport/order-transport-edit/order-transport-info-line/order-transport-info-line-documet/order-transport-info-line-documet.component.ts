@@ -1,18 +1,13 @@
-import { OrderTransportDocumentService } from './../../../../../shared/services/api/ordet-transport-document.service';
-import { DocumentType } from './../../../../../shared/models/document-type';
-import { OrderTransportDocumentType } from './../../../../../shared/models/order-transport-document-type';
-import { OrderTransportDocumentTypeService } from './../../../../../shared/services/api/order-transport-document-type.service';
-import { log } from 'console';
-import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
-import { RoundPipe } from 'ngx-pipes';
-import { OrderTransportInfoLineDocument } from './../../../../../shared/models/order-transport-info-line-document';
-import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { OrderTransportDocument } from './../../../../../shared/models/order-transport-document';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { saveAs } from 'file-saver';
-import { logWarnings } from 'protractor/built/driverProviders';
-import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
+import { OrderTransportDocument } from './../../../../../shared/models/order-transport-document';
+import { OrderTransportDocumentType } from './../../../../../shared/models/order-transport-document-type';
+import { OrderTransportInfoLineDocument } from './../../../../../shared/models/order-transport-info-line-document';
+import { OrderTransportDocumentTypeService } from './../../../../../shared/services/api/order-transport-document-type.service';
+import { OrderTransportDocumentService } from './../../../../../shared/services/api/ordet-transport-document.service';
 
 @Component({
   selector: 'app-order-transport-info-line-documet',
@@ -126,11 +121,11 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
     }
   }
   deleteFile(orderTransportDocument: OrderTransportDocument) {
+    console.log('vv');
     this.confirmationService.confirm({
       message: 'Voulez vous vraiment Suprimer?',
       accept: () => {
-        console.log('cc');
-         this.orderTransportDocumentService.delete(orderTransportDocument.id).subscribe(
+        this.orderTransportDocumentService.delete(orderTransportDocument.id).subscribe(
           data => {
             const index = this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.indexOf(orderTransportDocument);
             if (index !== -1) {
@@ -141,36 +136,43 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
           error => {
             this.toastr.error(error.error.message, 'Erreur');
           }
-        ) 
+        )
       },
     });
   }
 
+dowloand(orderTransportDocument: OrderTransportDocument) {
+  this.orderTransportDocumentService.getImageByteFromPath(orderTransportDocument.filePath).subscribe(
+    (imageData: ArrayBuffer) => {
+      // Convert ArrayBuffer to Base64
+      var base64String = this.arrayBufferToBase64(imageData);
 
-  dowloand(orderTransportDocument: OrderTransportDocument) {
-    var url = orderTransportDocument.file;
-    var binaryString = window.atob(url as any);
-    var binaryLen = binaryString.length;
-    var bytes = new Uint8Array(binaryLen);
-    for (var i = 0; i < binaryLen; i++) {
-      var ascii = binaryString.charCodeAt(i);
-      bytes[i] = ascii;
-    }
-    const data = new Blob([bytes]);
-    let arrayOfBlob = new Array<Blob>();
-    arrayOfBlob.push(data);
-    var file = new File(arrayOfBlob, orderTransportDocument.fileName, {
-      type: orderTransportDocument.fileType
-    });
+      // Create a Blob from the Base64 string
+      const data = new Blob([imageData], { type: orderTransportDocument.fileType });
 
-    let fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      saveAs(fileReader.result, orderTransportDocument.fileName);
+      // Create a link element and trigger a download
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(data);
+      link.download = orderTransportDocument.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    error => {
+      console.error('Error fetching image data:', error);
     }
+  );
+}
+
+arrayBufferToBase64(buffer: ArrayBuffer): string {
+  var binary = '';
+  var bytes = new Uint8Array(buffer);
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
   }
-
-
+  return btoa(binary);
+}
   onHideDialog() {
     const a = false;
     this.showDialog.emit(a);

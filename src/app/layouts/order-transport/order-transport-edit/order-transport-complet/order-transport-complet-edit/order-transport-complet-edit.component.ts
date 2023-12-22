@@ -388,11 +388,11 @@ export class OrderTransportCompletEditComponent implements OnInit {
       accept: () => {
         this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
           data => {
-            const index = this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.indexOf(line);
+            const index = this.orderTransportInfoLineDocumentEnlevement.indexOf(line);
             if (index !== -1) {
-              this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.splice(index, 1);
-              console.log('cc ' + this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.length);
+              this.orderTransportInfoLineDocumentEnlevement.splice(index, 1);
             }
+            console.log('vv ' + this.orderTransportInfoLineDocumentEnlevement.length);
             this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
           },
           error => {
@@ -423,9 +423,9 @@ export class OrderTransportCompletEditComponent implements OnInit {
       accept: () => {
         this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
           data => {
-            const index = this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.indexOf(line);
+            const index = this.orderTransportInfoLineDocumentLivraison.indexOf(line);
             if (index !== -1) {
-              this.selectedOrderTransportInfoLine.orderTransportInfoLineDocuments.splice(index, 1);
+              this.orderTransportInfoLineDocumentLivraison.splice(index, 1);
             }
             this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
           },

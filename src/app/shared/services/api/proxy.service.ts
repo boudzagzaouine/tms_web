@@ -1,9 +1,10 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Byte } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Md5 } from 'ts-md5';
-import { AuthenticationService } from './authentication.service';
 import { REST_URL } from './../../utils/constants';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,395 +13,396 @@ export class ProxyService {
 
   private readonly url = REST_URL;
   constructor(
-      private http: HttpClient,
-      private authService: AuthenticationService
+    private http: HttpClient,
+    private authService: AuthenticationService
   ) {
   }
 
   findAll(controller: string): Observable<any[]> {
-      //  httpOptions.headers.append('token', this.getToken());
-      const fullurl = this.url + controller + '/list?token=' + this.getToken();
-      //console.log(fullurl);
-      return this.http.get<any[]>(fullurl);
+    //  httpOptions.headers.append('token', this.getToken());
+    const fullurl = this.url + controller + '/list?token=' + this.getToken();
+    //console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
   }
 
   findById(controller: string, id: number): Observable<any> {
-      const fullurl =
-          this.url + controller + '/' + id + '?token=' + this.getToken();
+    const fullurl =
+      this.url + controller + '/' + id + '?token=' + this.getToken();
     //  console.log(fullurl);
-      return this.http.get<any>(fullurl);
+    return this.http.get<any>(fullurl);
 
-      //....users/2
+    //....users/2
   }
 
   getParents(controller: string): Observable<any> {
     const fullurl = this.url + controller + '/getParents?token=' + this.getToken();
     return this.http.get<any>(fullurl);
-}
+  }
 
   findByCode(controller: string, code: string): Observable<any> {
-      return this.http.get<any>(
-          this.url +
-          controller +
-          '/findByCode?code=' +
-          code +
-          '&token=' +
-          this.getToken()
-      );
+    return this.http.get<any>(
+      this.url +
+      controller +
+      '/findByCode?code=' +
+      code +
+      '&token=' +
+      this.getToken()
+    );
   }
 
   find(controller: string, search: string): Observable<any[]> {
-      const fullurl =
-          this.url +
-          controller +
-          '/search?search=' +
-          search +
-          '&token=' +
-          this.getToken();
-          //console.log("fullurl");
+    const fullurl =
+      this.url +
+      controller +
+      '/search?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+    //console.log("fullurl");
 
-     //console.log(fullurl);
-      return this.http.get<any[]>(fullurl);
+    //console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
   }
 
   findPagination(controller: string, search: string, page: number, size: number): Observable<any[]> {
-      let httpparams = new HttpParams();
-      httpparams = httpparams.append('search', search);
-      httpparams = httpparams.append('page', page.toString());
-      httpparams = httpparams.append('size', size.toString());
-      httpparams = httpparams.append('token', this.getToken());
-      const fullurl = this.url + controller + '/searchPage';
-     // console.log(" find pagination");
+    let httpparams = new HttpParams();
+    httpparams = httpparams.append('search', search);
+    httpparams = httpparams.append('page', page.toString());
+    httpparams = httpparams.append('size', size.toString());
+    httpparams = httpparams.append('token', this.getToken());
+    const fullurl = this.url + controller + '/searchPage';
+    // console.log(" find pagination");
 
-     // console.log(fullurl);
-      return this.http.get<any[]>(fullurl, { params: httpparams });
+    // console.log(fullurl);
+    return this.http.get<any[]>(fullurl, { params: httpparams });
   }
   findPaginationAccounted(
-      controller: string,
-      search: string,
-      page: number,
-      size: number,
-      accounted: number
+    controller: string,
+    search: string,
+    page: number,
+    size: number,
+    accounted: number
   ): Observable<any[]> {
-      const fullurl =
-          this.url +
-          controller +
-          '/searchPage?search=' +
-          search +
-          '&page=' +
-          page +
-          '&size=' +
-          size +
-          '&token=' +
-          this.getToken() +
-          '&accounted=' + accounted;
-     // console.log(fullurl);
-      return this.http.get<any[]>(fullurl);
+    const fullurl =
+      this.url +
+      controller +
+      '/searchPage?search=' +
+      search +
+      '&page=' +
+      page +
+      '&size=' +
+      size +
+      '&token=' +
+      this.getToken() +
+      '&accounted=' + accounted;
+    // console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
   }
 
   findAllPagination(
-      controller: string,
-      page: number,
-      size: number
+    controller: string,
+    page: number,
+    size: number
   ): Observable<any[]> {
-      const fullurl =
-          this.url +
-          controller +
-          '/listPage?page=' +
-          page +
-          '&size=' +
-          size +
-          '&token=' +
-          this.getToken();
-        //  console.log("pagination");
+    const fullurl =
+      this.url +
+      controller +
+      '/listPage?page=' +
+      page +
+      '&size=' +
+      size +
+      '&token=' +
+      this.getToken();
+    //  console.log("pagination");
 
     //  console.log(fullurl);
 
-      return this.http.get<any[]>(fullurl);
+    return this.http.get<any[]>(fullurl);
   }
   findAllPaginationAccounted(
-      controller: string,
-      page: number,
-      size: number,
-      accounted: number
+    controller: string,
+    page: number,
+    size: number,
+    accounted: number
   ): Observable<any[]> {
-      const fullurl =
-          this.url +
-          controller +
-          '/listPage?page=' +
-          page +
-          '&size=' +
-          size +
-          '&token=' +
-          this.getToken() +
-          '&accounted=' + accounted;
+    const fullurl =
+      this.url +
+      controller +
+      '/listPage?page=' +
+      page +
+      '&size=' +
+      size +
+      '&token=' +
+      this.getToken() +
+      '&accounted=' + accounted;
     //  console.log(fullurl);
 
-      return this.http.get<any[]>(fullurl);
+    return this.http.get<any[]>(fullurl);
   }
 
-  findAvailable(controller: String): Observable<any[]>{
+  findAvailable(controller: String): Observable<any[]> {
     const fullurl = this.url + controller + '/findAvailable?token=' + this.getToken();
-  //  console.log(fullurl);
+    //  console.log(fullurl);
     return this.http.get<any[]>(fullurl);
   }
 
   set(controller: string, object: any): Observable<any> {
-      const fullurl = this.url + controller + '/save?token=' + this.getToken();
-     // console.log(fullurl);
-     // console.log(object);
+    const fullurl = this.url + controller + '/save?token=' + this.getToken();
+    // console.log(fullurl);
+    // console.log(object);
 
-      return this.http.put(
-          this.url + controller + '/save?token=' + this.getToken(),
-          object
-      );
+    return this.http.put(
+      this.url + controller + '/save?token=' + this.getToken(),
+      object
+    );
   }
 
   closeMaintenance(controller: string, object: any): Observable<any> {
     const fullurl = this.url + controller + '/close?token=' + this.getToken();
-  //  console.log(fullurl);
-  //  console.log(object);
+    //  console.log(fullurl);
+    //  console.log(object);
 
     return this.http.put(
-        this.url + controller + '/close?token=' + this.getToken(),
-        object
+      this.url + controller + '/close?token=' + this.getToken(),
+      object
     );
-}
+  }
 
 
 
 
   add(controller: string, object: any): Observable<any> {
-      const fullurl = this.url + controller + '/save?token=' + this.getToken();
+    const fullurl = this.url + controller + '/save?token=' + this.getToken();
     //  console.log(fullurl);
-      return this.http.post(fullurl, object);
+    return this.http.post(fullurl, object);
   }
 
 
   setAll(controller: string, object: any): Observable<any> {
     const fullurl = this.url + controller + '/saveALL?token=' + this.getToken();
-  //  console.log(fullurl);
-   // console.log(object);
+    //  console.log(fullurl);
+    // console.log(object);
 
     return this.http.put(
-        this.url + controller + '/saveALL?token=' + this.getToken(),
-        object
+      this.url + controller + '/saveALL?token=' + this.getToken(),
+      object
     );
-}
-  addAll(controller: string, object: any): Observable<any> {
-      const fullurl =
-          this.url + controller + '/saveALL?token=' + this.getToken();
-   //   console.log(fullurl);
-      return this.http.post(fullurl, object);
   }
- addForPos(controller: string, object: any): Observable<any> {
-      const fullurl =
-          this.url + controller + '/posSave?token=' + this.getToken();
+  addAll(controller: string, object: any): Observable<any> {
+    const fullurl =
+      this.url + controller + '/saveALL?token=' + this.getToken();
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
+  addForPos(controller: string, object: any): Observable<any> {
+    const fullurl =
+      this.url + controller + '/posSave?token=' + this.getToken();
     //  console.log(fullurl);
-      return this.http.post(fullurl, object);
+    return this.http.post(fullurl, object);
   }
   size(controller: string): Observable<number> {
-      const fullurl = this.url + controller + '/size?token=' + this.getToken();
+    const fullurl = this.url + controller + '/size?token=' + this.getToken();
     //  console.log(fullurl);
-      return this.http.get<number>(fullurl);
+    return this.http.get<number>(fullurl);
   }
 
-sizeSearch(controller: string, search: string): Observable<number> {
-      const fullurl =
-          this.url +
-          controller +
-          '/sizeSearch?search=' +
-          search +
-          '&token=' +
-          this.getToken();
-      //console.log(fullurl);
-      return this.http.get<number>(fullurl);
+  sizeSearch(controller: string, search: string): Observable<number> {
+    const fullurl =
+      this.url +
+      controller +
+      '/sizeSearch?search=' +
+      search +
+      '&token=' +
+      this.getToken();
+    //console.log(fullurl);
+    return this.http.get<number>(fullurl);
   }
 
   delete(controller: string, id: number) {
-      const fullurl =
-          this.url +
-          controller +
-          '/delete/' +
-          id +
-          '?token=' +
-          this.getToken();
-     // console.log('delete id : ' + id);
-      return this.http.delete<number>(fullurl);
+    const fullurl =
+      this.url +
+      controller +
+      '/delete/' +
+      id +
+      '?token=' +
+      this.getToken();
+    // console.log('delete id : ' + id);
+    return this.http.delete<number>(fullurl);
   }
 
   deleteAllByIds(controller: string, ids: number[]) {
     const fullurl = this.url + controller + '/deleteAll?ids=' + ids.join(',') + '&token=' + this.getToken();
-   // console.log('delete list : ' + ids.join(','));
+    // console.log('delete list : ' + ids.join(','));
     return this.http.delete(fullurl);
-}
+  }
 
-deleteDocsByPath(controller: string, ids: number[]) {
-  const fullurl = this.url + controller + '/deleteAll?ids=' + ids.join(',') + '&token=' + this.getToken();
- // console.log('delete list : ' + ids.join(','));
-  return this.http.delete(fullurl);
-}
+  getImageByteFromPath(controller: string, path: string): Observable<ArrayBuffer> {
+    const fullurl = this.url + controller + '/imagepath?path=' + path + '&token=' + this.getToken();
+    console.log(path);
+    return this.http.get(fullurl, { responseType: 'arraybuffer' });
+  }
+
   login(controller: string, code: string, password: string) {
-      password = Md5.hashStr(password).toString();
-      return this.http.get(
-          this.url +
-          controller +
-          '/login?code=' +
-          code +
-          '&password=' +
-          password
-      );
+    password = Md5.hashStr(password).toString();
+    return this.http.get(
+      this.url +
+      controller +
+      '/login?code=' +
+      code +
+      '&password=' +
+      password
+    );
   }
 
   generateCode(controller: string) {
-      const fullurl =
-          this.url + controller + '/nextval?token=' + this.getToken();
-     // console.log(fullurl);
-      return this.http.get<string>(fullurl,{responseType : 'text' as 'json'});
-  }
-    getToken(): string {
-    return this.authService.computeToken();
-}
-
-findByPatrimony(controller: string, idVehicle: number): Observable<any> {
-  const fullurl =
-      this.url + controller + '/getVehicle/' + idVehicle + '?token=' + this.getToken();
- // console.log(fullurl);
-  return this.http.get<any>(fullurl);
-}
-
-verify(controller: string) {
     const fullurl =
-        this.url +
-        controller +
-        '?token=' +
-        this.getToken();
+      this.url + controller + '/nextval?token=' + this.getToken();
+    // console.log(fullurl);
+    return this.http.get<string>(fullurl, { responseType: 'text' as 'json' });
+  }
+  getToken(): string {
+    return this.authService.computeToken();
+  }
+
+  findByPatrimony(controller: string, idVehicle: number): Observable<any> {
+    const fullurl =
+      this.url + controller + '/getVehicle/' + idVehicle + '?token=' + this.getToken();
+    // console.log(fullurl);
+    return this.http.get<any>(fullurl);
+  }
+
+  verify(controller: string) {
+    const fullurl =
+      this.url +
+      controller +
+      '?token=' +
+      this.getToken();
     return this.http.get(fullurl);
-}
+  }
 
 
 
-generateSupplierInvoiceFromReception(controller: string, object: any): Observable<any> {
-  const fullurl = this.url + controller + '/generateSupplierInvoiceFromReceptions?token=' + this.getToken();
-  return this.http.post(
+  generateSupplierInvoiceFromReception(controller: string, object: any): Observable<any> {
+    const fullurl = this.url + controller + '/generateSupplierInvoiceFromReceptions?token=' + this.getToken();
+    return this.http.post(
       this.url + controller + '/generateSupplierInvoiceFromReceptions?token=' + this.getToken(),
       object
-  );
-}
+    );
+  }
 
 
-getLastPriceTransportPlan(controller: string, search: string): Observable<any> {
-  const fullurl =
+  getLastPriceTransportPlan(controller: string, search: string): Observable<any> {
+    const fullurl =
       this.url +
       controller +
       '/getLastPriceTransport?search=' +
       search +
       '&token=' +
       this.getToken();
-      //console.log("fullurl");
+    //console.log("fullurl");
 
- // console.log(fullurl);
-  return this.http.get<any>(fullurl);
-}
+    // console.log(fullurl);
+    return this.http.get<any>(fullurl);
+  }
 
-getLastPriceTransportPlans(controller: string, search: string): Observable<any[]> {
-  const fullurl =
+  getLastPriceTransportPlans(controller: string, search: string): Observable<any[]> {
+    const fullurl =
       this.url +
       controller +
       '/getLastPriceTransports?search=' +
       search +
       '&token=' +
       this.getToken();
-      //console.log("fullurl");
+    //console.log("fullurl");
 
- // console.log(fullurl);
-  return this.http.get<any[]>(fullurl);
-}
-
-
+    // console.log(fullurl);
+    return this.http.get<any[]>(fullurl);
+  }
 
 
-//export
 
-exportInvoiceState(controller: string, search: string): Observable<any[]> {
-  const httpOptions = {
-    responseType: 'blob' as 'json'
-  };
-  const fullurl =
+
+  //export
+
+  exportInvoiceState(controller: string, search: string): Observable<any[]> {
+    const httpOptions = {
+      responseType: 'blob' as 'json'
+    };
+    const fullurl =
       this.url +
       controller +
       '/exportInvoiceState?search=' +
       search +
       '&token=' +
       this.getToken();
-      //console.log("fullurl");
+    //console.log("fullurl");
 
- // console.log(fullurl);
-  return this.http.get<any>(fullurl,httpOptions);
-}
+    // console.log(fullurl);
+    return this.http.get<any>(fullurl, httpOptions);
+  }
 
 
 
-//importing
-addDataExchangeAddressDelivery(controller: string, object: any): Observable<any> {
-  const fullurl =
+  //importing
+  addDataExchangeAddressDelivery(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveAddressDeliverys?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
 
-addDataExchangeCatalogPricing(controller: string, object: any): Observable<any> {
-  const fullurl =
+  addDataExchangeCatalogPricing(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveCatalogPricings?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
-addDataExchangeAccountPricing(controller: string, object: any): Observable<any> {
-  const fullurl =
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
+  addDataExchangeAccountPricing(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveAccountPricings?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
-addDataExchangeTransportAccountPricing(controller: string, object: any): Observable<any> {
-  const fullurl =
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
+  addDataExchangeTransportAccountPricing(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveCatalogTransportAccountPricings?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
 
-addDataExchangeTransportPricing(controller: string, object: any): Observable<any> {
-  const fullurl =
+  addDataExchangeTransportPricing(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveCatalogTransportPricings?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
 
-addDataExchangeTrajet(controller: string, object: any): Observable<any> {
-  const fullurl =
+  addDataExchangeTrajet(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/saveTrajets?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
 
-addDataExchangeCompany(controller: string, object: any): Observable<any> {
-  const fullurl =
+  addDataExchangeCompany(controller: string, object: any): Observable<any> {
+    const fullurl =
       this.url + controller + '/updateCompanies?token=' + this.getToken();
-//   console.log(fullurl);
-  return this.http.post(fullurl, object);
-}
+    //   console.log(fullurl);
+    return this.http.post(fullurl, object);
+  }
 
 
-getOrderTransport(controller: string, search: string): Observable<any> {
-  const fullurl =
+  getOrderTransport(controller: string, search: string): Observable<any> {
+    const fullurl =
       this.url +
       controller +
       '/getOrderTransport?search=' +
       search +
       '&token=' +
       this.getToken();
-      //console.log("fullurl");
+    //console.log("fullurl");
 
- //console.log(fullurl);
-  return this.http.get<any>(fullurl);
-}
+    //console.log(fullurl);
+    return this.http.get<any>(fullurl);
+  }
 }

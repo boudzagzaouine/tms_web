@@ -73,10 +73,12 @@ export class EmsService<T> {
     return this.proxy.delete(this.controller, id);
   }
 
-  deletedocsByPath(path:string){
+  deletedocsByPath(path: string) {
 
   }
-
+  getImageByteFromPath(path: string) {
+    return this.proxy.getImageByteFromPath(this.controller, path);
+  }
   deleteAllByIds(ids: number[]) {
     return this.proxy.deleteAllByIds(this.controller, ids);
   }

@@ -144,6 +144,15 @@ console.log( this.orderTransportService.getItineraryAller());
   }
 
  createLayer(){
+//  this.mainLayer =L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}', {
+//   attribution: '<a href="https://www.lije-creative.com">LIJE Creative</a>',
+//   maxZoom: 18
+// })
+//  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// 	maxZoom: 19,
+// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+// });
+
    this.mainLayer =L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
      maxZoom: 20,
      subdomains:['mt0','mt1','mt2','mt3']

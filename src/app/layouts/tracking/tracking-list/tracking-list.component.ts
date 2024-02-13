@@ -196,6 +196,7 @@ console.log(this.transportPlanLocation);
  createRoute() {
   const  dis = null;
   var split_route1:L.LatLng[]=[];
+console.log(this.itineraries);
 
 this.itineraries.forEach(element => {
          split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
@@ -255,10 +256,18 @@ for (var i in this.itineraries) {
  }
 
 createLayer(){
-  this.mainLayer =L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-    maxZoom: 20,
-    subdomains:['mt0','mt1','mt2','mt3']
+
+
+
+ this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
+
+// this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+//     maxZoom: 20,
+//     subdomains:['mt0','mt1','mt2','mt3']
+// });
 this.map = L.map('map', {});
 
 }

@@ -23,12 +23,12 @@ export class TransportPlanLocation {
   id: number;
   latitude:number;
   longitude :number;
-  transportPlanId:TransportPlan;
-  vehicleId :Vehicle ;
-  driverId :Driver ;
-  orderTransportId:OrderTransport;
-  orderTransportInfoId:OrderTransportInfo;
-  orderTransportInfoLineId:OrderTransportInfoLine;
+  transportPlan:TransportPlan;
+  vehicle :Vehicle ;
+  driver :Driver ;
+  orderTransport:OrderTransport;
+  orderTransportInfo:OrderTransportInfo;
+  orderTransportInfoLine:OrderTransportInfoLine;
   date :Date ;
 
 

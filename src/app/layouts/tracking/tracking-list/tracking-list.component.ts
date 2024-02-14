@@ -1,3 +1,6 @@
+import { OrderTransport } from './../../../shared/models/order-transport';
+import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
+import { DatePipe } from '@angular/common';
 import { itineraryInfo } from './../../../shared/models/itineraryInfo';
 import { Itinerary } from './../../../shared/models/Itinerairy';
 import { TransportPlanLocationService } from './../../../shared/services/api/transport-plan-location.service';
@@ -13,6 +16,7 @@ import { Driver } from './../../../shared/models/driver';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { Component, OnInit } from '@angular/core';
 import  * as L  from 'leaflet';
+import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
 import { Marker, Icon,icon } from 'leaflet';
 
@@ -30,6 +34,9 @@ export class TrackingListComponent implements OnInit {
   driverSearch: Driver;
   driverList:Driver[]=[];
   vehicleList:Vehicle[]=[];
+
+  orderTransportSearch: OrderTransport;
+  orderTransportList:OrderTransport[]=[];
 
   className: string;
   cols: any[];
@@ -67,18 +74,34 @@ export class TrackingListComponent implements OnInit {
    iconUrl: "./assets/img/livraison.png",
       iconSize:    [40, 40],
  });
+ private iconDrive: Icon = icon({
+  iconUrl: "./assets/img/drive.png",
+     iconSize:    [40, 40],
+});
+private iconNone: Icon = icon({
+  iconUrl: "./assets/img/none.png",
+     iconSize:    [40, 40],
+
+
+});
+
+
 
  display: boolean = false;
   constructor(private vehicleService :VehicleService,
               private driverservice:DriverService,
               private spinner: NgxSpinnerService,
               private toastr: ToastrService,
-              private TransportPlanLocationService:TransportPlanLocationService) { }
+              private TransportPlanLocationService:TransportPlanLocationService,
+              private datePipe:DatePipe,
+              private orderTransportService:OrderTransportService) { }
 
   ngOnInit() {
-    Marker.prototype.options.icon = this.iconEnlevement;
-    this.createLayer();
+   Marker.prototype.options.icon = this.iconNone;
 
+    this.createLayer();
+this.searchQuery="date>"+new Date().toISOString()+"date<"+new Date().toISOString();
+    this.loadData(this.searchQuery);
   }
   // ngAfterViewInit(){
   //   Marker.prototype.options.icon = this.iconEnlevement;
@@ -101,14 +124,25 @@ export class TrackingListComponent implements OnInit {
   }
 
 
+  onOrderTransportSearch(event){
+    this.subscriptions.add(this.orderTransportService.find('code~' + event.query).subscribe(
+      data => this.orderTransportList = data
+    ));
+  }
+
+
   onSearchClicked() {
 
     const buffer = new EmsBuffer();
+
+    if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
+      buffer.append(`orderTransport.id:${this.orderTransportSearch.id}`);
+    }
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
-      buffer.append(`vehicleId:${this.vehicleSearch.id}`);
+      buffer.append(`vehicle.id:${this.vehicleSearch.id}`);
     }
     if (this.driverSearch != null && this.driverSearch !== undefined) {
-      buffer.append(`driverId~${this.driverSearch.id}`);
+      buffer.append(`driver.id:${this.driverSearch.id}`);
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
@@ -146,21 +180,59 @@ console.log(this.searchQuery);
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add( this.TransportPlanLocationService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add( this.TransportPlanLocationService.find( search).subscribe(
       data => {
 
         this.transportPlanLocation = data;
+
+        this.map.eachLayer((layer) => {
+          layer.remove();
+        });
         console.log(this.searchQuery);
 
 console.log(this.transportPlanLocation);
+  let i :number =0.3500;
+  this.itineraries=[];
 
-    this.transportPlanLocation.forEach(ligne => {
+//   const transportPlanLocations=  this.transportPlanLocation.filter((value, index, array) =>
+//        index ==  array.findIndex(
+//        item =>  item.orderTransportInfoLine?.id == value.orderTransportInfoLine?.id)
+
+// );
+
+this.transportPlanLocation.forEach((item, index) => {
+  if(item?.orderTransportInfoLine?.id>0){
+
+
+  if (index!== this.transportPlanLocation.findIndex(i => i.orderTransportInfoLine?.id === item.orderTransportInfoLine?.id))
+  {
+      this.transportPlanLocation.splice(index, 1);
+  }}
+});
+
+
+
+this.transportPlanLocation.forEach(ligne => {
+
+      console.log(ligne.orderTransportInfoLine?.id);
+
       this.itinerary= new Itinerary();
       this.itinerary.lat= ligne.latitude;
       this.itinerary.lon=ligne.longitude;
-      this.itinerary.description="df";
-      this.itinerary.type="ENLEVEMENT";
+      this.itinerary.orderTransportInfoLine=ligne.orderTransportInfoLine;
+
+      this.itinerary.description=ligne.orderTransportInfoLine?.contact?.name;
+      this.itinerary.type=ligne.orderTransportInfoLine?.orderTransportType?.code;
+      this.itinerary.status=ligne.orderTransportInfoLine?.turnStatus?.code;
+      this.itinerary.dateArriver=ligne.orderTransportInfoLine?.dateArriver;
+      this.itinerary.dateCommancerChargement=ligne.orderTransportInfoLine?.dateCommancerChargement;
+      this.itinerary.dateCommancerDechargement=ligne.orderTransportInfoLine?.dateCommancerDechargement;
+      this.itinerary.dateFinDechargement=ligne.orderTransportInfoLine?.dateFinDechargement;
+      this.itinerary.dateFinChargement=ligne.orderTransportInfoLine?.dateFinChargement;
+
       this.itinerary.date=ligne.date;
+i+=0.500;
+console.log(i);
 
       this.itineraries.push(this.itinerary);
      });
@@ -194,6 +266,7 @@ console.log(this.transportPlanLocation);
 
 
  createRoute() {
+  this.spinner.show();
   const  dis = null;
   var split_route1:L.LatLng[]=[];
 console.log(this.itineraries);
@@ -233,24 +306,85 @@ this.selectItineraryInfo.time=this.time;
 
 
 for (var i in this.itineraries) {
+  let message="" ;
+  if(this.itineraries[i].type!=undefined){
+    message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
+
+    message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description +
+    "</b><br>";
+    if(this.itineraries[i].type =="ENLEVEMENT" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
+     message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+     " <b> Debut Chargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerChargement,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+    " <b> Fin Chargement :"+this.datePipe.transform(this.itineraries[i].dateFinChargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
+
+    }
+    else if(this.itineraries[i].type =="LIVRAISON" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
+     message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+     " <b>Debut Dechargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"+
+    " <b> Fin Dechargement :"+this.datePipe.transform(this.itineraries[i].dateFinDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
+    }
+
+    message +=  " <b> Statut :"+this.itineraries[i].status+"</b><br>";
+
+
+  }
+  else{
+    message += "<b> En Route "
+  }
+  console.log(message );
+  console.log(message);
+
+
+
+  var numberDiv = document.createElement('div');
+  numberDiv.className = 'number';
+  numberDiv.textContent = '1';
+
   L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
-    title: this.itineraries[i].description,
+
+icon:  this.itineraries[i].type!=undefined ?  new L.DivIcon({
+  className: 'circle',
+  //  iconSize:[90, 90],
+  html: numberDiv
+},) :this.iconDrive
+
+
+   // title: this.itineraries[i].description ,
+  // icon:
+  // L.AwesomeMarkers.icon({
+  //   icon: '',
+  //   markerColor:'blue',
+  //   prefix: 'fa',
+
+  //   })
+
     //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
-    icon:this.showMarkerByTurnType(this.itineraries[i].type)
-  }).addTo(this.map).bindPopup("<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description + "</b>").openPopup();
+  //  icon:this.showMarkerByTurnType(this.itineraries[i].type),
+ //draggable:true,
+ //zIndexOffset:1,
+  }).addTo(this.map).bindPopup(message,).openPopup();
 }
   this.mainLayer.addTo(this.map);
 
 // this.recuperateDistance();
+this.spinner.hide();
 }
 
  showMarkerByTurnType(type :string){
+
+
    if(type =="LIVRAISON"){
-    return this.iconLivraison;
+    console.log(type);
+   return this.iconLivraison;
    }else if(type =="ENLEVEMENT"){
-     return this.iconEnlevement;
-   }else{
-     return this.iconEnlevementLivraison;
+    console.log(type);
+    return this.iconEnlevement;
+   }else if(type =="ENLEVEMENT/LIVRAISON"){
+    console.log(type);
+    return this.iconEnlevementLivraison;
+  }else{
+    console.log(type);
+     return this.iconDrive;
    }
 
  }

@@ -138,7 +138,7 @@ import { CommissionTypeService } from './services/api/commisionType.service';
 import { MaintenanceActionService } from './services/api/maintenance-action.service';
 import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.service';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -428,7 +428,8 @@ export class SharedModule {
         MarchandiseTypeService,
         VehicleAccompanimentService,
         ZoneVilleService,
-        OrderTransportDocumentService
+        OrderTransportDocumentService,
+        DatePipe
 
       ],
 

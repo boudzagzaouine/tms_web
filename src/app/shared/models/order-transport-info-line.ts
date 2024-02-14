@@ -56,4 +56,12 @@ export class OrderTransportInfoLine {
   vat :Vat;
   priceTTC: number =0;
 
+
+
+ dateArriver :Date;
+ dateCommancerChargement:Date;
+ dateCommancerDechargement:Date;
+ dateFinDechargement:Date;
+ dateFinChargement:Date;
+
 }

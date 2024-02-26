@@ -144,13 +144,8 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
 dowloand(orderTransportDocument: OrderTransportDocument) {
   this.orderTransportDocumentService.getImageByteFromPath(orderTransportDocument.filePath).subscribe(
     (imageData: ArrayBuffer) => {
-      // Convert ArrayBuffer to Base64
-      var base64String = this.arrayBufferToBase64(imageData);
-
-      // Create a Blob from the Base64 string
-      const data = new Blob([imageData], { type: orderTransportDocument.fileType });
-
-      // Create a link element and trigger a download
+      console.log(imageData);
+      const data = new Blob([imageData]);
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(data);
       link.download = orderTransportDocument.fileName;

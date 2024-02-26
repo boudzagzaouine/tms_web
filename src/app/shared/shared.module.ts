@@ -1,3 +1,4 @@
+import { AccordionModule } from 'primeng/accordion';
 import { OrderTransportDocumentService } from './services/api/ordet-transport-document.service';
 import { VehicleAccompanimentService } from './services/api/vehicle-accompaniment.service';
 import { MarchandiseTypeService } from './services/api/marchandise-type.service';
@@ -193,6 +194,7 @@ import { ZoneVilleService } from './services/api/zone-ville.service';
 import { OrderList, OrderListModule } from 'primeng/orderlist';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { OrderTransportInfoLineService } from './services/api/order-transport-info-line.service';
+import {SidebarModule} from 'primeng/sidebar';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
@@ -232,7 +234,8 @@ import { OrderTransportInfoLineService } from './services/api/order-transport-in
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule,InputNumberModule
+    AccordionModule,
+    CardModule,OrderListModule,InputNumberModule,SidebarModule
   ],
   exports: [
     DataTableComponent, NgxPermissionsModule, HasPermissionDirective,
@@ -270,7 +273,9 @@ import { OrderTransportInfoLineService } from './services/api/order-transport-in
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule,InputNumberModule
+    AccordionModule,
+    CardModule,OrderListModule,InputNumberModule,
+    SidebarModule
   ]
 })
 export class SharedModule {

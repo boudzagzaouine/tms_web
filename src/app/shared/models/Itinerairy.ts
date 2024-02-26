@@ -1,3 +1,5 @@
+import { Driver } from './driver';
+import { Vehicle } from './vehicle';
 import { OrderTransport } from './order-transport';
 import { ActionType } from './action-type';
 import { MaintenanceState } from './maintenance-state';
@@ -24,5 +26,8 @@ orderTransportInfoLine:OrderTransportInfoLine;
   dateCommancerDechargement:Date;
   dateFinDechargement:Date;
   dateFinChargement:Date;
+  lineNumber:number;
 
+  vehicle:Vehicle;
+  driver:Driver;
 }

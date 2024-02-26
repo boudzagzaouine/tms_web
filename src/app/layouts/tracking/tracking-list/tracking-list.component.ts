@@ -1,10 +1,14 @@
+import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
+import { TransportPlanLocationService } from './../../../shared/services/api/transport-plan-location.service';
+import { TransportPlanLocation } from './../../../shared/models/transport-plan-location';
+import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
 import { OrderTransport } from './../../../shared/models/order-transport';
 import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
 import { DatePipe } from '@angular/common';
 import { itineraryInfo } from './../../../shared/models/itineraryInfo';
 import { Itinerary } from './../../../shared/models/Itinerairy';
-import { TransportPlanLocationService } from './../../../shared/services/api/transport-plan-location.service';
-import { TransportPlanLocation } from './../../../shared/models/transport-plan-location';
+import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
+import { TransportPlan } from './../../../shared/models/transport-plan';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
@@ -19,6 +23,7 @@ import  * as L  from 'leaflet';
 import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
 import { Marker, Icon,icon } from 'leaflet';
+import { TurnStatus } from './../../../shared/models/turn-status';
 
 @Component({
   selector: 'app-tracking-list',
@@ -38,18 +43,22 @@ export class TrackingListComponent implements OnInit {
   orderTransportSearch: OrderTransport;
   orderTransportList:OrderTransport[]=[];
 
+  turnStatusSearch: Boolean=true;
+
+
   className: string;
   cols: any[];
   editMode: number;
   showDialog: boolean;
-  transportPlanLocation:TransportPlanLocation[]=[];
+  transportPlan:TransportPlan[]=[];
   subscriptions= new Subscription();
   dateSearch: Date;
 
   items: MenuItem[];
 
   home: MenuItem;
-
+css4="form-group col-md-4";
+css8="form-group col-md-8"
   itinerary :Itinerary= new Itinerary();
   itineraries : Array<Itinerary>=[];
   map:any;
@@ -59,9 +68,10 @@ export class TrackingListComponent implements OnInit {
   time:string;
   heur :any ;
   minute : any ;
-
+  visibleSidebar2;
   selectItineraryInfo :itineraryInfo = new itineraryInfo();
 
+  transportPlanLocations :TransportPlanLocation[]=[]
  private iconEnlevement: Icon = icon({
    iconUrl: "./assets/img/enlevement.png",
       iconSize:    [40, 40],
@@ -85,31 +95,39 @@ private iconNone: Icon = icon({
 
 });
 
-
+letters = '0123456789ABCDEF';
+color = '#';
 
  display: boolean = false;
   constructor(private vehicleService :VehicleService,
+     private  turnStatusService:TurnStatusService,
               private driverservice:DriverService,
               private spinner: NgxSpinnerService,
               private toastr: ToastrService,
-              private TransportPlanLocationService:TransportPlanLocationService,
+              private TransportPlanService:TransportPlanService,
+              private transportPlanLocationService:TransportPlanLocationService,
               private datePipe:DatePipe,
               private orderTransportService:OrderTransportService) { }
 
   ngOnInit() {
    Marker.prototype.options.icon = this.iconNone;
 
-    this.createLayer();
-this.searchQuery="date>"+new Date().toISOString()+"date<"+new Date().toISOString();
-    this.loadData(this.searchQuery);
-  }
-  // ngAfterViewInit(){
-  //   Marker.prototype.options.icon = this.iconEnlevement;
+
+
+
+   // this.createLayer();
+this.searchQuery="turnStatus.id:3";
+this.loadData(this.searchQuery,'ALL')
   //   this.createLayer();
+ //   this.loadData(this.searchQuery);
+  }
+ngAfterViewInit(){
+     Marker.prototype.options.icon = this.iconEnlevement;
+
+  this.createLayer();
 
 
-
-  //  }
+}
 
   onVehicleSearch(event){
     this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
@@ -130,6 +148,17 @@ this.searchQuery="date>"+new Date().toISOString()+"date<"+new Date().toISOString
     ));
   }
 
+  onTransportPlanLocationSearch(orderTransport:OrderTransportInfo){
+
+console.log(orderTransport);
+
+
+    // this.subscriptions.add(this.transportPlanLocationService.find('orderTransport.id:' + orderTransport.id).subscribe(
+    //   data => {this.transportPlanLocations = data
+    //   }
+    // ));
+
+  }
 
   onSearchClicked() {
 
@@ -143,6 +172,19 @@ this.searchQuery="date>"+new Date().toISOString()+"date<"+new Date().toISOString
     }
     if (this.driverSearch != null && this.driverSearch !== undefined) {
       buffer.append(`driver.id:${this.driverSearch.id}`);
+    }
+
+    if (this.turnStatusSearch != null ) {
+      if(this.turnStatusSearch==true){
+        //en Cour
+      buffer.append('turnStatus.id!3;4;1');
+
+      }
+      else if (this.turnStatusSearch==false){
+        //Fermer
+      buffer.append('turnStatus.id:3');
+
+      }
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
@@ -158,8 +200,7 @@ this.searchQuery="date>"+new Date().toISOString()+"date<"+new Date().toISOString
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData(this.searchQuery);
-console.log(this.searchQuery);
+    this.loadData(this.searchQuery,'ORDER');
 
   }
 
@@ -167,86 +208,57 @@ console.log(this.searchQuery);
     this.vehicleSearch = null;
    this.driverSearch=null;
    this.dateSearch=null;
-
+   this.orderTransportSearch=null;
     this.page = 0;
     this.searchQuery = '';
-    this.loadData(this.searchQuery);
+    this.loadData(this.searchQuery,'ALL');
   }
 
-  loadData(search: string = '') {
+  loadData(search: string = '',type:string='') {
     this.spinner.show();
-    this.subscriptions.add(this.TransportPlanLocationService.sizeSearch(search).subscribe(
-      data => {
-        this.collectionSize = data;
-      }
-    ));
-    this.subscriptions.add( this.TransportPlanLocationService.find( search).subscribe(
+
+
+    this.subscriptions.add( this.TransportPlanService.getItineraries( search).subscribe(
       data => {
 
-        this.transportPlanLocation = data;
+        this.transportPlan = data;
+
 
         this.map.eachLayer((layer) => {
           layer.remove();
         });
-        console.log(this.searchQuery);
+if(type=='ALL'){
+  this.cloneItiniraryAllByTransportPlan();
 
-console.log(this.transportPlanLocation);
-  let i :number =0.3500;
-  this.itineraries=[];
+}else if (type=='ORDER'){
+this.cloneItiniraryOrderByTransportPlan();
 
-//   const transportPlanLocations=  this.transportPlanLocation.filter((value, index, array) =>
+}
+
+//   const transportPlans=  this.transportPlan.filter((value, index, array) =>
 //        index ==  array.findIndex(
 //        item =>  item.orderTransportInfoLine?.id == value.orderTransportInfoLine?.id)
 
 // );
 
-this.transportPlanLocation.forEach((item, index) => {
-  if(item?.orderTransportInfoLine?.id>0){
+// this.transportPlan.forEach((item, index) => {
+//   if(item?.orderTransportInfoLine?.id>0){
 
 
-  if (index!== this.transportPlanLocation.findIndex(i => i.orderTransportInfoLine?.id === item.orderTransportInfoLine?.id))
-  {
-      this.transportPlanLocation.splice(index, 1);
-  }}
-});
+//   if (index!== this.transportPlan.findIndex(i => i.orderTransportInfoLine?.id === item.orderTransportInfoLine?.id))
+//   {
+//       this.transportPlan.splice(index, 1);
+//   }}
+// });
 
 
 
-this.transportPlanLocation.forEach(ligne => {
-
-      console.log(ligne.orderTransportInfoLine?.id);
-
-      this.itinerary= new Itinerary();
-      this.itinerary.lat= ligne.latitude;
-      this.itinerary.lon=ligne.longitude;
-      this.itinerary.orderTransportInfoLine=ligne.orderTransportInfoLine;
-
-      this.itinerary.description=ligne.orderTransportInfoLine?.contact?.name;
-      this.itinerary.type=ligne.orderTransportInfoLine?.orderTransportType?.code;
-      this.itinerary.status=ligne.orderTransportInfoLine?.turnStatus?.code;
-      this.itinerary.dateArriver=ligne.orderTransportInfoLine?.dateArriver;
-      this.itinerary.dateCommancerChargement=ligne.orderTransportInfoLine?.dateCommancerChargement;
-      this.itinerary.dateCommancerDechargement=ligne.orderTransportInfoLine?.dateCommancerDechargement;
-      this.itinerary.dateFinDechargement=ligne.orderTransportInfoLine?.dateFinDechargement;
-      this.itinerary.dateFinChargement=ligne.orderTransportInfoLine?.dateFinChargement;
-
-      this.itinerary.date=ligne.date;
-i+=0.500;
-console.log(i);
-
-      this.itineraries.push(this.itinerary);
-     });
-
-
-     this.itineraries.sort((a, b) => {
-      return <any>new Date(b.date) + <any>new Date(a.date);
-    });
 
     console.log(    this.itineraries);
 
        // Marker.prototype.options.icon = this.iconEnlevement;
 
-         this.createRoute();
+        // this.createRoute();
         this.spinner.hide();
       },
       error => {
@@ -255,34 +267,133 @@ console.log(i);
       () => this.spinner.hide()
     ));
   }
-  loadDataLazy(event) {
-    this.size = event.rows;
-    this.page = event.first / this.size;
-    this.loadData(this.searchQuery);
+
+
+  cloneItiniraryAllByTransportPlan(){
+
+
+    this.itineraries=[];
+this.transportPlan.forEach(plan => {
+  let  itineraries :Itinerary[]=[];
+
+
+
+        this.itinerary= new Itinerary();
+        this.itinerary.lat= plan?.latitude;
+        this.itinerary.lon=plan?.longitude;
+
+
+        this.itinerary.vehicle= plan.vehicle;
+        this.itinerary.driver= plan.driver;
+
+
+        itineraries.push(this.itinerary);
+
+
+        itineraries.sort((a, b) => {
+        return <any>new Date(b.date) + <any>new Date(a.date);
+      });
+      this.createMarker(itineraries);
+
+      });
   }
 
 
+  cloneItiniraryOrderByTransportPlan(){
+
+
+    this.itineraries=[];
 
 
 
- createRoute() {
+
+this.transportPlan.forEach(plan => {
+  let  itineraries :Itinerary[]=[];
+   this.itinerary= new Itinerary();
+    this.itinerary.lat= plan?.latitude;
+    this.itinerary.lon=plan?.longitude;
+     this.itinerary.vehicle= plan.vehicle;
+    this.itinerary.driver= plan.driver;
+    itineraries.push(this.itinerary);
+
+    plan.orderTransport.orderTransportInfos.forEach(info => {
+
+      info.orderTransportInfoLines.forEach(line =>{
+
+
+        this.itinerary= new Itinerary();
+        this.itinerary.lat= line.address?.latitude;
+        this.itinerary.lon=line.address?.longitude;
+        this.itinerary.orderTransportInfoLine=line;
+
+        this.itinerary.description=line?.contact?.name;
+        this.itinerary.type=line?.orderTransportType?.code;
+        this.itinerary.status=line?.turnStatus?.code;
+        this.itinerary.dateArriver=line?.dateArriver;
+        this.itinerary.dateCommancerChargement=line?.dateCommancerChargement;
+        this.itinerary.dateCommancerDechargement=line?.dateCommancerDechargement;
+        this.itinerary.dateFinDechargement=line?.dateFinDechargement;
+        this.itinerary.dateFinChargement=line?.dateFinChargement;
+        this.itinerary.lineNumber=line?.lineNumber;
+        this.itinerary.date=line?.dateArriver!=undefined ? line?.dateArriver: line.date;
+
+        this.itinerary.vehicle= plan.vehicle;
+        this.itinerary.driver= plan.driver;
+
+
+        itineraries.push(this.itinerary);
+
+      })
+
+       });
+        itineraries.sort((a, b) => {
+        return <any>new Date(b.date) + <any>new Date(a.date);
+      });
+      // this.createMarker(itineraries);
+      this.createRoute(itineraries);
+
+      });
+  }
+
+  getRandomColor2() {
+    var length = 6;
+    var chars = '0123456789ABCDEF';
+    var hex = '#';
+    while(length--) hex += chars[(Math.random() * 16) | 0];
+    return hex;
+  }
+
+
+ createRoute(itineraries) {
+  console.log('itineraire');
+
+  console.log(itineraries);
+
+  this.itineraries=itineraries
   this.spinner.show();
   const  dis = null;
   var split_route1:L.LatLng[]=[];
-console.log(this.itineraries);
+
 
 this.itineraries.forEach(element => {
          split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
 });
+//var polyline = L.polyline(split_route1, {color: 'white'}).addTo(this.map);
+var pane1 = this.map.createPane(this.itineraries[0]?.orderTransportInfoLine?.id.toString());
+//console.log(this.getRandomColor2());
 
  var route= L.Routing.control({
     routeWhileDragging: true,
     addWaypoints: false,
 
     waypoints: split_route1,
+lineOptions: {styles: [{pane:pane1, color: '#0cb0fb', opacity: 1, weight: 4}],missingRouteTolerance:2,extendToWaypoints:true},
+
+
+
 
 }).on('routesfound',(e)=>{
-  console.log(e);
+
 // this.distance=e.routes[0].summary.totalDistance/1000 as number;
 // console.log(e.routes[0].summary.totalTime);
 
@@ -305,85 +416,91 @@ this.selectItineraryInfo.time=this.time;
 ).addTo(this.map).hide();
 
 
-for (var i in this.itineraries) {
-  let message="" ;
-  if(this.itineraries[i].type!=undefined){
-    message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
-
-    message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description +
-    "</b><br>";
-    if(this.itineraries[i].type =="ENLEVEMENT" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
-     message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
-     " <b> Debut Chargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerChargement,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
-    " <b> Fin Chargement :"+this.datePipe.transform(this.itineraries[i].dateFinChargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
-
-    }
-    else if(this.itineraries[i].type =="LIVRAISON" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
-     message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
-     " <b>Debut Dechargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"+
-    " <b> Fin Dechargement :"+this.datePipe.transform(this.itineraries[i].dateFinDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
-    }
-
-    message +=  " <b> Statut :"+this.itineraries[i].status+"</b><br>";
-
-
-  }
-  else{
-    message += "<b> En Route "
-  }
-  console.log(message );
-  console.log(message);
-
-
-
-  var numberDiv = document.createElement('div');
-  numberDiv.className = 'number';
-  numberDiv.textContent = '1';
-
-  L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
-
-icon:  this.itineraries[i].type!=undefined ?  new L.DivIcon({
-  className: 'circle',
-  //  iconSize:[90, 90],
-  html: numberDiv
-},) :this.iconDrive
-
-
-   // title: this.itineraries[i].description ,
-  // icon:
-  // L.AwesomeMarkers.icon({
-  //   icon: '',
-  //   markerColor:'blue',
-  //   prefix: 'fa',
-
-  //   })
-
-    //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
-  //  icon:this.showMarkerByTurnType(this.itineraries[i].type),
- //draggable:true,
- //zIndexOffset:1,
-  }).addTo(this.map).bindPopup(message,).openPopup();
-}
-  this.mainLayer.addTo(this.map);
-
-// this.recuperateDistance();
-this.spinner.hide();
+this.createMarker(  this.itineraries);
 }
 
+createMarker(itineraries){
+this.itineraries=itineraries;
+
+  for (var i in this.itineraries) {
+    let message="" ;
+    if(this.itineraries[i].type!=undefined){
+      message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
+
+      message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description +
+      "</b><br>";
+      if(this.itineraries[i].type =="ENLEVEMENT" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
+       message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+       " <b> Debut Chargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerChargement,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+      " <b> Fin Chargement :"+this.datePipe.transform(this.itineraries[i].dateFinChargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
+
+      }
+      else if(this.itineraries[i].type =="LIVRAISON" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
+       message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
+       " <b>Debut Dechargement :"+this.datePipe.transform(this.itineraries[i].dateCommancerDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"+
+      " <b> Fin Dechargement :"+this.datePipe.transform(this.itineraries[i].dateFinDechargement,'dd-MM-yyyy HH:mm:ss')+"</b> <br>"
+      }
+
+      message +=  " <b> Statut :"+this.itineraries[i].status+"</b><br>";
+
+
+    }
+    else{
+      message += "<b> En Route <br>"+"Vehicule :"+this.itineraries[i].vehicle.registrationNumber +"<br>Chauffeur :"+this.itineraries[i].driver.codeName ;
+    }
+
+
+
+
+    var numberDiv = document.createElement('div');
+    numberDiv.className = 'number';
+    numberDiv.textContent =''+ this.itineraries[i].lineNumber;
+
+
+
+    L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
+
+  icon:  this.itineraries[i].type!=undefined ?  new L.DivIcon({
+    className: 'circleMarker',
+     iconSize:[90, 90],
+    html: numberDiv
+  },) :this.iconDrive
+
+
+    //  title: this.itineraries[i].description ,
+    // icon:
+    // L.AwesomeMarkers.icon({
+    //   icon: "coffee",
+    //   markerColor: "orange",
+    //   prefix: "fa",
+    //   iconColor: "black"
+
+    //   })
+
+      //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
+    //  icon:this.showMarkerByTurnType(this.itineraries[i].type),
+   //draggable:true,
+   //zIndexOffset:1,
+    }).addTo(this.map).bindPopup(message,).openPopup();
+  }
+
+    this.mainLayer.addTo(this.map);
+
+  // this.recuperateDistance();
+  this.spinner.hide();
+
+}
  showMarkerByTurnType(type :string){
 
 
    if(type =="LIVRAISON"){
-    console.log(type);
+
    return this.iconLivraison;
    }else if(type =="ENLEVEMENT"){
-    console.log(type);
     return this.iconEnlevement;
    }else if(type =="ENLEVEMENT/LIVRAISON"){
-    console.log(type);
     return this.iconEnlevementLivraison;
   }else{
-    console.log(type);
      return this.iconDrive;
    }
 
@@ -393,17 +510,26 @@ createLayer(){
 
 
 
- this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 19,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
-
-// this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-//     maxZoom: 20,
-//     subdomains:['mt0','mt1','mt2','mt3']
+//  this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// 	maxZoom: 19,
+// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 // });
-this.map = L.map('map', {});
+
+
+this.map = L.map('map', {
+  center: [ 25.3791924,55.4765436 ],
+  zoom: 10,
+  renderer: L.canvas()
+})
+
+this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 8,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(this.map);
+//this.map = L.map('map', {});
 
 }
+
+
 
 }

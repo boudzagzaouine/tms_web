@@ -1,3 +1,4 @@
+import { AccordionModule } from 'primeng/accordion';
 import { OrderTransportDocumentService } from './services/api/ordet-transport-document.service';
 import { VehicleAccompanimentService } from './services/api/vehicle-accompaniment.service';
 import { MarchandiseTypeService } from './services/api/marchandise-type.service';
@@ -138,7 +139,7 @@ import { CommissionTypeService } from './services/api/commisionType.service';
 import { MaintenanceActionService } from './services/api/maintenance-action.service';
 import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.service';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { FieldsetModule } from 'primeng/fieldset';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -193,6 +194,7 @@ import { ZoneVilleService } from './services/api/zone-ville.service';
 import { OrderList, OrderListModule } from 'primeng/orderlist';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { OrderTransportInfoLineService } from './services/api/order-transport-info-line.service';
+import {SidebarModule} from 'primeng/sidebar';
 
 @NgModule({
   declarations: [DataTableComponent, HasPermissionDirective],
@@ -232,7 +234,8 @@ import { OrderTransportInfoLineService } from './services/api/order-transport-in
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule,InputNumberModule
+    AccordionModule,
+    CardModule,OrderListModule,InputNumberModule,SidebarModule
   ],
   exports: [
     DataTableComponent, NgxPermissionsModule, HasPermissionDirective,
@@ -270,7 +273,9 @@ import { OrderTransportInfoLineService } from './services/api/order-transport-in
     TreeTableModule,
     ScrollPanelModule,
     ToastModule,
-    CardModule,OrderListModule,InputNumberModule
+    AccordionModule,
+    CardModule,OrderListModule,InputNumberModule,
+    SidebarModule
   ]
 })
 export class SharedModule {
@@ -428,7 +433,8 @@ export class SharedModule {
         MarchandiseTypeService,
         VehicleAccompanimentService,
         ZoneVilleService,
-        OrderTransportDocumentService
+        OrderTransportDocumentService,
+        DatePipe
 
       ],
 

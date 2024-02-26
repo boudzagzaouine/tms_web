@@ -59,4 +59,6 @@ trajet:Trajet;
   totalPriceTTC:number;
   totalPriceVat:number;
 
+  latitude:number;
+  longitude:number;
 }

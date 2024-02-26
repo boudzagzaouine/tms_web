@@ -1,3 +1,4 @@
+import { OrderTransportInfo } from './order-transport-info';
 import { TransportPlan } from './transport-plan';
 import { OrderTransportRejectType } from './order-transport-reject-type';
 import { TransportPlanService } from './../services/api/transport-plan.service';
@@ -16,14 +17,18 @@ import { Transport } from './transport';
 import { VehicleCategory } from './vehicle-category';
 import { TurnTransport } from './turn-transport';
 import { LoadingType } from './loading-type';
+import { OrderTransportInfoLine } from './order-transport-info-line';
 
 export class TransportPlanLocation {
   id: number;
   latitude:number;
   longitude :number;
-  transportPlanId:number;
-  vehicleId :number ;
-  driverId :number ;
+  transportPlan:TransportPlan;
+  vehicle :Vehicle ;
+  driver :Driver ;
+  orderTransport:OrderTransport;
+  orderTransportInfo:OrderTransportInfo;
+  orderTransportInfoLine:OrderTransportInfoLine;
   date :Date ;
 
 

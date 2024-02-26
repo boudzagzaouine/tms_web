@@ -147,4 +147,7 @@ export class EmsService<T> {
   }
 
 
+  getItineraries(search: string) {
+    return this.proxy.getItineraries(this.controller, search);
+  }
 }

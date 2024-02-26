@@ -1,5 +1,5 @@
 {
-  "name": "lahib",
+  "name": "BAGILE",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -31,6 +31,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/leaflet": "^1.8.0",
     "@types/leaflet-routing-machine": "^3.2.4",
+    "@types/leaflet.awesome-markers": "^2.0.28",
     "animate.css": "^3.7.2",
     "bootstrap": "4.3.1",
     "bootstrap-datepicker": "^1.9.0",
@@ -61,7 +62,9 @@
     "jszip": "^3.2.2",
     "jvectormap": "^2.0.4",
     "leaflet": "^1.7.1",
+    "leaflet-color-number-markers": "^1.0.7",
     "leaflet-routing-machine": "^3.2.12",
+    "leaflet.awesome-markers": "^2.0.5",
     "lodash": "^4.17.21",
     "metismenu": "2.7.1",
     "moment": "^2.24.0",

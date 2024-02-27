@@ -51,6 +51,8 @@ export class TrackingListComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   transportPlan:TransportPlan[]=[];
+  transportPlanCloneList:TransportPlan[]=[];
+
   subscriptions= new Subscription();
   dateSearch: Date;
 
@@ -122,7 +124,7 @@ this.loadData(this.searchQuery,'ALL')
  //   this.loadData(this.searchQuery);
   }
 ngAfterViewInit(){
-     Marker.prototype.options.icon = this.iconEnlevement;
+     Marker.prototype.options.icon = this.iconNone;
 
   this.createLayer();
 
@@ -222,7 +224,7 @@ console.log(orderTransport);
       data => {
 
         this.transportPlan = data;
-
+ this.transportPlanCloneList=data;
 
         this.map.eachLayer((layer) => {
           layer.remove();
@@ -279,6 +281,8 @@ this.transportPlan.forEach(plan => {
 
 
         this.itinerary= new Itinerary();
+        this.itinerary.transportPlan= plan;
+
         this.itinerary.lat= plan?.latitude;
         this.itinerary.lon=plan?.longitude;
 
@@ -424,6 +428,7 @@ this.itineraries=itineraries;
 
   for (var i in this.itineraries) {
     let message="" ;
+    let ot = this.itineraries[i]?.transportPlan?.id;
     if(this.itineraries[i].type!=undefined){
       message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
 
@@ -446,7 +451,11 @@ this.itineraries=itineraries;
 
     }
     else{
-      message += "<b> En Route <br>"+"Vehicule :"+this.itineraries[i].vehicle.registrationNumber +"<br>Chauffeur :"+this.itineraries[i].driver.codeName ;
+      message += "<i class='fa fa-road'  style='    color: #ee8e8f;'> </i><b> En Route<br>"+
+      "<i class='fa fa-truck mr-2' style='    color: #ee8e8f;'></i>"+this.itineraries[i].vehicle.registrationNumber +
+      "<br><i class='fa fa-user mr-2' style='    color: #ee8e8f;' ></i> "+this.itineraries[i].driver.codeName ;
+     message +="<br><button type='button' class='btn btn-primary p-0' style='width: 100%;'>Détails</button>"
+
     }
 
 
@@ -481,13 +490,46 @@ this.itineraries=itineraries;
     //  icon:this.showMarkerByTurnType(this.itineraries[i].type),
    //draggable:true,
    //zIndexOffset:1,
-    }).addTo(this.map).bindPopup(message,).openPopup();
+    }).addTo(this.map).bindPopup(message,)
+    //.openPopup()
+    .on("popupopen", (a) => {
+      var popUp = a.target.getPopup()
+      popUp.getElement()
+     .querySelector(".btn")
+     .addEventListener("click", e => {
+
+
+      console.log(ot);
+       this.test(ot);
+      });    })
+    //.on('click', this.onClick);
+
+
   }
 
     this.mainLayer.addTo(this.map);
 
   // this.recuperateDistance();
   this.spinner.hide();
+
+}
+onClick(e) {
+  var popup = e.target.getPopup();
+  var content = popup.getContent();
+
+  console.log(content);
+}
+test(transportPlanId){
+  this.map.eachLayer((layer) => {
+    layer.remove();
+  });
+  console.log("test");
+this.visibleSidebar2=true;
+this.transportPlan=this.transportPlanCloneList.filter(f=> f.id==transportPlanId)
+this.cloneItiniraryOrderByTransportPlan();
+
+
+console.log(event);
 
 }
  showMarkerByTurnType(type :string){
@@ -510,24 +552,25 @@ createLayer(){
 
 
 
-//  this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-// 	maxZoom: 19,
-// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-// });
+
 
 
 this.map = L.map('map', {
-  center: [ 25.3791924,55.4765436 ],
+  center: [ 31.942037500922847, -6.391733638504066 ],
   zoom: 10,
   renderer: L.canvas()
 })
 
-this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-    maxZoom: 8,
-    subdomains:['mt0','mt1','mt2','mt3']
-}).addTo(this.map);
+// this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+//     maxZoom: 8,
+//     subdomains:['mt0','mt1','mt2','mt3']
+// }).addTo(this.map);
 //this.map = L.map('map', {});
 
+ this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(this.map);
 }
 
 

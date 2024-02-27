@@ -1,3 +1,7 @@
+import { DatePipe } from '@angular/common';
+import { DriverService } from './../../../shared/services/api/driver.service';
+import { VehicleService } from './../../../shared/services/api/vehicle.service';
+import { Driver } from './../../../shared/models/driver';
 import { Account } from './../../../shared/models/account';
 import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
@@ -27,6 +31,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { OrderTransport } from './../../../shared/models/order-transport';
+import { Vehicle } from './../../../shared/models';
 const htmlToPdfmake = require("html-to-pdfmake");
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -45,6 +50,11 @@ export class TransportPlanListComponent implements OnInit {
   categorySearch: VehicleCategory;
   categoryList: VehicleCategory[] = [];
   transportList: Transport[] = [];
+  driverSearch: Driver;
+  vehicleSearch: Vehicle;
+
+  driverList: Driver[] = [];
+  vehicleList: Vehicle[] = [];
   orderTrasnportList: OrderTransport[] = [];
   transportSearch: Transport;
   selectedTransportPlans: Array<TransportPlan> = [];
@@ -65,14 +75,17 @@ export class TransportPlanListComponent implements OnInit {
   showDialogReject: Boolean;
   home: MenuItem;
   fileUrl;
+  dateSearch: Date;
 
   dateLivraisonSearch: Date;
   dateDelivery: Date;
   constructor(private transportPlanService: TransportPlanService,
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportService: OrderTransportService,
-
+  private vehicleService:VehicleService,
+  private driverService:DriverService,
     private globalService: GlobalService,
+    private datePipe:DatePipe,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
@@ -194,6 +207,18 @@ export class TransportPlanListComponent implements OnInit {
     ));
   }
 
+  onDriverSearch(event) {
+    this.subscriptions.add(this.driverService.find('name~' + event.query).subscribe(
+      data => this.driverList = data
+    ));
+  }
+
+  onVehicleSearch(event) {
+    this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+      data => this.vehicleList = data
+    ));
+  }
+
   onCompanySearch(event) {
     this.subscriptions.add(this.companyService.find('name~' + event.query).subscribe(
       data => this.companyList = data
@@ -218,8 +243,21 @@ console.log(this.companySearch);
     if (this.turnStatusSearch != null && this.turnStatusSearch !== undefined) {
       buffer.append(`turnStatus.code~${this.turnStatusSearch.code}`);
     }
+    if (this.driverSearch != null && this.driverSearch.name !== undefined) {
+      buffer.append(`driver.id:${this.driverSearch.id}`);
+    }
+    if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
+      buffer.append(`vehicle.registrationNumber~${this.vehicleSearch.registrationNumber}`);
+    }
+    if(this.dateSearch!=null){
+      let dateSearch=this.datePipe.transform(this.dateSearch,'yyyy-MM-dd');
+
+      buffer.append(`dateDepart>${dateSearch}`);
+      }
     this.page = 0;
     this.searchQuery = buffer.getValue();
+    console.log(this.searchQuery);
+
     this.loadData(this.searchQuery);
 
   }
@@ -357,6 +395,10 @@ console.log(this.companySearch);
     this.companySearch = null;
     this.turnStatusSearch = null;
     this.categorySearch = null;
+    this.vehicleSearch = null;
+    this.driverSearch = null;
+    this.dateSearch = null;
+
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

@@ -26,10 +26,11 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DashboardDriverComponent } from './dashboard-driver/dashboard-driver.component';
 import {ChartModule} from 'primeng/chart';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { DashboardOperationTrackingComponent } from './dashboard-operation-tracking/dashboard-operation-tracking.component';
 
 
 @NgModule({
-  declarations: [DashboardsComponent, DashboardVehicleComponent, DashboardDriverComponent],
+  declarations: [DashboardsComponent, DashboardVehicleComponent, DashboardDriverComponent,DashboardOperationTrackingComponent],
   imports: [
     CommonModule,
     DashboardsRoutingModule,
@@ -44,9 +45,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    
+
     NgxSpinnerModule,
-  
+
     CalendarModule,
     ConfirmDialogModule,
     TabViewModule,

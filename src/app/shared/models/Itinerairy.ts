@@ -8,6 +8,7 @@ import { Product } from './product';
 import { Uom } from './uom';
 import { ActionLine } from './action-line';
 import { OrderTransportInfoLine } from './order-transport-info-line';
+import { TransportPlan } from './transport-plan';
 
 export class Itinerary {
 
@@ -19,7 +20,7 @@ export class Itinerary {
   status: string;
   date :Date;
 
-
+transportPlan:TransportPlan;
 orderTransportInfoLine:OrderTransportInfoLine;
   dateArriver :Date;
   dateCommancerChargement:Date;

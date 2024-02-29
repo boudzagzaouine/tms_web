@@ -31,5 +31,7 @@ export class TransportPlanLocation {
   orderTransportInfoLine:OrderTransportInfoLine;
   date :Date ;
 
+  type:string;
+
 
 }

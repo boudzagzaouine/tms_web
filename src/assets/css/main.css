@@ -213,7 +213,8 @@ pre code {
 .btn-primary {
   color: #fff;
   /* 2196F3 */
-  background-color: #4084bd;
+  /* #4084bd */
+  background-color: #1878dd;
   border-color: #2196F3;
 }
 .btn-primary:focus,

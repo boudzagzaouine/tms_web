@@ -18,7 +18,7 @@ import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Driver } from './../../../shared/models/driver';
 import { Vehicle } from './../../../shared/models/vehicle';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import  * as L  from 'leaflet';
 import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
@@ -30,7 +30,7 @@ import { TurnStatus } from './../../../shared/models/turn-status';
   templateUrl: './tracking-list.component.html',
   styleUrls: ['./tracking-list.component.scss']
 })
-export class TrackingListComponent implements OnInit {
+export class TrackingListComponent implements OnInit,AfterViewInit {
   page = 0;
   size = 10;
   collectionSize: number;
@@ -118,7 +118,7 @@ color = '#';
 
 
    // this.createLayer();
-this.searchQuery="turnStatus.id:3";
+this.searchQuery="turnStatus.id!1;2;3;4";
 this.loadData(this.searchQuery,'ALL')
   //   this.createLayer();
  //   this.loadData(this.searchQuery);
@@ -179,7 +179,7 @@ console.log(orderTransport);
     if (this.turnStatusSearch != null ) {
       if(this.turnStatusSearch==true){
         //en Cour
-      buffer.append('turnStatus.id!3;4;1');
+      buffer.append('turnStatus.id!1;2;3;4');
 
       }
       else if (this.turnStatusSearch==false){
@@ -218,6 +218,7 @@ console.log(orderTransport);
 
   loadData(search: string = '',type:string='') {
     this.spinner.show();
+console.log(search);
 
 
     this.subscriptions.add( this.TransportPlanService.getItineraries( search).subscribe(
@@ -276,8 +277,12 @@ this.cloneItiniraryOrderByTransportPlan();
 
     this.itineraries=[];
 this.transportPlan.forEach(plan => {
+
+
+
   let  itineraries :Itinerary[]=[];
 
+  if( plan?.latitude!=null && plan?.longitude!=null){
 
 
         this.itinerary= new Itinerary();
@@ -292,7 +297,7 @@ this.transportPlan.forEach(plan => {
 
 
         itineraries.push(this.itinerary);
-
+  }
 
         itineraries.sort((a, b) => {
         return <any>new Date(b.date) + <any>new Date(a.date);
@@ -430,7 +435,7 @@ this.itineraries=itineraries;
     let message="" ;
     let ot = this.itineraries[i]?.transportPlan?.id;
     if(this.itineraries[i].type!=undefined){
-      message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
+      // message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
 
       message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description +
       "</b><br>";
@@ -452,8 +457,8 @@ this.itineraries=itineraries;
     }
     else{
       message += "<i class='fa fa-road'  style='    color: #ee8e8f;'> </i><b> En Route<br>"+
-      "<i class='fa fa-truck mr-2' style='    color: #ee8e8f;'></i>"+this.itineraries[i].vehicle.registrationNumber +
-      "<br><i class='fa fa-user mr-2' style='    color: #ee8e8f;' ></i> "+this.itineraries[i].driver.codeName ;
+      "<i class='fa fa-truck mr-2' style='    color: #ee8e8f;'></i>"+this.itineraries[i]?.vehicle?.registrationNumber +
+      "<br><i class='fa fa-user mr-2' style='    color: #ee8e8f;' ></i> "+this.itineraries[i]?.driver?.codeName ;
      message +="<br><button type='button' class='btn btn-primary p-0' style='width: 100%;'>Détails</button>"
 
     }
@@ -549,11 +554,6 @@ console.log(event);
  }
 
 createLayer(){
-
-
-
-
-
 
 this.map = L.map('map', {
   center: [ 31.942037500922847, -6.391733638504066 ],

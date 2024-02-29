@@ -1,4 +1,3 @@
-
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row mt-1">
     <div class="col-md-2">
@@ -80,34 +79,457 @@
   </div>
 </p-panel>
 
-<div class="container">
-
-
-
-    <div class="row ">
-      <div class="form-group col-md-8">
-<div class="card mt-1">
-  <div class="card-header ">
-
-
-
-</div>
-
-        </div>
-        </div>
-
-
-
-        <div class="form-group col-md-4">
-          <div class="card mt-1">
-            <div class="card-header ">
-
-
-
+<div class="row">
+  <div class="col-md-8">
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="ibox bg-success color-white widget-stat">
+          <div
+            class="ibox-body"
+            style="background-color: #ffd8b2; color: #805b36"
+          >
+            <h4 class="m-b-5 font-strong">Nombre de trajet a affecter</h4>
+            <div class="m-b-5">{{ this.otToAffectedSize }}</div>
+            <i class="fa fa-road widget-stat-icon"></i>
           </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ibox bg-success color-white widget-stat">
+          <div
+            class="ibox-body"
+            style="background-color: #c8e6c9; color: #256029"
+          >
+            <h4 class="m-b-5 font-strong">Nombre de trajet affecté</h4>
+            <div class="m-b-5">{{ this.otAffectedSize }}</div>
+            <i class="fa fa-tasks widget-stat-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ibox bg-success color-white widget-stat">
+          <div
+            class="ibox-body"
+            style="background-color: #b3e5fc; color: #23547b"
+          >
+            <h4 class="m-b-5 font-strong">Nombre de flotte engagée</h4>
+            <div class="m-b-5">{{ this.otReleaseInternSize }}</div>
+            <i class="fa fa-clock-o widget-stat-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ibox bg-success color-white widget-stat">
+          <div
+            class="ibox-body"
+            style="background-color: #ffcdd2; color: #c63737"
+          >
+            <h4 class="m-b-5 font-strong">Nombre d’OT réalisé</h4>
+            <div class="m-b-5">{{ this.otReleaseSize }}</div>
+            <i class="fa fa-exclamation-circle widget-stat-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <div class="card mt-1 p-0">
+            <div class="card-header p-0">
+              <p-card styleClass="p-card-shadow">
+                <ng-template pTemplate="header">
+                  <!-- <img alt="Card" src="assets/showcase/images/usercard.png"> -->
+                </ng-template>
+
+                <section *ngIf="showdetailStep == 0">
+                  <!-- //<div class="tab-pane fade shadow rounded bg-white show active p-5"  role="tabpanel" aria-labelledby="v-pills-home-tab"> -->
+                  <h4 class="font-italic mb-4 headerText">
+                    Ordre de Transport
+                  </h4>
+                  <!-- // </div> -->
+
+                  <p-table
+                    [value]="transportPlanList"
+                    [responsive]="true"
+                    [rows]="size"
+                    [lazy]="true"
+                    (onLazyLoad)="loadDataLazy($event)"
+                    [totalRecords]="collectionSize"
+                    [paginator]="true"
+                    [rowsPerPageOptions]="[5, 10, 20, 50, 100]"
+                  >
+                    <ng-template pTemplate="body" let-plan>
+                      <!-- *ngIf="this.notificationLeaveList.length>0" -->
+                      <tr class="ui-selectable-row">
+                        <td>
+                          <span class="product-name">
+                            <i
+                              class="fa fa-cubes icon mr-2"
+                              aria-hidden="true"
+                            ></i>
+                            {{ plan?.orderTransport?.code }}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span class="product-category"
+                            ><i
+                              class="fa fa-map-marker icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ plan?.orderTransport?.trajet?.code }}</span
+                          >
+                        </td>
+                        <td>
+                          <span class="product-category"
+                            ><i
+                              class="fa fa-clock-o icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ plan?.dateDepart | date : "dd-MM-yyyy" }}</span
+                          >
+                        </td>
+                        <td>
+                          <span class="product-category"
+                            ><i
+                              class="fa fa-truck icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ plan?.vehicle?.registrationNumber }}</span
+                          >
+                        </td>
+                        <td>
+                          <span class="product-category"
+                            ><i
+                              class="fa fa-user icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ plan?.driver?.code }}</span
+                          >
+                        </td>
+
+                        <td style="float: right">
+                          <div class="text-center d-flex">
+                            <button
+                              type="button"
+                              class="btn btn-primary m-2 p-2"
+                              style="border-radius: 9px"
+                              (click)="showDetailPlanTransport(plan)"
+                            >
+                              <i
+                                class="fa fa-info-circle"
+                                style="font-size: 2rem"
+                              ></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td style="text-align: center">
+                          Aucun enregistrement trouvé
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </section>
+
+                <section *ngIf="showdetailStep == 1">
+                  <div class="text-center d-flex">
+                    <!-- <button type="button" class="btn btn-primary mr-2" style="border-radius: 9px;" (click)="previous()"> -->
+                    <a (click)="previous()"
+                      ><i
+                        class="fa fa-arrow-circle-o-left mb-3"
+                        style="font-size: xx-large; width: 6rem"
+                      ></i
+                    ></a>
+                    <!-- </button> -->
                   </div>
-        </div>
-        </div>
+                  <div
+                    *ngFor="
+                      let info of transportPlan?.orderTransport
+                        ?.orderTransportInfos
+                    "
+                  >
+                    <h4 class="font-italic mb-4 headerText">
+                      {{
+                        info.type == 1
+                          ? "DÉTAILS TRAJET  ALLER"
+                          : "DÉTAILS TRAJET  Retour"
+                      }}
+                    </h4>
 
+                    <div class="row m-2">
+                      <div class="form-group col-4">
+                        <span style="float: right">
+                          <h4
+                            class="font-italic mb-4"
+                            style="font-size: 1.2rem; font-weight: 700"
+                          >
+                            <i
+                              class="fa fa-cubes icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ info?.orderTransport?.code }}
+                          </h4>
+
+                          <h4
+                            class="font-italic mb-4"
+                            style="font-size: 1.2rem; font-weight: 700"
+                          >
+                            <i
+                              class="fa fa-clock-o icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ transportPlan?.orderTransport?.trajet?.code }}
+                          </h4>
+                        </span>
+                      </div>
+                      <div class="form-group col-4">
+                        <span style="text-align: center">
+                          <h4
+                            class="font-italic mb-4"
+                            style="font-size: 1.2rem; font-weight: 700"
+                          >
+                            <i
+                              class="fa fa-truck icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ transportPlan?.orderTransport?.account?.name }}
+                          </h4>
+                        </span>
+                      </div>
+                      <div class="form-group col-4">
+                        <span style="float: left">
+                          <h4
+                            class="font-italic mb-4"
+                            style="font-size: 1.2rem; font-weight: 700"
+                          >
+                            <i
+                              class="fa fa-truck icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ transportPlan?.vehicle?.code }}-{{
+                              transportPlan?.vehicle?.registrationNumber
+                            }}
+                          </h4>
+                          <h4
+                            class="font-italic mb-4"
+                            style="font-size: 1.2rem; font-weight: 700"
+                          >
+                            <i
+                              class="fa fa-user icon mr-2"
+                              aria-hidden="true"
+                            ></i
+                            >{{ transportPlan?.driver?.code }}-{{
+                              transportPlan?.driver?.name
+                            }}
+                          </h4>
+                        </span>
+                      </div>
+                    </div>
+
+                    <p-table [value]="info.orderTransportInfoLines"       [responsive]="true"
+                    >
+
+
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>{{ "Operation" | translate }}</th>
+                          <th>{{ "Ville" | translate }}</th>
+                          <th>{{ "Date d'arrivée" | translate }}</th>
+                          <th>{{ "Début Operation" | translate }}</th>
+                          <th>{{ "Fin Operation" | translate }}</th>
+                          <th>{{ "Fin" | translate }}</th>
+
+                          <th style="width: 10%">{{ "Localisation" | translate }}</th>
+                        </tr>
+                      </ng-template>
+
+
+                      <ng-template pTemplate="body" let-line>
+                        <!-- *ngIf="this.notificationLeaveList.length>0" -->
+
+                        <tr class="ui-selectable-row">
+                          <td>
+                            <span class="product-name">
+                              <i
+                                *ngIf="line.orderTransportType?.id == 1"
+                                class="fa fa-arrow-up icon mr-2"
+                                aria-hidden="true"
+                              ></i>
+                              <i
+                                *ngIf="line.orderTransportType?.id == 2"
+                                class="fa fa-arrow-down icon mr-2"
+                                aria-hidden="true"
+                              ></i>
+                              {{ line.orderTransportType?.code }}
+                            </span>
+                          </td>
+                          <td>
+                            <span class="product-category"
+                              ><i
+                                class="fa fa-map-marker icon mr-2"
+                                aria-hidden="true"
+                              ></i
+                              >{{ line.address?.name }}</span
+                            >
+                          </td>
+                          <td>
+                            <span class="product-category"
+                              >
+
+                              <i
+                                class="fa fa-clock-o icon mr-2"
+                                aria-hidden="true"
+                              ></i
+                              >{{ line?.dateArriver | date : " HH:mm" }}<br />
+                              <span class="ml-4"> {{
+                                line?.dateArriver | date : "dd-MM-yyyy"
+                              }}</span>
+                              </span
+                            >
+                          </td>
+                          <td>
+                            <span *ngIf="line.orderTransportType?.id == 1">
+                            <span class="product-category"
+                              ><i
+                                class="fa fa-clock-o icon mr-2"
+                                aria-hidden="true"
+                              ></i
+                              >{{
+                                line?.dateCommancerChargement
+                                  | date : "HH:mm"
+                              }}<br>
+                              <span class="ml-4">{{
+                                line?.dateCommancerChargement
+                                  | date : "dd-MM-yyyy"
+                              }}</span></span
+                            ></span>
+
+                            <span *ngIf="line.orderTransportType?.id == 2">
+                              <span class="product-category"
+                                ><i
+                                  class="fa fa-clock-o icon mr-2"
+                                  aria-hidden="true"
+                                ></i
+                                >{{
+                                  line?.dateCommancerDechargement
+                                    | date : "HH:mm"
+                                }}<br>
+                                <span class="ml-4">{{
+                                  line?.dateCommancerDechargement
+                                    | date : "dd-MM-yyyy"
+                                }}</span></span
+                              ></span>
+                          </td>
+                          <td>
+                            <span *ngIf="line.orderTransportType?.id == 1">
+                            <span class="product-category"
+                              >
+                              <i
+                                class="fa fa-clock-o icon mr-2"
+                                aria-hidden="true"
+                              ></i
+                              >{{
+                                line?.dateFinChargement | date : "HH:mm"
+                              }}<br>
+                             <span class="ml-4">{{
+                                line?.dateFinChargement | date : "dd-MM-yyyy"
+                              }}</span>
+
+                              </span
+                            ></span>
+
+                            <span *ngIf="line.orderTransportType?.id == 2">
+                              <span class="product-category"
+                                >
+                                <i
+                                  class="fa fa-clock-o icon mr-2"
+                                  aria-hidden="true"
+                                ></i
+                                >{{
+                                  line?.dateFinDechargement | date : "HH:mm"
+                                }}<br>
+                               <span class="ml-4">{{
+                                  line?.dateFinDechargement | date : "dd-MM-yyyy"
+                                }}</span>
+
+                                </span
+                              ></span>
+                          </td>
+                          <td>
+                            <span class="product-category"
+                              ><i
+                                class="fa fa-clock-o icon mr-2"
+                                aria-hidden="true"
+                              ></i
+                              >       {{ line?.closeDate | date : "HH:mm" }}<br>
+                              <span class="ml-4">
+                              {{ line?.closeDate | date : "dd-MM-yyyy" }}</span></span
+                            >
+                          </td>
+
+                          <td style="float: right">
+                            <div class="text-center d-flex">
+                              <button
+                                type="button"
+                                class="btn btn-primary mr-2"
+                                style="border-radius: 9px"
+                                (click)="addMarkerDetail(line)"
+                              >
+                                <i
+                                  class="fa fa-map-pin"
+                                  style="font-size: 2rem"
+                                ></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td style="text-align: center">
+                            Aucun enregistrement trouvé
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </section>
+              </p-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div
+      class="map-wrapper mt-2"
+      appendTo="body"
+      style="background-color: aliceblue"
+      style="
+        /* height: calc(100vh - 30vh); */
+        /* margin-left: 15px; */
+        margin-right: 15px;
+      "
+    >
+      <div class="map-border" style="background-color: aliceblue">
+        <div id="map"></div>
+        <!-- <div style="background-color: aliceblue" class="p-3">
+
+  <span style="color:#188038;font-weight: bold;line-height: 24px;
+  white-space: normal;font-size: 18px;"> {{this.selectItineraryInfo.heur}} h {{this.selectItineraryInfo.minute }} min</span>
+  <span style="font-weight: bold;line-height: 20px;
+  white-space: normal;font-size: 16px;"> ({{ this.selectItineraryInfo.distance | number: "1.2-2" }} km)</span>
+</div> -->
+      </div>
+    </div>
+  </div>
 </div>

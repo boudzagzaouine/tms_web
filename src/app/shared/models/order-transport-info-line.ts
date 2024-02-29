@@ -65,6 +65,6 @@ export class OrderTransportInfoLine {
  dateCommancerDechargement:Date;
  dateFinDechargement:Date;
  dateFinChargement:Date;
- closeDate:Date= new Date();
+ closeDate:Date;
 
 }

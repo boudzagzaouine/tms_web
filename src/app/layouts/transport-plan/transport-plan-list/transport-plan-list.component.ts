@@ -32,6 +32,7 @@ import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { OrderTransport } from './../../../shared/models/order-transport';
 import { Vehicle } from './../../../shared/models';
+import { Icon, icon } from 'leaflet';
 const htmlToPdfmake = require("html-to-pdfmake");
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -79,6 +80,12 @@ export class TransportPlanListComponent implements OnInit {
 
   dateLivraisonSearch: Date;
   dateDelivery: Date;
+  private iconNone: Icon = icon({
+    iconUrl: "./assets/img/none.png",
+       iconSize:    [40, 40],
+
+
+  });
   constructor(private transportPlanService: TransportPlanService,
     private vehicleCategoryService: VehicleCategoryService,
     private orderTransportService: OrderTransportService,

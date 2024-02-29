@@ -362,7 +362,7 @@ console.log(line);
     } else {
       this.selectOrderTransportInfoLineEnlevement =
         new OrderTransportInfoLine();
-      this.selectOrderTransportInfoLineEnlevement.lineNumber = 100;
+      this.selectOrderTransportInfoLineEnlevement.lineNumber = 1;
       this.selectOrderTransportInfoLineEnlevement.id = -1;
 
       this.editModeOrderTransportInfoLine = false;
@@ -378,7 +378,7 @@ console.log(line);
       this.showDialogOrderTransportInfoLineLivraison = true;
     } else {
       this.selectOrderTransportInfoLineLivraison = new OrderTransportInfoLine();
-      this.selectOrderTransportInfoLineLivraison.lineNumber = 200;
+      this.selectOrderTransportInfoLineLivraison.lineNumber = 2;
       this.selectOrderTransportInfoLineLivraison.id = -2;
       this.editModeOrderTransportInfoLine = false;
       this.showDialogOrderTransportInfoLineLivraison = true;

@@ -1,3 +1,7 @@
+import { TransportPlan } from './../../../../shared/models/transport-plan';
+import { TransportPlanLocationService } from './../../../../shared/services/api/transport-plan-location.service';
+import { OrderTransportInfoLineService } from './../../../../shared/services/api/order-transport-info-line.service';
+import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
 import { TransportPlanService } from './../../../../shared/services/api/transport-plan.service';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
@@ -5,6 +9,7 @@ import { VehicleService } from './../../../../shared/services/api/vehicle.servic
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { Vehicle } from './../../../../shared/models/vehicle';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { OrderTransport } from './../../../../shared/models/order-transport';
 
 @Component({
   selector: 'app-transport-plan-vehicle-list',
@@ -15,6 +20,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() selectedVehicule= new EventEmitter<Vehicle>();
    @Input() vehicleCategory = new VehicleCategory();
+   @Input() dateOt=new Date();
   vehicleList :Vehicle[]=[];
   vehicleAvailable: Vehicle[] = [];
   vehicleNotAvailable: Vehicle[] = [];
@@ -24,7 +30,9 @@ export class TransportPlanVehicleListComponent implements OnInit {
   title ="Véhicule";
 
   constructor(private vehicleService:VehicleService,
-              private transportPlanService :TransportPlanService) { }
+              private transportPlanService :TransportPlanService,
+              private orderTransportInfoLineService:OrderTransportInfoLineService,
+              private transportPlanLocationService:TransportPlanLocationService) { }
 
   ngOnInit() {
     this.loadVehicleByCategory();
@@ -40,40 +48,41 @@ export class TransportPlanVehicleListComponent implements OnInit {
         .subscribe((data) => {
           if (data[0] != null || data[0] != undefined) {
             this.vehicleList = data;
-            this.vehicleList.forEach((vehicle) => {
-              this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
-   console.log(data);
+  this.disponible();
+//             this.vehicleList.forEach((vehicle) => {
+//               this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
+//    console.log(data);
 
-                  vehicle.state = data;
-
-
-                  this.searchLastCityByVehicle(vehicle).subscribe((last) => {
-                    console.log(last);
-console.log("ddddddddddddddddddddddd");
-
-                                   vehicle.lastCity = last?last:"";
+//                   vehicle.state = data;
 
 
+//                   this.searchLastCityByVehicle(vehicle).subscribe((last) => {
+//                     console.log(last);
+// console.log("ddddddddddddddddddddddd");
 
-
-
-                                   this.onSearchVehicleAvailable();
-
-                               });
+//                                    vehicle.lastCity = last?last:"";
 
 
 
-              });
 
-              // this.searchVehicleInMaintenance(vehicle).subscribe((data) => {
-              //   if (vehicle.state == "Trajet") {
-              //     vehicle.state += "-" + data;
-              //   } else {
-              //     vehicle.state = data;
-              //   }
-              //   this.onSearchVehicleAvailable();
-              // });
-            });
+
+//                                    this.onSearchVehicleAvailable();
+
+//                                });
+
+
+
+//               });
+
+//               // this.searchVehicleInMaintenance(vehicle).subscribe((data) => {
+//               //   if (vehicle.state == "Trajet") {
+//               //     vehicle.state += "-" + data;
+//               //   } else {
+//               //     vehicle.state = data;
+//               //   }
+//               //   this.onSearchVehicleAvailable();
+//               // });
+//             });
           } else {
             this.vehicleList = [];
           }
@@ -97,10 +106,11 @@ console.log("ddddddddddddddddddddddd");
           if (data && data > 0) {
             state = "Trajet";
             subject.next(state);
-          } else {
-            state = "Disponible";
-            subject.next(state);
           }
+          // else {
+          //   state = "Disponible";
+          //   subject.next(state);
+          // }
         });
       return subject.asObservable();
     }
@@ -135,7 +145,7 @@ console.log(data);
         this.vehicleAvailable = this.vehicleList;
       } else {
         this.vehicleAvailable = this.vehicleList.filter(
-          (f) => f.state == "Disponible"
+          (f) => f.disponible == 4
         );
       }
     }
@@ -143,6 +153,21 @@ console.log(data);
     onSubmit(){
 
     }
+
+
+
+
+disponible(){
+  this.vehicleAvailable = this.vehicleList.filter(
+    (f) => f.disponible == 4
+  );
+}
+
+indisponible(){
+  this.vehicleAvailable = this.vehicleList.filter(
+    (f) => f.disponible != 4
+  );
+}
 
     onSelectVehicle(event){
 console.log(event);

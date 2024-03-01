@@ -215,7 +215,7 @@ export class TransportPlanListComponent implements OnInit {
   }
 
   onDriverSearch(event) {
-    this.subscriptions.add(this.driverService.find('name~' + event.query).subscribe(
+    this.subscriptions.add(this.driverService.find('code~' + event.query).subscribe(
       data => this.driverList = data
     ));
   }

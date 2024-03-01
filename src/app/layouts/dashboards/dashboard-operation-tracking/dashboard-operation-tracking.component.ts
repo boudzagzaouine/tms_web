@@ -321,9 +321,6 @@ console.log(data);
 
 
 
-var numberDiv = document.createElement('div');
-numberDiv.className = 'number';
-numberDiv.textContent =''+ line.lineNumber;
 
 locations.forEach(location=>{
 
@@ -355,7 +352,10 @@ console.log(e);
 
   let message="";
 
-  if(location.type =="ARRIVÉE"){
+  console.log(location.type );
+
+
+  if(location.type =="ARRIVÉ"){
     message +=  " <b> arrivée :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+ this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
    }
@@ -374,29 +374,19 @@ console.log(e);
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
-   else if(location.type =="FIN DECHARGEMENT" ){
+   else if(location.type =="FIN DÉCHARGEMENT" ){
     message +=  " <b> FIN DECHARGEMENT :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
-   else if(location.type =="FERMÉE" ){
+   else if(location.type =="FERMÉ" ){
     message +=  " <b> FIN :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
 
 L.marker(L.latLng(location.latitude, location.longitude), {
-
-  icon:  line.type!=undefined ?  new L.DivIcon({
-    className: 'circleMarker',
-     iconSize:[90, 90],
-    html: numberDiv
-  },) :this.iconArrive
-
-
-
-
-
+  icon:this.iconArrive
 
     }).addTo(this.map).bindPopup(message,)
     //.openPopup()

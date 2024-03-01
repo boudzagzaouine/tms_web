@@ -105,7 +105,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
           this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
 
 
-              vehicle.state = data;
+             // vehicle.disponible = data;
 
           });
         });

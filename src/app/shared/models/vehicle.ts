@@ -65,6 +65,7 @@ export class Vehicle extends Patrimony {
   brandVehicleType :BrandVehicleType;
     interneOrExterne:string ;
     durationInMonths:number ;
-    state : string ; // local
-    lastCity :string ;
+    disponible : number ; //1 trajet //2 panne //3 maintenance // 4 disponible //
+    lastPointCity :string ;
+    lastPointDate:Date;
 }

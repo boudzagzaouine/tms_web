@@ -3,7 +3,7 @@
   showEffect="fade" [modal]="true" [style]="{ width: '50vw' }" (onHide)='onHideDialog()'>
 
 <div class="card">
-  <p-dataView #dv [value]="vehicleList" [layout]="'list'"
+  <p-dataView #dv [value]="vehicleAvailable" [layout]="'list'"
   [paginator]="true" [rows]="5" filterBy="code"
      layout="grid">
       <ng-template pTemplate="header">
@@ -12,6 +12,8 @@
               <span class="p-input-icon-left mb-2 md:mb-0" style="width: 40%;">
                   <i class="pi pi-search"></i>
                   <input type="search" pInputText placeholder="Rechercher par code" (input)="dv.filter($event.target.value)">
+                  <a (click)="disponible()" class="customer-badge status-disponible" style="    width: 99%;">Disponible </a>
+                  <a (click)="indisponible()" class="customer-badge status-Trajet" style="    width: 99%;">Indisponible </a>
               </span>
           </div>
       </ng-template>
@@ -22,15 +24,18 @@
                   <div class="product-list-detail">
                       <div class="product-name">Matricule : {{product.registrationNumber}}</div>
                       <div class="product-category">Code :{{product.code}}</div>
+
                       <span class="product-category">Catégorie :{{product?.vehicleCategory?.code}} </span>
-                      <div class="product-category">le dernier point de livraison :{{product?.lastCity}} </div>
+                      <div class="product-category">Dernier point connu :{{product.lastPointCity}} </div>
+
+                      <!-- <div class="product-category">le dernier point de livraison :{{product?.lastCity}} </div> -->
 
                       <div *ngIf="product?.vehicleTray?.code!=null" class="product-category">Form : {{product?.vehicleTray?.code}}</div>
                     </div>
                   <div class="product-list-action">
                     <!-- [disabled]="product.state === 'Trajet'" -->
                       <p-button icon="pi pi-plus" label="Sélectionner" (click)="onSelectVehicle(product)" ></p-button>
-                      <span [class]="'customer-badge status-' + product.state" style="    width: 99%;">{{product.state=="Trajet"?"En Trajet ": product.state}}</span>
+                      <span [class]="'customer-badge status-' + product.state" style="    width: 99%;">{{product.disponible==4?"Disponible ": product.disponible}}</span>
                   </div>
               </div>
           </div>

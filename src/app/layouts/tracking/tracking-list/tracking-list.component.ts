@@ -96,6 +96,12 @@ private iconNone: Icon = icon({
 
 
 });
+private iconPoint: Icon = icon({
+  iconUrl: "./assets/img/point.png",
+     iconSize:    [15, 15],
+
+
+});
 
 letters = '0123456789ABCDEF';
 color = '#';
@@ -363,6 +369,78 @@ this.transportPlan.forEach(plan => {
 
       });
   }
+
+
+  getLocalisation(transportPlan:TransportPlan){
+    let  itineraries :Itinerary[]=[];
+this.spinner.show();
+    this.transportPlanLocationService.find('transportPlan.id:'+transportPlan.id).subscribe(
+      data=>{
+
+
+        this.transportPlanLocations=data;
+        console.log(data);
+
+if(data[0]){
+
+  this.transportPlanLocations.forEach(line =>{
+
+
+    this. itinerary= new Itinerary();
+    this.itinerary.lat= line.latitude;
+    this.itinerary.lon=line.longitude;
+
+
+
+
+    itineraries.push(this.itinerary);
+  });
+  this.spinner.show();
+  this.createMarkerLocation(itineraries);
+
+
+}
+
+
+      }
+    );
+
+
+
+
+  }
+
+
+  createMarkerLocation(itineraries){
+    this.itineraries=itineraries;
+    console.log(itineraries);
+
+
+      for (var i in this.itineraries) {
+        L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
+        //  title: this.itineraries[i].description ,
+        // icon:
+        // L.AwesomeMarkers.icon({
+        //   icon: "coffee",
+        //   markerColor: "orange",
+        //   prefix: "fa",
+        //   iconColor: "black"
+
+        //   })
+          //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
+         icon:this.iconPoint,
+       //draggable:true,
+       //zIndexOffset:1,
+        }).addTo(this.map)
+
+      }
+
+        this.mainLayer.addTo(this.map);
+
+      this.spinner.hide();
+
+    }
+
 
   getRandomColor2() {
     var length = 6;

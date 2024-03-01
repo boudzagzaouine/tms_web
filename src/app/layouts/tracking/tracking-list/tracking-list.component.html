@@ -142,6 +142,16 @@
               </ng-template
             >
             <ng-template pTemplate="content">
+              <div class="m-3">
+
+          <button type="button" class="btn btn-secondary" (click)="getLocalisation(plan)">
+                <i class="fa fa-map-marker "></i>
+
+                {{ "Trajet en Temps Réel" | translate }}
+              </button>
+
+              </div>
+
               <div
                 *ngFor="let info of plan?.orderTransport?.orderTransportInfos"
               >
@@ -258,7 +268,7 @@ font-size:2rem;
                                 <div
                                   class="col-2 text-center bottom d-inline-flex justify-content-center align-items-center"
                                 >
-                                  <div class="circle font-weight-bold">55</div>
+                                  <div class="circle font-weight-bold">1</div>
                                 </div>
                                 <div class="col-8">
                                   <div class="row">

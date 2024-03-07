@@ -281,7 +281,7 @@ this.orderTransportInfoAllerLignes.forEach(oTInfoAller=>{
   accountService=[];
 
   accountService =this.selectOrderTransport.orderTransportServiceCatalogs.filter(otSC=>
-    otSC.account.id==oTInfoAller.account.id && otSC?.address?.id==oTInfoAller.address.id
+    otSC.account.id==oTInfoAller?.account?.id && otSC?.address?.id==oTInfoAller.address.id
   );
   console.log(accountService);
 

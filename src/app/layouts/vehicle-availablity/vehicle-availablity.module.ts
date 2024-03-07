@@ -1,3 +1,4 @@
+import { VehicleAvailabilityEditComponent } from './vehicle-availability-list/vehicle-availability-edit/vehicle-availability-edit.component';
 import { DialogModule } from 'primeng/dialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToastModule } from 'primeng/toast';
@@ -28,7 +29,7 @@ import {GMapModule} from 'primeng/gmap';
 
 
 @NgModule({
-  declarations: [VehicleAvailablityComponent, VehicleAvailabilityListComponent],
+  declarations: [VehicleAvailablityComponent, VehicleAvailabilityListComponent,VehicleAvailabilityEditComponent],
   imports: [
     CommonModule,
     VehicleAvailablityRoutingModule,

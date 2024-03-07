@@ -162,7 +162,7 @@
 
 </div>
 
-
+<div  *ngIf="(this.selectOrderTransport?.groupageUnique==false)">
 <div class="row" *ngIf="(this.selectOrderTransport?.loadingType?.id==2)">
 
   <div class="form-group col-md-12">
@@ -228,7 +228,7 @@
 
   </div>
   </div>
-
+</div>
 
 <div class="container mt-5">
   <div class="row justify-content-around">

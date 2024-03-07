@@ -153,12 +153,18 @@ console.log( this.orderTransportService.getItineraryAller());
 // 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 // });
 
-   this.mainLayer =L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-     maxZoom: 20,
-     subdomains:['mt0','mt1','mt2','mt3']
- });
- this.map = L.map('map', {});
+//    this.mainLayer =L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+//      maxZoom: 20,
+//      subdomains:['mt0','mt1','mt2','mt3']
+//  });
+//  this.map = L.map('map', {});
 
+
+ this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+})
+this.map = L.map('map', {});
  }
 
 //  recuperateDistance(){

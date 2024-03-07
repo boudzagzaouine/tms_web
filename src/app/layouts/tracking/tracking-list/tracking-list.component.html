@@ -3,7 +3,7 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row mt-1">
     <div class="col-md-2">
-      <label class="font-weight-bold"> Order Transport</label><br />
+      <label class="font-weight-bold"> Ordre Transport</label><br />
       <p-autoComplete
         [(ngModel)]="orderTransportSearch"
         [suggestions]="orderTransportList"
@@ -17,7 +17,7 @@
         [(ngModel)]="vehicleSearch"
         [suggestions]="vehicleList"
         (completeMethod)="onVehicleSearch($event)"
-        field="registrationNumber"
+        field="code"
       ></p-autoComplete>
     </div>
     <div class="col-md-2">
@@ -26,7 +26,7 @@
         [(ngModel)]="driverSearch"
         [suggestions]="driverList"
         (completeMethod)="onDriverSearch($event)"
-        field="name"
+        field="code"
       ></p-autoComplete>
     </div>
 
@@ -101,7 +101,7 @@
         "
       >
         <div class="map-border" style="background-color: aliceblue">
-          <div id="map"></div>
+          <div id="map" #mapContainer></div>
           <!-- <div style="background-color: aliceblue" class="p-3">
 
         <span style="color:#188038;font-weight: bold;line-height: 24px;

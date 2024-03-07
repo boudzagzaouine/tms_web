@@ -120,10 +120,11 @@ export class TransportPlanListComponent implements OnInit {
       { field: 'orderTransport', child: 'code', header: 'Ordre', type: 'object' },
       { field: 'account', child: 'name', header: 'Compte', type: 'object' },
       { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
-
       { field: 'dateDepart', header: 'Date', type: 'date' },
-
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie', type: 'object' },
+      { field: 'vehicle', child: 'codeRegistrationNumber', header: 'Véhicule', type: 'object' },
+      { field: 'driver', child: 'codeName', header: 'Chauffeur', type: 'object' },
+
       { field: 'transport', child: 'name', header: 'Prestataire', type: 'object' },
       { field: 'turnStatus', child: 'code', header: 'Statut', type: 'object' },
 
@@ -405,6 +406,7 @@ console.log(this.companySearch);
     this.vehicleSearch = null;
     this.driverSearch = null;
     this.dateSearch = null;
+    this.orderTransportSearch=null;
 
     this.page = 0;
     this.searchQuery = '';

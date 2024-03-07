@@ -136,8 +136,8 @@ data=>{
       'line1': new FormControl(this.selectedAddress.line1, Validators.required),
       'line2': new FormControl(this.selectedAddress.line2),
       'zip': new FormControl(this.selectedAddress.zip),
-      'city': new FormControl(this.selectedAddress.ville),
-      'country': new FormControl(this.selectedAddress.pays),
+      'city': new FormControl(this.selectedAddress.ville, Validators.required),
+      'country': new FormControl(this.selectedAddress.pays, Validators.required),
 
       'tradeRegister': new FormControl(this.selectedCompany.tradeRegister, Validators.required),
       'tax': new FormControl(this.selectedCompany.professionalTax),
@@ -172,6 +172,8 @@ data=>{
     this.selectedAddress.line1 = this.companyForm.value['line1'];
     this.selectedAddress.line2 = this.companyForm.value['line2'];
     this.selectedAddress.zip = this.companyForm.value['zip'];
+    this.selectedAddress.city = this.selectedAddress.ville?.code;
+    this.selectedAddress.country = this.selectedAddress.pays?.code;
     // this.selectedAddress.city = this.companyForm.value['city'];
     // this.selectedAddress.country = this.companyForm.value['country'];
     this.selectedCompany.tradeRegister = this.companyForm.value['tradeRegister'];
@@ -204,7 +206,7 @@ console.log(this.selectedAddress);
 
 
   }
-saveAddressandCommpany(){
+saveAddressandCommpanyy(){
   this.subscriptions.add( this.addressService.set(this.selectedAddress).subscribe(
     data => {
       //this.toastr.success('Elément est Enregistré avec succès', 'Edition');

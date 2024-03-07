@@ -1,0 +1,72 @@
+
+
+
+
+<p-panel header="Title">
+
+
+
+  <p-card header="Exportation" subheader="Excel" [style]="{width: '360px'}" styleClass="shadow-2">
+    <ng-template pTemplate="header">
+      <img src="./assets/img/upload.png" style="transform: rotate(180deg);">
+        <!-- <img alt="Card" src="https://picsum.photos/200/200"> -->
+    </ng-template>
+
+    <div class="row  justify-content-around">
+      <div class="form-group col-sm-12">
+        <label class="font-weight-bold ">{{'Choisir le modèle' | translate}} *</label>
+
+    <p-dropdown [options]="models" [autoDisplayFirst]="false" (onChange)="onClassImport($event)" optionLabel="name" optionValue="name"></p-dropdown>
+</div></div>
+
+
+    <ng-template pTemplate="footer">
+      <div class="text-center mt-3 mr-3 ml-3" >
+
+        <div class="text-center mt-3 mr-3 ml-3" >
+          <button type="button" class="btn btn-success m-1" (click)="downloadFile()" >
+            {{ "Valider" | translate }}
+          </button>
+        </div>
+      </div>
+
+    </ng-template>
+</p-card>
+
+
+
+
+<!-- <p-dropdown [options]="models" [autoDisplayFirst]="false" (onChange)="onClassImport($event)" optionLabel="name" optionValue="id"></p-dropdown> -->
+
+
+       <!-- <input class="btn btn-primary" type="file" (change)="onSelectFile($event)" /> -->
+
+       <!-- <p-fileUpload mode="basic" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        (onSelect)="onSelectFile($event)" chooseLabel="Choisir" ></p-fileUpload>
+
+       <div class="text-center mt-3 mr-3 ml-3" >
+
+        <div class="text-center mt-3 mr-3 ml-3" >
+          <button type="button" class="btn btn-success m-1" >
+            {{ "Valider" | translate }}
+          </button>
+        </div>
+      </div>
+
+</p-panel> -->
+
+
+
+       <!-- <p-fileUpload  chooseLabel="Choisir" mode="advanced"
+       [showUploadButton]="false" [showCancelButton]="false"
+       (onSelect)="onSelectDocument($event)" maxFileSize="1000000"> -->
+
+
+
+       <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

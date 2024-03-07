@@ -659,6 +659,10 @@ if(this.lines.length>0){
   }
 
   onDeleteLineEnlevement(line){
+    console.log("enlevement delete");
+
+    console.log(line);
+
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
@@ -684,6 +688,9 @@ if(this.lines.length>0){
     this.orderTransportInfoLineDocumentLivraison.push(line);
   }
  onDeleteLineLivraison(line , mode:number){
+  console.log("enlevement delete");
+
+console.log(line);
 
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",

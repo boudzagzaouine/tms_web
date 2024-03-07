@@ -74,6 +74,8 @@ export class OrderTransportInformationComponent implements OnInit {
   villeDestination: Ville;
   marchandiseTypeList: MarchandiseType[] = [];
   portList: Array<SelectObject> = [];
+  consignationList: Array<SelectObject> = [];
+
   showDialogAccount:boolean=false;
     showDialogContact:boolean=false;
   palletResponsibilityList: Array<SelectObject> = [];
@@ -125,6 +127,17 @@ console.log(this.selectedOrderTransport);
         this.selectedOrderTransport.portObject = this.portList[1];
       }
 
+
+      if (
+        this.selectedOrderTransport.consignment==true
+      ) {
+        this.selectedOrderTransport.consignmentObject = this.consignationList[0];
+      } else if (
+        this.selectedOrderTransport.consignment===false
+      ) {
+        this.selectedOrderTransport.consignmentObject = this.consignationList[1];
+      }
+
       if (
         this.selectedOrderTransport.palletResponsibility?.trim() ===
         this.palletResponsibilityList[0]?.code?.trim()
@@ -154,7 +167,7 @@ console.log(this.selectedOrderTransport);
   initForm() {
     this.OrderTransportForm = new FormGroup({
       contact: new FormControl(this.selectedOrderTransport.contact),
-      remark: new FormControl(this.selectedOrderTransport.remark),
+      remark: new FormControl(this.selectedOrderTransport.description),
       villeSource: new FormControl(this.villeSource, Validators.required),
       villeDistination: new FormControl(
         this.villeDestination,
@@ -194,7 +207,7 @@ console.log(this.selectedOrderTransport);
       vehicleAccompaniments: new FormControl(
         this.selectedOrderTransport.vehicleAccompaniments
       ),
-      consignment: new FormControl(this.selectedOrderTransport.consignment),
+      consignment: new FormControl(this.selectedOrderTransport.consignmentObject),
       groupageUnique: new FormControl(this.selectedOrderTransport.groupageUnique),
 
       portObject: new FormControl(this.selectedOrderTransport.portObject),
@@ -213,6 +226,9 @@ console.log(this.selectedOrderTransport);
 
     this.selectedOrderTransport.vehicleAccompaniments =
       this.OrderTransportForm.value["vehicleAccompaniments"];
+
+    this.selectedOrderTransport.description =
+    this.OrderTransportForm.value["remark"];
     this.selectedOrderTransport.orderTransportAccompaniments = [];
     this.selectedOrderTransport.vehicleAccompaniments.forEach((element) => {
       let oTAccompaniment = new OrderTransportAccompaniment();
@@ -288,8 +304,9 @@ console.log(this.selectedOrderTransport);
     this.selectedOrderTransport.turnStatus = event.value;
   }
   onSelectConsignment(event) {
+console.log(event);
 
-    this.selectedOrderTransport.consignment = event.checked;
+    this.selectedOrderTransport.consignment = event?.value?.code =='OUI' ? true : false;
   }
 
   onSelectGroupageUnique(event){
@@ -343,10 +360,12 @@ console.log(this.selectedOrderTransport);
   }
   }
   load() {
-    this.portList = [new SelectObject("Payé"), new SelectObject("Dû")];
+    this.portList = [new SelectObject(1,"Payé"), new SelectObject(1,"Dû")];
+    this.consignationList = [new SelectObject(1,"OUI"), new SelectObject(1,"NON")];
+
     this.palletResponsibilityList = [
-      new SelectObject("Transport"),
-      new SelectObject("Client"),
+      new SelectObject(1,"Transport"),
+      new SelectObject(1,"Client"),
     ];
 
     this.packagingTypeService.findAll().subscribe((data) => {

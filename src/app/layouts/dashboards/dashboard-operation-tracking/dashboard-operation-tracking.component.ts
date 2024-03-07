@@ -18,7 +18,7 @@ import { OrderTransport } from './../../../shared/models/order-transport';
 import { Driver } from './../../../shared/models/driver';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { EmsBuffer } from './../../../shared/utils/ems-buffer';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import  * as L  from 'leaflet';
 import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
@@ -28,7 +28,7 @@ import { Marker, Icon,icon } from 'leaflet';
   templateUrl: './dashboard-operation-tracking.component.html',
   styleUrls: ['./dashboard-operation-tracking.component.scss']
 })
-export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit {
+export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit,OnDestroy  {
 
 
   page = 0;
@@ -85,6 +85,8 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
     iconUrl: "./assets/img/reserve.png",
        iconSize:    [40, 40],
   });
+  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
+
   constructor(private vehicleService :VehicleService,
     private  turnStatusService:TurnStatusService,
              private driverservice:DriverService,
@@ -100,6 +102,19 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
 //     Marker.prototype.options.icon = this.iconNone;
 
 //  this.createLayer();
+//if (this.mapContainer) {
+
+//}
+console.log(this.mapContainer);
+
+// if (this.mapContainer) {
+//  if (this.mapContainer.nativeElement.hasChildNodes()) {
+//   const existingMap = this.mapContainer.nativeElement.firstChild;
+//   if (existingMap instanceof L.Map) {
+//     existingMap.remove(); // Remove existing map
+//   }
+// }
+// }
 this.searchQuery="turnStatus.id!1;2;3;4";
 
     this.loadData(this.searchQuery);
@@ -111,9 +126,7 @@ this. loadOTRelease();
 
 
   ngAfterViewInit(){
-    if(this.map) {
-      this.map.remove();
-    }
+
     Marker.prototype.options.icon = this.iconNone;
 
  this.createLayer();
@@ -122,12 +135,15 @@ this. loadOTRelease();
 }
 
 
-loadOTAffected() {
+loadOTAffected(s:string='') {
  let  search: string = ''
 
     search +='turnStatus.id!1';
 
 
+    if(s!=''){
+      search+=',dateDepart>'+s+',dateDepart<'+s
+      }
   this.spinner.show();
   this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
     data => {
@@ -139,12 +155,15 @@ loadOTAffected() {
 
 }
 
-loadOTToAffected() {
+loadOTToAffected(s:string='') {
   let  search: string = ''
 
        search +='turnStatus.id:1';
 
 
+       if(s!=''){
+        search+=',dateDepart>'+s+',dateDepart<'+s
+        }
    this.spinner.show();
    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
      data => {
@@ -154,11 +173,13 @@ loadOTToAffected() {
    ));
 
  }
- loadOTReleaseInterne() {
+ loadOTReleaseInterne(s:string='') {
   let  search: string = ''
 
     search ='turnStatus.id:3'+',transport.id:10152';
-
+    if(s!=''){
+      search+=',dateDepart>'+s+',dateDepart<'+s
+      }
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
      data => {
@@ -170,10 +191,14 @@ loadOTToAffected() {
  }
 
 
- loadOTRelease() {
+ loadOTRelease(s:string='') {
   let  search: string = ''
 
        search ='turnStatus.id:3';
+
+if(s!=''){
+search+=',dateDepart>'+s+',dateDepart<'+s
+}
 
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -216,11 +241,16 @@ loadOTToAffected() {
       dateD=this.dateSearch[0];
       dateF=this.dateSearch[1];
       if(dateD!=null){
-      buffer.append(`date>${dateD.toISOString()}`);
+      buffer.append(`dateDepart>${dateD.toISOString()}`);
+      this.loadOTAffected(dateD.toISOString());
+this.loadOTToAffected(dateD.toISOString());
+this. loadOTReleaseInterne(dateD.toISOString());
+this. loadOTRelease(dateD.toISOString());
       }
      else if(dateF!=null){
-        buffer.append(`date< ${dateD.toISOString()}`);
+        buffer.append(`dateDepart< ${dateD.toISOString()}`);
         }
+
     }
 
     this.page = 0;
@@ -267,13 +297,13 @@ loadOTToAffected() {
 
 
     onVehicleSearch(event){
-      this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+      this.subscriptions.add(this.vehicleService.find('code~' + event.query).subscribe(
         data => this.vehicleList = data
       ));
     }
 
     onDriverSearch(event){
-      this.subscriptions.add(this.driverservice.find('name~' + event.query).subscribe(
+      this.subscriptions.add(this.driverservice.find('code~' + event.query).subscribe(
         data => this.driverList = data
       ));
     }
@@ -453,6 +483,8 @@ console.log(this.distance);
 
 
 createLayer(){
+
+
   this.map = L.map('map', {
     center: [ 31.942037500922847, -6.391733638504066 ],
     zoom: 10,
@@ -670,5 +702,20 @@ this.itineraries=itineraries;
 
 }
 
+
+ngOnDestroy(): void {
+  // Clean up resources here if needed
+  // if (this.map) {
+  //   //this.map.off();
+  //   this.map.remove(); // Remove the map when the component is destroyed
+  // }
+
+  // if (this.mapContainer.nativeElement.hasChildNodes()) {
+  //   const existingMap = this.mapContainer.nativeElement.firstChild;
+  //   if (existingMap instanceof L.Map) {
+  //     existingMap.remove(); // Remove existing map
+  //   }
+  // }
+}
 
 }

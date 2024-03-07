@@ -27,11 +27,15 @@ export class OrderTransport {
 
   id: number;
   code: string;
+  description: string;
+
   date:Date = new Date();
   turnType:TurnType; // aller-retour
   loadingType:LoadingType; // complet
   packagingType: PackagingType;
   consignment:Boolean;
+  consignmentObject:SelectObject;//local
+
   port:string ; // payé true , du false
   numberKm: number;
   portObject:SelectObject; //local

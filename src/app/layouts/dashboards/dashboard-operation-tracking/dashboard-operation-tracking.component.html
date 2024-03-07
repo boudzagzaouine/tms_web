@@ -1,7 +1,7 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
   <div class="row mt-1">
     <div class="col-md-2">
-      <label class="font-weight-bold"> Order Transport</label><br />
+      <label class="font-weight-bold"> Ordre Transport</label><br />
       <p-autoComplete
         [(ngModel)]="orderTransportSearch"
         [suggestions]="orderTransportList"
@@ -15,7 +15,7 @@
         [(ngModel)]="vehicleSearch"
         [suggestions]="vehicleList"
         (completeMethod)="onVehicleSearch($event)"
-        field="registrationNumber"
+        field="code"
       ></p-autoComplete>
     </div>
     <div class="col-md-2">
@@ -24,7 +24,7 @@
         [(ngModel)]="driverSearch"
         [suggestions]="driverList"
         (completeMethod)="onDriverSearch($event)"
-        field="name"
+        field="code"
       ></p-autoComplete>
     </div>
 
@@ -88,7 +88,7 @@
             class="ibox-body"
             style="background-color: #ffd8b2; color: #805b36"
           >
-            <h4 class="m-b-5 font-strong">Nombre de trajet a affecter</h4>
+            <h4 class="m-b-5 font-strong">Nombre de trajets à affecter</h4>
             <div class="m-b-5">{{ this.otToAffectedSize }}</div>
             <i class="fa fa-road widget-stat-icon"></i>
           </div>
@@ -100,7 +100,7 @@
             class="ibox-body"
             style="background-color: #c8e6c9; color: #256029"
           >
-            <h4 class="m-b-5 font-strong">Nombre de trajet affecté</h4>
+            <h4 class="m-b-5 font-strong">Nombre de trajets affectés</h4>
             <div class="m-b-5">{{ this.otAffectedSize }}</div>
             <i class="fa fa-tasks widget-stat-icon"></i>
           </div>
@@ -112,7 +112,7 @@
             class="ibox-body"
             style="background-color: #b3e5fc; color: #23547b"
           >
-            <h4 class="m-b-5 font-strong">Nombre de flotte engagée</h4>
+            <h4 class="m-b-5 font-strong">Nombre de flottes engagées</h4>
             <div class="m-b-5">{{ this.otReleaseInternSize }}</div>
             <i class="fa fa-clock-o widget-stat-icon"></i>
           </div>
@@ -124,7 +124,7 @@
             class="ibox-body"
             style="background-color: #ffcdd2; color: #c63737"
           >
-            <h4 class="m-b-5 font-strong">Nombre d’OT réalisé</h4>
+            <h4 class="m-b-5 font-strong">Nombre d’OT réalisés</h4>
             <div class="m-b-5">{{ this.otReleaseSize }}</div>
             <i class="fa fa-exclamation-circle widget-stat-icon"></i>
           </div>
@@ -159,6 +159,20 @@
                     [paginator]="true"
                     [rowsPerPageOptions]="[5, 10, 20, 50, 100]"
                   >
+
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>{{ "OT" | translate }}</th>
+                     <th>{{ "Type" | translate }}</th>
+                      <th>{{ "Trajet" | translate }}</th>
+                      <th>{{ "Date depart" | translate }}</th>
+                      <th>{{ "Véhicule" | translate }}</th>
+                      <th>{{ "Chauffeur" | translate }}</th>
+
+                      <th style="width: 10%">{{ "Localisation" | translate }}</th>
+                    </tr>
+                  </ng-template>
                     <ng-template pTemplate="body" let-plan>
                       <!-- *ngIf="this.notificationLeaveList.length>0" -->
                       <tr class="ui-selectable-row">
@@ -169,6 +183,16 @@
                               aria-hidden="true"
                             ></i>
                             {{ plan?.orderTransport?.code }}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span class="product-name">
+                            <i
+                              class="fa fa-cubes icon mr-2"
+                              aria-hidden="true"
+                            ></i>
+                            {{ plan?.orderTransport?.loadingType?.code }}
                           </span>
                         </td>
 
@@ -521,7 +545,7 @@
       "
     >
       <div class="map-border" style="background-color: aliceblue">
-        <div id="map"></div>
+        <div id="map" #mapContainer></div>
         <!-- <div style="background-color: aliceblue" class="p-3">
 
   <span style="color:#188038;font-weight: bold;line-height: 24px;

@@ -1,3 +1,8 @@
+import { VatEditComponent } from './vat/vat-edit/vat-edit.component';
+import { VatComponent } from './vat/vat.component';
+import { ExportCanevasComponent } from './export-canevas/export-canevas.component';
+import { PaymentTypeEditComponent } from './payment-type/payment-type-edit/payment-type-edit.component';
+import { PaymentTypeComponent } from './payment-type/payment-type.component';
 import { VehicleAccompanimentEditComponent } from './vehicle-accompaniment/vehicle-accompaniment-edit/vehicle-accompaniment-edit.component';
 import { VehicleAccompanimentComponent } from './vehicle-accompaniment/vehicle-accompaniment.component';
 import { VehicleAccompaniment } from './../../shared/models/vehicle-accompaniment';
@@ -362,9 +367,12 @@ VehicleAccompanimentComponent,
 VehicleAccompanimentEditComponent,
 UserPasswordComponent,
 ZoneVilleComponent,
-ZoneVilleEditComponent
-
-
+ZoneVilleEditComponent,
+PaymentTypeComponent,
+PaymentTypeEditComponent,
+ExportCanevasComponent,
+VatComponent,
+VatEditComponent
 
 
   ],

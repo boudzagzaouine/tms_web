@@ -1,3 +1,4 @@
+import { ExportService } from './services/api/export.service';
 import { AccordionModule } from 'primeng/accordion';
 import { OrderTransportDocumentService } from './services/api/ordet-transport-document.service';
 import { VehicleAccompanimentService } from './services/api/vehicle-accompaniment.service';
@@ -435,7 +436,8 @@ export class SharedModule {
         ZoneVilleService,
         OrderTransportDocumentService,
         DatePipe,
-        DecimalPipe
+        DecimalPipe,
+        ExportService,
 
       ],
 

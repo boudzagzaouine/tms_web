@@ -75,7 +75,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
     this.cols = [
       { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
-      { field: 'state', child: 'state', header: 'Status', type: 'string' },
+      { field: 'disponibilityName', header: 'Status', type: 'string' },
 
 
 
@@ -85,6 +85,21 @@ export class VehicleAvailabilityListComponent implements OnInit {
   }
 
 
+  getDisponible(id:number){
+
+    if(id==1){
+    return "En Trajet"
+
+
+    }else if(id==2){
+      return "En Panne"
+    }else if(id==3){
+      return "En Maintenance"
+    }else if(id==4){
+      return "Disponible"
+    }
+
+    }
 
 
   loadData(search: string = '') {
@@ -102,13 +117,20 @@ export class VehicleAvailabilityListComponent implements OnInit {
         this.vehicleList = data;
 
         this.vehicleList.forEach((vehicle) => {
-          this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
+console.log("jj");
 
+vehicle.disponibilityName=this.getDisponible(vehicle.disponible);
 
-             // vehicle.disponible = data;
-
-          });
         });
+
+        // this.vehicleList.forEach((vehicle) => {
+        //   this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
+
+
+        //      vehicle.disponible = data;
+
+        //   });
+        // });
 
 
 
@@ -262,12 +284,11 @@ console.log(data);
 
     this.editMode = event.operationMode;
     this.selectedVehicles = event.object;
+console.log(this.editMode);
 
-    if (this.editMode === 3) {
+    if (this.editMode === 2) {
       //this.onDeleteAll();
-    } else {
       this.showDialog = true;
-      this.router.navigate(['/core/vehicles/edit', this.selectedVehicles[0].id]);
     }
 
   }
@@ -297,6 +318,13 @@ console.log(data);
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);
+  }
+
+
+
+  onShowDialog(event) {
+    this.showDialog = event;
+    this.loadData();
   }
 
 }

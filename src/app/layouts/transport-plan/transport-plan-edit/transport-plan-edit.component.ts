@@ -367,8 +367,8 @@ if(data[0]){
     this.selectedTransportPlan.vehicleCategory = event.value;
   }
   onSelectDriver(event) {
-    console.log(event.value);
-    this.selectedTransportPlan.driver = event.value;
+    console.log(event);
+    this.selectedTransportPlan.driver = event;
   }
 
 

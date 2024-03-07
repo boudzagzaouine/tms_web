@@ -108,13 +108,16 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
 
   onSelectDocument(event) {
     for (let file of event.files) {
+      console.log(file.type);
+
       const selectedDocument = new OrderTransportDocument();
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         selectedDocument.fileName = file.name;
         selectedDocument.file = (fileReader.result as string).split(",")[1] as any;
-        selectedDocument.fileType = file.name.split('.').pop().toLowerCase();
+        selectedDocument.fileType =file.type;
+        //file.name.split('.').pop().toLowerCase();
         this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList.push(selectedDocument);
       };
 
@@ -152,6 +155,36 @@ dowloand(orderTransportDocument: OrderTransportDocument) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    },
+    error => {
+      console.error('Error fetching image data:', error);
+    }
+  );
+}
+
+view(orderTransportDocument: OrderTransportDocument) {
+  this.orderTransportDocumentService.getImageByteFromPath(orderTransportDocument.filePath).subscribe(
+    (imageData) => {
+      console.log(orderTransportDocument);
+  let extension ;
+  if(orderTransportDocument.fileType=='pdf'){
+    orderTransportDocument.fileType='application/pdf'
+
+  }else{
+    orderTransportDocument.fileType='image/jpeg'
+
+  }
+
+
+      const data = new Blob([imageData as BlobPart], {type:orderTransportDocument.fileType});
+      var fileURL = URL.createObjectURL(data);
+      var a = document.createElement("a");
+      a.href = fileURL;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+
+
     },
     error => {
       console.error('Error fetching image data:', error);

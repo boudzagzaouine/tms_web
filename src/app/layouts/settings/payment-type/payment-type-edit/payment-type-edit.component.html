@@ -1,0 +1,64 @@
+
+
+<p-dialog
+header="{{ title | translate }}"
+[(visible)]="displayDialog"
+[focusOnShow]="false"
+[responsive]="true"
+showEffect="fade"
+[modal]="true"
+[style]="{ width: '350px' }"
+(onHide)='onShowDialog()'
+>
+<div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="paymentTypeForm">
+
+        <div class="row  justify-content-around">
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold">{{'Code' | translate}} *</label>
+            <span *ngIf="(paymentTypeForm.get('code').touched && paymentTypeForm.get('code').invalid) ||
+            (isFormSubmitted && paymentTypeForm.get('code').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <input type="text" class="form-control" pInputText formControlName="code"
+            (keydown.space)="$event.preventDefault()"
+           />
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label class="font-weight-bold"> {{'Description' | translate}}</label><br />
+            <input type="text" class="form-control" pInputText formControlName="description" />
+          </div>
+       
+          <div class="col-md-3"></div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-footer>
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+    <button
+    type="button"
+    pButton
+    (click)="onShowDialog()"
+    class="p-button-primary"
+    label="{{'Annuler' | translate }}"
+  ></button>
+  <button
+      type="button"
+      pButton
+      (click)="onSubmit()"
+      class="p-button-success"
+      label="{{ 'Valider' | translate }}"
+    ></button>
+  </div>
+</p-footer>
+</p-dialog>
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

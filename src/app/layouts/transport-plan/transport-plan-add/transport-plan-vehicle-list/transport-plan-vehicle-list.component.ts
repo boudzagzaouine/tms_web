@@ -28,7 +28,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title ="Véhicule";
-
+  detailOtByVehicle:TransportPlan[]=[];
   constructor(private vehicleService:VehicleService,
               private transportPlanService :TransportPlanService,
               private orderTransportInfoLineService:OrderTransportInfoLineService,
@@ -154,7 +154,21 @@ console.log(data);
 
     }
 
+getDisponible(id:number){
 
+if(id==1){
+return "En Trajet"
+
+
+}else if(id==2){
+  return "En Panne"
+}else if(id==3){
+  return "En Maintenance"
+}else if(id==4){
+  return "Disponible"
+}
+
+}
 
 
 disponible(){
@@ -181,5 +195,18 @@ this.onHideDialog();
 
     }
 
+
+    geDetailsOT(registrationNumber:string){
+
+      console.log(registrationNumber);
+
+      this.transportPlanService.find('vehicle.registrationNumber:'+registrationNumber+',turnStatus.id!3;4;2').subscribe(
+        data=>{
+
+          this.detailOtByVehicle=data;
+        }
+      );
+
+    }
 
 }

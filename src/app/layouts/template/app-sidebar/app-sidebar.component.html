@@ -157,6 +157,16 @@ height: 100vh; padding-bottom: 10%;">
             <a routerLink="/core/settings/document-type" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Type Document" | translate}}</a>
           </li>
+
+          <li *hasPermission="['ACTIVITY_AREA_VIEW']">
+            <a routerLink="/core/settings/payment-type" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Type Paiement" | translate}}</a>
+          </li>
+
+          <li *hasPermission="['ACTIVITY_AREA_VIEW']">
+            <a routerLink="/core/settings/vat" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"TVA" | translate}}</a>
+          </li>
           <li *hasPermission="['REFUSAL_REASON_VIEW','REJECTION_REASON_VIEW']">
             <a routerLink="/core/settings/menu-motif" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Motif" | translate}}</a>
@@ -170,6 +180,11 @@ height: 100vh; padding-bottom: 10%;">
           <li>
             <a routerLink="/core/settings/data-recovery" class="m-a"><i class="fa fa-circle-o"></i>
               {{"Reprise des données" | translate}}</a>
+          </li>
+
+          <li>
+            <a routerLink="/core/settings/export-canevas" class="m-a"><i class="fa fa-circle-o"></i>
+              {{"Canevas" | translate}}</a>
           </li>
           <!-- <li *hasPermission="['PUMP_VIEW']">
             <a routerLink="/core/settings/menu-fuel" class="m-a"><i class="fa fa-circle-o"></i>
@@ -569,7 +584,7 @@ height: 100vh; padding-bottom: 10%;">
         <a class="text-white" routerLink="/core/tracking/list"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/account.png" width="25px" height="25px">
           </i>
-          <span class="nav-label">{{'Suivi' | translate}}</span></a>
+          <span class="nav-label">{{'Track and Trace' | translate}}</span></a>
       </li>
 
       <li *hasPermission="['TRACKING_VIEW']">

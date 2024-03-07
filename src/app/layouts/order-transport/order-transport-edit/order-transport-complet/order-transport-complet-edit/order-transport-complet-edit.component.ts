@@ -340,7 +340,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.selectContact = event;
     this.orderTransportInfoLineForm.controls["general"].patchValue({
       deliveryInfoName: event,
-      deliveryInfoTel1: event.tel1,
+      deliveryInfoTel1: event?.tel1,
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }
@@ -373,6 +373,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
 
   onLineEditedDocumentEnlevement(line: OrderTransportInfoLineDocument) {
 
+
     this.orderTransportInfoLineDocumentEnlevement =
       this.orderTransportInfoLineDocumentEnlevement.filter(
         (l) => l.numero !== line.numero
@@ -383,9 +384,15 @@ export class OrderTransportCompletEditComponent implements OnInit {
     this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
   onDeleteLineEnlevement(line) {
+    console.log("enlevement delete");
+    console.log(line.id);
+
+
+
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
+        if(line.id>0){
         this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
           data => {
             const index = this.orderTransportInfoLineDocumentEnlevement.indexOf(line);
@@ -399,8 +406,17 @@ export class OrderTransportCompletEditComponent implements OnInit {
             this.toastr.error(error.error.message, 'Erreur');
           }
         )
+        }
+        else{
+          this.orderTransportInfoLineDocumentEnlevement =
+          this.orderTransportInfoLineDocumentEnlevement.filter(
+            (l) => l.numero !== line.numero
+          );
+        }
       },
     });
+
+
 
   }
 
@@ -417,10 +433,13 @@ export class OrderTransportCompletEditComponent implements OnInit {
   }
 
   onDeleteLineLivraison(line) {
+    console.log("livraison delete");
+console.log(line);
 
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
+        if(line.id>0){
         this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
           data => {
             const index = this.orderTransportInfoLineDocumentLivraison.indexOf(line);
@@ -433,6 +452,13 @@ export class OrderTransportCompletEditComponent implements OnInit {
             this.toastr.error(error.error.message, 'Erreur');
           }
         )
+        }
+        else{
+          this.orderTransportInfoLineDocumentLivraison =
+          this.orderTransportInfoLineDocumentLivraison.filter(
+            (l) =>l.numero !== line.numero
+          );
+        }
       },
     });
   }

@@ -57,6 +57,10 @@
                           *ngFor="let document of  this.selectedOrderTransportInfoLineDocument.orderTransportDocumentList">
                           <td>{{document?.fileName}}</td>
                           <td>
+                            <a (click)="view(document)" type="button" class="btn btn-sm btn-primary mx-1">
+                              <!--ADD-->
+                              <i class="fa fa-eye"></i>
+                            </a>
                             <a (click)="dowloand(document)" type="button" class="btn btn-sm btn-primary mx-1">
                               <!--ADD-->
                               <i class="fa fa-upload"></i>

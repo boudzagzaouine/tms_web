@@ -147,8 +147,15 @@ showEffect="fade"
            />
           </div>
           <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Pays de Facturation' | translate}} </label>
+
+            <label class="font-weight-bold">{{'Pays de Facturation' | translate}} *</label>
+               <span *ngIf="(companyForm.get('country').touched && companyForm.get('country').invalid) ||
+            (isFormSubmitted && companyForm.get('country').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
             <br />
+
             <p-autoComplete  formControlName="country" [suggestions]="paysList"
             (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
           </p-autoComplete>
@@ -157,7 +164,14 @@ showEffect="fade"
           </div>
 
           <div class="form-group col-sm-3">
-            <label class="font-weight-bold">{{'Ville de Facturation' | translate}} </label>
+
+            <label class="font-weight-bold">{{'Ville de Facturation' | translate}}* </label>
+              <span *ngIf="(companyForm.get('city').touched && companyForm.get('city').invalid) ||
+            (isFormSubmitted && companyForm.get('city').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+
             <br />
             <p-autoComplete  formControlName="city" [suggestions]="villeList"
             (onSelect)="onSelectVille($event)" (completeMethod)="onVilleSearch($event)" field="code">

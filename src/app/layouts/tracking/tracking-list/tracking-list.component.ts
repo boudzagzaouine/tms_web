@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { TransportPlanLocationService } from './../../../shared/services/api/transport-plan-location.service';
 import { TransportPlanLocation } from './../../../shared/models/transport-plan-location';
@@ -18,7 +19,7 @@ import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Driver } from './../../../shared/models/driver';
 import { Vehicle } from './../../../shared/models/vehicle';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import  * as L  from 'leaflet';
 import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
@@ -30,7 +31,7 @@ import { TurnStatus } from './../../../shared/models/turn-status';
   templateUrl: './tracking-list.component.html',
   styleUrls: ['./tracking-list.component.scss']
 })
-export class TrackingListComponent implements OnInit,AfterViewInit {
+export class TrackingListComponent implements OnInit,AfterViewInit,OnDestroy  {
   page = 0;
   size = 10;
   collectionSize: number;
@@ -105,6 +106,8 @@ private iconPoint: Icon = icon({
 
 letters = '0123456789ABCDEF';
 color = '#';
+// @ViewChild('mapContainer') mapContainer: ElementRef;
+@ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
 
  display: boolean = false;
   constructor(private vehicleService :VehicleService,
@@ -115,13 +118,23 @@ color = '#';
               private TransportPlanService:TransportPlanService,
               private transportPlanLocationService:TransportPlanLocationService,
               private datePipe:DatePipe,
-              private orderTransportService:OrderTransportService) { }
+              private orderTransportService:OrderTransportService,
+              private patrimonyService:PatrimonyService) { }
 
   ngOnInit() {
    Marker.prototype.options.icon = this.iconNone;
 
+   console.log(this.mapContainer);
 
+  //  if (this.mapContainer) {
+  //  if (this.mapContainer.nativeElement.hasChildNodes()) {
+  //   const existingMap = this.mapContainer.nativeElement.firstChild;
+  //   if (existingMap instanceof L.Map) {
+  //     existingMap.remove(); // Remove existing map
+  //   }
+  // }
 
+//}
 
    // this.createLayer();
 this.searchQuery="turnStatus.id!1;2;3;4";
@@ -138,13 +151,13 @@ ngAfterViewInit(){
 }
 
   onVehicleSearch(event){
-    this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
-      data => this.vehicleList = data
+    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
+      data => this.vehicleList = data.filter(f=> f.patrimony_type=='vehicule')
     ));
   }
 
   onDriverSearch(event){
-    this.subscriptions.add(this.driverservice.find('name~' + event.query).subscribe(
+    this.subscriptions.add(this.driverservice.find('code~' + event.query).subscribe(
       data => this.driverList = data
     ));
   }
@@ -176,7 +189,7 @@ console.log(orderTransport);
       buffer.append(`orderTransport.id:${this.orderTransportSearch.id}`);
     }
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
-      buffer.append(`vehicle.id:${this.vehicleSearch.id}`);
+      buffer.append(`vehicle.registrationNumber~${this.vehicleSearch.registrationNumber}`);
     }
     if (this.driverSearch != null && this.driverSearch !== undefined) {
       buffer.append(`driver.id:${this.driverSearch.id}`);
@@ -199,10 +212,10 @@ console.log(orderTransport);
       dateD=this.dateSearch[0];
       dateF=this.dateSearch[1];
       if(dateD!=null){
-      buffer.append(`date>${dateD.toISOString()}`);
+      buffer.append(`dateDepart>${dateD.toISOString()}`);
       }
      else if(dateF!=null){
-        buffer.append(`date< ${dateD.toISOString()}`);
+        buffer.append(`dateDepart< ${dateD.toISOString()}`);
         }
     }
 
@@ -632,12 +645,30 @@ console.log(event);
  }
 
 createLayer(){
+// console.log(this.map);
 
-this.map = L.map('map', {
-  center: [ 31.942037500922847, -6.391733638504066 ],
-  zoom: 10,
-  renderer: L.canvas()
-})
+// if(this.map ){
+//   console.log("map");
+//  this.map.eachLayer((layer) => {
+//     layer.remove();
+//   });
+// this.map.off();
+// this.map.remove();
+// }
+
+
+
+
+ this.map =   L.map('map').setView([ 31.942037500922847, -6.391733638504066 ],10)
+
+
+
+
+// this.map = new  L.Map('map', {
+//   center: [ 31.942037500922847, -6.391733638504066 ],
+//   zoom: 10,
+//   renderer: L.canvas()
+// })
 
 // this.mainLayer=L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
 //     maxZoom: 8,
@@ -651,6 +682,23 @@ this.map = L.map('map', {
 }).addTo(this.map);
 }
 
+ngOnDestroy(): void {
+  // Clean up resources here if needed
+//   if (this.map) {
+//  //   this.map.off();
+
+//     this.map.remove(); // Remove the map when the component is destroyed
+//   }
+
+// if (this.mapContainer.nativeElement.hasChildNodes()) {
+//     const existingMap = this.mapContainer.nativeElement.firstChild;
+//     console.log(existingMap);
+
+//     if (existingMap instanceof L.Map) {
+//       existingMap.remove(); // Remove existing map
+//     }
+//   }
+}
 
 
 }

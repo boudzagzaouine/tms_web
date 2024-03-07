@@ -68,4 +68,6 @@ export class Vehicle extends Patrimony {
     disponible : number ; //1 trajet //2 panne //3 maintenance // 4 disponible //
     lastPointCity :string ;
     lastPointDate:Date;
+
+    disponibilityName :string ;
 }

@@ -5,13 +5,13 @@
     <div class="row  mt-1 justify-content-around">
 
 
-      <div class="col-md-2">
+      <!-- <div class="col-md-2">
         <label class="font-weight-bold"> {{'Date' | translate}} </label><br />
         <p-calendar [(ngModel)]="dateSearch" [monthNavigator]="true" [yearNavigator]="true"
             yearRange="2000:2030" selectionMode="multiple" [showIcon]="true" inputId="icon"
             [readonlyInput]="true" [maxDateCount]='2' ></p-calendar>
 
-    </div>
+    </div> -->
 
     <div class="col-md-2">
       <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
@@ -28,7 +28,7 @@
 
 
 
-    <div class="col-md-8"></div>
+    <div class="col-md-10"></div>
 
     </div>
 
@@ -61,7 +61,7 @@
   (exportBtnPdf)="onExportPdf($event)"
   (exportBtnExcelVue)="onExportExcel($event)"
   [listName]="titleList"
-
+  [permissionEdit]="['VEHICLE_EDIT']"
 ></app-data-table>
 
 <ngx-spinner
@@ -81,3 +81,10 @@
 
 
 
+
+<div *ngIf="showDialog == true">
+  <app-vehicle-availability-edit
+    [selectedVehicle]="selectedVehicles[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-vehicle-availability-edit>
+</div>

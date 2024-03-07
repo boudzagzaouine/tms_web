@@ -410,10 +410,17 @@
 
     <br />
 
-     <div class="field-checkbox">
+
+    <div class="form-group  field-checkbox">
+      <p-selectButton [options]="consignationList" optionLabel="code"    (onChange)="onSelectConsignment($event)" formControlName="consignment"  ></p-selectButton>
+
+       </div>
+     <!-- <div class="field-checkbox">
+
+
     <p-checkbox formControlName="consignment" [(ngModel)]="this.selectedOrderTransport.consignment" name="consignment"(onChange)="onSelectConsignment($event)" [binary]="true" inputId="consignment"></p-checkbox>
     <label class="font-weight-bold" for="consignment">{{this.selectedOrderTransport.consignment?"Oui":"Non"}}</label>
-  </div>
+  </div> -->
 </div>
 
 <div class="form-group col-sm-3">

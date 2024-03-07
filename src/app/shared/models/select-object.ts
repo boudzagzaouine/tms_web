@@ -1,7 +1,9 @@
 export class SelectObject {
+  id:number;
   code: string;
 
-  constructor(code:string){
-     this.code =code
+  constructor(id:number,code:string){
+     this.code =code;
+     this.id =id;
   }
 }

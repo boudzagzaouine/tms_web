@@ -1,3 +1,6 @@
+import { VatComponent } from './vat/vat.component';
+import { ExportCanevasComponent } from './export-canevas/export-canevas.component';
+import { PaymentTypeComponent } from './payment-type/payment-type.component';
 import { AccountEditComponent } from './account/account-edit/account-edit.component';
 import { ActivityAreaComponent } from './activity-area/activity-area.component';
 import { AgencyComponent } from './agency/agency.component';
@@ -160,7 +163,10 @@ const routes: Routes = [
       { path: 'vehicle-tray', component: VehicleTrayComponent },
       { path: 'vehicle-accompaniment', component: VehicleAccompanimentComponent },
       { path: 'user-password', component: UserPasswordComponent },
-      { path: 'zone-ville', component: ZoneVilleComponent }
+      { path: 'zone-ville', component: ZoneVilleComponent },
+      { path: 'payment-type', component: PaymentTypeComponent },
+      { path: 'export-canevas', component: ExportCanevasComponent },
+      { path: 'vat', component: VatComponent }
 
     ]
   }

@@ -97,6 +97,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
  selectedOrderTransport : OrderTransport=new OrderTransport();
  selectedAccountPricing : AccountPricing = new AccountPricing();
  vatList:Vat[]=[];
+ documentIdEnlevement=-100;
+ documentIdLivraison=-200;
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
     public orderTransportService: OrderTransportService,
@@ -111,7 +113,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
     private accountPricingService :AccountPricingService,
     private catalogPricingService:CatalogPricingService,
     private vatService : VatService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private orderTransportInfoLineDocumentService:OrderTransportInfoLineDocumentService
 
 
   ) {}
@@ -648,14 +651,21 @@ if(this.lines.length>0){
   onLineEditedDocumentEnlevement(line: OrderTransportInfoLineDocument) {
     console.log("Enl");
 
-    this.orderTransportInfoLineDocumentEnlevement =
-      this.orderTransportInfoLineDocumentEnlevement.filter(
-        (l) => l.numero !== line.numero
-      );
-    line.type = 1;
-    this.onLineEditedDocument(line);
 
-    this.orderTransportInfoLineDocumentEnlevement.push(line);
+this.documentIdEnlevement--;
+if(line.id==undefined){
+  line.id=this.documentIdEnlevement;
+  console.log(line.id);
+
+}
+this.orderTransportInfoLineDocumentEnlevement =
+  this.orderTransportInfoLineDocumentEnlevement.filter(
+    (l) => l.id !== line.id
+  );
+line.type = 1;
+this.onLineEditedDocument(line,true);
+
+this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
 
   onDeleteLineEnlevement(line){
@@ -663,58 +673,108 @@ if(this.lines.length>0){
 
     console.log(line);
 
+    console.log("enlevement delete");
+    console.log(line.id);
+
+
+
     this.confirmationService.confirm({
       message: "Voulez vous vraiment Supprimer?",
       accept: () => {
-        this.orderTransportInfoLineDocumentEnlevement =
+        if(line.id>0){
+        this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
+          data => {
+            const index = this.orderTransportInfoLineDocumentEnlevement.indexOf(line);
+            if (index !== -1) {
+              this.orderTransportInfoLineDocumentEnlevement.splice(index, 1);
+            }
+            console.log('vv ' + this.orderTransportInfoLineDocumentEnlevement.length);
+            this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+          },
+          error => {
+            this.toastr.error(error.error.message, 'Erreur');
+          }
+        )
+        }
+        else{
+          this.orderTransportInfoLineDocumentEnlevement =
           this.orderTransportInfoLineDocumentEnlevement.filter(
-            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
+            (l) => l.id !== line.id
           );
+        }
+        this.onLineEditedDocument(line,false);
 
       },
     });
+
 
   }
   onLineEditedDocumentLivraison(line: OrderTransportInfoLineDocument) {
     console.log("liv");
 
-    this.orderTransportInfoLineDocumentLivraison =
-      this.orderTransportInfoLineDocumentLivraison.filter(
-        (l) => l.numero !== line.numero
-      );
-    line.type = 2;
-    this.onLineEditedDocument(line);
+    this.documentIdLivraison--;
+    if(line.id==undefined){
+      line.id=this.documentIdLivraison;
+      console.log(line.id);
 
-    this.orderTransportInfoLineDocumentLivraison.push(line);
+    }
+      this.orderTransportInfoLineDocumentLivraison =
+        this.orderTransportInfoLineDocumentLivraison.filter(
+          (l) => l.id !== line.id
+        );
+      line.type = 2;
+      this.onLineEditedDocument(line,true);
+
+      this.orderTransportInfoLineDocumentLivraison.push(line);
   }
  onDeleteLineLivraison(line , mode:number){
   console.log("enlevement delete");
+  console.log("livraison delete");
+  console.log(line);
 
-console.log(line);
+      this.confirmationService.confirm({
+        message: "Voulez vous vraiment Supprimer?",
+        accept: () => {
+          if(line.id>0){
+          this.orderTransportInfoLineDocumentService.delete(line.id).subscribe(
+            data => {
+              const index = this.orderTransportInfoLineDocumentLivraison.indexOf(line);
+              if (index !== -1) {
+                this.orderTransportInfoLineDocumentLivraison.splice(index, 1);
+              }
+              this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
+            },
+            error => {
+              this.toastr.error(error.error.message, 'Erreur');
+            }
+          )
+          }
+          else{
+            this.orderTransportInfoLineDocumentLivraison =
+            this.orderTransportInfoLineDocumentLivraison.filter(
+              (l) =>l.id !== line.id
+            );
+          }
+          this.onLineEditedDocument(line,false);
 
-    this.confirmationService.confirm({
-      message: "Voulez vous vraiment Supprimer?",
-      accept: () => {
-        this.orderTransportInfoLineDocumentLivraison =
-          this.orderTransportInfoLineDocumentLivraison.filter(
-            (l) => l.orderTransportDocumentType.id !== line.orderTransportDocumentType.id
-          );
-
-      },
-    });
+        },
+      });
 
 
   }
-  onLineEditedDocument(line: OrderTransportInfoLineDocument) {
+  onLineEditedDocument(line: OrderTransportInfoLineDocument,add:boolean) {
     console.log("LineEditDocument");
 
     this.orderTransportInfoLineDocuments =
-      this.orderTransportInfoLineDocuments.filter(
-        (l) => l.numero !== line.numero
-      );
+    this.orderTransportInfoLineDocuments.filter(
+      (l) => l.id !== line.id
+    );
 
-    this.orderTransportInfoLineDocuments.push(line);
-    console.log( this.orderTransportInfoLineDocuments);
+    if(add==true){
+      this.orderTransportInfoLineDocuments.push(line);
+
+    }
+console.log(this.orderTransportInfoLineDocuments);
 
   }
 

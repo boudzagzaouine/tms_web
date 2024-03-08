@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { TransportPlanLocation } from './../../../shared/models/transport-plan-location';
 import { OrderTransportInfoLine } from './../../../shared/models/order-transport-info-line';
 import { itineraryInfo } from './../../../shared/models/itineraryInfo';
@@ -96,7 +97,8 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
              private transportPlanLocationService:TransportPlanLocationService,
              private datePipe:DatePipe,
              private decimalPipe:DecimalPipe,
-             private orderTransportService:OrderTransportService) { }
+             private orderTransportService:OrderTransportService,
+             private patrimonyService:PatrimonyService) { }
 
   ngOnInit() {
 //     Marker.prototype.options.icon = this.iconNone;
@@ -135,14 +137,14 @@ this. loadOTRelease();
 }
 
 
-loadOTAffected(s:string='') {
+loadOTAffected(datd:string='',datf:string='') {
  let  search: string = ''
 
     search +='turnStatus.id!1';
 
 
-    if(s!=''){
-      search+=',dateDepart>'+s+',dateDepart<'+s
+    if(datd!=''){
+      search+=',dateDepart>'+datd+',dateDepart<'+datf
       }
   this.spinner.show();
   this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -155,14 +157,15 @@ loadOTAffected(s:string='') {
 
 }
 
-loadOTToAffected(s:string='') {
+loadOTToAffected(datd:string='',datf:string='') {
   let  search: string = ''
 
        search +='turnStatus.id:1';
 
 
-       if(s!=''){
-        search+=',dateDepart>'+s+',dateDepart<'+s
+
+       if(datd!=''){
+        search+=',date>'+datd+',date<'+datf
         }
    this.spinner.show();
    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
@@ -173,12 +176,13 @@ loadOTToAffected(s:string='') {
    ));
 
  }
- loadOTReleaseInterne(s:string='') {
+ loadOTReleaseInterne(datd:string='',datf:string='') {
   let  search: string = ''
 
     search ='turnStatus.id:3'+',transport.id:10152';
-    if(s!=''){
-      search+=',dateDepart>'+s+',dateDepart<'+s
+
+    if(datd!=''){
+      search+=',dateDepart>'+datd+',dateDepart<'+datf
       }
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -191,14 +195,15 @@ loadOTToAffected(s:string='') {
  }
 
 
- loadOTRelease(s:string='') {
+ loadOTRelease(datd:string='',datf:string='') {
   let  search: string = ''
 
        search ='turnStatus.id:3';
 
-if(s!=''){
-search+=',dateDepart>'+s+',dateDepart<'+s
-}
+
+       if(datd!=''){
+        search+=',dateDepart>'+datd+',dateDepart<'+datf
+        }
 
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -218,7 +223,7 @@ search+=',dateDepart>'+s+',dateDepart<'+s
       buffer.append(`orderTransport.id:${this.orderTransportSearch.id}`);
     }
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
-      buffer.append(`vehicle.id:${this.vehicleSearch.id}`);
+      buffer.append(`vehicle.registrationNumber:${this.vehicleSearch.registrationNumber}`);
     }
     if (this.driverSearch != null && this.driverSearch !== undefined) {
       buffer.append(`driver.id:${this.driverSearch.id}`);
@@ -241,14 +246,21 @@ search+=',dateDepart>'+s+',dateDepart<'+s
       dateD=this.dateSearch[0];
       dateF=this.dateSearch[1];
       if(dateD!=null){
-      buffer.append(`dateDepart>${dateD.toISOString()}`);
-      this.loadOTAffected(dateD.toISOString());
-this.loadOTToAffected(dateD.toISOString());
-this. loadOTReleaseInterne(dateD.toISOString());
-this. loadOTRelease(dateD.toISOString());
+        let datedb=this.datePipe.transform(dateD,'yyyy-MM-dd');
+        let datefn=this.datePipe.transform(dateF,'yyyy-MM-dd');
+
+      buffer.append(`dateDepart>${datedb}`);
+      this.loadOTAffected(datedb,datefn);
+this.loadOTToAffected(datedb,datefn);
+this. loadOTReleaseInterne(datedb,datefn);
+this. loadOTRelease(datedb,datefn);
       }
+
+
      else if(dateF!=null){
-        buffer.append(`dateDepart< ${dateD.toISOString()}`);
+      let datefn=this.datePipe.transform(dateF,'yyyy-MM-dd');
+
+        buffer.append(`dateDepart< ${datefn}`);
         }
 
     }
@@ -297,7 +309,7 @@ this. loadOTRelease(dateD.toISOString());
 
 
     onVehicleSearch(event){
-      this.subscriptions.add(this.vehicleService.find('code~' + event.query).subscribe(
+      this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
         data => this.vehicleList = data
       ));
     }
@@ -483,9 +495,15 @@ console.log(this.distance);
 
 
 createLayer(){
+  if (this.map) {
+    this.map.eachLayer((layer) => {
+      layer.remove();
+    });
+    this.map.off();
+    this.map.remove(); // Remove the map when the component is destroyed
+  }
 
-
-  this.map = L.map('map', {
+  this.map = new L.Map('map', {
     center: [ 31.942037500922847, -6.391733638504066 ],
     zoom: 10,
     renderer: L.canvas()
@@ -705,10 +723,22 @@ this.itineraries=itineraries;
 
 ngOnDestroy(): void {
   // Clean up resources here if needed
-  // if (this.map) {
-  //   //this.map.off();
-  //   this.map.remove(); // Remove the map when the component is destroyed
-  // }
+
+
+  // this.map.fitBounds(this.map.getBounds());
+
+
+  this.map.invalidateSize();
+
+
+
+  if (this.map) {
+    this.map.eachLayer((layer) => {
+      layer.remove();
+    });
+    this.map.off();
+    this.map.remove(); // Remove the map when the component is destroyed
+  }
 
   // if (this.mapContainer.nativeElement.hasChildNodes()) {
   //   const existingMap = this.mapContainer.nativeElement.firstChild;

@@ -657,9 +657,17 @@ createLayer(){
 // }
 
 
+if (this.map) {
+  this.map.eachLayer((layer) => {
+    layer.remove();
+  });
+  this.map.off();
+  this.map.remove(); // Remove the map when the component is destroyed
+}
 
 
- this.map =   L.map('map').setView([ 31.942037500922847, -6.391733638504066 ],10)
+
+ this.map =  new L.Map('map').setView([ 31.942037500922847, -6.391733638504066 ],10)
 
 
 
@@ -684,11 +692,14 @@ createLayer(){
 
 ngOnDestroy(): void {
   // Clean up resources here if needed
-//   if (this.map) {
-//  //   this.map.off();
+  if (this.map) {
+    this.map.eachLayer((layer) => {
+          layer.remove();
+        });
+   this.map.off();
 
-//     this.map.remove(); // Remove the map when the component is destroyed
-//   }
+    this.map.remove(); // Remove the map when the component is destroyed
+  }
 
 // if (this.mapContainer.nativeElement.hasChildNodes()) {
 //     const existingMap = this.mapContainer.nativeElement.firstChild;

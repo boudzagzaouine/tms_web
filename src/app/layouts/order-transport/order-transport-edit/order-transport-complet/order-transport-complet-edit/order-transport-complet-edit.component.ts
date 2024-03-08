@@ -63,6 +63,9 @@ export class OrderTransportCompletEditComponent implements OnInit {
   showDialogContact: Boolean = false;
   showDialogAddress: Boolean = false;
 
+  documentIdEnlevement=-100;
+  documentIdLivraison=-200;
+
 
   constructor(
     private orderTransportTypeService: OrderTransportTypeService,
@@ -372,14 +375,20 @@ export class OrderTransportCompletEditComponent implements OnInit {
   }
 
   onLineEditedDocumentEnlevement(line: OrderTransportInfoLineDocument) {
+    console.log(this.orderTransportInfoLineDocuments);
 
+this.documentIdEnlevement--;
+    if(line.id==undefined){
+      line.id=this.documentIdEnlevement;
+      console.log(line.id);
 
+    }
     this.orderTransportInfoLineDocumentEnlevement =
       this.orderTransportInfoLineDocumentEnlevement.filter(
-        (l) => l.numero !== line.numero
+        (l) => l.id !== line.id
       );
     line.type = 1;
-    this.onLineEditedDocument(line);
+    this.onLineEditedDocument(line,true);
 
     this.orderTransportInfoLineDocumentEnlevement.push(line);
   }
@@ -410,9 +419,11 @@ export class OrderTransportCompletEditComponent implements OnInit {
         else{
           this.orderTransportInfoLineDocumentEnlevement =
           this.orderTransportInfoLineDocumentEnlevement.filter(
-            (l) => l.numero !== line.numero
+            (l) => l.id !== line.id
           );
         }
+        this.onLineEditedDocument(line,false);
+
       },
     });
 
@@ -421,13 +432,20 @@ export class OrderTransportCompletEditComponent implements OnInit {
   }
 
   onLineEditedDocumentLivraison(line: OrderTransportInfoLineDocument) {
+    console.log(this.orderTransportInfoLineDocuments);
 
+this.documentIdLivraison--;
+  if(line.id==undefined){
+    line.id=this.documentIdLivraison;
+    console.log(line.id);
+
+  }
     this.orderTransportInfoLineDocumentLivraison =
       this.orderTransportInfoLineDocumentLivraison.filter(
-        (l) => l.numero !== line.numero
+        (l) => l.id !== line.id
       );
     line.type = 2;
-    this.onLineEditedDocument(line);
+    this.onLineEditedDocument(line,true);
 
     this.orderTransportInfoLineDocumentLivraison.push(line);
   }
@@ -456,21 +474,27 @@ console.log(line);
         else{
           this.orderTransportInfoLineDocumentLivraison =
           this.orderTransportInfoLineDocumentLivraison.filter(
-            (l) =>l.numero !== line.numero
+            (l) =>l.id !== line.id
           );
         }
+        this.onLineEditedDocument(line,false);
+
       },
     });
   }
 
-  onLineEditedDocument(line: OrderTransportInfoLineDocument) {
+  onLineEditedDocument(line: OrderTransportInfoLineDocument,add:boolean) {
 
     this.orderTransportInfoLineDocuments =
       this.orderTransportInfoLineDocuments.filter(
-        (l) => l.numero !== line.numero
+        (l) => l.id !== line.id
       );
 
-    this.orderTransportInfoLineDocuments.push(line);
+      if(add==true){
+        this.orderTransportInfoLineDocuments.push(line);
+
+      }
+console.log(this.orderTransportInfoLineDocuments);
 
   }
 

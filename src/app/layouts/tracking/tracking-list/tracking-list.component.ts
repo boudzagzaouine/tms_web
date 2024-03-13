@@ -107,7 +107,7 @@ private iconPoint: Icon = icon({
 letters = '0123456789ABCDEF';
 color = '#';
 // @ViewChild('mapContainer') mapContainer: ElementRef;
-@ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
+@ViewChild('mapContainer1', { static: true }) mapContainer!: ElementRef;
 
  display: boolean = false;
   constructor(private vehicleService :VehicleService,
@@ -657,17 +657,11 @@ createLayer(){
 // }
 
 
-if (this.map) {
-  this.map.eachLayer((layer) => {
-    layer.remove();
-  });
-  this.map.off();
-  this.map.remove(); // Remove the map when the component is destroyed
-}
 
 
 
- this.map =  new L.Map('map').setView([ 31.942037500922847, -6.391733638504066 ],10)
+
+ this.map =  new L.Map('mapp').setView([ 31.942037500922847, -6.391733638504066 ],10)
 
 
 
@@ -684,10 +678,12 @@ if (this.map) {
 // }).addTo(this.map);
 //this.map = L.map('map', {});
 
- this.mainLayer= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+ this.mainLayer= new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(this.map);
+console.log(this.map);
+
 }
 
 ngOnDestroy(): void {

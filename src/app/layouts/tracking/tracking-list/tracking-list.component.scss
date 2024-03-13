@@ -82,7 +82,11 @@
 }
 
 
-
+:host ::ng-deep #mapp{
+  border-radius: 5px;
+    height: 100%;
+    width: 100%;
+}
 
 
 :host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {

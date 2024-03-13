@@ -495,13 +495,6 @@ console.log(this.distance);
 
 
 createLayer(){
-  if (this.map) {
-    this.map.eachLayer((layer) => {
-      layer.remove();
-    });
-    this.map.off();
-    this.map.remove(); // Remove the map when the component is destroyed
-  }
 
   this.map = new L.Map('map', {
     center: [ 31.942037500922847, -6.391733638504066 ],
@@ -727,6 +720,7 @@ ngOnDestroy(): void {
 
   // this.map.fitBounds(this.map.getBounds());
 
+console.log(this.map);
 
   this.map.invalidateSize();
 

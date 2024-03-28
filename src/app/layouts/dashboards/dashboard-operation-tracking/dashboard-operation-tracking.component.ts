@@ -366,6 +366,7 @@ console.log(data);
 
 locations.forEach(location=>{
 
+console.log(location);
 
 
   var split_route1:L.LatLng[]=[];
@@ -385,11 +386,6 @@ waypoints: split_route1,
 }).on('routesfound',(e)=>{
 console.log(e);
   this.distance=e.routes[0].summary.totalDistance/1000 as number;
-  console.log("distance");
-
-  console.log(this.distance);
-
-
 
 
   let message="";
@@ -398,30 +394,36 @@ console.log(e);
 
 
   if(location.type =="ARRIVÉ"){
+    console.log(location.type );
     message +=  " <b> arrivée :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+ this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
    }
    else if(location.type =="CHARGEMENT" ){
+    console.log(location.type );
     message +=  " <b> CHARGEMENT :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
    else if(location.type =="FIN CHARGEMENT" ){
+    console.log(location.type );
     message +=  " <b> FIN CHARGEMENT :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
    else if(location.type =="DÉCHARGEMENT" ){
+    console.log(location.type );
     message +=  " <b> DÉCHARGEMENT :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
    else if(location.type =="FIN DÉCHARGEMENT" ){
+    console.log(location.type );
     message +=  " <b> FIN DECHARGEMENT :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 
    }
    else if(location.type =="FERMÉ" ){
+    console.log(location.type );
     message +=  " <b> FIN :"+this.datePipe.transform(location.date,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
     " <b> Distance :"+this.decimalPipe.transform(this.distance,'1.2-2')+"KM</b><br>"
 

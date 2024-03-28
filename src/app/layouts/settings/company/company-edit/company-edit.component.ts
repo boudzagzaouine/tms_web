@@ -182,7 +182,6 @@ data=>{
  this.selectedCompany.professionalTax = this.companyForm.value['tax'];
     this.selectedCompany.fiscalIdentifier = this.companyForm.value['if'];
     this.selectedCompany.cnssNumber = this.companyForm.value['cnss'];
-    this.selectedCompany.fiscalIdentifier = this.companyForm.value['fiscal'];
     this.selectedCompany.commonIdentifierOfCompany = this.companyForm.value['ice'];
  this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
 

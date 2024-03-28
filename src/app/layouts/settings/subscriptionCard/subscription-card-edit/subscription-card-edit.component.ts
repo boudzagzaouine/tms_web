@@ -44,6 +44,7 @@ export class SubscriptionCardEditComponent implements OnInit {
            this.subscriptionCardTypeList=data;
       }
     );
+console.log(this.editMode);
 
     if (this.editMode === 1) {
       this.selectedSubscriptionCard = new SubscriptionCard();

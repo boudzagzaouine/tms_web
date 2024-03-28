@@ -146,7 +146,7 @@ page = 0;
 
   }
   onCodeSearch(event: any) {
-    this.subscriptions.add(this.addressService.find('code~' + event.query).subscribe(
+    this.subscriptions.add(this.addressService.find('addressType:1,delivery:true,code~' + event.query).subscribe(
       data => this.codeList = data.map(f => f.code)
     ));
   } reset() {

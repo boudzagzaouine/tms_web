@@ -40,7 +40,7 @@
                 </span>
                 <!-- [disabled]="(editMode==2)" -->
                 <p-dropdown [autoDisplayFirst]="false" [appendTo]="'body'" [options]="paysList" optionLabel="code" [filter]="true"
-                  [showClear]="true"  (onChange)="onSelectPaysSource($event)"
+                  [showClear]="true" [disabled]="(editMode==2)"  (onChange)="onSelectPaysSource($event)"
                   formControlName="fPaysSource">
                 </p-dropdown>
               </div>
@@ -59,7 +59,7 @@
 
               <!-- [disabled]="(editMode==2)"  -->
               <p-autoComplete [appendTo]="'body'"  formControlName="fVilleSource" [suggestions]="villeList"
-                (onSelect)="onSelectVilleSource($event)" (completeMethod)="onVilleSourceSearch($event)" field="code">
+                (onSelect)="onSelectVilleSource($event)"[disabled]="(editMode==2)"  (completeMethod)="onVilleSourceSearch($event)" field="code">
               </p-autoComplete>
 
             </div>

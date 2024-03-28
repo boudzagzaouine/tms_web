@@ -53,7 +53,7 @@ export class ContactComponent implements OnInit {
 
     ];
 
-    this.loadData();
+    this.reset();
 
   }
   onExportExcel(event) {
@@ -101,6 +101,8 @@ export class ContactComponent implements OnInit {
     this.spinner.show();
     this.subscriptions.add(this.contactService.sizeSearch(search).subscribe(
       data => {
+        console.log(data);
+
         this.collectionSize = data;
       }
     ));
@@ -172,12 +174,10 @@ export class ContactComponent implements OnInit {
             data => {
               //this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.messageService.add({severity:'success', summary: 'Suppression', detail: 'Elément Supprimer avec Succés'});
-
               this.loadData();
             },
             error => {
               this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Erreur'});
-
              // this.toastr.error(error.error.message, 'Erreur');
             },
             () => this.spinner.hide()

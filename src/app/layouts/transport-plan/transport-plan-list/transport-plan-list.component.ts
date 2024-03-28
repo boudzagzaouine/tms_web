@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { DatePipe } from '@angular/common';
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
@@ -99,6 +100,7 @@ export class TransportPlanListComponent implements OnInit {
     private transportService: TransportServcie,
     private companyService: CompanyService,
     private turnStatusService: TurnStatusService,
+    private patrimonyService:PatrimonyService,
     private sanitizer: DomSanitizer,
     private router: Router) { }
 
@@ -222,7 +224,7 @@ export class TransportPlanListComponent implements OnInit {
   }
 
   onVehicleSearch(event) {
-    this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleList = data
     ));
   }

@@ -147,7 +147,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
       this.selectAddress = this.selectedOrderTransportInfoLine.address;
       this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
-      console.log();
+      console.log( this.selectAddress);
 
       this.getOrderTransportInfoLineDocumentEnlevement(
         this.selectedOrderTransportInfoLine
@@ -204,7 +204,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
           Validators.required
         ),
         deliveryInfoLine1: new FormControl(this.selectAddress.line1),
-        deliveryInfoCity: new FormControl(this.selectAddress.city),
+        deliveryInfoCity: new FormControl(this.selectAddress?.ville?.code),
         deliveryInfoZip: new FormControl(this.selectAddress.zip),
         deliveryInfoCountry: new FormControl(this.selectAddress.country),
         deliveryInfoLatitude: new FormControl(this.selectAddress.latitude),

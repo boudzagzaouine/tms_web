@@ -175,7 +175,7 @@ export class AccountComponent implements OnInit {
 
     const buffer = new EmsBuffer();
     if (this.codeSearch != null && this.codeSearch !== '') {
-      buffer.append(`code~${this.codeSearch}`);
+      buffer.append(`code:${this.codeSearch}`);
     }
     if (this.nameSearch != null && this.nameSearch !== '') {
       buffer.append(`name~${this.nameSearch}`);

@@ -34,10 +34,10 @@ showEffect="fade"
           </div>
           <div class="form-group col-sm-6">
             <label class="font-weight-bold"> {{'Type' | translate}}</label><br />
-            <p-dropdown [autoDisplayFirst]="false" [options]="subscriptionCardTypeList" optionLabel="code" [placeholder]="this.selectedSubscriptionCard.subscriptionCardType.code"
+            <p-dropdown [autoDisplayFirst]="false" [options]="subscriptionCardTypeList" optionLabel="code" [placeholder]="this.selectedSubscriptionCard?.subscriptionCardType?.code"
                 formControlName="fSubscriptionCardType" (onChange)="onSelectSubscriptionCardType($event)" [filter]="true"
                  [showClear]="true" appendTo="body"></p-dropdown>
-          </div> 
+          </div>
 
           <div class="form-group col-sm-6">
             <label class="font-weight-bold"> {{'Montant (DH)' | translate}}</label><br />

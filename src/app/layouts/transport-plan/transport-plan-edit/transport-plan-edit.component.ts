@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
 import { LoadingType } from './../../../shared/models/loading-type';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -12,6 +13,7 @@ import { TransportServcie } from './../../../shared/services/api/transport.servi
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
+
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Driver } from './../../../shared/models/driver';
@@ -69,6 +71,7 @@ export class TransportPlanEditComponent implements OnInit {
     private turnStatutservice: TurnStatusService,
     private spinner: NgxSpinnerService,
     private vehicleService: VehicleService,
+    private patrimonyService:PatrimonyService,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -325,9 +328,9 @@ if(data[0]){
       // if (!isNaN(event.query)) {
       //   search = "code~" + event.query;
       // } else {
-        search = "registrationNumber~" + event.query;
+        search = "code~" + event.query;
     // }
-      this.vehicleService
+      this.patrimonyService
         .find(search)
         .subscribe((data) =>{console.log(data);
          (this.vehicleList = data)});

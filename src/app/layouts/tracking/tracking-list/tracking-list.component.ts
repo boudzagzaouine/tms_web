@@ -55,7 +55,7 @@ export class TrackingListComponent implements OnInit,AfterViewInit,OnDestroy  {
   transportPlanCloneList:TransportPlan[]=[];
 
   subscriptions= new Subscription();
-  dateSearch: Date;
+  dateSearch: Date[];
 
   items: MenuItem[];
 
@@ -157,9 +157,19 @@ ngAfterViewInit(){
   }
 
   onDriverSearch(event){
-    this.subscriptions.add(this.driverservice.find('code~' + event.query).subscribe(
-      data => this.driverList = data
-    ));
+
+ let search;
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
+    }
+    this.driverservice
+      .find(search)
+      .subscribe((data) =>{console.log(data);
+       (this.driverList = data)});
+
+
   }
 
 
@@ -209,13 +219,18 @@ console.log(orderTransport);
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
-      dateD=this.dateSearch[0];
-      dateF=this.dateSearch[1];
+      console.log(this.dateSearch);
+
+      dateD=this.datePipe.transform(this.dateSearch[0],'yyyy-MM-dd');
+      dateF=this.datePipe.transform(this.dateSearch[1],'yyyy-MM-dd');
+      console.log(dateF);
+
       if(dateD!=null){
-      buffer.append(`dateDepart>${dateD.toISOString()}`);
+
+      buffer.append(`dateDepart>${ dateD}`);
       }
-     else if(dateF!=null){
-        buffer.append(`dateDepart< ${dateD.toISOString()}`);
+      if(dateF!=null){
+        buffer.append(`dateDepart<${ dateF}`);
         }
     }
 

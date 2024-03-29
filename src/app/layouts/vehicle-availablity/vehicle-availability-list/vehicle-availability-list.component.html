@@ -17,7 +17,7 @@
       <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
       <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleCodeList"
           (completeMethod)="onVehicleCodeSearch($event)"
-           field="registrationNumber">
+           field="code">
       </p-autoComplete>
 
   </div>

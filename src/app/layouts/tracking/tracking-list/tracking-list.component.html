@@ -22,12 +22,20 @@
     </div>
     <div class="col-md-2">
       <label class="font-weight-bold"> Chauffeur</label><br />
+
       <p-autoComplete
-        [(ngModel)]="driverSearch"
-        [suggestions]="driverList"
-        (completeMethod)="onDriverSearch($event)"
-        field="code"
-      ></p-autoComplete>
+      [(ngModel)]="driverSearch" field="codeName"
+      [suggestions]="driverList"
+      (completeMethod)="onDriverSearch($event)"  [dropdown]="true"
+      >
+       <ng-template let-driver pTemplate="item">
+           <div class="account-item">
+               <div>{{driver.code}} -> {{driver.name}} </div>
+           </div>
+       </ng-template>
+   </p-autoComplete>
+
+
     </div>
 
     <div class="col-md-2">
@@ -215,6 +223,26 @@ font-size:2rem;
   <i class="fa fa-user" aria-hidden="true">  <span> {{ line.contact?.name }}</span></i>
 </span>
                               </span>
+
+
+                              <span>  <span style="font-size: 14px">
+                                <i class="fa fa-user" aria-hidden="true">  <span>
+                                  <span
+                                  style="
+                                    font-size: 12px;
+                                    font-weight: 700;
+                                    color: #474a4c;
+                                  "
+                                  >{{
+                                    line.dateCommancerChargement
+                                      | date : "dd-MM-yyyy"
+                                  }}</span
+                                >
+
+
+                                </span></i>
+                              </span>
+                                                            </span>
                             <br />
 
 

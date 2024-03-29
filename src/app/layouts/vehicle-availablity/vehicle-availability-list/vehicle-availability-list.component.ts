@@ -1,3 +1,4 @@
+import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
 import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +12,6 @@ import { EmsBuffer } from './../../../shared/utils/ems-buffer';
 import { Subscription, Subject } from 'rxjs';
 import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
-import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-vehicle-availability-list',
@@ -27,7 +27,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
   searchQueryTrajet = '';
   vehicleSearch: Vehicle;
   matSearch: string;
-  dateSearch: Date;
+  dateSearch: Date[];
 
   selectedVehicles: Array<Vehicle> = [];
   vehicleList: Array<Vehicle> = [];
@@ -49,6 +49,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
 
   constructor(  private vehicleService: VehicleService,
+    private patrimonyService: PatrimonyService,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
@@ -74,6 +75,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
     this.className = Vehicle.name;
     this.cols = [
       { field: 'registrationNumber', header: 'Immatriculation', type: 'string' },
+      { field: 'code', header: 'Code', type: 'string' },
       { field: 'vehicleCategory', child: 'code', header: 'Catégorie véhicule', type: 'object' },
       { field: 'disponibilityName', header: 'Status', type: 'string' },
 
@@ -239,7 +241,7 @@ console.log(data);
 
     if (this.vehicleSearch != null && this.vehicleSearch.code !== '') {
 
-        buffer.append(`registrationNumber: ${this.vehicleSearch.registrationNumber}`);
+        buffer.append(`registrationNumber~${this.vehicleSearch.registrationNumber}`);
 
     }
 
@@ -302,7 +304,7 @@ console.log(this.editMode);
   onVehicleCodeSearch(event: any){
     console.log(event);
 
-    this.subscriptions.add(this.vehicleService.find('registrationNumber~' + event.query).subscribe(
+    this.subscriptions.add(this.patrimonyService.find('code~' + event.query).subscribe(
       data => this.vehicleCodeList = data
     ));
   }

@@ -410,7 +410,7 @@
                                 class="fa fa-clock-o icon mr-2"
                                 aria-hidden="true"
                               ></i
-                              >{{ line?.dateArriver | date : " hh:mm:ss" }}<br />
+                              >{{ line?.dateArriver | date : " H:mm:ss" }}<br />
                               <span class="ml-4"> {{
                                 line?.dateArriver | date : "dd-MM-yyyy"
                               }}</span>
@@ -426,7 +426,7 @@
                               ></i
                               >{{
                                 line?.dateCommancerChargement
-                                  | date : "HH:mm"
+                                  | date : "H:mm"
                               }}<br>
                               <span class="ml-4">{{
                                 line?.dateCommancerChargement
@@ -442,7 +442,7 @@
                                 ></i
                                 >{{
                                   line?.dateCommancerDechargement
-                                    | date : "HH:mm"
+                                    | date : "H:mm"
                                 }}<br>
                                 <span class="ml-4">{{
                                   line?.dateCommancerDechargement
@@ -459,7 +459,7 @@
                                 aria-hidden="true"
                               ></i
                               >{{
-                                line?.dateFinChargement | date : "HH:mm"
+                                line?.dateFinChargement | date : "H:mm"
                               }}<br>
                              <span class="ml-4">{{
                                 line?.dateFinChargement | date : "dd-MM-yyyy"
@@ -476,7 +476,7 @@
                                   aria-hidden="true"
                                 ></i
                                 >{{
-                                  line?.dateFinDechargement | date : "HH:mm"
+                                  line?.dateFinDechargement | date : "H:mm"
                                 }}<br>
                                <span class="ml-4">{{
                                   line?.dateFinDechargement | date : "dd-MM-yyyy"
@@ -491,7 +491,7 @@
                                 class="fa fa-clock-o icon mr-2"
                                 aria-hidden="true"
                               ></i
-                              >       {{ line?.closeDate | date : "HH:mm" }}<br>
+                              >       {{ line?.closeDate | date : "H:mm" }}<br>
                               <span class="ml-4">
                               {{ line?.closeDate | date : "dd-MM-yyyy" }}</span></span
                             >

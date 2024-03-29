@@ -77,7 +77,7 @@ export class TransportPlanListComponent implements OnInit {
   showDialogReject: Boolean;
   home: MenuItem;
   fileUrl;
-  dateSearch: Date;
+  dateSearch: Date[];
 
   dateLivraisonSearch: Date;
   dateDelivery: Date;
@@ -218,9 +218,20 @@ export class TransportPlanListComponent implements OnInit {
   }
 
   onDriverSearch(event) {
-    this.subscriptions.add(this.driverService.find('code~' + event.query).subscribe(
-      data => this.driverList = data
-    ));
+
+ let search;
+    if (!isNaN(event.query)) {
+      search = "code~" + event.query;
+    } else {
+      search = "name~" + event.query;
+    }
+    this.driverService
+      .find(search)
+      .subscribe((data) =>{console.log(data);
+       (this.driverList = data)});
+
+
+
   }
 
   onVehicleSearch(event) {
@@ -259,11 +270,29 @@ console.log(this.companySearch);
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
       buffer.append(`vehicle.registrationNumber~${this.vehicleSearch.registrationNumber}`);
     }
-    if(this.dateSearch!=null){
-      let dateSearch=this.datePipe.transform(this.dateSearch,'yyyy-MM-dd');
+    // if(this.dateSearch!=null){
+    //   let dateSearch=this.datePipe.transform(this.dateSearch,'yyyy-MM-dd');
 
-      buffer.append(`dateDepart>${dateSearch}`);
+    //   buffer.append(`dateDepart>${dateSearch}`);
+    //   }
+
+      if (this.dateSearch != null && this.dateSearch !== undefined) {
+        let dateD,dateF;
+        dateD=this.dateSearch[0];
+        dateF=this.dateSearch[1];
+        if(dateD!=null){
+
+        buffer.append(`dateDepart>${ this.datePipe.transform(dateD,'yyyy-MM-dd')}`);
+        }
+        if(dateF!=null){
+          buffer.append(`dateDepart<${ this.datePipe.transform(dateF,'yyyy-MM-dd')}`);
+          }
       }
+
+
+
+
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
     console.log(this.searchQuery);

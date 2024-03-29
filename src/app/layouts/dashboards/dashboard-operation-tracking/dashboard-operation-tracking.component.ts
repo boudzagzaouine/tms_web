@@ -55,7 +55,7 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
   transportPlanCloneList:TransportPlan[]=[];
 
   subscriptions= new Subscription();
-  dateSearch: Date;
+  dateSearch: Date[];
 
   items: MenuItem[];
 
@@ -137,15 +137,13 @@ this. loadOTRelease();
 }
 
 
-loadOTAffected(datd:string='',datf:string='') {
+loadOTAffected(dates:string='') {
  let  search: string = ''
 
-    search +='turnStatus.id!1';
+    search +='turnStatus.id!1,'+dates;
 
 
-    if(datd!=''){
-      search+=',dateDepart>'+datd+',dateDepart<'+datf
-      }
+
   this.spinner.show();
   this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
     data => {
@@ -157,16 +155,13 @@ loadOTAffected(datd:string='',datf:string='') {
 
 }
 
-loadOTToAffected(datd:string='',datf:string='') {
+loadOTToAffected(dates:string='') {
   let  search: string = ''
 
-       search +='turnStatus.id:1';
+  search +='turnStatus.id!1,'+dates;
 
 
 
-       if(datd!=''){
-        search+=',date>'+datd+',date<'+datf
-        }
    this.spinner.show();
    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
      data => {
@@ -176,14 +171,12 @@ loadOTToAffected(datd:string='',datf:string='') {
    ));
 
  }
- loadOTReleaseInterne(datd:string='',datf:string='') {
+ loadOTReleaseInterne(dates:string='') {
   let  search: string = ''
 
-    search ='turnStatus.id:3'+',transport.id:10152';
+    search ='turnStatus.id:3'+',transport.id:10152,'+dates;
 
-    if(datd!=''){
-      search+=',dateDepart>'+datd+',dateDepart<'+datf
-      }
+
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
      data => {
@@ -195,15 +188,13 @@ loadOTToAffected(datd:string='',datf:string='') {
  }
 
 
- loadOTRelease(datd:string='',datf:string='') {
+ loadOTRelease(dates:string='') {
   let  search: string = ''
 
-       search ='turnStatus.id:3';
+       search ='turnStatus.id:3,'+dates;
 
 
-       if(datd!=''){
-        search+=',dateDepart>'+datd+',dateDepart<'+datf
-        }
+
 
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -216,7 +207,7 @@ loadOTToAffected(datd:string='',datf:string='') {
  }
 
   onSearchClicked() {
-
+let searchkpi='';
     const buffer = new EmsBuffer();
 
     if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
@@ -243,30 +234,32 @@ loadOTToAffected(datd:string='',datf:string='') {
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
-      dateD=this.dateSearch[0];
-      dateF=this.dateSearch[1];
+      dateD=this.datePipe.transform(this.dateSearch[0],'yyyy-MM-dd');
+      dateF=this.datePipe.transform(this.dateSearch[1],'yyyy-MM-dd');
       if(dateD!=null){
-        let datedb=this.datePipe.transform(dateD,'yyyy-MM-dd');
-        let datefn=this.datePipe.transform(dateF,'yyyy-MM-dd');
 
-      buffer.append(`dateDepart>${datedb}`);
-      this.loadOTAffected(datedb,datefn);
-this.loadOTToAffected(datedb,datefn);
-this. loadOTReleaseInterne(datedb,datefn);
-this. loadOTRelease(datedb,datefn);
+
+      buffer.append("dateDepart>"+dateD);
+searchkpi+="dateDepart>"+dateD;
       }
 
 
-     else if(dateF!=null){
-      let datefn=this.datePipe.transform(dateF,'yyyy-MM-dd');
+      if(dateF!=null){
 
-        buffer.append(`dateDepart< ${datefn}`);
+        buffer.append("dateDepart<"+dateF);
+        searchkpi+=",dateDepart<"+dateF;
+
         }
-
+ this.loadOTAffected(searchkpi);
+this.loadOTToAffected(searchkpi);
+this. loadOTReleaseInterne(searchkpi);
+this. loadOTRelease(searchkpi);
     }
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
+    console.log(this.searchQuery);
+
     this.loadData(this.searchQuery);
 
   }

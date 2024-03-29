@@ -82,17 +82,17 @@
 
 
         <div class="form-group col-md-3  " *ngIf="this.selectedTransportPlan?.transport?.interneOrExterne==true">
-          <label class="font-weight-bold">{{ "Vehicule" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Véhicule" | translate }} *</label>
 
           <br />
           <p-autoComplete
-          formControlName="vehicle" field="codeRegistrationNumber"
+          formControlName="vehicle" field="code"
           [suggestions]="vehicleList" (onSelect)="onSelectVehicle($event)"
           (completeMethod)="onVehicleSearch($event)"  [dropdown]="true"
           >
            <ng-template let-vehicle pTemplate="item">
                <div class="vehicle-item">
-                   <div>{{vehicle.code}} -> {{vehicle.registrationNumber}} </div>
+                   <div>{{vehicle.code}} </div>
                </div>
            </ng-template>
        </p-autoComplete>

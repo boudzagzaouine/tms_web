@@ -1,3 +1,4 @@
+import { OrderTransportListCancelComponent } from './order-transport-list/order-transport-list-cancel/order-transport-list-cancel.component';
 import { OrderTransportGroupageComponent } from './order-transport-edit/order-transport-groupage/order-transport-groupage.component';
 import { InformationContactEditComponent } from './order-transport-edit/order-transport-information/information-contact-edit/information-contact-edit.component';
 import { OrderTransportServiceComponent } from './order-transport-edit/order-transport-service/order-transport-service.component';
@@ -103,7 +104,8 @@ import { OrderTransportCompletRetourComponent } from './order-transport-edit/ord
      CheckboxModule,
      InputNumberModule,
      ToggleButtonModule,
-     FileUploadModule
+     FileUploadModule,
+     DialogModule
   ],
   declarations: [OrderTransportComponent,
     OrderTransportEditComponent,
@@ -128,7 +130,8 @@ import { OrderTransportCompletRetourComponent } from './order-transport-edit/ord
     OrderTransportServiceComponent,
     InformationAccountEditComponent,
     OrderTransportCompletRetourComponent,
-    InformationContactEditComponent
+    InformationContactEditComponent,
+    OrderTransportListCancelComponent
 
   ]
 })

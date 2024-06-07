@@ -45,7 +45,7 @@ export class OrderTransportCancelComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   TransportPlanHistoryExportList: Array<TransportPlanHistory> = [];
-  titleList = 'liste des ordres transport annulé';
+  titleList = 'liste des ordres transport annulés';
   subscriptions= new Subscription();
 
   items: MenuItem[];

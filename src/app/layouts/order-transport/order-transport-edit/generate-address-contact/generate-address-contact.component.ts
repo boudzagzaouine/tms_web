@@ -71,6 +71,7 @@ console.log(this.selectedAccount);
 
 account = this.selectedAccount.code !=null ?this.selectedAccount :   this.accountList[0];
 
+
 addressContactDeliveryInfo.name=this.selectedContact.name;
 addressContactDeliveryInfo.email=this.selectedContact.email;
 addressContactDeliveryInfo.tel1=this.selectedContact.tel1;

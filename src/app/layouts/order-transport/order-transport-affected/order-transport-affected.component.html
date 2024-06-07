@@ -80,6 +80,7 @@
   [listName]="titleList"
   [permissionDelete]="['TRANSPORT_ORDER_DELETE']"
   [permissionEdit]="['TRANSPORT_ORDER_EDIT']"
+  [generateCancelPTBtnVisible]="false"
 
 
 ></app-data-table>
@@ -89,3 +90,16 @@
 <ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [acceptLabel]="'Oui'" [rejectLabel]="'Non'">
 </p-confirmDialog>
+
+
+
+
+
+
+<div *ngIf="showDialogReject == true">
+  <app-order-transport-list-cancel
+    [editMode]="editMode"
+    [selectedOrderTransport]="selectedOrderTransports[0]"
+    (showDialog)="onShowDialog($event)"
+  ></app-order-transport-list-cancel>
+</div>

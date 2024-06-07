@@ -1,3 +1,4 @@
+import { SelectObject } from './../../../shared/models/select-object';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { OrderTransportInfo } from './../../../shared/models/order-transport-info';
 import { TransportPlanLocationService } from './../../../shared/services/api/transport-plan-location.service';
@@ -24,7 +25,7 @@ import  * as L  from 'leaflet';
 import 'leaflet.awesome-markers';
 import 'leaflet-routing-machine';
 import { Marker, Icon,icon } from 'leaflet';
-import { TurnStatus } from './../../../shared/models/turn-status';
+
 
 @Component({
   selector: 'app-tracking-list',
@@ -73,7 +74,7 @@ css8="form-group col-md-8"
   minute : any ;
   visibleSidebar2;
   selectItineraryInfo :itineraryInfo = new itineraryInfo();
-
+  typeItinerairy :string;
   transportPlanLocations :TransportPlanLocation[]=[]
  private iconEnlevement: Icon = icon({
    iconUrl: "./assets/img/enlevement.png",
@@ -103,7 +104,8 @@ private iconPoint: Icon = icon({
 
 
 });
-
+statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermé'},{id:3,code:'Planifié'}];
+statusSearch:SelectObject;
 letters = '0123456789ABCDEF';
 color = '#';
 // @ViewChild('mapContainer') mapContainer: ElementRef;
@@ -115,7 +117,7 @@ color = '#';
               private driverservice:DriverService,
               private spinner: NgxSpinnerService,
               private toastr: ToastrService,
-              private TransportPlanService:TransportPlanService,
+              private transportPlanService:TransportPlanService,
               private transportPlanLocationService:TransportPlanLocationService,
               private datePipe:DatePipe,
               private orderTransportService:OrderTransportService,
@@ -137,8 +139,12 @@ color = '#';
 //}
 
    // this.createLayer();
-this.searchQuery="turnStatus.id!1;2;3;4";
-this.loadData(this.searchQuery,'ALL')
+   this.statusSearch=this.statusList.filter(f=>f.id==1)[0];
+console.log(this.statusSearch.code);
+
+    this.searchQuery = 'turnStatus.id!3;4;1;2';
+
+    this.loadData(this.searchQuery,'ALL');
   //   this.createLayer();
  //   this.loadData(this.searchQuery);
   }
@@ -205,15 +211,19 @@ console.log(orderTransport);
       buffer.append(`driver.id:${this.driverSearch.id}`);
     }
 
-    if (this.turnStatusSearch != null ) {
-      if(this.turnStatusSearch==true){
-        //en Cour
-      buffer.append('turnStatus.id!1;2;3;4');
-
+    if (this.statusSearch != null ) {
+      if(this.statusSearch.id==1){// en cours
+        //3:Fermer /4:-annuler / 1:- cree /-2valider
+      buffer.append('turnStatus.id!3;4;1;2');
       }
-      else if (this.turnStatusSearch==false){
+      else if (this.statusSearch.id==2){//fermer
         //Fermer
+        // 3: fermer
       buffer.append('turnStatus.id:3');
+
+      }else if (this.statusSearch.id==3){//planifier = cree
+        //Fermer
+      buffer.append('turnStatus.id:1');
 
       }
     }
@@ -234,11 +244,21 @@ console.log(orderTransport);
         }
     }
 
+console.log(this.searchQuery);
+
+
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    this.loadData(this.searchQuery,'ORDER');
+    if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
+      this.loadData(this.searchQuery,'ORDER');
+
+    }else{
+      this.loadData(this.searchQuery,'ALL');
+
+    }
 
   }
+
 
   reset() {
     this.vehicleSearch = null;
@@ -246,50 +266,58 @@ console.log(orderTransport);
    this.dateSearch=null;
    this.orderTransportSearch=null;
     this.page = 0;
-    this.searchQuery = '';
+    this.statusSearch=this.statusList.filter(f=>f.id==1)[0];
+
+    this.searchQuery = 'turnStatus.id!3;4;1;2';
+
     this.loadData(this.searchQuery,'ALL');
   }
+
+  loadDataLazy(event) {
+    this.size = event.rows;
+    this.page = event.first / this.size;
+    this.loadData(this.searchQuery,this.typeItinerairy);
+  }
+
 
   loadData(search: string = '',type:string='') {
     this.spinner.show();
 console.log(search);
 
+this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
+  data => {
+    this.collectionSize = data;
+    console.log(  this.collectionSize);
 
-    this.subscriptions.add( this.TransportPlanService.getItineraries( search).subscribe(
+  }
+));
+
+    this.subscriptions.add( this.transportPlanService.getItineraries( this.page, this.size,search).subscribe(
       data => {
 
         this.transportPlan = data;
+        console.log(this.transportPlan);
+
  this.transportPlanCloneList=data;
 
         this.map.eachLayer((layer) => {
           layer.remove();
         });
+        console.log("type");
+
+        console.log(type);
+this.typeItinerairy=type;
 if(type=='ALL'){
-  this.cloneItiniraryAllByTransportPlan();
+  console.log("all");
+
+  this.cloneItiniraryAllByTransportPlan(this.transportPlan);
 
 }else if (type=='ORDER'){
-this.cloneItiniraryOrderByTransportPlan();
+  console.log("order");
+
+this.cloneItiniraryOrderByTransportPlan(this.transportPlan);
 
 }
-
-//   const transportPlans=  this.transportPlan.filter((value, index, array) =>
-//        index ==  array.findIndex(
-//        item =>  item.orderTransportInfoLine?.id == value.orderTransportInfoLine?.id)
-
-// );
-
-// this.transportPlan.forEach((item, index) => {
-//   if(item?.orderTransportInfoLine?.id>0){
-
-
-//   if (index!== this.transportPlan.findIndex(i => i.orderTransportInfoLine?.id === item.orderTransportInfoLine?.id))
-//   {
-//       this.transportPlan.splice(index, 1);
-//   }}
-// });
-
-
-
 
     console.log(    this.itineraries);
 
@@ -301,20 +329,21 @@ this.cloneItiniraryOrderByTransportPlan();
       error => {
         this.spinner.hide();
       },
-      () => this.spinner.hide()
+       //() =>this.spinner.hide()
     ));
   }
 
 
-  cloneItiniraryAllByTransportPlan(){
+  cloneItiniraryAllByTransportPlan(transportPlans:TransportPlan[]){
 
 
     this.itineraries=[];
-this.transportPlan.forEach(plan => {
+     let  itineraries :Itinerary[]=[];
+     transportPlans.forEach(plan => {
 
 
 
-  let  itineraries :Itinerary[]=[];
+
 
   if( plan?.latitude!=null && plan?.longitude!=null){
 
@@ -333,26 +362,36 @@ this.transportPlan.forEach(plan => {
         itineraries.push(this.itinerary);
   }
 
+
+      });
+
+      console.log("all itinirairy");
+
+  console.log(itineraries);
+
         itineraries.sort((a, b) => {
         return <any>new Date(b.date) + <any>new Date(a.date);
       });
-      this.createMarker(itineraries);
 
-      });
+      this.createMarker(itineraries);
   }
 
 
-  cloneItiniraryOrderByTransportPlan(){
+  cloneItiniraryOrderByTransportPlan(transportPlans:TransportPlan[]){
 
 
     this.itineraries=[];
 
 
 
-
-this.transportPlan.forEach(plan => {
   let  itineraries :Itinerary[]=[];
+  transportPlans.forEach(plan => {
+
+  if( plan?.latitude!=null && plan?.longitude!=null){
+
    this.itinerary= new Itinerary();
+   this.itinerary.transportPlan= plan;
+
     this.itinerary.lat= plan?.latitude;
     this.itinerary.lon=plan?.longitude;
      this.itinerary.vehicle= plan.vehicle;
@@ -388,14 +427,21 @@ this.transportPlan.forEach(plan => {
 
       })
 
+
        });
-        itineraries.sort((a, b) => {
+
+
+      }});
+          console.log("order tiniraire");
+
+console.log(itineraries);
+     itineraries.sort((a, b) => {
         return <any>new Date(b.date) + <any>new Date(a.date);
       });
+     // this.createMarker(itineraries);
+
       // this.createMarker(itineraries);
       this.createRoute(itineraries);
-
-      });
   }
 
 
@@ -423,7 +469,7 @@ if(data[0]){
 
     itineraries.push(this.itinerary);
   });
-  this.spinner.show();
+  this.spinner.hide();
   this.createMarkerLocation(itineraries);
 
 
@@ -442,9 +488,54 @@ if(data[0]){
   createMarkerLocation(itineraries){
     this.itineraries=itineraries;
     console.log(itineraries);
+    var split_route1:L.LatLng[]=[];
+
+    this.itineraries.forEach(element => {
+      split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
+});
+var pane1 = this.map.createPane(this.itineraries[0]?.orderTransportInfoLine?.id.toString());
+
+var route= L.Routing.control({
+  routeWhileDragging: true,
+  addWaypoints: false,
+
+  waypoints: split_route1,
+lineOptions: {styles: [{pane:pane1, color: '#23606a', opacity: 1, weight: 3}],missingRouteTolerance:2,extendToWaypoints:true},
+
+
+
+
+}).on('routesfound',(e)=>{
+
+// this.distance=e.routes[0].summary.totalDistance/1000 as number;
+// console.log(e.routes[0].summary.totalTime);
+
+// this.time= (e.routes[0].summary.totalTime/3600).toString();
+// this.heur=  this.time.split('.',2)[0];
+// this.minute=this.time.split('.',2)[1].substring(0,2);
+
+
+
+this.selectItineraryInfo.distance=this.distance;
+this.selectItineraryInfo.heur=this.heur;
+this.selectItineraryInfo.minute=this.minute;
+this.selectItineraryInfo.time=this.time;
+//this.itineraryInfo.emit(this.selectItineraryInfo);
+
+
+
+//new Date()
+}).on('routingerror',(e)=>{
+this.toastr.error("routingerror","Erreur");
+
+}
+).addTo(this.map).hide();
 
 
       for (var i in this.itineraries) {
+        console.log(this.itineraries[i].lat);
+
+
         L.marker(L.latLng(this.itineraries[i].lat, this.itineraries[i].lon), {
         //  title: this.itineraries[i].description ,
         // icon:
@@ -459,7 +550,8 @@ if(data[0]){
          icon:this.iconPoint,
        //draggable:true,
        //zIndexOffset:1,
-        }).addTo(this.map)
+        }).addTo(this.map);
+
 
       }
 
@@ -490,8 +582,13 @@ if(data[0]){
   var split_route1:L.LatLng[]=[];
 
 
+// this.itineraries.forEach(element => {
+//          split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
+// });
 this.itineraries.forEach(element => {
+  if(element.type!=undefined){
          split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
+         }
 });
 //var polyline = L.polyline(split_route1, {color: 'white'}).addTo(this.map);
 var pane1 = this.map.createPane(this.itineraries[0]?.orderTransportInfoLine?.id.toString());
@@ -527,6 +624,9 @@ this.selectItineraryInfo.time=this.time;
 
 
 //new Date()
+}).on('routingerror',(e)=>{
+this.toastr.error("routingerror","Erreur");
+
 }
 ).addTo(this.map).hide();
 
@@ -539,7 +639,7 @@ this.itineraries=itineraries;
 
   for (var i in this.itineraries) {
     let message="" ;
-    let ot = this.itineraries[i]?.transportPlan?.id;
+    let tPlanId = this.itineraries[i]?.transportPlan?.id;
     if(this.itineraries[i].type!=undefined){
       // message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
 
@@ -563,7 +663,10 @@ this.itineraries=itineraries;
     }
     else{
       message += "<i class='fa fa-road'  style='    color: #ee8e8f;'> </i><b> En Route<br>"+
+
       "<i class='fa fa-truck mr-2' style='    color: #ee8e8f;'></i>"+this.itineraries[i]?.vehicle?.registrationNumber +
+      "<br><i class='fa fa-map-marker mr-2' style='    color: #ee8e8f;'></i>"+this.itineraries[i]?.vehicle?.lastPointCity +
+      "<br><i class='fa fa-clock-o mr-2' style='    color: #ee8e8f;'></i>"+this.datePipe.transform(this.itineraries[i]?.vehicle?.lastPointDate,'dd-MM-yyyy HH:mm:ss') +
       "<br><i class='fa fa-user mr-2' style='    color: #ee8e8f;' ></i> "+this.itineraries[i]?.driver?.codeName ;
      message +="<br><button type='button' class='btn btn-primary p-0' style='width: 100%;'>Détails</button>"
 
@@ -608,10 +711,11 @@ this.itineraries=itineraries;
       popUp.getElement()
      .querySelector(".btn")
      .addEventListener("click", e => {
+console.log("ot");
 
 
-      console.log(ot);
-       this.test(ot);
+      console.log(tPlanId);
+       this.test(tPlanId);
       });    })
     //.on('click', this.onClick);
 
@@ -619,6 +723,11 @@ this.itineraries=itineraries;
   }
 
     this.mainLayer.addTo(this.map);
+    console.log("map");
+
+console.log(this.map);
+console.log(this.mainLayer);
+
 
   // this.recuperateDistance();
   this.spinner.hide();
@@ -631,13 +740,19 @@ onClick(e) {
   console.log(content);
 }
 test(transportPlanId){
+  console.log("1");
+console.log(transportPlanId);
+
   this.map.eachLayer((layer) => {
     layer.remove();
+    console.log("2");
   });
-  console.log("test");
+  console.log("3");
 this.visibleSidebar2=true;
-this.transportPlan=this.transportPlanCloneList.filter(f=> f.id==transportPlanId)
-this.cloneItiniraryOrderByTransportPlan();
+//this.transportPlan=
+
+this.cloneItiniraryOrderByTransportPlan(this.transportPlanCloneList.filter(f=> f.id==transportPlanId));
+console.log("4");
 
 
 console.log(event);
@@ -676,7 +791,7 @@ createLayer(){
 
 
 
- this.map =  new L.Map('mapp').setView([ 31.942037500922847, -6.391733638504066 ],10)
+ this.map =  new L.Map('mapp').setView([ 31.942037500922847, -6.391733638504066 ],6)
 
 
 
@@ -694,6 +809,7 @@ createLayer(){
 //this.map = L.map('map', {});
 
  this.mainLayer= new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(this.map);

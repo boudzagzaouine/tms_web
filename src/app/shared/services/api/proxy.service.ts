@@ -406,12 +406,16 @@ export class ProxyService {
     return this.http.get<any>(fullurl);
   }
 
-  getItineraries(controller: string, search: string): Observable<any[]> {
+  getItineraries(controller: string,page :number, size:number, search: string): Observable<any[]> {
     const fullurl =
       this.url +
       controller +
       '/getItineraries?search=' +
       search +
+      '&page=' +
+      page +
+      '&size=' +
+      size +
       '&token=' +
       this.getToken();
     //console.log("fullurl");

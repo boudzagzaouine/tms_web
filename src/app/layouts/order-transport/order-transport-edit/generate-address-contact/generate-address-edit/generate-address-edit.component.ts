@@ -123,7 +123,7 @@ export class GenerateAddressEditComponent implements OnInit {
     }
    // this.selectedAddress.code = this.addressCode;
    this.selectedAddress.code = this.addressForm.value['code'];
-
+   this.selectedAddress.name = this.addressForm.value['code'];
     this.selectedAddress.line1 = this.addressForm.value['line1'];
     this.selectedAddress.addressType = 1; // 1 address Livraison
     this.selectedAddress.delivery = true;

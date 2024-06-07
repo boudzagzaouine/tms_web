@@ -125,7 +125,7 @@ console.log( this.orderTransportService.getItineraryAller());
      title: this.itineraries[i].description,
      //icon: this.itineraries[i].type=="LIVRAISON" ?this.iconLivraison :this.iconEnlevement
      icon:this.showMarkerByTurnType(this.itineraries[i].type)
-   }).addTo(this.map).bindPopup("<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description + "</b>").openPopup();
+   }).addTo(this.map).bindPopup("<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Adresse :" + this.itineraries[i].description + "</b>").openPopup();
  }
    this.mainLayer.addTo(this.map);
 

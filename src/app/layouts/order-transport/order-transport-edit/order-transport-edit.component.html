@@ -59,12 +59,12 @@
 
     </span>
     <span *ngIf="activeIndex==2">
-      <span *ngIf="this.turnTypeId==3">
+      <span *ngIf="this.turnTypeId==3 && this.loadingTypeId==1">
         <app-order-transport-complet-retour (nextstep)="next($event)"
           (previousstep)="previous($event)"></app-order-transport-complet-retour>
       </span>
 
-      <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 ">
+      <span *ngIf="this.turnTypeId==1 ||this.turnTypeId==2 ||(this.turnTypeId==3 && this.loadingTypeId==2)">
         <app-tarification (nextstep)="next($event)" (previousstep)="previous($event)"></app-tarification>
       </span>
     </span>

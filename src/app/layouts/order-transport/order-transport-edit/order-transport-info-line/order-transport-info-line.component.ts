@@ -144,6 +144,8 @@ export class OrderTransportInfoLineComponent implements OnInit {
     });
     this.getTrajetQuantity();
     if (this.editMode) {
+      console.log("edit mode ");
+
       this.selectAddress = this.selectedOrderTransportInfoLine.address;
       this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
@@ -200,10 +202,10 @@ export class OrderTransportInfoLineComponent implements OnInit {
         deliveryInfoEmail: new FormControl(this.selectContact.email),
 
         deliveryInfoAddressName: new FormControl(
-          this.selectAddress,
+          this.selectAddress.name,
           Validators.required
         ),
-        deliveryInfoLine1: new FormControl(this.selectAddress.line1),
+        deliveryInfoLine1: new FormControl(this.selectAddress.line1, Validators.required),
         deliveryInfoCity: new FormControl(this.selectAddress?.ville?.code),
         deliveryInfoZip: new FormControl(this.selectAddress.zip),
         deliveryInfoCountry: new FormControl(this.selectAddress.country),
@@ -269,10 +271,14 @@ export class OrderTransportInfoLineComponent implements OnInit {
 
   onSubmit() {
     this.isFormSubmitted = true;
+    console.log("subùmit");
+ console.log(this.orderTransportInfoLineForm);
 
-    if (this.orderTransportInfoLineForm.controls["general"].invalid) {
+
+    if (this.orderTransportInfoLineForm.invalid) {
       return;
     }
+
 
     let formvalue = this.orderTransportInfoLineForm.value;
     this.selectedOrderTransportInfoLine.priceHT =
@@ -343,7 +349,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
       this.orderTransportInfoLineAdded.emit(this.selectedOrderTransportInfoLine);
     this.displayDialog = false;
     this.onShowDialog();
-    }
+  }
 
   }
   getOrderTransportInfoLineDocumentEnlevement(line: OrderTransportInfoLine) {
@@ -785,9 +791,14 @@ console.log(this.orderTransportInfoLineDocuments);
     this.showDialogAddress = event;
   }
   onLineEditedAddress(line: Address) {
-    this.setInfoAddress(line);
+    this.addressService.set(line).subscribe(
+      data => {
 
-    console.log(line);
+        this.setInfoAddress(data);
+
+        this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');
+      }
+    );
   }
   verifyTrajet(sourceId:number , distinationId :number ){
 

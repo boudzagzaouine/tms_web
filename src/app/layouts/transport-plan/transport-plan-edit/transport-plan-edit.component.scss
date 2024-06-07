@@ -1,3 +1,52 @@
+
+:host ::ng-deep .tabview-custom
+{
+  // display: flex;
+}
+
+:host ::ng-deep .tabview-custom .p-tabview-nav-link {
+  background: #2c3941 !important;
+  border-color: #2196F3 !important;
+  color: #ffffff !important;
+ // width: 18.4vw !important;
+}
+
+:host ::ng-deep .tabview-custom .p-tabview .p-tabview-panels {
+  padding: 0rem !important;
+}
+
+
+:host ::ng-deep .tabview-custom .p-tabview-nav-link:not(.p-disabled):focus {
+  background: #2196F3 !important;
+  border-color: #2c3941 !important;
+}
+:host ::ng-deep  .tabview-custom .p-tabview-nav li {
+  margin-right: 0;
+  margin-bottom: 5px;
+}
+:host ::ng-deep .tabview-custom .p-tabview-nav { display: flow}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   text-align: left;
   padding: 1rem 1rem;
@@ -28,7 +77,7 @@
 }
 
 :host ::ng-deep .p-splitbutton {
- 
+
   width: 200px;
 }
 

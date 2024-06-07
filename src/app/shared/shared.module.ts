@@ -139,7 +139,7 @@ import { BadgeTypeDriverService } from './services/api/badge-type-driver.service
 import { CommissionTypeService } from './services/api/commisionType.service';
 import { MaintenanceActionService } from './services/api/maintenance-action.service';
 import { MaintenanceLineRefService } from './services/api/maintenance-line-ref.service';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -287,6 +287,7 @@ export class SharedModule {
 
       ngModule: SharedModule,
       providers: [
+        { provide: LOCALE_ID, useValue: "fr-FR" },
         BadgeTypeService,
         BadgeService,
         ContractTypeService,

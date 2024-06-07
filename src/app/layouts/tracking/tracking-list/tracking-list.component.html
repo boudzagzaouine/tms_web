@@ -59,17 +59,9 @@
 
       <br />
 
-      <div class="field-checkbox">
-        <p-checkbox
-          [(ngModel)]="this.turnStatusSearch"
-          name="active"
-          [binary]="true"
-          inputId="active"
-        ></p-checkbox>
-        <label class="font-weight-bold ml-1" for="active">{{
-          this.turnStatusSearch ? "En Cours" : "Fermée"
-        }}</label>
-      </div>
+      <p-dropdown [options]="statusList" [showClear]="true" optionLabel="code" [autoDisplayFirst]="false"
+      [(ngModel)]="statusSearch" filter="true">
+  </p-dropdown>
     </div>
   </div>
 
@@ -120,12 +112,12 @@
         </div>
       </div>
 
-      <button  *ngIf="!visibleSidebar2"   type="button" class="btn btn-light " style=" float: right;    margin-left: -15px; z-index: 10001;     background-color: #2c3941;
+      <button  *ngIf="!visibleSidebar2"   type="button" class="btn btn-light " style=" float: right;    margin-left: -15px; z-index: 1000;     background-color: #2c3941;
       color: white;   border-radius: 5px;    height: calc(100vh - 30vh);
         " (click)="visibleSidebar2 = true" ><i class="fa fa-chevron-circle-left" style="font-size: xx-large;" aria-hidden="true"></i>
   </button>
 
-  <button  *ngIf="visibleSidebar2"  type="button" class="btn btn-light " style=" float: right;   margin-left: -15px;  z-index: 10001;     background-color: #2c3941;
+  <button  *ngIf="visibleSidebar2"  type="button" class="btn btn-light " style=" float: right;   margin-left: -15px;  z-index: 1000;     background-color: #2c3941;
   color: white;   border-radius: 5px;    height: calc(100vh - 30vh);
     " (click)="visibleSidebar2 = false" ><i class="fa fa-chevron-circle-right" style="font-size: xx-large;" aria-hidden="true"></i>
   </button>
@@ -142,11 +134,16 @@
 
     <div>
       <p-accordion>
-        <div *ngFor="let plan of transportPlan">
+        <div *ngFor="let plan of transportPlan" (click)="this.test(plan?.id)">
           <p-accordionTab>
             <!-- (click)="onTransportPlanLocationSearch(plan.orderTransport)" -->
             <ng-template pTemplate="header"
-              ><a>{{ plan?.orderTransport?.code }}</a>
+              ><a>{{ plan?.orderTransport?.code }} &nbsp;&nbsp;
+                <i class="fa fa-map" aria-hidden="true"></i>
+                {{plan?.trajet?.code}} &nbsp;&nbsp;
+<i class="fa fa-user" aria-hidden="true"></i>
+
+                {{plan?.account?.name}}</a>
               </ng-template
             >
             <ng-template pTemplate="content">
@@ -155,7 +152,7 @@
           <button type="button" class="btn btn-secondary" (click)="getLocalisation(plan)">
                 <i class="fa fa-map-marker "></i>
 
-                {{ "Trajet en Temps Réel" | translate }}
+                {{ "Historique trajet" | translate }}
               </button>
 
               </div>
@@ -217,16 +214,16 @@ font-size:2rem;
                     </span></span><br />
                             <span>
                               <span style="font-size: 14px">
-                                  <i class="fa fa-map-marker" aria-hidden="true">  <span> {{ line.address?.name }}</span></i>
+                                  <i class="fa fa-map-marker" aria-hidden="true">  <span> {{ line.address?.name }},{{ line.address?.ville?.code }}</span></i>
                             </span></span><br />
  <span>  <span style="font-size: 14px">
   <i class="fa fa-user" aria-hidden="true">  <span> {{ line.contact?.name }}</span></i>
 </span>
                               </span>
-
+                              <br />
 
                               <span>  <span style="font-size: 14px">
-                                <i class="fa fa-user" aria-hidden="true">  <span>
+                                <i class="fa fa-clock-o" aria-hidden="true">  <span>
                                   <span
                                   style="
                                     font-size: 12px;
@@ -253,10 +250,12 @@ font-size:2rem;
                                 color: #256029;
                                 padding: 4px 14px 4px 14px;
                                 border-radius: 5px;
-                                font-size:2rem;
+                                font-size:1rem;
                               ">
                               <span>
-                                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+
+                                Valider
+                                <!-- <i class="fa fa-check-circle-o" aria-hidden="true"></i> -->
                               </span>
                             </h6>
 
@@ -266,10 +265,11 @@ font-size:2rem;
                             color: #805b36;
                             padding: 4px 14px 4px 14px;
                             border-radius: 5px;
-                            font-size:2rem;
+                            font-size:1rem;
                           ">
                           <span>
-                            <i class="fa fa-hourglass" aria-hidden="true"></i>
+                            En Cours
+                            <!-- <i class="fa fa-hourglass" aria-hidden="true"></i> -->
                           </span>
                         </h6>
 
@@ -626,8 +626,10 @@ color: #ffffff;
               </div>
             </ng-template>
           </p-accordionTab>
-        </div>
+
+        </div>  <p-paginator [rows]="size" [totalRecords]="collectionSize" [rowsPerPageOptions]="[10,20,50]" (onPageChange)="loadDataLazy($event)"></p-paginator>
       </p-accordion>
+
 
       <!-- <div class="row justify-content-around m-0">
   <div class="form-group col-md-6">
@@ -662,3 +664,12 @@ color: #ffffff;
     <!-- </p-panel> -->
   </div>
 </div>
+
+
+<p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
+<ngx-spinner
+  bdColor="rgba(255,255,255,0)"
+  size="large"
+  color="#00d2ff"
+  type="ball-spin-fade-rotating"
+></ngx-spinner>

@@ -14,7 +14,7 @@
                 {{'Obligatoire' | translate }}
               </span>
               <br />
-              <p-dropdown formControlName="code" [appendTo]="'body'" [autoDisplayFirst]="false" [options]="orderTransportRejectTypeList"
+              <p-dropdown formControlName="code" [autoDisplayFirst]="false" [options]="orderTransportRejectTypeList"
                 optionLabel="code" (onChange)="onSelectOrderTransportRejectType($event)" [filter]="true"
                 [showClear]="true"></p-dropdown>
             </div>

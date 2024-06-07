@@ -47,6 +47,7 @@ import { Component, OnInit } from "@angular/core";
 import { table } from "console";
 import { Vat } from "./../../../shared/models";
 
+
 @Component({
   selector: "app-transport-plan-add",
   templateUrl: "./transport-plan-add.component.html",
@@ -167,6 +168,10 @@ export class TransportPlanAddComponent implements OnInit {
   }
 
   initForm() {
+    console.log("initForm");
+    console.log(this.selectedTransportPlan);
+
+
     this.transportPlanForm = new FormGroup({
       orderTransport: new FormControl(
         this.selectedTransportPlan.orderTransport?.code,
@@ -476,20 +481,31 @@ export class TransportPlanAddComponent implements OnInit {
     this.selectedVilleSource = this.selectedVilleDistination;
     this.selectedVilleDistination = villeSource;
   }
+  resetInputSearchByVille() {
+  this.selectedVilleDistination=null;
+     this.selectedVilleSource=null;
+     this.resetSearchByVille();
+  }
   resetSearchByVille() {
+
     this.orderTransportList = this.orderTransportCloneList;
     this.sortOrderTransportByValeur();
   }
   searchByVille() {
     let allerList: OrderTransport[] = [];
     let retourList: OrderTransport[] = [];
+console.log(this.orderTransportList);
 
     allerList = this.orderTransportList.filter(
       (f) =>
-        f.orderTransportInfoAller?.trajet?.villeSource?.id ==
+         f?.trajet?.villeSource?.id ==
           this.selectedVilleSource?.id &&
-        f.orderTransportInfoAller?.trajet?.villeDestination?.id ==
+        f?.trajet?.villeDestination?.id ==
           this.selectedVilleDistination?.id
+        // f.orderTransportInfoAller?.trajet?.villeSource?.id ==
+        //   this.selectedVilleSource?.id &&
+        // f.orderTransportInfoAller?.trajet?.villeDestination?.id ==
+        //   this.selectedVilleDistination?.id
     );
 
     this.orderTransportList = [];
@@ -542,6 +558,7 @@ export class TransportPlanAddComponent implements OnInit {
     console.log(event.value[0]);
 
     this.selectedTransport = event.value[0];
+console.log(this.selectedTransport);
 
     this.selectedTransportPlan.purchasePrice =
       this.selectedTransport.transport.purchaseAmount;
@@ -982,8 +999,8 @@ this.loadTransport(this.selectOrderTransport);
     this.selectedTransportPlan.purchasePrice =
     this.selectedTransport.purchaseAmountHt;
     console.log( this.selectedTransportPlan.purchasePrice);
-
-  this.initForm();
+    this.generatePlanTransport();
+  //this.initForm();
     this.catalogPricingService
     .find(
       "turnType.id:" +

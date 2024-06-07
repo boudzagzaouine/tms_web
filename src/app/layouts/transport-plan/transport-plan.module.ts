@@ -45,7 +45,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransportPlanRoutingModule } from './transport-plan-routing.module';
 import { TransportPlanListComponent } from './transport-plan-list/transport-plan-list.component';
 import { TransportPlanEditComponent } from './transport-plan-edit/transport-plan-edit.component';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransportPlanComponent } from './transport-plan.component';
 import {OrderListModule} from 'primeng/orderlist';
@@ -105,6 +105,7 @@ import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/tra
      InputNumberModule
   ],
   declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent,TransportPlanHistoryEnattenteComponent]
+                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent,TransportPlanHistoryEnattenteComponent],
+                   providers:[]
 })
 export class TransportPlanModule { }

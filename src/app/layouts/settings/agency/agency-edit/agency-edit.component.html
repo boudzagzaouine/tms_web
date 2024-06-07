@@ -40,9 +40,9 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
               </span>
               <br />
-            <p-autoComplete formControlName="zone" [suggestions]="zoneList"
+            <p-autoComplete formControlName="zone" [appendTo]="'body'" [suggestions]="zoneList"
             (completeMethod)="onZoneSearch($event)" field='code'></p-autoComplete>
-        
+
           </div>
           <div class="form-group col-sm-12">
             <label class="font-weight-bold">{{'Address' | translate}} *</label>
@@ -52,9 +52,9 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
               </span>
               <br />
-            <p-autoComplete formControlName="address" [suggestions]="adressList"
-            (completeMethod)="onAdressSearch($event)" field='code'></p-autoComplete>
-        
+            <p-autoComplete formControlName="address" [appendTo]="'body'" [suggestions]="adressList"
+            (completeMethod)="onAdressSearch($event)" field='name'></p-autoComplete>
+
           </div>
           <div class="form-group col-sm-12">
             <label class="font-weight-bold">{{'Responsable' | translate}} *</label>
@@ -64,11 +64,11 @@ showEffect="fade"
                {{'Obligatoire' | translate }}
             </span>
             <br />
-            <p-autoComplete formControlName="responsable" [suggestions]="responsableList"
+            <p-autoComplete formControlName="responsable" [appendTo]="'body'" [suggestions]="responsableList"
             (completeMethod)="onResponsableSearch($event)" field='surname'></p-autoComplete>
-        
+
           </div>
-         
+
 
         </div>
       </form>

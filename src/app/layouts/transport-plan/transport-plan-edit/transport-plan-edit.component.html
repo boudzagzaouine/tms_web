@@ -86,13 +86,13 @@
 
           <br />
           <p-autoComplete
-          formControlName="vehicle" field="code"
+          formControlName="vehicle" field="codeRegistrationNumber"
           [suggestions]="vehicleList" (onSelect)="onSelectVehicle($event)"
           (completeMethod)="onVehicleSearch($event)"  [dropdown]="true"
           >
            <ng-template let-vehicle pTemplate="item">
                <div class="vehicle-item">
-                   <div>{{vehicle.code}} </div>
+                   <div>{{vehicle.code}}  -> {{vehicle.registrationNumber}}</div>
                </div>
            </ng-template>
        </p-autoComplete>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="form-group col-md-3  " *ngIf="this.selectedTransportPlan?.transport?.interneOrExterne==false">
-          <label class="font-weight-bold">{{ "Vehicle" | translate }} *</label>
+          <label class="font-weight-bold">{{ "Véhicule" | translate }} *</label>
           <br />
 
           <input formControlName="vehicleExterne"  type="text" class="form-control"
@@ -211,109 +211,131 @@
 
 
     </form>
+
+
+
+      <h5></h5>
+      <p-tabView >
+          <p-tabPanel headerStyleClass="onglet-p-2">
+              <ng-template pTemplate = "header"   >
+                  <i class="pi pi-calendar"></i>
+                  <span>Trajets</span>
+              </ng-template>
+
+
 <!-- <div *ngIf="this.selectedTransportPlan?.orderTransport?.loadingType.id==1"> -->
-    <p-tabView>
 
-      <p-tabPanel *ngIf="orderTransportInfoLinesAller.length>0" header='{{"Aller"| translate }}'
-        headerStyleClass="onglet-p-2">
-        <ng-template pTemplate="content">
-          <div class="card  ">
-            <div class="card-header" style="background-color: #f7f7f7;">
-              <div class="row">
+  <p-tabView styleClass="tabview-custom">
 
-                <div class="col-xs-4 col-md-4 pull-left">
+    <p-tabPanel *ngIf="orderTransportInfoLinesAller.length>0" header='{{"Aller"| translate }}'
+      headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <div class="card  ">
+          <!-- <div class="card-header" style="background-color: #f7f7f7;">
+            <div class="row">
 
-                </div>
-                <div class=" col-xs-4 col-md-6 pull-center">
-                  <span style="font-size: 16px; color: #5f5b5b;">
-                    <b> {{ "Trajets" | translate }}</b></span>
-                </div>
+              <div class="col-xs-4 col-md-4 pull-left">
+
+              </div>
+              <div class=" col-xs-4 col-md-6 pull-center">
+                <span style="font-size: 16px; color: #5f5b5b;">
+                  <b> {{ "Trajets" | translate }}</b></span>
               </div>
             </div>
-            <div class="card-body border-top-primary">
-              <p-table *ngIf="orderTransportInfoLinesAller.length>0" [value]=" this.orderTransportInfoLinesAller"
-                [lazy]="true" [rows]="5" [paginator]="true" [totalRecords]="orderTransportInfoLinesAller">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>{{ "Service" | translate }}</th>
-                    <th>{{ "Ville" | translate }}</th>
-                    <th style="width: 25%;">{{ "Actions" | translate }}</th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-line>
-                  <tr>
-                    <td>{{ line?.orderTransportType?.code }}</td>
-                    <td>{{ line?.address?.ville?.code }}</td>
+          </div>
+          <div class="card-body border-top-primary">-->
+            <p-table *ngIf="orderTransportInfoLinesAller.length>0" [value]=" this.orderTransportInfoLinesAller"
+              [lazy]="true" [rows]="5" [paginator]="true" [totalRecords]="orderTransportInfoLinesAller">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ "Service" | translate }}</th>
+                  <th>{{ "Ville" | translate }}</th>
+                  <th style="width: 25%;">{{ "Actions" | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-line>
+                <tr>
+                  <td>{{ line?.orderTransportType?.code }}</td>
+                  <td>{{ line?.address?.ville?.code }}</td>
 
 
-                    <td>
-                      <span *ngIf="this.selectedTransportPlan?.turnStatus?.id==3">
-                        {{ line?.turnStatus?.code }}
-                      </span>
+                  <td>
+                    <span *ngIf="this.selectedTransportPlan?.turnStatus?.id==3">
+                      {{ line?.turnStatus?.code }}
+                    </span>
 
-                      <span *ngIf="this.selectedTransportPlan?.turnStatus?.id!=3">
-                      <p-splitButton  styleClass="p-button-secondary " id="button-icon-only"
-                        [label]="line.turnStatus.code" (onDropdownClick)="handleActionsClick(line)"
-                        (onClick)="handleItemClick(line, $event)" [model]="items"></p-splitButton>
+                    <span *ngIf="this.selectedTransportPlan?.turnStatus?.id!=3">
+                    <p-splitButton  styleClass="p-button-secondary " id="button-icon-only"
+                      [label]="line.turnStatus.code" (onDropdownClick)="handleActionsClick(line)"
+                      (onClick)="handleItemClick(line, $event)" [model]="items"></p-splitButton>
 </span>
-                    </td>
-                  </tr>
-                </ng-template>
+                  </td>
+                </tr>
+              </ng-template>
 
-              </p-table>
-            </div>
-          </div>
-        </ng-template>
-      </p-tabPanel>
+            </p-table>
+          <!-- </div> -->
+        </div>
+      </ng-template>
+    </p-tabPanel>
 
-      <p-tabPanel *ngIf="orderTransportInfoLinesRetour.length>0" header='{{"Retour"| translate }}'
-        headerStyleClass="onglet-p-2">
-        <ng-template pTemplate="content">
-          <div class="card  ">
-            <div class="card-header" style="background-color: #f7f7f7;">
-              <div class="row">
+    <p-tabPanel *ngIf="orderTransportInfoLinesRetour.length>0" header='{{"Retour"| translate }}'
+      headerStyleClass="onglet-p-2">
+      <ng-template pTemplate="content">
+        <div class="card  ">
+          <!-- <div class="card-header" style="background-color: #f7f7f7;">
+            <div class="row">
 
-                <div class="col-xs-4 col-md-4 pull-left">
+              <div class="col-xs-4 col-md-4 pull-left">
 
-                </div>
-                <div class=" col-xs-4 col-md-6 pull-center">
-                  <span style="font-size: 16px; color: #5f5b5b;">
-                    <b> {{ "Trajets" | translate }}</b></span>
-                </div>
+              </div>
+              <div class=" col-xs-4 col-md-6 pull-center">
+                <span style="font-size: 16px; color: #5f5b5b;">
+                  <b> {{ "Trajets" | translate }}</b></span>
               </div>
             </div>
-            <div class="card-body border-top-primary">
-              <p-table *ngIf="orderTransportInfoLinesRetour.length>0" [value]=" this.orderTransportInfoLinesRetour"
-                [lazy]="true" [rows]="5" [paginator]="true" [totalRecords]="orderTransportInfoLinesRetour">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>{{ "Service" | translate }}</th>
-                    <th>{{ "Ville" | translate }}</th>
-                    <th style="width: 25%;">{{ "Actions" | translate }}</th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-line>
-                  <tr>
-                    <td>{{ line?.orderTransportType?.code }}</td>
-                    <td>{{ line?.address?.ville?.code }}</td>
-
-
-                    <td>
-
-                      <p-splitButton styleClass="p-button-secondary " id="button-icon-only"
-                        [label]="line.turnStatus.code" (onDropdownClick)="handleActionsClick(line)"
-                        (onClick)="handleItemClick(line, $event)" [model]="items"></p-splitButton>
-                    </td>
-                  </tr>
-                </ng-template>
-
-              </p-table>
-            </div>
           </div>
-        </ng-template>
-      </p-tabPanel>
-    </p-tabView>
+          <div class="card-body border-top-primary"> -->
+            <p-table *ngIf="orderTransportInfoLinesRetour.length>0" [value]=" this.orderTransportInfoLinesRetour"
+              [lazy]="true" [rows]="5" [paginator]="true" [totalRecords]="orderTransportInfoLinesRetour">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ "Service" | translate }}</th>
+                  <th>{{ "Ville" | translate }}</th>
+                  <th style="width: 25%;">{{ "Actions" | translate }}</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-line>
+                <tr>
+                  <td>{{ line?.orderTransportType?.code }}</td>
+                  <td>{{ line?.address?.ville?.code }}</td>
+
+
+                  <td>
+
+                    <p-splitButton styleClass="p-button-secondary " id="button-icon-only"
+                      [label]="line.turnStatus.code" (onDropdownClick)="handleActionsClick(line)"
+                      (onClick)="handleItemClick(line, $event)" [model]="items"></p-splitButton>
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
+          <!-- </div> -->
+        </div>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
 <!-- </div> -->
+
+
+
+          </p-tabPanel>
+          <p-tabPanel header="Services"  headerStyleClass="onglet-p-2" >
+              <ng-template pTemplate = "header" >
+                  <i class="pi pi-user"></i>
+                  <span>Services</span>
+              </ng-template>
 
     <div class="row m-2 justify-content-around ">
       <div class="card  ">
@@ -489,6 +511,37 @@
 
   </p-tabView> -->
     </div>
+          </p-tabPanel>
+
+      </p-tabView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </div>
 

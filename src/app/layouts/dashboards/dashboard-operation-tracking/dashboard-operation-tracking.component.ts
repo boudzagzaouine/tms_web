@@ -1,3 +1,4 @@
+import { SelectObject } from './../../../shared/models/select-object';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { TransportPlanLocation } from './../../../shared/models/transport-plan-location';
 import { OrderTransportInfoLine } from './../../../shared/models/order-transport-info-line';
@@ -44,7 +45,7 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
   orderTransportSearch: OrderTransport;
   orderTransportList:OrderTransport[]=[];
 
-  turnStatusSearch: Boolean=true;
+  statusSearch: SelectObject;
 
 
   className: string;
@@ -71,6 +72,7 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
   otToAffectedSize:number;
   otReleaseInternSize:number;
   otReleaseSize:number;
+  statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermé'},{id:3,code:'Planifié'}];
 
   private iconNone: L.Icon = icon({
     iconUrl: "./assets/img/none.png",
@@ -101,6 +103,10 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
              private patrimonyService:PatrimonyService) { }
 
   ngOnInit() {
+
+
+
+
 //     Marker.prototype.options.icon = this.iconNone;
 
 //  this.createLayer();
@@ -117,7 +123,11 @@ console.log(this.mapContainer);
 //   }
 // }
 // }
-this.searchQuery="turnStatus.id!1;2;3;4";
+//this.searchQuery="turnStatus.id!1;2;3;4"; //1cree - 2valider -3ferme - 4 annuler
+this.statusSearch=this.statusList.filter(f=>f.id==1)[0];
+
+console.log(this.statusList.filter(f=>f.id==1)[0]);
+this.searchQuery = 'turnStatus.id!3;4;1;2';
 
     this.loadData(this.searchQuery);
 this.loadOTAffected();
@@ -157,8 +167,9 @@ loadOTAffected(dates:string='') {
 
 loadOTToAffected(dates:string='') {
   let  search: string = ''
-
-  search +='turnStatus.id!1,'+dates;
+    let searchDate=dates.replace("dateDepart","date");
+    searchDate=searchDate.replace("dateDepart","date");
+  search +='turnStatus.id!1,'+searchDate;
 
 
 
@@ -166,6 +177,8 @@ loadOTToAffected(dates:string='') {
    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
      data => {
        this.otToAffectedSize = data;
+       console.log( this.otToAffectedSize);
+
        this.spinner.hide();
      }
    ));
@@ -209,8 +222,8 @@ loadOTToAffected(dates:string='') {
   onSearchClicked() {
 let searchkpi='';
     const buffer = new EmsBuffer();
-
-    if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
+    this.spinner.show();
+    if (this.orderTransportSearch != null && this.orderTransportSearch.id !== undefined) {
       buffer.append(`orderTransport.id:${this.orderTransportSearch.id}`);
     }
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
@@ -220,15 +233,19 @@ let searchkpi='';
       buffer.append(`driver.id:${this.driverSearch.id}`);
     }
 
-    if (this.turnStatusSearch != null ) {
-      if(this.turnStatusSearch==true){
+    if (this.statusSearch != null ) {
+      if(this.statusSearch.id==1){// en cours
         //en Cour
-      buffer.append('turnStatus.id!3;4;1');
+      buffer.append('turnStatus.id!3;4;1;2');
 
       }
-      else if (this.turnStatusSearch==false){
+      else if (this.statusSearch.id==2){//fermer
         //Fermer
       buffer.append('turnStatus.id:3');
+
+      }else if (this.statusSearch.id==3){//planifier = cree
+        //Fermer
+      buffer.append('turnStatus.id:1');
 
       }
     }
@@ -237,15 +254,10 @@ let searchkpi='';
       dateD=this.datePipe.transform(this.dateSearch[0],'yyyy-MM-dd');
       dateF=this.datePipe.transform(this.dateSearch[1],'yyyy-MM-dd');
       if(dateD!=null){
-
-
       buffer.append("dateDepart>"+dateD);
 searchkpi+="dateDepart>"+dateD;
       }
-
-
       if(dateF!=null){
-
         buffer.append("dateDepart<"+dateF);
         searchkpi+=",dateDepart<"+dateF;
 
@@ -261,17 +273,40 @@ this. loadOTRelease(searchkpi);
     console.log(this.searchQuery);
 
     this.loadData(this.searchQuery);
-
+    this.spinner.hide();
   }
 
   reset() {
     this.vehicleSearch = null;
    this.driverSearch=null;
    this.dateSearch=null;
+   this.statusSearch=null;
    this.orderTransportSearch=null;
     this.page = 0;
-    this.searchQuery = '';
+    this.statusSearch=this.statusList.filter(f=>f.id==1)[0];
+    //this.searchQuery="turnStatus.id!1;2;3;4"; //1cree - 2valider -3ferme - 4 annuler
+    this.searchQuery = 'turnStatus.id!3;4;1;2';
+
     this.loadData(this.searchQuery);
+this.loadOTAffected();
+this.loadOTToAffected();
+this. loadOTReleaseInterne();
+this. loadOTRelease();
+this.showdetailStep =0;
+// this.map.eachLayer((layer) => {
+//   layer.remove();
+// });
+
+
+if(this.map) {
+  this.map.remove();
+  this.createLayer();
+}
+
+
+
+
+
   }
 
     loadData(search: string = '') {
@@ -307,11 +342,22 @@ this. loadOTRelease(searchkpi);
       ));
     }
 
-    onDriverSearch(event){
-      this.subscriptions.add(this.driverservice.find('code~' + event.query).subscribe(
-        data => this.driverList = data
-      ));
-    }
+    onDriverSearch(event) {
+
+      let search;
+         if (!isNaN(event.query)) {
+           search = "code~" + event.query;
+         } else {
+           search = "name~" + event.query;
+         }
+         this.driverservice
+           .find(search)
+           .subscribe((data) =>{console.log(data);
+            (this.driverList = data)});
+
+
+
+       }
 
 
     onOrderTransportSearch(event){
@@ -323,9 +369,11 @@ this. loadOTRelease(searchkpi);
 
 
     showDetailPlanTransport(transportPlan:TransportPlan){
-
+      this.map.eachLayer((layer) => {
+        layer.remove();
+      });
   this.showdetailStep=1;
-      this.subscriptions.add( this.transportPlanService.getItineraries('id:'+transportPlan?.id).subscribe(
+      this.subscriptions.add( this.transportPlanService.getItineraries(this.page,this.size,'id:'+transportPlan?.id).subscribe(
         data => {
 
           this.transportPlan = data[0];
@@ -493,7 +541,7 @@ createLayer(){
 
   this.map = new L.Map('map', {
     center: [ 31.942037500922847, -6.391733638504066 ],
-    zoom: 10,
+    zoom: 5,
     renderer: L.canvas()
   })
 
@@ -581,7 +629,9 @@ createLayer(){
 
 
 this.itineraries.forEach(element => {
+  if(element.type!=undefined){
          split_route1.push(new L.LatLng(element.lat ,  element.lon,0 ));
+         }
 });
 //var polyline = L.polyline(split_route1, {color: 'white'}).addTo(this.map);
 var pane1 = this.map.createPane(this.itineraries[0]?.orderTransportInfoLine?.id.toString());

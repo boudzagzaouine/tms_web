@@ -191,12 +191,16 @@ height: 100vh; padding-bottom: 10%;">
               {{' Carburant' | translate}}</a>
           </li> -->
 
-          <!--
+
           <li *hasPermission="['ZONE_VIEW']">
             <a routerLink="/core/settings/zone" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Zone  ' | translate}}</a>
 </li>
-          <li *hasPermission="['PRODUCT_VIEW','PRODUCT_TYPE_VIEW']">
+<li *hasPermission="['ZONE_VIEW']">
+  <a routerLink="/core/settings/zone-ville" class="m-a"><i class="fa fa-circle-o"></i>
+    {{'Zone Ville  ' | translate}}</a>
+</li>
+         <!--  <li *hasPermission="['PRODUCT_VIEW','PRODUCT_TYPE_VIEW']">
             <a routerLink="/core/settings/menu-product" class="m-a"><i class="fa fa-circle-o"></i>
               {{'Produit ' | translate}}</a>
           </li> -->
@@ -580,6 +584,28 @@ height: 100vh; padding-bottom: 10%;">
         </ul>
       </li>
 
+
+      <li *hasPermission="['TRANSPORT_PLAN_VIEW','TRANSPORT_PLAN_CREATE']">
+        <a class="text-white"><i class="sidebar-item-icon fa ">
+            <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
+          </i>
+          <span class="nav-label">{{'Affectation Retour' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
+        <ul class="nav-2-level collapse">
+
+          <li *hasPermission="['TRANSPORT_PLAN_VIEW']">
+            <a routerLink="/core/affectation-retour/edit" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Inserer' | translate}}</a>
+
+</li>
+
+
+          <li *hasPermission="['TRANSPORT_PLAN_VIEW']">
+            <a routerLink="/core/affectation-retour/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
+                height="15px"> {{'Lister' | translate}}</a>
+
+</li>
+        </ul>
+      </li>
       <li *hasPermission="['TRACKING_VIEW']">
         <a class="text-white" routerLink="/core/tracking/list"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/account.png" width="25px" height="25px">
@@ -587,13 +613,7 @@ height: 100vh; padding-bottom: 10%;">
           <span class="nav-label">{{'Track and Trace' | translate}}</span></a>
       </li>
 
-      <li *hasPermission="['TRACKING_VIEW']">
-        <a class="text-white" routerLink="/core/affectation-retour/list"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Affectation Retour ' | translate}}</span></a>
-      </li>
-
+ 
 
 
     </ul>

@@ -230,6 +230,7 @@ console.log(this.selectedOrderTransport);
     this.selectedOrderTransport.description =
     this.OrderTransportForm.value["remark"];
     this.selectedOrderTransport.orderTransportAccompaniments = [];
+    if(this.selectedOrderTransport.vehicleAccompaniments[0]!=null){
     this.selectedOrderTransport.vehicleAccompaniments.forEach((element) => {
       let oTAccompaniment = new OrderTransportAccompaniment();
       oTAccompaniment.vehicleAccompaniment = element;
@@ -244,7 +245,7 @@ console.log(this.selectedOrderTransport);
       //   this.selectedOrderTransport.orderTransportAccompaniments.push(oTAccompaniment);
       // }
     });
-
+}
     // const formValue = this.OrderTransportForm.value;
 
 

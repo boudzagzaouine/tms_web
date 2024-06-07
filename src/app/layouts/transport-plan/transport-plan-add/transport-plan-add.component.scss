@@ -176,3 +176,21 @@ max-height: 9rem;
 border-bottom: 1px solid  #4084bd;
 }  ;
 
+
+
+:host ::ng-deep .p-card-header {
+  background: none;
+  height: auto;
+  color: white;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  border-top-left-radius: 10px;
+  border-style: none;
+  border-top-right-radius: 10px;
+  text-align: justify;
+  padding-top: 0px;
+}
+:host ::ng-deep .p-card-content{
+text-align: justify;
+}

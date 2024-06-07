@@ -175,24 +175,29 @@
       [reorderableColumns]="true"
       [(selection)]="selectedObjects"
 
-      [reorderableColumns]="true"
       (onRowSelect)="onRowSelect($event)"
       (onRowUnselect)="onRowUnselect($event)"
       [scrollable]="true"
-    selectionMode="multiple"
+      selectionMode="multiple"
 
-
+      columnResizeMode="expand"
+      [resizableColumns]="true"
+      [scrollable]="true"
     >
 
-
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col *ngFor="let col of columns" [style.width]="col.width" />
+      </colgroup>
+    </ng-template>
 
       <ng-template pTemplate="header" let-columns >
         <tr>
-          <th style="width:40px">
+          <th style="width:40px ">
             <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
           </th>
-          <th *ngFor="let col of columns" pReorderableColumn style="width:160px;font-size:13px">
-            {{ col.header | translate}}
+          <th *ngFor="let col of columns" pReorderableColumn pResizableColumn style="width:160px;font-size:13px ;border-left: 1px solid #d8d8d8 !important;">
+           <h6>{{ col.header | translate}}</h6>
           </th>
         </tr>
       </ng-template>
@@ -209,7 +214,8 @@
 
           </td>
 
-          <td *ngFor="let col of columns; let i = index" style="width:160px">
+          <td *ngFor="let col of columns; let i = index" style="width:160px;    word-wrap: break-word;
+          white-space: normal;">
 
             <span *ngIf="(typeOf(col.type)===1 );">
 

@@ -47,7 +47,7 @@ export class OrderTransportListComponent implements OnInit {
   items: MenuItem[];
 
   home: MenuItem;
-
+  showDialogReject: Boolean;
 
    dateLivraisonSearch: Date;
   constructor(private orderTransportService: OrderTransportService,
@@ -95,7 +95,7 @@ export class OrderTransportListComponent implements OnInit {
         this.loadingTypeList=data;
       }
     );
-
+this.searchQuery='turnStatus.id:1';
   }
 
   onExportExcel(event) {
@@ -133,6 +133,7 @@ export class OrderTransportListComponent implements OnInit {
     ));
 
   }
+  
   loadData(search: string = '') {
     if(search!=''){
    search +=',turnStatus.id:1';
@@ -148,7 +149,7 @@ export class OrderTransportListComponent implements OnInit {
     ));
     this.subscriptions.add( this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
       data => {
-
+        this.orderTransportList=[];
         this.orderTransportList = data;
         this.spinner.hide();
       },
@@ -198,6 +199,8 @@ export class OrderTransportListComponent implements OnInit {
 
     if (this.editMode === 3) {
       this.onDeleteAll();
+    } else if(this.editMode === 5){
+      this.showDialogReject = true;
     } else {
       this.showDialog = true;
       if(this.selectedOrderTransports[0]){
@@ -217,12 +220,18 @@ export class OrderTransportListComponent implements OnInit {
    this.turnTypeSearch=null;
    this.loadingTypeSearch=null;
     this.page = 0;
-    this.searchQuery = '';
+    this.searchQuery='turnStatus.id:1';
+
     this.loadData(this.searchQuery);
   }
 
 
-
+  onShowDialog(event) {
+    this.showDialogReject = event;
+    console.log("show dialo ");
+    console.log(this.showDialogReject);
+    this.loadData();
+  }
 
   onDeleteAll() {
 

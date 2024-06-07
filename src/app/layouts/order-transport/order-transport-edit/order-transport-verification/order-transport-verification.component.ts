@@ -51,7 +51,9 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
   }
 
   onSubmit(close =false){
-    this.spinner.show();
+
+if(this.selectOrderTransport.priceHT>0){
+  this.spinner.show();
 
   console.log(this.selectOrderTransport);
    this.selectOrderTransport.orderTransportInfoAller=null;
@@ -112,7 +114,10 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
       this.toastr.error(err.error.message,"Erreur");
     }
   );
+}else{
+  this.toastr.error('saisir le prix', 'Erreur');
 
+}
   }
 
   saveAller( aller :OrderTransportInfo){
@@ -121,7 +126,7 @@ export class OrderTransportVerificationComponent implements OnInit,AfterViewInit
     this.orderTransportinfoService.set(aller).subscribe(
       data =>{
     this.selectOrderTransportInfoAller =data;
-  
+
      console.log(data);
      this.orderTransportService.addOrderTransportInfoAller(this.selectOrderTransportInfoAller);
      this.toastr.success('Elément est Enregistré Avec Succès', 'Edition');

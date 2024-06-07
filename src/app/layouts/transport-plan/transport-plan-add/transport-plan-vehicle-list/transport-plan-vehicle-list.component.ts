@@ -28,7 +28,9 @@ export class TransportPlanVehicleListComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title ="Véhicule";
-  detailOtByVehicle:TransportPlan[]=[];
+  // detailOtByVehicle:TransportPlan[]=[];
+  detailOtByVehicle:any[]=[];
+
   constructor(private vehicleService:VehicleService,
               private transportPlanService :TransportPlanService,
               private orderTransportInfoLineService:OrderTransportInfoLineService,
@@ -196,14 +198,19 @@ this.onHideDialog();
     }
 
 
-    geDetailsOT(registrationNumber:string){
+    geDetailsOT(registrationNumber:string,index:number){
+console.log("index");
+
+       console.log(index);
 
       console.log(registrationNumber);
 
       this.transportPlanService.find('vehicle.registrationNumber:'+registrationNumber+',turnStatus.id!3;4;2').subscribe(
         data=>{
 
-          this.detailOtByVehicle=data;
+          this.detailOtByVehicle[index]=data;
+          console.log(this.detailOtByVehicle);
+
         }
       );
 

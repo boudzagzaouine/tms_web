@@ -45,6 +45,7 @@ export class OrderTransportAffectedComponent implements OnInit {
   items: MenuItem[];
 
   home: MenuItem;
+  showDialogReject: Boolean;
 
 
    dateLivraisonSearch: Date;
@@ -133,9 +134,9 @@ export class OrderTransportAffectedComponent implements OnInit {
   }
   loadData(search: string = '') {
     if(search!=''){
-   search +=',turnStatus.id!1';
+   search +=',turnStatus.id!1;4';
     }else {
-      search +='turnStatus.id!1';
+      search +='turnStatus.id!1;4';
 
     }
     this.spinner.show();
@@ -196,6 +197,8 @@ export class OrderTransportAffectedComponent implements OnInit {
 
     if (this.editMode === 3) {
       this.onDeleteAll();
+    } else if(this.editMode === 5){
+      this.showDialogReject = true;
     } else {
       this.showDialog = true;
       if(this.selectedOrderTransports[0]){
@@ -248,5 +251,14 @@ export class OrderTransportAffectedComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  onShowDialog(event) {
+    this.showDialogReject = event;
+    console.log("show dialo ");
+    console.log(this.showDialogReject);
+    this.showDialogReject
+
+    this.loadData();
   }
 }

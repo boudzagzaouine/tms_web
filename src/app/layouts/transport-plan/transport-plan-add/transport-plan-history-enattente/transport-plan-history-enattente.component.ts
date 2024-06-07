@@ -14,7 +14,7 @@ export class TransportPlanHistoryEnattenteComponent implements OnInit {
 
   selectTransportPlanHistory : TransportPlanHistory=new TransportPlanHistory();
   displayDialog: boolean;
-  title = 'Modifier Motif';
+  title = 'Liste des transporteurs en attente';
  transportPlanHistoryList:TransportPlanHistory[]=[];
  showDialogReject:Boolean=false;
   constructor(private transportPlanHistoryService : TransportPlanHistoryService) { }
@@ -47,6 +47,7 @@ this.transportPlanHistoryList=data}
   }
   onAffected(event){
     this.selectTransportPlanHistory=event;
+  console.log(this.selectTransportPlanHistory);
 
    this.transportPlanHistoryAffected.emit( this.selectTransportPlanHistory);
 

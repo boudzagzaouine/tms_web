@@ -45,7 +45,7 @@ export class TransportPlanListCancelComponent implements OnInit {
   editMode: number;
   showDialog: boolean;
   TransportPlanHistoryExportList: Array<TransportPlanHistory> = [];
-  titleList = 'liste des Plan transport annulé';
+  titleList = 'liste des Plan transport annulés';
   subscriptions= new Subscription();
 
   items: MenuItem[];
@@ -119,7 +119,7 @@ this.orderTransportRejectTypeService.find('type:3').subscribe(
   }
 );
 
-
+this.searchQuery = 'type:3';
   }
 
   onExportExcel(event) {
@@ -158,13 +158,7 @@ this.orderTransportRejectTypeService.find('type:3').subscribe(
 
   }
   loadData(search: string = '') {
-    if(search !=''){
-      search = ',type:3';
 
-    }else {
-      search = 'type:3';
-
-    }
     this.spinner.show();
     this.subscriptions.add(this.transportPlanHistoryService.sizeSearch(search).subscribe(
       data => {
@@ -205,7 +199,7 @@ this.orderTransportRejectTypeService.find('type:3').subscribe(
 
 
     const buffer = new EmsBuffer();
-
+    buffer.append(`type:${3}`);
 
     if (this.transportSearch != null && this.transportSearch !== undefined) {
       buffer.append(`transport.name~${this.transportSearch.name}`);
@@ -249,6 +243,7 @@ this.orderTransportRejectTypeService.find('type:3').subscribe(
    this.categorySearch=null;
    this.rejectTypeSearch=null;
     this.page = 0;
+    this.searchQuery = 'type:3';
     this.loadData(this.searchQuery);
   }
 

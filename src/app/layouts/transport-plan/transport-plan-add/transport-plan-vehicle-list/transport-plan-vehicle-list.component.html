@@ -20,7 +20,7 @@
             </span>
           </div>
       </ng-template>
-      <ng-template let-product pTemplate="listItem">
+      <ng-template let-product pTemplate="listItem" let-index="rowIndex">
           <div class="p-col-12">
               <div class="product-list-item">
                 <img  src="./assets/img/services-fret.jpg" alt="Bracelet">
@@ -29,7 +29,7 @@
                       <div class="product-category">Code :{{product.code}}</div>
 
                       <span class="product-category">Catégorie :{{product?.vehicleCategory?.code}} </span>
-                      <div class="product-category">Dernier point connu :{{product.lastPointCity}} - {{product.lastPointDate | date:'dd-MM-yyyy'}} {{product.lastPointDate | date:'hh:mm'}} </div>
+                      <div class="product-category">Dernier point connu :{{product.lastPointCity}} - {{product.lastPointDate | date:'dd-MM-yyyy'}} {{product.lastPointDate | date:'H:mm'}} </div>
 
                       <!-- <div class="product-category">le dernier point de livraison :{{product?.lastCity}} </div> -->
 
@@ -47,14 +47,14 @@
               <p-accordion>
                   <p-accordionTab>
                     <ng-template pTemplate="header"
-                      ><a (click)="geDetailsOT(product.registrationNumber)">Détails des OT planifiés</a>
+                      ><a (click)="geDetailsOT(product.registrationNumber,index)">Détails des OT planifiés</a>
                       </ng-template
                     >
                     <ng-template pTemplate="content">
 
 
 
-                      <p-table [value]="detailOtByVehicle"       [responsive]="true"
+                      <p-table [value]="detailOtByVehicle[index]"       [responsive]="true"
                       >
 
 

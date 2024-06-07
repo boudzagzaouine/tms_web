@@ -143,7 +143,9 @@ export class TransportPlanListComponent implements OnInit {
         this.categoryList = data;
       }
     );
-  }
+
+  this.searchQuery='turnStatus.id!4';
+}
 
   onExportExcel(event) {
 
@@ -249,6 +251,8 @@ export class TransportPlanListComponent implements OnInit {
 console.log(this.companySearch);
 
     const buffer = new EmsBuffer();
+
+    buffer.append('turnStatus.id!4');
     if (this.orderTransportSearch != null && this.orderTransportSearch !== undefined) {
       buffer.append(`orderTransport.code~${this.orderTransportSearch.code}`);
     }
@@ -440,7 +444,8 @@ console.log(this.companySearch);
     this.orderTransportSearch=null;
 
     this.page = 0;
-    this.searchQuery = '';
+
+    this.searchQuery='turnStatus.id!4';
     this.loadData(this.searchQuery);
   }
 

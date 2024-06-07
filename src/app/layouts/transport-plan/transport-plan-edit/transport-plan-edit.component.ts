@@ -219,6 +219,7 @@ export class TransportPlanEditComponent implements OnInit {
 
       }
     )
+    
   }
   getOrderTransportInfoAllerFromOrderTransport(oT: OrderTransport) {
     let search ='';
@@ -325,15 +326,40 @@ if(data[0]){
   onVehicleSearch(
     event: any) {
       let search;
-      // if (!isNaN(event.query)) {
-      //   search = "code~" + event.query;
-      // } else {
+
         search = "code~" + event.query;
-    // }
       this.patrimonyService
         .find(search)
         .subscribe((data) =>{console.log(data);
-         (this.vehicleList = data)});
+
+
+         if(data[0]){
+          this.vehicleList = data
+         }else{
+          search ="registrationNumber~" + event.query;
+
+          this.patrimonyService
+            .find(search)
+            .subscribe((data) =>{
+              if(data[0]){
+                this.vehicleList = data
+               }
+
+            });
+
+
+
+
+
+         }
+
+
+
+        }
+
+
+
+        );
 
   }
 

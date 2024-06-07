@@ -1,6 +1,6 @@
 
   <div style="overflow-x: hidden;overflow-y: scroll;height: 65vh; width: 100%;">
-<div *ngIf="this.selectOrderTransport?.loadingType?.id!=2">
+<div *ngIf="this.selectOrderTransport?.loadingType?.id==1 ">
 <div class="container mt-5">
   <form [formGroup]="tarificationForm">
 
@@ -162,7 +162,7 @@
 
 </div>
 
-<div  *ngIf="(this.selectOrderTransport?.groupageUnique==false)">
+<div >
 <div class="row" *ngIf="(this.selectOrderTransport?.loadingType?.id==2)">
 
   <div class="form-group col-md-12">

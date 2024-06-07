@@ -6,14 +6,14 @@
       ><br />
       <p-autoComplete [(ngModel)]="zoneSearch" [suggestions]="zoneList"
       (completeMethod)="onZoneSearch($event)" field='code'></p-autoComplete>
-      
+
     </div>
     <div class="col-md-2" >
         <label class="font-weight-bold">{{'Ville' |translate}}</label
         ><br />
         <p-autoComplete [(ngModel)]="villeSearch" [suggestions]="villeList"
         (completeMethod)="onVilleSearch($event)" field='code'></p-autoComplete>
-        
+
       </div>
 
 
@@ -46,9 +46,9 @@
   (exportBtnExcelVue)="onExportExcel($event)"
 
 
-  [permissionCreate]="['ZONE_VILLE_CREATE']"
-  [permissionDelete]="['ZONE_VILLE_DELETE']"
-  [permissionEdit]="['ZONE_VILLE_EDIT']"
+  [permissionCreate]="['ZONE_CREATE']"
+  [permissionDelete]="['ZONE_DELETE']"
+  [permissionEdit]="['ZONE_EDIT']"
 ></app-data-table>
 
 <div *ngIf="showDialog == true">

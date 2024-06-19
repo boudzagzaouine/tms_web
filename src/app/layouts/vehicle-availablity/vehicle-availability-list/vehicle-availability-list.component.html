@@ -15,10 +15,20 @@
 
     <div class="col-md-2">
       <label class="font-weight-bold">{{'Véhicule' | translate}} </label><br />
-      <p-autoComplete [(ngModel)]="vehicleSearch" [suggestions]="vehicleCodeList"
-          (completeMethod)="onVehicleCodeSearch($event)"
-           field="code">
-      </p-autoComplete>
+
+      <p-autoComplete
+      formControlName="vehicle" field="codeRegistrationNumber"
+      [suggestions]="vehicleCodeList"
+      (completeMethod)="onVehicleCodeSearch($event)"  [dropdown]="true"
+      >
+       <ng-template let-vehicle pTemplate="item">
+           <div class="vehicle-item">
+               <div>{{vehicle.code}}  -> {{vehicle.registrationNumber}}</div>
+           </div>
+       </ng-template>
+   </p-autoComplete>
+
+ 
 
   </div>
 

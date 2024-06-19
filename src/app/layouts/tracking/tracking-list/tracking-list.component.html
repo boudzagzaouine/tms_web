@@ -203,7 +203,7 @@ font-size:2rem;
                        <img *ngIf="line.orderTransportType?.id==2" src="assets/img/livraison.png"  class="product-image" /> -->
 
                         </div>
-                          <div class="product-list-detail ml-3">
+                          <div class="product-list-detail ml-3" style="    text-align: justify;">
    <!-- <h2 class="pb-3 pt-2 border-bottom mb-5">
                       {{ line.orderTransportType?.code }}
                     </h2> -->
@@ -627,7 +627,14 @@ color: #ffffff;
             </ng-template>
           </p-accordionTab>
 
-        </div>  <p-paginator [rows]="size" [totalRecords]="collectionSize" [rowsPerPageOptions]="[10,20,50]" (onPageChange)="loadDataLazy($event)"></p-paginator>
+        </div>
+
+        <div *ngIf="!transportPlan[0]">
+            <h3  style="       background: white; text-align: center;    width: 100%;">
+              Aucun enregistrement trouvé        </h3>
+      </div>
+
+        <p-paginator [rows]="size" [totalRecords]="collectionSize" [rowsPerPageOptions]="[10,20,50]" (onPageChange)="loadDataLazy($event)"></p-paginator>
       </p-accordion>
 
 

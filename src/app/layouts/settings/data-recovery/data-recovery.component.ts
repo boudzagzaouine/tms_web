@@ -99,12 +99,26 @@ console.log(this.idClass);
 
     reader.onload = (event) => {
       const data = reader.result;
+
+
       workBook = XLSX.read(data, { type: "binary" });
-      this.jsonData = workBook.SheetNames.reduce((initial, name) => {
-        const sheet = workBook.Sheets[name];
-        initial = XLSX.utils.sheet_to_json(sheet);
-        return initial;
-      }, {});
+        console.log("workBook");
+      console.log( workBook);
+      console.log(workBook.SheetNames);
+   console.log(workBook.SheetNames[0]);
+
+   const wsname: string = workBook.SheetNames[0];
+   const sheet: XLSX.WorkSheet = workBook.Sheets[wsname];
+
+   this.jsonData = XLSX.utils.sheet_to_json(sheet);
+   console.log(this.jsonData);
+
+  //     this.jsonData = workBook.SheetNames.reduce((initial, name) => {
+  //       const sheet = workBook.Sheets[name];
+  //       initial = XLSX.utils.sheet_to_json(sheet);
+  //       return initial;
+  //     }, {});
+
       //  this.dataString = JSON.stringify(jsonData);
       console.log(this.jsonData);
       this.spinner.hide();
@@ -127,13 +141,17 @@ console.log(this.idClass);
         .addDataExchangeAddressDelivery(jsonData)
         .subscribe(
           (data) => {
-            console.log(data);
-            this.toastr.success(
-              "l'opération a ete effectue avec succès",
-              "Edition"
-            );
+            if(data [0]){
+              console.log(data);
+       this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+           }else {
+             this.toastr.error("Erreur","Erreur");
 
-            this.spinner.hide();
+           }
+
+
+       this.spinner.hide();
+
           },
           (err) => {
             this.toastr.error(err.error.message, "Erreur");
@@ -156,10 +174,17 @@ console.log(this.idClass);
     this.spinner.show();
     this.catalogPricingImportationService.addDataExchangeCatalogPricing(jsonData).subscribe(
       data =>{
-    console.log(data);
-    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        if(data [0]){
+          console.log(data);
+   this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+       }else {
+         this.toastr.error("Erreur","Erreur");
 
-    this.spinner.hide();
+       }
+
+
+   this.spinner.hide();
+
 
 
       },
@@ -183,10 +208,17 @@ console.log(this.idClass);
     this.spinner.show();
     this.accountPricingImportationService.addDataExchangeAccountPricing(jsonData).subscribe(
       data =>{
-    console.log(data);
-    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        if(data [0]){
+          console.log(data);
+   this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+       }else {
+         this.toastr.error("Erreur","Erreur");
 
-    this.spinner.hide();
+       }
+
+
+   this.spinner.hide();
+
 
 
       },
@@ -210,10 +242,17 @@ console.log(this.idClass);
     this.spinner.show();
     this.catalogTransportAccountPricingImportService.addDataExchangeTransportAccountPricing(jsonData).subscribe(
       data =>{
-    console.log(data);
-    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        if(data [0]){
+          console.log(data);
+   this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+       }else {
+         this.toastr.error("Erreur","Erreur");
 
-    this.spinner.hide();
+       }
+
+
+   this.spinner.hide();
+
 
 
       },
@@ -238,10 +277,17 @@ console.log(this.idClass);
     this.spinner.show();
     this.catalogTransportPricingImportService.addDataExchangeTransportPricing(jsonData).subscribe(
       data =>{
-    console.log(data);
-    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        if(data [0]){
+          console.log(data);
+   this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+       }else {
+         this.toastr.error("Erreur","Erreur");
 
-    this.spinner.hide();
+       }
+
+
+   this.spinner.hide();
+
 
 
       },
@@ -266,10 +312,17 @@ console.log(this.idClass);
     this.spinner.show();
     this.trajetImportService.addDataExchangeTrajet(jsonData).subscribe(
       data =>{
-    console.log(data);
-    this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        if(data [0]){
+          console.log(data);
+   this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+       }else {
+         this.toastr.error("Erreur","Erreur");
 
-    this.spinner.hide();
+       }
+
+
+   this.spinner.hide();
+
 
 
       },
@@ -293,8 +346,16 @@ console.log(this.idClass);
     this.spinner.show();
     this.trajetImportService.addDataExchangeCompany(jsonData).subscribe(
       data =>{
-    console.log(data);
+        console.log(data);
+
+        if(data[0]){
+          console.log(data);
     this.toastr.success("l'opération a ete effectue avec succès", 'Edition');
+        }else {
+          this.toastr.error("Erreur","Erreur");
+
+        }
+
 
     this.spinner.hide();
 

@@ -72,7 +72,7 @@ export class DashboardOperationTrackingComponent implements OnInit,AfterViewInit
   otToAffectedSize:number;
   otReleaseInternSize:number;
   otReleaseSize:number;
-  statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermé'},{id:3,code:'Planifié'}];
+  statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermés'}];
 
   private iconNone: L.Icon = icon({
     iconUrl: "./assets/img/none.png",
@@ -149,13 +149,16 @@ this. loadOTRelease();
 
 loadOTAffected(dates:string='') {
  let  search: string = ''
+ console.log(dates);
 
-    search +='turnStatus.id!1,'+dates;
-
+//  let searchDate=dates.replace("dateDepart","date");
+//  searchDate=searchDate.replace("dateDepart","date");
+    // search +='turnStatus.id!1,'+dates;
+console.log();
 
 
   this.spinner.show();
-  this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
+  this.subscriptions.add(this.transportPlanService.sizeSearch(dates).subscribe(
     data => {
       this.otAffectedSize = data;
       this.spinner.hide();
@@ -169,7 +172,7 @@ loadOTToAffected(dates:string='') {
   let  search: string = ''
     let searchDate=dates.replace("dateDepart","date");
     searchDate=searchDate.replace("dateDepart","date");
-  search +='turnStatus.id!1,'+searchDate;
+  search +='turnStatus.id:1,'+searchDate;
 
 
 
@@ -242,12 +245,12 @@ let searchkpi='';
       else if (this.statusSearch.id==2){//fermer
         //Fermer
       buffer.append('turnStatus.id:3');
+    }
+    // else if (this.statusSearch.id==3){//planifier = cree
+    //     //Fermer
+    //   buffer.append('turnStatus.id:1');
 
-      }else if (this.statusSearch.id==3){//planifier = cree
-        //Fermer
-      buffer.append('turnStatus.id:1');
-
-      }
+    //   }
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
       let dateD,dateF;
@@ -321,6 +324,10 @@ if(this.map) {
         data => {
 
           this.transportPlanList = data;
+          if(!this.transportPlanList[0]){
+            this.toastr.info(' Aucun résultat trouvé pour la recherche effectuée', '');
+
+          }
           this.spinner.hide();
         },
         error => {

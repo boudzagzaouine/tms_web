@@ -150,6 +150,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
       this.onLineEditedContact(this.selectedOrderTransportInfoLine.contact);
       this.selectedAccount = this.selectedOrderTransportInfoLine.account;
       console.log( this.selectAddress);
+    console.log(this.selectedOrderTransportInfoLine);
 
       this.getOrderTransportInfoLineDocumentEnlevement(
         this.selectedOrderTransportInfoLine
@@ -196,13 +197,13 @@ export class OrderTransportInfoLineComponent implements OnInit {
           this.selectedOrderTransportInfoLine.priceTTC
         ),
         deliveryInfoName: new FormControl(
-          this.selectContact.name
+          this.selectContact
         ),
-        deliveryInfoTel1: new FormControl(this.selectContact.tel1),
-        deliveryInfoEmail: new FormControl(this.selectContact.email),
+        deliveryInfoTel1: new FormControl(this.selectContact?.tel1),
+        deliveryInfoEmail: new FormControl(this.selectContact?.email),
 
         deliveryInfoAddressName: new FormControl(
-          this.selectAddress.name,
+          this.selectAddress,
           Validators.required
         ),
         deliveryInfoLine1: new FormControl(this.selectAddress.line1, Validators.required),
@@ -275,11 +276,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
  console.log(this.orderTransportInfoLineForm);
 
 
-    if (this.orderTransportInfoLineForm.invalid) {
+    if (this.orderTransportInfoLineForm.controls["general"].invalid) {
       return;
     }
 
-
+    console.log("1");
     let formvalue = this.orderTransportInfoLineForm.value;
     this.selectedOrderTransportInfoLine.priceHT =
       formvalue["general"]["priceHT"];

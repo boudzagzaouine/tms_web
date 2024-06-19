@@ -104,7 +104,7 @@ private iconPoint: Icon = icon({
 
 
 });
-statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermé'},{id:3,code:'Planifié'}];
+statusList: Array <SelectObject>=[{id:1,code:'En cours'},{id:2,code:'Fermés'}];
 statusSearch:SelectObject;
 letters = '0123456789ABCDEF';
 color = '#';
@@ -221,10 +221,6 @@ console.log(orderTransport);
         // 3: fermer
       buffer.append('turnStatus.id:3');
 
-      }else if (this.statusSearch.id==3){//planifier = cree
-        //Fermer
-      buffer.append('turnStatus.id:1');
-
       }
     }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
@@ -296,7 +292,13 @@ this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
       data => {
 
         this.transportPlan = data;
+                 this.visibleSidebar2=true;
+
         console.log(this.transportPlan);
+        if(!this.transportPlan[0]){
+          this.toastr.info(' Aucun résultat trouvé pour la recherche effectuée ', '');
+
+        }
 
  this.transportPlanCloneList=data;
 
@@ -408,7 +410,7 @@ this.cloneItiniraryOrderByTransportPlan(this.transportPlan);
         this.itinerary.lon=line.address?.longitude;
         this.itinerary.orderTransportInfoLine=line;
 
-        this.itinerary.description=line?.contact?.name;
+        this.itinerary.description=line?.address?.line1 +','+line?.address?.ville?.code ;
         this.itinerary.type=line?.orderTransportType?.code;
         this.itinerary.status=line?.turnStatus?.code;
         this.itinerary.dateArriver=line?.dateArriver;
@@ -643,7 +645,7 @@ this.itineraries=itineraries;
     if(this.itineraries[i].type!=undefined){
       // message += "<b> line : " + this.itineraries[i].orderTransportInfoLine?.id + "</b><br>" ;
 
-      message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Client :" + this.itineraries[i].description +
+      message += "<b> Type : " + this.itineraries[i].type + "</b>"+"<br><b > Adresse  :" + this.itineraries[i].description +
       "</b><br>";
       if(this.itineraries[i].type =="ENLEVEMENT" || this.itineraries[i].type =="ENLEVEMENT/LIVRAISON" ){
        message +=  " <b> arrivée :"+this.datePipe.transform(this.itineraries[i].dateArriver,'dd-MM-yyyy HH:mm:ss')+"</b><br>"+
@@ -808,10 +810,13 @@ createLayer(){
 // }).addTo(this.map);
 //this.map = L.map('map', {});
 
- this.mainLayer= new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//  this.mainLayer= new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
-	maxZoom: 19,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+// 	maxZoom: 19,
+// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+// }).addTo(this.map);
+this.mainLayer=L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(this.map);
 console.log(this.map);
 

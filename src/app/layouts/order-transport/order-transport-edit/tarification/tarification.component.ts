@@ -241,6 +241,15 @@ console.log(this.selectedCatalogPricing);
   loadForm() {}
 
   next() {
+
+    if (this.tarificationForm.invalid  ) {
+      return;
+    }
+
+   if( this.tarificationForm?.controls["priceHT"]?.value!=0){
+
+
+
     if(this.selectOrderTransport.loadingType.id==1){
       this.calculatePrice();
 
@@ -256,6 +265,7 @@ console.log(this.selectedCatalogPricing);
 
     //this.orderTransportService.addOrderTransportTransport(this.orderTransportTransports);
     this.nextstep.emit(true);
+  }
   }
 
 

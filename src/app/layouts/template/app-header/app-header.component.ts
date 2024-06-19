@@ -35,15 +35,15 @@ export class AppHeaderComponent implements OnInit {
     this.user=this.auth.getCurrentUser().code;
   //  console.log(this.user);
 
-    this.loadData();
-     setInterval(()=> {
-        this.loadData();
-      },60000)
+    // this.loadData();
+    //  setInterval(()=> {
+    //     this.loadData();
+    //   },60000)
 
-    this.translate.addLangs([
-      'en',
-      'fr'
-    ]);
+    // this.translate.addLangs([
+    //   'en',
+    //   'fr'
+    // ]);
     this.translate.setDefaultLang('fr');
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(
@@ -58,7 +58,7 @@ export class AppHeaderComponent implements OnInit {
   changeLang(language: string) {
    // console.log(language);
     this.translate.use(language);
-    
+
   }
 
   logout() {

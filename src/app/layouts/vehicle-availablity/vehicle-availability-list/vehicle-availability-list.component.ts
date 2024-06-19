@@ -106,7 +106,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
 
   loadData(search: string = '') {
     this.spinner.show();
-    this.subscriptions.add(this.vehicleService.sizeSearch(search).subscribe(
+    this.subscriptions.add(this.patrimonyService.sizeSearch(search).subscribe(
       data => {
         this.collectionSize = data;
       }
@@ -114,7 +114,7 @@ export class VehicleAvailabilityListComponent implements OnInit {
     ));
     console.log(this.searchQuery);
 
-    this.subscriptions.add(this.vehicleService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.patrimonyService.findPagination(this.page, this.size, search).subscribe(
       data => {
         this.vehicleList = data;
 
@@ -241,7 +241,7 @@ console.log(data);
 
     if (this.vehicleSearch != null && this.vehicleSearch.code !== '') {
 
-        buffer.append(`registrationNumber~${this.vehicleSearch.registrationNumber}`);
+        buffer.append(`code~${this.vehicleSearch.code}`);
 
     }
 

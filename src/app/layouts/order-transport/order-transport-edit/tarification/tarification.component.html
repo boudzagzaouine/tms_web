@@ -7,12 +7,26 @@
   <div class="row justify-content-around">
 
     <div class="form-group col-md-3">
-      <span >
+
 
       <label class="font-weight-bold">{{
         "Prix de vente HT" | translate
       }} *</label
-      >
+      > <span
+      *ngIf="
+        (tarificationForm.get('priceHT')
+          .touched &&
+          tarificationForm.get('priceHT')
+            .invalid) ||
+        (isFormSubmitted &&
+        tarificationForm.get('priceHT')
+            .invalid)
+      "
+      class="text-lighter"
+      style="color: red; font-size: xx-small"
+    >
+      {{ "Obligatoire" | translate }}
+    </span>
 
 
       <br />
@@ -24,10 +38,13 @@
         pInputText
       /> -->
 
-      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2"
+      <p-inputNumber inputId="locale-user"   [minFractionDigits]="2" 
       formControlName="priceHT"
       (onInput)="onInputPrice($event)"
     ></p-inputNumber>
+     <span *ngIf=" this.tarificationForm?.controls['priceHT']?.value==0"  class="text-lighter"
+     style="color: red; font-size: xx-small">
+     ne pas accepter 0 Dh.
       </span>
     </div>
 

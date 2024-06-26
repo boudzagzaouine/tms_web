@@ -88,7 +88,11 @@ export class CompanyAccountComponent implements OnInit {
   }
 
   loadData() {
-if(this.searchQuery!=null || this.searchQuery!=""){
+    if (
+      this.selectedCompany.id != null ||
+      this.selectedCompany.id != undefined
+    ) {
+if(this.searchQuery!=null || this.searchQuery!="" ){
       this.searchQuery = ",company.id:" + this.selectedCompany.id;
 
 }else{
@@ -118,6 +122,7 @@ if(this.searchQuery!=null || this.searchQuery!=""){
       },
       () => this.spinner.hide()
     ));
+  }
   }
   loadDataLazy(event) {
     this.size = event.rows;

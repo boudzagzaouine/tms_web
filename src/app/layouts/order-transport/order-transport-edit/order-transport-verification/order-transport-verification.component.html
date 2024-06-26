@@ -86,9 +86,10 @@
 
     <div class="form-group col-md-4">
       <p-card>
+        <img [src]=" 'data:image/png;base64,' + this.selectOrderTransport?.vehicleCategory?.file "class="product-image" style="    width: 150px;" />
 
-   <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==1"> <img src="./assets/img/truckExpress.png" width="130px"></span>
-   <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==2"> <img src="./assets/img/truck14.png" width="130px"></span>
+   <!-- <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==1"> <img src="./assets/img/truckExpress.png" width="130px"></span>
+   <span *ngIf="this.selectOrderTransport?.vehicleCategory?.id==2"> <img src="./assets/img/truck14.png" width="130px"></span> -->
 
         <!-- <p style="font-size: 12px;
     font-weight: bold;">{{this.selectOrderTransport?.vehicleCategory?.code}}</p> -->

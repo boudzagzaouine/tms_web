@@ -1,3 +1,4 @@
+import { CompanyAccountEditComponent } from './company/company-edit/company-account/company-account-edit/company-account-edit.component';
 import { VatEditComponent } from './vat/vat-edit/vat-edit.component';
 import { VatComponent } from './vat/vat.component';
 import { ExportCanevasComponent } from './export-canevas/export-canevas.component';
@@ -206,6 +207,12 @@ import {CardModule} from 'primeng/card';
 import { UserPasswordComponent } from './user/user-password/user-password.component';
 import { ZoneVilleComponent } from './zone-ville/zone-ville.component';
 import { ZoneVilleEditComponent } from './zone-ville/zone-ville-edit/zone-ville-edit.component';
+import { CompanyAccountComponent } from './company/company-edit/company-account/company-account.component';
+import { CompanyAccountContactEditComponent } from './company/company-edit/company-account/company-account-edit/company-account-contact-edit/company-account-contact-edit.component';
+import { CompanyAccountAddressEditComponent } from './company/company-edit/company-account/company-account-edit/company-account-address-edit/company-account-address-edit.component';
+import { CompanyAccountPlanningEditComponent } from './company/company-edit/company-account/company-account-edit/company-account-planning-edit/company-account-planning-edit.component';
+import { CountryComponent } from './country/country.component';
+import { CountryEditComponent } from './country/country-edit/country-edit.component';
 
 
 
@@ -372,8 +379,14 @@ PaymentTypeComponent,
 PaymentTypeEditComponent,
 ExportCanevasComponent,
 VatComponent,
-VatEditComponent
-
+VatEditComponent,
+CompanyAccountComponent,
+CompanyAccountEditComponent,
+CompanyAccountContactEditComponent,
+CompanyAccountAddressEditComponent,
+CompanyAccountPlanningEditComponent,
+CountryComponent,
+CountryEditComponent
 
   ],
   imports: [

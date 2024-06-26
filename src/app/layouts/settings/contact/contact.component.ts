@@ -45,7 +45,7 @@ export class ContactComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.className = Contact.name;
     this.cols = [
-      { field: 'name', header: 'Name', type: 'string' },
+      { field: 'Nom', header: 'Name', type: 'string' },
       { field: 'tel1', header: 'Téléphone', type: 'string' },
       { field: 'contactFunction',child:'code' ,header: 'Fonction', type: 'object' },
       { field: 'address',child:'name' ,header: 'Adresse', type: 'object' },

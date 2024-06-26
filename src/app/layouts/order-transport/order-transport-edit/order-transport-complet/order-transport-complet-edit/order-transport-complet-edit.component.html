@@ -88,7 +88,15 @@ optionLabel="code"
                           <input formControlName="deliveryInfoLine1" type="text" class="form-control" pInputText
                             [attr.disabled]="'true'" />
                         </div>
+                        <div class="form-group col-md-6">
+                          <label class="font-weight-bold">{{
+                            "Pays" | translate
+                            }}</label>
 
+                          <br />
+                          <input formControlName="deliveryInfoCountry" type="text" class="form-control" pInputText
+                            [attr.disabled]="'true'" />
+                        </div>
                         <div class="form-group col-md-6">
                           <label class="font-weight-bold">{{
                             "Ville" | translate
@@ -98,7 +106,8 @@ optionLabel="code"
                           <input formControlName="deliveryInfoCity" type="text" class="form-control" pInputText
                             [attr.disabled]="'true'" />
                         </div>
-
+                        <div class="form-group col-md-6">
+</div>
                         <div class="form-group col-md-6">
                           <label class="font-weight-bold">{{
                             "Contact" | translate
@@ -161,7 +170,7 @@ optionLabel="code"
 
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
-                          "Consigne Livreur" | translate
+                          "Remarque" | translate
                           }} </label>
 
                         <br />
@@ -304,7 +313,7 @@ optionLabel="code"
 
                       <div class="form-group col-md-12">
                         <label class="font-weight-bold">{{
-                          "Consigne Livreur" | translate
+                          "Remarque" | translate
                           }} </label>
 
                         <br />

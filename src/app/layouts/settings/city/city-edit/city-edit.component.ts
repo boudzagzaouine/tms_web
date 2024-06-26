@@ -1,3 +1,5 @@
+import { PaysService } from './../../../../shared/services/api/pays.service';
+import { Pays } from './../../../../shared/models/pays';
 import { MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,10 +26,12 @@ export class CityEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier Ville';
   subscriptions= new Subscription();
+  paysList:Pays[]
 
   constructor(private villeService: VilleService,
     private authentificationService:AuthenticationService,
     private spinner: NgxSpinnerService,
+    private paysService:PaysService,
     private toastr: ToastrService,
     private messageService: MessageService
   ) { }
@@ -50,6 +54,8 @@ export class CityEditComponent implements OnInit {
     this.villeForm = new FormGroup({
       'code': new FormControl(this.selectedVille.code, Validators.required),
       'description': new FormControl(this.selectedVille.description),
+      'pays': new FormControl(this.selectedVille.pays,Validators.required),
+
       'latitude': new FormControl(this.selectedVille.latitude),
       'longtitude': new FormControl(this.selectedVille.longitude),
 
@@ -90,6 +96,15 @@ export class CityEditComponent implements OnInit {
       () => this.spinner.hide()
     ));
 
+  }
+
+  onPaysSearch(event: any) {
+    this.subscriptions.add(this.paysService.find('code~' + event.query).subscribe(
+      data => this.paysList = data
+    ));
+  }
+  onSelectPays(event: any) {
+    this.selectedVille.pays = event;
   }
   onShowDialog() {
     let a = false;

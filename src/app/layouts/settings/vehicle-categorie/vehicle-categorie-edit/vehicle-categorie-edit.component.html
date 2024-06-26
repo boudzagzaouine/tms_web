@@ -13,7 +13,7 @@
       <div class="card-body">
         <form [formGroup]="vehicleCategoryForm">
           <div class="row justify-content-around">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold">{{ "Code" | translate }} *</label>
               <span
                 *ngIf="
@@ -37,7 +37,7 @@
               />
             </div>
 
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-8">
               <label class="font-weight-bold">{{ "Description" | translate }} </label>
 
               <br />
@@ -51,9 +51,11 @@
 
 
             </div>
+            <div class="form-group col-sm-4">
+            </div>
           </div>
           <div class="row justify-content-around">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold"
                 >{{ "Longueur" | translate }}<span style="font-size: 9px;"> (cm)</span>  *</label
               >
@@ -78,7 +80,7 @@
               />
             </div>
 
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold"
                 >{{ "Largeur" | translate }}<span style="font-size: 9px;"> (cm)</span>  *</label
               >
@@ -102,9 +104,8 @@
                 pKeyFilter="num"
               />
             </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="form-group col-sm-6">
+
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold"
                 >{{ "Hauteur" | translate }}<span style="font-size: 9px;"> (cm)</span> *</label
               >
@@ -129,6 +130,9 @@
                 pKeyFilter="num"
               />
             </div>
+          </div>
+          <div class="row justify-content-around">
+
             <div class="form-group col-sm-6">
               <!-- <label class="font-weight-bold"
                 >{{ "Profondeur" | translate }}<span style="font-size: 9px;"> (cm)</span>  *</label
@@ -156,10 +160,24 @@
             </div>
 
           </div>
+
+          <div class="row justify-content-around">
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold">{{ "Remorque" | translate }} *</label>
+
+              <br />
+              <p-multiSelect [options]="vehicleTrayList"
+              formControlName="fVehicleTrays" [appendTo]="'body'"
+              optionLabel="code" ></p-multiSelect>
+            </div>
+
+
+          </div>
+
           <div class="row">
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold"
-                >{{ "Tonnage" | translate }}<span style="font-size: 9px;"> (KG)</span> *</label
+                >{{ "Tonnage" | translate }}<span style="font-size: 9px;"> (P.T.A.C)</span> *</label
               >
               <span
                 *ngIf="
@@ -182,10 +200,42 @@
                 pKeyFilter="num"
               />
             </div>
-            <div class="form-group col-sm-6">
+
+
+              <div class="form-group col-sm-4">
+                <label class="font-weight-bold"
+                  >{{ "Poids à vide" | translate }}
+                  <span style="font-size: 9px;">  P.V (Kg) </span>  </label
+                >
+                <span
+                  *ngIf="
+                    (vehicleCategoryForm.get('fEmptyWeight').touched &&
+                      vehicleCategoryForm.get('fEmptyWeight').invalid) ||
+                    (isFormSubmitted &&
+                      vehicleCategoryForm.get('fEmptyWeight').invalid)
+                  "
+                  class="text-lighter"
+                  style="color: red; font-size: xx-small;"
+                >
+                {{ "Obligatoire"  | translate }}
+
+                </span>
+                <br />
+                <input
+                  type="text"
+                  class="form-control"
+                  pInputText
+                  formControlName="fEmptyWeight"
+                  pKeyFilter="num"
+                />
+              </div>
+
+
+
+            <div class="form-group col-sm-4">
               <label class="font-weight-bold">{{
                 "Poids total" | translate
-              }}<span style="font-size: 9px;"> (KG)</span></label
+              }}<span style="font-size: 9px;"> (P.T.R.A)</span></label
               ><br />
               <input
                 type="text"
@@ -197,10 +247,10 @@
             </div>
           </div>
           <div class="row justify-content-around">
-          <div class="form-group col-sm-6">
+          <div class="form-group col-sm-8">
             <label class="font-weight-bold">{{
-              "Prix Kilométrique" | translate
-            }}<span style="font-size: 9px;"> (Dh)</span></label
+              "Estimation du Coût Kilométrique " | translate
+            }}<span style="font-size: 9px;"> (Dh/km)</span></label
             ><br />
             <input
               type="text"
@@ -210,58 +260,48 @@
               pKeyFilter="num"
             />
           </div>
-          <div class="form-group col-sm-6"></div>
-</div>
-
-<div class="row justify-content-around">
-  <div class="form-group col-sm-6">
-    <label class="font-weight-bold">{{ "Remorque" | translate }} *</label>
-
-    <br />
-    <p-multiSelect [options]="vehicleTrayList"
-    formControlName="fVehicleTrays" [appendTo]="'body'"
-    optionLabel="code" ></p-multiSelect>
-  </div>
-
-  <div class="form-group col-sm-6">
-
-
-
-  </div>
+          <div class="form-group col-sm-4"></div>
 </div>
 
 
 
-          <!-- <div class="row">
-            <div class="form-group col-sm-6">
-              <label class="font-weight-bold"
-                >{{ "Poids à vide" | translate }} *</label
-              >
-              <span
-                *ngIf="
-                  (vehicleCategoryForm.get('fEmptyWeight').touched &&
-                    vehicleCategoryForm.get('fEmptyWeight').invalid) ||
-                  (isFormSubmitted &&
-                    vehicleCategoryForm.get('fEmptyWeight').invalid)
-                "
-                class="text-lighter"
-                style="color: red; font-size: xx-small;"
-              >
-              {{ "Obligatoire"  | translate }}
 
-              </span>
-              <br />
-              <input
-                type="text"
-                class="form-control"
-                pInputText
-                formControlName="fEmptyWeight"
-                pKeyFilter="num"
-              />
+
+
+        </form>
+
+
+
+  <div class="row  justify-content-around" >
+
+    <div class="form-group col-sm-12">
+      <div class="card">
+
+
+        <p-fileUpload name="demo[]" (onSelect)="onSelectDocument($event)"
+        chooseLabel="Choisir"
+       showCancelButton showUploadButton accept="image/*" maxFileSize="100000000">
+        <ng-template pTemplate="content">
+          <div *ngIf="selectedVehicleCategory?.file">
+            <div class="effet-zoom-1">
+              <!-- style="height: 150px; width:200px ;border-radius: 20px;" -->
+
+            <img [src]=" 'data:image/png;base64,' + selectedVehicleCategory.file "
+
+          /></div>
             </div>
 
-          </div> -->
-        </form>
+        </ng-template>
+    </p-fileUpload>
+
+
+
+
+            </div>
+
+      </div>
+    </div>
+
       </div>
     </div>
   </div>

@@ -72,7 +72,6 @@ export class OrderTransportGroupageComponent implements OnInit {
   showDialogTransportProduct: Boolean = false;
   selectedTransportProductService = new TransportPlanServiceCatalog();
   editModeTransportProduct: Boolean = false;
-
   constructor(
     private containerTypeService: ContainerTypeService,
     private packagingTypeService: PackagingTypeService,
@@ -121,7 +120,7 @@ export class OrderTransportGroupageComponent implements OnInit {
         }
       );
     }
-    this.onShowDialogOrderTransportInfoLine(null, false);
+   // this.onShowDialogOrderTransportInfoLine(null, false);
     this.initForm();
   }
 

@@ -29,6 +29,10 @@ export class VehicleCategory {
  vehicleTrays : VehicleTray[]=[]; //local
 
 
+file :any;
+fileType:string;
+fileName:string;
+
  //catalogTransportPricings:CatalogTransportPricing[]=[];
 
 }

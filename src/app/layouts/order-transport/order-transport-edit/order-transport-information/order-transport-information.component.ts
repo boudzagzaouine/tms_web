@@ -197,10 +197,10 @@ console.log(this.selectedOrderTransport);
         this.selectedOrderTransport.vehicleTray,
         Validators.required
       ),
-      packagingType: new FormControl(
-        this.selectedOrderTransport.packagingType,
-        Validators.required
-      ),
+      // packagingType: new FormControl(
+      //   this.selectedOrderTransport.packagingType,
+      //   Validators.required
+      // ),
       marchandiseType: new FormControl(
         this.selectedOrderTransport.marchandiseType
       ),

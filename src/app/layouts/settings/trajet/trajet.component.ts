@@ -81,7 +81,12 @@ export class TrajetComponent implements OnInit {
         header: 'Code',
         type: 'string'
       },
-
+      {
+        field: 'paysSource',
+        child: 'code',
+        header: 'Pays Source',
+        type: 'object'
+      },
       {
         field: 'villeSource',
         child: 'code',
@@ -89,6 +94,12 @@ export class TrajetComponent implements OnInit {
         type: 'object'
       },
 
+      {
+        field: 'paysDestination',
+        child: 'code',
+        header: 'Pays Destination',
+        type: 'object'
+      },
       {
         field: 'villeDestination',
         child: 'code',

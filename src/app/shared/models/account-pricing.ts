@@ -1,3 +1,4 @@
+import { Account } from './account';
 import { Trajet } from './trajet';
 import { Company } from './company';
 import { Vat } from './vat';
@@ -15,6 +16,7 @@ export class AccountPricing {
 
   id: number;
   company :Company;
+  account:Account;
   vehicleCategory: VehicleCategory;
   turnType :TurnType;
   loadingType:LoadingType;

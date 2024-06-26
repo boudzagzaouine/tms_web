@@ -154,6 +154,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
         ),
         deliveryInfoLine1: new FormControl(this.selectAddress.line1),
         deliveryInfoCity: new FormControl(this.selectAddress.ville?.code),
+        deliveryInfoCountry: new FormControl(this.selectAddress.pays?.code),
 
       }),
       enlevement: new FormGroup({
@@ -335,6 +336,8 @@ export class OrderTransportCompletEditComponent implements OnInit {
       deliveryInfoAddressName: event,
       deliveryInfoLine1: event.line1,
       deliveryInfoCity: event.ville.code,
+      deliveryInfoCountry: event.pays.code,
+
     });
     this.orderTransportInfoLineForm.updateValueAndValidity();
   }

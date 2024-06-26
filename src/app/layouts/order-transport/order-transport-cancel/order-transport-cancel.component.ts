@@ -1,3 +1,6 @@
+import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
+import { LoadingType } from './../../../shared/models/loading-type';
+import { TurnType } from './../../../shared/models/turn-Type';
 import { OrderTransportRejectTypeService } from './../../../shared/services/api/order-transport-reject-type.service';
 import { OrderTransportRejectType } from './../../../shared/models/order-transport-reject-type';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -18,6 +21,7 @@ import { Account } from './../../../shared/models/account';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
 import { Component, OnInit } from '@angular/core';
 import { Transport } from './../../../shared/models/transport';
+import { OrderTransport } from './../../../shared/models/order-transport';
 @Component({
   selector: 'app-order-transport-cancel',
   templateUrl: './order-transport-cancel.component.html',
@@ -53,9 +57,19 @@ export class OrderTransportCancelComponent implements OnInit {
   home: MenuItem;
   rejectTypeSearch: OrderTransportRejectType;
   rejectTypeList:OrderTransportRejectType[]=[];
+  OrderTransportCodeList : TransportPlanHistory[]=[];
 
    dateLivraisonSearch: Date;
    dateDelivery: Date;
+   turnTypeList:TurnType[]=[];
+   turnTypeSearch:TurnType;
+
+
+   dateSearch: Date[];
+
+   loadingTypeList:LoadingType[]=[];
+   loadingTypeSearch:LoadingType;
+
   constructor(private transportPlanHistoryService: TransportPlanHistoryService,
 
     private globalService: GlobalService,
@@ -67,7 +81,7 @@ export class OrderTransportCancelComponent implements OnInit {
     private turnStatusService: TurnStatusService,
     private vehicleCategoryService:VehicleCategoryService,
     private orderTransportRejectTypeService:OrderTransportRejectTypeService,
-
+ private orderTransportService:OrderTransportService,
     private router: Router) { }
 
   ngOnInit() {
@@ -247,7 +261,11 @@ this.vehicleCategoryService.findAll().subscribe(
   }
 
 
-
+  onOrderTransportSearch(event){
+    this.subscriptions.add(this.transportPlanHistoryService.find('orderTransport.code~' + event.query).subscribe(
+      data => this.OrderTransportCodeList = data
+    ));
+  }
 
   onDeleteAll() {
 

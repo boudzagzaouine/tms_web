@@ -56,6 +56,7 @@ export class TarificationComponent implements OnInit {
   tarificationAccount:number=0;
   vatTarif : Vat= new Vat();
    tarificationTransportServiceAccountList : TarificationTransportServiceAccount[]=[];
+   tarifExist:Boolean=false;
 
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
@@ -131,12 +132,64 @@ export class TarificationComponent implements OnInit {
         console.log(data);
         if (data[0]) {
           this.selectedCatalogPricing = data[0];
-          this.onSearchAccountPricing();
+          this.tarifExist=true;
+
+          this.onSearchAccountPricingByAccount();
+        }
+        else{
+          this.tarifExist=false;
+
         }
 
       });
   }
 
+  onSearchAccountPricingByAccount() {
+
+    this.accountPricingService
+      .find(
+        "company.id:" +
+          this.selectOrderTransport?.account?.company?.id +
+          ",turnType.id:" +
+          this.selectOrderTransport?.turnType?.id +
+          ",vehicleCategory.id:" +
+          this.selectOrderTransport?.vehicleCategory?.id +
+          ",vehicleTray.id:" +
+          this.selectOrderTransport?.vehicleTray?.id +
+          ",loadingType.id:" +
+          this.selectOrderTransport?.loadingType?.id +
+          ",trajet.id:" +
+          this.selectOrderTransport?.trajet?.id+
+          ",account.id:" +
+          this.selectOrderTransport?.account?.id
+      )
+      .subscribe((data) => {
+        console.log(data);
+        if (data[0]) {
+          this.selectedAccountPricing = data[0];
+          console.log("pricAccount");
+console.log( this.tarificationAccount);
+
+          this.tarificationAccount=1;
+          let purchase = this.selectedCatalogPricing.purchaseAmountHt;
+          let sale = this.selectedAccountPricing.saleAmountHt;
+          console.log(this.marginRate);
+
+          this.calculatMarge(purchase,sale);
+
+
+          this.tarificationForm.patchValue({
+            priceHT: this.selectedAccountPricing.saleAmountHt,
+          });
+
+          this.tarificationForm.controls["priceHT"].disable();
+        } else {
+          this.tarificationAccount=2;
+          this.onSearchAccountPricing();
+
+        }
+      });
+  }
   onSearchAccountPricing() {
 
     this.accountPricingService

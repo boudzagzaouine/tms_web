@@ -2,15 +2,21 @@
 
 <p-tabView>
 
-  <p-tabPanel *hasPermission="['ADDRESS_VIEW']" header="{{'Adresse' | translate }}"   headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['ADDRESS_VIEW']" header="{{'Adresse' | translate }}"   headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
                  <app-delivery-address></app-delivery-address>
       </ng-template>
   </p-tabPanel>
-  <p-tabPanel *hasPermission="['CITY_VIEW']" header="{{ 'Ville' | translate}}"  headerStyleClass="onglet-p-2">
+  <p-tabPanel *hasPermission="['CITY_VIEW']" header="{{ 'Ville' | translate}}"  headerStyleClass="onglet-p-3">
       <ng-template pTemplate="content">
         <app-city></app-city>
       </ng-template>
   </p-tabPanel>
+
+  <p-tabPanel *hasPermission="['CITY_VIEW']" header="{{ 'Pays' | translate}}"  headerStyleClass="onglet-p-3">
+    <ng-template pTemplate="content">
+      <app-country></app-country>
+    </ng-template>
+</p-tabPanel>
 
 </p-tabView>

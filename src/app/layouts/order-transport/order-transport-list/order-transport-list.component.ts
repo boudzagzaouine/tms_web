@@ -1,3 +1,6 @@
+import { AccountService } from './../../../shared/services/api/account.service';
+import { DatePipe } from '@angular/common';
+import { Account } from './../../../shared/models/account';
 import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
 import { LoadingType } from './../../../shared/models/loading-type';
 import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
@@ -50,14 +53,20 @@ export class OrderTransportListComponent implements OnInit {
   showDialogReject: Boolean;
 
    dateLivraisonSearch: Date;
-  constructor(private orderTransportService: OrderTransportService,
+   dateSearch: Date[];
 
+   accountList:Account[]=[];
+   accountSearch:Account;
+  constructor(private orderTransportService: OrderTransportService,
+    private datePipe:DatePipe,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private turnTypeService:TurnTypeService,
     private loadingTypeService:LoadingTypeService,
+    private accountService:AccountService,
+
     private router: Router) { }
 
   ngOnInit() {
@@ -133,7 +142,11 @@ this.searchQuery='turnStatus.id:1';
     ));
 
   }
-  
+  onAccountSearch(event){
+    this.subscriptions.add(this.accountService.find('name~' + event.query).subscribe(
+      data => this.accountList = data
+    ));
+  }
   loadData(search: string = '') {
     if(search!=''){
    search +=',turnStatus.id:1';
@@ -177,8 +190,24 @@ this.searchQuery='turnStatus.id:1';
     if (this.turnTypeSearch != null && this.turnTypeSearch !== undefined) {
       buffer.append(`turnType.code~${this.turnTypeSearch.code}`);
     }
+    if (this.accountSearch != null && this.accountSearch !== undefined) {
+      buffer.append(`account.code~${this.accountSearch.code}`);
+    }
     if (this.loadingTypeSearch != null && this.loadingTypeSearch !== undefined) {
       buffer.append(`loadingType.code~${this.loadingTypeSearch.code}`);
+    }
+
+    if (this.dateSearch != null && this.dateSearch !== undefined) {
+      let dateD,dateF;
+      dateD=this.dateSearch[0];
+      dateF=this.dateSearch[1];
+      if(dateD!=null){
+
+      buffer.append(`date>${ this.datePipe.transform(dateD,'yyyy-MM-dd')}`);
+      }
+      if(dateF!=null){
+        buffer.append(`date<${ this.datePipe.transform(dateF,'yyyy-MM-dd')}`);
+        }
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();

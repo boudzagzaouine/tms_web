@@ -1,3 +1,8 @@
+import { DatePipe } from '@angular/common';
+import { AccountService } from './../../../shared/services/api/account.service';
+import { Account } from './../../../shared/models/account';
+import { TurnStatus } from './../../../shared/models/turn-status';
+import { TurnStatusService } from './../../../shared/services/api/turn-status.service';
 import { LoadingTypeService } from './../../../shared/services/api/loading-type.service';
 import { LoadingType } from './../../../shared/models/loading-type';
 import { TurnTypeService } from './../../../shared/services/api/turn-type.service';
@@ -29,6 +34,9 @@ export class OrderTransportAffectedComponent implements OnInit {
   turnTypeList:TurnType[]=[];
    turnTypeSearch:TurnType;
 
+   accountList:Account[]=[];
+   accountSearch:Account;
+
    loadingTypeList:LoadingType[]=[];
    loadingTypeSearch:LoadingType;
 
@@ -46,16 +54,19 @@ export class OrderTransportAffectedComponent implements OnInit {
 
   home: MenuItem;
   showDialogReject: Boolean;
+  dateSearch: Date[];
 
 
    dateLivraisonSearch: Date;
   constructor(private orderTransportService: OrderTransportService,
+    private datePipe:DatePipe,
 
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
     private turnTypeService:TurnTypeService,
+    private accountService:AccountService,
     private loadingTypeService:LoadingTypeService,
     private router: Router) { }
 
@@ -88,6 +99,8 @@ export class OrderTransportAffectedComponent implements OnInit {
         this.turnTypeList=data;
       }
     );
+
+
 
     this.loadingTypeService.findAll().subscribe(
       data =>{
@@ -175,8 +188,24 @@ export class OrderTransportAffectedComponent implements OnInit {
     if (this.turnTypeSearch != null && this.turnTypeSearch !== undefined) {
       buffer.append(`turnType.code~${this.turnTypeSearch.code}`);
     }
+    if (this.accountSearch != null && this.accountSearch !== undefined) {
+      buffer.append(`account.code~${this.accountSearch.code}`);
+    }
     if (this.loadingTypeSearch != null && this.loadingTypeSearch !== undefined) {
       buffer.append(`loadingType.code~${this.loadingTypeSearch.code}`);
+    }
+
+    if (this.dateSearch != null && this.dateSearch !== undefined) {
+      let dateD,dateF;
+      dateD=this.dateSearch[0];
+      dateF=this.dateSearch[1];
+      if(dateD!=null){
+
+      buffer.append(`date>${ this.datePipe.transform(dateD,'yyyy-MM-dd')}`);
+      }
+      if(dateF!=null){
+        buffer.append(`date<${ this.datePipe.transform(dateF,'yyyy-MM-dd')}`);
+        }
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -188,6 +217,12 @@ export class OrderTransportAffectedComponent implements OnInit {
   onOrderTransportSearch(event){
     this.subscriptions.add(this.orderTransportService.find('turnStatus.id!1,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
+    ));
+  }
+
+   onAccountSearch(event){
+    this.subscriptions.add(this.accountService.find('name~' + event.query).subscribe(
+      data => this.accountList = data
     ));
   }
   onObjectEdited(event) {
@@ -217,6 +252,9 @@ export class OrderTransportAffectedComponent implements OnInit {
    this.dateLivraisonSearch=null;
    this.turnTypeSearch=null;
    this.loadingTypeSearch=null;
+   this.accountSearch=null;
+   this.dateSearch=null;
+
     this.page = 0;
     this.searchQuery = '';
     this.loadData(this.searchQuery);

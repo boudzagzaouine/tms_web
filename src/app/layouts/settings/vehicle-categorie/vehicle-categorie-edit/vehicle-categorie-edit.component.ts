@@ -11,12 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
 import { MessageService } from 'primeng/api';
+import { saveAs } from 'file-saver';
 
 
 @Component({
   selector: 'app-vehicle-categorie-edit',
   templateUrl: './vehicle-categorie-edit.component.html',
-  styleUrls: ['./vehicle-categorie-edit.component.css']
+  styleUrls: ['./vehicle-categorie-edit.component.scss']
 })
 export class VehicleCategorieEditComponent implements OnInit {
 
@@ -29,7 +30,8 @@ export class VehicleCategorieEditComponent implements OnInit {
   title = 'Modifier une catégorie de véhicule';
   subscriptions= new Subscription();
   vehicleTrayList:VehicleTray[]=[];
-
+  uploadedFiles: any[] = [];
+  file :any;
   constructor(
     private vehicleCategoryService: VehicleCategoryService,
     private vehicleTrayService:VehicleTrayService,
@@ -55,6 +57,7 @@ export class VehicleCategorieEditComponent implements OnInit {
       console.log(this.selectedVehicleCategory.vehicleCategoryTrays);
 
       this.selectedVehicleCategory.vehicleTrays=this.selectedVehicleCategory.vehicleCategoryTrays.map(f=>f.vehicleTray)
+      this.uploadedFiles=this.selectedVehicleCategory.file;
 
     }
     this.displayDialog = true;
@@ -72,6 +75,8 @@ export class VehicleCategorieEditComponent implements OnInit {
       'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
       'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
       'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
+      'fEmptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight),
+
       'fPriceKm': new FormControl(this.selectedVehicleCategory.priceKm),
       'fVehicleTrays': new FormControl(this.selectedVehicleCategory.vehicleTrays),
 
@@ -132,6 +137,62 @@ export class VehicleCategorieEditComponent implements OnInit {
     let a = false;
     this.showDialog.emit(a);
   }
+
+
+  onSelectDocument(event) {
+    let fileReader = new FileReader();
+    var fl : any;
+    for(let file of event.files) {
+      console.log(file);
+
+       // this.uploadedFiles.push(file);
+        fileReader.readAsDataURL(file);
+        this.selectedVehicleCategory.fileName=file.name;
+
+        fileReader.onload =  ()=> {
+          console.log(fileReader.result);
+          this.selectedVehicleCategory.file=(fileReader.result as string).split(",")[1] as any;
+          this.selectedVehicleCategory.fileType=file.type;
+         console.log( this.selectedVehicleCategory.file);
+      };
+
+   }
+}
+
+
+dowloand(){
+var url=this.selectedVehicleCategory.file;
+var binaryString = window.atob(url as any);
+var binaryLen = binaryString.length;
+var bytes = new Uint8Array(binaryLen);
+for (var i = 0; i < binaryLen; i++) {
+   var ascii = binaryString.charCodeAt(i);
+   bytes[i] = ascii;
+}
+const data=new Blob([bytes]);
+let arrayOfBlob = new Array<Blob>();
+arrayOfBlob.push(data);
+var file = new File(arrayOfBlob,this.selectedVehicleCategory.fileName,{
+ type: this.selectedVehicleCategory.fileType });
+
+let fileReader = new FileReader();
+fileReader.readAsDataURL(file);
+fileReader.onload =  ()=> {
+saveAs(fileReader.result,this.selectedVehicleCategory.fileName);
+}
+}
+
+
+
+deleteFile() {
+console.log("delete");
+  this.selectedVehicleCategory.file=null;
+  this.selectedVehicleCategory.fileName=null;
+  this.selectedVehicleCategory.fileType=null;
+
+
+  }
+
 
 
   ngOnDestroy() {

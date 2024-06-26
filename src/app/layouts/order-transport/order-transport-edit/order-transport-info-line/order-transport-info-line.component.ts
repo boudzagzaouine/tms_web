@@ -207,9 +207,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
           Validators.required
         ),
         deliveryInfoLine1: new FormControl(this.selectAddress.line1, Validators.required),
+        deliveryInfoCountry: new FormControl(this.selectAddress?.pays?.code),
+
         deliveryInfoCity: new FormControl(this.selectAddress?.ville?.code),
         deliveryInfoZip: new FormControl(this.selectAddress.zip),
-        deliveryInfoCountry: new FormControl(this.selectAddress.country),
+        // deliveryInfoCountry: new FormControl(this.selectAddress.country),
         deliveryInfoLatitude: new FormControl(this.selectAddress.latitude),
         deliveryInfoLongitude: new FormControl(this.selectAddress.longitude),
 

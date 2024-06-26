@@ -232,14 +232,21 @@ showEffect="fade"
 
 
     <p-tabView  >
-      <p-tabPanel [cache]="false" *hasPermission="['COMPANY_ROUTE_PRICING_VIEW']"  header="{{ 'Tarif Trajet' | translate}}"  headerStyleClass="onglet-p-2">
+
+      <p-tabPanel [cache]="false" *hasPermission="['COMPANY_ROUTE_PRICING_VIEW']"  header="{{ 'Compte' | translate}}"  headerStyleClass="onglet-p-3">
+        <span *ngIf="this.showContrat==true">
+           <app-company-account [selectedCompany]="this.selectedCompany" (accountPricingListEdited)="onAcountPricingEdited($event)"></app-company-account>
+        </span>
+              </p-tabPanel>
+
+      <p-tabPanel [cache]="false" *hasPermission="['COMPANY_ROUTE_PRICING_VIEW']"  header="{{ 'Tarif Trajet' | translate}}"  headerStyleClass="onglet-p-3">
 <span *ngIf="this.showContrat==true">
    <app-company-pricing [selectedCompany]="this.selectedCompany" (accountPricingListEdited)="onAcountPricingEdited($event)"></app-company-pricing>
 </span>
       </p-tabPanel>
 
 
-              <p-tabPanel  [cache]="false" *hasPermission="['COMPANY_SERVICE_PRICING_VIEW']" header="{{ 'Tarif Service' | translate}}"  headerStyleClass="onglet-p-2">
+              <p-tabPanel  [cache]="false" *hasPermission="['COMPANY_SERVICE_PRICING_VIEW']" header="{{ 'Tarif Service' | translate}}"  headerStyleClass="onglet-p-3">
                 <ng-template pTemplate="content">
 
 

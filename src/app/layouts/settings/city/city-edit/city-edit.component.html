@@ -34,6 +34,19 @@ showEffect="fade"
             <input type="text" class="form-control" pInputText formControlName="description" />
           </div>
           <div class="form-group col-sm-12">
+            <label class="font-weight-bold">{{'Pays' | translate}} *</label>
+            <span *ngIf="(villeForm.get('pays').touched && villeForm.get('pays').invalid) ||
+            (isFormSubmitted && villeForm.get('pays').invalid)" class="text-lighter"
+              style="color: red; font-size: xx-small;">
+               {{'Obligatoire' | translate }}
+            </span>
+            <br />
+            <p-autoComplete  formControlName="pays" [suggestions]="paysList"
+            (onSelect)="onSelectPays($event)" (completeMethod)="onPaysSearch($event)" field="code">
+          </p-autoComplete>
+
+          </div>
+          <div class="form-group col-sm-12">
             <label class="font-weight-bold"> {{'Latitude' | translate}}</label><br />
             <input type="text" class="form-control" pInputText formControlName="latitude" />
           </div>

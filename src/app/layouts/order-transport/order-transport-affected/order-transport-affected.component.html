@@ -17,6 +17,36 @@
 
 
     <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Client " | translate }}</label
+      ><br />
+      <p-autoComplete
+      [(ngModel)]="accountSearch"
+      [suggestions]="accountList"
+      (completeMethod)="onAccountSearch($event)"
+      field="name"
+    ></p-autoComplete>
+
+    </div>
+
+
+    <div class="col-md-2">
+      <label class="font-weight-bold"> {{ "Date" | translate }} </label><br />
+      <p-calendar
+      [(ngModel)]="dateSearch"
+      [monthNavigator]="true"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      selectionMode="multiple"
+      [showIcon]="true"
+      inputId="icon"
+      [readonlyInput]="true"
+      [maxDateCount]="2"
+      dateFormat="dd-mm-yy"
+    ></p-calendar>
+    </div>
+
+
+    <div class="col-md-2">
       <label class="font-weight-bold">{{ "Type " | translate }}</label
       ><br />
       <p-dropdown

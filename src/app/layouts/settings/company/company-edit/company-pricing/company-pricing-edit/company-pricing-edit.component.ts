@@ -1,3 +1,4 @@
+import { AccountService } from './../../../../../../shared/services/api/account.service';
 import { Company } from "./../../../../../../shared/models/company";
 import { MessageService } from "primeng/api";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -23,6 +24,7 @@ import { VehicleCategory } from "./../../../../../../shared/models/vehicle-categ
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AccountPricing } from "./../../../../../../shared/models/account-pricing";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Account } from "./../../../../../../shared/models/account";
 
 @Component({
   selector: "app-company-pricing-edit",
@@ -40,6 +42,8 @@ export class CompanyPricingEditComponent implements OnInit {
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
   trajetList: Trajet[] = [];
+  accountList: Account[] = [];
+
   vatList: Vat[] = [];
   vat = new Vat();
   displayDialog: boolean;
@@ -49,6 +53,7 @@ export class CompanyPricingEditComponent implements OnInit {
   transport: number;
   catVehicleId: number;
   trajetId: number;
+  accountId: number;
 
   loadingTypeId: number;
   vehicleTrayId: number;
@@ -59,6 +64,8 @@ export class CompanyPricingEditComponent implements OnInit {
     private accountPricingService: AccountPricingService,
     private authentificationService: AuthenticationService,
     private vehicleCategoryService: VehicleCategoryService,
+    private accountService: AccountService,
+
     private turnTypeService: TurnTypeService,
     private loadingTypeService: LoadingTypeService,
     private vehicleTrayService: VehicleTrayService,
@@ -112,6 +119,9 @@ export class CompanyPricingEditComponent implements OnInit {
         Validators.required
       ),
 
+      fAccount: new FormControl(
+        this.selectAccountPricing?.account
+      ),
 
       fSaleAmountHt: new FormControl(
         this.selectAccountPricing.saleAmountHt,
@@ -161,9 +171,16 @@ export class CompanyPricingEditComponent implements OnInit {
   }
 
   existPricing() {
+let search ;
+
+search =`company.id:${this.selectedCompany.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`;
+if(this.accountId>0){
+search+=',account.id:'+this.accountId;
+}
+console.log(search);
+
     this.accountPricingService
-      .sizeSearch(
-        `company.id:${this.selectedCompany.id},loadingType.id:${this.loadingTypeId},turnType.id:${this.turnTypeid},vehicleCategory.id:${this.catVehicleId},vehicleTray.id:${this.vehicleTrayId},trajet.id:${this.trajetId}`
+      .sizeSearch(search
       )
       .subscribe(
         (data) => {
@@ -258,6 +275,18 @@ export class CompanyPricingEditComponent implements OnInit {
   onSelectTrajet(event: any) {
     this.selectAccountPricing.trajet = event;
     this.trajetId = this.selectAccountPricing.trajet.id;
+  }
+
+  onAccountSearch(event: any) {
+    this.accountService
+      .find("company.id:"+this.selectedCompany.id+",name~" + event.query)
+      .subscribe((data) => (this.accountList = data));
+  }
+
+
+    onSelectAccount(event: any) {
+    this.selectAccountPricing.account = event;
+    this.accountId = this.selectAccountPricing.account.id;
   }
 
 

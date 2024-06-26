@@ -23,7 +23,9 @@
       <ng-template let-product pTemplate="listItem" let-index="rowIndex">
           <div class="p-col-12">
               <div class="product-list-item">
-                <img  src="./assets/img/services-fret.jpg" alt="Bracelet">
+                <img [src]=" 'data:image/png;base64,' + product?.vehicleCategory?.file "class="product-image" />
+
+                <!-- <img  src="./assets/img/services-fret.jpg" alt="Bracelet"> -->
                   <div class="product-list-detail">
                       <div class="product-name">Matricule : {{product.registrationNumber}}</div>
                       <div class="product-category">Code :{{product.code}}</div>

@@ -4,31 +4,75 @@
 <p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
 
   <div class="row  mt-1 ">
-
     <div class="col-md-2">
       <label class="font-weight-bold">
-        Compte</label><br />
+        Code</label><br />
         <p-autoComplete
-        [(ngModel)]="accountSearch"
-        [suggestions]="accountList"
-        (completeMethod)="onAccountSearch($event)"
-        field="name"
+        [(ngModel)]="codeSearch"
+        [suggestions]="OrderTransportCodeList"
+        (completeMethod)="onOrderTransportSearch($event)"
+        field="orderTransport.code"
       ></p-autoComplete>
     </div>
+
+
     <div class="col-md-2">
-      <label class="font-weight-bold">
-        Catégotie</label><br />
-        <p-dropdown
-        [options]="categoryList"
+      <label class="font-weight-bold">{{ "Client " | translate }}</label
+      ><br />
+      <p-autoComplete
+      [(ngModel)]="accountSearch"
+      [suggestions]="accountList"
+      (completeMethod)="onAccountSearch($event)"
+      field="name"
+    ></p-autoComplete>
+
+    </div>
+
+
+    <div class="col-md-2">
+      <label class="font-weight-bold"> {{ "Date" | translate }} </label><br />
+      <p-calendar
+      [(ngModel)]="dateSearch"
+      [monthNavigator]="true"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      selectionMode="multiple"
+      [showIcon]="true"
+      inputId="icon"
+      [readonlyInput]="true"
+      [maxDateCount]="2"
+      dateFormat="dd-mm-yy"
+    ></p-calendar>
+    </div>
+
+
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type " | translate }}</label
+      ><br />
+      <p-dropdown
+        [options]="turnTypeList"
         optionLabel="code"
         [autoDisplayFirst]="false"
-        [(ngModel)]="categorySearch"
+        [(ngModel)]="turnTypeSearch"
         filter="true"
       >
       </p-dropdown>
+
     </div>
 
+    <div class="col-md-2">
+      <label class="font-weight-bold">{{ "Type Chargement " | translate }}</label
+      ><br />
+      <p-dropdown
+        [options]="loadingTypeList"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="loadingTypeSearch"
+        filter="true"
+      >
+      </p-dropdown>
 
+    </div>
 
     </div>
 

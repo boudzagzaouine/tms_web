@@ -1,3 +1,4 @@
+import { CompanyAccountComponent } from './company/company-edit/company-account/company-account.component';
 import { VatComponent } from './vat/vat.component';
 import { ExportCanevasComponent } from './export-canevas/export-canevas.component';
 import { PaymentTypeComponent } from './payment-type/payment-type.component';
@@ -79,6 +80,7 @@ import { SubscriptionCardComponent } from './subscriptionCard/subscriptionCard.c
 import { UserPasswordComponent } from './user/user-password/user-password.component';
 import { VehicleCategorieComponent } from './vehicle-categorie/vehicle-categorie.component';
 import { ZoneVilleComponent } from './zone-ville/zone-ville.component';
+import { CountryComponent } from './country/country.component';
 
 const routes: Routes = [
   {
@@ -139,6 +141,8 @@ const routes: Routes = [
       { path: 'menu-transport', component: MenuTransportComponent },
       { path: 'test', component: TestDataTableComponent },
       { path: 'menu-service', component: MenuServiceComponent },
+      { path: 'company-account', component: CompanyAccountComponent },
+
       { path: 'company', component: CompanyComponent },
       { path: 'company-edit', component: CompanyEditComponent },
       { path: 'company-edit/:id', component: CompanyEditComponent },
@@ -166,7 +170,8 @@ const routes: Routes = [
       { path: 'zone-ville', component: ZoneVilleComponent },
       { path: 'payment-type', component: PaymentTypeComponent },
       { path: 'export-canevas', component: ExportCanevasComponent },
-      { path: 'vat', component: VatComponent }
+      { path: 'vat', component: VatComponent },
+      { path: 'country', component: CountryComponent }
 
     ]
   }

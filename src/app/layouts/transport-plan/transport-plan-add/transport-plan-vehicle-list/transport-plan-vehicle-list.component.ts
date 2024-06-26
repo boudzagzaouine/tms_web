@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { TransportPlan } from './../../../../shared/models/transport-plan';
 import { TransportPlanLocationService } from './../../../../shared/services/api/transport-plan-location.service';
 import { OrderTransportInfoLineService } from './../../../../shared/services/api/order-transport-info-line.service';
@@ -34,6 +35,8 @@ export class TransportPlanVehicleListComponent implements OnInit {
   constructor(private vehicleService:VehicleService,
               private transportPlanService :TransportPlanService,
               private orderTransportInfoLineService:OrderTransportInfoLineService,
+              private spinner: NgxSpinnerService,
+
               private transportPlanLocationService:TransportPlanLocationService) { }
 
   ngOnInit() {
@@ -42,6 +45,7 @@ export class TransportPlanVehicleListComponent implements OnInit {
   }
     // Disponibilite de vehicule
     loadVehicleByCategory() {
+this.spinner.show();
       this.vehicleService
         .find(
           "vehicleCategory.tonnage>" +
@@ -51,6 +55,8 @@ export class TransportPlanVehicleListComponent implements OnInit {
           if (data[0] != null || data[0] != undefined) {
             this.vehicleList = data;
   this.disponible();
+  this.spinner.hide();
+
 //             this.vehicleList.forEach((vehicle) => {
 //               this.searchVehicleInTranportPlan(vehicle).subscribe((data) => {
 //    console.log(data);
@@ -87,6 +93,8 @@ export class TransportPlanVehicleListComponent implements OnInit {
 //             });
           } else {
             this.vehicleList = [];
+            this.spinner.hide();
+
           }
         });
     }

@@ -1,0 +1,103 @@
+.p-fileupload{
+  .p-fileupload-row {
+display: none;
+}
+}
+
+.p-fileupload {
+// width: 150px;
+
+width: 100%;
+}
+
+
+.p-fileupload .p-fileupload-content {
+    padding: 0 ! important;
+    border: none;
+
+}
+.p-fileupload .p-fileupload-buttonbar .p-button {
+  margin-right: 0;
+  width: 100%;
+  margin-bottom: 15px
+  // width: 150px;
+  // border-radius: 20px;
+}
+.p-fileupload .p-fileupload-buttonbar {
+background: none;
+border: none;
+ padding: 0;
+}
+
+.p-fileupload-content .p-progressbar {
+
+  width: 0px !important;
+}
+
+// .p-button-label{
+// visibility: hidden;}
+
+// .p-button .p-button-icon-left {
+//     margin-right: 0
+// }
+
+
+[class^=effet-zoom]{
+  display:inline-block;
+  height:150px;
+  width:150px;
+  overflow:hidden;
+}
+[class^=effet-zoom] img{
+  width:100%; height:auto;
+}
+
+/* /////////////////////////
+Exemple 1
+
+///////////////////////// */
+.effet-zoom-1{
+  border:1px solid grey;
+  border-radius:50%;
+}
+.effet-zoom-1 img{
+ // transition:transform .5s;
+}
+.effet-zoom-1:hover img{
+  //transform: scale(0.95);
+}
+
+
+
+
+.customer-badge {
+
+
+  border-radius: 2px;
+  padding: .25em .5em;
+ // text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
+
+
+  min-width: 90px;
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+
+  &.status-Actif {
+      background-color: #2ecc71;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #ffffff;
+  }
+
+
+  &.status-Sorti {
+      background-color: #dc3545;
+      color: #ffffff;
+  }
+
+
+}

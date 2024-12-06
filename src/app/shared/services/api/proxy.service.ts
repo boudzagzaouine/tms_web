@@ -8,7 +8,7 @@ import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class ProxyService {
 
   private readonly url = REST_URL;

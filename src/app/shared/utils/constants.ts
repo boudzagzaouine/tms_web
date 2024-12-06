@@ -1,6 +1,6 @@
 export const RESTGC_URL="";
 // export const REST_URL = 'http://integrateur.ddns.net/tms-rest/';
-export const REST_URL = 'http://localhost:8087/tms-rest/';
+export const REST_URL = 'http://localhost:8080/tms-rest/';
 // export const REST_URL = 'http://192.168.162.69:8080/tms-rest/';
 //export const REST_URL = 'http://vfw.lavoieexpress.com:8080/tms-rest/';
 

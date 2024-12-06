@@ -1,46 +1,38 @@
 <div class="card mt-1">
   <div class="card-header" style="background-color: #f7f7f7;">
-      <div class="row">
+    <div class="row">
 
-        <div class="col-md-4 pull-left ">
-      <span *hasPermission= "permissionCreate" >
+      <div class="col-md-4 pull-left ">
+        <span *hasPermission="permissionCreate">
 
-        <!-- <p-button icon="pi pi-plus"
+          <!-- <p-button icon="pi pi-plus"
         styleClass="p-button-info mx-1"
         [hidden]="addBtnVisible"
         (click)="onEdit(1)"
         ></p-button> -->
 
 
-        <!-- [hidden]="addBtnVisible" -->
-             <button
-
-              type="button"
-              class="btn btn-sm btn-primary mx-1"
-              (click)="onEdit(1)"   >
+          <!-- [hidden]="addBtnVisible" -->
+          <button type="button" class="btn btn-sm btn-primary mx-1" (click)="onEdit(1)">
             <!--ADD-->
-               <i class="fa fa-plus"></i>
-      </button>
-            </span>
-            <span *hasPermission= "permissionEdit" >
-              <!-- <p-button icon="pi pi-pencil"
+            <i class="fa fa-plus"></i>
+          </button>
+        </span>
+        <span *hasPermission="permissionEdit">
+          <!-- <p-button icon="pi pi-pencil"
               styleClass="p-button-success mx-1"
               [hidden]="updateBtnVisible"
               (click)="onEdit(2)"
               [disabled]="updateBtnDisable == false"></p-button> -->
-              <!-- [hidden]="updateBtnVisible" -->
-             <button
-
-             type="button"
-              class="btn btn-sm btn-success mx-1"
-              (click)="onEdit(2)"
-              [disabled]="updateBtnDisable == false" >
-           <!--UPDATE-->
-               <i class="fa fa-pencil"></i>
-            </button>
-            </span>
-            <span *hasPermission= "permissionDelete" >
-              <!-- <p-button icon="pi pi-trash"
+          <!-- [hidden]="updateBtnVisible" -->
+          <button type="button" class="btn btn-sm btn-success mx-1" (click)="onEdit(2)"
+            [disabled]="updateBtnDisable == false">
+            <!--UPDATE-->
+            <i class="fa fa-pencil"></i>
+          </button>
+        </span>
+        <span *hasPermission="permissionDelete">
+          <!-- <p-button icon="pi pi-trash"
               [hidden]="deleteBtnVisible"
               [disabled]="deleteBtnDisable == false"
               styleClass="p-button-danger mx-1"
@@ -48,62 +40,46 @@
               (click)="onEdit(1)"
               ></p-button> -->
 
-              <!-- [hidden]="deleteBtnVisible" -->
-             <button
-
-              type="button"
-              class="btn btn-sm btn-danger mx-1"
-              (click)="onEdit(3)"
-              [disabled]="deleteBtnDisable == false" >
+          <!-- [hidden]="deleteBtnVisible" -->
+          <button type="button" class="btn btn-sm btn-danger mx-1" (click)="onEdit(3)"
+            [disabled]="deleteBtnDisable == false">
             <!--DELETE-->
-               <i class="fa fa-trash-o"></i>
-            </button>
+            <i class="fa fa-trash-o"></i>
+          </button>
 
 
-            <button [hidden]="generateInvoiceBtnVisible"
-            type="button"
-            class="btn btn-sm btn-primary mx-1"
-             (click)="onEdit(4)" [disabled]="generateInvoiceBtnDisable == false">
+          <button [hidden]="generateInvoiceBtnVisible" type="button" class="btn btn-sm btn-primary mx-1"
+            (click)="onEdit(4)" [disabled]="generateInvoiceBtnDisable == false">
 
-              {{ "Générer Facture" | translate }}
-            </button>
+            {{ "Générer Facture" | translate }}
+          </button>
 
 
-            <button [hidden]="generateCancelPTBtnVisible"
-            type="button"
-            class="btn btn-sm btn-primary mx-1"
-             (click)="onEdit(5)" [disabled]="generateCancelPTBtnDisable == false">
+          <button [hidden]="generateCancelPTBtnVisible" type="button" class="btn btn-sm btn-primary mx-1"
+            (click)="onEdit(5)" [disabled]="generateCancelPTBtnDisable == false">
 
-              {{ "Annuler" | translate }}
-            </button>
+            {{ "Annuler" | translate }}
+          </button>
 
 
         </span>
+      </div>
+
+      <div class=" col-md-3 ">
+        <span style="font-size: 14px; color: #5f5b5b;">
+          <b>{{listName | translate}}</b></span>
+      </div>
+      <div class="d-flex col-md-5 justify-content-end ">
+        <div>
+          <p-splitButton label="Exportation" styleClass="p-button-secondary " id="button-icon-only"
+            [model]="items"></p-splitButton>
         </div>
 
-        <div class=" col-md-3 ">
-          <span style="font-size: 14px; color: #5f5b5b;">
-            <b>{{listName | translate}}</b></span
-          >
-        </div>
-        <div class="d-flex col-md-5 justify-content-end ">
-<div>
-          <p-splitButton label="Exportation"
-          styleClass="p-button-secondary "
-        id="button-icon-only"
-           [model]="items" ></p-splitButton>
- </div>
-
-            <button
-              type="button"
-              title="{{ 'Enregistrer la vue' | translate }}"
-              class="btn btn-sm "
-              (click)="onSaveView()"
-            ><i class="sidebar-item-icon"><img src="./assets/img/logos/saveview.png"
-              width="25px" height="25px"
-              ></i>
-          </button>
-       <!--   <button
+        <button type="button" title="{{ 'Enregistrer la vue' | translate }}" class="btn btn-sm "
+          (click)="onSaveView()"><i class="sidebar-item-icon"><img src="./assets/img/logos/saveview.png" width="25px"
+              height="25px"></i>
+        </button>
+        <!--   <button
           type="button"
           title="{{ 'Télécharger en PDF' | translate }}"
           class="btn btn-sm "
@@ -131,7 +107,7 @@
    ></i>
   </button> -->
 
-             <!-- <p-splitButton
+        <!-- <p-splitButton
               label="{{'Export' | translate}}"
               icon="pi pi-file"
               class="mr-3"
@@ -139,51 +115,26 @@
               styleClass="ui-button-warning"
             ></p-splitButton> -->
 
-   <p-multiSelect
-            class="mx-1"
-              [options]="cols"
-              [(ngModel)]="selectedColumns"
-              optionLabel="header"
-              selectedItemsLabel="{{'colonnes sélectionnées'| translate }}"
-              dropdownIcon="pi pi-table"
-              [style]="{ minWidth: '190px' }"
-              defaultLabel="{{ 'Choisir' | translate }}"
-              maxSelectedLabels="0"
-            ></p-multiSelect>
+        <p-multiSelect class="mx-1" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+          selectedItemsLabel="{{'colonnes sélectionnées'| translate }}" dropdownIcon="pi pi-table"
+          [style]="{ minWidth: '190px' }" defaultLabel="{{ 'Choisir' | translate }}"
+          maxSelectedLabels="0"></p-multiSelect>
 
 
-        </div>
       </div>
-
     </div>
-
 
   </div>
 
-    <div >
-    <p-table
-      [value]="objectList"
-      [responsive]="true"
-      [rows]="size"
-      [paginator]="true"
-      [rowsPerPageOptions]="[5,10, 20, 50, 100, 1000]"
-      [totalRecords]="collectionSize"
-      [columns]="selectedColumns"
-      [lazy]="true"
-      (onLazyLoad)="loadDataLazy($event)"
-      [resizableColumns]="true"
-      [reorderableColumns]="true"
-      [(selection)]="selectedObjects"
 
-      (onRowSelect)="onRowSelect($event)"
-      (onRowUnselect)="onRowUnselect($event)"
-      [scrollable]="true"
-      selectionMode="multiple"
+</div>
 
-
-      [resizableColumns]="true"
-      [scrollable]="true"
-    >
+<div>
+  <p-table [value]="objectList" [responsive]="true" [rows]="size" [paginator]="true"
+    [rowsPerPageOptions]="[5,10, 20, 50, 100, 1000]" [totalRecords]="collectionSize" [columns]="selectedColumns"
+    [lazy]="true" (onLazyLoad)="loadDataLazy($event)" [resizableColumns]="true" [reorderableColumns]="true"
+    [(selection)]="selectedObjects" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+    [scrollable]="true" selectionMode="multiple" [resizableColumns]="true" [scrollable]="true">
 
     <ng-template pTemplate="colgroup" let-columns>
       <colgroup>
@@ -191,36 +142,33 @@
       </colgroup>
     </ng-template>
 
-      <ng-template pTemplate="header" let-columns >
-        <tr>
-          <th style="width:40px ">
-            <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
-          </th>
-          <th *ngFor="let col of columns" pReorderableColumn pResizableColumn style="width:160px;font-size:13px ;border-left: 1px solid #d8d8d8 !important;">
-           <h6>{{ col.header | translate}}</h6>
-          </th>
-        </tr>
-      </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width:40px ">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th *ngFor="let col of columns" pReorderableColumn pResizableColumn
+          style="width:160px;font-size:13px ;border-left: 1px solid #d8d8d8 !important;">
+          <h6>{{ col.header | translate}}</h6>
+        </th>
+      </tr>
+    </ng-template>
 
-      <ng-template
-        pTemplate="body"
-        let-rowData
-        let-columns="columns"
-        let-rowIndex="rowIndex"
-      >
-        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-          <td style="width:40px" >
-            <p-tableCheckbox [value]="rowData" [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"></p-tableCheckbox>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+        <td style="width:40px">
+          <p-tableCheckbox [value]="rowData" [pSelectableRow]="rowData"
+            [pSelectableRowIndex]="rowIndex"></p-tableCheckbox>
 
-          </td>
+        </td>
 
-          <td *ngFor="let col of columns; let i = index" style="width:160px;    word-wrap: break-word;
+        <td *ngFor="let col of columns; let i = index" style="width:160px;    word-wrap: break-word;
           white-space: normal;">
 
-            <span *ngIf="(typeOf(col.type)===1 );">
+          <span *ngIf="(typeOf(col.type)===1 );">
 
-              {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
-               <!-- <span *ngIf="(rowData[col.field]!= null) else vide" >
+            {{rowData[col?.field] ? rowData[col?.field][col?.child] :''}}
+            <!-- <span *ngIf="(rowData[col.field]!= null) else vide" >
              {{ rowData[col?.field][col?.child]}}
              {{''}}
             </span>
@@ -228,49 +176,44 @@
                 {{rowData[col?.field][col?.child]}}
               </ng-template> -->
 
-            </span>
-            <span  *ngIf="(typeOf(col.type)===2 );">
-            {{rowData[col?.field] ? rowData[col?.field]  :'0' }}
-            </span>
-            <span  *ngIf="(typeOf(col.type)===3 );">
-              {{rowData[col?.field] ? rowData[col?.field]  :'' }}
-              </span>
-            <span  *ngIf="(typeOf(col.type)===4 );">
-              {{rowData[col?.field]  | date: 'dd-MM-yyyy'}}
-              </span>
-              <span  *ngIf="(typeOf(col.type)===5 );">
-              <p-checkbox    [(ngModel)]="rowData[col.field]"   binary="true" [disabled]="true"></p-checkbox>
+          </span>
+          <span *ngIf="(typeOf(col.type)===2 );">
+            {{rowData[col?.field] ? rowData[col?.field] :'0' }}
+          </span>
+          <span *ngIf="(typeOf(col.type)===3 );">
+            {{rowData[col?.field] ? rowData[col?.field] :'' }}
+          </span>
+          <span *ngIf="(typeOf(col.type)===4 );">
+            {{rowData[col?.field] | date: 'dd-MM-yyyy'}}
+          </span>
+          <span *ngIf="(typeOf(col.type)===5 );">
+            <p-checkbox [(ngModel)]="rowData[col.field]" binary="true" [disabled]="true"></p-checkbox>
 
-            </span>
+          </span>
 
-            <span  *ngIf="(typeOf(col.type)===6 );">
-              {{rowData[col?.field] ?
-                                      rowData[col?.field][col?.child] ?
-                                      rowData[col?.field][col?.child][col?.child2] :'' :''}}
+          <span *ngIf="(typeOf(col.type)===6 );">
+            {{rowData[col?.field] ?
+            rowData[col?.field][col?.child] ?
+            rowData[col?.field][col?.child][col?.child2] :'' :''}}
 
-            </span>
-            <span  *ngIf="(typeOf(col.type)===7 );">
-              {{rowData[col?.field]  | date: 'HH:mm'}}
-              </span>
-          </td>
+          </span>
+          <span *ngIf="(typeOf(col.type)===7 );">
+            {{rowData[col?.field] | date: 'HH:mm'}}
+          </span>
+        </td>
 
 
-          <!-- <p-checkbox binary="true"></p-checkbox> -->
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td  style="    text-align: center;    width: 100%;">
-            Aucun enregistrement trouvé        </td>
+        <!-- <p-checkbox binary="true"></p-checkbox> -->
       </tr>
-      </ng-template>
-    </p-table>
-  </div>
+    </ng-template>
 
-  <ngx-spinner
-    bdColor="rgba(255,255,255,0)"
-    size="large"
-    color="#00d2ff"
-    type="ball-spin-fade-rotating"
-  ></ngx-spinner>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td style="    text-align: center;    width: 100%;">
+          Aucun enregistrement trouvé </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<ngx-spinner bdColor="rgba(255,255,255,0)" size="large" color="#00d2ff" type="ball-spin-fade-rotating"></ngx-spinner>

@@ -30,12 +30,12 @@ export class OrderTransportListComponent implements OnInit {
   collectionSize: number;
   searchQuery = '';
   codeSearch: OrderTransport;
-  OrderTransportCodeList : OrderTransport[]=[];
-  turnTypeList:TurnType[]=[];
-   turnTypeSearch:TurnType;
+  OrderTransportCodeList: OrderTransport[] = [];
+  turnTypeList: TurnType[] = [];
+  turnTypeSearch: TurnType;
 
-   loadingTypeList:LoadingType[]=[];
-   loadingTypeSearch:LoadingType;
+  loadingTypeList: LoadingType[] = [];
+  loadingTypeSearch: LoadingType;
 
   selectedOrderTransports: Array<OrderTransport> = [];
   orderTransportList: Array<OrderTransport> = [];
@@ -45,45 +45,45 @@ export class OrderTransportListComponent implements OnInit {
   showDialog: boolean;
   OrderTransportExportList: Array<OrderTransport> = [];
   titleList = 'Liste des Ordres de Transport';
-  subscriptions= new Subscription();
+  subscriptions = new Subscription();
 
   items: MenuItem[];
 
   home: MenuItem;
   showDialogReject: Boolean;
 
-   dateLivraisonSearch: Date;
-   dateSearch: Date[];
+  dateLivraisonSearch: Date;
+  dateSearch: Date[];
 
-   accountList:Account[]=[];
-   accountSearch:Account;
+  accountList: Account[] = [];
+  accountSearch: Account;
   constructor(private orderTransportService: OrderTransportService,
-    private datePipe:DatePipe,
+    private datePipe: DatePipe,
     private globalService: GlobalService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private confirmationService: ConfirmationService,
-    private turnTypeService:TurnTypeService,
-    private loadingTypeService:LoadingTypeService,
-    private accountService:AccountService,
+    private turnTypeService: TurnTypeService,
+    private loadingTypeService: LoadingTypeService,
+    private accountService: AccountService,
 
     private router: Router) { }
 
   ngOnInit() {
 
     this.items = [
-      {label: 'OrderTransport'},
-      {label: 'Lister'},
+      { label: 'OrderTransport' },
+      { label: 'Lister' },
 
-  ];
+    ];
 
-  this.home = {icon: 'pi pi-home'};
+    this.home = { icon: 'pi pi-home' };
 
     this.className = OrderTransport.name;
     this.cols = [
       { field: 'code', header: 'Code', type: 'string' },
       { field: 'date', header: 'Date', type: 'date' },
-      { field: 'trajet',child: 'code', header: 'Trajet', type: 'object' },
+      { field: 'trajet', child: 'code', header: 'Trajet', type: 'object' },
 
       { field: 'turnType', child: 'code', header: 'Type', type: 'object' },
       { field: 'loadingType', child: 'code', header: 'Type de chargement', type: 'object' },
@@ -94,22 +94,22 @@ export class OrderTransportListComponent implements OnInit {
     ];
 
     this.turnTypeService.findAll().subscribe(
-      data =>{
-        this.turnTypeList=data;
+      data => {
+        this.turnTypeList = data;
       }
     );
 
     this.loadingTypeService.findAll().subscribe(
-      data =>{
-        this.loadingTypeList=data;
+      data => {
+        this.loadingTypeList = data;
       }
     );
-this.searchQuery='turnStatus.id:1';
+    this.searchQuery = 'turnStatus.id:1';
   }
 
   onExportExcel(event) {
 
-    this.subscriptions.add(  this.orderTransportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.orderTransportService.find(this.searchQuery).subscribe(
       data => {
         this.OrderTransportExportList = data;
         if (event != null) {
@@ -129,7 +129,7 @@ this.searchQuery='turnStatus.id:1';
 
   }
   onExportPdf(event) {
-    this.subscriptions.add( this.orderTransportService.find(this.searchQuery).subscribe(
+    this.subscriptions.add(this.orderTransportService.find(this.searchQuery).subscribe(
       data => {
         this.OrderTransportExportList = data;
         this.globalService.generatePdf(event, this.OrderTransportExportList, this.className, this.titleList);
@@ -142,16 +142,16 @@ this.searchQuery='turnStatus.id:1';
     ));
 
   }
-  onAccountSearch(event){
+  onAccountSearch(event) {
     this.subscriptions.add(this.accountService.find('name~' + event.query).subscribe(
       data => this.accountList = data
     ));
   }
   loadData(search: string = '') {
-    if(search!=''){
-   search +=',turnStatus.id:1';
-    }else {
-      search +='turnStatus.id:1';
+    if (search != '') {
+      search += ',turnStatus.id:1';
+    } else {
+      search += 'turnStatus.id:1';
 
     }
     this.spinner.show();
@@ -160,9 +160,9 @@ this.searchQuery='turnStatus.id:1';
         this.collectionSize = data;
       }
     ));
-    this.subscriptions.add( this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
+    this.subscriptions.add(this.orderTransportService.findPagination(this.page, this.size, search).subscribe(
       data => {
-        this.orderTransportList=[];
+        this.orderTransportList = [];
         this.orderTransportList = data;
         this.spinner.hide();
       },
@@ -198,16 +198,16 @@ this.searchQuery='turnStatus.id:1';
     }
 
     if (this.dateSearch != null && this.dateSearch !== undefined) {
-      let dateD,dateF;
-      dateD=this.dateSearch[0];
-      dateF=this.dateSearch[1];
-      if(dateD!=null){
-
-      buffer.append(`date>${ this.datePipe.transform(dateD,'yyyy-MM-dd')}`);
+      let dateD, dateF;
+      dateD = this.dateSearch[0];
+      dateF = this.dateSearch[1];
+      if (dateD != null) {
+        console.log(dateD)
+        buffer.append(`date>${this.datePipe.transform(dateD, 'yyyy-MM-dd')}`);
       }
-      if(dateF!=null){
-        buffer.append(`date<${ this.datePipe.transform(dateF,'yyyy-MM-dd')}`);
-        }
+      if (dateF != null) {
+        buffer.append(`date<${this.datePipe.transform(dateF, 'yyyy-MM-dd')}`);
+      }
     }
     this.page = 0;
     this.searchQuery = buffer.getValue();
@@ -216,7 +216,7 @@ this.searchQuery='turnStatus.id:1';
   }
 
 
-  onOrderTransportSearch(event){
+  onOrderTransportSearch(event) {
     this.subscriptions.add(this.orderTransportService.find('turnStatus.id:1,code~' + event.query).subscribe(
       data => this.OrderTransportCodeList = data
     ));
@@ -228,14 +228,14 @@ this.searchQuery='turnStatus.id:1';
 
     if (this.editMode === 3) {
       this.onDeleteAll();
-    } else if(this.editMode === 5){
+    } else if (this.editMode === 5) {
       this.showDialogReject = true;
     } else {
       this.showDialog = true;
-      if(this.selectedOrderTransports[0]){
+      if (this.selectedOrderTransports[0]) {
         this.router.navigate(['/core/order-transport/edit/', this.selectedOrderTransports[0]?.id]);
 
-      }else {
+      } else {
         this.router.navigate(['/core/order-transport/edit/']);
 
       }
@@ -245,11 +245,11 @@ this.searchQuery='turnStatus.id:1';
 
   reset() {
     this.codeSearch = null;
-   this.dateLivraisonSearch=null;
-   this.turnTypeSearch=null;
-   this.loadingTypeSearch=null;
+    this.dateLivraisonSearch = null;
+    this.turnTypeSearch = null;
+    this.loadingTypeSearch = null;
     this.page = 0;
-    this.searchQuery='turnStatus.id:1';
+    this.searchQuery = 'turnStatus.id:1';
 
     this.loadData(this.searchQuery);
   }
@@ -269,7 +269,7 @@ this.searchQuery='turnStatus.id:1';
         message: 'Voulez vous vraiment Supprimer?',
         accept: () => {
           const ids = this.selectedOrderTransports.map(x => x.id);
-          this.subscriptions.add( this.orderTransportService.deleteAllByIds(ids).subscribe(
+          this.subscriptions.add(this.orderTransportService.deleteAllByIds(ids).subscribe(
             data => {
               this.toastr.success('Elément Supprimer avec Succés', 'Suppression');
               this.loadData();

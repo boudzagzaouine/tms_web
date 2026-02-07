@@ -1,8 +1,8 @@
-import { Company } from './company';
-import { Pays } from './pays';
-import { Ville } from './ville';
-import { Account } from './account';
-import { Owner } from './owner';
+import type { Company } from './company';
+import type { Pays } from './pays';
+import type { Ville } from './ville';
+import type { Account } from './account';
+import type { Owner } from './owner';
 
 export class Address {
   id: number;

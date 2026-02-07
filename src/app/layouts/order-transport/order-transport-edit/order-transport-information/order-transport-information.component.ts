@@ -336,7 +336,7 @@ console.log(event);
 
   onSelectType(event) {
     this.selectedOrderTransport.turnType = event.value ? event.value : event;
-    this.turnTypeId.emit(this.selectedOrderTransport.turnType.id);
+    this.turnTypeId.emit(this.selectedOrderTransport?.turnType?.id);
   }
   onSelectSource(event) {
     this.villeSource = event;
@@ -408,7 +408,7 @@ console.log(event);
         this.selectedOrderTransport.turnType = this.turnTypeList.filter(
           (f) => f.id == 1
         )[0];
-        this.turnTypeId.emit(this.selectedOrderTransport.turnType.id)
+        this.turnTypeId.emit(this.selectedOrderTransport?.turnType?.id)
 
         this.initForm();
       }

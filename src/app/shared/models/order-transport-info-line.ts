@@ -1,5 +1,6 @@
-import { Address, Vat } from '.';
-import { Contact } from './contact';
+import { Address } from './address';
+import { Vat } from './vat';
+import type { Contact } from './contact';
 import { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
 import { Account } from './account';
 import { PaymentType } from './payment-method';

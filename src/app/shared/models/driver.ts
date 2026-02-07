@@ -1,10 +1,10 @@
-import { CommissionDriver } from './commission-driver';
-import { BadgeTypeDriver } from './badge-Type-Driver';
-import { Badge } from './badge';
-import { Contact } from './contact';
-import { User } from './user';
-import { Owner } from './owner';
-import { SubscriptionCard } from './subscription-card';
+import type { CommissionDriver } from './commission-driver';
+import type { BadgeTypeDriver } from './badge-Type-Driver';
+import type { Badge } from './badge';
+import type { Contact } from './contact';
+import type { User } from './user';
+import type { Owner } from './owner';
+import type { SubscriptionCard } from './subscription-card';
 
 
 export class Driver {

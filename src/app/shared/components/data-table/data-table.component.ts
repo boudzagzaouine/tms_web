@@ -1,4 +1,3 @@
-import { TransportCategoryVehicleComponent } from "./../../../layouts/settings/transport-category-vehicle/transport-category-vehicle.component";
 import { Observable } from "rxjs";
 import { EmittedOBject } from "./emitted-object";
 import { UserService } from "./../../services/api/user.service";

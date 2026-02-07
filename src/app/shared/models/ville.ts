@@ -1,5 +1,5 @@
-import { Pays } from './pays';
-import { Owner } from './owner';
+import type { Pays } from './pays';
+import type { Owner } from './owner';
 
 
 export class Ville {

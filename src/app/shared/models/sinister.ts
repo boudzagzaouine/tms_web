@@ -1,5 +1,5 @@
 import { Document } from './document';
-import { Supplier } from '.';
+import { Supplier } from './supplier';
 import { SinisterType } from './sinister-type';
 import { Driver } from './driver';
 import { Vehicle } from './vehicle';

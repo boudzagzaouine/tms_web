@@ -1,7 +1,6 @@
 import { OrderTransportInfo } from './order-transport-info';
 import { TransportPlan } from './transport-plan';
 import { OrderTransportRejectType } from './order-transport-reject-type';
-import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
 import {  TurnStatus } from './turn-status';
 import { OrderTransport } from './order-transport';

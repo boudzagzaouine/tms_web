@@ -5,31 +5,6 @@ height: 100vh; padding-bottom: 10%;">
     <ul class="side-menu metismenu fixed">
 
 
-      <!-- <li >
-
-
-        <a  class="text-white"><i class="sidebar-item-icon fa " >
-            <img src="./assets/img/Menu/dashboard.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Tableau de Bord' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse" >
-          <li >
-            <a routerLink="/core/dashboards/vehicle" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Véhicule ' | translate}}</a>
-          </li>
-
-        </ul>
-
-
-        <ul class="nav-2-level collapse" >
-          <li >
-            <a routerLink="/core/dashboards/driver" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Chauffeur ' | translate}}</a>
-          </li>
-
-        </ul>
-
-      </li> -->
       <li>
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/tmsdashboard.png" width="25px" height="25px">
@@ -200,23 +175,9 @@ height: 100vh; padding-bottom: 10%;">
   <a routerLink="/core/settings/zone-ville" class="m-a"><i class="fa fa-circle-o"></i>
     {{'Zone Ville  ' | translate}}</a>
 </li>
-         <!--  <li *hasPermission="['PRODUCT_VIEW','PRODUCT_TYPE_VIEW']">
-            <a routerLink="/core/settings/menu-product" class="m-a"><i class="fa fa-circle-o"></i>
-              {{'Produit ' | translate}}</a>
-          </li> -->
-
 
         </ul>
       </li>
-      <!-- <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
-        <a class="text-white" routerLink="/core/pricing-internal/edit"><i class="sidebar-item-icon fa " >
-            <img src="./assets/img/Menu/account.png" width="25px" height="25px">
-          </i>
-
-          <span class="nav-label">{{'Tarification' | translate}}</span></a>
-
-      </li> -->
-
 
       <li *hasPermission="['ACCOUNT_CREATE','COMPANY_VIEW']">
         <a class="text-white" routerLink="/core/settings/company"><i class="sidebar-item-icon fa ">
@@ -307,28 +268,6 @@ height: 100vh; padding-bottom: 10%;">
       </li>
 
 
-
-
-
-
-      <!-- <li *hasPermission="['MACHINE_CREATE','MACHINE_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/machine.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Machine' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-          <li *hasPermission="['MACHINE_CREATE']">
-            <a routerLink="/core/machine/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Inserer' | translate}} </a>
-          </li>
-          <li *hasPermission="['MACHINE_VIEW']">
-            <a routerLink="/core/machine/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-
       <li *hasPermission="['DRIVER_VIEW','DRIVER_CREATE']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
             <img src="./assets/img/Menu/Chauffeur.png" width="25px" height="25px">
@@ -345,97 +284,6 @@ height: 100vh; padding-bottom: 10%;">
           </li>
         </ul>
       </li>
-      <!-- <li *hasPermission="['STOCK_CREATE','STOCK_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/stock.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'mouvement de stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['STOCK_VIEW']">
-            <a routerLink="/core/stock" class="m-a"><img src="./assets/img/Menu/list.png" width="15px" height="15px">
-              {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-      <!-- <li *hasPermission="['STOCK_CREATE','STOCK_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/stock.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Stock' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['STOCK_VIEW']">
-            <a routerLink="/core/stock-view" class="m-a"><img src="./assets/img/Menu/list.png" width="15px" height="15px">
-              {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-      <!-- <li *hasPermission="['DIESELDECLARATION_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Declaration Gasoil' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['DIESELDECLARATION_VIEW']">
-            <a routerLink="/core/settings/diesel-declaration" class="m-a"><img src="./assets/img/Menu/list.png"
-                width="15px" height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-      <!-- <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/gasoil.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Alimentation Pompe' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['ALIMENTATION_PUMP_VIEW']">
-            <a routerLink="/core/alimentation-pumps" class="m-a"><img src="./assets/img/Menu/list.png"
-                width="15px" height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-      <!-- <li *hasPermission="['MAINTENANCEPLAN_VIEW','MAINTENANCEPLAN_CREATE','MAINTENANCE_CREATE','MAINTENANCE_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa">
-            <img src="./assets/img/Menu/maintenance.png" width="25px" height="25px">
-
-          </i>
-          <span class="nav-label">{{'Maintenance' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['MAINTENANCEPLAN_CREATE']">
-            <a routerLink="/core/maintenance-plan/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Plan Maintenance' | translate}} </a>
-          </li>
-
-          <li *hasPermission="['MAINTENANCE_CREATE']">
-            <a routerLink="/core/maintenance/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Maintennace Corrective' | translate}} </a>
-          </li>
-
-          <li *hasPermission="['MAINTENANCEPLAN_VIEW']">
-            <a routerLink="/core/maintenance-plan/list" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'List Plan Maintenance' | translate}} </a>
-          </li>
-
-          <li *hasPermission="['MAINTENANCE_CREATE']">
-            <a routerLink="/core/maintenance/treatment" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Traitement des Maintenance' | translate}}</a>
-          </li>
-
-          <li>
-            <a routerLink="/core/maintenance/calendar" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Calendrier' | translate}}</a>
-          </li>
-
-        </ul>
-      </li> -->
 
       <li *hasPermission="['INSURANCE_VIEW']">
         <a class="text-white"><i class="sidebar-item-icon fa ">
@@ -465,74 +313,6 @@ height: 100vh; padding-bottom: 10%;">
         </ul>
       </li>
 
-
-      <!-- <li *hasPermission="['PURCHASEORDER_CREATE','PURCHASEORDER_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/sale.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Commande' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-          <li *hasPermission="['PURCHASEORDER_CREATE']">
-            <a routerLink="/core/order/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Inserer' | translate}} </a>
-          </li>
-          <li *hasPermission="['PURCHASEORDER_VIEW']">
-            <a routerLink="/core/order/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-      <!--
-      <li *hasPermission="['RECEPTION_CREATE','RECEPTION_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Reception' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-          <li *hasPermission="['RECEPTION_CREATE']">
-            <a routerLink="/core/reception/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Inserer' | translate}} </a>
-          </li>
-          <li *hasPermission="['RECEPTION_VIEW']">
-            <a routerLink="/core/reception/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-
-      <!-- <li *hasPermission="['RECEPTION_CREATE','RECEPTION_VIEW']">
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/invoice.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Facturation' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-
-          <li *hasPermission="['RECEPTION_VIEW']">
-            <a routerLink="/core/supplier-invoice/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
-
-
-      <!--
-      <li >
-        <a class="text-white"><i class="sidebar-item-icon fa ">
-            <img src="./assets/img/Menu/purchase.png" width="25px" height="25px">
-          </i>
-          <span class="nav-label">{{'Trajet' | translate}}</span><i class="fa fa-angle-left arrow"></i></a>
-        <ul class="nav-2-level collapse">
-          <li >
-            <a routerLink="/core/trajet/edit" class="m-a"><img src="./assets/img/Menu/insert.png" width="15px"
-                height="15px"> {{'Inserer' | translate}} </a>
-          </li>
-          <li >
-            <a routerLink="/core/trajet/list" class="m-a"><img src="./assets/img/Menu/list.png" width="15px"
-                height="15px"> {{'Lister' | translate}}</a>
-          </li>
-        </ul>
-      </li> -->
 
 
 

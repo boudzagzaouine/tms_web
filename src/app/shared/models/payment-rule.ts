@@ -1,4 +1,4 @@
-import { PaymentType } from '.';
+import { PaymentType } from "./payment-method";
 
 
 export class PaymentRule {

@@ -1,6 +1,5 @@
+import type { Company } from './company';
 import { Account } from './account';
-import { Trajet } from './trajet';
-import { Company } from './company';
 import { Vat } from './vat';
 import { Ville } from './ville';
 import { Pays } from './pays';
@@ -10,6 +9,7 @@ import { TurnType } from './turn-Type';
 import { VehicleCategory } from './vehicle-category';
 
 import { Owner } from './owner';
+import { Trajet } from './trajet';
 
 
 export class AccountPricing {

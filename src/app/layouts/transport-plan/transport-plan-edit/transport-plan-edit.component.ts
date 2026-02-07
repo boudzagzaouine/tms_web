@@ -20,7 +20,6 @@ import { Driver } from './../../../shared/models/driver';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
-import { VehicleCategorieComponent } from './../../settings/vehicle-categorie/vehicle-categorie.component';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { OrderTransportInfoService } from './../../../shared/services/api/order-transport-info.service';

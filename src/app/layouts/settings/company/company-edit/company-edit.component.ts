@@ -6,7 +6,8 @@ import { VilleService } from './../../../../shared/services/api/ville.service';
 import { PaysService } from './../../../../shared/services/api/pays.service';
 import { AddressService } from './../../../../shared/services/api/address.service';
 import { element } from 'protractor';
-import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
+import { AccountPricingService as AccountPricingServiceAPI } from './../../../../shared/services/api/account-pricing.service';
+import { AccountPricingService } from './../../../../shared/models/account-pricing-service';
 import { AccountPricing } from './../../../../shared/models/account-pricing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityAreaService } from './../../../../shared/services/api/activity-area.service';
@@ -161,6 +162,7 @@ data=>{
     if (this.companyForm.invalid) { return; }
     this.spinner.show();
     this.selectedCompany.name = this.companyForm.value['name'];
+    this.selectedCompany.code = this.companyForm.value['code'];
     this.selectedCompany.telephone = this.companyForm.value['tel'];
     this.selectedCompany.fax = this.companyForm.value['fax'];
     this.selectedCompany.email = this.companyForm.value['email'];

@@ -8,8 +8,6 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
-
-      { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
       { path: 'add-order-retour', loadChildren: () => import('./add-retour-order-transport/add-retour-order-transport.module').then(m => m.AddRetourOrderTransportModule) },

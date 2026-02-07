@@ -17,7 +17,7 @@ import { ActionLineMaintenance } from './action-line-maintenance';
 import { ActionType } from './action-type';
 import { ConditionalType } from './contional-Type';
 import { SaleOrder } from './sale-order';
-import { Supplier } from '.';
+import { Supplier } from './supplier';
 import { PurchaseOrder } from './purchase-order';
 import { Owner } from './owner';
 import { Driver } from './driver';

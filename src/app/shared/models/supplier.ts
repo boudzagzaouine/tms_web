@@ -1,18 +1,18 @@
-import { SupplierProduct } from './supplier-product';
+import type { SupplierProduct } from './supplier-product';
 
-import { SupplierType } from './supplier-type';
-import { Address } from './address';
-import { Contact } from './contact';
-import { Owner } from './owner';
-import { Planning } from './planning';
-import { Reception } from './reception';
-import { SupplierInvoice } from './supplier-invoice';
+import type { SupplierType } from './supplier-type';
+import type { Address } from './address';
+import type { Contact } from './contact';
+import type { Owner } from './owner';
+import type { Planning } from './planning';
+import type { Reception } from './reception';
+import type { SupplierInvoice } from './supplier-invoice';
 export class Supplier {
     id: number;
     code: string;
     description: string;
-    contact: Contact = new Contact();
-    address: Address = new Address();
+    contact: Contact;
+    address: Address;
     creationDate: Date;
     updateDate: Date;
     invoice: SupplierInvoice[];

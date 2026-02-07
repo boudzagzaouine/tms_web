@@ -1,7 +1,7 @@
-import { Address } from './address';
-import { ContactFunction } from './contact-function';
-import { Account } from './account';
-import { Owner } from './owner';
+import type { Address } from './address';
+import type { ContactFunction } from './contact-function';
+import type { Account } from './account';
+import type { Owner } from './owner';
 
 export class Contact {
     id: number;

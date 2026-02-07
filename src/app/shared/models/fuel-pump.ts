@@ -1,4 +1,4 @@
-import { Product } from ".";
+import { Product } from "./product";
 import { Owner } from "./owner";
 import { Pump } from "./pump";
 

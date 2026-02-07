@@ -1,5 +1,5 @@
-import { Address } from './address';
-import { Organisation } from './organisation';
+import type { Address } from './address';
+import type { Organisation } from './organisation';
 export class Owner {
     id: number;
     code: string;

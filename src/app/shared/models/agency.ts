@@ -1,4 +1,5 @@
-import { Address, User } from '.';
+import { Address } from './address';
+import { User } from './user';
 import { Zone } from './Zone';
 export class Agency {
     id: number;

@@ -1,6 +1,10 @@
 import { ProductPack } from './product-pack';
 import { PurchaseOrder } from './purchase-order';
-import { Uom, Product, ReceptionLine, Warehouse, Vat } from '.';
+import { Uom } from './uom';
+import { Product } from './product';
+import { ReceptionLine } from './reception-line';
+import { Warehouse } from './warehouse';
+import { Vat } from './vat';
 import { Owner } from './owner';
 import { OrderStatus } from './order-status';
 

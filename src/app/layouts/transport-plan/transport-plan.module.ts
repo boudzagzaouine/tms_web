@@ -3,13 +3,11 @@ import { TransportPlanTarifTrajetTransportComponent } from './transport-plan-add
 import { TransportPlanListCancelComponent } from './transport-plan-list-cancel/transport-plan-list-cancel.component';
 import { TransportPlanCancelComponent } from './transport-plan-list/transport-plan-cancel/transport-plan-cancel.component';
 import { InvoiceTransportPlanComponent } from './invoice-transport-plan/invoice-transport-plan.component';
-import { InvoicePlanTransportComponent } from './../invoice-plan-transport/invoice-plan-transport.component';
 import { NgxPrintModule } from 'ngx-print';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TransportPlanRejeterComponent } from './transport-plan-rejeter/transport-plan-rejeter.component';
 import { TransportPlanRefusComponent } from './transport-plan-refus/transport-plan-refus.component';
 import { TransportPlanHistoryComponent } from './transport-plan-add/transport-plan-history/transport-plan-history.component';
-import { TransportPlanHistory } from './../../shared/models/transport-plan-history';
 import { TransportPlanVehicleListComponent } from './transport-plan-add/transport-plan-vehicle-list/transport-plan-vehicle-list.component';
 import { TransportPlanAddComponent } from './transport-plan-add/transport-plan-add.component';
 import { TimelineModule } from 'primeng/timeline';
@@ -30,11 +28,11 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { TabViewModule } from 'primeng/tabview';
-import {TabMenuModule} from 'primeng/tabmenu';
-import {PanelModule} from 'primeng/panel';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
-import { SharedModule } from './../../shared/shared.module';
+// DO NOT IMPORT SharedModule
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
@@ -48,12 +46,12 @@ import { TransportPlanEditComponent } from './transport-plan-edit/transport-plan
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransportPlanComponent } from './transport-plan.component';
-import {OrderListModule} from 'primeng/orderlist';
-import {CheckboxModule} from 'primeng/checkbox';
-import {DataViewModule} from 'primeng/dataview';
+import { OrderListModule } from 'primeng/orderlist';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DataViewModule } from 'primeng/dataview';
 import { TransportPlanServiceEditComponent } from './transport-plan-edit/transport-plan-service-edit/transport-plan-service-edit.component';
-import {RatingModule} from 'primeng/rating';
-import {InputNumberModule} from 'primeng/inputnumber';
+import { RatingModule } from 'primeng/rating';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/transport-plan-history-enattente/transport-plan-history-enattente.component';
 
 @NgModule({
@@ -62,50 +60,59 @@ import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/tra
     TransportPlanRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     InputTextModule,
     TableModule,
     DropdownModule,
     AutoCompleteModule,
     NgxSpinnerModule,
-    SharedModule,
     CalendarModule,
     ConfirmDialogModule,
     TabViewModule,
     KeyFilterModule,
     NgbModalModule,
-    NgxSpinnerModule,
-    ConfirmDialogModule,
     ContextMenuModule,
     StepsModule,
     PanelModule,
-    BreadcrumbModule ,
+    BreadcrumbModule,
     PickListModule,
     SelectButtonModule,
     MultiSelectModule,
     DialogModule,
     OverlayPanelModule,
-     TreeTableModule,
-     FieldsetModule,
-     ScrollPanelModule,
-     RadioButtonModule,
-     ToastModule,
-     TabViewModule,
-     PanelModule,
-     CardModule,
-     TabMenuModule,
-     TimelineModule,
-     OrderListModule,
-     SelectButtonModule,
-     CheckboxModule,
-     DataViewModule,
-     SplitButtonModule,
-     RatingModule,
-     NgxPrintModule,
-     InputNumberModule
+    TreeTableModule,
+    FieldsetModule,
+    ScrollPanelModule,
+    RadioButtonModule,
+    ToastModule,
+    CardModule,
+    TabMenuModule,
+    TimelineModule,
+    OrderListModule,
+    CheckboxModule,
+    DataViewModule,
+    SplitButtonModule,
+    RatingModule,
+    NgxPrintModule,
+    InputNumberModule
   ],
-  declarations: [TransportPlanComponent,TransportPlanEditComponent,TransportPlanListComponent,TransportPlanAddComponent,TransportPlanServiceEditComponent,TransportPlanVehicleListComponent,
-                   TransportPlanHistoryComponent,TransportPlanRefusComponent,TransportPlanRejeterComponent,InvoiceTransportPlanComponent,TransportPlanCancelComponent,TransportPlanListCancelComponent,TransportPlanTarifTrajetTransportComponent,TransportPlanAddServiceEditComponent,TransportPlanHistoryEnattenteComponent],
-                   providers:[]
+  declarations: [
+    TransportPlanComponent,
+    TransportPlanEditComponent,
+    TransportPlanListComponent,
+    TransportPlanAddComponent,
+    TransportPlanServiceEditComponent,
+    TransportPlanVehicleListComponent,
+    TransportPlanHistoryComponent,
+    TransportPlanRefusComponent,
+    TransportPlanRejeterComponent,
+    InvoiceTransportPlanComponent,
+    TransportPlanCancelComponent,
+    TransportPlanListCancelComponent,
+    TransportPlanTarifTrajetTransportComponent,
+    TransportPlanAddServiceEditComponent,
+    TransportPlanHistoryEnattenteComponent
+  ],
+  providers: []
 })
 export class TransportPlanModule { }

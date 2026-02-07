@@ -4,7 +4,6 @@ import { Vehicle } from './vehicle';
 import { Owner } from './owner';
 import { Driver } from './driver';
 import { SubscriptionCard } from './subscription-card';
-import { PurchaseOrderService } from '../services/api/purchase-order.service';
 import { PurchaseOrder } from './purchase-order';
 import { FuelPump } from './fuel-pump';
 

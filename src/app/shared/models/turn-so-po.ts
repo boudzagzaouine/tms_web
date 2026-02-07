@@ -9,7 +9,7 @@ import { Uom } from './uom';
 import { Vat } from './vat';
 import { ProductPack } from './product-pack';
 import { PurchaseOrder } from './purchase-order';
-import { PurchaseOrderLine } from '.';
+import { PurchaseOrderLine } from './purchase-order-line';
 import { TurnLine } from './turn-line';
 
 export class TurnSoPo {

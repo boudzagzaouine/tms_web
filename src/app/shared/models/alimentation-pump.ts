@@ -1,4 +1,5 @@
-import { Reception, ReceptionLine } from ".";
+import { Reception } from "./reception";
+import { ReceptionLine } from "./reception-line";
 import { FuelPump } from "./fuel-pump";
 import { Owner } from "./owner";
 

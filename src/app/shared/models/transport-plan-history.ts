@@ -2,7 +2,6 @@ import { Account } from './account';
 import { TransportPlan } from './transport-plan';
 import { Trajet } from './trajet';
 import { OrderTransportRejectType } from './order-transport-reject-type';
-import { TransportPlanService } from './../services/api/transport-plan.service';
 import { Ville } from './ville';
 import { TurnStatus } from './turn-status';
 import { OrderTransport } from './order-transport';

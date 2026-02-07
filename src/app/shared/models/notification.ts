@@ -1,7 +1,7 @@
 import { NotificationType} from './notificationType';
 import { NotificationState } from './notificationState';
 import { Maintenance } from './maintenance';
-import { Product } from '.';
+import { Product } from './product';
 import { Responsability } from './responsability';
 import { ServiceProvider } from './service-provider';
 

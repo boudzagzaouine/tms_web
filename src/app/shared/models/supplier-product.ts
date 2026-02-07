@@ -1,5 +1,7 @@
-import { Supplier, Uom, Vat } from '.';
-import { Product } from '.';
+import { Supplier } from './supplier';
+import { Uom } from './uom';
+import { Vat } from './vat';
+import { Product } from './product';
 import { Owner } from './owner';
 
 

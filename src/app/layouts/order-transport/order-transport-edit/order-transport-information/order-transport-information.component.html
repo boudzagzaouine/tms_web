@@ -41,7 +41,7 @@
                formControlName="account" field="codeName"
                [suggestions]="accountList" (onSelect)="onSelectAccount($event)"
                (completeMethod)="onAccountSearch($event)"  [dropdown]="true"
-               [disabled]="this.selectedOrderTransport?.turnStatus.id==2"
+               [disabled]="this.selectedOrderTransport?.turnStatus?.id==2"
                >
                 <ng-template let-account pTemplate="item">
                     <div class="account-item">

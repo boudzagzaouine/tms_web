@@ -2,7 +2,7 @@ import { TurnType } from './turn-Type';
 import { Ville } from './ville';
 import { Account } from './account';
 import { Company } from './company';
-import { Contact } from './contact';
+import type { Contact } from './contact';
 import { Address } from './address';
 import { Card } from './card';
 import { Owner } from './owner';

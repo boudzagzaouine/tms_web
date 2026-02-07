@@ -1,4 +1,5 @@
-import { Reception, SupplierInvoice } from '.';
+import { Reception } from './reception';
+import { SupplierInvoice } from './supplier-invoice';
 import { ActionLineMaintenance } from './action-line-maintenance';
 import { ActionType } from './action-type';
 import { MaintenanceState } from './maintenance-state';

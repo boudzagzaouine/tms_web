@@ -164,6 +164,7 @@ export class TransportEditComponent implements OnInit {
     }
 
     this.selectedTransport.name = this.transportForm.value["name"];
+    this.selectedTransport.code = this.transportForm.value["code"];
     this.selectedTransport.description =
       this.transportForm.value["description"];
       this.selectContact.code =  this.selectedTransport.name;

@@ -1,5 +1,6 @@
 import { NgPipesModule } from 'ngx-pipes';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -47,7 +48,8 @@ FullCalendarModule.registerPlugins([
     NgPipesModule,
     ToastModule,
     FullCalendarModule, // register FullCalendar with you app
-    SharedModule.forRoot(),
+    CoreModule.forRoot(),
+    SharedModule,
     NgxPermissionsModule.forRoot({
      // permissionsIsolate: false
     }),

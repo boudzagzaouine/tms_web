@@ -1,10 +1,10 @@
-import { TransportAccountService } from './transport-account-service';
-import { TransportService } from './transport-service';
-import { CatalogTransportAccountPricing } from './catalog-transport-account-pricing';
-import { CatalogTransportPricing } from './CatalogTransportPricing';
-import { Contact } from './contact';
-import { Address } from './address';
-import { Owner } from './owner';
+import type { TransportAccountService } from './transport-account-service';
+import type { TransportService } from './transport-service';
+import type { CatalogTransportAccountPricing } from './catalog-transport-account-pricing';
+import type { CatalogTransportPricing } from './CatalogTransportPricing';
+import type { Contact } from './contact';
+import type { Address } from './address';
+import type { Owner } from './owner';
 
 
 export class Transport {

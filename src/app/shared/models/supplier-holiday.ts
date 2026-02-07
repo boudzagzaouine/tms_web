@@ -1,4 +1,4 @@
-import { Supplier } from '.';
+import { Supplier } from './supplier';
 import { Owner } from './owner';
 
 

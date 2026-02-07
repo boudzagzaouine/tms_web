@@ -1,5 +1,5 @@
 import { Day } from './day';
-import { Supplier } from ".";
+import { Supplier } from "./supplier";
 import { Account } from "./account";
 import { Owner } from "./owner";
 

@@ -44,7 +44,7 @@ import { OrderTransportService } from "./../../../shared/services/api/order-tran
 import { ConfirmationService, MenuItem } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import { table } from "console";
-import { Vat } from "./../../../shared/models";
+import { Vat } from "./../../../shared/models/vat";
 
 
 @Component({

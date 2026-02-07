@@ -14,17 +14,14 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { HasPermissionDirective } from './shared/directive/hasPermission.directive';
-import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
-//  AoT requires an exported function for factories
+// AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
-  //  for development
-  //  return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-5/master/dist/assets/i18n/', '.json');
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -47,12 +44,10 @@ FullCalendarModule.registerPlugins([
     HttpClientModule,
     NgPipesModule,
     ToastModule,
-    FullCalendarModule, // register FullCalendar with you app
+    FullCalendarModule,
     CoreModule.forRoot(),
-    SharedModule,
-    NgxPermissionsModule.forRoot({
-     // permissionsIsolate: false
-    }),
+    SharedModule,  // ← Just normal import, no .forRoot()
+    NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -60,7 +55,6 @@ FullCalendarModule.registerPlugins([
         deps: [HttpClient]
       }
     }),
-    AppRoutingModule,
     ToastrModule.forRoot({
       preventDuplicates: false,
       timeOut: 2000,
@@ -69,12 +63,8 @@ FullCalendarModule.registerPlugins([
       maxOpened: 2,
       newestOnTop: true,
     }),
-
-
-
   ],
   bootstrap: [AppComponent],
-  providers:[MessageService],
-
+  providers: [MessageService],
 })
 export class AppModule { }

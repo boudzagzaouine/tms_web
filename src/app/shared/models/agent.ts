@@ -1,6 +1,6 @@
 
-import { Owner } from './owner';
-import { Responsability } from './responsability';
+import type { Owner } from './owner';
+import type { Responsability } from './responsability';
 
 
 export class Agent {

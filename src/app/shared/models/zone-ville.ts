@@ -1,5 +1,5 @@
-import { Ville } from './ville';
-import { Zone } from './Zone';
+import type { Ville } from './ville';
+import type { Zone } from './Zone';
 
 export class ZoneVille {
 

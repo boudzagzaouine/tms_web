@@ -1,4 +1,4 @@
-import { BadgeType } from './badge-Type';
+import type { BadgeType } from './badge-Type';
 
 export class Badge {
 

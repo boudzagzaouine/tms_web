@@ -1,15 +1,15 @@
-import { Trajet } from './trajet';
-import { Company } from './company';
-import { Pays } from './pays';
-import { LoadingType } from './loading-type';
-import { VehicleTray } from './vehicle-tray';
-import { TurnType } from './turn-Type';
-import { Ville } from './ville';
-import { Zone } from './Zone';
-import { Vat } from './vat';
-import { VehicleCategory } from './vehicle-category';
-import { Owner } from './owner';
-import { Transport } from './transport';
+import type { Trajet } from './trajet';
+import type { Company } from './company';
+import type { Pays } from './pays';
+import type { LoadingType } from './loading-type';
+import type { VehicleTray } from './vehicle-tray';
+import type { TurnType } from './turn-Type';
+import type { Ville } from './ville';
+import type { Zone } from './Zone';
+import type { Vat } from './vat';
+import type { VehicleCategory } from './vehicle-category';
+import type { Owner } from './owner';
+import type { Transport } from './transport';
 
 
 export class CatalogTransportAccountPricing {

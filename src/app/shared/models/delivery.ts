@@ -1,12 +1,12 @@
-import { AddressInfo } from './adress-info';
-import { Address } from './address';
-import { OrderType } from "./order-type";
-import { Account } from "./account";
-import { DeliveryLine } from "./delivery-line";
-import { Owner } from "./owner";
-import { OrderStatus } from "./order-status";
-import { Warehouse } from "./warehouse";
-import { SaleOrder } from "./sale-order";
+import type { AddressInfo } from './adress-info';
+import type { Address } from './address';
+import type { OrderType } from "./order-type";
+import type { Account } from "./account";
+import type { DeliveryLine } from "./delivery-line";
+import type { Owner } from "./owner";
+import type { OrderStatus } from "./order-status";
+import type { Warehouse } from "./warehouse";
+import type { SaleOrder } from "./sale-order";
 //import { Address } from ".";
 
 export class Delivery {

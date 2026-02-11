@@ -1,14 +1,14 @@
-import { Address } from './address';
-import { Vat } from './vat';
+import type { Address } from './address';
+import type { Vat } from './vat';
 import type { Contact } from './contact';
-import { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
-import { Account } from './account';
-import { PaymentType } from './payment-method';
-import { PaymentRule } from './payment-rule';
-import { TurnStatus } from './turn-status';
-import { OrderTransportType } from './order-transport-type';
-import { OrderTransportInfo } from './order-transport-info';
-import { AddressContactOrderTransportInfo } from './address-contact-order-transport-nfo';
+import type { OrderTransportInfoLineDocument } from './order-transport-info-line-document';
+import type { Account } from './account';
+import type { PaymentType } from './payment-method';
+import type { PaymentRule } from './payment-rule';
+import type { TurnStatus } from './turn-status';
+import type { OrderTransportType } from './order-transport-type';
+import type { OrderTransportInfo } from './order-transport-info';
+import type { AddressContactOrderTransportInfo } from './address-contact-order-transport-nfo';
 
 
 export class OrderTransportInfoLine {

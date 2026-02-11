@@ -1,5 +1,5 @@
-import {DeliveryLine} from './delivery-line';
-import {SaleOrder} from './sale-order';
+import type {DeliveryLine} from './delivery-line';
+import type {SaleOrder} from './sale-order';
 
 export class Warehouse {
   id: number;

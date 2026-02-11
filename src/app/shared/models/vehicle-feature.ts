@@ -1,4 +1,4 @@
-import { Uom } from './uom';
+import type { Uom } from './uom';
 
 export class VehicleFeature {
 

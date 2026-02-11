@@ -1,12 +1,12 @@
-import { ProductPack } from './product-pack';
-import { Supplier } from './supplier';
-import { Uom } from './uom';
+import type { ProductPack } from './product-pack';
+import type { Supplier } from './supplier';
+import type { Uom } from './uom';
 //import { Product, Uom } from '.';
 
-import { Product } from './product';
-import { Owner } from './owner';
-import { SaleOrderLine } from './sale-order-line';
-import { ContainerType } from './container-type';
+import type { Product } from './product';
+import type { Owner } from './owner';
+import type { SaleOrderLine } from './sale-order-line';
+import type { ContainerType } from './container-type';
 
 export class Container {
   

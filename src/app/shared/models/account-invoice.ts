@@ -1,8 +1,8 @@
-import { Currency } from './currency';
-import { AccountInvoiceLine } from './account-invoice-line';
-import { Account } from './account';
-import { Owner } from './owner';
-import { User } from './user';
+import type { Currency } from './currency';
+import type { AccountInvoiceLine } from './account-invoice-line';
+import type { Account } from './account';
+import type { Owner } from './owner';
+import type { User } from './user';
 
 export class AccountInvoice {
   id: number;

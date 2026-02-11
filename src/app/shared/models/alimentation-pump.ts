@@ -1,7 +1,7 @@
-import { Reception } from "./reception";
-import { ReceptionLine } from "./reception-line";
-import { FuelPump } from "./fuel-pump";
-import { Owner } from "./owner";
+import type { Reception } from "./reception";
+import type { ReceptionLine } from "./reception-line";
+import type { FuelPump } from "./fuel-pump";
+import type { Owner } from "./owner";
 
 
 export class AlimentationPump {

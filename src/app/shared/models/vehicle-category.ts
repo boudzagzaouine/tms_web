@@ -1,10 +1,10 @@
-import { VehicleTray } from './vehicle-tray';
-import { VehicleCategoryTray } from './vehicle-category-tray';
-import { CatalogTransportPricing } from './CatalogTransportPricing';
-import { InsuranceType } from './insurance-Type';
-import { Owner } from './owner';
-import { Transport } from './transport';
-import { Vehicle } from './vehicle';
+import type { VehicleTray } from './vehicle-tray';
+import type { VehicleCategoryTray } from './vehicle-category-tray';
+import type { CatalogTransportPricing } from './CatalogTransportPricing';
+import type { InsuranceType } from './insurance-Type';
+import type { Owner } from './owner';
+import type { Transport } from './transport';
+import type { Vehicle } from './vehicle';
 
 export class VehicleCategory {
 

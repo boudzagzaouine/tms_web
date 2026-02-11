@@ -1,12 +1,12 @@
-import {Delivery} from './delivery';
-import {Uom} from './uom';
-import {Owner} from './owner';
-import {OrderStatus} from './order-status';
-import {Product} from './product';
-import {SaleOrderLine} from './sale-order-line';
-import {Warehouse} from './warehouse';
-import { ProductPack } from './product-pack';
-import { Vat } from './vat';
+import type {Delivery} from './delivery';
+import type {Uom} from './uom';
+import type {Owner} from './owner';
+import type {OrderStatus} from './order-status';
+import type {Product} from './product';
+import type {SaleOrderLine} from './sale-order-line';
+import type {Warehouse} from './warehouse';
+import type { ProductPack } from './product-pack';
+import type { Vat } from './vat';
 
 export class DeliveryLine {
 

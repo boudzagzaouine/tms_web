@@ -7,6 +7,7 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      { path: 'transport-plan', loadChildren: () => import('./transport-plan/transport-plan.module').then(m => m.TransportPlanModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       { path: 'vehicles', loadChildren: () => import('./vehicle/vehicle.module').then(m => m.VehicleModule) },
       { path: 'drivers', loadChildren: () => import('./driver/driver.module').then(m => m.DriverModule) },
@@ -61,7 +62,6 @@ const routes: Routes = [
       { path: 'vehicle-availablity', loadChildren: () => import('./vehicle-availablity/vehicle-availablity.module').then(m => m.VehicleAvailablityModule) },
       { path: 'supplier-invoice', loadChildren: () => import('./supplier-invoice/supplier-invoice.module').then(m => m.SupplierInvoiceModule) },
       { path: 'order-transport', loadChildren: () => import('./order-transport/order-transport.module').then(m => m.OrderTransportModule) },
-      { path: 'transport-plan', loadChildren: () => import('./transport-plan/transport-plan.module').then(m => m.TransportPlanModule) },
       { path: 'default-index', loadChildren: () => import('./default/default.module').then(m => m.DefaultModule) },
       { path: 'invoice', loadChildren: () => import('./invoice-plan-transport/invoice-plan-transport.module').then(m => m.InvoicePlanTransportModule) },
       { path: 'tracking', loadChildren: () => import('./tracking/tracking.module').then(m => m.TrackingModule) },

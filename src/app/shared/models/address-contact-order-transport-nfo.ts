@@ -1,6 +1,6 @@
-import { PackagingType } from './packaging-type';
-import { Company } from './company';
-import { Owner } from './owner';
+import type { PackagingType } from './packaging-type';
+import type { Company } from './company';
+import type { Owner } from './owner';
 
 export class AddressContactOrderTransportInfo {
   id: number;

@@ -1,8 +1,8 @@
-import { VehicleProduct } from './vehicle-product';
-import { ProductType } from './product-type';
-import { Product } from './product';
-import { ActionTypeRepair } from './action-type-repair';
-import { Owner } from './owner';
+import type { VehicleProduct } from './vehicle-product';
+import type { ProductType } from './product-type';
+import type { Product } from './product';
+import type { ActionTypeRepair } from './action-type-repair';
+import type { Owner } from './owner';
 
 
 export class VehicleProductReference {

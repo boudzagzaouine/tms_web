@@ -1,5 +1,5 @@
-import { ActionTypeRepair } from './action-type-repair';
-import { Owner } from './owner';
+import type { ActionTypeRepair } from './action-type-repair';
+import type { Owner } from './owner';
 
 
 export class VehicleAccompaniment {

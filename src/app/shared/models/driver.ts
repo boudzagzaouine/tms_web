@@ -1,7 +1,6 @@
 import type { CommissionDriver } from './commission-driver';
 import type { BadgeTypeDriver } from './badge-Type-Driver';
 import type { Badge } from './badge';
-import type { Contact } from './contact';
 import type { User } from './user';
 import type { Owner } from './owner';
 import type { SubscriptionCard } from './subscription-card';

@@ -1,15 +1,15 @@
-import { MaintenanceState } from './maintenance-state';
-import { ActionLineMaintenance } from './action-line-maintenance';
-import { Maintenance } from './maintenance';
-import { ProductPack } from "./product-pack";
-import { Stock } from "./stock";
-import { Uom } from "./uom";
-import { DeliveryLine } from "./delivery-line";
-import { Delivery } from "./delivery";
-import { Product } from "./product";
-import { Warehouse } from "./warehouse";
-import { Owner } from "./owner";
-import { DieselDeclaration } from './diesel-declaration';
+import type { MaintenanceState } from './maintenance-state';
+import type { ActionLineMaintenance } from './action-line-maintenance';
+import type { Maintenance } from './maintenance';
+import type { ProductPack } from "./product-pack";
+import type { Stock } from "./stock";
+import type { Uom } from "./uom";
+import type { DeliveryLine } from "./delivery-line";
+import type { Delivery } from "./delivery";
+import type { Product } from "./product";
+import type { Warehouse } from "./warehouse";
+import type { Owner } from "./owner";
+import type { DieselDeclaration } from './diesel-declaration';
 export class MaintenanceStock {
   id: number;
   lineNumber: number;

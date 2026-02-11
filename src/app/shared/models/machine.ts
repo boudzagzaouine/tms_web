@@ -1,5 +1,5 @@
 import { Patrimony } from './patrimony';
-import { ConsumptionType } from './consumption-type';
+import type { ConsumptionType } from './consumption-type';
 import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
 import { InsuranceTerm } from './insurance-term';
 import { ContractType } from './contract-type';

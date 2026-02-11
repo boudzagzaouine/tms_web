@@ -1,8 +1,8 @@
-import { Action } from './action';
-import { MaintenanceState } from './maintenance-state';
-import { MaintenancePlan } from './maintenance-plan';
-import { Product } from './product';
-import { Uom } from './uom';
+import type { Action } from './action';
+import type { MaintenanceState } from './maintenance-state';
+import type { MaintenancePlan } from './maintenance-plan';
+import type { Product } from './product';
+import type { Uom } from './uom';
 
 export class MaintenanceLine {
 

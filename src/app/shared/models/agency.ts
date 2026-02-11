@@ -1,6 +1,6 @@
-import { Address } from './address';
-import { User } from './user';
-import { Zone } from './Zone';
+import type { Address } from './address';
+import type { User } from './user';
+import type { Zone } from './Zone';
 export class Agency {
     id: number;
     code: string;

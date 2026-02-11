@@ -1,11 +1,11 @@
-import { NotificationType} from './notificationType';
-import { NotificationState } from './notificationState';
-import { Vehicle } from './vehicle';
-import { Owner } from './owner';
-import { Driver } from './driver';
-import { SubscriptionCard } from './subscription-card';
-import { PurchaseOrder } from './purchase-order';
-import { FuelPump } from './fuel-pump';
+import type { NotificationType} from './notificationType';
+import type { NotificationState } from './notificationState';
+import type { Vehicle } from './vehicle';
+import type { Owner } from './owner';
+import type { Driver } from './driver';
+import type { SubscriptionCard } from './subscription-card';
+import type { PurchaseOrder } from './purchase-order';
+import type { FuelPump } from './fuel-pump';
 
 export class DieselDeclaration {
 

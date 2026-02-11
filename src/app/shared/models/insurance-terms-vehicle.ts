@@ -1,9 +1,9 @@
-import { Vehicle } from './vehicle';
-import { InsuranceTerm } from './insurance-term';
-import { BadgeType } from './badge-Type';
-import { CommissionType } from './commissionType';
-import { Driver } from './driver';
-import { Insurance } from './insurance';
+import type { Vehicle } from './vehicle';
+import type { InsuranceTerm } from './insurance-term';
+import type { BadgeType } from './badge-Type';
+import type { CommissionType } from './commissionType';
+import type { Driver } from './driver';
+import type { Insurance } from './insurance';
 
 export class InsuranceTermsVehicle {
 

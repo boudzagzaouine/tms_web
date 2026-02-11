@@ -1,9 +1,9 @@
-import { Container } from './container';
-import { ContainerType } from './container-type';
-import { Owner } from './owner';
-import { SaleOrder } from './sale-order';
-import { SaleOrderLine } from './sale-order-line';
-import { VehicleCategory } from './vehicle-category';
+import type { Container } from './container';
+import type { ContainerType } from './container-type';
+import type { Owner } from './owner';
+import type { SaleOrder } from './sale-order';
+import type { SaleOrderLine } from './sale-order-line';
+import type { VehicleCategory } from './vehicle-category';
 
 
 export class LocationContainerInVehicle {

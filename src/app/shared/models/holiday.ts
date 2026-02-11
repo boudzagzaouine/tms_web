@@ -1,5 +1,5 @@
-import { Account } from './account';
-import { Owner } from './owner';
+import type { Account } from './account';
+import type { Owner } from './owner';
 
 
 export class Holiday {

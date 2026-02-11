@@ -1,6 +1,6 @@
-import { Product } from "./product";
-import { Owner } from "./owner";
-import { Pump } from "./pump";
+import type { Product } from "./product";
+import type { Owner } from "./owner";
+import type { Pump } from "./pump";
 
 
 export class FuelPump {

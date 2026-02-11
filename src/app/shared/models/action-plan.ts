@@ -1,23 +1,23 @@
-import { ActionType } from './action-type';
-import { MaintenanceState } from './maintenance-state';
-import { MaintenancePlan } from './maintenance-plan';
-import { Product } from './product';
-import { Uom } from './uom';
-import { ActionLine } from './action-line';
-import { MaintenanceType } from './maintenance-type';
-import { ProgramType } from './program-type';
-import { OperationType } from './operation-type';
-import { ServiceProvider } from './service-provider';
-import { Responsability } from './responsability';
-import { PeriodicityType } from './periodicity-type';
+import type { ActionType } from './action-type';
+import type { MaintenanceState } from './maintenance-state';
+import type { MaintenancePlan } from './maintenance-plan';
+import type { Product } from './product';
+import type { Uom } from './uom';
+import type { ActionLine } from './action-line';
+import type { MaintenanceType } from './maintenance-type';
+import type { ProgramType } from './program-type';
+import type { OperationType } from './operation-type';
+import type { ServiceProvider } from './service-provider';
+import type { Responsability } from './responsability';
+import type { PeriodicityType } from './periodicity-type';
 
-import { Patrimony } from './patrimony';
-import { Day } from './day';
-import { Month } from './month';
-import { Action } from './action';
-import { ConditionalType } from './contional-Type';
-import { Owner } from './owner';
-import { Agent } from './agent';
+import type { Patrimony } from './patrimony';
+import type { Day } from './day';
+import type { Month } from './month';
+import type { Action } from './action';
+import type { ConditionalType } from './contional-Type';
+import type { Owner } from './owner';
+import type { Agent } from './agent';
 
 export class ActionPlan {
 

@@ -1,14 +1,14 @@
 import { Patrimony } from './patrimony';
 import type { ConsumptionType } from './consumption-type';
-import { InsuranceTermsVehicle } from './insurance-terms-vehicle';
-import { InsuranceTerm } from './insurance-term';
-import { ContractType } from './contract-type';
-import { Insurance } from './insurance';
-import { VehicleCategory } from './vehicle-category';
-import { BadgeType } from './badge-Type';
-import { MaintenancePlan } from './maintenance-plan';
-import { Owner } from './owner';
-import { Transport } from './transport';
+import type { InsuranceTermsVehicle } from './insurance-terms-vehicle';
+import type { InsuranceTerm } from './insurance-term';
+import type { ContractType } from './contract-type';
+import type { Insurance } from './insurance';
+import type { VehicleCategory } from './vehicle-category';
+import type { BadgeType } from './badge-Type';
+import type { MaintenancePlan } from './maintenance-plan';
+import type { Owner } from './owner';
+import type { Transport } from './transport';
 
 export class Machine extends Patrimony {
 

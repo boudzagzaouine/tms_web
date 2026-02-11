@@ -1,5 +1,5 @@
-import { CommissionType } from './commissionType';
-import { Driver } from './driver';
+import type { CommissionType } from './commissionType';
+import type { Driver } from './driver';
 
 export class CommissionDriver {
 

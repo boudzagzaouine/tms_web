@@ -1,6 +1,6 @@
-import { User } from './user';
-import { BadgeType } from './badge-Type';
-import { Driver } from './driver';
+import type { User } from './user';
+import type { BadgeType } from './badge-Type';
+import type { Driver } from './driver';
 
 export class BadgeTypeDriver {
 

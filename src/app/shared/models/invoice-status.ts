@@ -1,4 +1,4 @@
-import { MaintenanceType } from './maintenance-type';
+import type { MaintenanceType } from './maintenance-type';
 
 
 export class InvoiceStatus {

@@ -1,5 +1,5 @@
-import {Uom} from './uom';
-import {Product} from './product';
+import type {Uom} from './uom';
+import type {Product} from './product';
 
 export class Kit {
   id: number;

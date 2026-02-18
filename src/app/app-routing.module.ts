@@ -1,9 +1,6 @@
-import { LayoutComponent } from './layouts/layout.component';
-import { DefaultModule } from './layouts/default/default.module';
-import { DefaultComponent } from './layouts/default/default.component';
 import { AuthGuard } from './shared/guards/auth-guard.service';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { RouterModule, Routes, NoPreloading } from '@angular/router';
 
 const routes: Routes = [
 
@@ -26,7 +23,7 @@ const routes: Routes = [
   declarations: [
 
   ],
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true, relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, useHash: true, relativeLinkResolution: 'legacy' })],
   exports: [
     RouterModule,
   ]

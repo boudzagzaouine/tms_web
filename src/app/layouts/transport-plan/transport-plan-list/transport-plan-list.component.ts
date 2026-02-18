@@ -35,7 +35,15 @@ import { OrderTransport } from './../../../shared/models/order-transport';
 import { Vehicle } from './../../../shared/models';
 import { Icon, icon } from 'leaflet';
 const htmlToPdfmake = require("html-to-pdfmake");
-(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+// Guard assignment: pdfFonts may be ESM default or named export depending on the bundler.
+const _pdfFonts: any = (pdfFonts as any).pdfMake ? pdfFonts : (pdfFonts as any).default ? (pdfFonts as any).default : null;
+const _vfs = _pdfFonts && _pdfFonts.pdfMake ? _pdfFonts.pdfMake.vfs : null;
+if (_vfs) {
+  (pdfMake as any).vfs = _vfs;
+} else {
+  // vfs not available — avoid accessing undefined and fallback to empty vfs
+  (pdfMake as any).vfs = (pdfMake as any).vfs || {};
+}
 @Component({
   selector: 'app-transport-plan-list',
   templateUrl: './transport-plan-list.component.html',

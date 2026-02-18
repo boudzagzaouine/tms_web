@@ -41,6 +41,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransportPlanRoutingModule } from './transport-plan-routing.module';
+import { SharedModule } from './../../shared/shared.module';
 import { TransportPlanListComponent } from './transport-plan-list/transport-plan-list.component';
 import { TransportPlanEditComponent } from './transport-plan-edit/transport-plan-edit.component';
 import { LOCALE_ID, NgModule } from '@angular/core';
@@ -57,6 +58,7 @@ import { TransportPlanHistoryEnattenteComponent } from './transport-plan-add/tra
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     TransportPlanRoutingModule,
     FormsModule,
     ReactiveFormsModule,

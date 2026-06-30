@@ -23,11 +23,15 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = sessionStorage.getItem(JWT_TOKEN);
 
-    // Only attach the token to our own backend, and never to the login call itself.
+    // Only attach the token to our own backend, and never to public endpoints. Adding the (large)
+    // Bearer header to a public GET would turn it into a CORS-preflighted, oversized request for no
+    // reason; the backend permits these without a token anyway.
     const isBackend = request.url.startsWith(REST_URL);
-    const isLogin = request.url.indexOf('api/auth/login') !== -1;
+    const isPublic = request.url.indexOf('api/auth/login') !== -1
+      || request.url.indexOf('/authentification') !== -1
+      || request.url.indexOf('/monitoring') !== -1;
 
-    if (token && isBackend && !isLogin) {
+    if (token && isBackend && !isPublic) {
       request = request.clone({
         setHeaders: { Authorization: `Bearer ${token}` },
       });
@@ -35,7 +39,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && !isLogin) {
+        if (error.status === 401 && !isPublic) {
           // Token missing/expired -> clear session and send the user back to login.
           sessionStorage.removeItem(JWT_TOKEN);
           sessionStorage.removeItem(CURRENT_USER);

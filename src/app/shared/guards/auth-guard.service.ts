@@ -9,7 +9,8 @@ export class AuthGuard implements CanActivate {
     constructor(private router: Router) {}
 
     canActivate() {
-        if (sessionStorage.getItem('currentUser')) {
+        // Authenticated only when both a JWT and a loaded user profile are present.
+        if (sessionStorage.getItem('jwt') && sessionStorage.getItem('currentUser')) {
             return true;
         }
 

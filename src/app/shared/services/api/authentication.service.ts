@@ -7,7 +7,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { REST_URL, CURRENT_USER } from '../../utils/constants';
+import { REST_URL, CURRENT_USER, JWT_TOKEN, AUTH_LOGIN_URL } from '../../utils/constants';
+import { AuthResponse } from '../../../auth/models/auth-response';
 import { Md5 } from 'ts-md5';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -39,71 +40,79 @@ export class AuthenticationService implements OnDestroy{
 
 
    login(email: string, password: string) {
-        const pass = Md5.hashStr(password);
-        // console.log(
-        //     REST_URL + 'authentification?email=' + email + '&password=' + pass
-        // );
-
-       this.subs = this.http
-            .get<User>(
-                REST_URL +
-                    'authentification?email=' +
-                    email +
-                    '&password=' +
-                    pass
-            )
+        // 1) Obtain a signed JWT from the backend. The plain password is sent; the backend
+        //    MD5-hashes it and compares against the existing user store.
+        this.subs = this.http
+            .post<AuthResponse>(AUTH_LOGIN_URL, { email, password })
             .subscribe(
-
-
-                user => {
-                    console.log(user)
-                    this.currentUser = user;
-
-                    if (
-                        this.currentUser !== undefined &&
-                        this.currentUser !== null
-                    ) {
-                        const permissions: string[] = [];
-                        if (
-                            user.userGroup &&
-                            user.userGroup.groupHabilitations &&
-                            user.userGroup.groupHabilitations.length
-                        ) {
-                            for (const gh of user.userGroup
-                                .groupHabilitations) {
-                               //  console.log(gh.habilitation.code);
-                                 permissions.push(gh.habilitation.code);
-                            }
-                        }
-                        this.permissionService.loadPermissions(permissions);
-                       // console.log(this.permissionService.getPermissions());
-
-                       // this.currentUser.columns = '';
-                        // this.currentUser.agency = null;
-                      //  this.currentUser.saleOrders = null;
-                       // this.currentUser.userGroup = null;
-                        localStorage.setItem(LOGGED_IN, 'true');
-                        sessionStorage.setItem(
-                            CURRENT_USER,
-                            JSON.stringify(user)
-                        );
-                        this.router.navigate(['/core']);
-                        this.toast.success('Successfully logged in', 'Welcome');
+                auth => {
+                    try {
+                        sessionStorage.setItem(JWT_TOKEN, auth.accessToken);
+                        this.token = auth.accessToken;
+                        // 2) Load the full user profile (permissions, owner, ...) and enter the app.
+                        this.loadProfileAndEnter(email, password);
+                    } catch (e) {
                         this.spinner.hide();
-                    } else {
-                        this.toast.error('information érroné', 'Erreur');
-                        this.spinner.hide();
+                        this.toast.error('Login error', 'Erreur');
                     }
                 },
                 () => {
-                  this.toast.toastrConfig.timeOut = 1500;
-                  this.spinner.hide();
-                    this.toast.error(
-                        'La connextion au serveur ne peut pas être établie !',
-                        'Erreur de connextion'
-                    );
+                    this.spinner.hide();
+                    this.toast.error('Email ou mot de passe invalide', 'Erreur');
                 }
             );
+    }
+
+    /** Loads the full user profile (for permissions/owner) via the existing endpoint, then enters. */
+    private loadProfileAndEnter(email: string, password: string) {
+        const pass = Md5.hashStr(password);
+        this.subs.add(
+            this.http
+                .get<User>(
+                    REST_URL + 'authentification?email=' + email + '&password=' + pass
+                )
+                .subscribe(
+                    user => {
+                        try {
+                            this.currentUser = user;
+                            if (user !== undefined && user !== null) {
+                                const permissions: string[] = [];
+                                if (
+                                    user.userGroup &&
+                                    user.userGroup.groupHabilitations &&
+                                    user.userGroup.groupHabilitations.length
+                                ) {
+                                    for (const gh of user.userGroup.groupHabilitations) {
+                                        if (gh && gh.habilitation && gh.habilitation.code) {
+                                            permissions.push(gh.habilitation.code);
+                                        }
+                                    }
+                                }
+                                this.permissionService.loadPermissions(permissions);
+                                localStorage.setItem(LOGGED_IN, 'true');
+                                sessionStorage.setItem(CURRENT_USER, JSON.stringify(user));
+                                this.spinner.hide();
+                                this.toast.success('Successfully logged in', 'Welcome');
+                                this.router.navigate(['/core']);
+                            } else {
+                                this.spinner.hide();
+                                this.toast.error('information érroné', 'Erreur');
+                            }
+                        } catch (e) {
+                            this.spinner.hide();
+                            this.toast.error('Profile error', 'Erreur');
+                        }
+                    },
+                    () => {
+                        this.toast.toastrConfig.timeOut = 1500;
+                        this.spinner.hide();
+                        this.toast.error(
+                            'La connextion au serveur ne peut pas être établie !',
+                            'Erreur de connextion'
+                        );
+                    }
+                )
+        );
     }
 
    setuser(user : User){
@@ -176,8 +185,19 @@ export class AuthenticationService implements OnDestroy{
         this.token = null;
         localStorage.removeItem(LOGGED_IN);
         sessionStorage.removeItem(CURRENT_USER);
+        sessionStorage.removeItem(JWT_TOKEN);
         // this.permissionService.removePermission(permissions);
         this.router.navigate(['/login']);
+    }
+
+    /** Returns the stored JWT (empty string if none). */
+    getToken(): string {
+        return sessionStorage.getItem(JWT_TOKEN) || '';
+    }
+
+    /** True when a JWT and a current user profile are present. */
+    isAuthenticated(): boolean {
+        return !!sessionStorage.getItem(JWT_TOKEN) && !!sessionStorage.getItem(CURRENT_USER);
     }
 
     IsJsonString(str: any) {
@@ -190,18 +210,9 @@ export class AuthenticationService implements OnDestroy{
     }
 
     computeToken(): string {
-        const user = this.getCurrentUser(false);
-        if (user !== null) {
-            const times: number = Date.now() + 1000 * 60 * 60;
-            const str: string =
-                user.name + ':' + times + ':' + user.password + ':obfuscate';
-            const token: string =
-                user.email + ':' + times + ':' + Md5.hashStr(str);
-            //
-            return token;
-        } else {
-            return '';
-        }
+        // The backend now expects a signed JWT (accepted via the Authorization header or the
+        // legacy `token` query param). Existing services that append `?token=` keep working.
+        return this.getToken();
     }
 
     ngOnDestroy(){

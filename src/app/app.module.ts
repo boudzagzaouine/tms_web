@@ -7,7 +7,8 @@ import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './/app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './auth/interceptors/jwt.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
@@ -65,6 +66,9 @@ FullCalendarModule.registerPlugins([
     }),
   ],
   bootstrap: [AppComponent],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
 })
 export class AppModule { }

@@ -33,9 +33,16 @@ export class AuthenticationService implements OnDestroy{
         private spinner: NgxSpinnerService,
         private permissionService :PermissionsService,
     ) {
-        //  set token if saved in local storage
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.token = currentUser && currentUser.token;
+        // Prefer the JWT; fall back to any legacy stored token. Must never throw here, because this
+        // service is instantiated at bootstrap (APP_INITIALIZER) and a throw would blank the app.
+        try {
+            const jwt = sessionStorage.getItem(JWT_TOKEN);
+            const raw = localStorage.getItem('currentUser');
+            const legacy = raw ? JSON.parse(raw) : null;
+            this.token = jwt || (legacy && legacy.token) || '';
+        } catch (e) {
+            this.token = '';
+        }
     }
 
 

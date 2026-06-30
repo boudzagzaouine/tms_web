@@ -186,7 +186,7 @@ export class AuthenticationService implements OnDestroy{
         localStorage.removeItem(LOGGED_IN);
         sessionStorage.removeItem(CURRENT_USER);
         sessionStorage.removeItem(JWT_TOKEN);
-        // this.permissionService.removePermission(permissions);
+        this.permissionService.flushPermissions();
         this.router.navigate(['/login']);
     }
 
@@ -198,6 +198,40 @@ export class AuthenticationService implements OnDestroy{
     /** True when a JWT and a current user profile are present. */
     isAuthenticated(): boolean {
         return !!sessionStorage.getItem(JWT_TOKEN) && !!sessionStorage.getItem(CURRENT_USER);
+    }
+
+    /**
+     * Re-hydrates the in-memory habilitations from the stored profile on app start / page refresh.
+     * Wired as an APP_INITIALIZER so `*hasPermission` (menu items, action buttons) works immediately
+     * after a reload, before any component renders. The PermissionsService is in-memory only, so
+     * without this the user's permissions would be empty until something happened to reload them.
+     */
+    restoreSession(): void {
+        const token = sessionStorage.getItem(JWT_TOKEN);
+        const userStr = sessionStorage.getItem(CURRENT_USER);
+        if (token && userStr) {
+            try {
+                const user: User = JSON.parse(userStr);
+                this.token = token;
+                this.currentUser = user;
+                this.permissionService.loadPermissions(this.extractPermissions(user));
+            } catch (e) {
+                // corrupt storage -> treat as logged out
+            }
+        }
+    }
+
+    /** Pulls the habilitation codes (user.userGroup.groupHabilitations[].habilitation.code). */
+    private extractPermissions(user: User): string[] {
+        const permissions: string[] = [];
+        if (user && user.userGroup && user.userGroup.groupHabilitations) {
+            for (const gh of user.userGroup.groupHabilitations) {
+                if (gh && gh.habilitation && gh.habilitation.code) {
+                    permissions.push(gh.habilitation.code);
+                }
+            }
+        }
+        return permissions;
     }
 
     IsJsonString(str: any) {

@@ -2,7 +2,8 @@ import { NgPipesModule } from 'ngx-pipes';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { AuthenticationService } from './shared/services/api/authentication.service';
 import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './/app.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -69,6 +70,13 @@ FullCalendarModule.registerPlugins([
   providers: [
     MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // Re-hydrate habilitations from the stored profile before the app renders (refresh-safe).
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (auth: AuthenticationService) => () => auth.restoreSession(),
+      deps: [AuthenticationService],
+      multi: true,
+    },
   ],
 })
 export class AppModule { }

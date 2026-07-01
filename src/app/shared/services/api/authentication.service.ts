@@ -214,9 +214,10 @@ export class AuthenticationService implements OnDestroy{
     }
 
     computeToken(): string {
-        // The backend now expects a signed JWT (accepted via the Authorization header or the
-        // legacy `token` query param). Existing services that append `?token=` keep working.
-        return this.getToken();
+        // Auth now flows through the `Authorization: Bearer` header (JwtInterceptor). Return empty
+        // so the many legacy `?token=` query params carry no token (avoids leaking JWTs in URLs,
+        // server logs and browser history). The backend ignores an empty `token` param.
+        return '';
     }
 
     ngOnDestroy(){

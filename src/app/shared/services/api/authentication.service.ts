@@ -73,8 +73,9 @@ export class AuthenticationService implements OnDestroy{
     /** Loads the full user profile (for permissions/owner) via the existing endpoint, then enters. */
     private loadProfileAndEnter(email: string, password: string) {
         const pass = Md5.hashStr(password);
-        this.subs.add(
-            this.http
+        // NOTE: do NOT parent this to `this.subs` (the login POST subscription). That subscription
+        // completes right after emitting, and closing it would cancel this in-flight GET.
+        this.http
                 .get<User>(
                     REST_URL + 'authentification?email=' + email + '&password=' + pass
                 )
@@ -118,8 +119,7 @@ export class AuthenticationService implements OnDestroy{
                             'Erreur de connextion'
                         );
                     }
-                )
-        );
+                );
     }
 
    setuser(user : User){

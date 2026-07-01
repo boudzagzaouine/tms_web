@@ -47,17 +47,28 @@ export class AuthenticationService implements OnDestroy{
 
 
    login(email: string, password: string) {
-        // 1) Obtain a signed JWT from the backend. The plain password is sent; the backend
-        //    MD5-hashes it and compares against the existing user store.
+        // Single round-trip: POST /api/auth/login authenticates (backend MD5-hashes the plain
+        // password), and returns the JWT together with the full user profile. No second call.
         this.subs = this.http
             .post<AuthResponse>(AUTH_LOGIN_URL, { email, password })
             .subscribe(
                 auth => {
                     try {
-                        sessionStorage.setItem(JWT_TOKEN, auth.accessToken);
-                        this.token = auth.accessToken;
-                        // 2) Load the full user profile (permissions, owner, ...) and enter the app.
-                        this.loadProfileAndEnter(email, password);
+                        const user: any = auth.user;
+                        this.currentUser = user;
+                        if (user) {
+                            sessionStorage.setItem(JWT_TOKEN, auth.accessToken);
+                            this.token = auth.accessToken;
+                            sessionStorage.setItem(CURRENT_USER, JSON.stringify(user));
+                            localStorage.setItem(LOGGED_IN, 'true');
+                            this.permissionService.loadPermissions(this.extractPermissions(user));
+                            this.spinner.hide();
+                            this.toast.success('Successfully logged in', 'Welcome');
+                            this.router.navigate(['/core']);
+                        } else {
+                            this.spinner.hide();
+                            this.toast.error('information érroné', 'Erreur');
+                        }
                     } catch (e) {
                         this.spinner.hide();
                         this.toast.error('Login error', 'Erreur');
@@ -68,58 +79,6 @@ export class AuthenticationService implements OnDestroy{
                     this.toast.error('Email ou mot de passe invalide', 'Erreur');
                 }
             );
-    }
-
-    /** Loads the full user profile (for permissions/owner) via the existing endpoint, then enters. */
-    private loadProfileAndEnter(email: string, password: string) {
-        const pass = Md5.hashStr(password);
-        // NOTE: do NOT parent this to `this.subs` (the login POST subscription). That subscription
-        // completes right after emitting, and closing it would cancel this in-flight GET.
-        this.http
-                .get<User>(
-                    REST_URL + 'authentification?email=' + email + '&password=' + pass
-                )
-                .subscribe(
-                    user => {
-                        try {
-                            this.currentUser = user;
-                            if (user !== undefined && user !== null) {
-                                const permissions: string[] = [];
-                                if (
-                                    user.userGroup &&
-                                    user.userGroup.groupHabilitations &&
-                                    user.userGroup.groupHabilitations.length
-                                ) {
-                                    for (const gh of user.userGroup.groupHabilitations) {
-                                        if (gh && gh.habilitation && gh.habilitation.code) {
-                                            permissions.push(gh.habilitation.code);
-                                        }
-                                    }
-                                }
-                                this.permissionService.loadPermissions(permissions);
-                                localStorage.setItem(LOGGED_IN, 'true');
-                                sessionStorage.setItem(CURRENT_USER, JSON.stringify(user));
-                                this.spinner.hide();
-                                this.toast.success('Successfully logged in', 'Welcome');
-                                this.router.navigate(['/core']);
-                            } else {
-                                this.spinner.hide();
-                                this.toast.error('information érroné', 'Erreur');
-                            }
-                        } catch (e) {
-                            this.spinner.hide();
-                            this.toast.error('Profile error', 'Erreur');
-                        }
-                    },
-                    () => {
-                        this.toast.toastrConfig.timeOut = 1500;
-                        this.spinner.hide();
-                        this.toast.error(
-                            'La connextion au serveur ne peut pas être établie !',
-                            'Erreur de connextion'
-                        );
-                    }
-                );
     }
 
    setuser(user : User){

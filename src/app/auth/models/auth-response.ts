@@ -7,6 +7,7 @@ export interface AuthUser {
 
 export interface AuthResponse {
   accessToken: string;
+  refreshToken?: string;
   tokenType: string;
   expiresIn: number;
   // Full user profile (id, email, userGroup.groupHabilitations, owner, ...). Kept as `any` because

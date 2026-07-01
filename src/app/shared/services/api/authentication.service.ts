@@ -7,7 +7,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { REST_URL, CURRENT_USER, JWT_TOKEN, AUTH_LOGIN_URL } from '../../utils/constants';
+import { REST_URL, CURRENT_USER, JWT_TOKEN, REFRESH_TOKEN, AUTH_LOGIN_URL } from '../../utils/constants';
 import { AuthResponse } from '../../../auth/models/auth-response';
 import { Md5 } from 'ts-md5';
 import { Subscription } from 'rxjs';
@@ -58,6 +58,9 @@ export class AuthenticationService implements OnDestroy{
                         this.currentUser = user;
                         if (user) {
                             sessionStorage.setItem(JWT_TOKEN, auth.accessToken);
+                            if (auth.refreshToken) {
+                                sessionStorage.setItem(REFRESH_TOKEN, auth.refreshToken);
+                            }
                             this.token = auth.accessToken;
                             sessionStorage.setItem(CURRENT_USER, JSON.stringify(user));
                             localStorage.setItem(LOGGED_IN, 'true');
@@ -152,6 +155,7 @@ export class AuthenticationService implements OnDestroy{
         localStorage.removeItem(LOGGED_IN);
         sessionStorage.removeItem(CURRENT_USER);
         sessionStorage.removeItem(JWT_TOKEN);
+        sessionStorage.removeItem(REFRESH_TOKEN);
         this.permissionService.flushPermissions();
         this.router.navigate(['/login']);
     }

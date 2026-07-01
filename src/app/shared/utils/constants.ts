@@ -12,6 +12,8 @@ export const REST_URL = 'http://localhost:8080/tms-rest/';
 export const CURRENT_USER = 'currentUser';
 export const LOGGED_IN = 'isLoggedin';
 export const JWT_TOKEN = 'jwt';
-// JWT login endpoint (relative to REST_URL)
+export const REFRESH_TOKEN = 'refresh_jwt';
+// JWT endpoints (relative to REST_URL)
 export const AUTH_LOGIN_URL = REST_URL + 'api/auth/login';
+export const AUTH_REFRESH_URL = REST_URL + 'api/auth/refresh';
 

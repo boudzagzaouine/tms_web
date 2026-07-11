@@ -1,9 +1,10 @@
 <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
 
-<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true">
+<!-- ===================== Filters ===================== -->
+<p-panel header="{{ 'Filters' | translate }}" [toggleable]="true" styleClass="tt-filters">
   <div class="row mt-1">
     <div class="col-md-2">
-      <label class="font-weight-bold"> Ordre Transport</label><br />
+      <label class="font-weight-bold">Ordre Transport</label><br />
       <p-autoComplete
         [(ngModel)]="orderTransportSearch"
         [suggestions]="orderTransportList"
@@ -12,7 +13,7 @@
       ></p-autoComplete>
     </div>
     <div class="col-md-2">
-      <label class="font-weight-bold"> Véhicule</label><br />
+      <label class="font-weight-bold">Véhicule</label><br />
       <p-autoComplete
         [(ngModel)]="vehicleSearch"
         [suggestions]="vehicleList"
@@ -21,25 +22,24 @@
       ></p-autoComplete>
     </div>
     <div class="col-md-2">
-      <label class="font-weight-bold"> Chauffeur</label><br />
-
+      <label class="font-weight-bold">Chauffeur</label><br />
       <p-autoComplete
-      [(ngModel)]="driverSearch" field="codeName"
-      [suggestions]="driverList"
-      (completeMethod)="onDriverSearch($event)"  [dropdown]="true"
+        [(ngModel)]="driverSearch"
+        field="codeName"
+        [suggestions]="driverList"
+        (completeMethod)="onDriverSearch($event)"
+        [dropdown]="true"
       >
-       <ng-template let-driver pTemplate="item">
-           <div class="account-item">
-               <div>{{driver.code}} -> {{driver.name}} </div>
-           </div>
-       </ng-template>
-   </p-autoComplete>
-
-
+        <ng-template let-driver pTemplate="item">
+          <div class="account-item">
+            <div>{{ driver.code }} -> {{ driver.name }}</div>
+          </div>
+        </ng-template>
+      </p-autoComplete>
     </div>
 
     <div class="col-md-2">
-      <label class="font-weight-bold"> {{ "Date" | translate }} </label><br />
+      <label class="font-weight-bold">{{ "Date" | translate }}</label><br />
       <p-calendar
         [(ngModel)]="dateSearch"
         [monthNavigator]="true"
@@ -55,623 +55,164 @@
     </div>
 
     <div class="form-group col-sm-2">
-      <label class="font-weight-bold">{{ "Statut" | translate }} </label>
-
-      <br />
-
-      <p-dropdown [options]="statusList" [showClear]="true" optionLabel="code" [autoDisplayFirst]="false"
-      [(ngModel)]="statusSearch" filter="true">
-  </p-dropdown>
+      <label class="font-weight-bold">{{ "Statut" | translate }}</label><br />
+      <p-dropdown
+        [options]="statusList"
+        [showClear]="true"
+        optionLabel="code"
+        [autoDisplayFirst]="false"
+        [(ngModel)]="statusSearch"
+        filter="true"
+      ></p-dropdown>
     </div>
   </div>
 
-  <br />
-  <br />
-  <div class="text-center">
-    <button type="button" class="btn btn-primary mr-2" (click)="reset()">
-      <i class="fa fa-refresh mr-2"></i>
-      {{ "Réinitialiser" | translate }}
+  <div class="text-center mt-4">
+    <button type="button" class="btn btn-outline-secondary mr-2" (click)="reset()">
+      <i class="fa fa-refresh mr-2"></i>{{ "Réinitialiser" | translate }}
     </button>
-
     <button type="button" class="btn btn-success" (click)="onSearchClicked()">
-      <i class="fa fa-search mr-2"></i>
-
-      {{ "Rechercher" | translate }}
+      <i class="fa fa-search mr-2"></i>{{ "Rechercher" | translate }}
     </button>
   </div>
 </p-panel>
 
-<div class="row justify-content-around">
-
-  <div [class]="visibleSidebar2? 'form-group col-md-8' :'form-group col-md-12'">
-
-
-
-
-
-
-      <div
-        class="map-wrapper"
-        appendTo="body"
-        style="background-color: aliceblue"
-        style="
-          height: calc(100vh - 30vh);
-          margin-left: 15px;
-          margin-right: 15px;
-        "
-      >
-        <div class="map-border" style="background-color: aliceblue">
-          <div id="mapp" ></div>
-          <!-- <div style="background-color: aliceblue" class="p-3">
-
-        <span style="color:#188038;font-weight: bold;line-height: 24px;
-        white-space: normal;font-size: 18px;"> {{this.selectItineraryInfo.heur}} h {{this.selectItineraryInfo.minute }} min</span>
-        <span style="font-weight: bold;line-height: 20px;
-        white-space: normal;font-size: 16px;"> ({{ this.selectItineraryInfo.distance | number: "1.2-2" }} km)</span>
-      </div> -->
-        </div>
+<!-- ===================== Map + list ===================== -->
+<div class="row justify-content-around tt-body">
+  <!-- Map -->
+  <div [class]="visibleSidebar2 ? 'form-group col-md-8' : 'form-group col-md-12'">
+    <div class="map-wrapper tt-map">
+      <div class="map-border">
+        <div id="mapp"></div>
       </div>
+    </div>
 
-      <button  *ngIf="!visibleSidebar2"   type="button" class="btn btn-light " style=" float: right;    margin-left: -15px; z-index: 1000;     background-color: #2c3941;
-      color: white;   border-radius: 5px;    height: calc(100vh - 30vh);
-        " (click)="visibleSidebar2 = true" ><i class="fa fa-chevron-circle-left" style="font-size: xx-large;" aria-hidden="true"></i>
-  </button>
-
-  <button  *ngIf="visibleSidebar2"  type="button" class="btn btn-light " style=" float: right;   margin-left: -15px;  z-index: 1000;     background-color: #2c3941;
-  color: white;   border-radius: 5px;    height: calc(100vh - 30vh);
-    " (click)="visibleSidebar2 = false" ><i class="fa fa-chevron-circle-right" style="font-size: xx-large;" aria-hidden="true"></i>
-  </button>
+    <button
+      *ngIf="!visibleSidebar2"
+      type="button"
+      class="tt-sidebar-toggle"
+      (click)="visibleSidebar2 = true"
+      title="Afficher la liste"
+    >
+      <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+    </button>
+    <button
+      *ngIf="visibleSidebar2"
+      type="button"
+      class="tt-sidebar-toggle"
+      (click)="visibleSidebar2 = false"
+      title="Masquer la liste"
+    >
+      <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+    </button>
   </div>
 
-  <div [class]="visibleSidebar2? 'form-group col-md-4' :'form-group col-md-1'">
-    <!-- <p-panel header="{{ '' | translate }}" [toggleable]="true"> -->
+  <!-- List -->
+  <div [class]="visibleSidebar2 ? 'form-group col-md-4' : 'form-group col-md-1'">
+    <div *ngIf="visibleSidebar2" class="tt-list">
+      <!-- Live-refresh bar -->
+      <div class="tt-livebar">
+        <span class="tt-live" [class.off]="!autoRefresh">
+          <span class="dot"></span>
+          {{ autoRefresh ? 'Suivi en direct' : 'Suivi en pause' }}
+        </span>
+        <button type="button" class="tt-live-btn" (click)="toggleAutoRefresh()">
+          <i class="fa" [class.fa-pause]="autoRefresh" [class.fa-play]="!autoRefresh"></i>
+          {{ autoRefresh ? 'Pause' : 'Reprendre' }}
+        </button>
+      </div>
 
-
-
-        <div *ngIf="visibleSidebar2">
-
-
-
-    <div>
       <p-accordion>
-        <div *ngFor="let plan of transportPlan" (click)="this.test(plan?.id)">
+        <div *ngFor="let plan of transportPlan; trackBy: trackByPlanId" (click)="test(plan?.id)">
           <p-accordionTab>
-            <!-- (click)="onTransportPlanLocationSearch(plan.orderTransport)" -->
-            <ng-template pTemplate="header"
-              ><a>{{ plan?.orderTransport?.code }} &nbsp;&nbsp;
-                <i class="fa fa-map" aria-hidden="true"></i>
-                {{plan?.trajet?.code}} &nbsp;&nbsp;
-<i class="fa fa-user" aria-hidden="true"></i>
+            <ng-template pTemplate="header">
+              <div class="tt-tab-head">
+                <span class="tt-code">{{ plan?.orderTransport?.code }}</span>
+                <span class="tt-meta"><i class="fa fa-map"></i> {{ plan?.trajet?.code }}</span>
+                <span class="tt-meta"><i class="fa fa-user"></i> {{ plan?.account?.name }}</span>
+              </div>
+            </ng-template>
 
-                {{plan?.account?.name}}</a>
-              </ng-template
-            >
             <ng-template pTemplate="content">
-              <div class="m-3">
+              <div class="tt-tab-body">
+                <button type="button" class="btn btn-sm btn-outline-primary tt-hist" (click)="getLocalisation(plan)">
+                  <i class="fa fa-map-marker mr-1"></i>{{ "Historique trajet" | translate }}
+                </button>
 
-          <button type="button" class="btn btn-secondary" (click)="getLocalisation(plan)">
-                <i class="fa fa-map-marker "></i>
+                <div *ngFor="let info of plan?.orderTransport?.orderTransportInfos; trackBy: trackByInfoId">
+                  <div class="tt-leg-label">{{ info.type == 1 ? "ALLER" : "RETOUR" }}</div>
 
-                {{ "Historique trajet" | translate }}
-              </button>
-
-              </div>
-
-              <div
-                *ngFor="let info of plan?.orderTransport?.orderTransportInfos"
-              >
-                <!-- <div  *ngFor="let line of info?.orderTransportInfoLines" > </div> -->
-
-                <div class="form-group col-md-12">
-                  <h4 class="divider donotcross" >      {{ info.type == 1 ? "ALLER" : "RETOUR" }}</h4>
-              </div>
-                <div *ngFor="let line of info?.orderTransportInfoLines">
-                  <br>
-                  <p-card *ngIf="line.orderTransportType?.code != null">
-                    <!-- <h2 class="pb-3 pt-2 border-bottom mb-5">
-                      {{ line.orderTransportType?.code }}
-                    </h2> -->
-
-                    <div class="row justify-content-around m-0">
-                      <div class="form-group col-md-12">
-
-
-                        <div class="product-item">
-  <div class="image-container" >
-
-    <h6 *ngIf="line.orderTransportType?.id==1" style="
-    background: #23547b;
-    color: #ffffff;
-    padding: 4px 14px 4px 14px;
-    border-radius: 5px;
-    font-size:2rem;
-  ">
-  <span><i class="fa fa-arrow-up" aria-hidden="true"></i> </span>
-</h6>
-
-<h6 *ngIf="line.orderTransportType?.id==2" style="
- background: #23547b;
-    color: #ffffff;
-padding: 4px 14px 4px 14px;
-border-radius: 5px;
-font-size:2rem;
-">
-<span><i class="fa fa-arrow-down" aria-hidden="true"></i> </span>
-</h6>
-
-                       <!-- <img *ngIf="line.orderTransportType?.id==1" src="assets/img/enlevement.png"  class="product-image" />
-                       <img *ngIf="line.orderTransportType?.id==2" src="assets/img/livraison.png"  class="product-image" /> -->
-
+                  <ng-container *ngFor="let line of info?.orderTransportInfoLines; trackBy: trackByLineId">
+                    <div class="tt-line-card" *ngIf="line.orderTransportType?.code != null">
+                      <!-- Card head -->
+                      <div class="tt-line-head">
+                        <div class="tt-line-type" [class.dropoff]="line.orderTransportType?.id == 2">
+                          <i class="fa" [class.fa-arrow-up]="line.orderTransportType?.id == 1"
+                                        [class.fa-arrow-down]="line.orderTransportType?.id == 2"></i>
                         </div>
-                          <div class="product-list-detail ml-3" style="    text-align: justify;">
-   <!-- <h2 class="pb-3 pt-2 border-bottom mb-5">
-                      {{ line.orderTransportType?.code }}
-                    </h2> -->
-                    <span>
-                      <span style="font-size: 14px;                                      font-weight: 700;
-                      ">
-                          <i class="fa fa-cog" aria-hidden="true">  <span> {{ line.orderTransportType?.code }}</span></i>
-                    </span></span><br />
-                            <span>
-                              <span style="font-size: 14px">
-                                  <i class="fa fa-map-marker" aria-hidden="true">  <span> {{ line.address?.name }},{{ line.address?.ville?.code }}</span></i>
-                            </span></span><br />
- <span>  <span style="font-size: 14px">
-  <i class="fa fa-user" aria-hidden="true">  <span> {{ line.contact?.name }}</span></i>
-</span>
-                              </span>
-                              <br />
 
-                              <span>  <span style="font-size: 14px">
-                                <i class="fa fa-clock-o" aria-hidden="true">  <span>
-                                  <span
-                                  style="
-                                    font-size: 12px;
-                                    font-weight: 700;
-                                    color: #474a4c;
-                                  "
-                                  >{{
-                                    line.dateCommancerChargement
-                                      | date : "dd-MM-yyyy"
-                                  }}</span
-                                >
-
-
-                                </span></i>
-                              </span>
-                                                            </span>
-                            <br />
-
-
+                        <div class="tt-line-info">
+                          <div class="tt-line-title">
+                            <i class="fa fa-cog"></i> {{ line.orderTransportType?.code }}
                           </div>
-                          <div class="product-list-action">
-                            <h6 *ngIf="line.closeDate!=null" style="
-                                background: #c8e6c9;
-                                color: #256029;
-                                padding: 4px 14px 4px 14px;
-                                border-radius: 5px;
-                                font-size:1rem;
-                              ">
-                              <span>
+                          <div class="tt-line-sub"><i class="fa fa-map-marker"></i>
+                            {{ line.address?.name }}<span *ngIf="line.address?.ville?.code">, {{ line.address?.ville?.code }}</span>
+                          </div>
+                          <div class="tt-line-sub" *ngIf="line.contact?.name"><i class="fa fa-user"></i> {{ line.contact?.name }}</div>
+                          <div class="tt-line-sub" *ngIf="line.dateCommancerChargement || line.dateArriver">
+                            <i class="fa fa-clock-o"></i>
+                            {{ (line.dateArriver || line.dateCommancerChargement) | date : "dd-MM-yyyy" }}
+                          </div>
+                        </div>
 
-                                Valider
-                                <!-- <i class="fa fa-check-circle-o" aria-hidden="true"></i> -->
-                              </span>
-                            </h6>
+                        <span class="tt-pill" [class.done]="isLineDone(line)">
+                          {{ isLineDone(line) ? 'Validé' : 'En cours' }}
+                        </span>
+                      </div>
 
+                      <!-- Details toggle -->
+                      <button type="button" class="tt-details-toggle" (click)="toggleLine(line.id, $event)">
+                        <i class="fa" [class.fa-chevron-down]="!isLineExpanded(line.id)"
+                                      [class.fa-chevron-up]="isLineExpanded(line.id)"></i>
+                        Détails
+                      </button>
 
-                            <h6 *ngIf="line.closeDate==null"  style="
-                            background: #ffd8b2;
-                            color: #805b36;
-                            padding: 4px 14px 4px 14px;
-                            border-radius: 5px;
-                            font-size:1rem;
-                          ">
-                          <span>
-                            En Cours
-                            <!-- <i class="fa fa-hourglass" aria-hidden="true"></i> -->
-                          </span>
-                        </h6>
-
-
-
+                      <!-- Vertical operation timeline (component-driven: survives auto-refresh) -->
+                      <div class="tt-timeline" *ngIf="isLineExpanded(line.id)">
+                        <div class="tt-step" *ngFor="let step of lineSteps(line)" [class.done]="step.done">
+                          <div class="tt-step-dot"><i class="fa" [ngClass]="step.icon"></i></div>
+                          <div class="tt-step-body">
+                            <div class="tt-step-label">{{ step.label }}</div>
+                            <div class="tt-step-time" *ngIf="step.date; else noDate">
+                              {{ step.date | date : "HH:mm" }} · {{ step.date | date : "dd-MM-yyyy" }}
+                            </div>
+                            <ng-template #noDate><div class="tt-step-time muted">—</div></ng-template>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <ng-template pTemplate="footer">
-                      <p-panel  [toggleable]="true" [collapsed]="true">
-                        <ng-template pTemplate="header">
-                         <div>Détails</div>
-                      </ng-template>
-                        <div class="form-group col-md-12">
-                          <div class="">
-                            <div class="container">
-                              <!-- <h2 class="pb-3 pt-2 border-bottom mb-5">Vertical Left-Right Timeline</h2> -->
-                              <!--first section-->
-                              <div
-                                class="row align-items-center how-it-works d-flex"
-                              >
-                                <div
-                                  class="col-2 text-center bottom d-inline-flex justify-content-center align-items-center"
-                                >
-                                  <div class="circle font-weight-bold">1</div>
-                                </div>
-                                <div class="col-8">
-                                  <div class="row">
-                                    <div class="clo-6 float-left" >
-                                       <span
-                                    style="
-                                      font-size: 12px;
-                                      font-weight: 700;
-                                      color: #474a4c;
-                                    "
-                                  >
-                                    {{ line.dateArriver | date : "HH:mm" }}</span
-                                  ><br />
-                                  <span
-                                    style="
-                                      font-size: 12px;
-                                      font-weight: 700;
-                                      color: #474a4c;
-                                    "
-                                    >{{
-                                      line.dateArriver | date : "dd-MM-yyyy"
-                                    }}</span
-                                  >
-                                    </div>
-
-                                    <div class="col-6 float-right">
-                                      <h6 style="
-                                     background: #23547b;
-    color: #ffffff;
-                                      padding: 4px 14px 4px 14px;
-                                      border-radius: 5px;
-                                    ">
-                                    <span>Date d'arrivée</span>
-                                  </h6>
-
-
-
-
-                                    </div>
-                                  </div>
-
-
-                                </div>
-                              </div>
-                              <!--path between 1-2-->
-                              <div class="row timeline">
-                                <div class="col-2">
-                                  <div class="corner top-right"></div>
-                                </div>
-                                <div class="col-8">
-                                  <hr />
-                                </div>
-                                <div class="col-2">
-                                  <div class="corner left-bottom"></div>
-                                </div>
-                              </div>
-                              <!--second section Enlevement-->
-                              <div *ngIf="line.orderTransportType?.id==1"
-                                class="row align-items-center justify-content-end how-it-works d-flex"
-                              >
-
-                                <div class="col-8  ">
-
-                                  <div class="row">
-                                    <div class="col-7 float-left" >
-                                      <h6 style="
-                                        background: #23547b;
-    color: #ffffff;
-                                      padding: 4px 14px 4px 14px;
-                                      border-radius: 5px;
-                                    ">
-                                    <span> Début Chargement </span>
-                                  </h6>
-                                                          </div>
-                                                            <div class="col-5 float-right">
-
- <span
-                                      style="
-                                        font-size: 12px;
-                                        font-weight: 700;
-                                        color: #474a4c;
-                                      "
-                                    >
-                                      {{
-                                        line.dateCommancerChargement
-                                          | date : "HH:mm"
-                                      }}</span
-                                    ><br />
-                                    <span
-                                      style="
-                                        font-size: 12px;
-                                        font-weight: 700;
-                                        color: #474a4c;
-                                      "
-                                      >{{
-                                        line.dateCommancerChargement
-                                          | date : "dd-MM-yyyy"
-                                      }}</span
-                                    >
-                                                            </div>
-                                  </div>
-
-
-
-
-
-                                <br />
-
-                                <div class="row">
-                                  <div class="col-7 float-left" >
-                                    <h6 style="
-                                       background: #23547b;
-    color: #ffffff;
-                                    padding: 4px 14px 4px 14px;
-                                    border-radius: 5px;
-                                  ">
-                                  <span> Fin Chargement </span>
-                                </h6>
-          </div>
-
-                                   <div class="col-5 float-right">
-                                     <span
-                                    style="
-                                      font-size: 12px;
-                                      font-weight: 700;
-                                      color: #474a4c;
-                                    "
-                                  >
-                                    {{
-                                      line.dateFinChargement
-                                        | date : "HH:mm"
-                                    }}</span
-                                  ><br> <span
-                                    style="
-                                      font-size: 12px;
-                                      font-weight: 700;
-                                      color: #474a4c;
-                                    "
-                                    >{{
-                                      line.dateFinChargement
-                                        | date : "dd-MM-yyyy"
-                                    }}</span
-                                  >
-
-                                </div>
- </div>
-
-
-
-                                </div>
-                                <div
-                                  class="col-2 text-center full d-inline-flex justify-content-center align-items-center"
-                                >
-                                  <div class="circle font-weight-bold">2</div>
-                                </div>
-                              </div>
-
- <!--second section Livraison-->
- <div *ngIf="line.orderTransportType?.id==2"
- class="row align-items-center justify-content-end how-it-works d-flex"
->
-
- <div class="col-8  ">
-
-   <div class="row">
-     <div class="col-7 float-left" >
-       <h6 style="
-         background: #23547b;
-color: #ffffff;
-       padding: 4px 14px 4px 14px;
-       border-radius: 5px;
-     ">
-     <span> Debut Dechargement </span>
-   </h6>
-                           </div>
-                             <div class="col-5 float-right">
-
-<span
-       style="
-         font-size: 12px;
-         font-weight: 700;
-         color: #474a4c;
-       "
-     >
-       {{
-         line.dateCommancerDechargement
-           | date : "HH:mm"
-       }}</span
-     ><br />
-     <span
-       style="
-         font-size: 12px;
-         font-weight: 700;
-         color: #474a4c;
-       "
-       >{{
-         line.dateCommancerDechargement
-           | date : "dd-MM-yyyy"
-       }}</span
-     >
-                             </div>
-   </div>
-
-
-
-
-
- <br />
-
- <div class="row">
-   <div class="col-7 float-left" >
-     <h6 style="
-        background: #23547b;
-color: #ffffff;
-     padding: 4px 14px 4px 14px;
-     border-radius: 5px;
-   ">
-   <span> Fin Dechargement </span>
- </h6>
-</div>
-
-    <div class="col-5 float-right">
-      <span
-     style="
-       font-size: 12px;
-       font-weight: 700;
-       color: #474a4c;
-     "
-   >
-     {{
-       line.dateFinDechargement
-         | date : "HH:mm"
-     }}</span
-   ><br> <span
-     style="
-       font-size: 12px;
-       font-weight: 700;
-       color: #474a4c;
-     "
-     >{{
-       line.dateFinDechargement
-         | date : "dd-MM-yyyy"
-     }}</span
-   >
-
- </div>
-</div>
-
-
-
- </div>
- <div
-   class="col-2 text-center full d-inline-flex justify-content-center align-items-center"
- >
-   <div class="circle font-weight-bold">2</div>
- </div>
-</div>
-
-
-                              <!--path between 2-3-->
-                              <div class="row timeline">
-                                <div class="col-2">
-                                  <div class="corner right-bottom"></div>
-                                </div>
-                                <div class="col-8">
-                                  <hr />
-                                </div>
-                                <div class="col-2">
-                                  <div class="corner top-left"></div>
-                                </div>
-                              </div>
-                              <!--third section-->
-                              <div
-                                class="row align-items-center how-it-works d-flex"
-                              >
-                                <div
-                                  class="col-2 text-center top d-inline-flex justify-content-center align-items-center"
-                                >
-                                  <div class="circle font-weight-bold">3</div>
-                                </div>
-                                <div class="col-3 float-right">
-                                  <span
-                                 style="
-                                   font-size: 12px;
-                                   font-weight: 700;
-                                   color: #474a4c;
-                                 "
-                               >
-                                 {{
-                                   line.closeDate
-                                     | date : "HH:mm"
-                                 }}</span
-                               ><br> <span
-                                 style="
-                                   font-size: 12px;
-                                   font-weight: 700;
-                                   color: #474a4c;
-                                 "
-                                 >{{
-                                   line.closeDate
-                                     | date : "dd-MM-yyyy"
-                                 }}</span
-                               >
-
-                             </div>
-                                <div class="col-6 float-left">
-
-                                  <h6 style="
-                                    background: #23547b;
-    color: #ffffff;
-                                  padding: 4px 14px 4px 14px;
-                                  border-radius: 5px;
-                                ">
-                                <span> FIN </span>
-                              </h6>
-                                </div>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </p-panel>
-
-                    </ng-template>
-                  </p-card>
+                  </ng-container>
                 </div>
               </div>
             </ng-template>
           </p-accordionTab>
-
         </div>
 
-        <div *ngIf="!transportPlan[0]">
-            <h3  style="       background: white; text-align: center;    width: 100%;">
-              Aucun enregistrement trouvé        </h3>
-      </div>
+        <div *ngIf="!transportPlan[0]" class="tt-empty">
+          <i class="fa fa-inbox"></i>
+          <span>Aucun enregistrement trouvé</span>
+        </div>
 
-        <p-paginator [rows]="size" [totalRecords]="collectionSize" [rowsPerPageOptions]="[10,20,50]" (onPageChange)="loadDataLazy($event)"></p-paginator>
+        <p-paginator
+          [rows]="size"
+          [totalRecords]="collectionSize"
+          [rowsPerPageOptions]="[10, 20, 50]"
+          (onPageChange)="loadDataLazy($event)"
+        ></p-paginator>
       </p-accordion>
-
-
-      <!-- <div class="row justify-content-around m-0">
-  <div class="form-group col-md-6">
-    <span class="p-text-secondary" style="
-    font-weight: 700;
-    color: #326895;">{{item.orderTransport?.code }}</span>
-   </div>
-   </div> -->
-
-      <!-- <div class="row justify-content-around m-0">
-    <div class="form-group col-md-6">
-     <span  style="font-size: 15px;
-     font-weight: 700;
-     color: #474a4c;"> {{item.date  | date: 'HH:mm'}}</span><br>
-     <span  style="font-size: 12px;
-     font-weight: 500;
-     color: #474a4c;">{{item.date | date :'dd-MM-yyyy'}}</span>
-      </div>
-      <div class="form-group col-md-6">
-       <span class="p-text-secondary" style="
-       font-weight: 700;
-       color: #326895;">{{item.type !=null ?item.type :'En Route' }}</span>
-      </div>
-      </div> -->
     </div>
-
-</div>
-
-
-
-
-    <!-- </p-panel> -->
   </div>
 </div>
-
 
 <p-toast position="top-right" [autoZIndex]="'true'"></p-toast>
 <ngx-spinner

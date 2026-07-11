@@ -368,6 +368,49 @@ this.cloneItiniraryOrderByTransportPlan(this.transportPlan);
     else this.stopAutoRefresh();
   }
 
+  // ---- Details expand state -------------------------------------------------
+  // Kept in the component (not in the DOM) so the silent 15s auto-refresh never
+  // collapses an open timeline. The old design used a PrimeNG p-panel whose
+  // collapsed state lived in the DOM, which was destroyed on every refresh.
+  expandedLines = new Set<number>();
+
+  isLineExpanded(lineId: number): boolean {
+    return this.expandedLines.has(lineId);
+  }
+
+  toggleLine(lineId: number, event?: Event): void {
+    if (event) { event.stopPropagation(); }
+    if (this.expandedLines.has(lineId)) this.expandedLines.delete(lineId);
+    else this.expandedLines.add(lineId);
+  }
+
+  // trackBy keeps DOM nodes stable across silent refreshes (no flicker, and the
+  // accordion keeps whatever the user expanded).
+  trackByPlanId = (_: number, p: TransportPlan) => p?.id;
+  trackByInfoId = (_: number, i: any) => i?.id;
+  trackByLineId = (_: number, l: any) => l?.id;
+
+  /** Whether the leg/line is completed (closed). */
+  isLineDone(line: any): boolean {
+    return line?.closeDate != null;
+  }
+
+  /** Ordered operation steps for a line, driving the vertical timeline. */
+  lineSteps(line: any): Array<{ label: string; date: any; done: boolean; icon: string }> {
+    const isEnl = line?.orderTransportType?.id == 1;
+    const steps = [
+      { label: "Date d'arrivée", date: line?.dateArriver, icon: 'fa-map-marker' },
+      isEnl
+        ? { label: 'Début Chargement', date: line?.dateCommancerChargement, icon: 'fa-upload' }
+        : { label: 'Début Déchargement', date: line?.dateCommancerDechargement, icon: 'fa-download' },
+      isEnl
+        ? { label: 'Fin Chargement', date: line?.dateFinChargement, icon: 'fa-check' }
+        : { label: 'Fin Déchargement', date: line?.dateFinDechargement, icon: 'fa-check' },
+      { label: 'FIN', date: line?.closeDate, icon: 'fa-flag-checkered' },
+    ];
+    return steps.map((s) => ({ ...s, done: s.date != null }));
+  }
+
 
   cloneItiniraryAllByTransportPlan(transportPlans:TransportPlan[]){
 

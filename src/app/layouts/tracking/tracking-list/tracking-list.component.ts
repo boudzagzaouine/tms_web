@@ -68,6 +68,12 @@ css8="form-group col-md-8"
   map:any;
   mainLayer:any;
 
+  // Live auto-refresh: silently re-poll driver positions so the map follows the
+  // driver in real time without the user having to click search again.
+  autoRefresh: boolean = true;
+  refreshIntervalMs: number = 15000;
+  private refreshTimer: any = null;
+
  distance:any;
   time:string;
   heur :any ;
@@ -276,8 +282,8 @@ console.log(this.searchQuery);
   }
 
 
-  loadData(search: string = '',type:string='') {
-    this.spinner.show();
+  loadData(search: string = '',type:string='', silent: boolean = false) {
+    if (!silent) this.spinner.show();
 console.log(search);
 
 this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -295,7 +301,7 @@ this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
                  this.visibleSidebar2=true;
 
         console.log(this.transportPlan);
-        if(!this.transportPlan[0]){
+        if(!silent && !this.transportPlan[0]){
           this.toastr.info(' Aucun résultat trouvé pour la recherche effectuée ', '');
 
         }
@@ -326,13 +332,40 @@ this.cloneItiniraryOrderByTransportPlan(this.transportPlan);
        // Marker.prototype.options.icon = this.iconEnlevement;
 
         // this.createRoute();
-        this.spinner.hide();
+        if (!silent) this.spinner.hide();
+        // Once a real search has run, keep the map live-refreshing.
+        if (!silent) this.startAutoRefresh();
       },
       error => {
-        this.spinner.hide();
+        if (!silent) this.spinner.hide();
       },
        //() =>this.spinner.hide()
     ));
+  }
+
+  /** Start (or restart) the silent position-refresh timer for the current search. */
+  startAutoRefresh() {
+    this.stopAutoRefresh();
+    if (!this.autoRefresh) return;
+    this.refreshTimer = setInterval(() => {
+      if (this.searchQuery) {
+        this.loadData(this.searchQuery, this.typeItinerairy, true);
+      }
+    }, this.refreshIntervalMs);
+  }
+
+  stopAutoRefresh() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+  }
+
+  /** Bind to a checkbox/switch in the template to let the user pause live refresh. */
+  toggleAutoRefresh() {
+    this.autoRefresh = !this.autoRefresh;
+    if (this.autoRefresh) this.startAutoRefresh();
+    else this.stopAutoRefresh();
   }
 
 
@@ -824,6 +857,8 @@ console.log(this.map);
 
 ngOnDestroy(): void {
   // Clean up resources here if needed
+  this.stopAutoRefresh();
+  this.subscriptions.unsubscribe();
   if (this.map) {
     this.map.eachLayer((layer) => {
           layer.remove();

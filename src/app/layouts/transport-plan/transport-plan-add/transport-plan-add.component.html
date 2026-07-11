@@ -150,7 +150,7 @@
           <!-- [listStyle]="{ 'max-height': '30rem' }" -->
 
           <p-orderList [value]="catalogTransportPricingList" (onSelectionChange)="onselectTransport($event)"
-            [listStyle]="{ 'max-height': transportOrCatalog==false?'11rem':'auto',overflow: transportOrCatalog==false?'hidden':'auto' }"
+            [listStyle]="{ 'max-height': transportOrCatalog==false?'22rem':'auto', overflow: 'auto' }"
             header="Liste des Transporteurs" [filterBy]="transportOrCatalog==true ? 'transport.name':''" filterPlaceholder="Recherche Par Prestataire"
             [dragdrop]="true">
 

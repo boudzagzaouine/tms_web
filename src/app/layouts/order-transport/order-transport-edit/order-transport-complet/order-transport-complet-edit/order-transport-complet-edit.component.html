@@ -7,7 +7,7 @@
 
     <div class="mt-3 row justify-content-around">
       <div class="form-group col-md-12">
-        <form [formGroup]="orderTransportInfoLineForm">
+        <form *ngIf="orderTransportInfoLineForm" [formGroup]="orderTransportInfoLineForm">
           <div>
             <div formGroupName="general">
               <div class="row  justify-content-around">
@@ -62,10 +62,10 @@ optionLabel="code"
                             }} *</label>
 
                           <span *ngIf="
-                (orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').touched &&
-                orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid) ||
+                (orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoAddressName')?.touched &&
+                orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoAddressName')?.invalid) ||
                 (isFormSubmitted &&
-                orderTransportInfoLineForm.controls['general'].get('deliveryInfoAddressName').invalid)
+                orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoAddressName')?.invalid)
               " class="text-lighter" style="color: red; font-size: xx-small">
                             {{ "Obligatoire" | translate }}
                           </span>
@@ -113,10 +113,10 @@ optionLabel="code"
                             "Contact" | translate
                             }} </label>
                           <span *ngIf="
-                  (orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').touched &&
-                  orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').invalid) ||
+                  (orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoName')?.touched &&
+                  orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoName')?.invalid) ||
                   (isFormSubmitted &&
-                  orderTransportInfoLineForm.controls['general'].get('deliveryInfoName').invalid)
+                  orderTransportInfoLineForm?.controls?.general?.get('deliveryInfoName')?.invalid)
                 " class="text-lighter" style="color: red; font-size: xx-small">
                             {{ "Obligatoire" | translate }}
                           </span>

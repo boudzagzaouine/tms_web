@@ -148,6 +148,17 @@ export class OrderTransportEditComponent implements OnInit, OnDestroy {
 
   }
 
+  /** Colour class for the status badge in the page header. */
+  statusClass(): string {
+    switch (this.selectedOrderTransport?.turnStatus?.id) {
+      case 2: return 'ot-badge ok';      // validé
+      case 3: return 'ot-badge closed';  // fermé
+      case 4: return 'ot-badge danger';  // annulé
+      case 1: return 'ot-badge info';    // créé
+      default: return 'ot-badge info';
+    }
+  }
+
   showStepByTurnType(event) {
     this.turnTypeId = event;
     if (this.loadingTypeId == 1) {

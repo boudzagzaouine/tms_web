@@ -1,38 +1,38 @@
 <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
 
-<div class="card mt-1">
-  <div class="card-header ">
-    <div class="row ">
-      <div class="form-group col-md-4">
-        <button type="button" class="btn btn-outline-primary btn-sm" style="float: left;
-          min-width: 30%;"> {{this.selectedOrderTransport.code}}</button>
-
-        <!-- <span class="h4" > {{this.selectedOrderTransport.code}}</span> -->
-
-      </div>
-      <div class="form-group col-md-4">
-        <!-- <button type="button" class="btn " style="background: #5CADE2; color: white;">{{this.selectedOrderTransport.date |date:'dd'}}</button>
-  <button type="button" class="btn "style="background: #F7B518; color: white;">{{this.selectedOrderTransport.date |date:'MM'}}</button>
-  <button type="button" class="btn "style="background: #EC7064; color: white;">{{this.selectedOrderTransport.date |date:'yyyy'}}</button> -->
-
-        <!-- <span class="h4" > {{this.selectedOrderTransport.date |date:'dd-MM-yyyy'}}</span> -->
-
-      </div>
-      <div class="form-group col-md-4">
-        <button type="button" class="btn btn-outline-success btn-sm" style="float: right;    min-width: 30%;">
-          {{this.selectedOrderTransport.turnStatus?.code}}</button>
-
-        <!-- <span class="h4" > {{this.selectedOrderTransport.turnStatus?.code}}</span> -->
-
+<div class="ot-page mt-1">
+  <!-- ===== Summary header ===== -->
+  <div class="ot-header">
+    <div class="ot-header-main">
+      <div class="ot-icon"><i class="fa fa-file-text-o"></i></div>
+      <div class="ot-title">
+        <div class="ot-code">{{ selectedOrderTransport.code || '—' }}</div>
+        <div class="ot-sub">
+          <span *ngIf="selectedOrderTransport.date"><i class="fa fa-calendar"></i>
+            {{ selectedOrderTransport.date | date : 'dd-MM-yyyy' }}</span>
+          <span *ngIf="selectedOrderTransport.account?.name"><i class="fa fa-user"></i>
+            {{ selectedOrderTransport.account?.name }}</span>
+          <span *ngIf="selectedOrderTransport.trajet?.code"><i class="fa fa-map"></i>
+            {{ selectedOrderTransport.trajet?.code }}</span>
+        </div>
       </div>
     </div>
 
-
+    <div class="ot-header-meta">
+      <span class="ot-chip" *ngIf="selectedOrderTransport.turnType?.code">
+        <i class="fa fa-exchange"></i> {{ selectedOrderTransport.turnType?.code }}
+      </span>
+      <span class="ot-chip" *ngIf="selectedOrderTransport.loadingType?.code">
+        <i class="fa fa-cubes"></i> {{ selectedOrderTransport.loadingType?.code }}
+      </span>
+      <span [class]="statusClass()">{{ selectedOrderTransport.turnStatus?.code || '—' }}</span>
+    </div>
   </div>
 
-  <div class="card-body border-top-primary">
+  <!-- ===== Wizard ===== -->
+  <div class="ot-body">
 
-    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"> </p-steps>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false" styleClass="ot-steps"> </p-steps>
 
 
     <span *ngIf="activeIndex==0">

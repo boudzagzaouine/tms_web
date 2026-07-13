@@ -21,6 +21,22 @@ export class TransportComponent implements OnInit {
   options: any;
   validertransport: number = 0;
   rejectedtransport: number = 0;
+  searched: boolean = false;
+
+  /** Total plans across all outcomes (derived, no extra request). */
+  get totaltransport(): number {
+    return this.refusedtransport + this.canceledtransport + this.rejectedtransport + this.validertransport;
+  }
+
+  /** Share of plans actually carried out. */
+  get successRate(): number {
+    return this.totaltransport ? Math.round((this.validertransport / this.totaltransport) * 100) : 0;
+  }
+
+  /** Share of plans lost (cancelled + rejected + refused). */
+  get failureRate(): number {
+    return this.totaltransport ? 100 - this.successRate : 0;
+  }
 
   constructor(
     public datepipe: DatePipe,
@@ -74,8 +90,7 @@ export class TransportComponent implements OnInit {
       .subscribe(
         data => {
           this.validertransport = data ? data : 0;
-          console.log(this.refusedtransport, this.canceledtransport, this.validertransport, this.rejectedtransport)
-
+          this.searched = true;
           this.onChartTransport()
         });
 
@@ -88,34 +103,35 @@ export class TransportComponent implements OnInit {
   }
 
   onChartTransport() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    console.log(this.canceledtransport, this.rejectedtransport, this.refusedtransport, this.validertransport)
     this.data = {
       labels: ['Annulé', 'Rejecté', 'Refusé', 'Validé'],
       datasets: [
         {
           data: [this.canceledtransport, this.rejectedtransport, this.refusedtransport, this.validertransport],
-          backgroundColor:
-            [documentStyle.getPropertyValue('--green-500'),
-            documentStyle.getPropertyValue('--yellow-500'),
-            documentStyle.getPropertyValue('--blue-500'),
-            documentStyle.getPropertyValue('--orange-500')],
-          hoverBackgroundColor:
-            [documentStyle.getPropertyValue('--green-400'),
-            documentStyle.getPropertyValue('--yellow-400'),
-            documentStyle.getPropertyValue('--blue-400'),
-            documentStyle.getPropertyValue('--orange-400'),]
+          // Annulé / Rejecté / Refusé / Validé — intuitive outcome colours.
+          backgroundColor: ['#e34948', '#eb6834', '#eda100', '#1baf7a'],
+          hoverBackgroundColor: ['#e66767', '#ef8a5f', '#f2b733', '#3cc593'],
+          borderColor: '#ffffff',
+          borderWidth: 2
         }
       ]
     };
+    const total = this.totaltransport;
     this.options = {
-
+      cutoutPercentage: 62, // doughnut
       legend: {
-        labels: {
-          usePointStyle: true
+        position: 'right',
+        labels: { usePointStyle: true, fontColor: '#52514e', padding: 16 }
+      },
+      tooltips: {
+        callbacks: {
+          label: (item: any, data: any) => {
+            const value = data.datasets[0].data[item.index] || 0;
+            const pct = total ? Math.round((value / total) * 100) : 0;
+            return ` ${data.labels[item.index]}: ${value} (${pct}%)`;
+          }
         }
       }
-
     };
   }
 }

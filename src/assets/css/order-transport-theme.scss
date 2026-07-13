@@ -1,0 +1,175 @@
+// ============================================================
+//  Order Transport module — shared visual theme
+//  Global stylesheet scoped to the module's component selectors, so it
+//  themes every page in the module (list, wizard steps, affected, cancel)
+//  consistently without touching each template. Rules only apply inside
+//  these components, so the rest of the app is unaffected.
+// ============================================================
+
+$ot-brand: #23547b;
+$ot-brand-light: #4084bd;
+$ot-ink: #2b3a45;
+$ot-muted: #6b7883;
+$ot-line: #e6edf3;
+$ot-bg-soft: #f4f8fb;
+
+app-order-transport-list,
+app-order-transport-list-cancel,
+app-order-transport-edit,
+app-order-transport-information,
+app-order-transport-complet,
+app-order-transport-complet-edit,
+app-order-transport-complet-retour,
+app-order-transport-groupage,
+app-order-transport-info-line,
+app-order-transport-service,
+app-tarification,
+app-order-transport-verification,
+app-order-transport-itinerary,
+app-order-transport-affected,
+app-order-transport-cancel {
+
+  // ---- Breadcrumb ----
+  .p-breadcrumb {
+    background: transparent;
+    border: none;
+    padding: 6px 2px 12px;
+    .p-menuitem-link .p-menuitem-text,
+    .p-breadcrumb-chevron { color: $ot-muted; }
+    .p-menuitem-link:hover .p-menuitem-text { color: $ot-brand; }
+  }
+
+  // ---- Panels (filters / sections) ----
+  .p-panel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+
+    .p-panel-header {
+      background: $ot-bg-soft;
+      border: 1px solid $ot-line;
+      border-bottom: none;
+      color: $ot-ink;
+      font-weight: 700;
+      padding: 0.85rem 1.15rem;
+    }
+    .p-panel-content {
+      border: 1px solid $ot-line;
+      border-top: none;
+      padding: 1.15rem;
+    }
+    .p-panel-titlebar-icon { color: $ot-muted; }
+  }
+
+  // ---- Fieldset ----
+  .p-fieldset {
+    border-radius: 12px;
+    border: 1px solid $ot-line;
+    .p-fieldset-legend {
+      background: $ot-brand;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 16px;
+      a, .p-fieldset-legend-text { color: #fff; font-weight: 700; }
+    }
+  }
+
+  // ---- Cards ----
+  .p-card {
+    border-radius: 12px;
+    border: 1px solid $ot-line;
+    border-left: 4px solid $ot-brand-light;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  // ---- Bootstrap cards / headers used across the module ----
+  .card {
+    border-radius: 12px;
+    border: 1px solid $ot-line;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  .card-header {
+    background: $ot-bg-soft;
+    border-bottom: 1px solid $ot-line;
+    font-weight: 700;
+    color: $ot-ink;
+  }
+
+  // ---- Tables ----
+  .p-datatable {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid $ot-line;
+
+    .p-datatable-thead > tr > th {
+      background: $ot-brand;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.15);
+      font-weight: 700;
+      font-size: 12.5px;
+      letter-spacing: 0.3px;
+      padding: 0.75rem 1rem;
+    }
+    .p-datatable-tbody > tr {
+      transition: background 0.12s ease;
+      > td { padding: 0.7rem 1rem; border-color: $ot-line; color: $ot-ink; }
+      &:nth-child(even) { background: #fafcfe; }
+      &:hover { background: #eef4f9 !important; }
+    }
+    .p-sortable-column.p-highlight,
+    .p-sortable-column:not(.p-highlight):hover { background: $ot-brand-light; color: #fff; }
+    .p-sortable-column .p-sortable-column-icon { color: rgba(255, 255, 255, 0.8); }
+  }
+
+  // ---- Paginator ----
+  .p-paginator {
+    border: none;
+    background: transparent;
+    padding-top: 0.75rem;
+    .p-paginator-pages .p-paginator-page.p-highlight {
+      background: $ot-brand-light;
+      color: #fff;
+      border-radius: 8px;
+    }
+  }
+
+  // ---- Form controls ----
+  .form-control,
+  .p-inputtext,
+  .p-dropdown,
+  .p-multiselect,
+  .p-autocomplete .p-autocomplete-input,
+  .p-calendar .p-inputtext {
+    border-radius: 8px;
+  }
+  .p-inputtext:enabled:focus,
+  .form-control:focus {
+    box-shadow: 0 0 0 2px rgba(64, 132, 189, 0.25);
+    border-color: $ot-brand-light;
+  }
+  label.font-weight-bold { color: $ot-ink; }
+
+  // ---- Buttons ----
+  .btn {
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .btn-primary {
+    background: $ot-brand-light;
+    border-color: $ot-brand-light;
+    &:hover, &:focus { background: $ot-brand; border-color: $ot-brand; }
+  }
+  .btn-outline-primary {
+    color: $ot-brand-light;
+    border-color: $ot-brand-light;
+    &:hover { background: $ot-brand-light; border-color: $ot-brand-light; }
+  }
+  .p-button {
+    border-radius: 8px;
+    background: $ot-brand-light;
+    border-color: $ot-brand-light;
+    &:enabled:hover { background: $ot-brand; border-color: $ot-brand; }
+  }
+}

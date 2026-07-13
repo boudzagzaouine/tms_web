@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~leaflet/dist/leaflet.css";
  @import "~leaflet-routing-machine/dist/leaflet-routing-machine.css";
+@import "assets/css/order-transport-theme.scss";
 
 .map-wrapper {
   position: absolute;

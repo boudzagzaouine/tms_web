@@ -65,10 +65,12 @@ export class TmsDashboardVehicleComponent implements OnInit {
   }
 
   onVehicleCodeSearch(event: any) {
-    this.patrimonyService.find('registrationnumber~' + event.query).subscribe(
-      data => this.vehicleRegistrationNumberList = data.filter(f => f.patrimony_type == 'vehicule')
-      )
-     
+    // Property is registrationNumber (camelCase) — lowercase failed the
+    // backend criteria parser (CriteriaPredicate.getType).
+    this.patrimonyService.find('registrationNumber~' + event.query).subscribe(
+      data => this.vehicleRegistrationNumberList = (data || []).filter(f => f.patrimony_type == 'vehicule'),
+      () => this.vehicleRegistrationNumberList = []
+    );
   }
 
   onSearchClicked() {
@@ -77,8 +79,9 @@ export class TmsDashboardVehicleComponent implements OnInit {
   }
   onCodeSearch(event: any) {
     this.trajetService.find('code~' + event.query).subscribe(
-      data => this.trajetList = data
-    )
+      data => this.trajetList = data || [],
+      () => this.trajetList = []
+    );
   }
 
   searchvehicule() {

@@ -47,11 +47,10 @@ export class TransportComponent implements OnInit {
   }
 
   onNameSearch(event: any) {
-
     this.tranportService.find('name~' + event.query).subscribe(
-      data => this.nameList = data
+      data => this.nameList = data || [],
+      () => this.nameList = []   // e.g. 403 when the account lacks TRANSPORT_VIEW
     );
-
   }
 
   onSearchClicked() {

@@ -42,14 +42,16 @@ export class TmsDashboardDriverComponent implements OnInit {
 
   onDriverCodeSearch(event: any) {
     this.driverservice.find('name~' + event.query).subscribe(
-      data => this.driverList = data
-    )
+      data => this.driverList = data || [],
+      () => this.driverList = []
+    );
   }
 
   onCodeSearch(event: any) {
     this.trajetService.find('code~' + event.query).subscribe(
-      data => this.trajetList = data
-    )
+      data => this.trajetList = data || [],
+      () => this.trajetList = []
+    );
   }
   onSearchClicked() {
 

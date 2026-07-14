@@ -1,0 +1,34 @@
+$brand: #23547b;
+$brand-light: #4084bd;
+
+.db-section {
+  font-weight: 800;
+  color: #2b3a45;
+  margin: 18px 2px 12px;
+  padding-left: 10px;
+  border-left: 4px solid $brand-light;
+  letter-spacing: 0.2px;
+}
+
+.db-rate {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: $brand;
+}
+
+.db-progress {
+  height: 12px;
+  border-radius: 8px;
+  background: #eef2f5;
+  overflow: hidden;
+  margin: 6px 0 8px;
+
+  .db-progress-fill {
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #1baf7a, #4084bd);
+    transition: width 0.5s ease;
+  }
+}
+
+:host ::ng-deep .p-chart canvas { max-height: 300px; }

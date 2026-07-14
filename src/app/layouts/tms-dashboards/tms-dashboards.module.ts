@@ -26,10 +26,11 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { TmsDashboardDriverComponent } from './tms-dashboard-driver/tms-dashboard-driver.component';
 import { TransportComponent } from './transport/transport.component';
 import { TmsDashboardVehicleComponent } from './tms-dashboard-vehicle/tms-dashboard-vehicle.component';
+import { OverviewComponent } from './overview/overview.component';
 @NgModule({
   providers:[DatePipe],
   bootstrap:[],
-  declarations: [TmsDashboardVehicleComponent, TmsDashboardDriverComponent, TransportComponent],
+  declarations: [TmsDashboardVehicleComponent, TmsDashboardDriverComponent, TransportComponent, OverviewComponent],
   imports: [
     CommonModule,
     TmsDashboardsRoutingModule,

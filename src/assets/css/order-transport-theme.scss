@@ -40,9 +40,10 @@ app-order-transport-cancel {
   }
 
   // ---- Panels (filters / sections) ----
+  // No `overflow: hidden` — it clips p-calendar / dropdown overlays that pop
+  // out of the panel. Round header/content corners individually instead.
   .p-panel {
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 1rem;
 
@@ -50,6 +51,7 @@ app-order-transport-cancel {
       background: $ot-bg-soft;
       border: 1px solid $ot-line;
       border-bottom: none;
+      border-radius: 12px 12px 0 0;
       color: $ot-ink;
       font-weight: 700;
       padding: 0.85rem 1.15rem;
@@ -57,6 +59,7 @@ app-order-transport-cancel {
     .p-panel-content {
       border: 1px solid $ot-line;
       border-top: none;
+      border-radius: 0 0 12px 12px;
       padding: 1.15rem;
     }
     .p-panel-titlebar-icon { color: $ot-muted; }

@@ -169,29 +169,24 @@ console.log();
 }
 
 loadOTToAffected(dates:string='') {
-  let  search: string = ''
-    let searchDate=dates.replace("dateDepart","date");
-    searchDate=searchDate.replace("dateDepart","date");
-  search +='turnStatus.id:1,'+searchDate;
-
-
+  // "À affecter" = orders still created / not yet planned. Orders filter on the
+  // `date` field (not dateDepart), and driver/vehicle don't apply to unplanned OTs.
+    const searchDate = (dates || '').replace(/dateDepart/g, 'date');
+    const search = 'turnStatus.id:1' + (searchDate ? ',' + searchDate : '');
 
    this.spinner.show();
    this.subscriptions.add(this.orderTransportService.sizeSearch(search).subscribe(
      data => {
        this.otToAffectedSize = data;
-       console.log( this.otToAffectedSize);
-
        this.spinner.hide();
      }
    ));
 
  }
- loadOTReleaseInterne(dates:string='') {
-  let  search: string = ''
-
-    search ='turnStatus.id:3'+',transport.id:10152,'+dates;
-
+ loadOTReleaseInterne(base:string='') {
+  // "Flottes engagées" = trips actually engaged (started/in-progress/done),
+  // i.e. not merely created (1) and not cancelled (4).
+    const search = 'turnStatus.id!1;4' + (base ? ',' + base : '');
 
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -204,13 +199,9 @@ loadOTToAffected(dates:string='') {
  }
 
 
- loadOTRelease(dates:string='') {
-  let  search: string = ''
-
-       search ='turnStatus.id:3,'+dates;
-
-
-
+ loadOTRelease(base:string='') {
+  // "OT réalisés" = completed trips (turnStatus FERMÉ).
+       const search = 'turnStatus.id:3' + (base ? ',' + base : '');
 
    this.spinner.show();
    this.subscriptions.add(this.transportPlanService.sizeSearch(search).subscribe(
@@ -223,59 +214,57 @@ loadOTToAffected(dates:string='') {
  }
 
   onSearchClicked() {
-let searchkpi='';
     const buffer = new EmsBuffer();
     this.spinner.show();
+
+    // planParts drives the transport-plan KPI tiles (affectés / flottes /
+    // réalisés) — the same driver / vehicle / OT / date filter as the list, but
+    // WITHOUT the status clause (each tile carries its own status). dateOnly
+    // drives the "à affecter" tile (order transports).
+    const planParts: string[] = [];
+    let dateOnly = '';
+
     if (this.orderTransportSearch != null && this.orderTransportSearch.id !== undefined) {
       buffer.append(`orderTransport.id:${this.orderTransportSearch.id}`);
+      planParts.push(`orderTransport.id:${this.orderTransportSearch.id}`);
     }
     if (this.vehicleSearch != null && this.vehicleSearch !== undefined) {
       buffer.append(`vehicle.registrationNumber:${this.vehicleSearch.registrationNumber}`);
+      planParts.push(`vehicle.registrationNumber:${this.vehicleSearch.registrationNumber}`);
     }
     if (this.driverSearch != null && this.driverSearch !== undefined) {
       buffer.append(`driver.id:${this.driverSearch.id}`);
+      planParts.push(`driver.id:${this.driverSearch.id}`);
     }
 
-    if (this.statusSearch != null ) {
-      if(this.statusSearch.id==1){// en cours
-        //en Cour
-      buffer.append('turnStatus.id!3;4;1;2');
-
+    if (this.statusSearch != null) {
+      if (this.statusSearch.id == 1) {          // en cours
+        buffer.append('turnStatus.id!3;4;1;2');
+      } else if (this.statusSearch.id == 2) {   // fermé
+        buffer.append('turnStatus.id:3');
       }
-      else if (this.statusSearch.id==2){//fermer
-        //Fermer
-      buffer.append('turnStatus.id:3');
     }
-    // else if (this.statusSearch.id==3){//planifier = cree
-    //     //Fermer
-    //   buffer.append('turnStatus.id:1');
 
-    //   }
-    }
     if (this.dateSearch != null && this.dateSearch !== undefined) {
-      let dateD,dateF;
-      dateD=this.datePipe.transform(this.dateSearch[0],'yyyy-MM-dd');
-      dateF=this.datePipe.transform(this.dateSearch[1],'yyyy-MM-dd');
-      if(dateD!=null){
-      buffer.append("dateDepart>"+dateD);
-searchkpi+="dateDepart>"+dateD;
-      }
-      if(dateF!=null){
-        buffer.append("dateDepart<"+dateF);
-        searchkpi+=",dateDepart<"+dateF;
-
-        }
- this.loadOTAffected(searchkpi);
-this.loadOTToAffected(searchkpi);
-this. loadOTReleaseInterne(searchkpi);
-this. loadOTRelease(searchkpi);
+      const dateD = this.datePipe.transform(this.dateSearch[0], 'yyyy-MM-dd');
+      const dateF = this.datePipe.transform(this.dateSearch[1], 'yyyy-MM-dd');
+      if (dateD != null) { buffer.append('dateDepart>' + dateD); planParts.push('dateDepart>' + dateD); dateOnly += 'dateDepart>' + dateD; }
+      if (dateF != null) { buffer.append('dateDepart<' + dateF); planParts.push('dateDepart<' + dateF); dateOnly += (dateOnly ? ',' : '') + 'dateDepart<' + dateF; }
     }
+
+    const planFilter = planParts.join(',');
 
     this.page = 0;
     this.searchQuery = buffer.getValue();
-    console.log(this.searchQuery);
-
     this.loadData(this.searchQuery);
+
+    // Always refresh the KPI tiles with the current filter (previously they only
+    // updated when a date was picked, leaving stale numbers on empty results).
+    this.loadOTAffected(planFilter);
+    this.loadOTToAffected(dateOnly);
+    this.loadOTReleaseInterne(planFilter);
+    this.loadOTRelease(planFilter);
+
     this.spinner.hide();
   }
 

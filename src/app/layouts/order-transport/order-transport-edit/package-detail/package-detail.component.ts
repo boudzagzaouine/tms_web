@@ -1,6 +1,6 @@
 import { ContainerTypeService } from './../../../../shared/services/api/container-type.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ContainerType } from './../../../../shared/models/container-type';
 import { PackageDetail } from './../../../../shared/models/package-detail';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
@@ -18,7 +18,7 @@ export class PackageDetailComponent implements OnInit {
   @Output() packageDetailAdded = new EventEmitter<PackageDetail>();
   containerTypeList: ContainerType[] = [];
 
-  packageDetailForm: FormGroup;
+  packageDetailForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier detail emballage';
@@ -45,14 +45,14 @@ export class PackageDetailComponent implements OnInit {
     if (!this.editMode) {
       this.selectedPackageDetail = new PackageDetail();
     }
-    this.packageDetailForm = new FormGroup({
-      'containerType': new FormControl(this.selectedPackageDetail.containerType,Validators.required),
-      'length': new FormControl(this.selectedPackageDetail.length,Validators.required),
+    this.packageDetailForm = new UntypedFormGroup({
+      'containerType': new UntypedFormControl(this.selectedPackageDetail.containerType,Validators.required),
+      'length': new UntypedFormControl(this.selectedPackageDetail.length,Validators.required),
 
-      'width': new FormControl(this.selectedPackageDetail.width,Validators.required),
-      'height': new FormControl(this.selectedPackageDetail.height,Validators.required),
-   'numberOfPackages': new FormControl(this.selectedPackageDetail.numberOfPackages,Validators.required),
-      'weight': new FormControl(this.selectedPackageDetail.weight,Validators.required),
+      'width': new UntypedFormControl(this.selectedPackageDetail.width,Validators.required),
+      'height': new UntypedFormControl(this.selectedPackageDetail.height,Validators.required),
+   'numberOfPackages': new UntypedFormControl(this.selectedPackageDetail.numberOfPackages,Validators.required),
+      'weight': new UntypedFormControl(this.selectedPackageDetail.weight,Validators.required),
 
   });
   }

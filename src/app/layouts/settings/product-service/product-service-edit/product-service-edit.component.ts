@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 import { ServiceType } from './../../../../shared/models/service-type';
 import { Uom } from './../../../../shared/models/uom';
 import { Vat } from './../../../../shared/models/vat';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ProductPack } from './../../../../shared/models/product-pack';
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -34,7 +34,7 @@ export class ProductServiceEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Service';
-  productForm: FormGroup;
+  productForm: UntypedFormGroup;
   vats: Vat[];
   uoms: Uom[];
   serviceTypeList: ServiceType[];
@@ -96,9 +96,9 @@ console.log(this.selectedProduct);
 
   initForm() {
 
-    this.productForm = new FormGroup({
-      code: new FormControl(this.selectedProduct.code,Validators.required),
-      description: new FormControl(this.selectedProduct.desc),
+    this.productForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedProduct.code,Validators.required),
+      description: new UntypedFormControl(this.selectedProduct.desc),
       // type: new FormControl(this.selectedProduct.serviceType,Validators.required),
       // vat: new FormControl(
       //   this.editMode!=1 ?this.selectedProduct.vat.value

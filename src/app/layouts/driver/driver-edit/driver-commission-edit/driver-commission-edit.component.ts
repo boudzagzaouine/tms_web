@@ -5,7 +5,7 @@ import { CommissionDriver } from './../../../../shared/models/commission-driver'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CommissionType } from './../../../../shared/models/commissionType';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 
@@ -27,7 +27,7 @@ export class DriverCommissionEditComponent implements OnInit{
   @Output() commissionDriverAdd = new EventEmitter<CommissionDriver>();
   selectedCommissionType = new CommissionType();
   closeResult: String;
-   commissionDriverForm: FormGroup;
+   commissionDriverForm: UntypedFormGroup;
   CommissionTypeList: CommissionType[] = [];
 commissiondriverList: CommissionDriver[] = [];
 @Output()commissionTypedriverListEdited = new EventEmitter<CommissionDriver[]>();
@@ -78,9 +78,9 @@ fr: any;
 
   initForm() {
 
-    this.commissionDriverForm = new FormGroup({
-      'fCommisionType': new FormControl(this.selectedCommissionDriver.commissionType, Validators.required),
-      'fDateCommission': new FormControl(this.selectedCommissionDriver.datee, Validators.required),
+    this.commissionDriverForm = new UntypedFormGroup({
+      'fCommisionType': new UntypedFormControl(this.selectedCommissionDriver.commissionType, Validators.required),
+      'fDateCommission': new UntypedFormControl(this.selectedCommissionDriver.datee, Validators.required),
 
     });
   }

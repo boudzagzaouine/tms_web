@@ -4,7 +4,7 @@ import { UomService } from './../../../../shared/services/api/uom.service';
 import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
 import { ProductService } from './../../../../shared/services/api/product.service';
 import { ReceptionLineService } from './../../../../shared/services/api/reception-line.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Uom } from './../../../../shared/models/uom';
 import { ProductPack } from './../../../../shared/models/product-pack';
 import { Vat } from './../../../../shared/models/vat';
@@ -33,7 +33,7 @@ export class ReceptionLineEditComponent implements OnInit {
   productPackList: ProductPack[] = [];
   uomList: Uom[] = [];
   selectedReception: Reception;
-  receptionLineForm: FormGroup;
+  receptionLineForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier la ligne de reception';
@@ -65,8 +65,8 @@ export class ReceptionLineEditComponent implements OnInit {
     if (!this.editMode) {
       this.selectedReceptionLine = new ReceptionLine();
     }
-    this.receptionLineForm = new FormGroup({
-      pdt: new FormControl(
+    this.receptionLineForm = new UntypedFormGroup({
+      pdt: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.product != null
               ? this.selectedReceptionLine.product.code
@@ -74,14 +74,14 @@ export class ReceptionLineEditComponent implements OnInit {
           Validators.required
       ),
 
-      description: new FormControl(
+      description: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.description != null
               ? this.selectedReceptionLine.description
               : ''
       ),
 
-      expectedQuantity: new FormControl(
+      expectedQuantity: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.quantity != null
               ? this.selectedReceptionLine.quantity
@@ -89,34 +89,34 @@ export class ReceptionLineEditComponent implements OnInit {
           Validators.required
       ),
 
-      receivedQuantity: new FormControl(
+      receivedQuantity: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.quantityReceived != null
               ? this.selectedReceptionLine.quantityReceived
               : null
       ),
 
-      expectedUom: new FormControl(
+      expectedUom: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.uom != null
               ? this.selectedReceptionLine.uom.code
               : null
       ),
 
-      receivedUom: new FormControl(
+      receivedUom: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.uomReceived != null
               ? this.selectedReceptionLine.uomReceived.code
               : null
       ),
 
-      blockType: new FormControl(
+      blockType: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.blockType != null
               ? this.selectedReceptionLine.blockType.code
               : null
       ),
-      pdtPack: new FormControl(
+      pdtPack: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.product != null &&
           this.selectedReceptionLine.product.productPack != null
@@ -125,7 +125,7 @@ export class ReceptionLineEditComponent implements OnInit {
           Validators.required
       ),
 
-      price: new FormControl({
+      price: new UntypedFormControl({
           value:
               this.selectedReceptionLine != null &&
               this.selectedReceptionLine.product != null
@@ -133,7 +133,7 @@ export class ReceptionLineEditComponent implements OnInit {
                   : null,
           disabled: true
       }),
-      priceTTC: new FormControl({
+      priceTTC: new UntypedFormControl({
           value:
               this.selectedReceptionLine != null &&
               this.selectedReceptionLine.product != null
@@ -142,7 +142,7 @@ export class ReceptionLineEditComponent implements OnInit {
           disabled: true
       }),
 
-      payedPrice: new FormControl(
+      payedPrice: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.product != null
               ? this.selectedReceptionLine.purshasePrice
@@ -150,15 +150,15 @@ export class ReceptionLineEditComponent implements OnInit {
           Validators.required
       ),
 
-      payedPriceTTC: new FormControl(null),
+      payedPriceTTC: new UntypedFormControl(null),
 
-      totalPayedPrice: new FormControl(
+      totalPayedPrice: new UntypedFormControl(
           this.selectedReceptionLine != null &&
           this.selectedReceptionLine.product != null
               ? this.selectedReceptionLine.totalPriceTTC
               : null
       ),
-      totalPayedPriceTTC: new FormControl(null)
+      totalPayedPriceTTC: new UntypedFormControl(null)
   });
   }
 

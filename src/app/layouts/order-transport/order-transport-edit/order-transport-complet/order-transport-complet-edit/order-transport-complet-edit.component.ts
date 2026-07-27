@@ -1,6 +1,6 @@
 import { OrderTransportTrajetQuantity } from './../../../../../shared/models/order-transport-trajet-quantity';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { observable, Subscription } from "rxjs";
@@ -33,7 +33,7 @@ export class OrderTransportCompletEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
     new EventEmitter<OrderTransportInfoLine>();
-  orderTransportInfoLineForm: FormGroup;
+  orderTransportInfoLineForm: UntypedFormGroup;
   selectAddress: Address = new Address();
   selectContact: Contact = new Contact();
 
@@ -140,52 +140,52 @@ export class OrderTransportCompletEditComponent implements OnInit {
   initForm() {
 
 
-    this.orderTransportInfoLineForm = new FormGroup({
-      general: new FormGroup({
+    this.orderTransportInfoLineForm = new UntypedFormGroup({
+      general: new UntypedFormGroup({
 
-        deliveryInfoName: new FormControl(
+        deliveryInfoName: new UntypedFormControl(
           this.selectContact.name
         ),
-        deliveryInfoTel1: new FormControl(this.selectContact.tel1),
+        deliveryInfoTel1: new UntypedFormControl(this.selectContact.tel1),
 
-        deliveryInfoAddressName: new FormControl(
+        deliveryInfoAddressName: new UntypedFormControl(
           this.selectAddress.code,
           Validators.required
         ),
-        deliveryInfoLine1: new FormControl(this.selectAddress.line1),
-        deliveryInfoCity: new FormControl(this.selectAddress.ville?.code),
-        deliveryInfoCountry: new FormControl(this.selectAddress.pays?.code),
+        deliveryInfoLine1: new UntypedFormControl(this.selectAddress.line1),
+        deliveryInfoCity: new UntypedFormControl(this.selectAddress.ville?.code),
+        deliveryInfoCountry: new UntypedFormControl(this.selectAddress.pays?.code),
 
       }),
-      enlevement: new FormGroup({
+      enlevement: new UntypedFormGroup({
 
-        comment: new FormControl(
+        comment: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.commentEnlevement
         ),
 
-        paymentType: new FormControl(
+        paymentType: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
         ),
-        paymentAmount: new FormControl(
+        paymentAmount: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountEnlevement
         ),
-        date: new FormControl(
+        date: new UntypedFormControl(
           new Date(this.selectedOrderTransportInfoLine?.dateEnlevement)
         ),
       }),
-      livraison: new FormGroup({
+      livraison: new UntypedFormGroup({
 
-        comment: new FormControl(
+        comment: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.commentLivraison
         ),
 
-        paymentType: new FormControl(
+        paymentType: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeLivraison
         ),
-        paymentAmount: new FormControl(
+        paymentAmount: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountLivraison
         ),
-        date: new FormControl(
+        date: new UntypedFormControl(
           new Date(this.selectedOrderTransportInfoLine?.dateLivraison)
         ),
       }),

@@ -9,7 +9,7 @@ import { SupplierInvoiceService } from './../../../shared/services/api/supplier-
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { SupplierInvoice } from './../../../shared/models/supplier-invoice';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -19,7 +19,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupplierInvoiceEditComponent implements OnInit {
 
-  supplierInvoiceForm: FormGroup;
+  supplierInvoiceForm: UntypedFormGroup;
   selectedSupplierInvoice: SupplierInvoice = new SupplierInvoice();
   index: number = 0;
   page = 0;
@@ -33,7 +33,7 @@ export class SupplierInvoiceEditComponent implements OnInit {
   items: MenuItem[];
   idSupplierInvoice:number=0;
   home: MenuItem;
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
     private supplierInvoiceService: SupplierInvoiceService,
     private supplierInvoiceLineService: SupplierInvoiceLineService,
 
@@ -88,19 +88,19 @@ console.log(this.route.snapshot.params['id']);
     this.supplierInvoiceForm = this.formBuilder.group(
       {
 
-        'code': new FormControl(this.selectedSupplierInvoice.code),
-        'supplier': new FormControl(this.selectedSupplierInvoice?.supplier?.code),
-        'supplierInvoiceCode': new FormControl(this.selectedSupplierInvoice.supplierInvoiceCode),
-        'invoiceStatus': new FormControl(this.selectedSupplierInvoice?.invoiceStatus?.code),
-        'paymentStatus': new FormControl(this.selectedSupplierInvoice?.paymentStatus?.code),
+        'code': new UntypedFormControl(this.selectedSupplierInvoice.code),
+        'supplier': new UntypedFormControl(this.selectedSupplierInvoice?.supplier?.code),
+        'supplierInvoiceCode': new UntypedFormControl(this.selectedSupplierInvoice.supplierInvoiceCode),
+        'invoiceStatus': new UntypedFormControl(this.selectedSupplierInvoice?.invoiceStatus?.code),
+        'paymentStatus': new UntypedFormControl(this.selectedSupplierInvoice?.paymentStatus?.code),
 
-        'totalPriceHT': new FormControl(this.selectedSupplierInvoice.totalPriceHT),
-        'totalPriceTTC': new FormControl(this.selectedSupplierInvoice.totalPriceTTC),
-        'vat': new FormControl(this.selectedSupplierInvoice.vat),
+        'totalPriceHT': new UntypedFormControl(this.selectedSupplierInvoice.totalPriceHT),
+        'totalPriceTTC': new UntypedFormControl(this.selectedSupplierInvoice.totalPriceTTC),
+        'vat': new UntypedFormControl(this.selectedSupplierInvoice.vat),
 
-        'currency': new FormControl(this.selectedSupplierInvoice?.currency?.code),
-        'invoiceDate': new FormControl(invoiceDate),
-        'warehouse': new FormControl(this.selectedSupplierInvoice.warehouse?.code),
+        'currency': new UntypedFormControl(this.selectedSupplierInvoice?.currency?.code),
+        'invoiceDate': new UntypedFormControl(invoiceDate),
+        'warehouse': new UntypedFormControl(this.selectedSupplierInvoice.warehouse?.code),
       }
     );
   }

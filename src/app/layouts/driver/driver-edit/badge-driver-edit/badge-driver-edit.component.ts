@@ -3,7 +3,7 @@ import { BadgeTypeDriverService } from './../../../../shared/services/api/badge-
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BadgeTypeService } from './../../../../shared/services/api/badge-type.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { BadgeTypeDriver } from './../../../../shared/models/badge-Type-Driver';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { BadgeType } from './../../../../shared/models/badge-Type';
@@ -23,7 +23,7 @@ export class BadgeDriverEditComponent implements OnInit {
   badgeDriverAdd = new BadgeTypeDriver();
   selectedBadgeType = new BadgeType();
   closeResult: String;
-  badgeTypeDriverForm: FormGroup;
+  badgeTypeDriverForm: UntypedFormGroup;
   badgeTypeList: BadgeType[] = [];
  @Input() badgeTypeDriverList: BadgeTypeDriver[] = [];
   @Output()badgeTypedriverListEdit = new EventEmitter<BadgeTypeDriver[]>();
@@ -68,11 +68,11 @@ export class BadgeDriverEditComponent implements OnInit {
   initForm() {
     const d = new Date(this.selectedBadgeDriver.deliveranceDate);
     const dd = new Date(this.selectedBadgeDriver.validityEndDate);
-    this.badgeTypeDriverForm = new FormGroup({
-      'fBadgeType': new FormControl(this.selectedBadgeDriver.badgeType, Validators.required),
-      'fNumBadge': new FormControl(this.selectedBadgeDriver.badgeNumber, Validators.required),
-      'fDateDelivrance': new FormControl(d, Validators.required),
-      'DateFin': new FormControl(dd, Validators.required)
+    this.badgeTypeDriverForm = new UntypedFormGroup({
+      'fBadgeType': new UntypedFormControl(this.selectedBadgeDriver.badgeType, Validators.required),
+      'fNumBadge': new UntypedFormControl(this.selectedBadgeDriver.badgeNumber, Validators.required),
+      'fDateDelivrance': new UntypedFormControl(d, Validators.required),
+      'DateFin': new UntypedFormControl(dd, Validators.required)
 
     });
   }

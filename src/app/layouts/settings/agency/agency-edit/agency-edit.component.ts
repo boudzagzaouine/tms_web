@@ -1,7 +1,7 @@
 import { Address } from './../../../../shared/models/address';
 import { User } from './../../../../shared/models/user';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -29,7 +29,7 @@ export class AgencyEditComponent implements OnInit {
   responsableSearch: User
   adressSearch:Address;
   adressList: Array<Agency> = [];
-  agencyForm: FormGroup;
+  agencyForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une Agence';
@@ -59,12 +59,12 @@ export class AgencyEditComponent implements OnInit {
   }
 
   initForm() {
-    this.agencyForm = new FormGroup({
-      'code': new FormControl(this.selectedAgency.code, Validators.required),
-      'description': new FormControl(this.selectedAgency.description),
-      'zone': new FormControl(this.selectedAgency.zone, Validators.required),
-      'address': new FormControl(this.selectedAgency.address, Validators.required),
-      'responsable': new FormControl(this.selectedAgency.responsable, Validators.required),
+    this.agencyForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedAgency.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedAgency.description),
+      'zone': new UntypedFormControl(this.selectedAgency.zone, Validators.required),
+      'address': new UntypedFormControl(this.selectedAgency.address, Validators.required),
+      'responsable': new UntypedFormControl(this.selectedAgency.responsable, Validators.required),
 
     });
   }

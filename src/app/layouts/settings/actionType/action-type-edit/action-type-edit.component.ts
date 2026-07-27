@@ -1,7 +1,7 @@
 import { ActionTypeRepair } from './../../../../shared/models/action-type-repair';
 import { SupplierService } from './../../../../shared/services/api/supplier.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ export class ActionTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  actionTypeForm: FormGroup;
+  actionTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type action';
@@ -60,9 +60,9 @@ export class ActionTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.actionTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedActionType.code, Validators.required),
-      'description': new FormControl(this.selectedActionType.description),
+    this.actionTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedActionType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedActionType.description),
     });
   }
 

@@ -26,7 +26,7 @@ import { OrderTransportService } from "./../../../../shared/services/api/order-t
 import { OrderTransportTypeService } from "./../../../../shared/services/api/order-transport-type.service";
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
 import { OrderTransportInfoLine } from "./../../../../shared/models/order-transport-info-line";
-import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { UntypedFormGroup, Validators, UntypedFormControl } from "@angular/forms";
 
 import { Subject, Subscription } from "rxjs";
 import {
@@ -56,7 +56,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() orderTransportInfoLineAdded =
     new EventEmitter<OrderTransportInfoLine>();
-  orderTransportInfoLineForm: FormGroup;
+  orderTransportInfoLineForm: UntypedFormGroup;
   selectAddress: Address = new Address();
   selectContact: Contact = new Contact();
 
@@ -178,93 +178,93 @@ export class OrderTransportInfoLineComponent implements OnInit {
         this.orderTransportTypeList.filter((f) => f.id == 1)[0];
     }
 
-    this.orderTransportInfoLineForm = new FormGroup({
-      general: new FormGroup({
-        orderTransportType: new FormControl(
+    this.orderTransportInfoLineForm = new UntypedFormGroup({
+      general: new UntypedFormGroup({
+        orderTransportType: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.orderTransportType,
           Validators.required
         ),
-        account: new FormControl(
+        account: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.account
         ),
-        priceHT: new FormControl(
+        priceHT: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.priceHT
         ),
-        vat: new FormControl(
+        vat: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.vat
         ),
-        priceTTC: new FormControl(
+        priceTTC: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.priceTTC
         ),
-        deliveryInfoName: new FormControl(
+        deliveryInfoName: new UntypedFormControl(
           this.selectContact
         ),
-        deliveryInfoTel1: new FormControl(this.selectContact?.tel1),
-        deliveryInfoEmail: new FormControl(this.selectContact?.email),
+        deliveryInfoTel1: new UntypedFormControl(this.selectContact?.tel1),
+        deliveryInfoEmail: new UntypedFormControl(this.selectContact?.email),
 
-        deliveryInfoAddressName: new FormControl(
+        deliveryInfoAddressName: new UntypedFormControl(
           this.selectAddress,
           Validators.required
         ),
-        deliveryInfoLine1: new FormControl(this.selectAddress.line1, Validators.required),
-        deliveryInfoCountry: new FormControl(this.selectAddress?.pays?.code),
+        deliveryInfoLine1: new UntypedFormControl(this.selectAddress.line1, Validators.required),
+        deliveryInfoCountry: new UntypedFormControl(this.selectAddress?.pays?.code),
 
-        deliveryInfoCity: new FormControl(this.selectAddress?.ville?.code),
-        deliveryInfoZip: new FormControl(this.selectAddress.zip),
+        deliveryInfoCity: new UntypedFormControl(this.selectAddress?.ville?.code),
+        deliveryInfoZip: new UntypedFormControl(this.selectAddress.zip),
         // deliveryInfoCountry: new FormControl(this.selectAddress.country),
-        deliveryInfoLatitude: new FormControl(this.selectAddress.latitude),
-        deliveryInfoLongitude: new FormControl(this.selectAddress.longitude),
+        deliveryInfoLatitude: new UntypedFormControl(this.selectAddress.latitude),
+        deliveryInfoLongitude: new UntypedFormControl(this.selectAddress.longitude),
 
       }),
-      enlevement: new FormGroup({
-        numberOfPallets: new FormControl(
+      enlevement: new UntypedFormGroup({
+        numberOfPallets: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.numberOfPalletEnlevement,
           Validators.required
         ),
-        capacity: new FormControl(
+        capacity: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.capacityEnlevement
         ),
-        weight: new FormControl(
+        weight: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.weightEnlevement,
           Validators.required
         ),
-        comment: new FormControl(
+        comment: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.commentEnlevement
         ),
 
-        paymentType: new FormControl(
+        paymentType: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeEnlevement
         ),
-        paymentAmount: new FormControl(
+        paymentAmount: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountEnlevement
         ),
-        date: new FormControl(
+        date: new UntypedFormControl(
           new Date(this.selectedOrderTransportInfoLine?.dateEnlevement)
         ),
       }),
-      livraison: new FormGroup({
-        numberOfPallets: new FormControl(
+      livraison: new UntypedFormGroup({
+        numberOfPallets: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.numberOfPalletLivraison,
           Validators.required
         ),
-        capacity: new FormControl(
+        capacity: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.capacityLivraison
         ),
-        weight: new FormControl(
+        weight: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.weightLivraison,
           Validators.required
         ),
-        comment: new FormControl(
+        comment: new UntypedFormControl(
           this.selectedOrderTransportInfoLine.commentLivraison
         ),
 
-        paymentType: new FormControl(
+        paymentType: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentTypeLivraison
         ),
-        paymentAmount: new FormControl(
+        paymentAmount: new UntypedFormControl(
           this.selectedOrderTransportInfoLine?.paymentAmountLivraison
         ),
-        date: new FormControl(
+        date: new UntypedFormControl(
           new Date(this.selectedOrderTransportInfoLine?.dateLivraison)
         ),
       }),

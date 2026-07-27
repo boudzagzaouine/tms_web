@@ -7,7 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommissionType } from './../../../shared/models/commissionType';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -24,7 +24,7 @@ export class CommissionDriverEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
 
   closeResult: String;
-  commissionDriverForm: FormGroup;
+  commissionDriverForm: UntypedFormGroup;
   commissionDriverList: CommissionDriver[] = [];
   commissionDriverListC: CommissionDriver[] = [];
 
@@ -72,10 +72,10 @@ export class CommissionDriverEditComponent implements OnInit {
 
   initForm() {
     let d=new Date(this.selectedCommissionDriver.datee);
-    this.commissionDriverForm = new FormGroup({
-      'fDate': new FormControl(d, Validators.required),
-      'fDriver': new FormControl(this.selectedCommissionDriver.driver, Validators.required),
-      'fcommissionType': new FormControl(this.selectedCommissionDriver.commissionType, Validators.required),
+    this.commissionDriverForm = new UntypedFormGroup({
+      'fDate': new UntypedFormControl(d, Validators.required),
+      'fDriver': new UntypedFormControl(this.selectedCommissionDriver.driver, Validators.required),
+      'fcommissionType': new UntypedFormControl(this.selectedCommissionDriver.commissionType, Validators.required),
 
     });
   }

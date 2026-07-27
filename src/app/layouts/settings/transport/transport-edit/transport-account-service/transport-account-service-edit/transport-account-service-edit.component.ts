@@ -13,7 +13,7 @@ import { ProductServiceService } from './../../../../../../shared/services/api/p
 import { AuthenticationService } from './../../../../../../shared/services/api/authentication.service';
 import { Product } from './../../../../../../shared/models/product';
 import { Vat } from './../../../../../../shared/models/vat';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 
@@ -30,7 +30,7 @@ export class TransportAccountServiceEditComponent implements OnInit {
   @Output() transportServiceEdited = new EventEmitter<TransportAccountService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  transportAccountServiceForm: FormGroup;
+  transportAccountServiceForm: UntypedFormGroup;
 
   vat = new Vat();
   displayDialog: boolean;
@@ -75,34 +75,34 @@ export class TransportAccountServiceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.transportAccountServiceForm = new FormGroup({
+    this.transportAccountServiceForm = new UntypedFormGroup({
 
-      fCompany: new FormControl(
+      fCompany: new UntypedFormControl(
         this.selectTransportAccountService.company,
         Validators.required
       ),
-      fAccount: new FormControl(
+      fAccount: new UntypedFormControl(
         this.selectTransportAccountService.account
 
       ),
-      fProduct: new FormControl(
+      fProduct: new UntypedFormControl(
         this.selectTransportAccountService.product,
         Validators.required
       ),
 
-      fPurchaseAmountHt: new FormControl(
+      fPurchaseAmountHt: new UntypedFormControl(
         this.selectTransportAccountService.purchaseAmountHt,
         Validators.required
       ),
-      fPurchaseAmountTtc: new FormControl(
+      fPurchaseAmountTtc: new UntypedFormControl(
         this.selectTransportAccountService.purchaseAmountTtc,
         Validators.required
       ),
-      fPurchaseAmountTva: new FormControl(
+      fPurchaseAmountTva: new UntypedFormControl(
         this.selectTransportAccountService.purchaseAmountTva,
         Validators.required
       ),
-      fPurchaseVat: new FormControl(
+      fPurchaseVat: new UntypedFormControl(
 
            this.selectTransportAccountService?.purchaseVat,
 

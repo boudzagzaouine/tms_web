@@ -15,7 +15,7 @@ import { ProductServiceService } from "../../../../shared/services/api/product-s
 import { AuthenticationService } from "../../../../shared/services/api/authentication.service";
 import { Subscription } from "rxjs";
 import { Product } from "../../../../shared/models/product";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { TransportPlanServiceCatalog } from "../../../../shared/models/transport-plan-service-catalog";
 import { TransportServcie } from "./../../../../shared/services/api/transport.service";
@@ -37,7 +37,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = "Modifier un Catalogue ";
-  transportProductForm: FormGroup;
+  transportProductForm: UntypedFormGroup;
   transportProductCode: string;
   productList: Product[] = [];
   vats: Vat[];
@@ -47,7 +47,7 @@ export class TransportPlanServiceEditComponent implements OnInit {
   selectDefaultVat : Vat= new Vat();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private transportProductService: TransportPlanServiceCatalogService,
     private productService: ProductServiceService,

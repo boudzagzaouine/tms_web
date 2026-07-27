@@ -10,7 +10,7 @@ import { Supplier } from './../../../shared/models/supplier';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ReceptionLine } from './../../../shared/models/reception-line';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Uom } from './../../../shared/models/uom';
 import { Reception } from './../../../shared/models/reception';
 import { Component, OnInit } from '@angular/core';
@@ -27,7 +27,7 @@ import { AuthenticationService } from './../../../shared/services';
 export class ReceptionEditComponent implements OnInit {
 
   size = 8;
-  receptionForm: FormGroup;
+  receptionForm: UntypedFormGroup;
   selectedReception: Reception = new Reception();
   selectedPurchaseOrder: PurchaseOrder = new PurchaseOrder();
   selectedReceptionLine: ReceptionLine = new ReceptionLine();
@@ -119,8 +119,8 @@ export class ReceptionEditComponent implements OnInit {
 
   initForm() {
     const d = new Date(this.selectedReception.receptionDate);
-    this.receptionForm = new FormGroup({
-      code: new FormControl(
+    this.receptionForm = new UntypedFormGroup({
+      code: new UntypedFormControl(
         {
           value:
             this.selectedReception != null &&
@@ -131,22 +131,22 @@ export class ReceptionEditComponent implements OnInit {
         },
         Validators.required
       ),
-      vat: new FormControl({
+      vat: new UntypedFormControl({
         value: this.selectedReception != null ?
           this.selectedReception.vat : 0,
         disabled: true
       }),
-      totalttc: new FormControl({
+      totalttc: new UntypedFormControl({
         value: this.selectedReception != null ?
           this.selectedReception.totalPriceTTC : 0,
         disabled: true
       }),
-      totalPriceHT: new FormControl({
+      totalPriceHT: new UntypedFormControl({
         value: this.selectedReception != null ?
           this.selectedReception.totalPriceHT : 0,
         disabled: true
       }),
-      order: new FormControl(
+      order: new UntypedFormControl(
         this.selectedReception.purshaseOrder
         //     value:
         //         this.selectedReception != null &&
@@ -155,7 +155,7 @@ export class ReceptionEditComponent implements OnInit {
         //             : null,
         //     disabled: this.editMode
       ),
-      supplierEdit: new FormControl({
+      supplierEdit: new UntypedFormControl({
         value:
           this.selectedReception != null &&
             this.selectedReception.supplier != null
@@ -164,7 +164,7 @@ export class ReceptionEditComponent implements OnInit {
         disabled: this.editMode
       }),
 
-      supplier: new FormControl(
+      supplier: new UntypedFormControl(
         // {
         //   value:
         //     this.selectedReception != null &&
@@ -176,7 +176,7 @@ export class ReceptionEditComponent implements OnInit {
         this.selectedReception.supplier, Validators.required
       ),
 
-      status: new FormControl(
+      status: new UntypedFormControl(
         {
           value:
             this.selectedReception != null &&
@@ -188,7 +188,7 @@ export class ReceptionEditComponent implements OnInit {
         Validators.required
       ),
 
-      type: new FormControl(
+      type: new UntypedFormControl(
         {
           value:
             this.selectedReception != null &&
@@ -200,7 +200,7 @@ export class ReceptionEditComponent implements OnInit {
        // this.selectedReception.orderType ,Validators.required
       ),
 
-      receptionDate: new FormControl(
+      receptionDate: new UntypedFormControl(
         {
           value: this.selectedReception != null
             ? d
@@ -210,18 +210,18 @@ export class ReceptionEditComponent implements OnInit {
         Validators.required
       ),
 
-      remarks: new FormControl(
+      remarks: new UntypedFormControl(
         this.selectedReception != null
           ? this.selectedReception.remarks
           : null
       ),
-      supplierBL: new FormControl(
+      supplierBL: new UntypedFormControl(
         this.selectedReception != null
           ? this.selectedReception.orderCode
           : null
       ),
 
-      accounted: new FormControl({
+      accounted: new UntypedFormControl({
         value: this.selectedReception != null &&
           this.selectedReception.accounted != null
           ? !this.selectedReception.accounted

@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { VehicleCategoryService } from './../../../../shared/services/api/vehicle-category.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ export class VehicleCategorieEditComponent implements OnInit {
   @Input() selectedVehicleCategory = new VehicleCategory();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  vehicleCategoryForm: FormGroup;
+  vehicleCategoryForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une catégorie de véhicule';
@@ -67,18 +67,18 @@ export class VehicleCategorieEditComponent implements OnInit {
 
   initForm() {
 
-    this.vehicleCategoryForm = new FormGroup({
-      'fCode': new FormControl(this.selectedVehicleCategory.code, Validators.required),
-      'fDescription': new FormControl(this.selectedVehicleCategory.description),
-      'fLength': new FormControl((this.selectedVehicleCategory.length), Validators.required),
-      'fWidth': new FormControl((this.selectedVehicleCategory.width), Validators.required),
-      'fheight': new FormControl((this.selectedVehicleCategory.height), Validators.required),
-      'fTonnage': new FormControl(this.selectedVehicleCategory.tonnage, Validators.required),
-      'fTotalWeight': new FormControl(this.selectedVehicleCategory.totalWeight),
-      'fEmptyWeight': new FormControl(this.selectedVehicleCategory.emptyWeight),
+    this.vehicleCategoryForm = new UntypedFormGroup({
+      'fCode': new UntypedFormControl(this.selectedVehicleCategory.code, Validators.required),
+      'fDescription': new UntypedFormControl(this.selectedVehicleCategory.description),
+      'fLength': new UntypedFormControl((this.selectedVehicleCategory.length), Validators.required),
+      'fWidth': new UntypedFormControl((this.selectedVehicleCategory.width), Validators.required),
+      'fheight': new UntypedFormControl((this.selectedVehicleCategory.height), Validators.required),
+      'fTonnage': new UntypedFormControl(this.selectedVehicleCategory.tonnage, Validators.required),
+      'fTotalWeight': new UntypedFormControl(this.selectedVehicleCategory.totalWeight),
+      'fEmptyWeight': new UntypedFormControl(this.selectedVehicleCategory.emptyWeight),
 
-      'fPriceKm': new FormControl(this.selectedVehicleCategory.priceKm),
-      'fVehicleTrays': new FormControl(this.selectedVehicleCategory.vehicleTrays),
+      'fPriceKm': new UntypedFormControl(this.selectedVehicleCategory.priceKm),
+      'fVehicleTrays': new UntypedFormControl(this.selectedVehicleCategory.vehicleTrays),
 
     });
 

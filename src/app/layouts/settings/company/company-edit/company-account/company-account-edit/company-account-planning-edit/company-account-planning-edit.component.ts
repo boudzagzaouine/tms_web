@@ -4,7 +4,7 @@ import { Day } from '../../../../../../../shared/models/day';
 import { Planning } from '../../../../../../../shared/models/planning';
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
 
 
@@ -22,11 +22,11 @@ export class CompanyAccountPlanningEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Plan';
-  planningForm: FormGroup;
+  planningForm: UntypedFormGroup;
   planningDays: Array<Day> = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private dayService:DayService
 

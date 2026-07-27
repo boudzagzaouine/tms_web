@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from './../../../../../shared/models/company';
 import { ContactService } from './../../../../../shared/services/api/contact.service';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Contact } from './../../../../../shared/models/contact';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { emit } from 'process';
@@ -24,10 +24,10 @@ export class ContactEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Contact';
-  contactForm: FormGroup;
+  contactForm: UntypedFormGroup;
   contactCode :string ;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private contactService : ContactService,
     private contactFunctionService :ContactFunctionService

@@ -14,7 +14,7 @@ import { OrderType } from './../../../shared/models/order-type';
 import { SupplierService } from './../../../shared/services/api/supplier.service';
 import { Supplier } from './../../../shared/models/supplier';
 import { PurchaseOrder } from './../../../shared/models/purchase-order';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { VatService } from './../../../shared/services/api/vat.service';
 import { Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ import { AuthenticationService } from './../../../shared/services';
 export class OrderEditComponent implements OnInit {
 
   size = 8;
-  purchaseOrderForm: FormGroup;
+  purchaseOrderForm: UntypedFormGroup;
   selectedPurchaseOrder: PurchaseOrder = new PurchaseOrder();
   selectedPurchaseOrderLine: PurchaseOrderLine = new PurchaseOrderLine();
  validate :number =0;
@@ -103,9 +103,9 @@ export class OrderEditComponent implements OnInit {
   }
 
   initForm() {
-    this.purchaseOrderForm = new FormGroup({
+    this.purchaseOrderForm = new UntypedFormGroup({
 
-      code: new FormControl(
+      code: new UntypedFormControl(
         {
           value:
             this.selectedPurchaseOrder != null &&
@@ -116,14 +116,14 @@ export class OrderEditComponent implements OnInit {
         },
         Validators.required
       ),
-      supplier: new FormControl(
+      supplier: new UntypedFormControl(
 
         this.selectedPurchaseOrder.supplier,
 
 
         Validators.required
       ),
-      orderType: new FormControl({
+      orderType: new UntypedFormControl({
         value:
         this.selectedPurchaseOrder.orderType != null
         ? this.selectedPurchaseOrder.orderType.code
@@ -132,21 +132,21 @@ export class OrderEditComponent implements OnInit {
       },
         Validators.required
       ),
-      totalHt: new FormControl({
+      totalHt: new UntypedFormControl({
         value:
           this.selectedPurchaseOrder != null
             ? this.selectedPurchaseOrder.totalPriceHT
             : null,
         disabled: true
       }),
-      vat: new FormControl({
+      vat: new UntypedFormControl({
         value:
           this.selectedPurchaseOrder != null
             ? this.selectedPurchaseOrder.vat
             : null,
         disabled: true
       }),
-      statut: new FormControl(
+      statut: new UntypedFormControl(
         {
         value:
         this.selectedPurchaseOrder.orderStatus != null
@@ -155,7 +155,7 @@ export class OrderEditComponent implements OnInit {
           disabled: true
         }
       ),
-      totalTTC: new FormControl({
+      totalTTC: new UntypedFormControl({
         value:
           this.selectedPurchaseOrder != null
             ? this.selectedPurchaseOrder.totalPriceTTC
@@ -163,7 +163,7 @@ export class OrderEditComponent implements OnInit {
         disabled: true
       }),
 
-      notes: new FormControl(
+      notes: new UntypedFormControl(
 
         this.selectedPurchaseOrder.notes)
 

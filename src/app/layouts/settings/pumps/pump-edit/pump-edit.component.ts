@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -19,7 +19,7 @@ export class PumpEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  pumpForm: FormGroup;
+  pumpForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier  pompe  carburant';
@@ -47,10 +47,10 @@ export class PumpEditComponent implements OnInit {
   }
 
   initForm() {
-    this.pumpForm = new FormGroup({
-      'code': new FormControl(this.selectedPump.code, Validators.required),
-      'description': new FormControl(this.selectedPump.description),
-      'capacity': new FormControl(this.selectedPump.capacity),
+    this.pumpForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedPump.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedPump.description),
+      'capacity': new UntypedFormControl(this.selectedPump.capacity),
 
     });
   }

@@ -3,7 +3,7 @@ import { ConsumptionTypeService } from './../../../../shared/services/api/consum
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
@@ -19,7 +19,7 @@ export class ConsumptionTypeEditComponent implements OnInit {
   @Input() selectedConsumptionType = new ConsumptionType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  consumptionTypeForm: FormGroup;
+  consumptionTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de consommation';
@@ -46,9 +46,9 @@ export class ConsumptionTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.consumptionTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedConsumptionType.code, Validators.required),
-      'description': new FormControl(this.selectedConsumptionType.description)
+    this.consumptionTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedConsumptionType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedConsumptionType.description)
     });
   }
 

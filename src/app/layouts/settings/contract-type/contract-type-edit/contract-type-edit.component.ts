@@ -2,7 +2,7 @@ import { ContractType } from './../../../../shared/models/contract-type';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService, ContractTypeService } from '../../../../shared/services';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ export class ContractTypeEditComponent implements OnInit {
   @Input() selectedContractType = new ContractType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  contractTypeForm: FormGroup;
+  contractTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de contrat';
@@ -45,9 +45,9 @@ export class ContractTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.contractTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedContractType.code, Validators.required),
-      'description': new FormControl(this.selectedContractType.description)
+    this.contractTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedContractType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedContractType.description)
     });
   }
   onSubmit() {

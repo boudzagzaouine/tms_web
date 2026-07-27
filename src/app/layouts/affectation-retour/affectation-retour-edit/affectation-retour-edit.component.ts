@@ -28,7 +28,7 @@ import { Ville } from './../../../shared/models/ville';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { ContractAccount } from './../../../shared/models/contract-account';
 import { TurnStatus } from './../../../shared/models/turn-status';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MenuItem, ConfirmationService } from 'primeng/api';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { Driver } from './../../../shared/models/driver';
@@ -66,7 +66,7 @@ export class AffectationRetourEditComponent implements OnInit {
   breadcrumbItems: MenuItem[];
   home: MenuItem;
   index: number = 0;
-  transportPlanForm: FormGroup;
+  transportPlanForm: UntypedFormGroup;
   isInterOrPrestataire: Boolean = false;
   isPriceContract: string = "";
 
@@ -172,34 +172,34 @@ export class AffectationRetourEditComponent implements OnInit {
   }
 
   initForm() {
-    this.transportPlanForm = new FormGroup({
-      orderTransport: new FormControl(
+    this.transportPlanForm = new UntypedFormGroup({
+      orderTransport: new UntypedFormControl(
         this.selectedTransportPlan.orderTransport?.code,
         Validators.required
       ),
-      vehicle: new FormControl(
+      vehicle: new UntypedFormControl(
         this.selectedTransportPlan?.vehicle?.registrationNumber
       ),
-      driver: new FormControl(this.selectedTransportPlan.driver),
-      vehicleCategory: new FormControl(
+      driver: new UntypedFormControl(this.selectedTransportPlan.driver),
+      vehicleCategory: new UntypedFormControl(
         this.selectedTransportPlan?.vehicleCategory?.code,
         Validators.required
       ),
-      transport: new FormControl(
+      transport: new UntypedFormControl(
         this.selectedTransportPlan?.transport?.name,
         Validators.required
       ),
-      salePrice: new FormControl(this.selectedTransportPlan.salePrice),
-      purchasePrice: new FormControl(
+      salePrice: new UntypedFormControl(this.selectedTransportPlan.salePrice),
+      purchasePrice: new UntypedFormControl(
         this.selectedTransportPlan.purchasePrice,
         Validators.required
       ),
-      purchasePriceNegotiated: new FormControl(
+      purchasePriceNegotiated: new UntypedFormControl(
         this.selectedTransportPlan.purchasePriceNegotiated
       ),
-      remark: new FormControl(this.selectedTransportPlan.remark),
+      remark: new UntypedFormControl(this.selectedTransportPlan.remark),
 
-      date: new FormControl(new Date(this.selectedTransportPlan.dateDepart)),
+      date: new UntypedFormControl(new Date(this.selectedTransportPlan.dateDepart)),
     });
   }
 

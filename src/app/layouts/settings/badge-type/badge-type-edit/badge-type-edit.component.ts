@@ -2,7 +2,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Badge } from './../../../../shared/models/badge';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BadgeType } from '../../../../shared/models';
 import { AuthenticationService, BadgeTypeService } from '../../../../shared/services';
@@ -20,7 +20,7 @@ export class BadgeTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  badgeTypeForm: FormGroup;
+  badgeTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de badge';
@@ -48,9 +48,9 @@ export class BadgeTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.badgeTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedBadgeType.code, Validators.required),
-      'description': new FormControl(this.selectedBadgeType.description),
+    this.badgeTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedBadgeType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedBadgeType.description),
     });
   }
 

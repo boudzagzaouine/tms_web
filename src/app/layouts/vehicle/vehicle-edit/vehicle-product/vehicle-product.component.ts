@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { Product } from './../../../../shared/models/product';
 import { ReceptionLine } from './../../../../shared/models/reception-line';
 import { VehicleProduct } from './../../../../shared/models/vehicle-product';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import { Validators, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { VehicleProductReference } from './../../../../shared/models/vehicle-product-reference';
 
@@ -30,7 +30,7 @@ export class VehicleProductComponent implements OnInit {
   productList: Product[];
   productTypeList: ProductType[];
 
-  vehicleProductForm: FormGroup;
+  vehicleProductForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier pieces de rechange';
@@ -64,8 +64,8 @@ export class VehicleProductComponent implements OnInit {
     if (!this.editMode) {
       this.selectedVehicleProduct = new VehicleProduct();
     }
-    this.vehicleProductForm = new FormGroup({
-      pdt: new FormControl(
+    this.vehicleProductForm = new UntypedFormGroup({
+      pdt: new UntypedFormControl(
           this.selectedVehicleProduct != null &&
           this.selectedVehicleProduct.product != null
               ? this.selectedVehicleProduct.product.code
@@ -73,7 +73,7 @@ export class VehicleProductComponent implements OnInit {
           Validators.required
       ),
 
-      pdtType: new FormControl(
+      pdtType: new UntypedFormControl(
         this.selectedVehicleProduct != null &&
         this.selectedVehicleProduct.productType != null
             ? this.selectedVehicleProduct.productType.code

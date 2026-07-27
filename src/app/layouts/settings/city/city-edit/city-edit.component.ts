@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { VilleService } from './../../../../shared/services/api/ville.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Ville } from './../../../../shared/models/ville';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -21,7 +21,7 @@ export class CityEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  villeForm: FormGroup;
+  villeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Ville';
@@ -51,13 +51,13 @@ export class CityEditComponent implements OnInit {
   }
 
   initForm() {
-    this.villeForm = new FormGroup({
-      'code': new FormControl(this.selectedVille.code, Validators.required),
-      'description': new FormControl(this.selectedVille.description),
-      'pays': new FormControl(this.selectedVille.pays,Validators.required),
+    this.villeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedVille.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedVille.description),
+      'pays': new UntypedFormControl(this.selectedVille.pays,Validators.required),
 
-      'latitude': new FormControl(this.selectedVille.latitude),
-      'longtitude': new FormControl(this.selectedVille.longitude),
+      'latitude': new UntypedFormControl(this.selectedVille.latitude),
+      'longtitude': new UntypedFormControl(this.selectedVille.longitude),
 
     });
   }

@@ -30,7 +30,7 @@ import { VehicleCategory } from "./../../../../shared/models/vehicle-category";
 import { TurnStatus } from "./../../../../shared/models/turn-status";
 import { TurnType } from "./../../../../shared/models/turn-Type";
 import { MenuItem, ConfirmationService, MessageService } from "primeng/api";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
 import {
   Component,
@@ -52,7 +52,7 @@ export class OrderTransportInformationComponent implements OnInit {
   @Output() loadingTypeId = new EventEmitter<number>();
 
   selectedOrderTransport: OrderTransport = new OrderTransport();
-  OrderTransportForm: FormGroup;
+  OrderTransportForm: UntypedFormGroup;
 
   loadingTypeList: LoadingType[] = [];
   turnTypeList: TurnType[] = [];
@@ -165,35 +165,35 @@ console.log(this.selectedOrderTransport);
   }
 
   initForm() {
-    this.OrderTransportForm = new FormGroup({
-      contact: new FormControl(this.selectedOrderTransport.contact),
-      remark: new FormControl(this.selectedOrderTransport.description),
-      villeSource: new FormControl(this.villeSource, Validators.required),
-      villeDistination: new FormControl(
+    this.OrderTransportForm = new UntypedFormGroup({
+      contact: new UntypedFormControl(this.selectedOrderTransport.contact),
+      remark: new UntypedFormControl(this.selectedOrderTransport.description),
+      villeSource: new UntypedFormControl(this.villeSource, Validators.required),
+      villeDistination: new UntypedFormControl(
         this.villeDestination,
         Validators.required
       ),
-      date: new FormControl(new Date(this.selectedOrderTransport.date)),
-      loadingType: new FormControl(
+      date: new UntypedFormControl(new Date(this.selectedOrderTransport.date)),
+      loadingType: new UntypedFormControl(
         {
           value: this.selectedOrderTransport.loadingType,
         },
         Validators.required
       ),
-      turnType: new FormControl(
+      turnType: new UntypedFormControl(
         this.selectedOrderTransport.turnType,
         Validators.required
       ),
-      account: new FormControl(
+      account: new UntypedFormControl(
         this.selectedOrderTransport.account,
         Validators.required
       ),
 
-      category: new FormControl(
+      category: new UntypedFormControl(
         this.selectedOrderTransport.vehicleCategory,
         Validators.required
       ),
-      vehicleTray: new FormControl(
+      vehicleTray: new UntypedFormControl(
         this.selectedOrderTransport.vehicleTray,
         Validators.required
       ),
@@ -201,17 +201,17 @@ console.log(this.selectedOrderTransport);
       //   this.selectedOrderTransport.packagingType,
       //   Validators.required
       // ),
-      marchandiseType: new FormControl(
+      marchandiseType: new UntypedFormControl(
         this.selectedOrderTransport.marchandiseType
       ),
-      vehicleAccompaniments: new FormControl(
+      vehicleAccompaniments: new UntypedFormControl(
         this.selectedOrderTransport.vehicleAccompaniments
       ),
-      consignment: new FormControl(this.selectedOrderTransport.consignmentObject),
-      groupageUnique: new FormControl(this.selectedOrderTransport.groupageUnique),
+      consignment: new UntypedFormControl(this.selectedOrderTransport.consignmentObject),
+      groupageUnique: new UntypedFormControl(this.selectedOrderTransport.groupageUnique),
 
-      portObject: new FormControl(this.selectedOrderTransport.portObject),
-      palletResponsibilityObject: new FormControl(
+      portObject: new UntypedFormControl(this.selectedOrderTransport.portObject),
+      palletResponsibilityObject: new UntypedFormControl(
         this.selectedOrderTransport.palletResponsibilityObject
       ),
     });

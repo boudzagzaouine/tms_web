@@ -30,7 +30,7 @@ import { OrderTransportInfoLine } from "./../../../../shared/models/order-transp
 import { PackageDetail } from "./../../../../shared/models/package-detail";
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
 import { OrderTransportInfo } from "./../../../../shared/models/order-transport-info";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { Address } from "./../../../../shared/models";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
@@ -44,7 +44,7 @@ export class OrderTransportCompletRetourComponent implements OnInit {
   // @Input() type: number; //1 aller // 2 retour
   @Output() nextstep = new EventEmitter<boolean>();
   @Output() previousstep = new EventEmitter<boolean>();
-  orderTransportInfoForm: FormGroup;
+  orderTransportInfoForm: UntypedFormGroup;
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
@@ -154,18 +154,18 @@ export class OrderTransportCompletRetourComponent implements OnInit {
   }
 
   initForm() {
-    this.orderTransportInfoForm = new FormGroup({
-      packagingType: new FormControl(
+    this.orderTransportInfoForm = new UntypedFormGroup({
+      packagingType: new UntypedFormControl(
         this.selectedOrderTransportInfo.packagingType,
         Validators.required
       ),
-      numberOfPallet: new FormControl(
+      numberOfPallet: new UntypedFormControl(
         this.selectedOrderTransportInfo.numberOfPallet
       ),
-      weight: new FormControl(this.selectedOrderTransportInfo.weightTotal),
+      weight: new UntypedFormControl(this.selectedOrderTransportInfo.weightTotal),
       // capacity: new FormControl(this.selectedOrderTransportInfo.capacityTotal),
 
-      orderTransportInfoInitialDate: new FormControl(
+      orderTransportInfoInitialDate: new UntypedFormControl(
         new Date(this.selectedOrderTransportInfo.date)
       ),
       // orderTransportInfoStatus: new FormControl(

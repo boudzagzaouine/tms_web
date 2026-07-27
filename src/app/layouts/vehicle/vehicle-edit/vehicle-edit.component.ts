@@ -38,7 +38,7 @@ import { VehicleCategoryService } from './../../../shared/services/api/vehicle-c
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContractType, Supplier, InsuranceTerm, MaintenancePlan, Product } from '../../../shared/models';
@@ -65,7 +65,7 @@ export class VehicleEditComponent implements OnInit, OnDestroy {
   selectedBadgeType = new BadgeType();
   selectedContractType = new ContractType();
   selectedConsumptionType = new ConsumptionType();
-  vehicleForm: FormGroup;
+  vehicleForm: UntypedFormGroup;
   editModee = false;
   editModeTitle = 'Ajouter un véhicule';
   editInsuranceMode = false;
@@ -332,62 +332,62 @@ return this.productReferenceList =this.selectedVehicle.vehicleProducts.filter(f=
      var Diff_temps = new Date().getTime() - (new Date(this.selectedVehicle.release?this.selectedVehicle.release : new Date())).getTime();
      var Diff_jours = Diff_temps / (1000 * 3600 * 24);
 
-    this.vehicleForm = new FormGroup({
+    this.vehicleForm = new UntypedFormGroup({
 
-      general: new FormGroup({
-        'fCode': new FormControl(this.selectedVehicle.code, Validators.required),
-        'fRegistrationNumber': new FormControl(this.selectedVehicle.registrationNumber, Validators.required),
-        'fVehicleCategory': new FormControl(this.selectedVehicle.vehicleCategory, Validators.required),
-        'fVehicleTray': new FormControl(this.selectedVehicle.vehicleTray, Validators.required),
-        'fBrandVehicleType': new FormControl(this.selectedVehicle.brandVehicleType, Validators.required),
+      general: new UntypedFormGroup({
+        'fCode': new UntypedFormControl(this.selectedVehicle.code, Validators.required),
+        'fRegistrationNumber': new UntypedFormControl(this.selectedVehicle.registrationNumber, Validators.required),
+        'fVehicleCategory': new UntypedFormControl(this.selectedVehicle.vehicleCategory, Validators.required),
+        'fVehicleTray': new UntypedFormControl(this.selectedVehicle.vehicleTray, Validators.required),
+        'fBrandVehicleType': new UntypedFormControl(this.selectedVehicle.brandVehicleType, Validators.required),
 
-        'fBadgeType': new FormControl(this.selectedVehicle.badgeType, Validators.required),
-        'fTechnicalVisit': new FormControl(d),
-        'fValeurVisiteTechnique': new FormControl(this.selectedVehicle.valueTechnicalVisit),
-        'fVignette': new FormControl(dd),
-        'fValeurVignette': new FormControl(this.selectedVehicle.valueVignette),
-        'fMaintenancePlan': new FormControl(this.selectedVehicle.maintenancePlan),
-        'fDriver': new FormControl(this.selectedVehicle.driver),
-        'fFixeOrVariable': new FormControl(this.selectedVehicle.fixOrVariable),
-        'fDateDriver': new FormControl(dateDriver),
+        'fBadgeType': new UntypedFormControl(this.selectedVehicle.badgeType, Validators.required),
+        'fTechnicalVisit': new UntypedFormControl(d),
+        'fValeurVisiteTechnique': new UntypedFormControl(this.selectedVehicle.valueTechnicalVisit),
+        'fVignette': new UntypedFormControl(dd),
+        'fValeurVignette': new UntypedFormControl(this.selectedVehicle.valueVignette),
+        'fMaintenancePlan': new UntypedFormControl(this.selectedVehicle.maintenancePlan),
+        'fDriver': new UntypedFormControl(this.selectedVehicle.driver),
+        'fFixeOrVariable': new UntypedFormControl(this.selectedVehicle.fixOrVariable),
+        'fDateDriver': new UntypedFormControl(dateDriver),
 
       }),
-      caracteristic: new FormGroup({
-        'fGrayCard': new FormControl(this.selectedVehicle.grayCard),
-        'fChassisNumber': new FormControl(this.selectedVehicle.chassisNumber),
-        'fNumberCylinder': new FormControl(this.selectedVehicle.numberCylinder),
-        'fFiscalPower': new FormControl(this.selectedVehicle.fiscalPower),
-        'fBody': new FormControl(this.selectedVehicle.body),
-        'fConsumptionType': new FormControl(this.selectedVehicle.consumptionType, Validators.required),
-        'fEngineOil': new FormControl(this.selectedVehicle.engineOil),
-        'fRearDeck': new FormControl(this.selectedVehicle.rearDeck),
-        'fDirection': new FormControl(this.selectedVehicle.direction),
-        'fRadiator': new FormControl(this.selectedVehicle.radiator),
-        'fAreaFilter': new FormControl(this.selectedVehicle.airFilter),
-        'fGearBox': new FormControl(this.selectedVehicle.gearBox),
-        'fDesiccantFilter': new FormControl(this.selectedVehicle.desiccantFilter),
-        'fInitialmileage': new FormControl(this.selectedVehicle.initialMileage,Validators.required),
-        'fCurrentmileage': new FormControl(this.selectedVehicle.currentMileage),
+      caracteristic: new UntypedFormGroup({
+        'fGrayCard': new UntypedFormControl(this.selectedVehicle.grayCard),
+        'fChassisNumber': new UntypedFormControl(this.selectedVehicle.chassisNumber),
+        'fNumberCylinder': new UntypedFormControl(this.selectedVehicle.numberCylinder),
+        'fFiscalPower': new UntypedFormControl(this.selectedVehicle.fiscalPower),
+        'fBody': new UntypedFormControl(this.selectedVehicle.body),
+        'fConsumptionType': new UntypedFormControl(this.selectedVehicle.consumptionType, Validators.required),
+        'fEngineOil': new UntypedFormControl(this.selectedVehicle.engineOil),
+        'fRearDeck': new UntypedFormControl(this.selectedVehicle.rearDeck),
+        'fDirection': new UntypedFormControl(this.selectedVehicle.direction),
+        'fRadiator': new UntypedFormControl(this.selectedVehicle.radiator),
+        'fAreaFilter': new UntypedFormControl(this.selectedVehicle.airFilter),
+        'fGearBox': new UntypedFormControl(this.selectedVehicle.gearBox),
+        'fDesiccantFilter': new UntypedFormControl(this.selectedVehicle.desiccantFilter),
+        'fInitialmileage': new UntypedFormControl(this.selectedVehicle.initialMileage,Validators.required),
+        'fCurrentmileage': new UntypedFormControl(this.selectedVehicle.currentMileage),
       }),
-      insurance: new FormGroup({
-        'fInsurance': new FormControl(),
-        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate)),
-        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate)),
-        'fIMontant': new FormControl(this.selectedInsurance.amount),
-        'fISupplier': new FormControl(this.selectedInsurance.supplier),
-        'fICode': new FormControl(this.selectedInsurance.code),
-        'fIType': new FormControl(this.selectedInsurance.insuranceType),
+      insurance: new UntypedFormGroup({
+        'fInsurance': new UntypedFormControl(),
+        'fIStartDate': new UntypedFormControl(new Date(this.selectedInsurance.startDate)),
+        'fIEndDate': new UntypedFormControl(new Date(this.selectedInsurance.endDate)),
+        'fIMontant': new UntypedFormControl(this.selectedInsurance.amount),
+        'fISupplier': new UntypedFormControl(this.selectedInsurance.supplier),
+        'fICode': new UntypedFormControl(this.selectedInsurance.code),
+        'fIType': new UntypedFormControl(this.selectedInsurance.insuranceType),
       }),
 
-      contract: new FormGroup({
-        'fContractType': new FormControl(this.selectedVehicle.contractType, Validators.required),
-        'fAquisition': new FormControl(ddd, Validators.required),
-        'fAmountc': new FormControl(this.selectedVehicle.amount, Validators.required),
-        'fTransport': new FormControl(this.selectedVehicle.transport),
-        'fRelease': new FormControl(drelease , Validators.required),
-        'fAge': new FormControl(Diff_jours.toFixed(0)+'  jours'),
-        'fInternOrExterne': new FormControl(this.selectedVehicle.interneOrExterne ),
-        'fDurationInMonth': new FormControl(this.selectedVehicle.durationInMonths ),
+      contract: new UntypedFormGroup({
+        'fContractType': new UntypedFormControl(this.selectedVehicle.contractType, Validators.required),
+        'fAquisition': new UntypedFormControl(ddd, Validators.required),
+        'fAmountc': new UntypedFormControl(this.selectedVehicle.amount, Validators.required),
+        'fTransport': new UntypedFormControl(this.selectedVehicle.transport),
+        'fRelease': new UntypedFormControl(drelease , Validators.required),
+        'fAge': new UntypedFormControl(Diff_jours.toFixed(0)+'  jours'),
+        'fInternOrExterne': new UntypedFormControl(this.selectedVehicle.interneOrExterne ),
+        'fDurationInMonth': new UntypedFormControl(this.selectedVehicle.durationInMonths ),
 
       }),
 

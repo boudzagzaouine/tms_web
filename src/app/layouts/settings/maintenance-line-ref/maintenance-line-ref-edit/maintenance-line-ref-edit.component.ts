@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MaintenanceLineRefService } from '../../../../shared/services/api/maintenance-line-ref.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MaintenanceLineRef } from '../../../../shared/models/maintenance-line-ref';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -16,7 +16,7 @@ export class MaintenanceLineRefEditComponent implements OnInit {
   @Input() selectedMaintenanceLineRef = new MaintenanceLineRef();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  maintenanceLineRefForm: FormGroup;
+  maintenanceLineRefForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de maintenance';
@@ -66,9 +66,9 @@ export class MaintenanceLineRefEditComponent implements OnInit {
     );
   }
   initForm() {
-    this.maintenanceLineRefForm = new FormGroup({
-      'code': new FormControl(this.selectedMaintenanceLineRef.code, Validators.required),
-      'description': new FormControl(this.selectedMaintenanceLineRef.description)
+    this.maintenanceLineRefForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedMaintenanceLineRef.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedMaintenanceLineRef.description)
     });
   }
 

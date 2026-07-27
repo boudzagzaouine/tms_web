@@ -12,10 +12,10 @@ import { RoundPipe } from 'ngx-pipes';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   Validators,
-  FormControl,
+  UntypedFormControl,
 } from '@angular/forms';
 import { Component, OnInit, Input, Output } from '@angular/core';
 
@@ -35,7 +35,7 @@ export class ActionEditComponent implements OnInit {
   @Output() lineActionEdited = new EventEmitter<ActionMaintenance>();
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
-  actionForm: FormGroup;
+  actionForm: UntypedFormGroup;
   MaintenancestateList: Array<MaintenanceState> = [];
   MaintenancestateLists: Array<MaintenanceState> = [];
 
@@ -51,7 +51,7 @@ export class ActionEditComponent implements OnInit {
     private actionTpeService: ActionTypeService,
     private confirmationService: ConfirmationService,
     private maintenanceStateService : MaintenanceStateService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private roundPipe: RoundPipe
@@ -74,11 +74,11 @@ export class ActionEditComponent implements OnInit {
   }
   initForm() {
     this.actionForm = this.formBuilder.group({
-      'FcodeType': new FormControl(
+      'FcodeType': new UntypedFormControl(
         this.selectedAction.actionType,
         Validators.required
       ),
-      'fState': new FormControl(
+      'fState': new UntypedFormControl(
         this.selectedAction.maintenanceState,
 
       ),

@@ -3,7 +3,7 @@ import { TransportPlanServiceCatalog } from './../../../../shared/models/transpo
 import { Vat } from './../../../../shared/models/vat';
 import { Trajet } from './../../../../shared/models/trajet';
 import { VatService } from './../../../../shared/services/api/vat.service';
-import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { UntypedFormGroup, Validators, UntypedFormControl } from "@angular/forms";
 import { AccountPricing } from "./../../../../shared/models/account-pricing";
 import { CatalogPricingService } from "../../../../shared/services/api/catalog-pricing.service";
 import { CatalogPricing } from "./../../../../shared/models/catalog-pricing";
@@ -35,7 +35,7 @@ export class TarificationComponent implements OnInit {
   selectedVehicleCategory: VehicleCategory = new VehicleCategory();
   selectedContractAccount: ContractAccount = new ContractAccount();
   contractAccountList: ContractAccount[] = [];
-  tarificationForm: FormGroup;
+  tarificationForm: UntypedFormGroup;
 
   selectedCatalogPricing: CatalogPricing = new CatalogPricing();
   selectedAccountPricing: AccountPricing = new AccountPricing();
@@ -103,8 +103,8 @@ export class TarificationComponent implements OnInit {
   }
 
   initForm() {
-    this.tarificationForm = new FormGroup({
-      priceHT: new FormControl(
+    this.tarificationForm = new UntypedFormGroup({
+      priceHT: new UntypedFormControl(
         this.selectOrderTransport.priceHT,
         Validators.required
       ),

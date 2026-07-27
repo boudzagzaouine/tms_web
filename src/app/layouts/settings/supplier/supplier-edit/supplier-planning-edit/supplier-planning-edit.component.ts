@@ -1,7 +1,7 @@
 import { Day } from './../../../../../shared/models/day';
 import { DayService } from './../../../../../shared/services/api/day.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Planning } from './../../../../../shared/models/planning';
 import { AuthenticationService } from './../../../../../shared/services';
 
@@ -21,13 +21,13 @@ export class SupplierPlanningEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Plan';
-  planningForm: FormGroup;
+  planningForm: UntypedFormGroup;
   planningDays: Array<Day> = [];
 
   // planningDays: Array<{ day: string }> = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private dayService:DayService,
 

@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { VehicleService } from './../../../../shared/services/api/vehicle.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Vehicle } from './../../../../shared/models/vehicle';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -20,7 +20,7 @@ export class VehicleAvailabilityEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  vehicleForm: FormGroup;
+  vehicleForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = '';
@@ -44,8 +44,8 @@ export class VehicleAvailabilityEditComponent implements OnInit {
   }
 
   initForm() {
-    this.vehicleForm = new FormGroup({
-      'code': new FormControl(this.selectedVehicle.disponibilityName, Validators.required),
+    this.vehicleForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedVehicle.disponibilityName, Validators.required),
     });
   }
   onSelectStatus(event){

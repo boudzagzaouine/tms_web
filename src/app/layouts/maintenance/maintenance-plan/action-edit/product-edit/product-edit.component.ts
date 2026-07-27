@@ -4,7 +4,7 @@ import { ActionLineMaintenance } from './../../../../../shared/models/action-lin
 import { ActionMaintenance } from './../../../../../shared/models/action-maintenance';
 import { ProductService } from './../../../../../shared/services/api/product.service';
 import { Product } from './../../../../../shared/models/product';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
@@ -25,7 +25,7 @@ export class ProductEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un produit';
   selectedProduct: Product;
-  lineForm: FormGroup;
+  lineForm: UntypedFormGroup;
   productList: Product[] = [];
   actionList: Array<ActionMaintenance> = [];
   actionSearch: ActionMaintenance;
@@ -33,7 +33,7 @@ export class ProductEditComponent implements OnInit {
   maintenanceStateList: Array<MaintenanceState> = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private roundPipe: RoundPipe,
     private productService: ProductService,
     private maintenanceStateService : MaintenanceStateService,

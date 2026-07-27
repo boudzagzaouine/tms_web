@@ -11,7 +11,7 @@ import { ToastrService } from "ngx-toastr";
 import { Address } from "./../../../../shared/models/address";
 import { Contact } from "./../../../../shared/models/contact";
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import {
   NgbModalRef,
   NgbModal,
@@ -45,7 +45,7 @@ export class SupplierEditComponent implements OnInit {
     selectedPlanning: Planning = new Planning();
 
   closeResult: String;
-  supplierForm: FormGroup;
+  supplierForm: UntypedFormGroup;
   supplierTypeList: SupplierType[] = [];
   plannings :Array<Planning>=[];
   supplierProducts:Array<SupplierProduct>=[];
@@ -190,17 +190,17 @@ export class SupplierEditComponent implements OnInit {
   }
 
   initForm() {
-    this.supplierForm = new FormGroup({
-      code: new FormControl(this.selectedSupplier.code, Validators.required),
-      name: new FormControl(this.selectedContact.name, Validators.required),
-      tel1: new FormControl(this.selectedContact.tel1),
-      email: new FormControl(this.selectedContact.email),
-      line1: new FormControl(this.selectedAddress.line1, Validators.required),
-      line2: new FormControl(this.selectedAddress.line2),
-      zipCode: new FormControl(this.selectedAddress.zip),
-      city: new FormControl(this.selectedAddress.city),
-      country: new FormControl(this.selectedAddress.country),
-      supplierType: new FormControl(this.selectedSupplier.supplierType,Validators.required ),
+    this.supplierForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedSupplier.code, Validators.required),
+      name: new UntypedFormControl(this.selectedContact.name, Validators.required),
+      tel1: new UntypedFormControl(this.selectedContact.tel1),
+      email: new UntypedFormControl(this.selectedContact.email),
+      line1: new UntypedFormControl(this.selectedAddress.line1, Validators.required),
+      line2: new UntypedFormControl(this.selectedAddress.line2),
+      zipCode: new UntypedFormControl(this.selectedAddress.zip),
+      city: new UntypedFormControl(this.selectedAddress.city),
+      country: new UntypedFormControl(this.selectedAddress.country),
+      supplierType: new UntypedFormControl(this.selectedSupplier.supplierType,Validators.required ),
 
 
     });

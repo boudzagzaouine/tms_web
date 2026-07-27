@@ -3,7 +3,7 @@ import { ProductService } from './../../../../shared/services/api/product.servic
 import { Product } from './../../../../shared/models/product';
 import { ProductPackService } from './../../../../shared/services/api/product-pack.service';
 import { OrderStatus, OrderType, ProductPack, PurchaseOrder, PurchaseOrderLine, Supplier } from './../../../../shared/models';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthenticationService, SupplierService } from './../../../../shared/services';
 import { PurchaseOrderService } from './../../../../shared/services/api/purchase-order.service';
 import { ToastrService } from 'ngx-toastr';
@@ -33,7 +33,7 @@ export class BonEditComponent implements OnInit {
   productPackList:ProductPack[];
   orderStatutList: OrderStatus[] = [];
   supplierList:Supplier[];
-  purchaseOrderLineForm: FormGroup;
+  purchaseOrderLineForm: UntypedFormGroup;
   constructor(private productService:ProductService,
     private  productPackService :ProductPackService,
     private purchaseOrderService :PurchaseOrderService,
@@ -77,8 +77,8 @@ export class BonEditComponent implements OnInit {
   initForm() {
    
     //this.selectedProduct = this.selectedPurchaseOrderLine.product;
-    this.purchaseOrderLineForm = new FormGroup({
-        pdt: new FormControl(
+    this.purchaseOrderLineForm = new UntypedFormGroup({
+        pdt: new UntypedFormControl(
             {
                 value:
                     this.selectedPurchaseOrderLine != null &&
@@ -90,7 +90,7 @@ export class BonEditComponent implements OnInit {
             Validators.required
         ),
 
-        supplier: new FormControl(
+        supplier: new UntypedFormControl(
           {
               value:
                   this.selectedPurchaseOrder != null &&
@@ -103,14 +103,14 @@ export class BonEditComponent implements OnInit {
       ),
       
 
-      payedPrice: new FormControl(
+      payedPrice: new UntypedFormControl(
             this.selectedPurchaseOrderLine != null
                 ? this.selectedPurchaseOrderLine.purshasePrice
                 : null,
             Validators.required
         ),
 
-        quantity: new FormControl(
+        quantity: new UntypedFormControl(
             this.selectedPurchaseOrderLine != null
                 ? this.selectedPurchaseOrderLine.quantity
                 : '1',
@@ -118,14 +118,14 @@ export class BonEditComponent implements OnInit {
         ),
        
       
-        totalHT: new FormControl({
+        totalHT: new UntypedFormControl({
             value:
                 this.selectedPurchaseOrderLine != null
                     ? this.selectedPurchaseOrderLine.totalPriceHT
                     : '',
             disabled: true
         }),
-        totalTTC: new FormControl({
+        totalTTC: new UntypedFormControl({
             value:
                 this.selectedPurchaseOrderLine != null
                     ? this.selectedPurchaseOrderLine.totalPriceTTC

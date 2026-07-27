@@ -8,7 +8,7 @@ import { Company } from "./../../../../shared/models/company";
 import { DayService } from "./../../../../shared/services/api/day.service";
 import { Day } from "./../../../../shared/models/day";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
@@ -35,7 +35,7 @@ export class AccountEditComponent implements OnInit {
   selectedContact = new Contact();
   selectedAddress = new Address();
   closeResult: String;
-  accountForm: FormGroup;
+  accountForm: UntypedFormGroup;
   accountTypeList: Account[] = [];
   days: Array<Day> = [];
   plannings: Array<Planning> = [];
@@ -145,21 +145,21 @@ this.selectedAddress=this.selectedAccount?.deliveryAddress?.code?this.selectedAc
   initForm() {
     let deliveryDate = new Date(this.selectedAccount.deliveryDate);
 
-    this.accountForm = new FormGroup({
-      code: new FormControl(this.selectedAccount.code, Validators.required),
-      name: new FormControl(this.selectedAccount.name, Validators.required),
-      tel1: new FormControl(this.selectedAccount.telephone),
-      email: new FormControl(this.selectedAccount.email),
+    this.accountForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedAccount.code, Validators.required),
+      name: new UntypedFormControl(this.selectedAccount.name, Validators.required),
+      tel1: new UntypedFormControl(this.selectedAccount.telephone),
+      email: new UntypedFormControl(this.selectedAccount.email),
 
-      company: new FormControl(this.selectedAccount.company),
-      deliveryDate: new FormControl(this.selectedAccount.deliveryDate),
+      company: new UntypedFormControl(this.selectedAccount.company),
+      deliveryDate: new UntypedFormControl(this.selectedAccount.deliveryDate),
 
 
-      line1: new FormControl(this.selectedAddress.line1, Validators.required),
-      line2: new FormControl(this.selectedAddress.line2),
-      zip: new FormControl(this.selectedAddress.zip),
-      city: new FormControl(this.selectedAddress.ville,Validators.required),
-      country: new FormControl(this.selectedAddress.pays,Validators.required),
+      line1: new UntypedFormControl(this.selectedAddress.line1, Validators.required),
+      line2: new UntypedFormControl(this.selectedAddress.line2),
+      zip: new UntypedFormControl(this.selectedAddress.zip),
+      city: new UntypedFormControl(this.selectedAddress.ville,Validators.required),
+      country: new UntypedFormControl(this.selectedAddress.pays,Validators.required),
 
     });
   }

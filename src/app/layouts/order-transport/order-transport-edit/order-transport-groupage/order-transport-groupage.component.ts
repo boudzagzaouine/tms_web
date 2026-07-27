@@ -21,7 +21,7 @@ import { OrderTransportInfoLine } from "./../../../../shared/models/order-transp
 import { PackageDetail } from "./../../../../shared/models/package-detail";
 import { AddressContactOrderTransportInfo } from "./../../../../shared/models/address-contact-order-transport-nfo";
 import { OrderTransportInfo } from "./../../../../shared/models/order-transport-info";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
@@ -38,7 +38,7 @@ export class OrderTransportGroupageComponent implements OnInit {
   itinerary: Itinerary = new Itinerary();
   map: any;
   mainLayer: any;
-  orderTransportInfoForm: FormGroup;
+  orderTransportInfoForm: UntypedFormGroup;
   selectedOrderTransport: OrderTransport = new OrderTransport();
 
   selectedOrderTransportInfo: OrderTransportInfo = new OrderTransportInfo();
@@ -126,18 +126,18 @@ export class OrderTransportGroupageComponent implements OnInit {
 
   initForm() {
 
-    this.orderTransportInfoForm = new FormGroup({
-      packagingType: new FormControl(
+    this.orderTransportInfoForm = new UntypedFormGroup({
+      packagingType: new UntypedFormControl(
         this.selectedOrderTransportInfo.packagingType,
         Validators.required
       ),
-      numberOfPallet: new FormControl(
+      numberOfPallet: new UntypedFormControl(
         this.selectedOrderTransportInfo.numberOfPallet
       ),
-      weight: new FormControl(
+      weight: new UntypedFormControl(
         this.selectedOrderTransportInfo.weightTotal
       ),
-      capacity: new FormControl(
+      capacity: new UntypedFormControl(
         this.selectedOrderTransportInfo.capacityTotal
       ),
 
@@ -146,10 +146,10 @@ export class OrderTransportGroupageComponent implements OnInit {
       //   this.selectedOrderTransportInfo.trajet,Validators.required
       // ),
 
-      orderTransportInfoInitialDate: new FormControl(
+      orderTransportInfoInitialDate: new UntypedFormControl(
         new Date(this.selectedOrderTransportInfo.date)
       ),
-      orderTransportInfoStatus: new FormControl(
+      orderTransportInfoStatus: new UntypedFormControl(
         this.selectedOrderTransportInfo?.turnStatus?.code
       ),
 

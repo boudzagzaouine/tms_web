@@ -6,7 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoundPipe } from 'ngx-pipes';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormControl, Validators, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { ActionLine } from './../../../../shared/models/action-line';
 import { Action } from './../../../../shared/models/action';
@@ -31,7 +31,7 @@ export class ActionEditComponent implements OnInit {
   @Output() lineActionEdited = new EventEmitter<Action>();
   selectedActionType = new ActionType();
   showDialogprdt: boolean;
-  actionForm: FormGroup;
+  actionForm: UntypedFormGroup;
   MaintenancestateList: Array<MaintenanceState> = [];
 
   isFormSubmitted = false;
@@ -45,7 +45,7 @@ export class ActionEditComponent implements OnInit {
     private actionTpeService: ActionTypeService,
     private confirmationService: ConfirmationService,
     private maintenanceStateService : MaintenanceStateService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService:AuthenticationService,
 
   ) { }
@@ -65,11 +65,11 @@ export class ActionEditComponent implements OnInit {
   }
   initForm() {
     this.actionForm = this.formBuilder.group({
-      'FcodeType': new FormControl(
+      'FcodeType': new UntypedFormControl(
         this.selectedAction.actionType,
         Validators.required
       ),
-      'fState': new FormControl(
+      'fState': new UntypedFormControl(
         this.selectedAction.maintenanceState,
         Validators.required
       ),

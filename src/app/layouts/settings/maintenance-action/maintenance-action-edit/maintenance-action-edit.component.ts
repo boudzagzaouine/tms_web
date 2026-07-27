@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MaintenanceActionService } from '../../../../shared/services/api/maintenance-action.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MaintenanceAction } from '../../../../shared/models/maintenance-action';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -16,7 +16,7 @@ export class MaintenanceActionEditComponent implements OnInit {
   @Input() selectedMaintenanceAction = new MaintenanceAction();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  maintenanceActionForm: FormGroup;
+  maintenanceActionForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de maintenance';
@@ -66,9 +66,9 @@ export class MaintenanceActionEditComponent implements OnInit {
     );
   }
   initForm() {
-    this.maintenanceActionForm = new FormGroup({
-      'code': new FormControl(this.selectedMaintenanceAction.code, Validators.required),
-      'description': new FormControl(this.selectedMaintenanceAction.description)
+    this.maintenanceActionForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedMaintenanceAction.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedMaintenanceAction.description)
     });
   }
 

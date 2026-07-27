@@ -2,7 +2,7 @@ import { Address } from './../../../../../shared/models/address';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { ContactService } from './../../../../../shared/services/api/contact.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Contact } from './../../../../../shared/models/contact';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -22,10 +22,10 @@ export class GenerateContactEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Contact';
-  contactForm: FormGroup;
+  contactForm: UntypedFormGroup;
   contactCode :string ;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private contactService : ContactService,
     private toastr :ToastrService,

@@ -7,7 +7,7 @@ import { Product } from './../../../../../shared/models/product';
 import { ProductService } from './../../../../../shared/services/api/product.service';
 import { SupplierProductService } from './../../../../../shared/services/api/supplier-product.service';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { SupplierProduct } from './../../../../../shared/models/supplier-product';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -26,7 +26,7 @@ export class SupplierProductEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Catalogue ';
-  supplierProductForm: FormGroup;
+  supplierProductForm: UntypedFormGroup;
   supplierProductCode :string ;
   productList: Product[] = [];
   vats: Vat[];
@@ -35,7 +35,7 @@ export class SupplierProductEditComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private supplierProductService : SupplierProductService,
     private productService:ProductService,

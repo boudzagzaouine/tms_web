@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -22,7 +22,7 @@ export class FuelPumpEditComponent implements OnInit {
   @Input() selectFuelPump = new FuelPump();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  fuelPumpForm: FormGroup;
+  fuelPumpForm: UntypedFormGroup;
   pumpList: Pump[] = [];
   productList: Product[] = [];
   isFormSubmitted = false;
@@ -68,11 +68,11 @@ console.log(this.editMode);
   }
 
   initForm() {
-    this.fuelPumpForm = new FormGroup({
-      'fCode': new FormControl(this.selectFuelPump.code, Validators.required),
-      'fPump': new FormControl(this.selectFuelPump.pump, Validators.required),
-      'fProduct': new FormControl(this.selectFuelPump.product, Validators.required),
-      'fQuantity': new FormControl(this.selectFuelPump.quantity)
+    this.fuelPumpForm = new UntypedFormGroup({
+      'fCode': new UntypedFormControl(this.selectFuelPump.code, Validators.required),
+      'fPump': new UntypedFormControl(this.selectFuelPump.pump, Validators.required),
+      'fProduct': new UntypedFormControl(this.selectFuelPump.product, Validators.required),
+      'fQuantity': new UntypedFormControl(this.selectFuelPump.quantity)
     });
   }
   onSubmit() {

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { AddressService } from './../../../../shared/services/api/address.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -23,7 +23,7 @@ export class AddressDeliveryEditComponent implements OnInit {
   @Input() selectedAddress = new Address();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  addressForm: FormGroup;
+  addressForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier adresse de livraison';
@@ -37,7 +37,7 @@ export class AddressDeliveryEditComponent implements OnInit {
     private auhtentificationService:AuthenticationService,
     private toastr: ToastrService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
 
     private spinner: NgxSpinnerService) { }
 
@@ -70,7 +70,7 @@ export class AddressDeliveryEditComponent implements OnInit {
   }
 
   initForm() {
-    this.addressForm = new FormGroup({
+    this.addressForm = new UntypedFormGroup({
       code: this.formBuilder.control(this.selectedAddress.code),
       name: this.formBuilder.control(this.selectedAddress.name,Validators.required),
 

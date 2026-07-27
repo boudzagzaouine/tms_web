@@ -22,7 +22,7 @@ import { Ville } from './../../../../shared/models/ville';
 import { TurnType } from './../../../../shared/models/turn-Type';
 import { Transport } from './../../../../shared/models/transport';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { log } from 'console';
 
@@ -37,7 +37,7 @@ export class CatalogPricingEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  catalogPricingForm: FormGroup;
+  catalogPricingForm: UntypedFormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
   turnTypeList :TurnType[]=[];
@@ -94,26 +94,26 @@ export class CatalogPricingEditComponent implements OnInit {
   }
 
   initForm() {
-    this.catalogPricingForm = new FormGroup({
-      'fVehicleCategory': new FormControl(this.selectCatalogPricing?.vehicleCategory, Validators.required),
-      'fVehicleTray': new FormControl(this.selectCatalogPricing?.vehicleTray, Validators.required),
-      'fLoadingType': new FormControl(this.selectCatalogPricing?.loadingType, Validators.required),
-      'fTurnType': new FormControl(this.selectCatalogPricing?.turnType, Validators.required),
+    this.catalogPricingForm = new UntypedFormGroup({
+      'fVehicleCategory': new UntypedFormControl(this.selectCatalogPricing?.vehicleCategory, Validators.required),
+      'fVehicleTray': new UntypedFormControl(this.selectCatalogPricing?.vehicleTray, Validators.required),
+      'fLoadingType': new UntypedFormControl(this.selectCatalogPricing?.loadingType, Validators.required),
+      'fTurnType': new UntypedFormControl(this.selectCatalogPricing?.turnType, Validators.required),
 
-      'fTrajet': new FormControl(this.selectCatalogPricing?.trajet, Validators.required),
+      'fTrajet': new UntypedFormControl(this.selectCatalogPricing?.trajet, Validators.required),
 
-      'fPurchaseAmountHt': new FormControl(this.selectCatalogPricing.purchaseAmountHt, Validators.required),
-      'fPurchaseAmountTtc': new FormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
-      'fPurchaseAmountTva': new FormControl(this.selectCatalogPricing.purchaseAmountTva, Validators.required),
-      'fPurchaseVat': new FormControl(
+      'fPurchaseAmountHt': new UntypedFormControl(this.selectCatalogPricing.purchaseAmountHt, Validators.required),
+      'fPurchaseAmountTtc': new UntypedFormControl(this.selectCatalogPricing.purchaseAmountTtc, Validators.required),
+      'fPurchaseAmountTva': new UntypedFormControl(this.selectCatalogPricing.purchaseAmountTva, Validators.required),
+      'fPurchaseVat': new UntypedFormControl(
    this.selectCatalogPricing?.purchaseVat,
          Validators.required),
 
 
-         'fSaleAmountHt': new FormControl(this.selectCatalogPricing.saleAmountHt, Validators.required),
-         'fSaleAmountTtc': new FormControl(this.selectCatalogPricing.saleAmountTtc, Validators.required),
-         'fSaleAmountTva': new FormControl(this.selectCatalogPricing.saleAmountTva, Validators.required),
-         'fSaleVat': new FormControl(
+         'fSaleAmountHt': new UntypedFormControl(this.selectCatalogPricing.saleAmountHt, Validators.required),
+         'fSaleAmountTtc': new UntypedFormControl(this.selectCatalogPricing.saleAmountTtc, Validators.required),
+         'fSaleAmountTva': new UntypedFormControl(this.selectCatalogPricing.saleAmountTva, Validators.required),
+         'fSaleVat': new UntypedFormControl(
 
         this.selectCatalogPricing?.saleVat,
 

@@ -2,7 +2,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InsuranceTermService } from './../../../../shared/services/api/insurance-term.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { InsuranceTerm } from './../../../../shared/models/insurance-term';
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, DoCheck } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export class InsuranceTermEdiitComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>(); 
   title = 'Modifier un terme assurance';
-  insuranceTermForm: FormGroup;
+  insuranceTermForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   subscriptions= new Subscription();
@@ -41,10 +41,10 @@ export class InsuranceTermEdiitComponent implements OnInit {
   }
 
   initForm() {
-    this.insuranceTermForm = new FormGroup({
-      'code': new FormControl(this.selectedInsuranceTerm.code, Validators.required),
-      'description': new FormControl(this.selectedInsuranceTerm.description),
-      'isvalue': new FormControl(this.selectedInsuranceTerm.roofed),
+    this.insuranceTermForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedInsuranceTerm.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedInsuranceTerm.description),
+      'isvalue': new UntypedFormControl(this.selectedInsuranceTerm.roofed),
     });
   }
 

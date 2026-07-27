@@ -3,7 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Badge } from './../../../../shared/models/badge';
 import { MaintenanceStateService } from './../../../../shared/services/api/maintenance-states.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MaintenanceState } from './../../../../shared/models/maintenance-state';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -20,7 +20,7 @@ export class MaintenanceStatusEditComponent implements OnInit {
   @Input() selectedMaintenanceState = new MaintenanceState();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  maintenanceStateForm: FormGroup;
+  maintenanceStateForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier état de maintenance';
@@ -80,9 +80,9 @@ export class MaintenanceStatusEditComponent implements OnInit {
 
   }
   initForm() {
-    this.maintenanceStateForm = new FormGroup({
-      'code': new FormControl(this.selectedMaintenanceState.code, Validators.required),
-      'description': new FormControl(this.selectedMaintenanceState.description)
+    this.maintenanceStateForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedMaintenanceState.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedMaintenanceState.description)
     });
   }
 

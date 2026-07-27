@@ -19,7 +19,7 @@ import { Vat } from './../../../../../../shared/models/vat';
 import { Trajet } from './../../../../../../shared/models/trajet';
 import { TurnType } from './../../../../../../shared/models/turn-Type';
 import { VehicleCategory } from './../../../../../../shared/models/vehicle-category';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Transport } from './../../../../../../shared/models/transport';
 import { CatalogTransportAccountPricing } from './../../../../../../shared/models/catalog-transport-account-pricing';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -37,7 +37,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
   @Output() acountPricingEdited = new EventEmitter<CatalogTransportAccountPricing>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  catalogTransportAccountPricingForm: FormGroup;
+  catalogTransportAccountPricingForm: UntypedFormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
   trajetList: Trajet[] = [];
@@ -93,48 +93,48 @@ export class TransportAccountPricingEditComponent implements OnInit {
   }
 
   initForm() {
-    this.catalogTransportAccountPricingForm = new FormGroup({
-      fCompany: new FormControl(
+    this.catalogTransportAccountPricingForm = new UntypedFormGroup({
+      fCompany: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.company,
         Validators.required
       ),
-      fVehicleCategory: new FormControl(
+      fVehicleCategory: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.vehicleCategory,
         Validators.required
       ),
-      fVehicleTray: new FormControl(
+      fVehicleTray: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.vehicleTray,
         Validators.required
       ),
-      fLoadingType: new FormControl(
+      fLoadingType: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.loadingType,
         Validators.required
       ),
-      fTurnType: new FormControl(
+      fTurnType: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.turnType,
         Validators.required
       ),
 
 
-      fTrajet: new FormControl(
+      fTrajet: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing?.trajet,
         Validators.required
       ),
 
 
-      fPurchaseAmountHt: new FormControl(
+      fPurchaseAmountHt: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing.purchaseAmountHt,
         Validators.required
       ),
-      fPurchaseAmountTtc: new FormControl(
+      fPurchaseAmountTtc: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing.purchaseAmountTtc,
         Validators.required
       ),
-      fPurchaseAmountTva: new FormControl(
+      fPurchaseAmountTva: new UntypedFormControl(
         this.selectCatalogTransportAccountPricing.purchaseAmountTva,
         Validators.required
       ),
-      fPurchaseVat: new FormControl(
+      fPurchaseVat: new UntypedFormControl(
 
            this.selectCatalogTransportAccountPricing?.purchaseVat,
 

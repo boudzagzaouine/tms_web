@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,7 @@ export class AgentEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  agentForm: FormGroup;
+  agentForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Agent';
@@ -69,13 +69,13 @@ responsabilityList:Array<Responsability>= [];
   }
 
   initForm() {
-    this.agentForm = new FormGroup({
-      'fcode': new FormControl(this.selectedAgent.code, Validators.required),
-      'fname': new FormControl(this.selectedAgent.name, Validators.required),
-      'fcin': new FormControl(this.selectedAgent.cin, Validators.required),
-      'fbirthdate': new FormControl(this.selectedAgent.birthDate),
-      'ftele': new FormControl(this.selectedAgent.tele1, Validators.required),
-      'fresponsability': new FormControl(this.selectedAgent.responsability, Validators.required),
+    this.agentForm = new UntypedFormGroup({
+      'fcode': new UntypedFormControl(this.selectedAgent.code, Validators.required),
+      'fname': new UntypedFormControl(this.selectedAgent.name, Validators.required),
+      'fcin': new UntypedFormControl(this.selectedAgent.cin, Validators.required),
+      'fbirthdate': new UntypedFormControl(this.selectedAgent.birthDate),
+      'ftele': new UntypedFormControl(this.selectedAgent.tele1, Validators.required),
+      'fresponsability': new UntypedFormControl(this.selectedAgent.responsability, Validators.required),
 
     });
   }

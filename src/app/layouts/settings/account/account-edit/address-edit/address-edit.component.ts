@@ -5,7 +5,7 @@ import { PaysService } from './../../../../../shared/services/api/pays.service';
 import { VilleService } from './../../../../../shared/services/api/ville.service';
 import { AddressService } from './../../../../../shared/services/api/address.service';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Address } from './../../../../../shared/models/address';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -24,14 +24,14 @@ export class AddressEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Address';
-  addressForm: FormGroup;
+  addressForm: UntypedFormGroup;
   addressCode :string ;
   addressTypeList:any[]=[];
   cityList :Ville[]=[];
   countryList :Pays[]=[];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private addressService : AddressService,
     private  villeService :VilleService ,

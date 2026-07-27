@@ -12,7 +12,7 @@ import { SupplierService } from './../../../../shared/services/api/supplier.serv
 import { Address } from './../../../../shared/models/address';
 import { Contact } from './../../../../shared/models/contact';
 import { Supplier } from './../../../../shared/models/supplier';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Product, ProductPack } from './../../../../shared/models';
 import { Subscription } from 'rxjs';
@@ -35,7 +35,7 @@ export class ProductEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un produit';
-  productForm: FormGroup;
+  productForm: UntypedFormGroup;
   vats: Vat[];
   uoms: Uom[];
   productTypeList: ProductType[];
@@ -89,19 +89,19 @@ console.log(this.selectedProduct);
 
   initForm() {
 
-    this.productForm = new FormGroup({
-      code: new FormControl(this.selectedProduct.code,Validators.required),
-      description: new FormControl(this.selectedProduct.desc),
-      type: new FormControl(this.selectedProduct.productType,Validators.required),
-      uom: new FormControl( this.selectedProduct.uomByProductUomBase,Validators.required),
-      vat: new FormControl(
+    this.productForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedProduct.code,Validators.required),
+      description: new UntypedFormControl(this.selectedProduct.desc),
+      type: new UntypedFormControl(this.selectedProduct.productType,Validators.required),
+      uom: new UntypedFormControl( this.selectedProduct.uomByProductUomBase,Validators.required),
+      vat: new UntypedFormControl(
         this.editMode!=1 ?this.selectedProduct.vat.value
         :this.selectedProduct.vat,Validators.required ),
-      purchasePrice: new FormControl(this.selectedProduct.purshasePriceUB,Validators.required),
-      purchasePriceTTC: new FormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
-      qntStock: new FormControl(this.selectedProduct.stockQuantity),
-      qntMin: new FormControl(this.selectedProduct.minStock),
-      component :new FormControl(this.selectedProduct.component),
+      purchasePrice: new UntypedFormControl(this.selectedProduct.purshasePriceUB,Validators.required),
+      purchasePriceTTC: new UntypedFormControl(this.selectedProduct.purshasePriceTTCUB,Validators.required),
+      qntStock: new UntypedFormControl(this.selectedProduct.stockQuantity),
+      qntMin: new UntypedFormControl(this.selectedProduct.minStock),
+      component :new UntypedFormControl(this.selectedProduct.component),
 
   });
 

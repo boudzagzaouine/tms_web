@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Driver, PurchaseOrder, Vehicle } from './../../../../shared/models';
@@ -35,7 +35,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   fuelPumpList: FuelPump[] = [];
   validate :number=0;
   type: any;
-  dieselDeclarationForm: FormGroup;
+  dieselDeclarationForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier déclaration Gasoil';
@@ -93,18 +93,18 @@ export class DieselDeclarationEditComponent implements OnInit {
   }
 
   initForm() {
-    this.dieselDeclarationForm = new FormGroup({
-      'code': new FormControl(this.selectedDieselDeclaration.code, Validators.required),
-      'vehicle': new FormControl(this.selectedDieselDeclaration.vehicle, Validators.required),
-      'amount': new FormControl(this.selectedDieselDeclaration.amount, Validators.required),
-      'date': new FormControl(new Date(this.selectedDieselDeclaration.dieselDeclarationDate), Validators.required),
-      'km': new FormControl(this.selectedDieselDeclaration.mileage, Validators.required),
-      'driver': new FormControl(this.selectedDieselDeclaration.driver, Validators.required),
-      'card': new FormControl(this.selectedDieselDeclaration.subscriptionCard),
-      'bon': new FormControl(this.selectedDieselDeclaration.purshaseOrder),
-      'type': new FormControl(this.selectedDieselDeclaration.typeDeclaration),
-      'fuelpump': new FormControl(this.selectedDieselDeclaration.fuelPump),
-      'quantity': new FormControl(this.selectedDieselDeclaration.quantity),
+    this.dieselDeclarationForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedDieselDeclaration.code, Validators.required),
+      'vehicle': new UntypedFormControl(this.selectedDieselDeclaration.vehicle, Validators.required),
+      'amount': new UntypedFormControl(this.selectedDieselDeclaration.amount, Validators.required),
+      'date': new UntypedFormControl(new Date(this.selectedDieselDeclaration.dieselDeclarationDate), Validators.required),
+      'km': new UntypedFormControl(this.selectedDieselDeclaration.mileage, Validators.required),
+      'driver': new UntypedFormControl(this.selectedDieselDeclaration.driver, Validators.required),
+      'card': new UntypedFormControl(this.selectedDieselDeclaration.subscriptionCard),
+      'bon': new UntypedFormControl(this.selectedDieselDeclaration.purshaseOrder),
+      'type': new UntypedFormControl(this.selectedDieselDeclaration.typeDeclaration),
+      'fuelpump': new UntypedFormControl(this.selectedDieselDeclaration.fuelPump),
+      'quantity': new UntypedFormControl(this.selectedDieselDeclaration.quantity),
 
     });
   }

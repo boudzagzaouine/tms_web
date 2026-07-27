@@ -7,7 +7,7 @@ import { Ville } from '../../../../../../../shared/models/ville';
 import { Address } from '../../../../../../../shared/models/address';
 import { ConfirmationService } from 'primeng/api';
 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -25,14 +25,14 @@ export class CompanyAccountAddressEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Address';
-  addressForm: FormGroup;
+  addressForm: UntypedFormGroup;
   addressCode :string ;
   addressTypeList:any[]=[];
   cityList :Ville[]=[];
   countryList :Pays[]=[];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private addressService : AddressService,
     private  villeService :VilleService ,

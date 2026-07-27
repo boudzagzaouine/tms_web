@@ -16,7 +16,7 @@ import { Address } from "./../../../../shared/models/address";
 import { TransportServcie } from "./../../../../shared/services/api/transport.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
-import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { UntypedFormGroup, Validators, UntypedFormControl } from "@angular/forms";
 import { Transport } from "./../../../../shared/models/transport";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Subscription } from "rxjs";
@@ -34,7 +34,7 @@ export class TransportEditComponent implements OnInit {
   @Input() catalogTransportPricingList :CatalogTransportPricing []= [];
    selectedTransport :Transport = new Transport();
  editMode: number;
-  transportForm: FormGroup;
+  transportForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = "Modifier un Transporteur";
@@ -129,27 +129,27 @@ export class TransportEditComponent implements OnInit {
 
 
   initForm() {
-    this.transportForm = new FormGroup({
-      code: new FormControl(this.selectedTransport.code),
-      name: new FormControl(this.selectedTransport.name, Validators.required),
-      active: new FormControl(this.selectContact.active),
-      intern: new FormControl(this.selectedTransport.interneOrExterne),
-      factureTransport: new FormControl(this.selectedTransport.factureTransport),
-      factureService: new FormControl(this.selectedTransport.factureService),
+    this.transportForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedTransport.code),
+      name: new UntypedFormControl(this.selectedTransport.name, Validators.required),
+      active: new UntypedFormControl(this.selectContact.active),
+      intern: new UntypedFormControl(this.selectedTransport.interneOrExterne),
+      factureTransport: new UntypedFormControl(this.selectedTransport.factureTransport),
+      factureService: new UntypedFormControl(this.selectedTransport.factureService),
 
-      description: new FormControl(this.selectedTransport.description),
-      line1: new FormControl(
+      description: new UntypedFormControl(this.selectedTransport.description),
+      line1: new UntypedFormControl(
         this.selectAddress.line1, Validators.required
       ),
 
-      line2: new FormControl(this.selectAddress.line2),
-      city: new FormControl(this.selectAddress.ville),
-      country: new FormControl(this.selectAddress.pays),
-      zip: new FormControl(this.selectAddress.zip),
+      line2: new UntypedFormControl(this.selectAddress.line2),
+      city: new UntypedFormControl(this.selectAddress.ville),
+      country: new UntypedFormControl(this.selectAddress.pays),
+      zip: new UntypedFormControl(this.selectAddress.zip),
 
-      nameContact: new FormControl(this.selectContact.name),
-      tel1: new FormControl(this.selectContact.tel1),
-      email: new FormControl(this.selectContact.email),
+      nameContact: new UntypedFormControl(this.selectContact.name),
+      tel1: new UntypedFormControl(this.selectContact.tel1),
+      email: new UntypedFormControl(this.selectContact.email),
 
 
     });

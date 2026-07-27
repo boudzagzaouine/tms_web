@@ -13,7 +13,7 @@ import { Vehicle } from './../../../../shared/models/vehicle';
 import { Subscription } from 'rxjs';
 import { SinisterTypeService } from './../../../../shared/services/api/sinister-type.service';
 import { SinisterType } from './../../../../shared/models/sinister-type';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Sinister } from './../../../../shared/models/sinister';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -33,7 +33,7 @@ export class SinisterEditComponent implements OnInit {
   editModeDocument: boolean;
   idDocument :number=0;
 
-  sinisterForm: FormGroup;
+  sinisterForm: UntypedFormGroup;
   title = "Ajouter un Sinistre";
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -78,16 +78,16 @@ export class SinisterEditComponent implements OnInit {
 
   initForm() {
 
-    this.sinisterForm = new FormGroup({
-      fcode: new FormControl(this.selectedSinister.code, Validators.required),
-      fdesc: new FormControl(this.selectedSinister.description, Validators.required),
-      fvehicle: new FormControl(this.selectedSinister.vehicle, Validators.required),
-      fdriver: new FormControl(this.selectedSinister.driver, Validators.required),
-      fsupplier: new FormControl(this.selectedSinister.supplier, Validators.required),
-      fsinisterType: new FormControl({value:this.selectedSinister.sinisterType}, Validators.required),
-      fvenue: new FormControl(this.selectedSinister.venue, Validators.required),
-      fdate: new FormControl(new Date (this.selectedSinister.date), Validators.required),
-      frepayment: new FormControl(this.selectedSinister.repayment, Validators.required),
+    this.sinisterForm = new UntypedFormGroup({
+      fcode: new UntypedFormControl(this.selectedSinister.code, Validators.required),
+      fdesc: new UntypedFormControl(this.selectedSinister.description, Validators.required),
+      fvehicle: new UntypedFormControl(this.selectedSinister.vehicle, Validators.required),
+      fdriver: new UntypedFormControl(this.selectedSinister.driver, Validators.required),
+      fsupplier: new UntypedFormControl(this.selectedSinister.supplier, Validators.required),
+      fsinisterType: new UntypedFormControl({value:this.selectedSinister.sinisterType}, Validators.required),
+      fvenue: new UntypedFormControl(this.selectedSinister.venue, Validators.required),
+      fdate: new UntypedFormControl(new Date (this.selectedSinister.date), Validators.required),
+      frepayment: new UntypedFormControl(this.selectedSinister.repayment, Validators.required),
 
 
     });

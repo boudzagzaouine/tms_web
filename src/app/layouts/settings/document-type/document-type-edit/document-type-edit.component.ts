@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -20,7 +20,7 @@ export class DocumentTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  orderTransportDocumentTypeForm: FormGroup;
+  orderTransportDocumentTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de Document';
@@ -48,9 +48,9 @@ export class DocumentTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.orderTransportDocumentTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedOrderTransportDocumentType.code, Validators.required),
-      'description': new FormControl(this.selectedOrderTransportDocumentType.description),
+    this.orderTransportDocumentTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedOrderTransportDocumentType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedOrderTransportDocumentType.description),
     });
   }
 

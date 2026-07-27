@@ -20,7 +20,7 @@ import { AuthenticationService } from './../../../../shared/services/api/authent
 import { CompanyService } from './../../../../shared/services/api/company.service';
 import { of, Subscription } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -37,7 +37,7 @@ export class CompanyEditComponent implements OnInit {
   activityAreaList:Array<ActivityArea>=[];
   showContrat :Boolean = false;
   showService :Boolean = false;
-  companyForm: FormGroup;
+  companyForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Sociéte';
@@ -122,29 +122,29 @@ data=>{
   }
 
   initForm() {
-    this.companyForm = new FormGroup({
-      'code': new FormControl(this.selectedCompany.code, Validators.required),
-      'name': new FormControl(this.selectedCompany.name, Validators.required),
-      'activityArea': new FormControl(this.selectedCompany.activityArea),
+    this.companyForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedCompany.code, Validators.required),
+      'name': new UntypedFormControl(this.selectedCompany.name, Validators.required),
+      'activityArea': new UntypedFormControl(this.selectedCompany.activityArea),
 
-      'tel': new FormControl(this.selectedCompany.telephone, Validators.required),
-      'email': new FormControl(this.selectedCompany.email ),
-      'fax': new FormControl(this.selectedCompany.fax),
+      'tel': new UntypedFormControl(this.selectedCompany.telephone, Validators.required),
+      'email': new UntypedFormControl(this.selectedCompany.email ),
+      'fax': new UntypedFormControl(this.selectedCompany.fax),
 
 
-      'nameAdd': new FormControl(this.selectedAddress.code, Validators.required),
-      'line1': new FormControl(this.selectedAddress.line1, Validators.required),
-      'line2': new FormControl(this.selectedAddress.line2),
-      'zip': new FormControl(this.selectedAddress.zip),
-      'city': new FormControl(this.selectedAddress.ville, Validators.required),
-      'country': new FormControl(this.selectedAddress.pays, Validators.required),
+      'nameAdd': new UntypedFormControl(this.selectedAddress.code, Validators.required),
+      'line1': new UntypedFormControl(this.selectedAddress.line1, Validators.required),
+      'line2': new UntypedFormControl(this.selectedAddress.line2),
+      'zip': new UntypedFormControl(this.selectedAddress.zip),
+      'city': new UntypedFormControl(this.selectedAddress.ville, Validators.required),
+      'country': new UntypedFormControl(this.selectedAddress.pays, Validators.required),
 
-      'tradeRegister': new FormControl(this.selectedCompany.tradeRegister, Validators.required),
-      'tax': new FormControl(this.selectedCompany.professionalTax),
-      'if': new FormControl(this.selectedCompany.fiscalIdentifier),
-       'cnss': new FormControl(this.selectedCompany.cnssNumber),
+      'tradeRegister': new UntypedFormControl(this.selectedCompany.tradeRegister, Validators.required),
+      'tax': new UntypedFormControl(this.selectedCompany.professionalTax),
+      'if': new UntypedFormControl(this.selectedCompany.fiscalIdentifier),
+       'cnss': new UntypedFormControl(this.selectedCompany.cnssNumber),
       // 'fiscal': new FormControl(this.selectedCompany.fiscalIdentifier),
-       'ice': new FormControl(this.selectedCompany.commonIdentifierOfCompany),
+       'ice': new UntypedFormControl(this.selectedCompany.commonIdentifierOfCompany),
 
 
 

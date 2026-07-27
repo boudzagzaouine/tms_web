@@ -5,7 +5,7 @@ import { AuthenticationService } from './../../../../shared/services/api/authent
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class PaymentTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  paymentTypeForm: FormGroup;
+  paymentTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier PaymentType';
@@ -47,9 +47,9 @@ export class PaymentTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.paymentTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedPaymentType.code, Validators.required),
-      'description': new FormControl(this.selectedPaymentType.description),
+    this.paymentTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedPaymentType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedPaymentType.description),
 
 
     });

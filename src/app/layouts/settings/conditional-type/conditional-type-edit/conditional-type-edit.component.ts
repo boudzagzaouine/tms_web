@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -20,7 +20,7 @@ export class ConditionalTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  conditionalTypeForm: FormGroup;
+  conditionalTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de Condition';
@@ -48,9 +48,9 @@ export class ConditionalTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.conditionalTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedConditionalType.code, Validators.required),
-      'description': new FormControl(this.selectedConditionalType.description),
+    this.conditionalTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedConditionalType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedConditionalType.description),
     });
   }
 

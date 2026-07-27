@@ -8,7 +8,7 @@ import { AuthenticationService } from './../../../../../../shared/services/api/a
 import { TransportServiceService } from './../../../../../../shared/services/api/transport-service.service';
 import { Product } from './../../../../../../shared/models/product';
 import { Vat } from './../../../../../../shared/models/vat';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TransportService } from './../../../../../../shared/models/transport-service';
 
@@ -25,7 +25,7 @@ export class TransportServiceEditComponent implements OnInit {
   @Output() transportServiceEdited = new EventEmitter<TransportService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  transportServiceForm: FormGroup;
+  transportServiceForm: UntypedFormGroup;
 
   vat = new Vat();
   displayDialog: boolean;
@@ -60,26 +60,26 @@ export class TransportServiceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.transportServiceForm = new FormGroup({
+    this.transportServiceForm = new UntypedFormGroup({
 
-      fProduct: new FormControl(
+      fProduct: new UntypedFormControl(
         this.selectTransportService.product,
         Validators.required
       ),
 
-      fPurchaseAmountHt: new FormControl(
+      fPurchaseAmountHt: new UntypedFormControl(
         this.selectTransportService.purchaseAmountHt,
         Validators.required
       ),
-      fPurchaseAmountTtc: new FormControl(
+      fPurchaseAmountTtc: new UntypedFormControl(
         this.selectTransportService.purchaseAmountTtc,
         Validators.required
       ),
-      fPurchaseAmountTva: new FormControl(
+      fPurchaseAmountTva: new UntypedFormControl(
         this.selectTransportService.purchaseAmountTva,
         Validators.required
       ),
-      fPurchaseVat: new FormControl(
+      fPurchaseVat: new UntypedFormControl(
 
            this.selectTransportService?.purchaseVat,
 

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InsuranceTypeService } from './../../../../shared/services/api/insurance-type.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { InsuranceType } from './../../../../shared/models/insurance-Type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -34,7 +34,7 @@ export class InsuranceTypeEditComponent implements OnInit {
   size = 5;
   collectionSize: number;
   searchQuery: string;
-  insuranceTypeForm: FormGroup;
+  insuranceTypeForm: UntypedFormGroup;
   selectInsurannceTypeTerms: any;
   insuranceTypeTermsList: Array<InsuranceTypeTerms> = [];
   insuranceTypeTermsListC: Array<InsuranceTypeTerms> = [];
@@ -62,9 +62,9 @@ export class InsuranceTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.insuranceTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedinsuranceType.code, Validators.required),
-      'description': new FormControl(this.selectedinsuranceType.description)
+    this.insuranceTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedinsuranceType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedinsuranceType.description)
     });
   }
 

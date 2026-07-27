@@ -9,7 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { TransportPlanHistoryService } from './../../../../shared/services/api/transport-plan-history.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { OrderTransportRejectTypeService } from './../../../../shared/services/api/order-transport-reject-type.service';
 import { TransportPlanHistory } from './../../../../shared/models/transport-plan-history';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -27,7 +27,7 @@ export class TransportPlanCancelComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
 
   orderTransportRejectTypeList : OrderTransportRejectTypeService[]=[];
-    transportPlanHistoryForm: FormGroup;
+    transportPlanHistoryForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Motif';
@@ -69,9 +69,9 @@ export class TransportPlanCancelComponent implements OnInit {
   }
 
   initForm() {
-    this.transportPlanHistoryForm = new FormGroup({
-      'code': new FormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
-      'description': new FormControl(this.selectedTransportPlanHistroy.remark),
+    this.transportPlanHistoryForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
+      'description': new UntypedFormControl(this.selectedTransportPlanHistroy.remark),
     });
   }
 

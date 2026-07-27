@@ -9,7 +9,7 @@ import { OrderTransportService } from './../../../../shared/services/api/order-t
 import { TurnStatusService } from './../../../../shared/services/api/turn-status.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TransportPlanHistory } from './../../../../shared/models/transport-plan-history';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { TransportPlan } from './../../../../shared/models/transport-plan';
 import { TurnStatus } from './../../../../shared/models/turn-status';
 import { OrderTransport } from './../../../../shared/models/order-transport';
@@ -30,7 +30,7 @@ export class OrderTransportListCancelComponent implements OnInit {
  selectedTransportPlan = new TransportPlan();
 
   orderTransportRejectTypeList : OrderTransportRejectTypeService[]=[];
-    transportPlanHistoryForm: FormGroup;
+    transportPlanHistoryForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Motif';
@@ -112,9 +112,9 @@ export class OrderTransportListCancelComponent implements OnInit {
   }
 
   initForm() {
-    this.transportPlanHistoryForm = new FormGroup({
-      'code': new FormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
-      'description': new FormControl(this.selectedTransportPlanHistroy.remark),
+    this.transportPlanHistoryForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
+      'description': new UntypedFormControl(this.selectedTransportPlanHistroy.remark),
     });
   }
 

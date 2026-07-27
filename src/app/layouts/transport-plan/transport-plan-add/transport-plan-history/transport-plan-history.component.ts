@@ -6,7 +6,7 @@ import { AuthenticationService } from './../../../../shared/services/api/authent
 import { TransportPlanHistoryService } from './../../../../shared/services/api/transport-plan-history.service';
 import { Subscription } from 'rxjs';
 import { TransportPlanHistory } from './../../../../shared/models/transport-plan-history';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -21,7 +21,7 @@ export class TransportPlanHistoryComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
 
   orderTransportRejectTypeList : OrderTransportRejectTypeService[]=[];
-    transportPlanHistoryForm: FormGroup;
+    transportPlanHistoryForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Motif';
@@ -55,9 +55,9 @@ export class TransportPlanHistoryComponent implements OnInit {
   }
 
   initForm() {
-    this.transportPlanHistoryForm = new FormGroup({
-      'code': new FormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
-      'description': new FormControl(this.selectedTransportPlanHistroy.remark),
+    this.transportPlanHistoryForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedTransportPlanHistroy.orderTransportRejectType, Validators.required),
+      'description': new UntypedFormControl(this.selectedTransportPlanHistroy.remark),
     });
   }
 

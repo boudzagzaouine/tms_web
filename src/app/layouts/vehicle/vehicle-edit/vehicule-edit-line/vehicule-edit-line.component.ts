@@ -1,6 +1,6 @@
 import { InsuranceTermsVehicle } from './../../../../shared/models/insurance-terms-vehicle';
 import { InsuranceTermService } from './../../../../shared/services/api/insurance-term.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +23,7 @@ export class VehiculeEditLineComponent implements OnInit {
 
   valueamount: boolean;
   closeResult: String;
-  insuranceTermLineForm: FormGroup;
+  insuranceTermLineForm: UntypedFormGroup;
   insuranceTermLineList: InsuranceTermsVehicle[] = [];
   insuranceTermList: InsuranceTerm[] = [];
   isFormSubmitted = false;
@@ -43,9 +43,9 @@ export class VehiculeEditLineComponent implements OnInit {
   }
 
   initForm() {
-    this.insuranceTermLineForm = new FormGroup({
-      'FTermInsurance': new FormControl(this.selectedTermLigne.insuranceTerm, Validators.required),
-      'Famount': new FormControl({value: this.selectedTermLigne.amount, disabled: true}
+    this.insuranceTermLineForm = new UntypedFormGroup({
+      'FTermInsurance': new UntypedFormControl(this.selectedTermLigne.insuranceTerm, Validators.required),
+      'Famount': new UntypedFormControl({value: this.selectedTermLigne.amount, disabled: true}
         , Validators.required),
     });
   }

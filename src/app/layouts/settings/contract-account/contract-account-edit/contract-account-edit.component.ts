@@ -12,7 +12,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from "rxjs";
 import { Address } from "./../../../../shared/models/address";
 import { ContractAccount } from "./../../../../shared/models/contract-account";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { MenuItem, MessageService } from "primeng/api";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
@@ -28,14 +28,14 @@ export class ContractAccountEditComponent implements OnInit {
   displayDialog: boolean;
   title = "Modifier un Contrat  Client";
   home: MenuItem;
-  contractAccountForm: FormGroup;
+  contractAccountForm: UntypedFormGroup;
   selectSenderAddress: Address;
   selectReceiveAddress: Address;
   subscriptions = new Subscription();
   isFormSubmitted = false;
 
   itemsbreadcrumb: MenuItem[];
-  trajetForm: FormGroup;
+  trajetForm: UntypedFormGroup;
   types = [];
   typeOfPackagings = [];
 
@@ -123,83 +123,83 @@ console.log(this.selectedContractAccount);
     const startDate = new Date(this.selectedContractAccount.startDate);
     const endDate = new Date(this.selectedContractAccount.endDate);
 
-    this.contractAccountForm = new FormGroup({
-      general: new FormGroup({
-        fCode: new FormControl(
+    this.contractAccountForm = new UntypedFormGroup({
+      general: new UntypedFormGroup({
+        fCode: new UntypedFormControl(
           this.selectedContractAccount.code,
           Validators.required
         ),
-        fDate: new FormControl(date, Validators.required),
-        fAccount: new FormControl(
+        fDate: new UntypedFormControl(date, Validators.required),
+        fAccount: new UntypedFormControl(
           this.selectedContractAccount.account,
           Validators.required
         ),
-        fPrice: new FormControl(
+        fPrice: new UntypedFormControl(
           this.selectedContractAccount.price,
           Validators.required
         ),
-        fContractType: new FormControl(
+        fContractType: new UntypedFormControl(
           this.selectedContractAccount.contractType,
           Validators.required
         ),
       }),
 
-      vehicle: new FormGroup({
-        fVehicle: new FormControl(
+      vehicle: new UntypedFormGroup({
+        fVehicle: new UntypedFormControl(
           this.selectedContractAccount.vehicleCategory,
           Validators.required
         ),
-        fQuantity: new FormControl(
+        fQuantity: new UntypedFormControl(
           this.selectedContractAccount.quantity,
           Validators.required
         ),
-        fturnType: new FormControl(
+        fturnType: new UntypedFormControl(
           this.selectedContractAccount.turnType,
           Validators.required
         ),
-        fStartDate: new FormControl(startDate, Validators.required),
-        fEndDate: new FormControl(endDate, Validators.required),
-        fSource :new FormControl(this.selectedContractAccount.source, Validators.required),
-        fDistination :new FormControl(this.selectedContractAccount.distination, Validators.required),
+        fStartDate: new UntypedFormControl(startDate, Validators.required),
+        fEndDate: new UntypedFormControl(endDate, Validators.required),
+        fSource :new UntypedFormControl(this.selectedContractAccount.source, Validators.required),
+        fDistination :new UntypedFormControl(this.selectedContractAccount.distination, Validators.required),
 
       }),
 
-      trajet: new FormGroup({
-        fSenderLine: new FormControl(
+      trajet: new UntypedFormGroup({
+        fSenderLine: new UntypedFormControl(
           this.selectSenderAddress.line1,
           Validators.required
         ),
-        fSenderCity: new FormControl(
+        fSenderCity: new UntypedFormControl(
           this.selectSenderAddress.city,
 
         ),
-        fSenderCountry: new FormControl(
+        fSenderCountry: new UntypedFormControl(
           this.selectSenderAddress.country,
 
         ),
-        fSenderZip: new FormControl(
+        fSenderZip: new UntypedFormControl(
           this.selectSenderAddress.zip,
 
         ),
 
-        fReceiveLine: new FormControl(
+        fReceiveLine: new UntypedFormControl(
           this.selectReceiveAddress.line1,
           Validators.required
         ),
-        fReceiveCity: new FormControl(
+        fReceiveCity: new UntypedFormControl(
           this.selectReceiveAddress.city,
 
         ),
-        fReceiveCountry: new FormControl(
+        fReceiveCountry: new UntypedFormControl(
           this.selectReceiveAddress.country,
 
         ),
-        fReceiveZip: new FormControl(
+        fReceiveZip: new UntypedFormControl(
           this.selectReceiveAddress.zip,
 
         ),
 
-        fPackageType: new FormControl(this.selectedContractAccount.packageType,Validators.required),
+        fPackageType: new UntypedFormControl(this.selectedContractAccount.packageType,Validators.required),
       }),
     });
   }

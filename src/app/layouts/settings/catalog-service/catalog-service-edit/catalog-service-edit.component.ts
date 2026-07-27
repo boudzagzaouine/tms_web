@@ -9,7 +9,7 @@ import { AuthenticationService } from './../../../../shared/services/api/authent
 import { CatalogServiceService } from './../../../../shared/services/api/catalog-service.service';
 import { Vat } from './../../../../shared/models/vat';
 import { Product } from './../../../../shared/models/product';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { CatalogService } from './../../../../shared/models/catalog-service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -24,7 +24,7 @@ export class CatalogServiceEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  catalogServiceForm: FormGroup;
+  catalogServiceForm: UntypedFormGroup;
   productList: Product[] = [];
 
   vat = new Vat();
@@ -61,23 +61,23 @@ export class CatalogServiceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.catalogServiceForm = new FormGroup({
+    this.catalogServiceForm = new UntypedFormGroup({
 
 
-      'fProduct': new FormControl(this.selectCatalogService.product, Validators.required),
+      'fProduct': new UntypedFormControl(this.selectCatalogService.product, Validators.required),
 
-      'fPurchaseAmountHt': new FormControl(this.selectCatalogService.purchaseAmountHt, Validators.required),
-      'fPurchaseAmountTtc': new FormControl(this.selectCatalogService.purchaseAmountTtc, Validators.required),
-      'fPurchaseAmountTva': new FormControl(this.selectCatalogService.purchaseAmountTva, Validators.required),
-      'fPurchaseVat': new FormControl(
+      'fPurchaseAmountHt': new UntypedFormControl(this.selectCatalogService.purchaseAmountHt, Validators.required),
+      'fPurchaseAmountTtc': new UntypedFormControl(this.selectCatalogService.purchaseAmountTtc, Validators.required),
+      'fPurchaseAmountTva': new UntypedFormControl(this.selectCatalogService.purchaseAmountTva, Validators.required),
+      'fPurchaseVat': new UntypedFormControl(
         this.selectCatalogService?.purchaseVat,
          Validators.required),
 
 
-         'fSaleAmountHt': new FormControl(this.selectCatalogService.saleAmountHt, Validators.required),
-         'fSaleAmountTtc': new FormControl(this.selectCatalogService.saleAmountTtc, Validators.required),
-         'fSaleAmountTva': new FormControl(this.selectCatalogService.saleAmountTva, Validators.required),
-         'fSaleVat': new FormControl(
+         'fSaleAmountHt': new UntypedFormControl(this.selectCatalogService.saleAmountHt, Validators.required),
+         'fSaleAmountTtc': new UntypedFormControl(this.selectCatalogService.saleAmountTtc, Validators.required),
+         'fSaleAmountTva': new UntypedFormControl(this.selectCatalogService.saleAmountTva, Validators.required),
+         'fSaleVat': new UntypedFormControl(
 
          this.selectCatalogService?.saleVat,
 

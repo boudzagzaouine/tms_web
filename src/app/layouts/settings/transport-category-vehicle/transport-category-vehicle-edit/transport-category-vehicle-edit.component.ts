@@ -5,7 +5,7 @@ import { VehicleCategoryService } from './../../../../shared/services/api/vehicl
 import { TransportCategoryVehicleService } from './../../../../shared/services/api/transport-category-vehicle.service';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { TransportCategoryVehicle } from './../../../../shared/models/transport-category-vehicle';
 import { Transport } from './../../../../shared/models/transport';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -24,7 +24,7 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   @Input() selectTransportCatVehicle = new TransportCategoryVehicle();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  transportCatVehicleForm: FormGroup;
+  transportCatVehicleForm: UntypedFormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
   isFormSubmitted = false;
@@ -69,10 +69,10 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
   }
 
   initForm() {
-    this.transportCatVehicleForm = new FormGroup({
-      'fVehicleCategory': new FormControl(this.selectTransportCatVehicle.vehicleCategory, Validators.required),
-      'fTransport': new FormControl(this.selectTransportCatVehicle.transport, Validators.required),
-      'fQuantity': new FormControl(this.selectTransportCatVehicle.quantity, Validators.required)
+    this.transportCatVehicleForm = new UntypedFormGroup({
+      'fVehicleCategory': new UntypedFormControl(this.selectTransportCatVehicle.vehicleCategory, Validators.required),
+      'fTransport': new UntypedFormControl(this.selectTransportCatVehicle.transport, Validators.required),
+      'fQuantity': new UntypedFormControl(this.selectTransportCatVehicle.quantity, Validators.required)
     });
   }
   onSubmit() {

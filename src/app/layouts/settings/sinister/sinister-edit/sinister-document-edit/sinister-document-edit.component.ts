@@ -3,7 +3,7 @@ import { AuthenticationService } from './../../../../../shared/services/api/auth
 import { DocumentTypeService } from './../../../../../shared/services/api/document-type.service';
 import { DocumentType } from './../../../../../shared/models/document-type';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Document } from './../../../../../shared/models/document';
 import { saveAs } from 'file-saver';
@@ -22,13 +22,13 @@ export class SinisterDocumentEditComponent implements OnInit {
   documentTypeList : DocumentType[]=[];
   displayDialog: boolean;
   title = 'Modifier Document';
-  DocumentForm: FormGroup;
+  DocumentForm: UntypedFormGroup;
   isFormSubmitted = false;
   uploadedFiles: any[] = [];
   file :any;
 
   constructor(  private documentTypeService:DocumentTypeService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,) { }
 
 

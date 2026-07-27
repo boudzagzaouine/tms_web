@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { SubscriptionCardTypeService } from './../../../../shared/services/api/subscription-card-type.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { SubscriptionCardType } from './../../../../shared/models/subscription-card-type';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class SubscriptionCardTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  subscriptionCardTypeForm: FormGroup;
+  subscriptionCardTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Type  carte abonnement';
@@ -47,9 +47,9 @@ export class SubscriptionCardTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.subscriptionCardTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedSubscriptionCardType.code, Validators.required),
-      'description': new FormControl(this.selectedSubscriptionCardType.description),
+    this.subscriptionCardTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedSubscriptionCardType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedSubscriptionCardType.description),
     });
   }
 

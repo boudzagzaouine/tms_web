@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { VehicleTrayService } from './../../../../shared/services/api/vehicle-tray.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { VehicleTray } from './../../../../shared/models/vehicle-tray';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class VehicleTrayEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  vehicleTrayForm: FormGroup;
+  vehicleTrayForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de remorque';
@@ -47,9 +47,9 @@ export class VehicleTrayEditComponent implements OnInit {
   }
 
   initForm() {
-    this.vehicleTrayForm = new FormGroup({
-      'code': new FormControl(this.selectedVehicleTray.code, Validators.required),
-      'description': new FormControl(this.selectedVehicleTray.description),
+    this.vehicleTrayForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedVehicleTray.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedVehicleTray.description),
     });
   }
 

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from './../../../../../shared/models/company';
 import { ContactService } from './../../../../../shared/services/api/contact.service';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Contact } from './../../../../../shared/models/contact';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MessageService } from 'primeng/api';
@@ -27,12 +27,12 @@ export class InformationContactEditComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un Contact';
-  contactForm: FormGroup;
+  contactForm: UntypedFormGroup;
   contactCode :string ;
   subscriptions = new Subscription();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private contactService : ContactService,
     private contactFunctionService :ContactFunctionService,

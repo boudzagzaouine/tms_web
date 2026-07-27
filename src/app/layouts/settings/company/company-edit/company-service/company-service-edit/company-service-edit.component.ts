@@ -11,7 +11,7 @@ import { AuthenticationService } from './../../../../../../shared/services/api/a
 import { AccountPricingServiceService } from '../../../../../../shared/services/api/account-pricing-service.service';
 import { Pays } from './../../../../../../shared/models/pays';
 import { Vat } from './../../../../../../shared/models/vat';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Company } from './../../../../../../shared/models/company';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AccountPricingService } from '../../../../../../shared/models/account-pricing-service';
@@ -30,7 +30,7 @@ export class CompanyServiceEditComponent implements OnInit {
   @Output() acountServiceEdited = new EventEmitter<AccountPricingService>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  accountPricingServiceForm: FormGroup;
+  accountPricingServiceForm: UntypedFormGroup;
   accountList:Account[]=[];
   vat = new Vat();
   displayDialog: boolean;
@@ -68,30 +68,30 @@ export class CompanyServiceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.accountPricingServiceForm = new FormGroup({
+    this.accountPricingServiceForm = new UntypedFormGroup({
 
-      fAccount: new FormControl(
+      fAccount: new UntypedFormControl(
         this.selectAccountPricingService.account
       ),
 
-      fProduct: new FormControl(
+      fProduct: new UntypedFormControl(
         this.selectAccountPricingService.product,
         Validators.required
       ),
 
-      fSaleAmountHt: new FormControl(
+      fSaleAmountHt: new UntypedFormControl(
         this.selectAccountPricingService.saleAmountHt,
         Validators.required
       ),
-      fSaleAmountTtc: new FormControl(
+      fSaleAmountTtc: new UntypedFormControl(
         this.selectAccountPricingService.saleAmountTtc,
         Validators.required
       ),
-      fSaleAmountTva: new FormControl(
+      fSaleAmountTva: new UntypedFormControl(
         this.selectAccountPricingService.saleAmountTva,
         Validators.required
       ),
-      fSaleVat: new FormControl(
+      fSaleVat: new UntypedFormControl(
 
            this.selectAccountPricingService?.saleVat,
 

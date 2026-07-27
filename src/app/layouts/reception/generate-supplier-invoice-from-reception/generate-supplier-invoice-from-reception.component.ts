@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../shared/services/api/authentication.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { SupplierInvoice } from './../../../shared/models/supplier-invoice';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -20,7 +20,7 @@ export class GenerateSupplierInvoiceFromReceptionComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() supplierInvoiceAdded = new EventEmitter<SupplierInvoice>();
 
-  supplierInvoiceForm: FormGroup;
+  supplierInvoiceForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de badge';
@@ -59,9 +59,9 @@ export class GenerateSupplierInvoiceFromReceptionComponent implements OnInit {
   }
 
   initForm() {
-    this.supplierInvoiceForm = new FormGroup({
-      'supplierInvoiceCode': new FormControl(this.selectedSupplierInvoice.supplierInvoiceCode, Validators.required),
-      'invoiceDate': new FormControl(new Date(this.selectedSupplierInvoice.invoiceDate)),
+    this.supplierInvoiceForm = new UntypedFormGroup({
+      'supplierInvoiceCode': new UntypedFormControl(this.selectedSupplierInvoice.supplierInvoiceCode, Validators.required),
+      'invoiceDate': new UntypedFormControl(new Date(this.selectedSupplierInvoice.invoiceDate)),
     });
   }
 

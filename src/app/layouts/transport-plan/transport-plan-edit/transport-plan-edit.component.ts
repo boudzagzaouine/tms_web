@@ -17,7 +17,7 @@ import { TransportPlanService } from './../../../shared/services/api/transport-p
 import { DriverService } from './../../../shared/services/api/driver.service';
 import { TransportPlan } from './../../../shared/models/transport-plan';
 import { Driver } from './../../../shared/models/driver';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Transport } from './../../../shared/models/transport';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
@@ -39,7 +39,7 @@ import { OrderTransportInfoLineService } from './../../../shared/services/api/or
 export class TransportPlanEditComponent implements OnInit {
   items: MenuItem[];
   selectedTransportPlan: TransportPlan = new TransportPlan();
-  transportPlanForm: FormGroup;
+  transportPlanForm: UntypedFormGroup;
   vehicleList: Vehicle[] = [];
   driverList: Driver[] = [];
   selectedOrderTransport: OrderTransport = new OrderTransport();
@@ -279,35 +279,35 @@ if(data[0]){
   initForm() {
     console.log(this.selectedTransportPlan.totalServiceHT);
 
-    this.transportPlanForm = new FormGroup({
+    this.transportPlanForm = new UntypedFormGroup({
 
-      orderTransport: new FormControl(this.selectedTransportPlan.orderTransport?.code),
-      vehicle: new FormControl(this.selectedTransportPlan.vehicle),
-      vehicleExterne: new FormControl(this.selectedTransportPlan.vehicleExterne),
-      driverExterne: new FormControl(this.selectedTransportPlan.driverExterne),
+      orderTransport: new UntypedFormControl(this.selectedTransportPlan.orderTransport?.code),
+      vehicle: new UntypedFormControl(this.selectedTransportPlan.vehicle),
+      vehicleExterne: new UntypedFormControl(this.selectedTransportPlan.vehicleExterne),
+      driverExterne: new UntypedFormControl(this.selectedTransportPlan.driverExterne),
 
-      turnType: new FormControl(this.selectedTransportPlan?.orderTransport?.turnType?.code),
-      loadingType: new FormControl(this.selectedTransportPlan?.orderTransport?.loadingType?.code),
+      turnType: new UntypedFormControl(this.selectedTransportPlan?.orderTransport?.turnType?.code),
+      loadingType: new UntypedFormControl(this.selectedTransportPlan?.orderTransport?.loadingType?.code),
       // villeSource :new FormControl(this.selectedTransportPlan?.villeSource?.code),
       // villeDistination :new FormControl(this.selectedTransportPlan?.villeDistination?.code),
-      trajet: new FormControl(this.selectedTransportPlan?.trajet?.code),
-      account: new FormControl(this.selectedTransportPlan?.account?.name),
+      trajet: new UntypedFormControl(this.selectedTransportPlan?.trajet?.code),
+      account: new UntypedFormControl(this.selectedTransportPlan?.account?.name),
 
-      driver: new FormControl(this.selectedTransportPlan.driver),
-      vehicleCategory: new FormControl(this.selectedTransportPlan.vehicleCategory),
-      transport: new FormControl(this.selectedTransportPlan.transport),
-      purchasePriceNegotiated: new FormControl(this.selectedTransportPlan.purchasePriceNegotiated),
-      totalServicePurchaseHt: new FormControl(this.selectedTransportPlan.totalServiceHT),
+      driver: new UntypedFormControl(this.selectedTransportPlan.driver),
+      vehicleCategory: new UntypedFormControl(this.selectedTransportPlan.vehicleCategory),
+      transport: new UntypedFormControl(this.selectedTransportPlan.transport),
+      purchasePriceNegotiated: new UntypedFormControl(this.selectedTransportPlan.purchasePriceNegotiated),
+      totalServicePurchaseHt: new UntypedFormControl(this.selectedTransportPlan.totalServiceHT),
 
-      price: new FormControl(this.selectedTransportPlan.salePrice),
-      totalServiceSaleHt: new FormControl(this.selectedOrderTransport.totalServiceHT),
+      price: new UntypedFormControl(this.selectedTransportPlan.salePrice),
+      totalServiceSaleHt: new UntypedFormControl(this.selectedOrderTransport.totalServiceHT),
 
 
-      date: new FormControl(new Date(this.selectedTransportPlan.dateDepart)),
-      status: new FormControl(this.selectedTransportPlan.turnStatus?.code),
+      date: new UntypedFormControl(new Date(this.selectedTransportPlan.dateDepart)),
+      status: new UntypedFormControl(this.selectedTransportPlan.turnStatus?.code),
 
-      totalPurchasePriceHT: new FormControl(this.selectedTransportPlan.totalPriceHT),
-      totalSalePriceHT: new FormControl(this.selectedOrderTransport.totalPriceHT),
+      totalPurchasePriceHT: new UntypedFormControl(this.selectedTransportPlan.totalPriceHT),
+      totalSalePriceHT: new UntypedFormControl(this.selectedOrderTransport.totalPriceHT),
 
 
     })

@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoginModule } from './../../../login/login.module';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { Action } from './../../../shared/models/action';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { PeriodicityTypeService } from './../../../shared/services/api/periodicity-type.service';
 import { ServiceProviderService } from './../../../shared/services/api/service-provider.service';
@@ -86,7 +86,7 @@ export class MaintenancePlanComponent implements OnInit {
     actionTypeList: Array<ActionType> = [];
   patrimonySearch: Patrimony;
   subscrubtion = new Subscription();
-  maintenacePlanForm: FormGroup;
+  maintenacePlanForm: UntypedFormGroup;
   isFormSubmitted = false;
   selectMaintenancetype: MaintenanceType = new MaintenanceType();
   editModee = false;
@@ -277,19 +277,19 @@ export class MaintenancePlanComponent implements OnInit {
    // const dMaintenancenDate = new Date(this.selectedMaintenance.maintenanceDate);
     const dDeclare = new Date(this.selectedMaintenance.declaredDate);
     const dDateMaintenance = new Date (this.selectedMaintenance.maintenanceDate);
-    this.maintenacePlanForm = new FormGroup({
-      'fDateMaintenance': new FormControl(new Date(dDateMaintenance)),
-      'price': new FormControl({
+    this.maintenacePlanForm = new UntypedFormGroup({
+      'fDateMaintenance': new UntypedFormControl(new Date(dDateMaintenance)),
+      'price': new UntypedFormControl({
         value: this.selectedMaintenance.totalPrice ?
           this.roundPipe.transform(this.selectedMaintenance.totalPrice, 2) : 0, disabled: true
       }),
 
 
-      'mileage': new FormControl(this.selectedMaintenance.mileage),
-      'fDuration': new FormControl(this.selectedMaintenance.duration),
+      'mileage': new UntypedFormControl(this.selectedMaintenance.mileage),
+      'fDuration': new UntypedFormControl(this.selectedMaintenance.duration),
 
-      general: new FormGroup({
-        'fcode': new FormControl(
+      general: new UntypedFormGroup({
+        'fcode': new UntypedFormControl(
           {
             value:
               this.selectedMaintenance != null &&
@@ -300,7 +300,7 @@ export class MaintenancePlanComponent implements OnInit {
           },
           Validators.required),
 
-        'fmaintenaceType': new FormControl(
+        'fmaintenaceType': new UntypedFormControl(
       {
         value: this.editMType === 2
             ? this.selectedMaintenance.maintenanceType
@@ -308,7 +308,7 @@ export class MaintenancePlanComponent implements OnInit {
       },
           Validators.required),
 
-        'fProgram': new FormControl(
+        'fProgram': new UntypedFormControl(
   {
          value: this.editMType === 2
             ? this.selectedMaintenance.programType
@@ -317,10 +317,10 @@ export class MaintenancePlanComponent implements OnInit {
 
    }, Validators.required),
 
-  'fDriver': new FormControl(this.selectedMaintenance.driver, Validators.required),
+  'fDriver': new UntypedFormControl(this.selectedMaintenance.driver, Validators.required),
 
-      'fPatrimony': new FormControl(this.selectedMaintenance.patrimony, Validators.required),
-      'fState': new FormControl(
+      'fPatrimony': new UntypedFormControl(this.selectedMaintenance.patrimony, Validators.required),
+      'fState': new UntypedFormControl(
           {
             value:
               this.selectedMaintenance != null &&
@@ -330,33 +330,33 @@ export class MaintenancePlanComponent implements OnInit {
             disabled: true
           },Validators.required),
          // this.selectedMaintenance.maintenanceState.code, Validators.required),
-         'stateAction':new FormControl(this.selectedMaintenance.blocking, Validators.required),
+         'stateAction':new UntypedFormControl(this.selectedMaintenance.blocking, Validators.required),
 
         }),
 
-      periodicity: new FormGroup({
-        'fInterventionDate': new FormControl(dInterventionDate),
-        'fTriggerDay': new FormControl(this.selectedMaintenance.triggerDay),
-        'fActionType': new FormControl({value :this.selectedMaintenance.actionType,disabled:true}),
+      periodicity: new UntypedFormGroup({
+        'fInterventionDate': new UntypedFormControl(dInterventionDate),
+        'fTriggerDay': new UntypedFormControl(this.selectedMaintenance.triggerDay),
+        'fActionType': new UntypedFormControl({value :this.selectedMaintenance.actionType,disabled:true}),
 
-        'fConditionalType': new FormControl(this.selectedMaintenance.conditionalType),
-        'fvaleurCOnditional': new FormControl(this.selectedMaintenance.valueconditionalType),
-        'finterventionKm': new FormControl(this.selectedMaintenance.mileageNext),
+        'fConditionalType': new UntypedFormControl(this.selectedMaintenance.conditionalType),
+        'fvaleurCOnditional': new UntypedFormControl(this.selectedMaintenance.valueconditionalType),
+        'finterventionKm': new UntypedFormControl(this.selectedMaintenance.mileageNext),
       }),
-      responsability: new FormGroup({
-        'fServiceProvider': new FormControl(this.selectedMaintenance.serviceProvider, Validators.required),
-        'fResponsability': new FormControl(this.selectedMaintenance.responsability, Validators.required),
-        'fagent': new FormControl(this.selectedMaintenance.agent),
-        'fSupplier': new FormControl(this.selectedMaintenance.supplier),
-        'order': new FormControl(this.selectedMaintenance.purshaseOrder),
+      responsability: new UntypedFormGroup({
+        'fServiceProvider': new UntypedFormControl(this.selectedMaintenance.serviceProvider, Validators.required),
+        'fResponsability': new UntypedFormControl(this.selectedMaintenance.responsability, Validators.required),
+        'fagent': new UntypedFormControl(this.selectedMaintenance.agent),
+        'fSupplier': new UntypedFormControl(this.selectedMaintenance.supplier),
+        'order': new UntypedFormControl(this.selectedMaintenance.purshaseOrder),
         //'fIntervetionDate': new FormControl(new Date(this.selectedMaintenance.interventionDate)),
       }),
-      service: new FormGroup({
-        'fService': new FormControl(this.selectedMaintenance.service, Validators.required),
-        'femplyer': new FormControl(this.selectedMaintenance.employer, Validators.required),
-        'fTriggerDayy': new FormControl(this.selectedMaintenance.triggerDay),
-        'fDeclareDate': new FormControl(dDeclare, Validators.required),
-        'fObseravtion': new FormControl(this.selectedMaintenance.observation, Validators.required),
+      service: new UntypedFormGroup({
+        'fService': new UntypedFormControl(this.selectedMaintenance.service, Validators.required),
+        'femplyer': new UntypedFormControl(this.selectedMaintenance.employer, Validators.required),
+        'fTriggerDayy': new UntypedFormControl(this.selectedMaintenance.triggerDay),
+        'fDeclareDate': new UntypedFormControl(dDeclare, Validators.required),
+        'fObseravtion': new UntypedFormControl(this.selectedMaintenance.observation, Validators.required),
       }),
     });
   }

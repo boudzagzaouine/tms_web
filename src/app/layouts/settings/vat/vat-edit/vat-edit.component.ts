@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { VatService } from './../../../../shared/services/api/vat.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Vat } from './../../../../shared/models/vat';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -20,7 +20,7 @@ export class VatEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  vatForm: FormGroup;
+  vatForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier TVA';
@@ -48,8 +48,8 @@ export class VatEditComponent implements OnInit {
   }
 
   initForm() {
-    this.vatForm = new FormGroup({
-      'value': new FormControl(this.selectedVat.value, Validators.required),
+    this.vatForm = new UntypedFormGroup({
+      'value': new UntypedFormControl(this.selectedVat.value, Validators.required),
 
 
     });

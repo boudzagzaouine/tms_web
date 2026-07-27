@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InsuranceTermService } from './../../../../../shared/services/api/insurance-term.service';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { InsuranceTerm } from './../../../../../shared/models/insurance-term';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ export class TermEditComponent implements OnInit {
   @Input() title: String;
   @Output() insuranceTypeTermAdded = new EventEmitter<InsuranceTypeTerms>();
   closeResult: String;
-  insuranceTypeTermForm: FormGroup;
+  insuranceTypeTermForm: UntypedFormGroup;
   modal: NgbModalRef;
   isFormSubmitted = false;
   insuranceTermList: Array<InsuranceTerm> = [];
@@ -46,8 +46,8 @@ export class TermEditComponent implements OnInit {
   }
 
   initForm() {
-    this.insuranceTypeTermForm = new FormGroup({
-      'fTerm': new FormControl(this.selectedinsuranceTypeTerm.insuranceTerm, Validators.required),
+    this.insuranceTypeTermForm = new UntypedFormGroup({
+      'fTerm': new UntypedFormControl(this.selectedinsuranceTypeTerm.insuranceTerm, Validators.required),
     });
   }
   onSubmit() {

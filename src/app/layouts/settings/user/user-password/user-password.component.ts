@@ -4,7 +4,7 @@ import { UserService } from './../../../../shared/services/api/user.service';
 import { log } from 'console';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { User } from './../../../../shared/models/user';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5';
 
@@ -16,7 +16,7 @@ import { Md5 } from 'ts-md5';
 export class UserPasswordComponent implements OnInit {
 
   selectedUser = new User();
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
 
   currentPassword : string ;
   newPassword: string ;

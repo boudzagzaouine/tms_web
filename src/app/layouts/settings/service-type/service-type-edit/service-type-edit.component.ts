@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceTypeService } from './../../../../shared/services/api/service-type.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ServiceType } from './../../../../shared/models/service-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -21,7 +21,7 @@ export class ServiceTypeEditComponent implements OnInit {
   serviceTypeParentList: ServiceType[] = [];
 
 
-  serviceTypeForm: FormGroup;
+  serviceTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de Service';
@@ -52,9 +52,9 @@ console.log(this.selectedServiceType);
   }
 
   initForm() {
-    this.serviceTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedServiceType.code, Validators.required),
-      'description': new FormControl(this.selectedServiceType.description),
+    this.serviceTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedServiceType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedServiceType.description),
 
     });
   }

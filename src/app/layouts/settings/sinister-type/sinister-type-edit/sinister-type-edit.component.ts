@@ -5,7 +5,7 @@ import { AuthenticationService } from './../../../../shared/services/api/authent
 import { SinisterTypeService } from './../../../../shared/services/api/sinister-type.service';
 import { SinisterType } from './../../../../shared/models/sinister-type';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -19,7 +19,7 @@ export class SinisterTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  sinisterTypeForm: FormGroup;
+  sinisterTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de Sinistre';
@@ -47,9 +47,9 @@ export class SinisterTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.sinisterTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedSinisterType.code, Validators.required),
-      'description': new FormControl(this.selectedSinisterType.description),
+    this.sinisterTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedSinisterType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedSinisterType.description),
     });
   }
 

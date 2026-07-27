@@ -11,7 +11,7 @@ import { ReceptionLineService } from './../../../../shared/services/api/receptio
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ReceptionLine } from './../../../../shared/models/reception-line';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Reception } from './../../../../shared/models/reception';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { VatService } from './../../../../shared/services/api/vat.service';
@@ -40,7 +40,7 @@ export class OrderLineEditComponent implements OnInit {
     uomList: Uom[] = [];
 
    selectedReception: Reception;
-   purchaseOrderLineForm: FormGroup;
+   purchaseOrderLineForm: UntypedFormGroup;
 
   isFormSubmitted = false;
   displayDialog: boolean;
@@ -90,8 +90,8 @@ if(this.editMode == false){
   initForm() {
    
     this.selectedProduct = this.selectedPurchaseOrderLine.product;
-    this.purchaseOrderLineForm = new FormGroup({
-        pdt: new FormControl(
+    this.purchaseOrderLineForm = new UntypedFormGroup({
+        pdt: new UntypedFormControl(
             {
                 value:
                     this.selectedPurchaseOrderLine != null &&
@@ -103,13 +103,13 @@ if(this.editMode == false){
             Validators.required
         ),
 
-        description: new FormControl(
+        description: new UntypedFormControl(
                 this.selectedPurchaseOrderLine != null
                     ? this.selectedPurchaseOrderLine.description
                     : ''
         ),
 
-        price: new FormControl({
+        price: new UntypedFormControl({
             value:
                 this.selectedPurchaseOrderLine != null &&
                 this.selectedPurchaseOrderLine.product != null
@@ -118,20 +118,20 @@ if(this.editMode == false){
             disabled: true
         },  Validators.required),
 
-        payedPrice: new FormControl(
+        payedPrice: new UntypedFormControl(
             this.selectedPurchaseOrderLine != null
                 ? this.selectedPurchaseOrderLine.purshasePrice
                 : null,
             Validators.required
         ),
 
-        quantity: new FormControl(
+        quantity: new UntypedFormControl(
             this.selectedPurchaseOrderLine != null
                 ? this.selectedPurchaseOrderLine.quantity
                 : '1',
             Validators.required
         ),
-        pdtPack: new FormControl(
+        pdtPack: new UntypedFormControl(
           {
             value:
                 this.selectedPurchaseOrderLine != null &&
@@ -141,7 +141,7 @@ if(this.editMode == false){
             disabled: this.editMode
         },
         ),
-        status: new FormControl(
+        status: new UntypedFormControl(
           {
             value:
             this.selectedPurchaseOrderLine.orderStatus != null
@@ -149,21 +149,21 @@ if(this.editMode == false){
             : null,
               disabled: true
             }),
-        totalHT: new FormControl({
+        totalHT: new UntypedFormControl({
             value:
                 this.selectedPurchaseOrderLine != null
                     ? this.selectedPurchaseOrderLine.totalPriceHT
                     : '',
             disabled: true
         }),
-        totalTTC: new FormControl({
+        totalTTC: new UntypedFormControl({
             value:
                 this.selectedPurchaseOrderLine != null
                     ? this.selectedPurchaseOrderLine.totalPriceTTC
                     : '',
             disabled: true
         }),
-        vat: new FormControl(
+        vat: new UntypedFormControl(
           {
             value:
                 this.selectedPurchaseOrderLine != null &&

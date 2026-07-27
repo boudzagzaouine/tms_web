@@ -1,5 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { BadgeTypeService, BadgeService } from './../../../../shared/services';
 import { BadgeType, Badge } from '../../../../shared/models';
@@ -20,7 +20,7 @@ export class BadgeEditComponent implements OnInit {
   @Output() badgeAdd = new EventEmitter<Badge>();
 
   closeResult: String;
-  badgeForm: FormGroup;
+  badgeForm: UntypedFormGroup;
   badgeTypeList: BadgeType[] = [];
 
   modal: NgbModalRef;
@@ -46,10 +46,10 @@ export class BadgeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.badgeForm = new FormGroup({
-      'code': new FormControl(this.selectedBadge.code, Validators.required),
-      'badgeType': new FormControl(this.selectedBadge.badgeType),
-      'description': new FormControl(this.selectedBadge.description)
+    this.badgeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedBadge.code, Validators.required),
+      'badgeType': new UntypedFormControl(this.selectedBadge.badgeType),
+      'description': new UntypedFormControl(this.selectedBadge.description)
     });
   }
   

@@ -20,7 +20,7 @@ import { Ville } from './../../../../shared/models/ville';
 import { TurnType } from './../../../../shared/models/turn-Type';
 import { Transport } from './../../../../shared/models/transport';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-trajet-edit',
@@ -33,7 +33,7 @@ export class TrajetEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  trajetList: FormGroup;
+  trajetList: UntypedFormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   transportList: Transport[] = [];
   turnTypeList :TurnType[]=[];
@@ -76,13 +76,13 @@ console.log(this.selectTrajet);
   }
 
   initForm() {
-    this.trajetList = new FormGroup({
-      'fCode': new FormControl(this.selectTrajet?.code, Validators.required),
+    this.trajetList = new UntypedFormGroup({
+      'fCode': new UntypedFormControl(this.selectTrajet?.code, Validators.required),
 
-      'fPaysSource': new FormControl(this.selectTrajet?.paysSource, Validators.required),
-      'fVilleSource': new FormControl(this.selectTrajet?.villeSource, Validators.required),
-      'fPaysDestination': new FormControl(this.selectTrajet?.paysDestination, Validators.required),
-      'fVilleDestination': new FormControl(this.selectTrajet?.villeDestination, Validators.required),
+      'fPaysSource': new UntypedFormControl(this.selectTrajet?.paysSource, Validators.required),
+      'fVilleSource': new UntypedFormControl(this.selectTrajet?.villeSource, Validators.required),
+      'fPaysDestination': new UntypedFormControl(this.selectTrajet?.paysDestination, Validators.required),
+      'fVilleDestination': new UntypedFormControl(this.selectTrajet?.villeDestination, Validators.required),
 
 
     });

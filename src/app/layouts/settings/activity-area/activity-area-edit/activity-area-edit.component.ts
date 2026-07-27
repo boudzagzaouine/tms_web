@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { ActivityAreaService } from './../../../../shared/services/api/activity-area.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActivityArea } from './../../../../shared/models/activity-area';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class ActivityAreaEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  activityAreaForm: FormGroup;
+  activityAreaForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = "Modifier Secteur d'activité";
@@ -47,9 +47,9 @@ export class ActivityAreaEditComponent implements OnInit {
   }
 
   initForm() {
-    this.activityAreaForm = new FormGroup({
-      'code': new FormControl(this.selectedActivityArea.code, Validators.required),
-      'description': new FormControl(this.selectedActivityArea.description),
+    this.activityAreaForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedActivityArea.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedActivityArea.description),
     });
   }
 

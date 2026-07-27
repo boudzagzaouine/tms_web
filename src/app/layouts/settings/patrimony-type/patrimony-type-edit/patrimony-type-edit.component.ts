@@ -2,7 +2,7 @@ import { PatrimonyType } from './../../../../shared/models/patrimony-type';
 import { PatrimonyTypeService } from './../../../../shared/services/api/patrimony-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 
 @Component({
@@ -15,7 +15,7 @@ export class PatrimonyTypeEditComponent implements OnInit {
   @Input() selectedPatrimonyType = new PatrimonyType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  patrimonyTypeForm: FormGroup;
+  patrimonyTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Type Patrimoine';
@@ -42,9 +42,9 @@ export class PatrimonyTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.patrimonyTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedPatrimonyType.code, Validators.required),
-      'description': new FormControl(this.selectedPatrimonyType.description),
+    this.patrimonyTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedPatrimonyType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedPatrimonyType.description),
     });
   }
 

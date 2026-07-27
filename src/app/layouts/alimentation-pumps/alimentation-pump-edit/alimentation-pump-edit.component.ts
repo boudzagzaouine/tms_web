@@ -1,6 +1,6 @@
 import { ProductService } from "./../../../shared/services/api/product.service";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
@@ -27,7 +27,7 @@ export class AlimentationPumpEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   fuelPumpList: Array<FuelPump> = [];
   fuelPumpSearch: string;
-  alimentationPumpForm: FormGroup;
+  alimentationPumpForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = "Modifier un alimentation Pompe";
@@ -74,16 +74,16 @@ export class AlimentationPumpEditComponent implements OnInit {
   initForm() {
     const d = new Date(this.selectedAlimentationPump.dateAlimentation);
 
-    this.alimentationPumpForm = new FormGroup({
-      fuelPump: new FormControl(
+    this.alimentationPumpForm = new UntypedFormGroup({
+      fuelPump: new UntypedFormControl(
         this.selectedAlimentationPump.fuelPump,
         Validators.required
       ),
-      quantity: new FormControl(
+      quantity: new UntypedFormControl(
         this.selectedAlimentationPump.quantity,
         Validators.required
       ),
-      alimentationDate: new FormControl(d, Validators.required),
+      alimentationDate: new UntypedFormControl(d, Validators.required),
       // 'reception': new FormControl(this.selectedAlimentationPump.reception, Validators.required),
 
       //'line': new FormControl(this.selectedAlimentationPump.receptionLine, Validators.required),

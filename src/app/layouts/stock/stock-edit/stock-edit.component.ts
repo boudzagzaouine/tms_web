@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StockService } from './../../../shared/services/api/stock.service';
 import { Stock } from './../../../shared/models/stock';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from './../../../shared/models';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ export class StockEditComponent implements OnInit {
   productList: Array<Product> = [];
   productSearch: string;
   uoms: Uom[];
-  stockForm: FormGroup;
+  stockForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un stock';
@@ -75,12 +75,12 @@ export class StockEditComponent implements OnInit {
   initForm() {
     const d = new Date(this.selectedStock.receptionDate);
 
-    this.stockForm = new FormGroup({
-      'product': new FormControl(this.selectedStock.product, Validators.required),
-      'uom': new FormControl(this.selectedStock.productPack, Validators.required),
-      'quantity': new FormControl(this.selectedStock.quantity, Validators.required),
-      'supplier': new FormControl(this.selectedStock.supplier, Validators.required),
-      'receptionDate': new FormControl(d, Validators.required),
+    this.stockForm = new UntypedFormGroup({
+      'product': new UntypedFormControl(this.selectedStock.product, Validators.required),
+      'uom': new UntypedFormControl(this.selectedStock.productPack, Validators.required),
+      'quantity': new UntypedFormControl(this.selectedStock.quantity, Validators.required),
+      'supplier': new UntypedFormControl(this.selectedStock.supplier, Validators.required),
+      'receptionDate': new UntypedFormControl(d, Validators.required),
 
 
     });

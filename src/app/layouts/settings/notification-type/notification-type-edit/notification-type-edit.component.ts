@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export class NotificationTypeEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  notificationTypeForm: FormGroup;
+  notificationTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de notification';
@@ -48,9 +48,9 @@ export class NotificationTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.notificationTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedNotificationType.code, Validators.required),
-      'mail': new FormControl(this.selectedNotificationType.email,Validators.required),
+    this.notificationTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedNotificationType.code, Validators.required),
+      'mail': new UntypedFormControl(this.selectedNotificationType.email,Validators.required),
     });
   }
 

@@ -1,7 +1,7 @@
 import { SubscriptionCardTypeService } from './../../../../shared/services/api/subscription-card-type.service';
 import { SubscriptionCardType } from './../../../../shared/models/subscription-card-type';
 import { EventEmitter,Component, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,7 @@ export class SubscriptionCardEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  subscriptionCardForm: FormGroup;
+  subscriptionCardForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une carte abonnement';
@@ -58,11 +58,11 @@ console.log(this.editMode);
   }
 
   initForm() {
-    this.subscriptionCardForm = new FormGroup({
-      'code': new FormControl(this.selectedSubscriptionCard.code, Validators.required),
-      'description': new FormControl(this.selectedSubscriptionCard.description),
-      'fSubscriptionCardType': new FormControl(this.selectedSubscriptionCard?.subscriptionCardType),
-      'price': new FormControl(this.selectedSubscriptionCard.price),
+    this.subscriptionCardForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedSubscriptionCard.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedSubscriptionCard.description),
+      'fSubscriptionCardType': new UntypedFormControl(this.selectedSubscriptionCard?.subscriptionCardType),
+      'price': new UntypedFormControl(this.selectedSubscriptionCard.price),
 
 
     });

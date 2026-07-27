@@ -3,7 +3,7 @@ import { Address, Company } from './../../../../../shared/models';
 import { Contact } from './../../../../../shared/models/contact';
 import { Account } from './../../../../../shared/models/account';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Pays } from './../../../../../shared/models/pays';
 import { Ville } from './../../../../../shared/models/ville';
@@ -34,7 +34,7 @@ export class InformationAccountEditComponent implements OnInit {
   selectedContact = new Contact();
   selectedAddress = new Address();
   closeResult: String;
-  accountForm: FormGroup;
+  accountForm: UntypedFormGroup;
   accountTypeList: Account[] = [];
 
   companies : Company[]=[];
@@ -84,20 +84,20 @@ export class InformationAccountEditComponent implements OnInit {
 
   initForm() {
 
-    this.accountForm = new FormGroup({
-      code: new FormControl(this.selectedAccount.code, Validators.required),
-      name: new FormControl(this.selectedAccount.name, Validators.required),
-      tel1: new FormControl(this.selectedAccount.telephone),
-      email: new FormControl(this.selectedAccount.email),
+    this.accountForm = new UntypedFormGroup({
+      code: new UntypedFormControl(this.selectedAccount.code, Validators.required),
+      name: new UntypedFormControl(this.selectedAccount.name, Validators.required),
+      tel1: new UntypedFormControl(this.selectedAccount.telephone),
+      email: new UntypedFormControl(this.selectedAccount.email),
 
-      company: new FormControl(this.selectedAccount.company),
+      company: new UntypedFormControl(this.selectedAccount.company),
 
 
-      line1: new FormControl(this.selectedAddress.line1, Validators.required),
-      line2: new FormControl(this.selectedAddress.line2),
-      zip: new FormControl(this.selectedAddress.zip),
-      city: new FormControl(this.selectedAddress.ville,Validators.required),
-      country: new FormControl(this.selectedAddress.pays,Validators.required),
+      line1: new UntypedFormControl(this.selectedAddress.line1, Validators.required),
+      line2: new UntypedFormControl(this.selectedAddress.line2),
+      zip: new UntypedFormControl(this.selectedAddress.zip),
+      city: new UntypedFormControl(this.selectedAddress.ville,Validators.required),
+      country: new UntypedFormControl(this.selectedAddress.pays,Validators.required),
 
     });
   }

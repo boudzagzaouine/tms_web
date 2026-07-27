@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { UserService } from './../../../../shared/services/api/user.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { User } from './../../../../shared/models/user';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Md5 } from 'ts-md5';
@@ -24,7 +24,7 @@ export class UserEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Utilisateur';
@@ -63,15 +63,15 @@ console.log(this.selectedUser );
   }
 
   initForm() {
-    this.userForm = new FormGroup({
-       'code': new FormControl(this.selectedUser.code, Validators.required),
-      'password': new FormControl(this.selectedUser.password, Validators.required),
-      'group': new FormControl(this.selectedUser.userGroup),
-      'name': new FormControl(this.selectedUser.name, Validators.required),
-      'surName': new FormControl(this.selectedUser.surname, Validators.required),
-      'email': new FormControl(this.selectedUser.email, Validators.required),
-      'tele': new FormControl(this.selectedUser.tel),
-      'driver': new FormControl(this.selectedUser.driver),
+    this.userForm = new UntypedFormGroup({
+       'code': new UntypedFormControl(this.selectedUser.code, Validators.required),
+      'password': new UntypedFormControl(this.selectedUser.password, Validators.required),
+      'group': new UntypedFormControl(this.selectedUser.userGroup),
+      'name': new UntypedFormControl(this.selectedUser.name, Validators.required),
+      'surName': new UntypedFormControl(this.selectedUser.surname, Validators.required),
+      'email': new UntypedFormControl(this.selectedUser.email, Validators.required),
+      'tele': new UntypedFormControl(this.selectedUser.tel),
+      'driver': new UntypedFormControl(this.selectedUser.driver),
 
 
     })

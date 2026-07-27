@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { VehicleAccompanimentService } from './../../../../shared/services/api/vehicle-accompaniment.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VehicleAccompaniment } from './../../../../shared/models/vehicle-accompaniment';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class VehicleAccompanimentEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  vehicleAccompanimentForm: FormGroup;
+  vehicleAccompanimentForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Moyen d accompagnement';
@@ -47,9 +47,9 @@ export class VehicleAccompanimentEditComponent implements OnInit {
   }
 
   initForm() {
-    this.vehicleAccompanimentForm = new FormGroup({
-      'code': new FormControl(this.selectedVehicleAccompaniment.code, Validators.required),
-      'description': new FormControl(this.selectedVehicleAccompaniment.description),
+    this.vehicleAccompanimentForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedVehicleAccompaniment.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedVehicleAccompaniment.description),
     });
   }
 

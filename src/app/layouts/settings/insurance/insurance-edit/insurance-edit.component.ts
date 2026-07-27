@@ -7,7 +7,7 @@ import { VehicleService } from './../../../../shared/services/api/vehicle.servic
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { AuthenticationService, InsuranceService, InsuranceTermService, SupplierService } from '../../../../shared/services';
 import { Insurance, InsuranceTerm, Supplier, Vehicle } from '../../../../shared/models';
 import { ToastrService } from 'ngx-toastr';
@@ -32,7 +32,7 @@ export class InsuranceEditComponent implements OnInit {
   closeResult: String;
   idinsurancetype: number;
 
-  insuranceForm: FormGroup;
+  insuranceForm: UntypedFormGroup;
   insuranceTermList: InsuranceTerm[] = [];
   patrimonyList: Array<Patrimony> = [];
   supplierList: Supplier[] = [];
@@ -82,16 +82,16 @@ export class InsuranceEditComponent implements OnInit {
   }
 
   initForm() {
-    this.insuranceForm = new FormGroup({
-      'code': new FormControl( this.selectedInsurance.code, Validators.required),
-      'startDate': new FormControl(new Date(this.selectedInsurance.startDate), Validators.required),
-      'endDate': new FormControl(new Date(this.selectedInsurance.endDate), Validators.required),
-      'amount': new FormControl(this.selectedInsurance.amount, Validators.required),
-      'supplier': new FormControl(this.selectedInsurance.supplier, Validators.required),
-      'patrimony': new FormControl(
+    this.insuranceForm = new UntypedFormGroup({
+      'code': new UntypedFormControl( this.selectedInsurance.code, Validators.required),
+      'startDate': new UntypedFormControl(new Date(this.selectedInsurance.startDate), Validators.required),
+      'endDate': new UntypedFormControl(new Date(this.selectedInsurance.endDate), Validators.required),
+      'amount': new UntypedFormControl(this.selectedInsurance.amount, Validators.required),
+      'supplier': new UntypedFormControl(this.selectedInsurance.supplier, Validators.required),
+      'patrimony': new UntypedFormControl(
           this.selectedInsurance.patrimony, Validators.required
       ),
-      'typeinsurance': new FormControl(this.selectedInsurance.insuranceType, Validators.required),
+      'typeinsurance': new UntypedFormControl(this.selectedInsurance.insuranceType, Validators.required),
     });
   }
 

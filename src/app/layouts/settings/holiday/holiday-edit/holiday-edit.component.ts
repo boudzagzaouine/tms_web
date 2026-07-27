@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { diffDates } from '@fullcalendar/angular';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -21,7 +21,7 @@ export class HolidayEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  holidayForm: FormGroup;
+  holidayForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier jour férier ';
@@ -47,12 +47,12 @@ export class HolidayEditComponent implements OnInit {
 
   initForm() {
     let dd = new Date(this.selectedHoliday.holidayDate)
-    this.holidayForm = new FormGroup({
-      'code': new FormControl(this.selectedHoliday.code),
-      'description': new FormControl(this.selectedHoliday.description),
-      'day': new FormControl(this.selectedHoliday.holidayDay),
-      'month': new FormControl(this.selectedHoliday.holidayMonth),
-      'holidayDate': new FormControl(dd),
+    this.holidayForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedHoliday.code),
+      'description': new UntypedFormControl(this.selectedHoliday.description),
+      'day': new UntypedFormControl(this.selectedHoliday.holidayDay),
+      'month': new UntypedFormControl(this.selectedHoliday.holidayMonth),
+      'holidayDate': new UntypedFormControl(dd),
 
     });
   }

@@ -1,7 +1,7 @@
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { CommissionTypeService } from './../../../../shared/services/api/commisionType.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { CommissionType } from './../../../../shared/models/commissionType';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +20,7 @@ export class CommissionTypeEditComponent implements OnInit {
   @Input() selectedCommissionType = new CommissionType();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  commissionTypeForm: FormGroup;
+  commissionTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de commission';
@@ -47,12 +47,12 @@ export class CommissionTypeEditComponent implements OnInit {
   }
 
   initForm() {
-    this.commissionTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedCommissionType.code, Validators.required),
-      'description': new FormControl(this.selectedCommissionType.description),
-      'fAmount': new FormControl(this.selectedCommissionType.percentage, Validators.required),
-      'fMinDistance': new FormControl(this.selectedCommissionType.minDistance, Validators.required),
-      'fMaxDistance': new FormControl(this.selectedCommissionType.maxDistance, Validators.required),
+    this.commissionTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedCommissionType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedCommissionType.description),
+      'fAmount': new UntypedFormControl(this.selectedCommissionType.percentage, Validators.required),
+      'fMinDistance': new UntypedFormControl(this.selectedCommissionType.minDistance, Validators.required),
+      'fMaxDistance': new UntypedFormControl(this.selectedCommissionType.maxDistance, Validators.required),
 
     });
   }

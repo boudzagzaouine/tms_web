@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ZoneServcie } from '../../../../shared/services/api/zone.service';
 import { Zone } from './../../../../shared/models/Zone';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../../shared/services';
@@ -18,7 +18,7 @@ export class ZoneEditComponent implements OnInit {
   @Input() selectedzones = new Zone();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  zoneForm: FormGroup;
+  zoneForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier une zone';
@@ -48,9 +48,9 @@ export class ZoneEditComponent implements OnInit {
   }
 
   initForm() {
-    this.zoneForm = new FormGroup({
-      'code': new FormControl(this.selectedzones.code, Validators.required),
-      'description': new FormControl(this.selectedzones.code),
+    this.zoneForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedzones.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedzones.code),
 
     });
   }

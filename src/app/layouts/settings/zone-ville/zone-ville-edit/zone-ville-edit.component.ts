@@ -1,6 +1,6 @@
 import { Ville } from './../../../../shared/models/ville';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -24,7 +24,7 @@ export class ZoneVilleEditComponent implements OnInit {
   @Input() selectedzonevilles  = new ZoneVille();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  zoneVilleForm: FormGroup;
+  zoneVilleForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   zoneList:Zone[];
@@ -59,9 +59,9 @@ export class ZoneVilleEditComponent implements OnInit {
   }
 
   initForm() {
-    this.zoneVilleForm = new FormGroup({
-      'zone': new FormControl(this.selectedzonevilles.zone, Validators.required),
-      'ville': new FormControl(this.selectedzonevilles.ville,Validators.required),
+    this.zoneVilleForm = new UntypedFormGroup({
+      'zone': new UntypedFormControl(this.selectedzonevilles.zone, Validators.required),
+      'ville': new UntypedFormControl(this.selectedzonevilles.ville,Validators.required),
 
     });
   }

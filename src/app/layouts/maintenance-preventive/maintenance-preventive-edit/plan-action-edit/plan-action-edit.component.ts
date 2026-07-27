@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ActionPlan } from './../../../../shared/models/action-plan';
 import { ActionLine } from './../../../../shared/models/action-line';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaintenanceTypeService, MaintenancePlanService, MaintenanceStateService, AuthenticationService } from './../../../../shared/services';
@@ -74,7 +74,7 @@ export class PlanActionEditComponent implements OnInit {
   @Output() showDialog = new EventEmitter<boolean>();
   @Output() lineActionPlanEdited = new EventEmitter<ActionPlan>();
 
-  actionPlanForm: FormGroup;
+  actionPlanForm: UntypedFormGroup;
   subscrubtion = new Subscription();
   dayList: Array<Day> = [];
   daysInit: Array<any> = [];
@@ -252,39 +252,39 @@ export class PlanActionEditComponent implements OnInit {
     const dInterventionDate = new Date(this.selectedActionPlan.interventionDate);
     const dDeclare = new Date(this.selectedActionPlan.declaredDate);
 
-    this.actionPlanForm = new FormGroup({
+    this.actionPlanForm = new UntypedFormGroup({
 
-      general: new FormGroup({
+      general: new UntypedFormGroup({
 
-        'fmaintenaceType': new FormControl(this.selectedActionPlan.maintenanceType),
-        'fProgram': new FormControl(this.selectedActionPlan.programType, Validators.required),
-        'FcodeType': new FormControl(this.selectedActionPlan.actionType, Validators.required),
-        'blocking': new FormControl(this.selectedActionPlan.blocking, Validators.required),
-
-      }),
-      periodicity: new FormGroup({
-        'fDateStart': new FormControl(dStart, Validators.required),
-        'fDateEnd': new FormControl(dEnd, Validators.required),
-        'fPeriodicity': new FormControl(this.selectedActionPlan.periodicityType, Validators.required),
-        'fInterventionDate': new FormControl(dInterventionDate, Validators.required),
-        'fTriggerDay': new FormControl(this.selectedActionPlan.triggerDay, Validators.required),
-        'fhebdomadaire': new FormControl(this.daysInit),
-        'fmensuel': new FormControl(this.monthsInit),
-        'fdayOfMonth': new FormControl(this.selectedActionPlan.dayOfMonth),
+        'fmaintenaceType': new UntypedFormControl(this.selectedActionPlan.maintenanceType),
+        'fProgram': new UntypedFormControl(this.selectedActionPlan.programType, Validators.required),
+        'FcodeType': new UntypedFormControl(this.selectedActionPlan.actionType, Validators.required),
+        'blocking': new UntypedFormControl(this.selectedActionPlan.blocking, Validators.required),
 
       }),
-
-      conditionalType: new FormGroup({
-        'fConditionalType': new FormControl(this.selectedActionPlan.conditionalType, Validators.required),
-        'fValueConditionalType': new FormControl(this.selectedActionPlan.valueconditionalType, Validators.required),
+      periodicity: new UntypedFormGroup({
+        'fDateStart': new UntypedFormControl(dStart, Validators.required),
+        'fDateEnd': new UntypedFormControl(dEnd, Validators.required),
+        'fPeriodicity': new UntypedFormControl(this.selectedActionPlan.periodicityType, Validators.required),
+        'fInterventionDate': new UntypedFormControl(dInterventionDate, Validators.required),
+        'fTriggerDay': new UntypedFormControl(this.selectedActionPlan.triggerDay, Validators.required),
+        'fhebdomadaire': new UntypedFormControl(this.daysInit),
+        'fmensuel': new UntypedFormControl(this.monthsInit),
+        'fdayOfMonth': new UntypedFormControl(this.selectedActionPlan.dayOfMonth),
 
       }),
 
+      conditionalType: new UntypedFormGroup({
+        'fConditionalType': new UntypedFormControl(this.selectedActionPlan.conditionalType, Validators.required),
+        'fValueConditionalType': new UntypedFormControl(this.selectedActionPlan.valueconditionalType, Validators.required),
 
-      responsability: new FormGroup({
-        'fServiceProvider': new FormControl(this.selectedActionPlan.serviceProvider, Validators.required),
-        'fResponsability': new FormControl(this.selectedActionPlan.responsability, Validators.required),
-        'fagent': new FormControl(this.selectedActionPlan.agent),
+      }),
+
+
+      responsability: new UntypedFormGroup({
+        'fServiceProvider': new UntypedFormControl(this.selectedActionPlan.serviceProvider, Validators.required),
+        'fResponsability': new UntypedFormControl(this.selectedActionPlan.responsability, Validators.required),
+        'fagent': new UntypedFormControl(this.selectedActionPlan.agent),
 
       }),
 

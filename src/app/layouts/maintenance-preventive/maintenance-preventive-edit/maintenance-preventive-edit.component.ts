@@ -29,7 +29,7 @@ import { Responsability } from './../../../shared/models/responsability';
 import { MaintenanceState } from './../../../shared/models/maintenance-state';
 import { ProgramType } from './../../../shared/models/program-type';
 import { MaintenanceType } from './../../../shared/models/maintenance-type';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActionLine } from './../../../shared/models/action-line';
 import { Action } from './../../../shared/models/action';
 import { Component, OnInit, Input } from '@angular/core';
@@ -84,7 +84,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   selectedMaintenanceAction: Array<Action> = [];
   selectedMaintenanceActionLine: Array<ActionLine> = [];
   searchQuery = '';
-  maintenanceForm: FormGroup;
+  maintenanceForm: UntypedFormGroup;
   selectedMaintenancePlanLine: Array<Action> = [];
   maintenanceTypeList: Array<MaintenanceType> = [];
   programTypeList: Array<ProgramType> = [];
@@ -95,7 +95,7 @@ export class MaintenancePreventiveEditComponent implements OnInit {
   patrimonyList: Array<Patrimony> = [];
   patrimonySearch: Patrimony;
   subscrubtion = new Subscription();
-  maintenacePlanForm: FormGroup;
+  maintenacePlanForm: UntypedFormGroup;
   isFormSubmitted = false;
   selectMaintenancetype: MaintenanceType = new MaintenanceType();
   editModee = false;
@@ -161,10 +161,10 @@ export class MaintenancePreventiveEditComponent implements OnInit {
 
   initForm() {
 
-    this.maintenacePlanForm = new FormGroup({
+    this.maintenacePlanForm = new UntypedFormGroup({
 
-        'fcode': new FormControl(this.selectedMaintenancePreventive.code, Validators.required),
-        'fdescription': new FormControl(this.selectedMaintenancePreventive.description),
+        'fcode': new UntypedFormControl(this.selectedMaintenancePreventive.code, Validators.required),
+        'fdescription': new UntypedFormControl(this.selectedMaintenancePreventive.description),
 
     });
 

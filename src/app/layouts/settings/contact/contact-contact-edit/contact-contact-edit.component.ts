@@ -6,7 +6,7 @@ import { ContactFunction } from './../../../../shared/models/contact-function';
 import { ToastrService } from 'ngx-toastr';
 import { ContactService } from './../../../../shared/services/api/contact.service';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Address } from './../../../../shared/models/address';
 import { Contact } from './../../../../shared/models/contact';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -28,10 +28,10 @@ export class ContactContactEditComponent implements OnInit {
   contactFunctionList:ContactFunction[]=[];
   addressList:Address[]=[];
 
-  contactForm: FormGroup;
+  contactForm: UntypedFormGroup;
   contactCode :string ;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,
     private contactService : ContactService,
     private spinner: NgxSpinnerService,

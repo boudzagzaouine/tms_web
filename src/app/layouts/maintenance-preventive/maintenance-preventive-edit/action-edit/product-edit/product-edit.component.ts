@@ -1,6 +1,6 @@
 import { ProductService } from './../../../../../shared/services/api/product.service';
 import { RoundPipe } from 'ngx-pipes';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Product } from './../../../../../shared/models/product';
 import { ActionLine } from './../../../../../shared/models/action-line';
 import { Action } from './../../../../../shared/models/action';
@@ -22,14 +22,14 @@ export class ProductEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un produit';
   selectedProduct: Product;
-  lineForm: FormGroup;
+  lineForm: UntypedFormGroup;
   productList: Product[] = [];
   actionList: Array<Action> = [];
   actionSearch: Action;
   selectedActions = new Action();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private roundPipe: RoundPipe,
     private productService: ProductService,
 

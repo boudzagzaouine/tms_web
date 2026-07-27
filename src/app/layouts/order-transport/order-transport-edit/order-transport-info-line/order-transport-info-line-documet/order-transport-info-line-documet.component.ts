@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { saveAs } from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
@@ -23,11 +23,11 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier';
-  lineForm: FormGroup;
+  lineForm: UntypedFormGroup;
   orderTransportDocumentTypeList: OrderTransportDocumentType[] = [];
   orderTransportDocumentList: OrderTransportDocument[] = [];
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private orderTransportDocumentTypeService: OrderTransportDocumentTypeService,
     private orderTransportDocumentService: OrderTransportDocumentService,
     private confirmationService: ConfirmationService,
@@ -77,9 +77,9 @@ export class OrderTransportInfoLineDocumetComponent implements OnInit {
   }
 
   initForm() {
-    this.lineForm = new FormGroup({
-      'numero': new FormControl(this.selectedOrderTransportInfoLineDocument.numero, Validators.required),
-      'documentType': new FormControl(this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType, Validators.required),
+    this.lineForm = new UntypedFormGroup({
+      'numero': new UntypedFormControl(this.selectedOrderTransportInfoLineDocument.numero, Validators.required),
+      'documentType': new UntypedFormControl(this.selectedOrderTransportInfoLineDocument.orderTransportDocumentType, Validators.required),
 
     });
   }

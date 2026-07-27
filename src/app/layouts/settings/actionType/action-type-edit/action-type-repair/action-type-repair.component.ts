@@ -1,7 +1,7 @@
 import { DurationType } from './../../../../../shared/models/duration-type-type';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { Supplier } from './../../../../../shared/models/supplier';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ActionTypeRepair } from './../../../../../shared/models/action-type-repair';
 import { SupplierService } from './../../../../../shared/services/api/supplier.service';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
@@ -24,12 +24,12 @@ export class ActionTypeRepairComponent implements OnInit {
   supplierList : Supplier[]=[];
   displayDialog: boolean;
   title = 'Modifier Prestataire de Reparation';
-  ActionTypeRepairForm: FormGroup;
+  ActionTypeRepairForm: UntypedFormGroup;
   isFormSubmitted = false;
 
 
   constructor(  private supplierService:SupplierService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authentificationService: AuthenticationService,) { }
 
   ngOnInit(): void {

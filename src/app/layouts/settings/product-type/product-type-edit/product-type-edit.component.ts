@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ProductTypeService } from './../../../../shared/services/api/product-type.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ProductType } from './../../../../shared/models/product-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ export class ProductTypeEditComponent implements OnInit {
   productTypeParentList: ProductType[] = [];
 
 
-  productTypeForm: FormGroup;
+  productTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier un type de produit';
@@ -52,10 +52,10 @@ console.log(this.selectedProductType);
   }
 
   initForm() {
-    this.productTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedProductType.code, Validators.required),
-      'description': new FormControl(this.selectedProductType.description),
-      'productType': new FormControl(this.selectedProductType.productType),
+    this.productTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedProductType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedProductType.description),
+      'productType': new UntypedFormControl(this.selectedProductType.productType),
 
     });
   }

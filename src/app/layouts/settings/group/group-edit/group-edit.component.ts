@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { UserGroupService } from './../../../../shared/services/api/user-group.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UserGroup } from './../../../../shared/models/user-group';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class GroupEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  userGroupForm: FormGroup;
+  userGroupForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Groupe';
@@ -47,9 +47,9 @@ export class GroupEditComponent implements OnInit {
   }
 
   initForm() {
-    this.userGroupForm = new FormGroup({
-      'code': new FormControl(this.selectedUserGroup.code, Validators.required),
-      'description': new FormControl(this.selectedUserGroup.description),
+    this.userGroupForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedUserGroup.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedUserGroup.description),
 
     });
   }

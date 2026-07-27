@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from '../../../../shared/services/api/authentication.service';
 import { HabilitationService } from '../../../../shared/services/api/habilitation.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Habilitation } from '../../../../shared/models/habilitation';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
@@ -18,7 +18,7 @@ export class HabilitationRoleEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  habilitationForm: FormGroup;
+  habilitationForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier habilitation';
@@ -46,10 +46,10 @@ export class HabilitationRoleEditComponent implements OnInit {
   }
 
   initForm() {
-    this.habilitationForm = new FormGroup({
-      'code': new FormControl(this.selectedHabilitation.code, Validators.required),
-      'description': new FormControl(this.selectedHabilitation.description),
-      'parent': new FormControl(this.selectedHabilitation.habilitation),
+    this.habilitationForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedHabilitation.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedHabilitation.description),
+      'parent': new UntypedFormControl(this.selectedHabilitation.habilitation),
 
     });
   }

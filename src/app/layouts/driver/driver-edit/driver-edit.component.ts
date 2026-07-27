@@ -10,7 +10,7 @@ import { Badge, Driver, Contact } from './../../../shared/models';
 
 import { DriverService } from '../../../shared/services/api/driver.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { BadgeTypeDriverService } from '../../../shared/services/api/badge-type-driver.service';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from './../../../shared/services';
@@ -27,7 +27,7 @@ import { SubscriptionCardService } from './../../../shared/services/api/subscrip
 })
 export class DriverEditComponent implements OnInit {
 
-  driverForm: FormGroup;
+  driverForm: UntypedFormGroup;
   selectedDriver: Driver = new Driver();
   badgesList: Array<Badge> = [];
   isFormSubmitted = false;
@@ -36,8 +36,8 @@ export class DriverEditComponent implements OnInit {
   badgeDriverListEdited: BadgeTypeDriver[] = [];
   commissionDriverListEdited: CommissionDriver[] = [];
   searchQuery = '';
-  commissionForm: FormGroup;
-  badgeForm: FormGroup;
+  commissionForm: UntypedFormGroup;
+  badgeForm: UntypedFormGroup;
   index: number = 0;
   page = 0;
   size = 8;
@@ -54,7 +54,7 @@ export class DriverEditComponent implements OnInit {
   items: MenuItem[];
 
   home: MenuItem;
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
     private driverService: DriverService,
     private badgeTypeDriverService : BadgeTypeDriverService,
     private spinner: NgxSpinnerService,
@@ -128,21 +128,21 @@ export class DriverEditComponent implements OnInit {
     this.driverForm = this.formBuilder.group(
       {
 
-        'cin': new FormControl(this.selectedDriver.cin, Validators.required),
-        'code': new FormControl(this.selectedDriver.code, Validators.required),
-        'dateNaissance': new FormControl(d),
-        'visiteMedicale': new FormControl(dd),
-        'nom': new FormControl(this.selectedDriver.name, Validators.required),
-        'tele': new FormControl(this.selectedDriver.tele1),
+        'cin': new UntypedFormControl(this.selectedDriver.cin, Validators.required),
+        'code': new UntypedFormControl(this.selectedDriver.code, Validators.required),
+        'dateNaissance': new UntypedFormControl(d),
+        'visiteMedicale': new UntypedFormControl(dd),
+        'nom': new UntypedFormControl(this.selectedDriver.name, Validators.required),
+        'tele': new UntypedFormControl(this.selectedDriver.tele1),
        // 'fax': new FormControl(this.selectedDriver.fax),
-        'email': new FormControl(this.selectedDriver.email),
-        'carte': new FormControl(this.selectedDriver.carte),
-        'card': new FormControl(this.selectedDriver.subscriptionCard),
+        'email': new UntypedFormControl(this.selectedDriver.email),
+        'carte': new UntypedFormControl(this.selectedDriver.carte),
+        'card': new UntypedFormControl(this.selectedDriver.subscriptionCard),
 
 
-        'charged': new FormControl(this.selectedDriver.charged),
-        'salary': new FormControl(this.selectedDriver.salary),
-        'dateOfAssignment': new FormControl(dateOfAssignment),
+        'charged': new UntypedFormControl(this.selectedDriver.charged),
+        'salary': new UntypedFormControl(this.selectedDriver.salary),
+        'dateOfAssignment': new UntypedFormControl(dateOfAssignment),
 
       }
     );

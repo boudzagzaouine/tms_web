@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { PaysService } from './../../../../shared/services/api/pays.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Pays } from './../../../../shared/models/pays';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export class CountryEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  paysForm: FormGroup;
+  paysForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Pays';
@@ -47,9 +47,9 @@ export class CountryEditComponent implements OnInit {
   }
 
   initForm() {
-    this.paysForm = new FormGroup({
-      'code': new FormControl(this.selectedPays.code, Validators.required),
-      'description': new FormControl(this.selectedPays.description),
+    this.paysForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedPays.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedPays.description),
 
     });
   }

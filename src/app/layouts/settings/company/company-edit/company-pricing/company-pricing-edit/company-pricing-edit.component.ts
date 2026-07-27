@@ -21,7 +21,7 @@ import { Trajet } from "./../../../../../../shared/models/trajet";
 import { TurnType } from "./../../../../../../shared/models/turn-Type";
 import { Transport } from "./../../../../../../shared/models/transport";
 import { VehicleCategory } from "./../../../../../../shared/models/vehicle-category";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { AccountPricing } from "./../../../../../../shared/models/account-pricing";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Account } from "./../../../../../../shared/models/account";
@@ -38,7 +38,7 @@ export class CompanyPricingEditComponent implements OnInit {
   @Output() acountPricingEdited = new EventEmitter<AccountPricing>();
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
-  accountPricingForm: FormGroup;
+  accountPricingForm: UntypedFormGroup;
   vehicleCategorieList: VehicleCategory[] = [];
   turnTypeList: TurnType[] = [];
   trajetList: Trajet[] = [];
@@ -96,46 +96,46 @@ export class CompanyPricingEditComponent implements OnInit {
   }
 
   initForm() {
-    this.accountPricingForm = new FormGroup({
-      fVehicleCategory: new FormControl(
+    this.accountPricingForm = new UntypedFormGroup({
+      fVehicleCategory: new UntypedFormControl(
         this.selectAccountPricing?.vehicleCategory,
         Validators.required
       ),
-      fVehicleTray: new FormControl(
+      fVehicleTray: new UntypedFormControl(
         this.selectAccountPricing?.vehicleTray,
         Validators.required
       ),
-      fLoadingType: new FormControl(
+      fLoadingType: new UntypedFormControl(
         this.selectAccountPricing?.loadingType,
         Validators.required
       ),
-      fTurnType: new FormControl(
+      fTurnType: new UntypedFormControl(
         this.selectAccountPricing?.turnType,
         Validators.required
       ),
 
-      fTrajet: new FormControl(
+      fTrajet: new UntypedFormControl(
         this.selectAccountPricing?.trajet,
         Validators.required
       ),
 
-      fAccount: new FormControl(
+      fAccount: new UntypedFormControl(
         this.selectAccountPricing?.account
       ),
 
-      fSaleAmountHt: new FormControl(
+      fSaleAmountHt: new UntypedFormControl(
         this.selectAccountPricing.saleAmountHt,
         Validators.required
       ),
-      fSaleAmountTtc: new FormControl(
+      fSaleAmountTtc: new UntypedFormControl(
         this.selectAccountPricing.saleAmountTtc,
         Validators.required
       ),
-      fSaleAmountTva: new FormControl(
+      fSaleAmountTva: new UntypedFormControl(
         this.selectAccountPricing.saleAmountTva,
         Validators.required
       ),
-      fSaleVat: new FormControl(
+      fSaleVat: new UntypedFormControl(
 
            this.selectAccountPricing?.saleVat,
 

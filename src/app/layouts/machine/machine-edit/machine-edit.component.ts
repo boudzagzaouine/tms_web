@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 import { InsuranceTermsVehicle } from './../../../shared/models/insurance-terms-vehicle';
 import { InsuranceTypeTerms } from './../../../shared/models/insurance-type-terms';
 import { InsuranceTerm } from './../../../shared/models/insurance-term';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ConsumptionType } from './../../../shared/models/consumption-type';
 import { Supplier } from './../../../shared/models/supplier';
 import { ContractType } from './../../../shared/models/contract-type';
@@ -42,7 +42,7 @@ export class MachineEditComponent implements OnInit {
   selectedInsuranceType = new InsuranceType();
   selectedContractType = new ContractType();
   selectedConsumptionType = new ConsumptionType();
-  vehicleForm: FormGroup;
+  vehicleForm: UntypedFormGroup;
   editModee = false;
   editModeTitle = 'Ajouter une machine';
   editInsuranceMode = false;
@@ -196,32 +196,32 @@ export class MachineEditComponent implements OnInit {
 
     const ddd = new Date(this.selectedMachine.aquisitionDate);
 
-    this.vehicleForm = new FormGroup({
-      general: new FormGroup({
-        'fCode': new FormControl(this.selectedMachine.code, Validators.required),
-        'fRef': new FormControl(this.selectedMachine.ref),
-        'fConsumptionType': new FormControl(this.selectedMachine.consumptionType),
-        'fMaintenancePlan': new FormControl(this.selectedMachine.maintenancePlan),
-        'fName': new FormControl(this.selectedMachine.name,Validators.required),
-        'fResource': new FormControl(this.selectedMachine.resource),
+    this.vehicleForm = new UntypedFormGroup({
+      general: new UntypedFormGroup({
+        'fCode': new UntypedFormControl(this.selectedMachine.code, Validators.required),
+        'fRef': new UntypedFormControl(this.selectedMachine.ref),
+        'fConsumptionType': new UntypedFormControl(this.selectedMachine.consumptionType),
+        'fMaintenancePlan': new UntypedFormControl(this.selectedMachine.maintenancePlan),
+        'fName': new UntypedFormControl(this.selectedMachine.name,Validators.required),
+        'fResource': new UntypedFormControl(this.selectedMachine.resource),
       
       }),
 
-      insurance: new FormGroup({
-        'fInsurance': new FormControl(),
-        'fIStartDate': new FormControl(new Date(this.selectedInsurance.startDate)),
-        'fIEndDate': new FormControl(new Date(this.selectedInsurance.endDate)),
-        'fIMontant': new FormControl(this.selectedInsurance.amount, ),
-        'fISupplier': new FormControl(this.selectedInsurance.supplier, ),
-        'fICode': new FormControl(this.selectedInsurance.code, ),
-        'fIType': new FormControl(this.selectedInsurance.insuranceType),
+      insurance: new UntypedFormGroup({
+        'fInsurance': new UntypedFormControl(),
+        'fIStartDate': new UntypedFormControl(new Date(this.selectedInsurance.startDate)),
+        'fIEndDate': new UntypedFormControl(new Date(this.selectedInsurance.endDate)),
+        'fIMontant': new UntypedFormControl(this.selectedInsurance.amount, ),
+        'fISupplier': new UntypedFormControl(this.selectedInsurance.supplier, ),
+        'fICode': new UntypedFormControl(this.selectedInsurance.code, ),
+        'fIType': new UntypedFormControl(this.selectedInsurance.insuranceType),
       }),
 
-      contract: new FormGroup({
-        'fContractType': new FormControl(this.selectedMachine.contractType),
-        'fAquisition': new FormControl(ddd),
-        'fAmountc': new FormControl(this.selectedMachine.amount),
-        'fTransport': new FormControl(this.selectedMachine.transport),
+      contract: new UntypedFormGroup({
+        'fContractType': new UntypedFormControl(this.selectedMachine.contractType),
+        'fAquisition': new UntypedFormControl(ddd),
+        'fAmountc': new UntypedFormControl(this.selectedMachine.amount),
+        'fTransport': new UntypedFormControl(this.selectedMachine.transport),
       }),
 
     });

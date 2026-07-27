@@ -3,7 +3,7 @@ import { NotificationTypeService } from './../../../shared/services/api/notifica
 import { NotificationType } from './../../../shared/models/notificationType';
 import { Template } from './../../../shared/models/template';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TemplateService } from './../../../shared/services/api/template.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './../../../shared/services';
@@ -21,7 +21,7 @@ export class ConfigMessageComponent implements OnInit {
   selectedTemplate = new Template();
   selectedNotificationType = new NotificationType();
   notificationTypeList:Array<NotificationType>=[];
-  templatForm :FormGroup;
+  templatForm :UntypedFormGroup;
    sender:string ;
    subject :string;
    texte :string ;

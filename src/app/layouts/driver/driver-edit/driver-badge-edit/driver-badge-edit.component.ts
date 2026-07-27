@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RoundPipe } from 'ngx-pipes';
 import { Subscription } from 'rxjs';
 import { BadgeType } from './../../../../shared/models/badge-Type';
@@ -21,7 +21,7 @@ export class DriverBadgeEditComponent implements OnInit {
   displayDialog: boolean;
   title = 'Modifier un Badge';
   selectedBadgeType: BadgeType;
-  badgeTypeDriverForm: FormGroup;
+  badgeTypeDriverForm: UntypedFormGroup;
   badgeTypeList: BadgeType[] = [];
   subscriptions= new Subscription ();
 
@@ -68,11 +68,11 @@ export class DriverBadgeEditComponent implements OnInit {
 
     const d = new Date(this.selectedBadgeDriver.deliveranceDate);
     const dd = new Date(this.selectedBadgeDriver.validityEndDate);
-    this.badgeTypeDriverForm = new FormGroup({
-      'fBadgeType': new FormControl(this.selectedBadgeDriver.badgeType, Validators.required),
-      'fNumBadge': new FormControl(this.selectedBadgeDriver.badgeNumber, Validators.required),
-      'fDateDelivrance': new FormControl(d, Validators.required),
-      'DateFin': new FormControl(dd, Validators.required)
+    this.badgeTypeDriverForm = new UntypedFormGroup({
+      'fBadgeType': new UntypedFormControl(this.selectedBadgeDriver.badgeType, Validators.required),
+      'fNumBadge': new UntypedFormControl(this.selectedBadgeDriver.badgeNumber, Validators.required),
+      'fDateDelivrance': new UntypedFormControl(d, Validators.required),
+      'DateFin': new UntypedFormControl(dd, Validators.required)
 
     });
   }

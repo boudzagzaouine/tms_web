@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { OrderTransportRejectTypeService } from './../../../../shared/services/api/order-transport-reject-type.service';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { OrderTransportRejectType } from './../../../../shared/models/order-transport-reject-type';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -19,7 +19,7 @@ export class RefusEditComponent implements OnInit {
   @Input() editMode: number;
   @Output() showDialog = new EventEmitter<boolean>();
 
-  orderTransportRejectTypeForm: FormGroup;
+  orderTransportRejectTypeForm: UntypedFormGroup;
   isFormSubmitted = false;
   displayDialog: boolean;
   title = 'Modifier Motif';
@@ -47,9 +47,9 @@ export class RefusEditComponent implements OnInit {
   }
 
   initForm() {
-    this.orderTransportRejectTypeForm = new FormGroup({
-      'code': new FormControl(this.selectedOrderTransportRejectType.code, Validators.required),
-      'description': new FormControl(this.selectedOrderTransportRejectType.description),
+    this.orderTransportRejectTypeForm = new UntypedFormGroup({
+      'code': new UntypedFormControl(this.selectedOrderTransportRejectType.code, Validators.required),
+      'description': new UntypedFormControl(this.selectedOrderTransportRejectType.description),
     });
   }
 

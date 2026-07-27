@@ -23,7 +23,7 @@ const routes: Routes = [
   declarations: [
 
   ],
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, useHash: true, relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, useHash: true })],
   exports: [
     RouterModule,
   ]

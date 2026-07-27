@@ -25,7 +25,6 @@ import {
 import { Subscription } from "rxjs";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Planning } from "./../../../../shared/models/planning";
-import { DateComponent } from '@fullcalendar/angular';
 import { LOADIPHLPAPI } from 'dns';
 import { ActivatedRouteSnapshot } from '@angular/router';
 

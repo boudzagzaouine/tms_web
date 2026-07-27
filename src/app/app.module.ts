@@ -17,8 +17,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import localeFr from '@angular/common/locales/fr';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
@@ -28,11 +26,6 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 registerLocaleData(localeFr, 'fr');
-
-FullCalendarModule.registerPlugins([
-  dayGridPlugin,
-  interactionPlugin
-])
 
 @NgModule({
   declarations: [

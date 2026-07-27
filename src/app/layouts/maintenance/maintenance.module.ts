@@ -28,14 +28,7 @@ import { MaintenanceTraitementComponent } from './maintenance-traitement/mainten
 import { MaintenanceProductComponent } from './maintenance-plan/maintenance-product/maintenance-product.component';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import { MaintenanceCalendarComponent } from './maintenance-calendar/maintenance-calendar.component';
- import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import { ToastModule } from 'primeng/toast';
-
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  interactionPlugin
-]);
 
 
 @NgModule({

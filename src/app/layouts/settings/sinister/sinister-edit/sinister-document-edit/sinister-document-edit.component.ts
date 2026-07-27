@@ -1,4 +1,3 @@
-import { Byte } from '@angular/compiler/src/util';
 import { AuthenticationService } from './../../../../../shared/services/api/authentication.service';
 import { DocumentTypeService } from './../../../../../shared/services/api/document-type.service';
 import { DocumentType } from './../../../../../shared/models/document-type';

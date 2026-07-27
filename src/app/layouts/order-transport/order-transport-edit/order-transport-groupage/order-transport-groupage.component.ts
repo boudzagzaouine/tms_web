@@ -24,7 +24,6 @@ import { OrderTransportInfo } from "./../../../../shared/models/order-transport-
 import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 import { OrderTransport } from "./../../../../shared/models/order-transport";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-order-transport-groupage",

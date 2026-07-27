@@ -9,6 +9,7 @@ import {PurchaseOrderLine } from './purchase-order-line';
 import { OrderType } from './order-type';
 import { Owner } from './owner';
 import { AddressInfo } from './adress-info';
+import { Account } from './account';
 //implements IOption
 export class PurchaseOrder {
 

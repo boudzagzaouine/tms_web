@@ -25,7 +25,6 @@ import { CommonModule } from '@angular/common';
 import { VehicleAvailablityRoutingModule } from './vehicle-availablity-routing.module';
 import { VehicleAvailablityComponent } from './vehicle-availablity.component';
 import { VehicleAvailabilityListComponent } from './vehicle-availability-list/vehicle-availability-list.component';
-import {GMapModule} from 'primeng/gmap';
 
 
 @NgModule({
@@ -55,8 +54,7 @@ import {GMapModule} from 'primeng/gmap';
     BreadcrumbModule,
     ToastModule,
     SelectButtonModule,
-    DialogModule,
-    GMapModule
+    DialogModule
   ]
 })
 export class VehicleAvailablityModule { }

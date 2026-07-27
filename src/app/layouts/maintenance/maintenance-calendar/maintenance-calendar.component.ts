@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MaintenanceService } from './../../../shared/services/api/maintenance.service';
 import { CalendarOptions, Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
 import { Maintenance } from './../../../shared/models/maintenance';
 import { MaintenanceCalendarService } from './../../../shared/services/api/maintenance-calendar.service';
@@ -44,8 +46,7 @@ export class MaintenanceCalendarComponent implements OnInit {
          console.log(this.maintenanceCalendarList);
 
           this.calendarOptions = {
-            
-             
+             plugins: [dayGridPlugin, interactionPlugin],
                initialView: 'dayGridMonth',
              //dateClick: this.handleDateClick.bind(this), // bind is important!
               headerToolbar:{

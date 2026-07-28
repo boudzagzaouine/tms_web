@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {UserGroup} from '../../models';
 import {ProxyService} from './proxy.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import { EmsService } from './ems.service';
 
 @Injectable()

@@ -1,5 +1,4 @@
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { element } from 'protractor';
 import { Driver } from './../../../../shared/models/driver';
 import { InsuranceTypeTerms } from './../../../../shared/models/insurance-type-terms';
 import { InsuranceTypeTermsService } from './../../../../shared/services/api/insurance-type-term.service';

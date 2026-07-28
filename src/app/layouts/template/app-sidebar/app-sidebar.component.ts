@@ -1,7 +1,6 @@
 import { PermissionsService } from './../../../shared/services/permissions.service';
 import { Component, OnInit } from '@angular/core';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-sidebar',

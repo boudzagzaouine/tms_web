@@ -1,5 +1,4 @@
 import { TransportPlanServiceCatalog } from './../../../../shared/models/transport-plan-service-catalog';
-import { log } from 'console';
 import { TrajetService } from './../../../../shared/services/api/trajet.service';
 import { Trajet } from './../../../../shared/models/trajet';
 import { Account } from './../../../../shared/models/account';

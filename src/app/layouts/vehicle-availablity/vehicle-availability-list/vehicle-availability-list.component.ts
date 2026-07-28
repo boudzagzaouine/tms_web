@@ -1,7 +1,7 @@
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
 import { TransportPlanService } from './../../../shared/services/api/transport-plan.service';
 import { TransportPlan } from './../../../shared/models/transport-plan';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Vehicle } from './../../../shared/models/vehicle';
 import { VehicleService } from './../../../shared/services/api/vehicle.service';
 import { Router } from '@angular/router';

@@ -1,6 +1,5 @@
 import { Columns } from './../../models/column';
 import { Filter } from './../../models/filter';
-import { Key, element } from 'protractor';
 import { Subject } from 'rxjs';
 import { Injectable, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';

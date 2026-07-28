@@ -5,7 +5,7 @@ import { OrderTransportInfoLineService } from './../../../../shared/services/api
 import { OrderTransportInfoLine } from './../../../../shared/models/order-transport-info-line';
 import { TransportPlanService } from './../../../../shared/services/api/transport-plan.service';
 import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { VehicleService } from './../../../../shared/services/api/vehicle.service';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { Vehicle } from './../../../../shared/models/vehicle';

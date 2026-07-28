@@ -13,7 +13,6 @@ import { Md5 } from 'ts-md5';
 import { Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PermissionsService } from '../permissions.service';
-import { Console } from 'console';
 
 @Injectable({
   providedIn: 'root'

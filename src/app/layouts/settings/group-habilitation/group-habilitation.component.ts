@@ -1,6 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GroupHabilitation } from "./../../../shared/models/group-habilitation";
-import { log } from "console";
 
 import { GroupHabilitationService } from "./../../../shared/services/api/group-habilitation.service";
 import { HabilitationService } from "./../../../shared/services/api/habilitation.service";

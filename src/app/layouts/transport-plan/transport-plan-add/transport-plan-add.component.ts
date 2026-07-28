@@ -2,7 +2,6 @@ import { VatService } from "./../../../shared/services/api/vat.service";
 import { TransportServiceService } from "./../../../shared/services/api/transport-service.service";
 import { TransportAccountServiceService } from "./../../../shared/services/api/transport-account-service.service";
 import { TransportPlanServiceCatalog } from "./../../../shared/models/transport-plan-service-catalog";
-import { element } from "protractor";
 import { Account } from "./../../../shared/models/account";
 import { CatalogTransportAccountPricingService } from "./../../../shared/services/api/catalog-transport-account-pricing.service";
 import { TransportPlanHistoryService } from "./../../../shared/services/api/transport-plan-history.service";
@@ -43,7 +42,6 @@ import { OrderTransport } from "./../../../shared/models/order-transport";
 import { OrderTransportService } from "./../../../shared/services/api/order-transport.service";
 import { ConfirmationService, MenuItem } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
-import { table } from "console";
 import { Vat } from "./../../../shared/models/vat";
 
 

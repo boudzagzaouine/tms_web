@@ -24,7 +24,6 @@ import { Transport } from './../../../../shared/models/transport';
 import { VehicleCategory } from './../../../../shared/models/vehicle-category';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { log } from 'console';
 
 @Component({
   selector: 'app-catalog-pricing-edit',

@@ -6,7 +6,6 @@ import { Driver } from './../../../shared/models/driver';
 import { Account } from './../../../shared/models/account';
 import { OrderTransportService } from './../../../shared/services/api/order-transport.service';
 import { TransportPlanHistory } from './../../../shared/models/transport-plan-history';
-import { log } from 'console';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
 import { VehicleCategory } from './../../../shared/models/vehicle-category';
 import { TurnStatus } from './../../../shared/models/turn-status';
@@ -34,7 +33,6 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { OrderTransport } from './../../../shared/models/order-transport';
 import { Vehicle } from './../../../shared/models';
 import { Icon, icon } from 'leaflet';
-const htmlToPdfmake = require("html-to-pdfmake");
 // Guard assignment: pdfFonts may be ESM default or named export depending on the bundler.
 const _pdfFonts: any = (pdfFonts as any).pdfMake ? pdfFonts : (pdfFonts as any).default ? (pdfFonts as any).default : null;
 const _vfs = _pdfFonts && _pdfFonts.pdfMake ? _pdfFonts.pdfMake.vfs : null;

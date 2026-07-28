@@ -5,7 +5,6 @@ import { PaymentRuleService } from './../../../../shared/services/api/payment-ru
 import { VilleService } from './../../../../shared/services/api/ville.service';
 import { PaysService } from './../../../../shared/services/api/pays.service';
 import { AddressService } from './../../../../shared/services/api/address.service';
-import { element } from 'protractor';
 import { AccountPricingService as AccountPricingServiceAPI } from './../../../../shared/services/api/account-pricing.service';
 import { AccountPricingService } from './../../../../shared/models/account-pricing-service';
 import { AccountPricing } from './../../../../shared/models/account-pricing';

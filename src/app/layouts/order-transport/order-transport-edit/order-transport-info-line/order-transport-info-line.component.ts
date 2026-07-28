@@ -5,7 +5,6 @@ import { CatalogPricing } from './../../../../shared/models/catalog-pricing';
 import { CatalogPricingService } from './../../../../shared/services/api/catalog-pricing.service';
 import { AccountPricingService } from './../../../../shared/services/api/account-pricing.service';
 import { TrajetService } from './../../../../shared/services/api/trajet.service';
-import { log } from "console";
 import { ToastrService } from "ngx-toastr";
 import { ContactService } from "./../../../../shared/services/api/contact.service";
 import { Contact } from "./../../../../shared/models/contact";
@@ -19,7 +18,7 @@ import { PaymentTypeService } from "./../../../../shared/services/api/payment-ty
 import { PaymentType } from "./../../../../shared/models/payment-method";
 import { TurnStatusService } from "./../../../../shared/services/api/turn-status.service";
 import { TurnStatus } from "./../../../../shared/models/turn-status";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { OrderTransportType } from "./../../../../shared/models/order-transport-type";
 import { OrderTransportService } from "./../../../../shared/services/api/order-transport.service";

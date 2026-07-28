@@ -13,7 +13,6 @@ import { PurchaseOrder } from './../../models/purchase-order';
 import { EmsService } from './ems.service';
 import { InsuranceTerm } from '../../models/insurance-term';
 import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
 import { ProxyService } from './proxy.service';
 import { AuthenticationService } from './authentication.service';
 import { DieselDeclaration } from '../../models/diesel-declaration';

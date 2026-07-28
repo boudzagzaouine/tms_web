@@ -45,7 +45,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if (error.status === 401 && isBackend && !isPublic) {
           return this.handle401(request, next);
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -63,7 +63,7 @@ export class JwtInterceptor implements HttpInterceptor {
     const refreshToken = sessionStorage.getItem(REFRESH_TOKEN);
     if (!refreshToken) {
       this.forceLogout();
-      return throwError(new Error('Session expired'));
+      return throwError(() => new Error('Session expired'));
     }
 
     this.isRefreshing = true;
@@ -82,7 +82,7 @@ export class JwtInterceptor implements HttpInterceptor {
         // Refresh token invalid/expired -> real logout.
         this.isRefreshing = false;
         this.forceLogout();
-        return throwError(err);
+        return throwError(() => err);
       })
     );
   }

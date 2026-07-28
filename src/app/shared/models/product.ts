@@ -5,7 +5,6 @@ import {Uom} from './uom';
 import {ProductType} from './product-type';
 //import {Image} from './image';
 import {ProductPack} from './product-pack';
-import {BoundNodeCallbackObservable} from 'rxjs/observable/BoundNodeCallbackObservable';
 import {Currency} from './currency';
 import { Image } from 'exceljs';
 

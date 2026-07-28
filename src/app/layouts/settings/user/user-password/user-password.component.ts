@@ -1,7 +1,6 @@
 import { saveAs } from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { UserService } from './../../../../shared/services/api/user.service';
-import { log } from 'console';
 import { AuthenticationService } from './../../../../shared/services/api/authentication.service';
 import { User } from './../../../../shared/models/user';
 import { AbstractControl, FormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';

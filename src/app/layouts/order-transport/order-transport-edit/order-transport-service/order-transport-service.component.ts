@@ -151,7 +151,7 @@ selectOrderTransport :OrderTransport= new OrderTransport();
   }
 
   onSelectAddress(event) {
-    this.selectedTransportServiceCatalog.address = event;
+    this.selectedTransportServiceCatalog.address = event?.value ?? event;
 
 
   }
@@ -210,11 +210,11 @@ selectOrderTransport :OrderTransport= new OrderTransport();
   }
 
   onSelectAccount(event) {
-    this.selectedTransportServiceCatalog.account = event;
+    this.selectedTransportServiceCatalog.account = event?.value ?? event;
 
   }
   onSelectProduct(event) {
-    this.selectedTransportServiceCatalog.product = event as Product;
+    this.selectedTransportServiceCatalog.product = (event?.value ?? event) as Product;
 
 
     if( ( this.selectOrderTransport?.loadingType?.id ==2 &&

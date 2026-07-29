@@ -113,7 +113,7 @@ console.log(this.selectType);
     }
 
     onSelectSupplier(event) {
-     this.selectedActionTypeRepair.supplier = event;
+     this.selectedActionTypeRepair.supplier = event?.value ?? event;
      console.log( this.selectedActionTypeRepair.supplier);
 
      this.ActionTypeRepairForm.patchValue({

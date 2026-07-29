@@ -310,15 +310,15 @@ console.log(this.selectedContractAccount);
 
   onSelectAccount(event) {
     console.log(event);
-    this.selectedContractAccount.account=event;
+    this.selectedContractAccount.account=event?.value ?? event;
   }
   onSelectVilleSource(event) {
     console.log(event);
-    this.selectedContractAccount.source=event;
+    this.selectedContractAccount.source=event?.value ?? event;
   }
   onSelectVilleDistination(event) {
     console.log(event);
-    this.selectedContractAccount.distination=event;
+    this.selectedContractAccount.distination=event?.value ?? event;
   }
   onSelectContractType(event) {
     console.log(event.value.code);

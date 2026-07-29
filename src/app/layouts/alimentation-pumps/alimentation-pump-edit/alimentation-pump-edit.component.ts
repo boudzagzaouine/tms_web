@@ -185,11 +185,12 @@ export class AlimentationPumpEditComponent implements OnInit {
   }
 
   onSelectReception(event) {
-    console.log(event.code);
-    this.selectedAlimentationPump.reception = event;
+    const selected = event?.value ?? event;
+    console.log(selected.code);
+    this.selectedAlimentationPump.reception = selected;
     this.subscriptions.add(
       this.receptionLineService
-        .find("reception.code~" + event.code)
+        .find("reception.code~" + selected.code)
         .subscribe((data) => {
           console.log(data);
           console.log(this.selectFuelPump.product.code);
@@ -206,7 +207,7 @@ export class AlimentationPumpEditComponent implements OnInit {
     this.selectedAlimentationPump.receptionLine = event.value;
   }
   onSelectFuelPump(event) {
-    this.selectedAlimentationPump.fuelPump = event;
+    this.selectedAlimentationPump.fuelPump = event?.value ?? event;
     this.selectFuelPump = this.selectedAlimentationPump.fuelPump;
   }
 

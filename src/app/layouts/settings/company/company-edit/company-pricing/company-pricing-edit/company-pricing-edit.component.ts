@@ -273,7 +273,7 @@ console.log(search);
 
 
   onSelectTrajet(event: any) {
-    this.selectAccountPricing.trajet = event;
+    this.selectAccountPricing.trajet = event?.value ?? event;
     this.trajetId = this.selectAccountPricing.trajet.id;
   }
 
@@ -285,7 +285,7 @@ console.log(search);
 
 
     onSelectAccount(event: any) {
-    this.selectAccountPricing.account = event;
+    this.selectAccountPricing.account = event?.value ?? event;
     this.accountId = this.selectAccountPricing.account.id;
   }
 

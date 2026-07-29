@@ -292,7 +292,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   onSelectCompany(event: any) {
     console.log(event);
 
-    this.selectedAccount.company = event;
+    this.selectedAccount.company = event?.value ?? event;
   }
 
   onShowDialog() {
@@ -466,7 +466,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   }
 
   onSelectPays(event){
-    this.selectedAddress.pays=event;
+    this.selectedAddress.pays=event?.value ?? event;
     console.log( this.selectedAddress.pays);
 
   }
@@ -478,7 +478,7 @@ console.log(this.selectedAddress.latitude +"" +this.selectedAddress.longitude );
   }
 
   onSelectVille(event){
-    this.selectedAddress.ville=event;
+    this.selectedAddress.ville=event?.value ?? event;
     console.log( this.selectedAddress.ville);
 
   }

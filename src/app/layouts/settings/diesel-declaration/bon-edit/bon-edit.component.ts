@@ -234,14 +234,14 @@ onSubmit() {
       this.supplierList = data;
     });
   }
-  onSelectSupplier(sup :Supplier) {  
-      this.selectedPurchaseOrder.supplier = sup ;
+  onSelectSupplier(sup :Supplier) {
+      this.selectedPurchaseOrder.supplier = (sup as any)?.value ?? sup ;
      
     
     
   }
   public onSelectProduct(value: Product): void {
-    this.selectedProduct = value;
+    this.selectedProduct = (value as any)?.value ?? value;
    this.productPackService
         .find('product.id:' + this.selectedProduct.id)
         .subscribe(data => {

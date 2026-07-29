@@ -184,7 +184,7 @@ console.log(data);
 
   }
   onSelectVilleSource(event: any) {
-    this.selectTrajet.villeSource = event;
+    this.selectTrajet.villeSource = event?.value ?? event;
     this.villeSourceId = this.selectTrajet.villeSource.id;
     this.selectTrajet.code= this.selectTrajet?.villeSource?.code+"-"+(this.selectTrajet?.villeDestination?.code ?this.selectTrajet?.villeDestination?.code:'') ;
     console.log(this.selectTrajet.code);
@@ -196,7 +196,7 @@ console.log(data);
 
   }
   onSelectVilleDestination(event: any) {
-    this.selectTrajet.villeDestination = event;
+    this.selectTrajet.villeDestination = event?.value ?? event;
     this.villeDestinationId = this.selectTrajet.villeDestination.id;
     this.selectTrajet.code= (this.selectTrajet?.villeSource?.code?this.selectTrajet?.villeSource?.code :'')+"-"+this.selectTrajet?.villeDestination?.code;
     console.log(this.selectTrajet.code);

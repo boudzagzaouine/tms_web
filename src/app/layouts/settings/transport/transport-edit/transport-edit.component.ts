@@ -271,10 +271,10 @@ console.log(event.checked);
                 this.selectedTransport.factureService=event.checked;
               }
   onSelectPays(event: any) {
-    this.selectAddress.pays = event;
+    this.selectAddress.pays = event?.value ?? event;
   }
   onSelectVille(event: any) {
-    this.selectAddress.ville = event;
+    this.selectAddress.ville = event?.value ?? event;
   }
 
   onVilleSearch(event: any) {

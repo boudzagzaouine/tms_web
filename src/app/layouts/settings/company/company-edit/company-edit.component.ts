@@ -285,7 +285,7 @@ saveAddressandCommpanyy(){
   }
 
   onSelectPays(event){
-    this.selectedAddress.pays=event;
+    this.selectedAddress.pays=event?.value ?? event;
     console.log( this.selectedAddress.pays);
 
   }
@@ -297,7 +297,7 @@ saveAddressandCommpanyy(){
   }
 
   onSelectVille(event){
-    this.selectedAddress.ville=event;
+    this.selectedAddress.ville=event?.value ?? event;
     console.log( this.selectedAddress.ville);
 
   }

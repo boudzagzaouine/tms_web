@@ -347,14 +347,14 @@ export class MachineEditComponent implements OnInit {
   }
 
   onSelectMaintenancePlan(event: any) {
-    this.selectedMachine.maintenancePlan = event;
+    this.selectedMachine.maintenancePlan = event?.value ?? event;
   
     
    
   }
 
   onSelectMachineMother(event: any) {
-    this.selectedMachine.resource = event;
+    this.selectedMachine.resource = event?.value ?? event;
   
     
    

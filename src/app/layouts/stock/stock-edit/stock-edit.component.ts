@@ -131,7 +131,7 @@ export class StockEditComponent implements OnInit {
   onSelectProduct(event) {
 
 
-    this.selectedStock.product = event;
+    this.selectedStock.product = event?.value ?? event;
     this.subscriptions.add(this.productPackService
       .find('product.id:' + this.selectedStock.product.id)
       .subscribe(data => {

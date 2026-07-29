@@ -226,7 +226,7 @@ requete      )
   }
 
   onSelectProduct(event){
-    this.selectTransportAccountService.product=event;
+    this.selectTransportAccountService.product=event?.value ?? event;
     console.log( this.selectTransportAccountService.product);
 
     this.productId=  this.selectTransportAccountService?.product?.id;
@@ -239,7 +239,7 @@ requete      )
   }
 
   onSelectCompany(event){
-    this.selectTransportAccountService.company=event;
+    this.selectTransportAccountService.company=event?.value ?? event;
     console.log( this.selectTransportAccountService.company);
 
     this.companyId=  this.selectTransportAccountService?.company?.id;

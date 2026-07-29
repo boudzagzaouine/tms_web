@@ -185,7 +185,7 @@ console.log(data);
   }
 
   onSelectProduct(event){
-    this.selectCatalogService.product=event;
+    this.selectCatalogService.product=event?.value ?? event;
     console.log( this.selectCatalogService.product);
 
     this.productId=  this.selectCatalogService?.product?.id;

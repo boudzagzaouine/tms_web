@@ -129,7 +129,7 @@ export class SupplierProductEditComponent implements OnInit {
 
   onSelectProduct(event) {
     //this.selectedProduct = event as Product;
-    this.selectedSupplierProduct.product = event as Product;
+    this.selectedSupplierProduct.product = (event?.value ?? event) as Product;
     this.selectedSupplierProduct.uom=this.selectedSupplierProduct.product.uomByProductUomBase;
     this.selectedSupplierProduct.vat=this.selectedSupplierProduct.product.vat;
     this.supplierProductForm.patchValue({

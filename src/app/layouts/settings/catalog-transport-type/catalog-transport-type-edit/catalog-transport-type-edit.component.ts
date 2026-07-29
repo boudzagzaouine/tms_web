@@ -268,12 +268,12 @@ console.log(data);
     this.onPriceChange(1);
   }
   onSelectVilleSource(event: any) {
-    this.selectCatalogTransportPricing.villeSource = event;
+    this.selectCatalogTransportPricing.villeSource = event?.value ?? event;
     this.villeSource= this.selectCatalogTransportPricing.villeSource.id;
 
   }
   onSelectVilleDestination(event: any) {
-    this.selectCatalogTransportPricing.villeDestination = event;
+    this.selectCatalogTransportPricing.villeDestination = event?.value ?? event;
     this.villeDestination = this.selectCatalogTransportPricing.villeDestination.id;
   }
 

@@ -583,12 +583,12 @@ console.log(event.option);
   }
 
   onSelectMaintenancePlan(event: any) {
-    this.selectedVehicle.maintenancePlan = event;
+    this.selectedVehicle.maintenancePlan = event?.value ?? event;
 
 
   }
   onSelectDriver(event: any) {
-    this.selectedVehicle.driver = event;
+    this.selectedVehicle.driver = event?.value ?? event;
 
 
   }

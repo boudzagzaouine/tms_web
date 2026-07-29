@@ -320,7 +320,7 @@ if(data[0]){
   }
   onSelectTransport(event) {
     console.log(event);
-    this.selectedTransportPlan.transport = event;
+    this.selectedTransportPlan.transport = event?.value ?? event;
   }
   onVehicleSearch(
     event: any) {
@@ -379,7 +379,7 @@ if(data[0]){
 
   onSelectVehicle(event) {
     console.log(event);
-    this.selectedTransportPlan.vehicle = event;
+    this.selectedTransportPlan.vehicle = event?.value ?? event;
     this.selectedTransportPlan.driver = this.selectedTransportPlan.vehicle.driver;
     console.log(this.selectedTransportPlan.driver);
 
@@ -396,7 +396,7 @@ if(data[0]){
   }
   onSelectDriver(event) {
     console.log(event);
-    this.selectedTransportPlan.driver = event;
+    this.selectedTransportPlan.driver = event?.value ?? event;
   }
 
 

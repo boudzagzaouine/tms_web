@@ -175,7 +175,7 @@ export class SinisterEditComponent implements OnInit {
 
 
   onSelectVehicle(event : any ){
-this.selectedSinister.vehicle=event;
+this.selectedSinister.vehicle=event?.value ?? event;
 console.log(event);
   }
 
@@ -192,7 +192,7 @@ console.log(event);
 
 
   onSelectDriver(event : any ){
-    this.selectedSinister.driver=event;
+    this.selectedSinister.driver=event?.value ?? event;
     console.log(event);
       }
 
@@ -209,7 +209,7 @@ console.log(event);
 
 
       onSelectSupplier(event : any ){
-        this.selectedSinister.supplier=event;
+        this.selectedSinister.supplier=event?.value ?? event;
         console.log(event);
           }
 

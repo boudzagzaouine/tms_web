@@ -227,19 +227,19 @@ export class DieselDeclarationEditComponent implements OnInit {
   }
 
   onSelectVehicle(event) {
-    this.selectedDieselDeclaration.vehicle = event;
+    this.selectedDieselDeclaration.vehicle = event?.value ?? event;
   }
 
   onSelectDriver(event) {
-    this.selectedDieselDeclaration.driver = event;
+    this.selectedDieselDeclaration.driver = event?.value ?? event;
   }
 
   onSelectCard(event) {
-    this.selectedDieselDeclaration.subscriptionCard = event;
+    this.selectedDieselDeclaration.subscriptionCard = event?.value ?? event;
   }
 
   onSelectFuelpump(event) {
-    this.selectedDieselDeclaration.fuelPump = event;
+    this.selectedDieselDeclaration.fuelPump = event?.value ?? event;
 
 
 
@@ -259,7 +259,7 @@ export class DieselDeclarationEditComponent implements OnInit {
   });
   }
   onSelectPurchaseOrder(event) {
-    this.selectedDieselDeclaration.purshaseOrder = event;
+    this.selectedDieselDeclaration.purshaseOrder = event?.value ?? event;
     this.dieselDeclarationForm.patchValue({
       amount:this.selectedDieselDeclaration.purshaseOrder.totalPriceHT,
     });

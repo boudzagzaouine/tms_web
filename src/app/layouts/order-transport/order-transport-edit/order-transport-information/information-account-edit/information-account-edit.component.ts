@@ -230,7 +230,7 @@ this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
   onSelectCompany(event: any) {
     console.log(event);
 
-    this.selectedAccount.company = event;
+    this.selectedAccount.company = event?.value ?? event;
   }
 
   onShowDialog() {
@@ -257,7 +257,7 @@ this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
   }
 
   onSelectPays(event){
-    this.selectedAddress.pays=event;
+    this.selectedAddress.pays=event?.value ?? event;
     console.log( this.selectedAddress.pays);
 
   }
@@ -269,7 +269,7 @@ this.selectedCompany.owner=this.authentificationService.getDefaultOwner();
   }
 
   onSelectVille(event){
-    this.selectedAddress.ville=event;
+    this.selectedAddress.ville=event?.value ?? event;
     console.log( this.selectedAddress.ville);
 
   }

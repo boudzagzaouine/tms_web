@@ -104,7 +104,7 @@ export class CityEditComponent implements OnInit {
     ));
   }
   onSelectPays(event: any) {
-    this.selectedVille.pays = event;
+    this.selectedVille.pays = event?.value ?? event;
   }
   onShowDialog() {
     let a = false;

@@ -243,7 +243,7 @@ console.log(requete);
   }
 
   onSelectProduct(event){
-    this.selectAccountPricingService.product=event;
+    this.selectAccountPricingService.product=event?.value ?? event;
     console.log( this.selectAccountPricingService.product);
 
     this.productId=  this.selectAccountPricingService?.product?.id;

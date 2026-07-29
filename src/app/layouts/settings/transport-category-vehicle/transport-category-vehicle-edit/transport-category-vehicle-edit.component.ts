@@ -152,8 +152,9 @@ export class TransportCategoryVehicleEditComponent implements OnInit {
     this.catVehicle = event.value.code;
   }
   onSelectTransport(event : Transport) {
-    this.selectTransportCatVehicle.transport = event;
- this.transport = event.code;
+    const selected = (event as any)?.value ?? event;
+    this.selectTransportCatVehicle.transport = selected;
+ this.transport = selected.code;
   }
   onTransportSearch(event: any) {
     this.transportService

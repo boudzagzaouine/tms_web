@@ -91,7 +91,7 @@ console.log(this.selectedProductType);
 
   onSelectedProductType(event){
 
-    this.selectedProductType.productType=event;
+    this.selectedProductType.productType=event?.value ?? event;
     console.log( this.selectedProductType.productType);
 
 

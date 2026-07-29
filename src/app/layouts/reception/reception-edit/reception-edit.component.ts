@@ -299,7 +299,7 @@ export class ReceptionEditComponent implements OnInit {
   }
   onSelectPurchaseOrder(event) {
 
-    this.selectedPurchaseOrder = event;
+    this.selectedPurchaseOrder = event?.value ?? event;
     this.selectedReception.purshaseOrder = this.selectedPurchaseOrder;
     this.selectedReception.supplier = this.selectedPurchaseOrder.supplier;
     this.selectedReception.orderStatus = this.selectedPurchaseOrder.orderStatus;
@@ -327,7 +327,7 @@ export class ReceptionEditComponent implements OnInit {
   }
 
   onSelectSupplier(event) {
-    this.selectedReception.supplier = event as Supplier;
+    this.selectedReception.supplier = (event?.value ?? event) as Supplier;
   }
 
   onShowDialogAction(line, mode) {

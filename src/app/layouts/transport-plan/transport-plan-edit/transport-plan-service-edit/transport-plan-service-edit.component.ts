@@ -227,7 +227,7 @@ console.log(this.selectedAccount);
   }
   onSelectProduct(event) {
     //this.selectedProduct = event as Product;
-    this.selectedTransportServiceCatalog.product = event as Product;
+    this.selectedTransportServiceCatalog.product = (event?.value ?? event) as Product;
     this.onSearchPurchasePriceServiceByAccount();
 
     this.onSearchSalePriceServiceByAccount();

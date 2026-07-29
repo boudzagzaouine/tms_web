@@ -166,7 +166,7 @@ console.log( this.selectedProduct);
 
 onSelectServiceType(type: ServiceType) {
 
-  this.selectedProduct.serviceType = type as ServiceType;
+  this.selectedProduct.serviceType = ((type as any)?.value ?? type) as ServiceType;
 
 }
 onSelectUom(event) {

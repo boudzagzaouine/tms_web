@@ -235,7 +235,7 @@ export class DriverEditComponent implements OnInit {
   }
 
   onSelectCard(event) {
-    this.selectedDriver.subscriptionCard = event;
+    this.selectedDriver.subscriptionCard = event?.value ?? event;
   }
 
 

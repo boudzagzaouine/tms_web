@@ -252,7 +252,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
     this.vehicleTrayId = this.selectCatalogTransportAccountPricing.vehicleTray.id;
   }
   onSelectCompany(event) {
-    this.selectCatalogTransportAccountPricing.company = event;
+    this.selectCatalogTransportAccountPricing.company = event?.value ?? event;
     this.companyId = this.selectCatalogTransportAccountPricing.company.id;
   }
   onCompanySearch(event: any) {
@@ -274,7 +274,7 @@ export class TransportAccountPricingEditComponent implements OnInit {
 
 
   onSelectTrajet(event: any) {
-    this.selectCatalogTransportAccountPricing.trajet = event;
+    this.selectCatalogTransportAccountPricing.trajet = event?.value ?? event;
     this.trajetId = this.selectCatalogTransportAccountPricing.trajet.id;
   }
 

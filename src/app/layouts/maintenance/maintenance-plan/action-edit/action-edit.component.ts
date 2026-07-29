@@ -133,7 +133,7 @@ export class ActionEditComponent implements OnInit {
   }
 
   onSelect(event) {
-    this.selectedActionType = event;
+    this.selectedActionType = event?.value ?? event;
     this.selectedActionType = this.selectedActionType;
   }
   onHideDialog() {

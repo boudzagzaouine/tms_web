@@ -248,6 +248,19 @@ console.log(this.selectedOrderTransport);
 }
     // const formValue = this.OrderTransportForm.value;
 
+    // Guard: Départ/Arrivée must be selected cities (with an id), not free text.
+    // Otherwise `?.id` is undefined and the backend trajet search receives the
+    // literal "undefined" and throws NumberFormatException.
+    if (!this.villeSource?.id || !this.villeDestination?.id) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Erreur",
+        detail:
+          "Veuillez sélectionner les villes de Départ et d'Arrivée dans la liste.",
+      });
+      this.isFormSubmitted = false;
+      return;
+    }
 
     this.trajetService
       .find(
@@ -287,7 +300,8 @@ console.log(this.selectedOrderTransport);
   }
   onSelectAccount(event: any) {
 
-    this.selectedOrderTransport.account = event;
+    const selected = event?.value ?? event;
+    this.selectedOrderTransport.account = selected;
     console.log( this.selectedOrderTransport.account);
 
     this.contactList = this.selectedOrderTransport.account.contacts;
@@ -339,10 +353,12 @@ console.log(event);
     this.turnTypeId.emit(this.selectedOrderTransport?.turnType?.id);
   }
   onSelectSource(event) {
-    this.villeSource = event;
+    // PrimeNG 17: p-autoComplete onSelect emits { originalEvent, value } instead
+    // of the raw value it emitted in v11. Unwrap so we keep the Ville (with its id).
+    this.villeSource = event?.value ?? event;
   }
   onSelectDistination(event) {
-    this.villeDestination = event;
+    this.villeDestination = event?.value ?? event;
   }
   onSourceSearch(event) {
     this.villeService.find("code~" + event.query).subscribe((data) => {

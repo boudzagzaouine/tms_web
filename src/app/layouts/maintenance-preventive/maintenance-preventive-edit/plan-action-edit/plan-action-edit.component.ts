@@ -397,7 +397,7 @@ console.log(this.selectedActionPlan.blocking);
 
   onSelect(event) {
     // this.selectedActionType = event;
-    this.selectedActionPlan.actionType = event;
+    this.selectedActionPlan.actionType = event?.value ?? event;
   }
   onSelectProgrameType(event) {
     this.selectProgrameType = event.value;

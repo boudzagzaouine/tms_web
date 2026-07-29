@@ -227,7 +227,7 @@ export class OrderEditComponent implements OnInit {
     this.selectedPurchaseOrder.orderType = event.value as OrderType;
   }
   onSelectSupplier(event) {
-    this.selectedPurchaseOrder.supplier = event as Supplier;
+    this.selectedPurchaseOrder.supplier = (event?.value ?? event) as Supplier;
   }
 
   onShowDialogAction(line,mode) {

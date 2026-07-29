@@ -162,8 +162,9 @@ console.log(this.editMode);
     
   }
   onSelectProduct(event : Product) {
-    this.selectFuelPump.product = event;
- this.product = event.code;
+    const selected = (event as any)?.value ?? event;
+    this.selectFuelPump.product = selected;
+ this.product = selected.code;
  console.log(this.product);
 
   }

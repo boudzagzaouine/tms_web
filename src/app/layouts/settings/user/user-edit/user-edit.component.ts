@@ -127,7 +127,7 @@ console.log(this.selectedUser );
   }
 
   onSelectGroup(event) {
-    this.selectedUser.userGroup= event;
+    this.selectedUser.userGroup= event?.value ?? event;
 
   }
 
@@ -138,7 +138,7 @@ console.log(this.selectedUser );
   }
 
   onSelectDriver(event) {
-    this.selectedUser.driver= event;
+    this.selectedUser.driver= event?.value ?? event;
 
   }
   onShowDialog() {

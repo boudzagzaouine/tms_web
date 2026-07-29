@@ -224,7 +224,7 @@ searchProduct(event) {
 
 
 public onSelectProduct(value: Product): void {
-  this.selectedProduct = value;
+  this.selectedProduct = (value as any)?.value ?? value;
   this.subscrubtion.add(this.productPackService
       .find('product.id:' + this.selectedProduct.id)
       .subscribe(data => {

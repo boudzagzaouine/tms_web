@@ -131,8 +131,9 @@ export class MaintenanceProductComponent implements OnInit {
   }
 
   onSelectProduct(event) {
-    this.selectedProduct = event as Product;
-    this.selectedActionLine.product = event as Product;
+    const selected = event?.value ?? event;
+    this.selectedProduct = selected as Product;
+    this.selectedActionLine.product = selected as Product;
     this.lineForm.patchValue({
       description: this.selectedProduct.shortDesc,
       unitPrice: this.selectedProduct.purshasePriceUB

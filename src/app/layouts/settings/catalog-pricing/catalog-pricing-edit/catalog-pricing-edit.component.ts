@@ -257,7 +257,7 @@ console.log(data);
 
 
   onSelectTrajet(event: any) {
-    this.selectCatalogPricing.trajet = event;
+    this.selectCatalogPricing.trajet = event?.value ?? event;
     this.trajetId = this.selectCatalogPricing.trajet.id;
   }
 

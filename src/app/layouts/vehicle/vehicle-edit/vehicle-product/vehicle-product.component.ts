@@ -168,7 +168,7 @@ export class VehicleProductComponent implements OnInit {
 
 
 onSelectProduct(event) {
-  this.selectedVehicleProduct.product = event as Product;
+  this.selectedVehicleProduct.product = (event?.value ?? event) as Product;
   this.vehicleProductForm.patchValue({
     'pdtType': this.selectedVehicleProduct.product.productType
   });
@@ -184,7 +184,7 @@ searchProductType(event) {
 }
 
 onSelectProductType(event) {
-  this.selectedVehicleProduct.productType = event as ProductType;
+  this.selectedVehicleProduct.productType = (event?.value ?? event) as ProductType;
 
 }
 

@@ -202,7 +202,7 @@ export class ReceptionLineEditComponent implements OnInit {
 
 
 onSelectProduct(event) {
-  this.selectedReceptionLine.product = event as Product;
+  this.selectedReceptionLine.product = (event?.value ?? event) as Product;
   this.selectedReceptionLine.productPack = this.selectedReceptionLine.product.productPack;
 
   this.selectedReceptionLine.description = this.selectedReceptionLine.product.shortDesc;

@@ -95,7 +95,7 @@ export class HabilitationRoleEditComponent implements OnInit {
   }
 
   onSelectParent(event) {
-    this.selectedHabilitation.habilitation= event;
+    this.selectedHabilitation.habilitation= event?.value ?? event;
 
   }
   onShowDialog() {

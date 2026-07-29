@@ -387,7 +387,7 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   onSelectPurchaseOrder(event){
-    this.selectedMaintenance.purshaseOrder=event;
+    this.selectedMaintenance.purshaseOrder=event?.value ?? event;
     this.selectedMaintenance.supplier = this.selectedMaintenance.purshaseOrder.supplier;
     console.log(this.selectedMaintenance.supplier);
 
@@ -413,7 +413,7 @@ export class MaintenancePlanComponent implements OnInit {
   }
 
   onSelectSupplier(event){
-  this.selectedMaintenance.supplier=event;
+  this.selectedMaintenance.supplier=event?.value ?? event;
   }
 
 

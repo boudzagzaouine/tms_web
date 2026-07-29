@@ -196,7 +196,7 @@ export class TransportServiceEditComponent implements OnInit {
   }
 
   onSelectProduct(event){
-    this.selectTransportService.product=event;
+    this.selectTransportService.product=event?.value ?? event;
     console.log( this.selectTransportService.product);
 
     this.productId=  this.selectTransportService?.product?.id;

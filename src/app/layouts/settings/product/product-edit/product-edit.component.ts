@@ -172,7 +172,7 @@ console.log(this.selectedProduct);
 
 onSelectProductType(type: ProductType) {
 
-  this.selectedProduct.productType = type as ProductType;
+  this.selectedProduct.productType = ((type as any)?.value ?? type) as ProductType;
 
 }
 onSelectUom(event) {

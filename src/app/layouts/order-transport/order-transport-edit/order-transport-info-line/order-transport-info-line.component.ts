@@ -470,7 +470,7 @@ export class OrderTransportInfoLineComponent implements OnInit {
     //   .subscribe((data) => (this.accountList = data));
   }
   onSelectAccount(event) {
-    this.selectedOrderTransportInfoLine.account = event;
+    this.selectedOrderTransportInfoLine.account = event?.value ?? event;
     console.log( this.selectedOrderTransportInfoLine.account);
 
   }
@@ -482,10 +482,11 @@ export class OrderTransportInfoLineComponent implements OnInit {
   }
 
   onSelectAddress(event) {
-    this.selectedOrderTransportInfoLine.address = event;
+    const selected = event?.value ?? event;
+    this.selectedOrderTransportInfoLine.address = selected;
 
-    this.setInfoAddress(event);
-    this.contactService.find("address.id:" + event.id).subscribe((data) => {
+    this.setInfoAddress(selected);
+    this.contactService.find("address.id:" + selected.id).subscribe((data) => {
       console.log(data);
 
       this.contactList = data;

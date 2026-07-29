@@ -446,16 +446,16 @@ console.log(this.catalogTransportPricingList);
     //this.sortOrderTransportByValeur();
   }
   onSelectVilleSource(event) {
-    this.selectedVilleSource = event;
+    this.selectedVilleSource = event?.value ?? event;
     this.resetSearchByVille();
   }
 
   onSelectVilleDistination(event) {
-    this.selectedVilleDistination = event;
+    this.selectedVilleDistination = event?.value ?? event;
     this.resetSearchByVille();
   }
   onSelectDriver(event: any) {
-    this.selectedTransportPlan.driver = event;
+    this.selectedTransportPlan.driver = event?.value ?? event;
     console.log(this.selectedTransportPlan.driver);
   }
 

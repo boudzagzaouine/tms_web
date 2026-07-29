@@ -129,7 +129,7 @@ export class ContactContactEditComponent implements OnInit {
   }
 
   onSelectAddress(event){
-    this.selectedContact.address=event;
+    this.selectedContact.address=event?.value ?? event;
 
   }
 

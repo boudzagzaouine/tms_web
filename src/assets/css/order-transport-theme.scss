@@ -175,4 +175,20 @@ app-order-transport-cancel {
     border-color: $ot-brand-light;
     &:enabled:hover { background: $ot-brand; border-color: $ot-brand; }
   }
+  // SelectButton (Type ALLER/RETOUR/..., Port, ...): the blanket .p-button rule
+  // above painted every option brand-blue, hiding which one is selected.
+  // Unselected options -> neutral outline; selected (.p-highlight) -> brand fill.
+  .p-selectbutton .p-button {
+    background: #fff;
+    border-color: $ot-brand-light;
+    color: $ot-brand;
+    &:enabled:hover { background: #e8f1f8; border-color: $ot-brand; color: $ot-brand; }
+    &.p-highlight {
+      background: $ot-brand;
+      border-color: $ot-brand;
+      color: #fff;
+      font-weight: 600;
+      &:enabled:hover { background: $ot-brand; border-color: $ot-brand; color: #fff; }
+    }
+  }
 }

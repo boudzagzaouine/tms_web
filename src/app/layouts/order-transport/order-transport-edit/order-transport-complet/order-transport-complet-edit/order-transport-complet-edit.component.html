@@ -252,7 +252,7 @@ optionLabel="code"
 
 
 
-                        <p-table [value]=" this.orderTransportInfoLineDocumentLivraison" [lazy]="true" [rows]="size"
+                        <p-table [value]=" this.orderTransportInfoLineDocumentLivraison" [rows]="5"
                           [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentLivraison?.length">
                           <ng-template pTemplate="header">
                             <tr>
@@ -400,7 +400,7 @@ optionLabel="code"
                       <div class="card-body border-top-primary">
 
 
-                        <p-table [value]=" this.orderTransportInfoLineDocumentEnlevement" [lazy]="true" [rows]="size"
+                        <p-table [value]=" this.orderTransportInfoLineDocumentEnlevement" [rows]="5"
                           [paginator]="true" [totalRecords]=" this.orderTransportInfoLineDocumentEnlevement?.length">
                           <ng-template pTemplate="header">
                             <tr>

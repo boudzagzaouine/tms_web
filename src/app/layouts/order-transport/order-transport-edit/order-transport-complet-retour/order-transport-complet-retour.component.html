@@ -72,7 +72,7 @@
         </div>
 
         <p-table *ngIf="this.selectedOrderTransportInfo.packagingType?.id>0 && packageDetails.length>0"
-          [value]=" packageDetails" [lazy]="true" [rows]="5" [paginator]="true"
+          [value]=" packageDetails" [rows]="5" [paginator]="true"
           [totalRecords]="packageDetails">
             <ng-template pTemplate="header">
               <tr>
@@ -213,7 +213,7 @@
         </div>
       </div>
       <div class="card-body border-top-primary">
-        <p-table [value]=" this.selectedOrderTransport?.orderTransportServiceCatalogs" [lazy]="true" [rows]="8"
+        <p-table [value]=" this.selectedOrderTransport?.orderTransportServiceCatalogs" [rows]="8"
           [paginator]="true" [totalRecords]=" this.selectedOrderTransport
       ?.orderTransportServiceCatalogs?.length" >
           <ng-template pTemplate="header">

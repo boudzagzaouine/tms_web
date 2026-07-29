@@ -476,8 +476,11 @@ console.log(line);
   // fin Line
 
   previous() {
+    // Navigate back directly. The legacy path (addIndex -> both child panels
+    // onSubmit -> size==2 -> emit) silently blocks when a child form is invalid
+    // (e.g. empty required address), which must not prevent going BACK.
     this.nextOrPrevious = 2;
-    this.orderTransportService.addIndex();
+    this.previousstep.emit(true);
   }
 
   next() {

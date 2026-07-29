@@ -458,8 +458,10 @@ console.log(this.size);
   // fin Line
 
   previous() {
+    // Navigate back directly — do not gate back-navigation on child form validity
+    // (see order-transport-complet.component.ts).
     this.nextOrPrevious = 2;
-    this.orderTransportService.addIndex();
+    this.previousstep.emit(true);
   }
 
   next() {

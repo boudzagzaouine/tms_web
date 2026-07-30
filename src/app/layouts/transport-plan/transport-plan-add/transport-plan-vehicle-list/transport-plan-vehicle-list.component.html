@@ -20,8 +20,10 @@
             </span>
           </div>
       </ng-template>
-      <ng-template let-product pTemplate="listItem" let-index="rowIndex">
-          <div class="p-col-12">
+      <!-- PrimeNG 17: the listItem template receives the page's ARRAY of items
+           (v11 passed one item per render) — iterate explicitly. -->
+      <ng-template let-vehicles pTemplate="listItem">
+          <div class="p-col-12" *ngFor="let product of vehicles; let index = index">
               <div class="product-list-item">
                 <img [src]=" 'data:image/png;base64,' + product?.vehicleCategory?.file "class="product-image" />
 

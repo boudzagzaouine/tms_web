@@ -25,9 +25,11 @@
       <ng-template let-vehicles pTemplate="listItem">
           <div class="p-col-12" *ngFor="let product of vehicles; let index = index">
               <div class="product-list-item">
-                <img [src]=" 'data:image/png;base64,' + product?.vehicleCategory?.file "class="product-image" />
-
-                <!-- <img  src="./assets/img/services-fret.jpg" alt="Bracelet"> -->
+                <!-- Fall back to a placeholder when the category has no stored image
+                     (a null file would render as the broken-image icon). -->
+                <img [src]="product?.vehicleCategory?.file
+                        ? 'data:image/png;base64,' + product.vehicleCategory.file
+                        : './assets/img/truckCat.png'" class="product-image" />
                   <div class="product-list-detail">
                       <div class="product-name">Matricule : {{product.registrationNumber}}</div>
                       <div class="product-category">Code :{{product.code}}</div>

@@ -44,6 +44,8 @@ export class TransportComponent implements OnInit {
     private tranportService: TransportServcie) { }
 
   ngOnInit(): void {
+    // Open with all carriers: run the default (last-year) search with no transporteur filter.
+    this.onSearchClicked();
   }
 
   onNameSearch(event: any) {

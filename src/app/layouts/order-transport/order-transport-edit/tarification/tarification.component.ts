@@ -237,6 +237,12 @@ console.log( this.tarificationAccount);
           let sale = this.selectedCatalogPricing.saleAmountHt;
           this.calculatMarge(purchase,sale);
 
+          // No account-specific contract: seed the price with the catalog sale tariff so the
+          // field is not left at 0 (which trips the "ne pas accepter 0 Dh" rule). Kept editable
+          // — unlike the account-pricing branches, a catalog tariff is only a default.
+          if (sale != null && !this.selectOrderTransport?.priceHT) {
+            this.tarificationForm.patchValue({ priceHT: sale });
+          }
         }
       });
   }

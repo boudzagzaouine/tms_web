@@ -1,4 +1,5 @@
 import { PatrimonyService } from './../../../shared/services/api/patrimony-service';
+import { CashCollection } from './../../../shared/models/cash-collection';
 import { TransportPlanServiceCatalog } from './../../../shared/models/transport-plan-service-catalog';
 import { LoadingType } from './../../../shared/models/loading-type';
 import { VehicleCategoryService } from './../../../shared/services/api/vehicle-category.service';
@@ -38,6 +39,8 @@ import { OrderTransportInfoLineService } from './../../../shared/services/api/or
 })
 export class TransportPlanEditComponent implements OnInit {
   items: MenuItem[];
+  /** Cash the driver declared collecting, read-only (recorded from the mobile app). */
+  cashCollections: CashCollection[] = [];
   selectedTransportPlan: TransportPlan = new TransportPlan();
   transportPlanForm: UntypedFormGroup;
   vehicleList: Vehicle[] = [];
@@ -135,6 +138,7 @@ export class TransportPlanEditComponent implements OnInit {
           (data) => {
             this.selectedTransportPlan = data;
             this.initForm();
+            this.loadCashCollections(this.selectedTransportPlan.id);
             console.log(this.selectedTransportPlan);
             this.orderTransportService.findById(this.selectedTransportPlan.orderTransport.id).subscribe(
               (data) => {
@@ -570,5 +574,22 @@ if(closeOt==true){
 
 
 
+  }
+
+  loadCashCollections(planId: number) {
+    if (!planId) {
+      return;
+    }
+    this.transportPlanService.getCashCollections(planId).subscribe(
+      (data) => (this.cashCollections = data || []),
+      () => (this.cashCollections = [])   // endpoint unavailable (old backend) -> empty tab
+    );
+  }
+
+  /** Collected minus expected: non-zero means the driver reported a discrepancy. */
+  cashGap(line: CashCollection): number {
+    const collected = Number(line?.collectedAmount ?? 0);
+    const expected = Number(line?.expectedAmount ?? 0);
+    return collected - expected;
   }
 }

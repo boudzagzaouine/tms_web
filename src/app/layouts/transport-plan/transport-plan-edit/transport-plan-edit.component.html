@@ -512,6 +512,54 @@
   </p-tabView> -->
     </div>
           </p-tabPanel>
+      <!-- Retour de fonds declared by the driver from the mobile app. Read-only here: the record is
+           append-only on the backend, and a mismatch with the expected amount is flagged. -->
+      <p-tabPanel header="Retour de fonds" headerStyleClass="onglet-p-2">
+        <ng-template pTemplate="header">
+          <i class="pi pi-wallet"></i>
+          <span>{{ 'Retour de fonds' | translate }}</span>
+        </ng-template>
+
+        <div class="card-body border-top-primary">
+          <p-table [value]="cashCollections" [rows]="8" [paginator]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'Etape' | translate }}</th>
+                <th>{{ 'Prévu' | translate }}</th>
+                <th>{{ 'Encaissé' | translate }}</th>
+                <th>{{ 'Ecart' | translate }}</th>
+                <th>{{ 'Mode' | translate }}</th>
+                <th>{{ 'Date' | translate }}</th>
+                <th>{{ 'Motif' | translate }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-line>
+              <tr>
+                <td>{{ line?.leg == 1 ? 'Enlèvement' : 'Livraison' }}</td>
+                <td>{{ line?.expectedAmount | number: '1.2-2' }}</td>
+                <td>{{ line?.collectedAmount | number: '1.2-2' }}</td>
+                <td>
+                  <span *ngIf="cashGap(line) !== 0" class="badge badge-danger">
+                    {{ cashGap(line) | number: '1.2-2' }}
+                  </span>
+                  <span *ngIf="cashGap(line) === 0" class="badge badge-success">OK</span>
+                </td>
+                <td>{{ line?.paymentTypeCode }}</td>
+                <td>{{ line?.collectedAt | date: 'dd-MM-yyyy HH:mm' }}</td>
+                <td>{{ line?.note }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7" style="text-align: center">
+                  {{ 'Aucun encaissement déclaré' | translate }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+
 
       </p-tabView>
 

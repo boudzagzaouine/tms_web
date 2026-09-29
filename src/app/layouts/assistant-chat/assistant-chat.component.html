@@ -1,0 +1,46 @@
+<button type="button" class="assistant-fab" (click)="toggle()" [class.is-open]="open"
+        [attr.aria-label]="open ? 'Fermer l\'assistant' : 'Ouvrir l\'assistant'" title="Assistant TMS">
+  <i class="fa" [ngClass]="open ? 'fa-times' : 'fa-comments'"></i>
+</button>
+
+<section class="assistant-panel" *ngIf="open" role="dialog" aria-label="Assistant TMS">
+  <header class="assistant-header">
+    <div>
+      <strong>Assistant TMS</strong>
+      <small>Posez vos questions sur les ordres, voyages, chauffeurs et véhicules</small>
+    </div>
+    <button type="button" class="assistant-icon-btn" (click)="newConversation()" title="Nouvelle conversation">
+      <i class="fa fa-refresh"></i>
+    </button>
+  </header>
+
+  <div class="assistant-body" #scroller>
+    <div *ngIf="!available" class="assistant-msg error">
+      L'assistant n'est pas configuré sur le serveur (clé API manquante).
+    </div>
+
+    <div *ngIf="available && messages.length === 0" class="assistant-empty">
+      <p>Bonjour ! Exemples de questions :</p>
+      <button type="button" class="assistant-chip" *ngFor="let s of suggestions" (click)="send(s)">{{ s }}</button>
+    </div>
+
+    <ng-container *ngFor="let m of messages">
+      <div *ngIf="m.role === 'user'" class="assistant-msg user">{{ m.text }}</div>
+      <div *ngIf="m.role === 'assistant'" class="assistant-msg bot" [innerHTML]="m.html"></div>
+      <div *ngIf="m.role === 'error'" class="assistant-msg error">{{ m.text }}</div>
+    </ng-container>
+
+    <div *ngIf="loading" class="assistant-msg bot assistant-typing" aria-live="polite">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <footer class="assistant-footer">
+    <textarea [(ngModel)]="input" (keydown)="onKeydown($event)" rows="2" maxlength="2000"
+              [disabled]="!available" placeholder="Ex. : combien de voyages fermés en juillet ?"></textarea>
+    <button type="button" class="assistant-send" (click)="send()" [disabled]="loading || !input.trim() || !available"
+            title="Envoyer">
+      <i class="fa fa-paper-plane"></i>
+    </button>
+  </footer>
+</section>

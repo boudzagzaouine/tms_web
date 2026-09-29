@@ -14,6 +14,7 @@ import { AppLayoutRoutingModule } from './layout-routing.module';
 import { AppFooter as AppFooterComponent } from './template/app-footer/app-footer.component';
 import { AppHeaderComponent } from './template/app-header/app-header.component';
 import { AppSidebarComponent } from './template/app-sidebar/app-sidebar.component';
+import { AssistantChatComponent } from './assistant-chat/assistant-chat.component';
 
 
 
@@ -45,7 +46,7 @@ import { AppSidebarComponent } from './template/app-sidebar/app-sidebar.componen
     OverlayPanelModule, TableModule,
     BreadcrumbModule,
     ToastModule,
-
+    AssistantChatComponent,
   ],
 
   providers: [ConfirmationService, MessageService]

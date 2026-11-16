@@ -13,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoundPipe } from 'ngx-pipes';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { LoginModule } from './../../../login/login.module';
 import { MaintenancePlanService } from './../../../shared/services/api/maintenance-plan.service';
 import { Action } from './../../../shared/models/action';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';

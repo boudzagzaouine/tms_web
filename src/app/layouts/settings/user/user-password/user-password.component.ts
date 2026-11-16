@@ -57,9 +57,6 @@ this.save(CPass);
 
 
 
-    console.log(curPass);
-    console.log(nPass);
-    console.log(CPass);
 
   }
   save(password :string){

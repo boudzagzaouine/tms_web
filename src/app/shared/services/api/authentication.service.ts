@@ -3,31 +3,27 @@ import { Owner } from './../../models/owner';
 import { User } from './../../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { REST_URL, CURRENT_USER, JWT_TOKEN, REFRESH_TOKEN, AUTH_LOGIN_URL } from '../../utils/constants';
+import { CURRENT_USER, JWT_TOKEN, REFRESH_TOKEN, AUTH_LOGIN_URL } from '../../utils/constants';
 import { AuthResponse } from '../../../auth/models/auth-response';
-import { Md5 } from 'ts-md5';
-import { Subscription } from 'rxjs';
+import { LoginRequest } from '../../../auth/models/login-request';
+import { finalize } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PermissionsService } from '../permissions.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService implements OnDestroy{
-  private subs: Subscription = new Subscription;
+export class AuthenticationService {
   private currentUser: User;
-  private  current : User;
     token: string;
     cashRegisterID: number;
     constructor(
         private http: HttpClient,
         private router: Router,
         private toast: ToastrService,
-       // private permissionService: NgxPermissionsService,
         private translate: TranslateService,
         private spinner: NgxSpinnerService,
         private permissionService :PermissionsService,
@@ -45,11 +41,21 @@ export class AuthenticationService implements OnDestroy{
     }
 
 
-   login(email: string, password: string) {
-        // Single round-trip: POST /api/auth/login authenticates (backend MD5-hashes the plain
-        // password), and returns the JWT together with the full user profile. No second call.
-        this.subs = this.http
-            .post<AuthResponse>(AUTH_LOGIN_URL, { email, password })
+   /**
+    * Single round-trip: POST /api/auth/login authenticates (backend hashes the plain password) and
+    * returns the JWT together with the full user profile. `onDone` runs once the request settles,
+    * success or failure, so callers can re-enable their form.
+    */
+   login(email: string, password: string, onDone?: () => void) {
+        const body: LoginRequest = { email, password };
+        this.http
+            .post<AuthResponse>(AUTH_LOGIN_URL, body)
+            .pipe(finalize(() => {
+                this.spinner.hide();
+                if (onDone) {
+                    onDone();
+                }
+            }))
             .subscribe(
                 auth => {
                     try {
@@ -64,21 +70,17 @@ export class AuthenticationService implements OnDestroy{
                             sessionStorage.setItem(CURRENT_USER, JSON.stringify(user));
                             localStorage.setItem(LOGGED_IN, 'true');
                             this.permissionService.loadPermissions(this.extractPermissions(user));
-                            this.spinner.hide();
-                            this.toast.success('Successfully logged in', 'Welcome');
+                            this.toast.success(this.translate.instant('Connexion réussie'), this.translate.instant('Bienvenue'));
                             this.router.navigate(['/core']);
                         } else {
-                            this.spinner.hide();
-                            this.toast.error('information érroné', 'Erreur');
+                            this.toast.error(this.translate.instant('Informations erronées'), this.translate.instant('Erreur'));
                         }
                     } catch (e) {
-                        this.spinner.hide();
-                        this.toast.error('Login error', 'Erreur');
+                        this.toast.error(this.translate.instant('Erreur de connexion'), this.translate.instant('Erreur'));
                     }
                 },
                 () => {
-                    this.spinner.hide();
-                    this.toast.error('Email ou mot de passe invalide', 'Erreur');
+                    this.toast.error(this.translate.instant('Email ou mot de passe invalide'), this.translate.instant('Erreur'));
                 }
             );
     }
@@ -90,31 +92,19 @@ export class AuthenticationService implements OnDestroy{
       CURRENT_USER,
       JSON.stringify(user)
   );
-
-
-
    }
+
     getCurrentUser(loadPermissions = true) {
-
-
-        const user: User = JSON.parse(sessionStorage.getItem('currentUser'));
+        let user: User = null;
+        try {
+            user = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+        } catch (e) {
+            // corrupt storage -> treat as logged out
+        }
 
         if (user !== undefined && user !== null) {
-           //console.log(loadPermissions);
-
             if (loadPermissions) {
-                const permissions: string[] = [];
-                if (
-                    user.userGroup &&
-                    user.userGroup.groupHabilitations &&
-                    user.userGroup.groupHabilitations.length
-                ) {
-                    for (const gh of user.userGroup.groupHabilitations) {
-                     //    console.log(gh.habilitation.code);
-                        permissions.push(gh.habilitation.code);
-                    }
-                }
-                this.permissionService.loadPermissions(permissions);
+                this.permissionService.loadPermissions(this.extractPermissions(user));
             }
             return user;
         }
@@ -122,20 +112,7 @@ export class AuthenticationService implements OnDestroy{
     }
 
     loadPermissions(user: User) {
-        const permissions: string[] = [];
-        if (
-            user.userGroup &&
-            user.userGroup.groupHabilitations &&
-            user.userGroup.groupHabilitations.length
-        ) {
-            for (const gh of user.userGroup.groupHabilitations) {
-                // console.log(gh.habilitation.code);
-                permissions.push(gh.habilitation.code);
-            }
-        }
-        return permissions
-       // this.permissionService.loadPermissions(permissions);
-
+        return this.extractPermissions(user);
     }
 
     getDefaultOwner(): Owner {
@@ -169,27 +146,6 @@ export class AuthenticationService implements OnDestroy{
         return !!sessionStorage.getItem(JWT_TOKEN) && !!sessionStorage.getItem(CURRENT_USER);
     }
 
-    /**
-     * Re-hydrates the in-memory habilitations from the stored profile on app start / page refresh.
-     * Wired as an APP_INITIALIZER so `*hasPermission` (menu items, action buttons) works immediately
-     * after a reload, before any component renders. The PermissionsService is in-memory only, so
-     * without this the user's permissions would be empty until something happened to reload them.
-     */
-    restoreSession(): void {
-        const token = sessionStorage.getItem(JWT_TOKEN);
-        const userStr = sessionStorage.getItem(CURRENT_USER);
-        if (token && userStr) {
-            try {
-                const user: User = JSON.parse(userStr);
-                this.token = token;
-                this.currentUser = user;
-                this.permissionService.loadPermissions(this.extractPermissions(user));
-            } catch (e) {
-                // corrupt storage -> treat as logged out
-            }
-        }
-    }
-
     /** Pulls the habilitation codes (user.userGroup.groupHabilitations[].habilitation.code). */
     private extractPermissions(user: User): string[] {
         const permissions: string[] = [];
@@ -203,25 +159,10 @@ export class AuthenticationService implements OnDestroy{
         return permissions;
     }
 
-    IsJsonString(str: any) {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    }
-
     computeToken(): string {
         // Auth now flows through the `Authorization: Bearer` header (JwtInterceptor). Return empty
         // so the many legacy `?token=` query params carry no token (avoids leaking JWTs in URLs,
         // server logs and browser history). The backend ignores an empty `token` param.
         return '';
-    }
-
-    ngOnDestroy(){
-      if (this.subs != null){
-        this.subs.unsubscribe();
-      }
     }
 }

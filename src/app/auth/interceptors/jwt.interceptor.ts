@@ -29,7 +29,8 @@ import {
 export class JwtInterceptor implements HttpInterceptor {
 
   private isRefreshing = false;
-  private refreshedToken$ = new BehaviorSubject<string | null>(null);
+  // null = refresh in flight, string = new token, false = refresh failed (waiters must error out).
+  private refreshedToken$ = new BehaviorSubject<string | null | false>(null);
 
   constructor(private router: Router, private injector: Injector) {}
 
@@ -54,9 +55,11 @@ export class JwtInterceptor implements HttpInterceptor {
     // A refresh is already in flight -> wait for the new token, then retry this request.
     if (this.isRefreshing) {
       return this.refreshedToken$.pipe(
-        filter(t => t != null),
+        filter(t => t !== null),
         take(1),
-        switchMap(t => next.handle(this.withToken(request, t as string)))
+        switchMap(t => t === false
+          ? throwError(() => new Error('Session expired'))
+          : next.handle(this.withToken(request, t as string)))
       );
     }
 
@@ -72,17 +75,19 @@ export class JwtInterceptor implements HttpInterceptor {
     // HttpClient is resolved lazily to avoid a circular dependency with the interceptor.
     const http = this.injector.get(HttpClient);
     return http.post<{ accessToken: string }>(AUTH_REFRESH_URL, { refreshToken }).pipe(
+      // Only a failed *refresh* means a real logout; errors of the retried request below must
+      // reach the caller untouched (a 403/500 on the retry is not a session problem).
+      catchError(err => {
+        this.isRefreshing = false;
+        this.refreshedToken$.next(false);
+        this.forceLogout();
+        return throwError(() => err);
+      }),
       switchMap(resp => {
         this.isRefreshing = false;
         sessionStorage.setItem(JWT_TOKEN, resp.accessToken);
         this.refreshedToken$.next(resp.accessToken);
         return next.handle(this.withToken(request, resp.accessToken));
-      }),
-      catchError(err => {
-        // Refresh token invalid/expired -> real logout.
-        this.isRefreshing = false;
-        this.forceLogout();
-        return throwError(() => err);
       })
     );
   }

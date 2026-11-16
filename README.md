@@ -2,61 +2,40 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
 
-## Login Implementation
+## Authentication & authorization
 
-This application includes a JWT-based login system integrated with a Spring Boot backend.
+The app talks to the `tms-rest` Spring Boot backend (stateless JWT). `REST_URL` lives in
+`src/app/shared/utils/constants.ts`.
 
-### Features
+### Login flow
 
-- Reactive form-based login with validation
-- JWT token authentication
-- Automatic token attachment to HTTP requests via interceptor
-- Route protection with AuthGuard
-- Responsive UI using PrimeNG components
+1. `/login` (`LoginComponent`) — template-driven form, `required` + `email` validators; the request
+   is only sent when the form is valid, and the button is disabled while it is in flight. Visiting
+   `/login` while already logged in redirects to `/core`.
+2. `AuthenticationService.login()` calls `POST api/auth/login` with `{email, password}`. The response
+   carries `accessToken` (1 h), `refreshToken` (7 days) and the full `user` profile.
+3. Tokens and profile are kept in **sessionStorage** (`jwt`, `refresh_jwt`, `currentUser`), so the
+   session ends when the tab is closed. The user's habilitation codes are loaded into
+   `PermissionsService`.
 
-### Setup
+### On every request
 
-1. Ensure your Spring Boot backend is running and exposes a `/auth/login` endpoint that accepts POST requests with `{email, password}` and returns `{token: string}`.
+- `JwtInterceptor` adds `Authorization: Bearer <token>` to backend calls (except the public
+  `api/auth/login`, `api/auth/refresh`, `/authentification`, `/monitoring`).
+- On a 401 it calls `api/auth/refresh` once (concurrent 401s share that call) and retries. If the
+  refresh fails, every waiting request errors out and the user is sent to `/login`.
 
-2. Update the `REST_URL` in `src/app/shared/services/api/authentication.service.ts` to point to your backend.
+### Authorization
 
-3. Install dependencies:
-   ```
-   npm install
-   ```
-
-4. Run the application:
-   ```
-   ng serve
-   ```
-
-### Usage
-
-- Navigate to `/login` to access the login form.
-- Enter valid email and password (min 6 characters).
-- Upon successful login, the user is redirected to `/dashboard`.
-- If already logged in, accessing `/login` redirects to `/dashboard`.
-- All subsequent HTTP requests include the JWT token in the Authorization header.
-
-### Components
-
-- **LoginComponent**: Handles login form and validation.
-- **AuthService**: Manages authentication logic, token storage, and login status.
-- **TokenInterceptor**: Automatically attaches JWT token to requests (except login).
-- **AuthGuard**: Protects routes requiring authentication.
-
-### Troubleshooting
-
-- **Build Errors**: Ensure all imports are correct and dependencies are installed.
-- **Login Fails**: Check backend endpoint and response format. Verify `REST_URL` is correct.
-- **Token Not Attached**: Confirm interceptor is added to `app.module.ts` providers.
-- **Routing Issues**: Ensure routes are configured in `app-routing.module.ts`.
-
-### Security Notes
-
-- JWT tokens are stored in localStorage.
-- Passwords are not stored locally.
-- Tokens are sent with Bearer scheme in Authorization header.
+- Backend (`SecurityConfig`) is the real enforcement: per-resource habilitation codes
+  (`CODE` / `CODE_VIEW` / `_CREATE` / `_EDIT` / `_DELETE`), loaded from the DB on every request.
+- Frontend only shapes the UI:
+  - `AuthGuard` — logged in or redirect to `/login`.
+  - `*hasPermission="['CODE']"` — shows an element only if the user has one of the codes.
+  - `PermissionGuard` (`data.permissions`) and `RoleGuard` (`data.roles`, `USER` / `ADMIN` /
+    habilitation codes) — available for routes.
+- Frontend permissions are a snapshot taken at login; a change made by an admin shows in the UI
+  after the user logs in again (the backend applies it immediately).
 
 ## Development server
 
